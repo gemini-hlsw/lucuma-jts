@@ -67,6 +67,7 @@ import java.util
  */
 @SerialVersionUID(7777263578777803835L)
 object PrecisionModel {
+
   /**
    * Determines which of two {link PrecisionModel}s is the most precise
    * (allows the greatest number of significant digits).
@@ -75,10 +76,10 @@ object PrecisionModel {
    * @param pm2 a PrecisionModel
    * return the PrecisionModel which is most precise
    */
-    def mostPrecise(pm1: PrecisionModel, pm2: PrecisionModel): PrecisionModel = {
-      if (pm1.compareTo(pm2) >= 0) return pm1
-      pm2
-    }
+  def mostPrecise(pm1: PrecisionModel, pm2: PrecisionModel): PrecisionModel = {
+    if (pm1.compareTo(pm2) >= 0) return pm1
+    pm2
+  }
 
   /**
    * The types of Precision Model which JTS supports.
@@ -95,8 +96,9 @@ object PrecisionModel {
     override def toString: String = name
 
     /*
-         * Ssee http://www.javaworld.com/javaworld/javatips/jw-javatip122.html
-         */ private def readResolve = Type.nameToTypeMap.get(name)
+     * Ssee http://www.javaworld.com/javaworld/javatips/jw-javatip122.html
+     */
+    private def readResolve = Type.nameToTypeMap.get(name)
   }
 
   /**
@@ -104,34 +106,36 @@ object PrecisionModel {
    * The number of decimal places is determined by the log10 of the scale factor.
    */
   val FIXED = new PrecisionModel.Type("FIXED")
+
   /**
    * Floating precision corresponds to the standard Java
    * double-precision floating-point representation, which is
    * based on the IEEE-754 standard
    */
   val FLOATING = new PrecisionModel.Type("FLOATING")
+
   /**
    * Floating single precision corresponds to the standard Java
    * single-precision floating-point representation, which is
    * based on the IEEE-754 standard
    */
   val FLOATING_SINGLE = new PrecisionModel.Type("FLOATING SINGLE")
+
   /**
    * The maximum precise value representable in a double. Since IEE754
    * double-precision numbers allow 53 bits of mantissa, the value is equal to
    * 2^53 - 1.  This provides <i>almost</i> 16 decimal digits of precision.
-   **/
+   */
   val maximumPreciseValue = 9007199254740992.0
 }
 
 @SerialVersionUID(7777263578777803835L)
-class PrecisionModel()
-
-  extends Serializable with Comparable[PrecisionModel] { // default is floating precision
+class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { // default is floating precision
   /**
    * The type of PrecisionModel this represents.
    */
   private var modelType = PrecisionModel.FLOATING
+
   /**
    * The scale factor which determines the number of decimal places in fixed precision.
    */
@@ -196,7 +200,8 @@ class PrecisionModel()
    *
    * return <code>true</code> if the precision model supports floating point
    */
-  def isFloating: Boolean = (modelType eq PrecisionModel.FLOATING) || (modelType eq PrecisionModel.FLOATING_SINGLE)
+  def isFloating: Boolean =
+    (modelType eq PrecisionModel.FLOATING) || (modelType eq PrecisionModel.FLOATING_SINGLE)
 
   /**
    * Returns the maximum number of significant digits provided by this
@@ -222,7 +227,8 @@ class PrecisionModel()
     var maxSigDigits = 16
     if (modelType eq PrecisionModel.FLOATING) maxSigDigits = 16
     else if (modelType eq PrecisionModel.FLOATING_SINGLE) maxSigDigits = 6
-    else if (modelType eq PrecisionModel.FIXED) maxSigDigits = 1 + Math.ceil(Math.log(getScale) / Math.log(10)).toInt
+    else if (modelType eq PrecisionModel.FIXED)
+      maxSigDigits = 1 + Math.ceil(Math.log(getScale) / Math.log(10)).toInt
     maxSigDigits
   }
 
@@ -259,9 +265,8 @@ class PrecisionModel()
    *         multiplying by the scale
    * @deprecated Offsets are no longer used
    */
-  def getOffsetX: Int = { //We actually don't use offsetX and offsetY anymore ... [Jon Aquino]
+  def getOffsetX: Int = //We actually don't use offsetX and offsetY anymore ... [Jon Aquino]
     0
-  }
 
   /**
    * Returns the y-offset used to obtain a precise coordinate.
@@ -284,8 +289,7 @@ class PrecisionModel()
     if (isFloating) {
       internal.x = external.x
       internal.y = external.y
-    }
-    else {
+    } else {
       internal.x = makePrecise(external.x)
       internal.y = makePrecise(external.y)
     }
@@ -395,8 +399,8 @@ class PrecisionModel()
    *         is less than, equal to, or greater than the specified <code>PrecisionModel</code>
    */
   override def compareTo(o: PrecisionModel): Int = {
-    val other = o
-    val sigDigits = getMaximumSignificantDigits
+    val other          = o
+    val sigDigits      = getMaximumSignificantDigits
     val otherSigDigits = other.getMaximumSignificantDigits
     Integer.compare(sigDigits, otherSigDigits)
     //    if (sigDigits > otherSigDigits)

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -23,7 +23,8 @@ package org.locationtech.jts.index.intervaltree
 
 import org.locationtech.jts.index.ItemVisitor
 
-class IntervalRTreeBranchNode(var node1: IntervalRTreeNode, var node2: IntervalRTreeNode) extends IntervalRTreeNode {
+class IntervalRTreeBranchNode(var node1: IntervalRTreeNode, var node2: IntervalRTreeNode)
+    extends IntervalRTreeNode {
   buildExtent(node1, node2)
 
   private def buildExtent(n1: IntervalRTreeNode, n2: IntervalRTreeNode): Unit = {

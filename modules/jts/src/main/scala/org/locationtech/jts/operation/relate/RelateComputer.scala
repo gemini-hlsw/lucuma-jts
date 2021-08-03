@@ -44,11 +44,12 @@ import org.locationtech.jts.util.Assert
  *
  * @version 1.7
  */
-class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operation
-                    ) {
-  private val li = new RobustLineIntersector
-  private val ptLocator = new PointLocator
-  private val nodes = new NodeMap(new RelateNodeFactory)
+class RelateComputer(
+  var arg: Array[GeometryGraph] // the arg(s) of the operation
+) {
+  private val li            = new RobustLineIntersector
+  private val ptLocator     = new PointLocator
+  private val nodes         = new NodeMap(new RelateNodeFactory)
   // this intersection matrix will hold the results compute for the relate
 //  private val im: IntersectionMatrix = null
   private val isolatedEdges = new util.ArrayList[Edge]
@@ -56,11 +57,13 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
 //  private val invalidPoint = null
 
   def computeIM: IntersectionMatrix = {
-    val im = new IntersectionMatrix
+    val im          = new IntersectionMatrix
     // since Geometries are finite and embedded in a 2-D space, the EE element must always be 2
     im.set(Location.EXTERIOR, Location.EXTERIOR, 2)
     // if the Geometries don't overlap there is nothing to do
-    if (!arg(0).getGeometry.getEnvelopeInternal.intersects(arg(1).getGeometry.getEnvelopeInternal)) {
+    if (
+      !arg(0).getGeometry.getEnvelopeInternal.intersects(arg(1).getGeometry.getEnvelopeInternal)
+    ) {
       computeDisjointIM(im)
       return im
     }
@@ -84,6 +87,7 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
     labelIsolatedNodes()
     // If a proper intersection was found, we can set a lower bound on the IM.
     computeProperIntersectionIM(intersector, im)
+
     /**
      * Now process improper intersections
      * (eg where one or other of the geometries has a vertex at the intersection point)
@@ -91,9 +95,9 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
      */
     // build EdgeEnds for all intersections
     val eeBuilder = new EdgeEndBuilder
-    val ee0 = eeBuilder.computeEdgeEnds(arg(0).getEdgeIterator)
+    val ee0       = eeBuilder.computeEdgeEnds(arg(0).getEdgeIterator)
     insertEdgeEnds(ee0)
-    val ee1 = eeBuilder.computeEdgeEnds(arg(1).getEdgeIterator)
+    val ee1       = eeBuilder.computeEdgeEnds(arg(1).getEdgeIterator)
     insertEdgeEnds(ee1)
     //Debug.println("==== NodeList ===");
     //Debug.print(nodes);
@@ -119,25 +123,27 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
 
   private def insertEdgeEnds(ee: util.List[EdgeEnd]): Unit = {
     val i = ee.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val e = i.next
       nodes.add(e)
     }
   }
 
-  private def computeProperIntersectionIM(intersector: SegmentIntersector, im: IntersectionMatrix): Unit = { // If a proper intersection is found, we can set a lower bound on the IM.
-    val dimA = arg(0).getGeometry.getDimension
-    val dimB = arg(1).getGeometry.getDimension
-    val hasProper = intersector.hasProperIntersection
+  private def computeProperIntersectionIM(
+    intersector: SegmentIntersector,
+    im:          IntersectionMatrix
+  ): Unit = { // If a proper intersection is found, we can set a lower bound on the IM.
+    val dimA              = arg(0).getGeometry.getDimension
+    val dimB              = arg(1).getGeometry.getDimension
+    val hasProper         = intersector.hasProperIntersection
     val hasProperInterior = intersector.hasProperInteriorIntersection
     // For Geometry's of dim 0 there can never be proper intersections.
     /**
      * If edge segments of Areas properly intersect, the areas must properly overlap.
      */
-    if (dimA == 2 && dimB == 2) {if (hasProper) im.setAtLeast("212101212")}
+    if (dimA == 2 && dimB == 2) { if (hasProper) im.setAtLeast("212101212") }
     else {
+
       /**
        * If an Line segment properly intersects an edge segment of an Area,
        * it follows that the Interior of the Line intersects the Boundary of the Area.
@@ -149,12 +155,10 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
       if (dimA == 2 && dimB == 1) {
         if (hasProper) im.setAtLeast("FFF0FFFF2")
         if (hasProperInterior) im.setAtLeast("1FFFFF1FF")
-      }
-      else if (dimA == 1 && dimB == 2) {
+      } else if (dimA == 1 && dimB == 2) {
         if (hasProper) im.setAtLeast("F0FFFFFF2")
         if (hasProperInterior) im.setAtLeast("1F1FFFFFF")
-      }
-      else {
+      } else {
         /* If edges of LineStrings properly intersect *in an interior point*, all
                we can deduce is that
                the interiors intersect.  (We can NOT deduce that the exteriors intersect,
@@ -163,7 +167,8 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
                It is important that the point be known to be an interior point of
                both Geometries, since it is possible in a self-intersecting geometry to
                have a proper intersection on one segment that is also a boundary point of another segment.
-           */ if (dimA == 1 && dimB == 1) if (hasProperInterior) im.setAtLeast("0FFFFFFFF")
+         */
+        if (dimA == 1 && dimB == 1) if (hasProperInterior) im.setAtLeast("0FFFFFFFF")
       }
     }
   }
@@ -179,11 +184,9 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
    */
   private def copyNodesAndLabels(argIndex: Int): Unit = {
     val i = arg(argIndex).getNodeIterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val graphNode = i.next
-      val newNode = nodes.addNode(graphNode.getCoordinate)
+      val newNode   = nodes.addNode(graphNode.getCoordinate)
       newNode.setLabel(argIndex, graphNode.getLabel.getLocation(argIndex))
       //node.print(System.out);
     }
@@ -198,17 +201,13 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
    */
   private def computeIntersectionNodes(argIndex: Int): Unit = {
     val i = arg(argIndex).getEdgeIterator
-    while ( {
-      i.hasNext
-    }) {
-      val e = i.next
+    while (i.hasNext) {
+      val e    = i.next
       val eLoc = e.getLabel.getLocation(argIndex)
       val eiIt = e.getEdgeIntersectionList.iterator
-      while ( {
-        eiIt.hasNext
-      }) {
+      while (eiIt.hasNext) {
         val ei = eiIt.next
-        val n = nodes.addNode(ei.coord).asInstanceOf[RelateNode]
+        val n  = nodes.addNode(ei.coord).asInstanceOf[RelateNode]
         if (eLoc == Location.BOUNDARY) n.setLabelBoundary(argIndex)
         else if (n.getLabel.isNull(argIndex)) n.setLabel(argIndex, Location.INTERIOR)
         //Debug.println(n);
@@ -262,9 +261,7 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
 
   private def labelNodeEdges(): Unit = {
     val ni = nodes.iterator
-    while ( {
-      ni.hasNext
-    }) {
+    while (ni.hasNext) {
       val node = ni.next.asInstanceOf[RelateNode]
       node.getEdges.computeLabelling(arg)
       //Debug.print(node.getEdges());
@@ -276,16 +273,12 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
    */
   private def updateIM(im: IntersectionMatrix): Unit = { //Debug.println(im);
     val ei = isolatedEdges.iterator
-    while ( {
-      ei.hasNext
-    }) {
+    while (ei.hasNext) {
       val e = ei.next
       e.updateIM(im)
     }
     val ni = nodes.iterator
-    while ( {
-      ni.hasNext
-    }) {
+    while (ni.hasNext) {
       val node = ni.next.asInstanceOf[RelateNode]
       node.updateIM(im)
       node.updateIMFromEdges(im)
@@ -301,9 +294,7 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
    */
   private def labelIsolatedEdges(thisIndex: Int, targetIndex: Int): Unit = {
     val ei = arg(thisIndex).getEdgeIterator
-    while ( {
-      ei.hasNext
-    }) {
+    while (ei.hasNext) {
       val e = ei.next
       if (e.isIsolated) {
         labelIsolatedEdge(e, targetIndex, arg(targetIndex).getGeometry)
@@ -317,16 +308,18 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
    * If the target has dim 2 or 1, the edge can either be in the interior or the exterior.
    * If the target has dim 0, the edge must be in the exterior
    */
-  private def labelIsolatedEdge(e: Edge, targetIndex: Int, target: Geometry): Unit = { // this won't work for GeometryCollections with both dim 2 and 1 geoms
+  private def labelIsolatedEdge(
+    e:           Edge,
+    targetIndex: Int,
+    target:      Geometry
+  ): Unit = // this won't work for GeometryCollections with both dim 2 and 1 geoms
     if (target.getDimension > 0) { // since edge is not in boundary, may not need the full generality of PointLocator?
       // Possibly should use ptInArea locator instead?  We probably know here
       // that the edge does not touch the bdy of the target Geometry
       val loc = ptLocator.locate(e.getCoordinate, target)
       e.getLabel.setAllLocations(targetIndex, loc)
-    }
-    else e.getLabel.setAllLocations(targetIndex, Location.EXTERIOR)
-    //System.out.println(e.getLabel());
-  }
+    } else e.getLabel.setAllLocations(targetIndex, Location.EXTERIOR)
+  //System.out.println(e.getLabel());
 
   /**
    * Isolated nodes are nodes whose labels are incomplete
@@ -339,15 +332,14 @@ class RelateComputer(var arg: Array[GeometryGraph] // the arg(s) of the operatio
    */
   private def labelIsolatedNodes(): Unit = {
     val ni = nodes.iterator
-    while ( {
-      ni.hasNext
-    }) {
-      val n = ni.next
+    while (ni.hasNext) {
+      val n     = ni.next
       val label = n.getLabel
       // isolated nodes should always have at least one geometry in their label
       Assert.isTrue(label.getGeometryCount > 0, "node with empty label found")
-      if (n.isIsolated) if (label.isNull(0)) labelIsolatedNode(n, 0)
-      else labelIsolatedNode(n, 1)
+      if (n.isIsolated)
+        if (label.isNull(0)) labelIsolatedNode(n, 0)
+        else labelIsolatedNode(n, 1)
     }
   }
 

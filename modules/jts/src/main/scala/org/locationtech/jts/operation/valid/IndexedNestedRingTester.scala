@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -37,12 +37,13 @@ import org.locationtech.jts.index.strtree.STRtree
  *
  * @version 1.7
  */
-class IndexedNestedRingTester(var graph: GeometryGraph // used to find non-node vertices
-                             ) {
-  private val rings = new util.ArrayList[LinearRing]
-  private val totalEnv = new Envelope
+class IndexedNestedRingTester(
+  var graph: GeometryGraph // used to find non-node vertices
+) {
+  private val rings                    = new util.ArrayList[LinearRing]
+  private val totalEnv                 = new Envelope
   private var index: SpatialIndex[Any] = null
-  private var nestedPt: Coordinate = null
+  private var nestedPt: Coordinate     = null
 
   def getNestedPoint: Coordinate = nestedPt
 
@@ -54,18 +55,14 @@ class IndexedNestedRingTester(var graph: GeometryGraph // used to find non-node 
   def isNonNested: Boolean = {
     buildIndex()
     var i = 0
-    while ( {
-      i < rings.size
-    }) {
-      val innerRing = rings.get(i).asInstanceOf[LinearRing]
+    while (i < rings.size) {
+      val innerRing    = rings.get(i).asInstanceOf[LinearRing]
       val innerRingPts = innerRing.getCoordinates
-      val results = index.query(innerRing.getEnvelopeInternal)
+      val results      = index.query(innerRing.getEnvelopeInternal)
       //System.out.println(results.size());
-      var j = 0
-      while ( {
-        j < results.size
-      }) {
-        val searchRing = results.get(j).asInstanceOf[LinearRing]
+      var j            = 0
+      while (j < results.size) {
+        val searchRing    = results.get(j).asInstanceOf[LinearRing]
         val searchRingPts = searchRing.getCoordinates
         if (innerRing != searchRing) {
           if (innerRing.getEnvelopeInternal.intersects(searchRing.getEnvelopeInternal)) {
@@ -142,15 +139,13 @@ class IndexedNestedRingTester(var graph: GeometryGraph // used to find non-node 
       }
       return true;
     }
-    */
+   */
   private def buildIndex(): Unit = {
     index = new STRtree
     var i = 0
-    while ( {
-      i < rings.size
-    }) {
+    while (i < rings.size) {
       val ring = rings.get(i)
-      val env = ring.getEnvelopeInternal
+      val env  = ring.getEnvelopeInternal
       index.insert(env, ring)
       i += 1
     }

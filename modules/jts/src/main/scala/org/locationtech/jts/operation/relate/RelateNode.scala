@@ -21,7 +21,9 @@ import org.locationtech.jts.geomgraph.Node
  *
  * @version 1.7
  */
-class RelateNode(val coordArg: Coordinate, val edgesArg: EdgeEndStar) extends Node(coordArg, edgesArg) {
+class RelateNode(val coordArg: Coordinate, val edgesArg: EdgeEndStar)
+    extends Node(coordArg, edgesArg) {
+
   /**
    * Update the IM with the contribution for this component.
    * A component only contributes if it has a labelling for both parent geometries
@@ -32,5 +34,6 @@ class RelateNode(val coordArg: Coordinate, val edgesArg: EdgeEndStar) extends No
   /**
    * Update the IM with the contribution for the EdgeEnds incident on this node.
    */
-  private[relate] def updateIMFromEdges(im: IntersectionMatrix): Unit = edges.asInstanceOf[EdgeEndBundleStar].updateIM(im)
+  private[relate] def updateIMFromEdges(im: IntersectionMatrix): Unit =
+    edges.asInstanceOf[EdgeEndBundleStar].updateIM(im)
 }

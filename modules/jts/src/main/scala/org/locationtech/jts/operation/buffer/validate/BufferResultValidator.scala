@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -43,6 +43,7 @@ import org.locationtech.jts.geom.Polygon
  */
 object BufferResultValidator {
   private val VERBOSE = false
+
   /**
    * Maximum allowable fraction of buffer distance the
    * actual distance can differ by.
@@ -74,10 +75,10 @@ object BufferResultValidator {
 }
 
 class BufferResultValidator(var input: Geometry, var distance: Double, var result: Geometry) {
-  private var visValid = true
-  private var errorMsg: String = null
+  private var visValid                  = true
+  private var errorMsg: String          = null
   private var errorLocation: Coordinate = null
-  private var errorIndicator: Geometry = null
+  private var errorIndicator: Geometry  = null
 
   def isValid: Boolean = {
     checkPolygonal()
@@ -110,8 +111,10 @@ class BufferResultValidator(var input: Geometry, var distance: Double, var resul
 
   private def report(checkName: String): Unit = {
     if (!BufferResultValidator.VERBOSE) return
-    System.out.println("Check " + checkName + ": " + (if (visValid) "passed"
-    else "FAILED"))
+    System.out.println(
+      "Check " + checkName + ": " + (if (visValid) "passed"
+                                     else "FAILED")
+    )
   }
 
   private def checkPolygonal(): Unit = {
@@ -136,11 +139,11 @@ class BufferResultValidator(var input: Geometry, var distance: Double, var resul
 
   private def checkEnvelope(): Unit = {
     if (distance < 0.0) return
-    var padding = distance * BufferResultValidator.MAX_ENV_DIFF_FRAC
+    var padding     = distance * BufferResultValidator.MAX_ENV_DIFF_FRAC
     if (padding == 0.0) padding = 0.001
     val expectedEnv = new Envelope(input.getEnvelopeInternal)
     expectedEnv.expandBy(distance)
-    val bufEnv = new Envelope(result.getEnvelopeInternal)
+    val bufEnv      = new Envelope(result.getEnvelopeInternal)
     bufEnv.expandBy(padding)
     if (!bufEnv.contains(expectedEnv)) {
       visValid = false
@@ -151,7 +154,7 @@ class BufferResultValidator(var input: Geometry, var distance: Double, var resul
   }
 
   private def checkArea(): Unit = {
-    val inputArea = input.getArea
+    val inputArea  = input.getArea
     val resultArea = result.getArea
     if (distance > 0.0 && inputArea > resultArea) {
       visValid = false

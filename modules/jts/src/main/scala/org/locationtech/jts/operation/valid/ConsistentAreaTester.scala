@@ -39,15 +39,15 @@ import org.locationtech.jts.operation.relate.RelateNodeGraph
  *
  * @version 1.7
  */
-class ConsistentAreaTester(var geomGraph: GeometryGraph){
+class ConsistentAreaTester(var geomGraph: GeometryGraph) {
 
-/**
- * Creates a new tester for consistent areas.
- *
- * @param geomGraph the topology graph of the area geometry
- */
-  final private val li = new RobustLineIntersector
-  private val nodeGraph = new RelateNodeGraph
+  /**
+   * Creates a new tester for consistent areas.
+   *
+   * @param geomGraph the topology graph of the area geometry
+   */
+  final private val li                 = new RobustLineIntersector
+  private val nodeGraph                = new RelateNodeGraph
   // the intersection point found (if any)
   private var invalidPoint: Coordinate = null
 
@@ -62,11 +62,12 @@ class ConsistentAreaTester(var geomGraph: GeometryGraph){
    * return <code>true</code> if this area has a consistent node labelling
    */
   def isNodeConsistentArea: Boolean = {
+
     /**
      * To fully check validity, it is necessary to
      * compute ALL intersections, including self-intersections within a single edge.
      */
-      val intersector = geomGraph.computeSelfNodes(li, true, true)
+    val intersector = geomGraph.computeSelfNodes(li, true, true)
 
     /**
      * A proper intersection means that the area is not consistent.
@@ -87,9 +88,7 @@ class ConsistentAreaTester(var geomGraph: GeometryGraph){
    */
   private def isNodeEdgeAreaLabelsConsistent: Boolean = {
     val nodeIt = nodeGraph.getNodeIterator
-    while ( {
-      nodeIt.hasNext
-    }) {
+    while (nodeIt.hasNext) {
       val node = nodeIt.next.asInstanceOf[RelateNode]
       if (!node.getEdges.isAreaLabelsConsistent(geomGraph)) {
         invalidPoint = node.getCoordinate.copy
@@ -116,14 +115,10 @@ class ConsistentAreaTester(var geomGraph: GeometryGraph){
    */
   def hasDuplicateRings: Boolean = {
     val nodeIt = nodeGraph.getNodeIterator
-    while ( {
-      nodeIt.hasNext
-    }) {
+    while (nodeIt.hasNext) {
       val node = nodeIt.next.asInstanceOf[RelateNode]
-      val i = node.getEdges.iterator
-      while ( {
-        i.hasNext
-      }) {
+      val i    = node.getEdges.iterator
+      while (i.hasNext) {
         val eeb = i.next.asInstanceOf[EdgeEndBundle]
         if (eeb.getEdgeEnds.size > 1) {
           invalidPoint = eeb.getEdge.getCoordinate(0)

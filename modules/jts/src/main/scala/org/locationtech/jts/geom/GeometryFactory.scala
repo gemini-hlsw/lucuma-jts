@@ -127,20 +127,27 @@ object GeometryFactory {
     multiPoints.toArray(multiPointArray)
   }
 
-  private class CoordSeqCloneOp(var coordinateSequenceFactory: CoordinateSequenceFactory) extends GeometryEditor.CoordinateSequenceOperation {
-    override def edit(coordSeq: CoordinateSequence, geometry: Geometry): CoordinateSequence = coordinateSequenceFactory.create(coordSeq)
+  private class CoordSeqCloneOp(var coordinateSequenceFactory: CoordinateSequenceFactory)
+      extends GeometryEditor.CoordinateSequenceOperation {
+    override def edit(coordSeq: CoordinateSequence, geometry: Geometry): CoordinateSequence =
+      coordinateSequenceFactory.create(coordSeq)
   }
 
 }
 
 @SerialVersionUID(-6820524753094095635L)
-class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coordinateSequenceFactory: CoordinateSequenceFactory)
+class GeometryFactory(
+  var precisionModel:            PrecisionModel,
+  var SRID:                      Int,
+  var coordinateSequenceFactory: CoordinateSequenceFactory
+)
 
 /**
  * Constructs a GeometryFactory that generates Geometries having the given
  * PrecisionModel, spatial-reference ID, and CoordinateSequence implementation.
  */
-  extends Serializable {
+    extends Serializable {
+
   /**
    * Constructs a GeometryFactory that generates Geometries having the given
    * CoordinateSequence implementation, a double-precision floating PrecisionModel and a
@@ -203,11 +210,28 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
   def toGeometry(envelope: Envelope): Geometry = { // null envelope - return empty point geometry
     if (envelope.isNull) return createPoint
     // point?
-    if (envelope.getMinX == envelope.getMaxX && envelope.getMinY == envelope.getMaxY) return createPoint(new Coordinate(envelope.getMinX, envelope.getMinY))
+    if (envelope.getMinX == envelope.getMaxX && envelope.getMinY == envelope.getMaxY)
+      return createPoint(new Coordinate(envelope.getMinX, envelope.getMinY))
     // vertical or horizontal line?
-    if (envelope.getMinX == envelope.getMaxX || envelope.getMinY == envelope.getMaxY) return createLineString(Array[Coordinate](new Coordinate(envelope.getMinX, envelope.getMinY), new Coordinate(envelope.getMaxX, envelope.getMaxY)))
+    if (envelope.getMinX == envelope.getMaxX || envelope.getMinY == envelope.getMaxY)
+      return createLineString(
+        Array[Coordinate](new Coordinate(envelope.getMinX, envelope.getMinY),
+                          new Coordinate(envelope.getMaxX, envelope.getMaxY)
+        )
+      )
     // create a CW ring for the polygon
-    createPolygon(createLinearRing(Array[Coordinate](new Coordinate(envelope.getMinX, envelope.getMinY), new Coordinate(envelope.getMinX, envelope.getMaxY), new Coordinate(envelope.getMaxX, envelope.getMaxY), new Coordinate(envelope.getMaxX, envelope.getMinY), new Coordinate(envelope.getMinX, envelope.getMinY))), null)
+    createPolygon(
+      createLinearRing(
+        Array[Coordinate](
+          new Coordinate(envelope.getMinX, envelope.getMinY),
+          new Coordinate(envelope.getMinX, envelope.getMaxY),
+          new Coordinate(envelope.getMaxX, envelope.getMaxY),
+          new Coordinate(envelope.getMaxX, envelope.getMinY),
+          new Coordinate(envelope.getMinX, envelope.getMinY)
+        )
+      ),
+      null
+    )
   }
 
   /**
@@ -232,8 +256,10 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    * @param coordinate a Coordinate, or null
    * return the created Point
    */
-  def createPoint(coordinate: Coordinate): Point = createPoint(if (coordinate != null) getCoordinateSequenceFactory.create(Array[Coordinate](coordinate))
-  else null)
+  def createPoint(coordinate: Coordinate): Point = createPoint(
+    if (coordinate != null) getCoordinateSequenceFactory.create(Array[Coordinate](coordinate))
+    else null
+  )
 
   /**
    * Creates a Point using the given CoordinateSequence; a null or empty
@@ -274,7 +300,8 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    * @param geometries an array of Geometries, each of which may be empty but not null, or null
    * return the created GeometryCollection
    */
-  def createGeometryCollection(geometries: Array[Geometry]) = new GeometryCollection(geometries, this)
+  def createGeometryCollection(geometries: Array[Geometry]) =
+    new GeometryCollection(geometries, this)
 
   /**
    * Constructs an empty {link MultiPolygon} geometry.
@@ -301,7 +328,9 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    *
    * return an empty LinearRing
    */
-  def createLinearRing: LinearRing = createLinearRing(getCoordinateSequenceFactory.create(Array.empty[Coordinate]))
+  def createLinearRing: LinearRing = createLinearRing(
+    getCoordinateSequenceFactory.create(Array.empty[Coordinate])
+  )
 
   /**
    * Creates a {link LinearRing} using the given {link Coordinate}s.
@@ -312,8 +341,10 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    * return the created LinearRing
    * throws IllegalArgumentException if the ring is not closed, or has too few points
    */
-  def createLinearRing(coordinates: Array[Coordinate]): LinearRing = createLinearRing(if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)
-  else null)
+  def createLinearRing(coordinates: Array[Coordinate]): LinearRing = createLinearRing(
+    if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)
+    else null
+  )
 
   /**
    * Creates a {link LinearRing} using the given {link CoordinateSequence}.
@@ -350,8 +381,10 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    * return a MultiPoint object
    * @deprecated Use { @link GeometryFactory#createMultiPointFromCoords} instead
    */
-  def createMultiPoint(coordinates: Array[Coordinate]): MultiPoint = createMultiPoint(if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)
-  else null)
+  def createMultiPoint(coordinates: Array[Coordinate]): MultiPoint = createMultiPoint(
+    if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)
+    else null
+  )
 
   /**
    * Creates a {link MultiPoint} using the given {link Coordinate}s.
@@ -360,8 +393,10 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    * @param coordinates an array (without null elements), or an empty array, or <code>null</code>
    * return a MultiPoint object
    */
-  def createMultiPointFromCoords(coordinates: Array[Coordinate]): MultiPoint = createMultiPoint(if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)
-  else null)
+  def createMultiPointFromCoords(coordinates: Array[Coordinate]): MultiPoint = createMultiPoint(
+    if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)
+    else null
+  )
 
   /**
    * Creates a {link MultiPoint} using the
@@ -374,11 +409,10 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
   def createMultiPoint(coordinates: CoordinateSequence): MultiPoint = {
     if (coordinates == null) return createMultiPoint(new Array[Point](0))
     val points = new Array[Point](coordinates.size)
-    var i = 0
-    while ( {
-      i < coordinates.size
-    }) {
-      val ptSeq = getCoordinateSequenceFactory.create(1, coordinates.getDimension, coordinates.getMeasures)
+    var i      = 0
+    while (i < coordinates.size) {
+      val ptSeq =
+        getCoordinateSequenceFactory.create(1, coordinates.getDimension, coordinates.getMeasures)
       CoordinateSequences.copy(coordinates, i, ptSeq, 0, 1)
       points(i) = createPoint(ptSeq)
       i += 1
@@ -452,17 +486,16 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    *         .
    */
   def buildGeometry(geomList: util.Collection[Geometry]): Geometry = {
+
     /**
      * Determine some facts about the geometries in the list
      */
-      var geomClass: Class[_] = null
-    var isHeterogeneous = false
+    var geomClass: Class[_]   = null
+    var isHeterogeneous       = false
     var hasGeometryCollection = false
-    val i = geomList.iterator
-    while ( {
-      i.hasNext
-    }) {
-      val geom = i.next
+    val i                     = geomList.iterator
+    while (i.hasNext) {
+      val geom      = i.next
       val partClass = geom.getClass
       if (geomClass == null) geomClass = partClass
       if (partClass != geomClass) isHeterogeneous = true
@@ -474,16 +507,20 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
      */
     // for the empty geometry, return an empty GeometryCollection
     if (geomClass == null) return createGeometryCollection
-    if (isHeterogeneous || hasGeometryCollection) return createGeometryCollection(GeometryFactory.toGeometryArray(geomList))
+    if (isHeterogeneous || hasGeometryCollection)
+      return createGeometryCollection(GeometryFactory.toGeometryArray(geomList))
     // at this point we know the collection is hetereogenous.
     // Determine the type of the result from the first Geometry in the list
     // this should always return a geometry, since otherwise an empty collection would have already been returned
-    val geom0 = geomList.iterator.next
+    val geom0        = geomList.iterator.next
     val isCollection = geomList.size > 1
     if (isCollection) {
-      if (geom0.isInstanceOf[Polygon]) return createMultiPolygon(GeometryFactory.toPolygonArray(geomList))
-      else if (geom0.isInstanceOf[LineString]) return createMultiLineString(GeometryFactory.toLineStringArray(geomList))
-      else if (geom0.isInstanceOf[Point]) return createMultiPoint(GeometryFactory.toPointArray(geomList))
+      if (geom0.isInstanceOf[Polygon])
+        return createMultiPolygon(GeometryFactory.toPolygonArray(geomList))
+      else if (geom0.isInstanceOf[LineString])
+        return createMultiLineString(GeometryFactory.toLineStringArray(geomList))
+      else if (geom0.isInstanceOf[Point])
+        return createMultiPoint(GeometryFactory.toPointArray(geomList))
       Assert.shouldNeverReachHere("Unhandled class: " + geom0.getClass.getName)
     }
     geom0
@@ -494,7 +531,9 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    *
    * return an empty LineString
    */
-  def createLineString: LineString = createLineString(getCoordinateSequenceFactory.create(Array.empty[Coordinate]))
+  def createLineString: LineString = createLineString(
+    getCoordinateSequenceFactory.create(Array.empty[Coordinate])
+  )
 
   /**
    * Creates a LineString using the given Coordinates.
@@ -502,8 +541,10 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
    *
    * @param coordinates an array without null elements, or an empty array, or null
    */
-  def createLineString(coordinates: Array[Coordinate]): LineString = createLineString(if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)
-  else null)
+  def createLineString(coordinates: Array[Coordinate]): LineString = createLineString(
+    if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)
+    else null
+  )
 
   /**
    * Creates a LineString using the given CoordinateSequence.
@@ -523,13 +564,13 @@ class GeometryFactory(var precisionModel: PrecisionModel, var SRID: Int, var coo
   def createEmpty(dimension: Int): Geometry = dimension match {
     case -1 =>
       createGeometryCollection
-    case 0 =>
+    case 0  =>
       createPoint
-    case 1 =>
+    case 1  =>
       createLineString
-    case 2 =>
+    case 2  =>
       createPolygon
-    case _ =>
+    case _  =>
       throw new IllegalArgumentException("Invalid dimension: " + dimension)
   }
 

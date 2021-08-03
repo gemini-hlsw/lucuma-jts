@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -34,9 +34,8 @@ import org.locationtech.jts.geom.LineSegment
  * specified by a subsequence of a {link CoordinateSequence}.
  *
  * @author Martin Davis
- *
  */
-class FacetSequence (val geom: Geometry, val pts: CoordinateSequence, val start: Int, val end: Int) {
+class FacetSequence(val geom: Geometry, val pts: CoordinateSequence, val start: Int, val end: Int) {
 //  private var geom = null
 //  private var pts = null
 //  private var start = 0
@@ -88,10 +87,8 @@ class FacetSequence (val geom: Geometry, val pts: CoordinateSequence, val start:
 
   def getEnvelope: Envelope = {
     val env = new Envelope
-    var i = start
-    while ( {
-      i < end
-    }) {
+    var i   = start
+    while (i < end) {
       env.expandToInclude(pts.getX(i), pts.getY(i))
       i += 1
     }
@@ -112,23 +109,20 @@ class FacetSequence (val geom: Geometry, val pts: CoordinateSequence, val start:
    * return the minimum distance between the sequences
    */
   def distance(facetSeq: FacetSequence): Double = {
-    val visPoint = isPoint
+    val visPoint     = isPoint
     val isPointOther = facetSeq.isPoint
-    var distance = .0
+    var distance     = .0
     if (visPoint && isPointOther) {
-      val pt = pts.getCoordinate(start)
+      val pt    = pts.getCoordinate(start)
       val seqPt = facetSeq.pts.getCoordinate(facetSeq.start)
       distance = pt.distance(seqPt)
-    }
-    else if (isPoint) {
+    } else if (isPoint) {
       val pt = pts.getCoordinate(start)
       distance = computeDistancePointLine(pt, facetSeq, null)
-    }
-    else if (isPointOther) {
+    } else if (isPointOther) {
       val seqPt = facetSeq.pts.getCoordinate(facetSeq.start)
       distance = computeDistancePointLine(seqPt, this, null)
-    }
-    else distance = computeDistanceLineLine(facetSeq, null)
+    } else distance = computeDistanceLineLine(facetSeq, null)
     distance
   }
 
@@ -140,45 +134,41 @@ class FacetSequence (val geom: Geometry, val pts: CoordinateSequence, val start:
    * return a pair of { @link GeometryLocation}s for the nearest points
    */
   def nearestLocations(facetSeq: FacetSequence): Array[GeometryLocation] = {
-    val visPoint = isPoint
+    val visPoint     = isPoint
     val isPointOther = facetSeq.isPoint
-    val locs = new Array[GeometryLocation](2)
+    val locs         = new Array[GeometryLocation](2)
     if (visPoint && isPointOther) {
-      val pt = pts.getCoordinate(start)
+      val pt    = pts.getCoordinate(start)
       val seqPt = facetSeq.pts.getCoordinate(facetSeq.start)
       locs(0) = new GeometryLocation(geom, start, new Coordinate(pt))
       locs(1) = new GeometryLocation(facetSeq.geom, facetSeq.start, new Coordinate(seqPt))
-    }
-    else if (visPoint) {
+    } else if (visPoint) {
       val pt = pts.getCoordinate(start)
       computeDistancePointLine(pt, facetSeq, locs)
-    }
-    else if (isPointOther) {
+    } else if (isPointOther) {
       val seqPt = facetSeq.pts.getCoordinate(facetSeq.start)
       computeDistancePointLine(seqPt, this, locs)
       // unflip the locations
-      val tmp = locs(0)
+      val tmp   = locs(0)
       locs(0) = locs(1)
       locs(1) = tmp
-    }
-    else computeDistanceLineLine(facetSeq, locs)
+    } else computeDistanceLineLine(facetSeq, locs)
     locs
   }
 
-  private def computeDistanceLineLine(facetSeq: FacetSequence, locs: Array[GeometryLocation]): Double = { // both linear - compute minimum segment-segment distance
+  private def computeDistanceLineLine(
+    facetSeq: FacetSequence,
+    locs:     Array[GeometryLocation]
+  ): Double = { // both linear - compute minimum segment-segment distance
     var minDistance = Double.MaxValue
-    var i = start
-    while ( {
-      i < end - 1
-    }) {
+    var i           = start
+    while (i < end - 1) {
       val p0 = pts.getCoordinate(i)
       val p1 = pts.getCoordinate(i + 1)
-      var j = facetSeq.start
-      while ( {
-        j < facetSeq.end - 1
-      }) {
-        val q0 = facetSeq.pts.getCoordinate(j)
-        val q1 = facetSeq.pts.getCoordinate(j + 1)
+      var j  = facetSeq.start
+      while (j < facetSeq.end - 1) {
+        val q0   = facetSeq.pts.getCoordinate(j)
+        val q1   = facetSeq.pts.getCoordinate(j + 1)
         val dist = Distance.segmentToSegment(p0, p1, q0, q1)
         if (dist < minDistance) {
           minDistance = dist
@@ -192,22 +182,33 @@ class FacetSequence (val geom: Geometry, val pts: CoordinateSequence, val start:
     minDistance
   }
 
-  private def updateNearestLocationsLineLine(i: Int, p0: Coordinate, p1: Coordinate, facetSeq: FacetSequence, j: Int, q0: Coordinate, q1: Coordinate, locs: Array[GeometryLocation]): Unit = {
-    val seg0 = new LineSegment(p0, p1)
-    val seg1 = new LineSegment(q0, q1)
+  private def updateNearestLocationsLineLine(
+    i:        Int,
+    p0:       Coordinate,
+    p1:       Coordinate,
+    facetSeq: FacetSequence,
+    j:        Int,
+    q0:       Coordinate,
+    q1:       Coordinate,
+    locs:     Array[GeometryLocation]
+  ): Unit = {
+    val seg0      = new LineSegment(p0, p1)
+    val seg1      = new LineSegment(q0, q1)
     val closestPt = seg0.closestPoints(seg1)
     locs(0) = new GeometryLocation(geom, i, new Coordinate(closestPt(0)))
     locs(1) = new GeometryLocation(facetSeq.geom, j, new Coordinate(closestPt(1)))
   }
 
-  private def computeDistancePointLine(pt: Coordinate, facetSeq: FacetSequence, locs: Array[GeometryLocation]): Double = {
+  private def computeDistancePointLine(
+    pt:       Coordinate,
+    facetSeq: FacetSequence,
+    locs:     Array[GeometryLocation]
+  ): Double = {
     var minDistance = Double.MaxValue
-    var i = facetSeq.start
-    while ( {
-      i < facetSeq.end - 1
-    }) {
-      val q0 = facetSeq.pts.getCoordinate(i)
-      val q1 = facetSeq.pts.getCoordinate(i + 1)
+    var i           = facetSeq.start
+    while (i < facetSeq.end - 1) {
+      val q0   = facetSeq.pts.getCoordinate(i)
+      val q1   = facetSeq.pts.getCoordinate(i + 1)
       val dist = Distance.pointToSegment(pt, q0, q1)
       if (dist < minDistance) {
         minDistance = dist
@@ -219,9 +220,16 @@ class FacetSequence (val geom: Geometry, val pts: CoordinateSequence, val start:
     minDistance
   }
 
-  private def updateNearestLocationsPointLine(pt: Coordinate, facetSeq: FacetSequence, i: Int, q0: Coordinate, q1: Coordinate, locs: Array[GeometryLocation]): Unit = {
+  private def updateNearestLocationsPointLine(
+    pt:       Coordinate,
+    facetSeq: FacetSequence,
+    i:        Int,
+    q0:       Coordinate,
+    q1:       Coordinate,
+    locs:     Array[GeometryLocation]
+  ): Unit = {
     locs(0) = new GeometryLocation(geom, start, new Coordinate(pt))
-    val seg = new LineSegment(q0, q1)
+    val seg             = new LineSegment(q0, q1)
     val segClosestPoint = seg.closestPoint(pt)
     locs(1) = new GeometryLocation(facetSeq.geom, i, new Coordinate(segClosestPoint))
   }
@@ -229,11 +237,9 @@ class FacetSequence (val geom: Geometry, val pts: CoordinateSequence, val start:
   override def toString: String = {
     val buf = new StringBuffer
     buf.append("LINESTRING ( ")
-    val p = new Coordinate
-    var i = start
-    while ( {
-      i < end
-    }) {
+    val p   = new Coordinate
+    var i   = start
+    while (i < end) {
       if (i > start) buf.append(", ")
       pts.getCoordinate(i, p)
       buf.append(s"${p.x} ${p.y}")

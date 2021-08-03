@@ -43,6 +43,7 @@ import org.locationtech.jts.geom.Coordinate
  * @version 1.7
  */
 object RobustDeterminant {
+
   /**
    * Computes the sign of the determinant of the 2x2 matrix
    * with the given entries, in a robust way.
@@ -51,153 +52,159 @@ object RobustDeterminant {
    * return 1 if the determinant is positive,
    * return 0 if the determinant is 0.
    */
-    //private static int originalSignOfDet2x2(double x1, double y1, double x2, double y2) {
-    def signOfDet2x2(x1a: Double, y1a: Double, x2a: Double, y2a: Double): Int = { // returns -1 if the determinant is negative,
-      var x1 = x1a
-      var x2 = x2a
-      var y1 = y1a
-      var y2 = y2a
-      // returns  1 if the determinant is positive,
-      // returns  0 if the determinant is null.
-      var sign = 0
-      var swap = .0
-      var k = .0
-      var count = 0
-      //callCount++; // debugging only
-      sign = 1
-      /*
-           *  testing null entries
-           */ if ((x1 == 0.0) || (y2 == 0.0)) if ((y1 == 0.0) || (x2 == 0.0)) return 0
-      else if (y1 > 0) if (x2 > 0) return -sign
-      else return sign
+  //private static int originalSignOfDet2x2(double x1, double y1, double x2, double y2) {
+  def signOfDet2x2(x1a: Double, y1a: Double, x2a: Double, y2a: Double): Int = { // returns -1 if the determinant is negative,
+    var x1    = x1a
+    var x2    = x2a
+    var y1    = y1a
+    var y2    = y2a
+    // returns  1 if the determinant is positive,
+    // returns  0 if the determinant is null.
+    var sign  = 0
+    var swap  = .0
+    var k     = .0
+    var count = 0
+    //callCount++; // debugging only
+    sign = 1
+    /*
+     *  testing null entries
+     */
+    if ((x1 == 0.0) || (y2 == 0.0))
+      if ((y1 == 0.0) || (x2 == 0.0)) return 0
+      else if (y1 > 0)
+        if (x2 > 0) return -sign
+        else return sign
       else if (x2 > 0) return sign
       else return -sign
-      if ((y1 == 0.0) || (x2 == 0.0)) if (y2 > 0) if (x1 > 0) return sign
-      else return -sign
+    if ((y1 == 0.0) || (x2 == 0.0))
+      if (y2 > 0)
+        if (x1 > 0) return sign
+        else return -sign
       else if (x1 > 0) return -sign
       else return sign
-      /*
-           *  making y coordinates positive and permuting the entries
-           *//*
-           *  so that y2 is the biggest one
-           */ if (0.0 < y1) if (0.0 < y2) if (y1 <= y2) {
-      }
-      else {
-        sign = -sign
-        swap = x1
-        x1 = x2
-        x2 = swap
-        swap = y1
-        y1 = y2
-        y2 = swap
-      }
-      else if (y1 <= -y2) {
-        sign = -sign
-        x2 = -x2
-        y2 = -y2
-      }
-      else {
-        swap = x1
-        x1 = -x2
-        x2 = swap
-        swap = y1
-        y1 = -y2
-        y2 = swap
-      }
-      else if (0.0 < y2) if (-y1 <= y2) {
-        sign = -sign
-        x1 = -x1
-        y1 = -y1
-      }
-      else {
-        swap = -x1
-        x1 = x2
-        x2 = swap
-        swap = -y1
-        y1 = y2
-        y2 = swap
-      }
-      else if (y1 >= y2) {
-        x1 = -x1
-        y1 = -y1
-        x2 = -x2
-        y2 = -y2
-      }
-      else {
-        sign = -sign
-        swap = -x1
-        x1 = -x2
-        x2 = swap
-        swap = -y1
-        y1 = -y2
-        y2 = swap
-      }
-      /*
-           *  making x coordinates positive
-           *//*
-           *  if |x2| < |x1| one can conclude
-           */ if (0.0 < x1) if (0.0 < x2) if (x1 <= x2) {
-      }
+    /*
+     *  making y coordinates positive and permuting the entries
+     */ /*
+     *  so that y2 is the biggest one
+     */
+    if (0.0 < y1) if (0.0 < y2) if (y1 <= y2) {} else {
+      sign = -sign
+      swap = x1
+      x1 = x2
+      x2 = swap
+      swap = y1
+      y1 = y2
+      y2 = swap
+    }
+    else if (y1 <= -y2) {
+      sign = -sign
+      x2 = -x2
+      y2 = -y2
+    } else {
+      swap = x1
+      x1 = -x2
+      x2 = swap
+      swap = y1
+      y1 = -y2
+      y2 = swap
+    }
+    else if (0.0 < y2) if (-y1 <= y2) {
+      sign = -sign
+      x1 = -x1
+      y1 = -y1
+    } else {
+      swap = -x1
+      x1 = x2
+      x2 = swap
+      swap = -y1
+      y1 = y2
+      y2 = swap
+    }
+    else if (y1 >= y2) {
+      x1 = -x1
+      y1 = -y1
+      x2 = -x2
+      y2 = -y2
+    } else {
+      sign = -sign
+      swap = -x1
+      x1 = -x2
+      x2 = swap
+      swap = -y1
+      y1 = -y2
+      y2 = swap
+    }
+    /*
+     *  making x coordinates positive
+     */ /*
+     *  if |x2| < |x1| one can conclude
+     */
+    if (0.0 < x1)
+      if (0.0 < x2) if (x1 <= x2) {} else return sign
       else return sign
-      else return sign
-      else if (0.0 < x2) return -sign
-      else if (x1 >= x2) {
-        sign = -sign
-        x1 = -x1
-        x2 = -x2
-      }
-      else return -sign
+    else if (0.0 < x2) return -sign
+    else if (x1 >= x2) {
+      sign = -sign
+      x1 = -x1
+      x2 = -x2
+    } else return -sign
+    /*
+     *  all entries strictly positive   x1 <= x2 and y1 <= y2
+     */
+    while (true) {
+      count = count + 1
+      // MD - UNSAFE HACK for testing only!
+      //      k = (int) (x2 / x1);
+      k = Math.floor(x2 / x1)
+      x2 = x2 - k * x1
+      y2 = y2 - k * y1
       /*
-           *  all entries strictly positive   x1 <= x2 and y1 <= y2
-           */ while ( {
-        true
-      }) {
-        count = count + 1
-        // MD - UNSAFE HACK for testing only!
-        //      k = (int) (x2 / x1);
-        k = Math.floor(x2 / x1)
-        x2 = x2 - k * x1
-        y2 = y2 - k * y1
-        /*
-               *  testing if R (new U2) is in U1 rectangle
-               */ if (y2 < 0.0) return -sign
-        if (y2 > y1) return sign
-        /*
-               *  finding R'
-               */ if (x1 > x2 + x2) if (y1 < y2 + y2) return sign
+       *  testing if R (new U2) is in U1 rectangle
+       */
+      if (y2 < 0.0) return -sign
+      if (y2 > y1) return sign
+      /*
+       *  finding R'
+       */
+      if (x1 > x2 + x2)
+        if (y1 < y2 + y2) return sign
         else if (y1 > y2 + y2) return -sign
         else {
           x2 = x1 - x2
           y2 = y1 - y2
           sign = -sign
         }
-        if (y2 == 0.0) if (x2 == 0.0) return 0
+      if (y2 == 0.0)
+        if (x2 == 0.0) return 0
         else return -sign
-        if (x2 == 0.0) return sign
-        /*
-               *  exchange 1 and 2 role.
-               */
-        //      k = (int) (x1 / x2);
-        k = Math.floor(x1 / x2)
-        x1 = x1 - k * x2
-        y1 = y1 - k * y2
-        /*
-               *  testing if R (new U1) is in U2 rectangle
-               */ if (y1 < 0.0) return sign
-        if (y1 > y2) return -sign
-        if (x2 > x1 + x1) if (y2 < y1 + y1) return -sign
+      if (x2 == 0.0) return sign
+      /*
+       *  exchange 1 and 2 role.
+       */
+      //      k = (int) (x1 / x2);
+      k = Math.floor(x1 / x2)
+      x1 = x1 - k * x2
+      y1 = y1 - k * y2
+      /*
+       *  testing if R (new U1) is in U2 rectangle
+       */
+      if (y1 < 0.0) return sign
+      if (y1 > y2) return -sign
+      if (x2 > x1 + x1)
+        if (y2 < y1 + y1) return -sign
         else if (y2 > y1 + y1) return sign
         else {
           x1 = x2 - x1
           y1 = y2 - y1
           sign = -sign
         }
-        if (y1 == 0.0) if (x1 == 0.0) return 0
+      if (y1 == 0.0)
+        if (x1 == 0.0) return 0
         else return sign
-        if (x1 == 0.0) return -sign
-      }
-      return -1
+      if (x1 == 0.0) return -sign
     }
+    return -1
+  }
 
   /**
    * Returns the index of the direction of the point <code>q</code> relative to
@@ -211,6 +218,7 @@ object RobustDeterminant {
    * return 0 if q is collinear with p1-p2
    */
   def orientationIndex(p1: Coordinate, p2: Coordinate, q: Coordinate): Int = {
+
     /**
      * MD - 9 Aug 2010 It seems that the basic algorithm is slightly orientation
      * dependent, when computing the orientation of a point very close to a
@@ -226,10 +234,8 @@ object RobustDeterminant {
      * Coordinate p = new Coordinate(186.80814046338352, 46.28973405831556); int
      * orient = orientationIndex(p0, p1, p); int orientInv =
      * orientationIndex(p1, p0, p);
-     *
-     *
      */
-      val dx1 = p2.x - p1.x
+    val dx1 = p2.x - p1.x
     val dy1 = p2.y - p1.y
     val dx2 = q.x - p2.x
     val dy2 = q.y - p2.y

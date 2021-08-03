@@ -26,22 +26,27 @@ import org.locationtech.jts.util.Assert
  * @version 1.7
  */
 abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFactory) {
-  protected var startDe: DirectedEdge = null // the directed edge which starts the list of edges for this EdgeRing
+  protected var startDe: DirectedEdge =
+    null // the directed edge which starts the list of edges for this EdgeRing
   private var maxNodeDegree = -1
-  private val edges = new util.ArrayList[DirectedEdge] // the DirectedEdges making up this EdgeRing
-  private val pts = new util.ArrayList[Coordinate]
-  private val label = new Label(Location.NONE) // label stores the locations of each geometry on the face surrounded by this ring
+  private val edges         = new util.ArrayList[DirectedEdge] // the DirectedEdges making up this EdgeRing
+  private val pts           = new util.ArrayList[Coordinate]
+  private val label         =
+    new Label(
+      Location.NONE
+    ) // label stores the locations of each geometry on the face surrounded by this ring
   private var ring: LinearRing = null // the ring created for this EdgeRing
-  private var visHole = false
-  private var shell: EdgeRing = null // if non-null, the ring is a hole and this EdgeRing is its containing shell
-  private val holes = new util.ArrayList[EdgeRing] // a list of EdgeRings which are holes in this EdgeRing
+  private var visHole          = false
+  private var shell: EdgeRing  =
+    null // if non-null, the ring is a hole and this EdgeRing is its containing shell
+  private val holes =
+    new util.ArrayList[EdgeRing] // a list of EdgeRings which are holes in this EdgeRing
   def isIsolated: Boolean = label.getGeometryCount == 1
   computePoints(start)
   computeRing()
 
-  def isHole: Boolean = { //computePoints();
+  def isHole: Boolean = //computePoints();
     visHole
-  }
 
   def getCoordinate(i: Int): Coordinate = pts.get(i)
 
@@ -63,14 +68,12 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
 
   def toPolygon(geometryFactory: GeometryFactory): Polygon = {
     val holeLR = new Array[LinearRing](holes.size)
-    var i = 0
-    while ( {
-      i < holes.size
-    }) {
+    var i      = 0
+    while (i < holes.size) {
       holeLR(i) = holes.get(i).getLinearRing
       i += 1
     }
-    val poly = geometryFactory.createPolygon(getLinearRing, holeLR)
+    val poly   = geometryFactory.createPolygon(getLinearRing, holeLR)
     poly
   }
 
@@ -82,10 +85,8 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
   def computeRing(): Unit = {
     if (ring != null) return // don't compute more than once
     val coord = new Array[Coordinate](pts.size)
-    var i = 0
-    while ( {
-      i < pts.size
-    }) {
+    var i     = 0
+    while (i < pts.size) {
       coord(i) = pts.get(i).asInstanceOf[Coordinate]
       i += 1
     }
@@ -108,11 +109,14 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
    */
   protected def computePoints(start: DirectedEdge): Unit = { //System.out.println("buildRing");
     startDe = start
-    var de = start
+    var de          = start
     var isFirstEdge = true
-    do { //      Assert.isTrue(de != null, "found null Directed Edge");
+    while( { { //      Assert.isTrue(de != null, "found null Directed Edge");
       if (de == null) throw new TopologyException("Found null DirectedEdge")
-      if (de.getEdgeRing eq this) throw new TopologyException("Directed Edge visited twice during ring-building at " + de.getCoordinate)
+      if (de.getEdgeRing eq this)
+        throw new TopologyException(
+          "Directed Edge visited twice during ring-building at " + de.getCoordinate
+        )
       edges.add(de)
       //Debug.println(de);
       //Debug.println(de.getEdge());
@@ -123,9 +127,7 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
       isFirstEdge = false
       setEdgeRing(de, this)
       de = getNext(de)
-    } while ( {
-      de != startDe
-    })
+    } ; de != startDe}) ()
   }
 
   def getMaxNodeDegree: Int = {
@@ -136,25 +138,21 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
   private def computeMaxNodeDegree(): Unit = {
     maxNodeDegree = 0
     var de = startDe
-    do {
-      val node = de.getNode
+    while( { {
+      val node   = de.getNode
       val degree = node.getEdges.asInstanceOf[DirectedEdgeStar].getOutgoingDegree(this)
       if (degree > maxNodeDegree) maxNodeDegree = degree
       de = getNext(de)
-    } while ( {
-      de != startDe
-    })
+    } ; de != startDe})()
     maxNodeDegree *= 2
   }
 
   def setInResult(): Unit = {
     var de = startDe
-    do {
+    while( { {
       de.getEdge.setInResult(true)
       de = de.getNext
-    } while ( {
-      de ne startDe
-    })
+    } ; de ne startDe }) ()
   }
 
   protected def mergeLabel(deLabel: Label): Unit = {
@@ -185,21 +183,16 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
     if (isForward) {
       var startIndex = 1
       if (isFirstEdge) startIndex = 0
-      var i = startIndex
-      while ( {
-        i < edgePts.length
-      }) {
+      var i          = startIndex
+      while (i < edgePts.length) {
         pts.add(edgePts(i))
         i += 1
       }
-    }
-    else { // is backward
+    } else { // is backward
       var startIndex = edgePts.length - 2
       if (isFirstEdge) startIndex = edgePts.length - 1
-      var i = startIndex
-      while ( {
-        i >= 0
-      }) {
+      var i          = startIndex
+      while (i >= 0) {
         pts.add(edgePts(i))
         i -= 1
       }
@@ -212,13 +205,11 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
    */
   def containsPoint(p: Coordinate): Boolean = {
     val shell = getLinearRing
-    val env = shell.getEnvelopeInternal
+    val env   = shell.getEnvelopeInternal
     if (!env.contains(p)) return false
     if (!PointLocation.isInRing(p, shell.getCoordinates)) return false
-    val i = holes.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i     = holes.iterator
+    while (i.hasNext) {
       val hole = i.next
       if (hole.containsPoint(p)) return false
     }

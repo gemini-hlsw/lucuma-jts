@@ -35,7 +35,8 @@ class BasicSegmentString(var pts: Array[Coordinate], var data: Any)
  * @param pts  the vertices of the segment string
  * @param data the user-defined data of this segment string (may be null)
  */
-  extends SegmentString {
+    extends SegmentString {
+
   /**
    * Gets the user-defined data for this segment string.
    *

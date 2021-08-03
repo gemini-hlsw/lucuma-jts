@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -45,18 +45,18 @@ object LineStringSnapper {
 
 class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double) {
 
-/**
- * Creates a new snapper using the given points
- * as source points to be snapped.
- *
- * @param srcPts        the points to snap
- * @param snapTolerance the snap tolerance to use
- */
+  /**
+   * Creates a new snapper using the given points
+   * as source points to be snapped.
+   *
+   * @param srcPts        the points to snap
+   * @param snapTolerance the snap tolerance to use
+   */
 //  this.snapTolerance = snapTolerance
 //  private var snapTolerance = 0.0
-  private val seg = new LineSegment // for reuse during snapping
+  private val seg                           = new LineSegment // for reuse during snapping
   private var allowSnappingToSourceVertices = false
-  private val visClosed = LineStringSnapper.isClosed(srcPts)
+  private val visClosed                     = LineStringSnapper.isClosed(srcPts)
 
   // /**
   //  * Creates a new snapper using the points in the given {link LineString}
@@ -69,7 +69,8 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
     this(srcLine.getCoordinates, snapTolerance)
   }
 
-  def setAllowSnappingToSourceVertices(allowSnappingToSourceVertices: Boolean) = this.allowSnappingToSourceVertices = allowSnappingToSourceVertices
+  def setAllowSnappingToSourceVertices(allowSnappingToSourceVertices: Boolean) =
+    this.allowSnappingToSourceVertices = allowSnappingToSourceVertices
 
   /**
    * Snaps the vertices and segments of the source LineString
@@ -82,7 +83,7 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
     val coordList = new CoordinateList(srcPts)
     snapVertices(coordList, snapPts)
     snapSegments(coordList, snapPts)
-    val newPts = coordList.toCoordinateArray
+    val newPts    = coordList.toCoordinateArray
     newPts
   }
 
@@ -94,13 +95,12 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
    */
   private def snapVertices(srcCoords: CoordinateList, snapPts: Array[Coordinate]) = { // try snapping vertices
     // if src is a ring then don't snap final vertex
-    val end = if (visClosed) srcCoords.size - 1
-    else srcCoords.size
-    var i = 0
-    while ( {
-      i < end
-    }) {
-      val srcPt = srcCoords.get(i).asInstanceOf[Coordinate]
+    val end =
+      if (visClosed) srcCoords.size - 1
+      else srcCoords.size
+    var i   = 0
+    while (i < end) {
+      val srcPt    = srcCoords.get(i).asInstanceOf[Coordinate]
       val snapVert = findSnapForVertex(srcPt, snapPts)
       if (snapVert != null) { // update src with snap pt
         srcCoords.set(i, new Coordinate(snapVert))
@@ -115,9 +115,7 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
 
   private def findSnapForVertex(pt: Coordinate, snapPts: Array[Coordinate]): Coordinate = {
     var i = 0
-    while ( {
-      i < snapPts.length
-    }) { // if point is already equal to a src pt, don't snap
+    while (i < snapPts.length) { // if point is already equal to a src pt, don't snap
       if (pt.equals2D(snapPts(i))) return null
       if (pt.distance(snapPts(i)) < snapTolerance) return snapPts(i)
       i += 1
@@ -145,12 +143,10 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
     // check for duplicate snap pts when they are sourced from a linear ring.
     // TODO: Need to do this better - need to check *all* snap points for dups (using a Set?)
     if (snapPts(0).equals2D(snapPts(snapPts.length - 1))) distinctPtCount = snapPts.length - 1
-    var i = 0
-    while ( {
-      i < distinctPtCount
-    }) {
+    var i               = 0
+    while (i < distinctPtCount) {
       val snapPt = snapPts(i)
-      val index = findSegmentIndexToSnap(snapPt, srcCoords)
+      val index  = findSegmentIndexToSnap(snapPt, srcCoords)
 
       /**
        * If a segment to snap to was found, "crack" it at the snap pt.
@@ -183,12 +179,10 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
    *         or -1 if no segment snaps to the snap point
    */
   private def findSegmentIndexToSnap(snapPt: Coordinate, srcCoords: CoordinateList): Int = {
-    var minDist = Double.MaxValue
+    var minDist   = Double.MaxValue
     var snapIndex = -1
-    var i = 0
-    while ( {
-      i < srcCoords.size - 1
-    }) {
+    var i         = 0
+    while (i < srcCoords.size - 1) {
       seg.p0 = srcCoords.get(i).asInstanceOf[Coordinate]
       seg.p1 = srcCoords.get(i + 1).asInstanceOf[Coordinate]
 
@@ -208,7 +202,7 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
         }
       }
       i += 1
-      }
-      snapIndex
     }
+    snapIndex
   }
+}

@@ -28,25 +28,26 @@ import org.locationtech.jts.geom.Geometry
  * @version 1.7
  */
 object GeometryLocation {
+
   /**
    * A special value of segmentIndex used for locations inside area geometries.
    * These locations are not located on a segment,
    * and thus do not have an associated segment index.
    */
-    val INSIDE_AREA: Int = -1
+  val INSIDE_AREA: Int = -1
 }
 
 class GeometryLocation(val component: Geometry, var segIndex: Int, val pt: Coordinate) {
 
-/**
- * Constructs a GeometryLocation specifying a point on a geometry, as well as the
- * segment that the point is on
- * (or {link #INSIDE_AREA} if the point is not on a segment).
- *
- * @param component the component of the geometry containing the point
- * @param segIndex  the segment index of the location, or INSIDE_AREA
- * @param pt        the coordinate of the location
- */
+  /**
+   * Constructs a GeometryLocation specifying a point on a geometry, as well as the
+   * segment that the point is on
+   * (or {link #INSIDE_AREA} if the point is not on a segment).
+   *
+   * @param component the component of the geometry containing the point
+   * @param segIndex  the segment index of the location, or INSIDE_AREA
+   * @param pt        the coordinate of the location
+   */
 //  this.component = component
 //  this.pt = pt
 //  private var component = null

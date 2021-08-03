@@ -52,10 +52,8 @@ object STRtree {
   final class STRtreeNode(val level: Int) extends AbstractNode(level) {
     override protected def computeBounds: Envelope = {
       var bounds: Envelope = null
-      val i = getChildBoundables.iterator
-      while ( {
-        i.hasNext
-      }) {
+      val i                = getChildBoundables.iterator
+      while (i.hasNext) {
         val childBoundable = i.next
         if (bounds == null) bounds = new Envelope(childBoundable.getBounds.asInstanceOf[Envelope])
         else bounds.expandToInclude(childBoundable.getBounds.asInstanceOf[Envelope])
@@ -66,11 +64,15 @@ object STRtree {
 
   private val xComparator = new Comparator[Boundable]() {
     override def compare(o1: Boundable, o2: Boundable): Int =
-      AbstractSTRtree.compareDoubles(centreX(o1.getBounds.asInstanceOf[Envelope]), centreX(o2.getBounds.asInstanceOf[Envelope]))
+      AbstractSTRtree.compareDoubles(centreX(o1.getBounds.asInstanceOf[Envelope]),
+                                     centreX(o2.getBounds.asInstanceOf[Envelope])
+      )
   }
   private val yComparator = new Comparator[Boundable]() {
     override def compare(o1: Boundable, o2: Boundable): Int =
-      AbstractSTRtree.compareDoubles(centreY(o1.getBounds.asInstanceOf[Envelope]), centreY(o2.getBounds.asInstanceOf[Envelope]))
+      AbstractSTRtree.compareDoubles(centreY(o1.getBounds.asInstanceOf[Envelope]),
+                                     centreY(o2.getBounds.asInstanceOf[Envelope])
+      )
   }
 
   private def centreX(e: Envelope) = avg(e.getMinX, e.getMaxX)
@@ -79,21 +81,21 @@ object STRtree {
 
   private def avg(a: Double, b: Double) = (a + b) / 2d
 
-  private val intersectsOp = new AbstractSTRtree.IntersectsOp() {
-    override def intersects(aBounds: Any, bBounds: Any): Boolean = aBounds.asInstanceOf[Envelope].intersects(bBounds.asInstanceOf[Envelope])
+  private val intersectsOp          = new AbstractSTRtree.IntersectsOp() {
+    override def intersects(aBounds: Any, bBounds: Any): Boolean =
+      aBounds.asInstanceOf[Envelope].intersects(bBounds.asInstanceOf[Envelope])
   }
   private val DEFAULT_NODE_CAPACITY = 10
 
   private def getItems(kNearestNeighbors: PriorityQueue) = {
+
     /**
      * Iterate the K Nearest Neighbour Queue and retrieve the item from each BoundablePair
      * in this queue
      */
-      val items = new Array[Any](kNearestNeighbors.size())
+    val items = new Array[Any](kNearestNeighbors.size())
     var count = 0
-    while ( {
-      !kNearestNeighbors.isEmpty
-    }) {
+    while (!kNearestNeighbors.isEmpty) {
       val bp = kNearestNeighbors.poll.asInstanceOf[BoundablePair]
       items(count) = bp.getBoundable(0).asInstanceOf[ItemBoundable].getItem
       count += 1
@@ -110,9 +112,11 @@ class STRtree(val nodeCapacityArg: Int)
  * a node may have.
  * <p>
  * The minimum recommended capacity setting is 4.
- *
  */
-  extends AbstractSTRtree(nodeCapacityArg) with SpatialIndex[Any] with Serializable {
+    extends AbstractSTRtree(nodeCapacityArg)
+    with SpatialIndex[Any]
+    with Serializable {
+
   /**
    * Creates the parent level for the given child level. First, orders the items
    * by the x-values of the midpoints, and groups them into vertical slices.
@@ -120,47 +124,54 @@ class STRtree(val nodeCapacityArg: Int)
    * group them into runs of size M (the node capacity). For each run, creates
    * a new (parent) node.
    */
-  override protected def createParentBoundables(childBoundables: util.List[Boundable], newLevel: Int): util.ArrayList[AbstractNode] = {
+  override protected def createParentBoundables(
+    childBoundables: util.List[Boundable],
+    newLevel:        Int
+  ): util.ArrayList[AbstractNode] = {
     Assert.isTrue(!childBoundables.isEmpty)
-    val minLeafCount = Math.ceil(childBoundables.size / getNodeCapacity.toDouble).toInt
+    val minLeafCount          = Math.ceil(childBoundables.size / getNodeCapacity.toDouble).toInt
     val sortedChildBoundables = new util.ArrayList[Boundable](childBoundables)
     Collections.sort(sortedChildBoundables, STRtree.xComparator)
-    val vverticalSlices = verticalSlices(sortedChildBoundables, Math.ceil(Math.sqrt(minLeafCount.toDouble)).toInt)
+    val vverticalSlices       =
+      verticalSlices(sortedChildBoundables, Math.ceil(Math.sqrt(minLeafCount.toDouble)).toInt)
     createParentBoundablesFromVerticalSlices(vverticalSlices, newLevel)
   }
 
-  private def createParentBoundablesFromVerticalSlices(verticalSlices: Array[util.List[Boundable]], newLevel: Int): util.ArrayList[AbstractNode] = {
+  private def createParentBoundablesFromVerticalSlices(
+    verticalSlices: Array[util.List[Boundable]],
+    newLevel:       Int
+  ): util.ArrayList[AbstractNode] = {
     Assert.isTrue(verticalSlices.length > 0)
     val parentBoundables = new util.ArrayList[AbstractNode]
-    var i = 0
-    while ( {
-      i < verticalSlices.length
-    }) {
+    var i                = 0
+    while (i < verticalSlices.length) {
       parentBoundables.addAll(createParentBoundablesFromVerticalSlice(verticalSlices(i), newLevel))
       i += 1
     }
     parentBoundables
   }
 
-  protected def createParentBoundablesFromVerticalSlice(childBoundables: util.List[Boundable], newLevel: Int): util.ArrayList[AbstractNode] =
+  protected def createParentBoundablesFromVerticalSlice(
+    childBoundables: util.List[Boundable],
+    newLevel:        Int
+  ): util.ArrayList[AbstractNode] =
     super.createParentBoundables(childBoundables, newLevel)
 
   /**
    * @param childBoundables Must be sorted by the x-value of the envelope midpoints
    */
-  protected def verticalSlices(childBoundables: util.List[Boundable], sliceCount: Int): Array[util.List[Boundable]] = {
+  protected def verticalSlices(
+    childBoundables: util.List[Boundable],
+    sliceCount:      Int
+  ): Array[util.List[Boundable]] = {
     val sliceCapacity = Math.ceil(childBoundables.size / sliceCount.toDouble).toInt
-    val slices = new Array[util.List[Boundable]](sliceCount)
-    val i = childBoundables.iterator
-    var j = 0
-    while ( {
-      j < sliceCount
-    }) {
+    val slices        = new Array[util.List[Boundable]](sliceCount)
+    val i             = childBoundables.iterator
+    var j             = 0
+    while (j < sliceCount) {
       slices(j) = new util.ArrayList[Boundable]
       var boundablesAddedToSlice = 0
-      while ( {
-        i.hasNext && boundablesAddedToSlice < sliceCapacity
-      }) {
+      while (i.hasNext && boundablesAddedToSlice < sliceCapacity) {
         val childBoundable = i.next
         slices(j).add(childBoundable)
         boundablesAddedToSlice += 1
@@ -193,14 +204,14 @@ class STRtree(val nodeCapacityArg: Int)
   /**
    * Returns items whose bounds intersect the given envelope.
    */
-  override def query(searchEnv: Envelope): util.List[Any] = { //Yes this method does something. It specifies that the bounds is an
+  override def query(
+    searchEnv: Envelope
+  ): util.List[Any] = //Yes this method does something. It specifies that the bounds is an
     //Envelope. super.query takes an Object, not an Envelope. [Jon Aquino 10/24/2003]
     super[AbstractSTRtree].query(searchEnv)
-  }
 
-  override def query(searchEnv: Envelope, visitor: ItemVisitor): Unit = {
+  override def query(searchEnv: Envelope, visitor: ItemVisitor): Unit =
     super[AbstractSTRtree].query(searchEnv, visitor)
-  }
 
   /**
    * Removes a single item from the tree.
@@ -266,9 +277,9 @@ class STRtree(val nodeCapacityArg: Int)
    * return the nearest item in this tree
    *         or <code>null</code> if the tree is empty
    */
-  def nearestNeighbour(env: Envelope, item: Any, itemDist: ItemDistance): Any= {
+  def nearestNeighbour(env: Envelope, item: Any, itemDist: ItemDistance): Any = {
     val bnd = new ItemBoundable(env, item)
-    val bp = new BoundablePair(this.getRoot, bnd, itemDist)
+    val bp  = new BoundablePair(this.getRoot, bnd, itemDist)
     nearestNeighbour(bp)(0)
   }
 
@@ -294,15 +305,13 @@ class STRtree(val nodeCapacityArg: Int)
   }
 
   private def nearestNeighbour(initBndPair: BoundablePair): Array[Any] = {
-    var distanceLowerBound = java.lang.Double.POSITIVE_INFINITY
+    var distanceLowerBound     = java.lang.Double.POSITIVE_INFINITY
     var minPair: BoundablePair = null
     // initialize search queue
-    val priQ = new PriorityQueue
+    val priQ                   = new PriorityQueue
     priQ.add(initBndPair)
-    while ( {
-      !priQ.isEmpty && distanceLowerBound > 0.0
-    }) { // pop head of queue and expand one side of pair
-      val bndPair = priQ.poll.asInstanceOf[BoundablePair]
+    while (!priQ.isEmpty && distanceLowerBound > 0.0) { // pop head of queue and expand one side of pair
+      val bndPair      = priQ.poll.asInstanceOf[BoundablePair]
       val pairDistance = bndPair.getDistance
 
       /**
@@ -315,6 +324,7 @@ class STRtree(val nodeCapacityArg: Int)
       if (pairDistance >= distanceLowerBound) {
         distanceLowerBound = 1 //break //todo: break is not supported
       } else {
+
         /**
          * If the pair members are leaves
          * then their distance is the exact lower bound.
@@ -325,8 +335,8 @@ class STRtree(val nodeCapacityArg: Int)
         if (bndPair.isLeaves) { // assert: currentDistance < minimumDistanceFound
           distanceLowerBound = pairDistance
           minPair = bndPair
-        }
-        else {
+        } else {
+
           /**
            * Otherwise, expand one side of the pair,
            * and insert the expanded pairs into the queue.
@@ -338,165 +348,168 @@ class STRtree(val nodeCapacityArg: Int)
     }
     if (minPair == null) return null
     // done - return items with min distance
-    Array[Any](minPair.getBoundable(0).asInstanceOf[ItemBoundable].getItem, minPair.getBoundable(1).asInstanceOf[ItemBoundable].getItem)
+    Array[Any](minPair.getBoundable(0).asInstanceOf[ItemBoundable].getItem,
+               minPair.getBoundable(1).asInstanceOf[ItemBoundable].getItem
+    )
   }
 
-    /**
-     * Tests whether some two items from this tree and another tree
-     * lie within a given distance.
-     * {link ItemDistance} is used as the distance metric.
-     * A Branch-and-Bound tree traversal algorithm is used
-     * to provide an efficient search.
-     *
-     * @param tree        another tree
-     * @param itemDist    a distance metric applicable to the items in the trees
-     * @param maxDistance the distance limit for the search
-     * return true if there are items within the distance
-     */
-    def isWithinDistance(tree: STRtree, itemDist: ItemDistance, maxDistance: Double): Boolean = {
-      val bp = new BoundablePair(this.getRoot, tree.getRoot, itemDist)
-      isWithinDistance(bp, maxDistance)
-    }
+  /**
+   * Tests whether some two items from this tree and another tree
+   * lie within a given distance.
+   * {link ItemDistance} is used as the distance metric.
+   * A Branch-and-Bound tree traversal algorithm is used
+   * to provide an efficient search.
+   *
+   * @param tree        another tree
+   * @param itemDist    a distance metric applicable to the items in the trees
+   * @param maxDistance the distance limit for the search
+   * return true if there are items within the distance
+   */
+  def isWithinDistance(tree: STRtree, itemDist: ItemDistance, maxDistance: Double): Boolean = {
+    val bp = new BoundablePair(this.getRoot, tree.getRoot, itemDist)
+    isWithinDistance(bp, maxDistance)
+  }
 
-    /**
-     * Performs a withinDistance search on the tree node pairs.
-     * This is a different search algorithm to nearest neighbour.
-     * It can utilize the {link BoundablePair#maximumDistance()} between
-     * tree nodes to confirm if two internal nodes must
-     * have items closer than the maxDistance,
-     * and short-circuit the search.
-     *
-     * @param initBndPair the initial pair containing the tree root nodes
-     * @param maxDistance the maximum distance to search for
-     * return true if two items lie within the given distance
-     */
-    private def isWithinDistance(initBndPair: BoundablePair, maxDistance: Double): Boolean =
-    {
-      var distanceUpperBound = java.lang.Double.POSITIVE_INFINITY
-      val priQ = new PriorityQueue
-      priQ.add(initBndPair)
-      while ( {
-        !priQ.isEmpty
-      }) {
-        val bndPair = priQ.poll.asInstanceOf[BoundablePair]
-        val pairDistance = bndPair.getDistance
+  /**
+   * Performs a withinDistance search on the tree node pairs.
+   * This is a different search algorithm to nearest neighbour.
+   * It can utilize the {link BoundablePair#maximumDistance()} between
+   * tree nodes to confirm if two internal nodes must
+   * have items closer than the maxDistance,
+   * and short-circuit the search.
+   *
+   * @param initBndPair the initial pair containing the tree root nodes
+   * @param maxDistance the maximum distance to search for
+   * return true if two items lie within the given distance
+   */
+  private def isWithinDistance(initBndPair: BoundablePair, maxDistance: Double): Boolean = {
+    var distanceUpperBound = java.lang.Double.POSITIVE_INFINITY
+    val priQ               = new PriorityQueue
+    priQ.add(initBndPair)
+    while (!priQ.isEmpty) {
+      val bndPair      = priQ.poll.asInstanceOf[BoundablePair]
+      val pairDistance = bndPair.getDistance
 
-        /**
-         * If the distance for the first pair in the queue
-         * is > maxDistance, all other pairs
-         * in the queue must have a greater distance as well.
-         * So can conclude no items are within the distance
-         * and terminate with result = false
-         */
-        if (pairDistance > maxDistance) return false
+      /**
+       * If the distance for the first pair in the queue
+       * is > maxDistance, all other pairs
+       * in the queue must have a greater distance as well.
+       * So can conclude no items are within the distance
+       * and terminate with result = false
+       */
+      if (pairDistance > maxDistance) return false
 
-        /**
-         * If the maximum distance between the nodes
-         * is less than the maxDistance,
-         * than all items in the nodes must be
-         * closer than the max distance.
-         * Then can terminate with result = true.
-         *
-         * NOTE: using Envelope MinMaxDistance
-         * would provide a tighter bound,
-         * but not much performance improvement has been observed
-         */
-        if (bndPair.maximumDistance <= maxDistance) return true
+      /**
+       * If the maximum distance between the nodes
+       * is less than the maxDistance,
+       * than all items in the nodes must be
+       * closer than the max distance.
+       * Then can terminate with result = true.
+       *
+       * NOTE: using Envelope MinMaxDistance
+       * would provide a tighter bound,
+       * but not much performance improvement has been observed
+       */
+      if (bndPair.maximumDistance <= maxDistance) return true
 
-        /**
-         * If the pair items are leaves
-         * then their actual distance is an upper bound.
-         * Update the distanceUpperBound to reflect this
-         */
-        if (bndPair.isLeaves) {
-          distanceUpperBound = pairDistance
-
-          /**
-           * If the items are closer than maxDistance
-           * can terminate with result = true.
-           */
-          if (distanceUpperBound <= maxDistance) return true
-        }
-        else bndPair.expandToQueue(priQ, distanceUpperBound)
-      }
-      return false
-    }
-
-    /**
-     * Finds k items in this tree which are the top k nearest neighbors to the given {@code item},
-     * using {@code itemDist} as the distance metric.
-     * A Branch-and-Bound tree traversal algorithm is used
-     * to provide an efficient search.
-     * This method implements the KNN algorithm described in the following paper:
-     * <p>
-     * Roussopoulos, Nick, Stephen Kelley, and Frédéric Vincent. "Nearest neighbor queries."
-     * ACM sigmod record. Vol. 24. No. 2. ACM, 1995.
-     * <p>
-     * The query {@code item} does <b>not</b> have to be
-     * contained in the tree, but it does
-     * have to be compatible with the {@code itemDist}
-     * distance metric.
-     *
-     * @param env      the envelope of the query item
-     * @param item     the item to find the nearest neighbour of
-     * @param itemDist a distance metric applicable to the items in this tree and the query item
-     * @param k        the K nearest items in kNearestNeighbour
-     * return the K nearest items in this tree
-     */
-    def nearestNeighbour(env: Envelope, item: Any, itemDist: ItemDistance, k: Int): Array[Any] = {
-      val bnd = new ItemBoundable(env, item)
-      val bp = new BoundablePair(this.getRoot, bnd, itemDist)
-      nearestNeighbourK(bp, k)
-    }
-
-    private def nearestNeighbourK(initBndPair: BoundablePair, k: Int): Array[Any] = {
-      nearestNeighbourK(initBndPair, java.lang.Double.POSITIVE_INFINITY, k)
-    }
-
-    private def nearestNeighbourK(initBndPair: BoundablePair, maxDistance: Double, k: Int): Array[Any] = {
-      var distanceLowerBound = maxDistance
-      // initialize internal structures
-      val priQ = new PriorityQueue
-      // initialize queue
-      priQ.add(initBndPair)
-      val kNearestNeighbors = new PriorityQueue
-      while ( {
-        !priQ.isEmpty && distanceLowerBound >= 0.0
-      }) {
-        val bndPair = priQ.poll.asInstanceOf[BoundablePair]
-        val pairDistance = bndPair.getDistance
+      /**
+       * If the pair items are leaves
+       * then their actual distance is an upper bound.
+       * Update the distanceUpperBound to reflect this
+       */
+      if (bndPair.isLeaves) {
+        distanceUpperBound = pairDistance
 
         /**
-         * If the distance for the first node in the queue
-         * is >= the current maximum distance in the k queue , all other nodes
-         * in the queue must also have a greater distance.
-         * So the current minDistance must be the true minimum,
-         * and we are done.
+         * If the items are closer than maxDistance
+         * can terminate with result = true.
          */
-        if (pairDistance >= distanceLowerBound) {
-          distanceLowerBound = 11 // break
-        }  else {//todo: break is not supported
-        if (bndPair.isLeaves) if (kNearestNeighbors.size() < k) kNearestNeighbors.add(bndPair)
-        else {
-          val bp1 = kNearestNeighbors.peek.asInstanceOf[BoundablePair]
-          if (bp1.getDistance > pairDistance) {
-            kNearestNeighbors.poll
-            kNearestNeighbors.add(bndPair)
+        if (distanceUpperBound <= maxDistance) return true
+      } else bndPair.expandToQueue(priQ, distanceUpperBound)
+    }
+    return false
+  }
+
+  /**
+   * Finds k items in this tree which are the top k nearest neighbors to the given {@code item},
+   * using {@code itemDist} as the distance metric.
+   * A Branch-and-Bound tree traversal algorithm is used
+   * to provide an efficient search.
+   * This method implements the KNN algorithm described in the following paper:
+   * <p>
+   * Roussopoulos, Nick, Stephen Kelley, and Frédéric Vincent. "Nearest neighbor queries."
+   * ACM sigmod record. Vol. 24. No. 2. ACM, 1995.
+   * <p>
+   * The query {@code item} does <b>not</b> have to be
+   * contained in the tree, but it does
+   * have to be compatible with the {@code itemDist}
+   * distance metric.
+   *
+   * @param env      the envelope of the query item
+   * @param item     the item to find the nearest neighbour of
+   * @param itemDist a distance metric applicable to the items in this tree and the query item
+   * @param k        the K nearest items in kNearestNeighbour
+   * return the K nearest items in this tree
+   */
+  def nearestNeighbour(env: Envelope, item: Any, itemDist: ItemDistance, k: Int): Array[Any] = {
+    val bnd = new ItemBoundable(env, item)
+    val bp  = new BoundablePair(this.getRoot, bnd, itemDist)
+    nearestNeighbourK(bp, k)
+  }
+
+  private def nearestNeighbourK(initBndPair: BoundablePair, k: Int): Array[Any] =
+    nearestNeighbourK(initBndPair, java.lang.Double.POSITIVE_INFINITY, k)
+
+  private def nearestNeighbourK(
+    initBndPair: BoundablePair,
+    maxDistance: Double,
+    k:           Int
+  ): Array[Any] = {
+    var distanceLowerBound = maxDistance
+    // initialize internal structures
+    val priQ               = new PriorityQueue
+    // initialize queue
+    priQ.add(initBndPair)
+    val kNearestNeighbors  = new PriorityQueue
+    while (!priQ.isEmpty && distanceLowerBound >= 0.0) {
+      val bndPair      = priQ.poll.asInstanceOf[BoundablePair]
+      val pairDistance = bndPair.getDistance
+
+      /**
+       * If the distance for the first node in the queue
+       * is >= the current maximum distance in the k queue , all other nodes
+       * in the queue must also have a greater distance.
+       * So the current minDistance must be the true minimum,
+       * and we are done.
+       */
+      if (pairDistance >= distanceLowerBound) {
+        distanceLowerBound = 11 // break
+      } else { //todo: break is not supported
+        if (bndPair.isLeaves)
+          if (kNearestNeighbors.size() < k) kNearestNeighbors.add(bndPair)
+          else {
+            val bp1 = kNearestNeighbors.peek.asInstanceOf[BoundablePair]
+            if (bp1.getDistance > pairDistance) {
+              kNearestNeighbors.poll
+              kNearestNeighbors.add(bndPair)
+            }
+            /*
+             * minDistance should be the farthest point in the K nearest neighbor queue.
+             */
+            val bp2 = kNearestNeighbors.peek.asInstanceOf[BoundablePair]
+            distanceLowerBound = bp2.getDistance
           }
-          /*
-                     * minDistance should be the farthest point in the K nearest neighbor queue.
-                     */ val bp2 = kNearestNeighbors.peek.asInstanceOf[BoundablePair]
-          distanceLowerBound = bp2.getDistance
-        }
         else {
+
           /**
            * Otherwise, expand one side of the pair,
            * (the choice of which side to expand is heuristically determined)
            * and insert the new expanded pairs into the queue
            */
           bndPair.expandToQueue(priQ, distanceLowerBound)
-        }}
+        }
       }
-      STRtree.getItems(kNearestNeighbors)
     }
+    STRtree.getItems(kNearestNeighbors)
   }
+}

@@ -21,5 +21,6 @@ import org.locationtech.jts.geomgraph.NodeFactory
  * @version 1.7
  */
 class RelateNodeFactory extends NodeFactory {
-  override def createNode(coord: Coordinate): Node = new RelateNode(coord, new EdgeEndBundleStar): Node
+  override def createNode(coord: Coordinate): Node =
+    new RelateNode(coord, new EdgeEndBundleStar): Node
 }

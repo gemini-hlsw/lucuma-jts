@@ -25,6 +25,7 @@ import org.locationtech.jts.geom.Point
  * @see GeometryExtracter
  */
 object PointExtracter {
+
   /**
    * Extracts the {link Point} elements from a single {link Geometry}
    * and adds them to the provided {link List}.
@@ -32,15 +33,15 @@ object PointExtracter {
    * @param geom the geometry from which to extract
    * @param list the list to add the extracted elements to
    */
-    def getPoints(geom: Geometry, list: util.List[Geometry]): util.List[Geometry] = {
-      geom match {
-        case _: Point => list.add(geom)
-        case _: GeometryCollection => geom.applyF(new PointExtracter(list))
-        case _ =>
-      }
-      // skip non-Polygonal elemental geometries
-      list
+  def getPoints(geom: Geometry, list: util.List[Geometry]): util.List[Geometry] = {
+    geom match {
+      case _: Point              => list.add(geom)
+      case _: GeometryCollection => geom.applyF(new PointExtracter(list))
+      case _                     =>
     }
+    // skip non-Polygonal elemental geometries
+    list
+  }
 
   /**
    * Extracts the {link Point} elements from a single {link Geometry}
@@ -59,7 +60,7 @@ class PointExtracter(var pts: util.List[Geometry])
 /**
  * Constructs a PointExtracterFilter with a list in which to store Points found.
  */
-  extends GeometryFilter {
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (geom.isInstanceOf[Point]) pts.add(geom)
     ()

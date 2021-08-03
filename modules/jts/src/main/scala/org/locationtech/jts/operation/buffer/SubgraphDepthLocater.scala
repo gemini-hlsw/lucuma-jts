@@ -35,8 +35,11 @@ object SubgraphDepthLocater {
    * A segment from a directed edge which has been assigned a depth value
    * for its sides.
    */
-  private[buffer] class DepthSegment(val seg: LineSegment, var leftDepth: Int) //upwardSeg.normalize();
-    extends Comparable[DepthSegment] { // input seg is assumed to be normalized
+  private[buffer] class DepthSegment(
+    val seg:       LineSegment,
+    var leftDepth: Int
+  ) //upwardSeg.normalize();
+      extends Comparable[DepthSegment] { // input seg is assumed to be normalized
     val upwardSeg = new LineSegment(seg)
 
     /**
@@ -65,6 +68,7 @@ object SubgraphDepthLocater {
       // fast check if segments are trivially ordered along X
       if (upwardSeg.minX >= other.upwardSeg.maxX) return 1
       if (upwardSeg.maxX <= other.upwardSeg.minX) return -1
+
       /**
        * try and compute a determinate orientation for the segments.
        * Test returns 1 if other is left of this (i.e. this > other)
@@ -112,7 +116,7 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
     val stabbedSegments = findStabbedSegments(p)
     // if no segments on stabbing line subgraph must be outside all others.
     if (stabbedSegments.size == 0) return 0
-    val ds = Collections.min(stabbedSegments)
+    val ds              = Collections.min(stabbedSegments)
     ds.leftDepth
   }
 
@@ -125,82 +129,85 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
    */
   private def findStabbedSegments(stabbingRayLeftPt: Coordinate): util.List[DepthSegment] = {
     val stabbedSegments = new util.ArrayList[DepthSegment]
-    val i = subgraphs.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i               = subgraphs.iterator
+    while (i.hasNext) {
       val bsg = i.next
       // optimization - don't bother checking subgraphs which the ray does not intersect
       val env = bsg.getEnvelope
       if (!(stabbingRayLeftPt.y < env.getMinY || stabbingRayLeftPt.y > env.getMaxY)) {
         findStabbedSegments(stabbingRayLeftPt, bsg.getDirectedEdges, stabbedSegments)
       }
-      }
-      stabbedSegments
     }
+    stabbedSegments
+  }
+
+  /**
+   * Finds all non-horizontal segments intersecting the stabbing line
+   * in the list of dirEdges.
+   * The stabbing line is the ray to the right of stabbingRayLeftPt.
+   *
+   * @param stabbingRayLeftPt the left-hand origin of the stabbing line
+   * @param stabbedSegments   the current list of { @link DepthSegments} intersecting the stabbing line
+   */
+  private def findStabbedSegments(
+    stabbingRayLeftPt: Coordinate,
+    dirEdges:          util.List[DirectedEdge],
+    stabbedSegments:   util.List[SubgraphDepthLocater.DepthSegment]
+  ): Unit = {
 
     /**
-     * Finds all non-horizontal segments intersecting the stabbing line
-     * in the list of dirEdges.
-     * The stabbing line is the ray to the right of stabbingRayLeftPt.
-     *
-     * @param stabbingRayLeftPt the left-hand origin of the stabbing line
-     * @param stabbedSegments   the current list of { @link DepthSegments} intersecting the stabbing line
+     * Check all forward DirectedEdges only.  This is still general,
+     * because each Edge has a forward DirectedEdge.
      */
-    private def findStabbedSegments(stabbingRayLeftPt: Coordinate, dirEdges: util.List[DirectedEdge], stabbedSegments: util.List[SubgraphDepthLocater.DepthSegment]): Unit = {
-      /**
-       * Check all forward DirectedEdges only.  This is still general,
-       * because each Edge has a forward DirectedEdge.
-       */
-      val i = dirEdges.iterator
-      while ( {
-        i.hasNext
-      }) {
-        val de = i.next
-        if (de.isForward) {
-          findStabbedSegments(stabbingRayLeftPt, de, stabbedSegments)
-        }
+    val i = dirEdges.iterator
+    while (i.hasNext) {
+      val de = i.next
+      if (de.isForward) {
+        findStabbedSegments(stabbingRayLeftPt, de, stabbedSegments)
       }
     }
+  }
 
-      /**
-       * Finds all non-horizontal segments intersecting the stabbing line
-       * in the input dirEdge.
-       * The stabbing line is the ray to the right of stabbingRayLeftPt.
-       *
-       * @param stabbingRayLeftPt the left-hand origin of the stabbing line
-       * @param stabbedSegments   the current list of { @link DepthSegments} intersecting the stabbing line
-       */
-      private def findStabbedSegments(stabbingRayLeftPt: Coordinate, dirEdge: DirectedEdge, stabbedSegments: util.List[DepthSegment]): Unit = {
-        val pts = dirEdge.getEdge.getCoordinates
-        var i = 0
-        while ( {
-          i < pts.length - 1
-        }) {
-          seg.p0 = pts(i)
-          seg.p1 = pts(i + 1)
-          // ensure segment always points upwards
-          if (seg.p0.y > seg.p1.y) seg.reverse()
-          // skip segment if it is left of the stabbing line
-          val maxx = Math.max(seg.p0.x, seg.p1.x)
-          if (maxx >= stabbingRayLeftPt.x) {
-          // skip horizontal segments (there will be a non-horizontal one carrying the same depth info
-          if (!seg.isHorizontal) {
-            // skip if segment is above or below stabbing line
-            if (!(stabbingRayLeftPt.y < seg.p0.y || stabbingRayLeftPt.y > seg.p1.y)) {
-              // skip if stabbing ray is right of the segment
-              if (Orientation.index(seg.p0, seg.p1, stabbingRayLeftPt) != Orientation.RIGHT) {
-                // stabbing line cuts this segment, so record it
-                var depth = dirEdge.getDepth(Position.LEFT)
-                // if segment direction was flipped, use RHS depth instead
-                if (!seg.p0.equals(pts(i))) depth = dirEdge.getDepth(Position.RIGHT)
-                val ds = new SubgraphDepthLocater.DepthSegment(seg, depth)
-                stabbedSegments.add(ds)
-              }
+  /**
+   * Finds all non-horizontal segments intersecting the stabbing line
+   * in the input dirEdge.
+   * The stabbing line is the ray to the right of stabbingRayLeftPt.
+   *
+   * @param stabbingRayLeftPt the left-hand origin of the stabbing line
+   * @param stabbedSegments   the current list of { @link DepthSegments} intersecting the stabbing line
+   */
+  private def findStabbedSegments(
+    stabbingRayLeftPt: Coordinate,
+    dirEdge:           DirectedEdge,
+    stabbedSegments:   util.List[DepthSegment]
+  ): Unit = {
+    val pts = dirEdge.getEdge.getCoordinates
+    var i   = 0
+    while (i < pts.length - 1) {
+      seg.p0 = pts(i)
+      seg.p1 = pts(i + 1)
+      // ensure segment always points upwards
+      if (seg.p0.y > seg.p1.y) seg.reverse()
+      // skip segment if it is left of the stabbing line
+      val maxx = Math.max(seg.p0.x, seg.p1.x)
+      if (maxx >= stabbingRayLeftPt.x) {
+        // skip horizontal segments (there will be a non-horizontal one carrying the same depth info
+        if (!seg.isHorizontal) {
+          // skip if segment is above or below stabbing line
+          if (!(stabbingRayLeftPt.y < seg.p0.y || stabbingRayLeftPt.y > seg.p1.y)) {
+            // skip if stabbing ray is right of the segment
+            if (Orientation.index(seg.p0, seg.p1, stabbingRayLeftPt) != Orientation.RIGHT) {
+              // stabbing line cuts this segment, so record it
+              var depth = dirEdge.getDepth(Position.LEFT)
+              // if segment direction was flipped, use RHS depth instead
+              if (!seg.p0.equals(pts(i))) depth = dirEdge.getDepth(Position.RIGHT)
+              val ds    = new SubgraphDepthLocater.DepthSegment(seg, depth)
+              stabbedSegments.add(ds)
             }
           }
         }
-                  i += 1
-                }
-              }
-            }
+      }
+      i += 1
+    }
+  }
+}

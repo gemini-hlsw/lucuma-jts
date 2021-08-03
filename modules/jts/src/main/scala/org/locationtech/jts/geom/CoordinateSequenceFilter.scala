@@ -48,7 +48,7 @@ trait CoordinateSequenceFilter {
   //  * @param seq the <code>CoordinateSequence</code> to which the filter is applied
   //  * @param i   the index of the coordinate to apply the filter to
   //  */
-    def filter(seq: CoordinateSequence, i: Int): Unit
+  def filter(seq: CoordinateSequence, i: Int): Unit
 
   /**
    * Reports whether the application of this filter can be terminated.

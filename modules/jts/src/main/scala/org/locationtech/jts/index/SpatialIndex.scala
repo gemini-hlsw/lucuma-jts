@@ -26,10 +26,11 @@ import org.locationtech.jts.geom.Envelope
  * @version 1.7
  */
 trait SpatialIndex[A] {
+
   /**
    * Adds a spatial item with an extent specified by the given {link Envelope} to the index
    */
-    def insert(itemEnv: Envelope, item: A): Unit
+  def insert(itemEnv: Envelope, item: A): Unit
 
   /**
    * Queries the index for all items whose extents intersect the given search {link Envelope}

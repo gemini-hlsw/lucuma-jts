@@ -35,7 +35,8 @@ import org.locationtech.jts.geomgraph.EdgeRing
  * @version 1.7
  * @see org.locationtech.jts.operation.overlay.MinimalEdgeRing
  */
-class MaximalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: GeometryFactory) extends EdgeRing(start, geometryFactoryArg) {
+class MaximalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: GeometryFactory)
+    extends EdgeRing(start, geometryFactoryArg) {
   override def getNext(de: DirectedEdge): DirectedEdge = de.getNext
 
   override def setEdgeRing(de: DirectedEdge, er: EdgeRing): Unit = de.setEdgeRing(er)
@@ -46,27 +47,23 @@ class MaximalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: 
    */
   def linkDirectedEdgesForMinimalEdgeRings(): Unit = {
     var de = startDe
-    do {
+    while( { {
       val node = de.getNode
       node.getEdges.asInstanceOf[DirectedEdgeStar].linkMinimalDirectedEdges(this)
       de = de.getNext
-    } while ( {
-      de != startDe
-    })
+    } ; de != startDe})()
   }
 
   def buildMinimalRings: util.ArrayList[MinimalEdgeRing] = {
     val minEdgeRings = new util.ArrayList[MinimalEdgeRing]
-    var de = startDe
-    do {
+    var de           = startDe
+    while( { {
       if (de.getMinEdgeRing == null) {
         val minEr = new MinimalEdgeRing(de, geometryFactory)
         minEdgeRings.add(minEr)
       }
       de = de.getNext
-    } while ( {
-      de != startDe
-    })
+    } ; de != startDe})()
     minEdgeRings
   }
 }

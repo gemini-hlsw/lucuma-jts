@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -28,9 +28,9 @@ package org.locationtech.jts.math
  * Various utility functions for mathematical and numerical operations.
  *
  * @author mbdavis
- *
  */
 object MathUtil {
+
   /**
    * Clamps a <tt>double</tt> value to a given range.
    *
@@ -39,11 +39,11 @@ object MathUtil {
    * @param max the maximum value of the range
    * return the clamped value
    */
-    def clamp(x: Double, min: Double, max: Double): Double = {
-      if (x < min) return min
-      if (x > max) return max
-      x
-    }
+  def clamp(x: Double, min: Double, max: Double): Double = {
+    if (x < min) return min
+    if (x > max) return max
+    x
+  }
 
   /**
    * Clamps an <tt>int</tt> value to a given range.

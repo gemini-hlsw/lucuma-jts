@@ -17,7 +17,13 @@ import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.noding.{InteriorIntersectionFinderAdder, MCIndexNoder, NodedSegmentString, Noder, SegmentString}
+import org.locationtech.jts.noding.{
+  InteriorIntersectionFinderAdder,
+  MCIndexNoder,
+  NodedSegmentString,
+  Noder,
+  SegmentString
+}
 
 //import scala.jdk.CollectionConverters._
 
@@ -40,18 +46,21 @@ import org.locationtech.jts.noding.{InteriorIntersectionFinderAdder, MCIndexNode
  * @version 1.7
  */
 class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
-  private val li = new RobustLineIntersector
+  private val li                                              = new RobustLineIntersector
   li.setPrecisionModel(pm)
-  final private val scaleFactor = pm.getScale
-  private var noder: MCIndexNoder = null
-  private var pointSnapper: MCIndexPointSnapper = null
+  final private val scaleFactor                               = pm.getScale
+  private var noder: MCIndexNoder                             = null
+  private var pointSnapper: MCIndexPointSnapper               = null
   private var nodedSegStrings: util.Collection[SegmentString] = null
 
   override def getNodedSubstrings: util.List[SegmentString] =
-    NodedSegmentString.getNodedSubstrings(nodedSegStrings)//.asScala.map(x => x:SegmentString).toList.asJava
+    NodedSegmentString.getNodedSubstrings(
+      nodedSegStrings
+    ) //.asScala.map(x => x:SegmentString).toList.asJava
 
   override def computeNodes(inputSegmentStrings: util.Collection[SegmentString]): Unit = {
-    this.nodedSegStrings = inputSegmentStrings//.asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
+    this.nodedSegStrings =
+      inputSegmentStrings //.asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
     noder = new MCIndexNoder
     pointSnapper = new MCIndexPointSnapper(noder.getIndex)
     snapRound(inputSegmentStrings, li)
@@ -83,7 +92,10 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
    *
    * return a list of Coordinates for the intersections
    */
-  private def findInteriorIntersections(segStrings: util.Collection[SegmentString], li: LineIntersector): util.List[Coordinate] = {
+  private def findInteriorIntersections(
+    segStrings: util.Collection[SegmentString],
+    li:         LineIntersector
+  ): util.List[Coordinate] = {
     val intFinderAdder = new InteriorIntersectionFinderAdder(li)
     noder.setSegmentIntersector(intFinderAdder)
     noder.computeNodes(segStrings)
@@ -95,10 +107,8 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
    */
   private def computeIntersectionSnaps(snapPts: util.Collection[Coordinate]): Unit = {
     val it = snapPts.iterator
-    while ( {
-      it.hasNext
-    }) {
-      val snapPt = it.next
+    while (it.hasNext) {
+      val snapPt   = it.next
       val hotPixel = new HotPixel(snapPt, scaleFactor, li)
       pointSnapper.snap(hotPixel)
     }
@@ -111,9 +121,7 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
    */
   def computeVertexSnaps(edges: util.Collection[SegmentString]): Unit = {
     val i0 = edges.iterator
-    while ( {
-      i0.hasNext
-    }) {
+    while (i0.hasNext) {
       val edge0 = i0.next
       computeVertexSnaps(edge0)
     }
@@ -124,11 +132,9 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
    */
   private def computeVertexSnaps(e: SegmentString): Unit = {
     val pts0 = e.getCoordinates
-    var i = 0
-    while ( {
-      i < pts0.length
-    }) {
-      val hotPixel = new HotPixel(pts0(i), scaleFactor, li)
+    var i    = 0
+    while (i < pts0.length) {
+      val hotPixel    = new HotPixel(pts0(i), scaleFactor, li)
       val isNodeAdded = pointSnapper.snap(hotPixel, e, i)
       // if a node is created for a vertex, that vertex must be noded too
       if (isNodeAdded) e.asInstanceOf[NodedSegmentString].addIntersection(pts0(i), i)

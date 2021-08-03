@@ -65,17 +65,17 @@ import org.locationtech.jts.geom.LineSegment
  */
 class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, val context: Any) {
 
-/**
- * Creates a new MonotoneChain based on the given array of points.
- *
- * @param pts     the points containing the chain
- * @param start   the index of the first coordinate in the chain
- * @param end     the index of the last coordinate in the chain
- * @param context a user-defined data object
- */
+  /**
+   * Creates a new MonotoneChain based on the given array of points.
+   *
+   * @param pts     the points containing the chain
+   * @param start   the index of the first coordinate in the chain
+   * @param end     the index of the last coordinate in the chain
+   * @param context a user-defined data object
+   */
   private var env: Envelope = null
 //  private val context = null // user-defined information
-  private var id = 0 // useful for optimizing chain comparisons
+  private var id            = 0 // useful for optimizing chain comparisons
   /**
    * Sets the id of this chain.
    * Useful for assigning an ordering to a set of
@@ -106,10 +106,11 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    */
   def getEnvelope: Envelope = {
     if (env == null) {
+
       /**
        * The monotonicity property allows fast envelope determination
        */
-        val p0 = pts(start)
+      val p0 = pts(start)
       val p1 = pts(end)
       env = new Envelope(p0, p1)
     }
@@ -150,13 +151,11 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   def getCoordinates: Array[Coordinate] = {
     val coord = new Array[Coordinate](end - start + 1)
     var index = 0
-    var i = start
-    while ( {
-      i <= end
-    }) {
-      coord({
+    var i     = start
+    while (i <= end) {
+      coord {
         index += 1; index - 1
-      }) = pts(i)
+      } = pts(i)
       i += 1
     }
     coord
@@ -177,11 +176,17 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    * @param searchEnv the search envelope
    * @param mcs       the select action to execute on selected segments
    */
-  def select(searchEnv: Envelope, mcs: MonotoneChainSelectAction): Unit = computeSelect(searchEnv, start, end, mcs)
+  def select(searchEnv: Envelope, mcs: MonotoneChainSelectAction): Unit =
+    computeSelect(searchEnv, start, end, mcs)
 
-  private def computeSelect(searchEnv: Envelope, start0: Int, end0: Int, mcs: MonotoneChainSelectAction): Unit = {
-    val p0 = pts(start0)
-    val p1 = pts(end0)
+  private def computeSelect(
+    searchEnv: Envelope,
+    start0:    Int,
+    end0:      Int,
+    mcs:       MonotoneChainSelectAction
+  ): Unit = {
+    val p0  = pts(start0)
+    val p1  = pts(end0)
     //Debug.println("trying:" + p0 + p1 + " [ " + start0 + ", " + end0 + " ]");
     // terminating condition for the recursion
     if (end0 - start0 == 1) { //Debug.println("computeSelect:" + p0 + p1);
@@ -227,7 +232,14 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    * @param end1   the end index of the target chain section
    * @param mco    the overlap action to execute on selected segments
    */
-  private def computeOverlaps(start0: Int, end0: Int, mc: MonotoneChain, start1: Int, end1: Int, mco: MonotoneChainOverlapAction): Unit = { //Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
+  private def computeOverlaps(
+    start0: Int,
+    end0:   Int,
+    mc:     MonotoneChain,
+    start1: Int,
+    end1:   Int,
+    mco:    MonotoneChainOverlapAction
+  ): Unit = { //Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
     if (end0 - start0 == 1 && end1 - start1 == 1) {
       mco.overlap(this, start0, mc, start1)
       return

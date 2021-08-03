@@ -31,31 +31,29 @@ object Depth {
 
 class Depth() { // initialize depth array to a sentinel value
   private val depth = Array.ofDim[Int](2, 3)
-  var i = 0
-  while ( {
-    i < 2
-  }) {
+  var i             = 0
+  while (i < 2) {
     var j = 0
-    while ( {
-      j < 3
-    }) {
+    while (j < 3) {
       depth(i)(j) = Depth.NULL_VALUE
       j += 1
     }
     i += 1
   }
 
-
   def getDepth(geomIndex: Int, posIndex: Int): Int = depth(geomIndex)(posIndex)
 
-  def setDepth(geomIndex: Int, posIndex: Int, depthValue: Int): Unit = depth(geomIndex)(posIndex) = depthValue
+  def setDepth(geomIndex: Int, posIndex: Int, depthValue: Int): Unit = depth(geomIndex)(posIndex) =
+    depthValue
 
   def getLocation(geomIndex: Int, posIndex: Int): Int = {
     if (depth(geomIndex)(posIndex) <= 0) return Location.EXTERIOR
     Location.INTERIOR
   }
 
-  def add(geomIndex: Int, posIndex: Int, location: Int): AnyVal = if (location == Location.INTERIOR) {
+  def add(geomIndex: Int, posIndex: Int, location: Int): AnyVal = if (
+    location == Location.INTERIOR
+  ) {
     depth(geomIndex)(posIndex) += 1; depth(geomIndex)(posIndex) - 1
   }
 
@@ -64,13 +62,9 @@ class Depth() { // initialize depth array to a sentinel value
    */
   def isNull: Boolean = {
     var i = 0
-    while ( {
-      i < 2
-    }) {
+    while (i < 2) {
       var j = 0
-      while ( {
-        j < 3
-      }) {
+      while (j < 3) {
         if (depth(i)(j) != Depth.NULL_VALUE) return false
         j += 1
       }
@@ -81,17 +75,14 @@ class Depth() { // initialize depth array to a sentinel value
 
   def isNull(geomIndex: Int): Boolean = depth(geomIndex)(1) == Depth.NULL_VALUE
 
-  def isNull(geomIndex: Int, posIndex: Int): Boolean = depth(geomIndex)(posIndex) == Depth.NULL_VALUE
+  def isNull(geomIndex: Int, posIndex: Int): Boolean =
+    depth(geomIndex)(posIndex) == Depth.NULL_VALUE
 
   def add(lbl: Label): Unit = {
     var i = 0
-    while ( {
-      i < 2
-    }) {
+    while (i < 2) {
       var j = 1
-      while ( {
-        j < 3
-      }) {
+      while (j < 3) {
         val loc = lbl.getLocation(i, j)
         if (loc == Location.EXTERIOR || loc == Location.INTERIOR) { // initialize depth if it is null, otherwise add this location value
           if (isNull(i, j)) depth(i)(j) = Depth.depthAtLocation(loc)
@@ -103,7 +94,8 @@ class Depth() { // initialize depth array to a sentinel value
     }
   }
 
-  def getDelta(geomIndex: Int): Int = depth(geomIndex)(Position.RIGHT) - depth(geomIndex)(Position.LEFT)
+  def getDelta(geomIndex: Int): Int =
+    depth(geomIndex)(Position.RIGHT) - depth(geomIndex)(Position.LEFT)
 
   /**
    * Normalize the depths for each geometry, if they are non-null.
@@ -115,17 +107,13 @@ class Depth() { // initialize depth array to a sentinel value
    */
   def normalize(): Unit = {
     var i = 0
-    while ( {
-      i < 2
-    }) {
+    while (i < 2) {
       if (!isNull(i)) {
         var minDepth = depth(i)(1)
         if (depth(i)(2) < minDepth) minDepth = depth(i)(2)
         if (minDepth < 0) minDepth = 0
-        var j = 1
-        while ( {
-          j < 3
-        }) {
+        var j        = 1
+        while (j < 3) {
           var newValue = 0
           if (depth(i)(j) > minDepth) newValue = 1
           depth(i)(j) = newValue
@@ -136,5 +124,6 @@ class Depth() { // initialize depth array to a sentinel value
     }
   }
 
-  override def toString: String = "A: " + depth(0)(1) + "," + depth(0)(2) + " B: " + depth(1)(1) + "," + depth(1)(2)
+  override def toString: String =
+    "A: " + depth(0)(1) + "," + depth(0)(2) + " B: " + depth(1)(1) + "," + depth(1)(2)
 }

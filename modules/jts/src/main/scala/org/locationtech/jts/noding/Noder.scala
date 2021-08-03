@@ -30,7 +30,7 @@ trait Noder[A] {
   //  *
   //  * @param segStrings a collection of { @link SegmentString}s to node
   //  */
-    def computeNodes(segStrings: util.Collection[A]): Unit
+  def computeNodes(segStrings: util.Collection[A]): Unit
 
   // /**
   //  * Returns a {link Collection} of fully noded {link SegmentString}s.

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -48,15 +48,16 @@ object SnapIfNeededOverlayOp {
 
   def difference(g0: Geometry, g1: Geometry): Geometry = overlayOp(g0, g1, OverlayOp.DIFFERENCE)
 
-  def symDifference(g0: Geometry, g1: Geometry): Geometry = overlayOp(g0, g1, OverlayOp.SYMDIFFERENCE)
+  def symDifference(g0: Geometry, g1: Geometry): Geometry =
+    overlayOp(g0, g1, OverlayOp.SYMDIFFERENCE)
 }
 
 class SnapIfNeededOverlayOp(val g1: Geometry, val g2: Geometry) {
   private val geom = Array[Geometry](g1, g2)
 
   def getResultGeometry(opCode: Int): Geometry = {
-    var result: Geometry = null
-    var isSuccess = false
+    var result: Geometry                 = null
+    var isSuccess                        = false
     var savedException: RuntimeException = null
     try { // try basic operation with input geometries
       result = OverlayOp.overlayOp(geom(0), geom(1), opCode)

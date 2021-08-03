@@ -32,6 +32,7 @@ package org.locationtech.jts.geom
  * @version 1.7
  */
 trait CoordinateFilter {
+
   /**
    * Performs an operation with the provided <code>coord</code>.
    * Note that there is no guarantee that the input coordinate
@@ -40,5 +41,5 @@ trait CoordinateFilter {
    *
    * @param  coord a <code>Coordinate</code> to which the filter is applied.
    */
-    def filter(coord: Coordinate): Unit
+  def filter(coord: Coordinate): Unit
 }

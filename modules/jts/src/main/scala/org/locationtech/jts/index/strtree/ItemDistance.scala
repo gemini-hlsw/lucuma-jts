@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -37,9 +37,9 @@ package org.locationtech.jts.index.strtree
  * and must return {link Double#MAX_VALUE} for identical arguments.
  *
  * @author Martin Davis
- *
  */
 trait ItemDistance {
+
   /**
    * Computes the distance between two items.
    *
@@ -48,5 +48,5 @@ trait ItemDistance {
    * return the distance between the items
    * throws IllegalArgumentException if the metric is not applicable to the arguments
    */
-    def distance(item1: ItemBoundable, item2: ItemBoundable): Double
+  def distance(item1: ItemBoundable, item2: ItemBoundable): Double
 }

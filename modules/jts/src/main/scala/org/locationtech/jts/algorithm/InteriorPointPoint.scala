@@ -24,6 +24,7 @@ import org.locationtech.jts.geom.Point
  * @version 1.7
  */
 object InteriorPointPoint {
+
   /**
    * Computes an interior point for the
    * puntal components of a Geometry.
@@ -32,16 +33,16 @@ object InteriorPointPoint {
    * return the computed interior point,
    *         or <code>null</code> if the geometry has no puntal components
    */
-    def getInteriorPoint(geom: Geometry): Coordinate = {
-      val intPt = new InteriorPointPoint(geom)
-      intPt.getInteriorPoint
-    }
+  def getInteriorPoint(geom: Geometry): Coordinate = {
+    val intPt = new InteriorPointPoint(geom)
+    intPt.getInteriorPoint
+  }
 }
 
 class InteriorPointPoint(val g: Geometry) {
   add(g)
-  private val centroid = g.getCentroid.getCoordinate
-  private var minDistance = Double.MaxValue
+  private val centroid                  = g.getCentroid.getCoordinate
+  private var minDistance               = Double.MaxValue
   private var interiorPoint: Coordinate = null
 
   /**
@@ -53,10 +54,8 @@ class InteriorPointPoint(val g: Geometry) {
   private def add(geom: Geometry): Unit = if (geom.isInstanceOf[Point]) add(geom.getCoordinate)
   else if (geom.isInstanceOf[GeometryCollection]) {
     val gc = geom.asInstanceOf[GeometryCollection]
-    var i = 0
-    while ( {
-      i < gc.getNumGeometries
-    }) {
+    var i  = 0
+    while (i < gc.getNumGeometries) {
       add(gc.getGeometryN(i))
       i += 1
     }

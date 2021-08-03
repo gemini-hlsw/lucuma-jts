@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -51,10 +51,10 @@ import org.locationtech.jts.geom.util.AffineTransformation
 object GeometricShapeFactory {
 
   protected class Dimensions {
-    var base: Coordinate = null
+    var base: Coordinate   = null
     var centre: Coordinate = null
-    var width: Double = .0
-    var height: Double = .0
+    var width: Double      = .0
+    var height: Double     = .0
 
     def setBase(base: Coordinate): Unit = this.base = base
 
@@ -91,7 +91,12 @@ object GeometricShapeFactory {
 
     def getEnvelope: Envelope = {
       if (base != null) return new Envelope(base.x, base.x + width, base.y, base.y + height)
-      if (centre != null) return new Envelope(centre.x - width / 2, centre.x + width / 2, centre.y - height / 2, centre.y + height / 2)
+      if (centre != null)
+        return new Envelope(centre.x - width / 2,
+                            centre.x + width / 2,
+                            centre.y - height / 2,
+                            centre.y + height / 2
+        )
       new Envelope(0, width, 0, height)
     }
   }
@@ -107,8 +112,9 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
 //  * @param geomFact the factory to use
 //  */
   protected var precModel: PrecisionModel = geomFact.getPrecisionModel
-  protected var dim = new GeometricShapeFactory.Dimensions
-  protected var nPts = 100
+  protected var dim                       = new GeometricShapeFactory.Dimensions
+  protected var nPts                      = 100
+
   /**
    * Default is no rotation.
    */
@@ -179,7 +185,8 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
 
   protected def rotate(geom: Geometry): Geometry = {
     if (rotationAngle != 0.0) {
-      val trans = AffineTransformation.rotationInstance(rotationAngle, dim.getCentre.x, dim.getCentre.y)
+      val trans =
+        AffineTransformation.rotationInstance(rotationAngle, dim.getCentre.x, dim.getCentre.y)
       geom.applyF(trans)
     }
     geom
@@ -192,65 +199,57 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   //  *
   //  */
   def createRectangle: Polygon = {
-    var i = 0
-    var ipt = 0
-    var nSide = nPts / 4
+    var i       = 0
+    var ipt     = 0
+    var nSide   = nPts / 4
     if (nSide < 1) nSide = 1
     val XsegLen = dim.getEnvelope.getWidth / nSide
     val YsegLen = dim.getEnvelope.getHeight / nSide
-    val pts = new Array[Coordinate](4 * nSide + 1)
-    val env = dim.getEnvelope
+    val pts     = new Array[Coordinate](4 * nSide + 1)
+    val env     = dim.getEnvelope
     //double maxx = env.getMinX() + nSide * XsegLen;
     //double maxy = env.getMinY() + nSide * XsegLen;
     i = 0
-    while ( {
-      i < nSide
-    }) {
+    while (i < nSide) {
       val x = env.getMinX + i * XsegLen
       val y = env.getMinY
-      pts({
+      pts {
         ipt += 1; ipt - 1
-      }) = coord(x, y)
+      } = coord(x, y)
       i += 1
     }
     i = 0
-    while ( {
-      i < nSide
-    }) {
+    while (i < nSide) {
       val x = env.getMaxX
       val y = env.getMinY + i * YsegLen
-      pts({
+      pts {
         ipt += 1; ipt - 1
-      }) = coord(x, y)
+      } = coord(x, y)
       i += 1
     }
     i = 0
-    while ( {
-      i < nSide
-    }) {
+    while (i < nSide) {
       val x = env.getMaxX - i * XsegLen
       val y = env.getMaxY
-      pts({
+      pts {
         ipt += 1; ipt - 1
-      }) = coord(x, y)
+      } = coord(x, y)
       i += 1
     }
     i = 0
-    while ( {
-      i < nSide
-    }) {
+    while (i < nSide) {
       val x = env.getMinX
       val y = env.getMaxY - i * YsegLen
-      pts({
+      pts {
         ipt += 1; ipt - 1
-      }) = coord(x, y)
+      } = coord(x, y)
       i += 1
     }
-    pts({
+    pts {
       ipt += 1; ipt - 1
-    }) = new Coordinate(pts(0))
-    val ring = geomFact.createLinearRing(pts)
-    val poly = geomFact.createPolygon(ring)
+    } = new Coordinate(pts(0))
+    val ring    = geomFact.createLinearRing(pts)
+    val poly    = geomFact.createPolygon(ring)
     rotate(poly).asInstanceOf[Polygon]
   }
 
@@ -269,28 +268,26 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   //  * return an ellipse or circle
   //  */
   def createEllipse: Polygon = {
-    val env = dim.getEnvelope
+    val env     = dim.getEnvelope
     val xRadius = env.getWidth / 2.0
     val yRadius = env.getHeight / 2.0
     val centreX = env.getMinX + xRadius
     val centreY = env.getMinY + yRadius
-    val pts = new Array[Coordinate](nPts + 1)
-    var iPt = 0
-    var i = 0
-    while ( {
-      i < nPts
-    }) {
+    val pts     = new Array[Coordinate](nPts + 1)
+    var iPt     = 0
+    var i       = 0
+    while (i < nPts) {
       val ang = i * (2 * Math.PI / nPts)
-      val x = xRadius * Math.cos(ang) + centreX
-      val y = yRadius * Math.sin(ang) + centreY
-      pts({
+      val x   = xRadius * Math.cos(ang) + centreX
+      val y   = yRadius * Math.sin(ang) + centreY
+      pts {
         iPt += 1; iPt - 1
-      }) = coord(x, y)
+      } = coord(x, y)
       i += 1
     }
     pts(iPt) = new Coordinate(pts(0))
-    val ring = geomFact.createLinearRing(pts)
-    val poly = geomFact.createPolygon(ring)
+    val ring    = geomFact.createLinearRing(pts)
+    val poly    = geomFact.createPolygon(ring)
     rotate(poly).asInstanceOf[Polygon]
   }
 
@@ -308,20 +305,18 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   //  * return a supercircle
   //  */
   def createSupercircle(power: Double): Polygon = {
-    val recipPow = 1.0 / power
-    val radius = dim.getMinSize / 2
-    val centre = dim.getCentre
-    val r4 = Math.pow(radius, power)
-    val y0 = radius
-    val xyInt = Math.pow(r4 / 2, recipPow)
+    val recipPow   = 1.0 / power
+    val radius     = dim.getMinSize / 2
+    val centre     = dim.getCentre
+    val r4         = Math.pow(radius, power)
+    val y0         = radius
+    val xyInt      = Math.pow(r4 / 2, recipPow)
     val nSegsInOct = nPts / 8
-    val totPts = nSegsInOct * 8 + 1
-    val pts = new Array[Coordinate](totPts)
-    val xInc = xyInt / nSegsInOct
-    var i = 0
-    while ( {
-      i <= nSegsInOct
-    }) {
+    val totPts     = nSegsInOct * 8 + 1
+    val pts        = new Array[Coordinate](totPts)
+    val xInc       = xyInt / nSegsInOct
+    var i          = 0
+    while (i <= nSegsInOct) {
       var x = 0.0
       var y = y0
       if (i != 0) {
@@ -340,8 +335,8 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
       i += 1
     }
     pts(pts.length - 1) = new Coordinate(pts(0))
-    val ring = geomFact.createLinearRing(pts)
-    val poly = geomFact.createPolygon(ring)
+    val ring       = geomFact.createLinearRing(pts)
+    val poly       = geomFact.createPolygon(ring)
     rotate(poly).asInstanceOf[Polygon]
   }
 
@@ -356,29 +351,27 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
    * return an elliptical arc
    */
   def createArc(startAng: Double, angExtent: Double): LineString = {
-    val env = dim.getEnvelope
+    val env     = dim.getEnvelope
     val xRadius = env.getWidth / 2.0
     val yRadius = env.getHeight / 2.0
     val centreX = env.getMinX + xRadius
     val centreY = env.getMinY + yRadius
     var angSize = angExtent
     if (angSize <= 0.0 || angSize > 2 * Math.PI) angSize = 2 * Math.PI
-    val angInc = angSize / (nPts - 1)
-    val pts = new Array[Coordinate](nPts)
-    var iPt = 0
-    var i = 0
-    while ( {
-      i < nPts
-    }) {
+    val angInc  = angSize / (nPts - 1)
+    val pts     = new Array[Coordinate](nPts)
+    var iPt     = 0
+    var i       = 0
+    while (i < nPts) {
       val ang = startAng + i * angInc
-      val x = xRadius * Math.cos(ang) + centreX
-      val y = yRadius * Math.sin(ang) + centreY
-      pts({
+      val x   = xRadius * Math.cos(ang) + centreX
+      val y   = yRadius * Math.sin(ang) + centreY
+      pts {
         iPt += 1; iPt - 1
-      }) = coord(x, y)
+      } = coord(x, y)
       i += 1
     }
-    val line = geomFact.createLineString(pts)
+    val line    = geomFact.createLineString(pts)
     rotate(line).asInstanceOf[LineString]
   }
 
@@ -392,38 +385,36 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
    * return an elliptical arc polygon
    */
   def createArcPolygon(startAng: Double, angExtent: Double): Polygon = {
-    val env = dim.getEnvelope
+    val env     = dim.getEnvelope
     val xRadius = env.getWidth / 2.0
     val yRadius = env.getHeight / 2.0
     val centreX = env.getMinX + xRadius
     val centreY = env.getMinY + yRadius
     var angSize = angExtent
     if (angSize <= 0.0 || angSize > 2 * Math.PI) angSize = 2 * Math.PI
-    val angInc = angSize / (nPts - 1)
+    val angInc  = angSize / (nPts - 1)
     // double check = angInc * nPts;
     // double checkEndAng = startAng + check;
-    val pts = new Array[Coordinate](nPts + 2)
-    var iPt = 0
-    pts({
+    val pts     = new Array[Coordinate](nPts + 2)
+    var iPt     = 0
+    pts {
       iPt += 1; iPt - 1
-    }) = coord(centreX, centreY)
-    var i = 0
-    while ( {
-      i < nPts
-    }) {
+    } = coord(centreX, centreY)
+    var i       = 0
+    while (i < nPts) {
       val ang = startAng + angInc * i
-      val x = xRadius * Math.cos(ang) + centreX
-      val y = yRadius * Math.sin(ang) + centreY
-      pts({
+      val x   = xRadius * Math.cos(ang) + centreX
+      val y   = yRadius * Math.sin(ang) + centreY
+      pts {
         iPt += 1; iPt - 1
-      }) = coord(x, y)
+      } = coord(x, y)
       i += 1
     }
-    pts({
+    pts {
       iPt += 1; iPt - 1
-    }) = coord(centreX, centreY)
-    val ring = geomFact.createLinearRing(pts)
-    val poly = geomFact.createPolygon(ring)
+    } = coord(centreX, centreY)
+    val ring    = geomFact.createLinearRing(pts)
+    val poly    = geomFact.createPolygon(ring)
     rotate(poly).asInstanceOf[Polygon]
   }
 
@@ -433,5 +424,6 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
     pt
   }
 
-  protected def coordTrans(x: Double, y: Double, trans: Coordinate): Coordinate = coord(x + trans.x, y + trans.y)
+  protected def coordTrans(x: Double, y: Double, trans: Coordinate): Coordinate =
+    coord(x + trans.x, y + trans.y)
 }

@@ -30,8 +30,7 @@ object CoordinateList { //With contributions from Markus Schaber [schabios@logi-
 
 @SerialVersionUID(-1626110935756089896L)
 class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
-
-  extends util.ArrayList[Coordinate] {
+    extends util.ArrayList[Coordinate] {
   add(coord, allowRepeated)
 
   /**
@@ -62,10 +61,8 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   def add(coord: Array[Coordinate], allowRepeated: Boolean, start: Int, end: Int): Boolean = {
     var inc = 1
     if (start > end) inc = -1
-    var i = start
-    while ( {
-      i != end
-    }) {
+    var i   = start
+    while (i != end) {
       add(coord(i), allowRepeated)
       i += inc
     }
@@ -83,8 +80,7 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   def add(coord: Array[Coordinate], allowRepeated: Boolean, direction: Boolean): Boolean = {
     if (direction) {
       coord.foreach(add(_, allowRepeated))
-    }
-    else {
+    } else {
       coord.reverse.foreach(add(_, allowRepeated))
 //      var i = coord.length - 1
 //      while ( {
@@ -162,7 +158,8 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
     super.add(i, coord)
   }
 
-  /** Add an array of coordinates
+  /**
+   * Add an array of coordinates
    *
    * @param coll          The coordinates
    * @param allowRepeated if set to false, repeated coordinates are collapsed
@@ -170,10 +167,8 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
    */
   def addAll(coll: util.Collection[_ <: Coordinate], allowRepeated: Boolean): Boolean = {
     var isChanged = false
-    val i = coll.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i         = coll.iterator
+    while (i.hasNext) {
       add(i.next, allowRepeated)
       isChanged = true
     }
@@ -188,7 +183,8 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
     add(duplicate, false)
   }
 
-  /** Returns the Coordinates in this collection.
+  /**
+   * Returns the Coordinates in this collection.
    *
    * return the coordinates
    */
@@ -202,7 +198,8 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
    * return an oriented array of coordinates
    */
   def toCoordinateArray(isForward: Boolean): Array[Coordinate] =
-    if (isForward) toArray(CoordinateList.coordArrayType) else {
+    if (isForward) toArray(CoordinateList.coordArrayType)
+    else {
       val pts = new Array[Coordinate](this.size())
       for {
         i <- 0 to this.size()
@@ -222,9 +219,7 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
     val clone = super.clone.asInstanceOf[CoordinateList]
     for {
       i <- 0 to this.size()
-    } yield {
-      clone.add(i, this.get(i).clone)
-    }
+    } yield clone.add(i, this.get(i).clone)
     clone
   }
 }

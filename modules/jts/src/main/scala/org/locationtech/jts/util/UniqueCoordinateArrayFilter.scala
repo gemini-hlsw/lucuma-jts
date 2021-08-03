@@ -26,29 +26,28 @@ import org.locationtech.jts.geom.CoordinateFilter
  * @version 1.7
  */
 object UniqueCoordinateArrayFilter {
+
   /**
    * Convenience method which allows running the filter over an array of {link Coordinate}s.
    *
    * @param coords an array of coordinates
    * return an array of the unique coordinates
    */
-    def filterCoordinates(coords: Array[Coordinate]): Array[Coordinate] = {
-      val filter = new UniqueCoordinateArrayFilter
-      var i = 0
-      while ( {
-        i < coords.length
-      }) {
-        filter.filter(coords(i))
-        i += 1
-      }
-      filter.getCoordinates
+  def filterCoordinates(coords: Array[Coordinate]): Array[Coordinate] = {
+    val filter = new UniqueCoordinateArrayFilter
+    var i      = 0
+    while (i < coords.length) {
+      filter.filter(coords(i))
+      i += 1
     }
+    filter.getCoordinates
+  }
 }
 
 class UniqueCoordinateArrayFilter() extends CoordinateFilter {
   private val coordSet = new util.HashSet[Coordinate]
   // Use an auxiliary list as well in order to preserve coordinate order
-  private val list = new util.ArrayList[Coordinate]
+  private val list     = new util.ArrayList[Coordinate]
 
   /**
    * Returns the gathered <code>Coordinate</code>s.

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -38,16 +38,17 @@ import org.locationtech.jts.geom.GeometryFactory
  * @see GeometryFactory#buildGeometry
  */
 object GeometryCombiner {
+
   /**
    * Combines a collection of geometries.
    *
    * @param geoms the geometries to combine
    * return the combined geometry
    */
-    def combine(geoms: util.Collection[Geometry]): Geometry = {
-      val combiner = new GeometryCombiner(geoms)
-      combiner.combine
-    }
+  def combine(geoms: util.Collection[Geometry]): Geometry = {
+    val combiner = new GeometryCombiner(geoms)
+    combiner.combine
+  }
 
   /**
    * Combines two geometries.
@@ -110,13 +111,13 @@ object GeometryCombiner {
 
 class GeometryCombiner(var inputGeoms: util.Collection[Geometry]) {
 
-/**
- * Creates a new combiner for a collection of geometries
- *
- * @param geoms the geometries to combine
- */
+  /**
+   * Creates a new combiner for a collection of geometries
+   *
+   * @param geoms the geometries to combine
+   */
   private val geomFactory = GeometryCombiner.extractFactory(inputGeoms)
-  private val skipEmpty = false
+  private val skipEmpty   = false
 
   /**
    * Computes the combination of the input geometries
@@ -126,10 +127,8 @@ class GeometryCombiner(var inputGeoms: util.Collection[Geometry]) {
    */
   def combine: Geometry = {
     val elems = new util.ArrayList[Geometry]
-    val i = inputGeoms.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i     = inputGeoms.iterator
+    while (i.hasNext) {
       val g = i.next
       extractElements(g, elems)
     }
@@ -146,14 +145,12 @@ class GeometryCombiner(var inputGeoms: util.Collection[Geometry]) {
   private def extractElements(geom: Geometry, elems: util.List[Geometry]): Unit = {
     if (geom == null) return
     var i = 0
-    while ( {
-      i < geom.getNumGeometries
-    }) {
+    while (i < geom.getNumGeometries) {
       val elemGeom = geom.getGeometryN(i)
       if (!(skipEmpty && elemGeom.isEmpty)) {
         elems.add(elemGeom)
       }
       i += 1
-      }
     }
   }
+}

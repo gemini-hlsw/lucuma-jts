@@ -33,6 +33,7 @@ import org.locationtech.jts.geomgraph.Edge
  * @version 1.7
  */
 abstract class EdgeSetIntersector() {
+
   /**
    * Computes all self-intersections between edges in a set of edges,
    * allowing client to choose whether self-intersections are computed.
@@ -41,10 +42,18 @@ abstract class EdgeSetIntersector() {
    * @param si              the SegmentIntersector to use
    * @param testAllSegments true if self-intersections are to be tested as well
    */
-  def computeIntersections(edges: util.List[Edge], si: SegmentIntersector, testAllSegments: Boolean): Unit
+  def computeIntersections(
+    edges:           util.List[Edge],
+    si:              SegmentIntersector,
+    testAllSegments: Boolean
+  ): Unit
 
   /**
    * Computes all mutual intersections between two sets of edges.
    */
-  def computeIntersections(edges0: util.List[Edge], edges1: util.List[Edge], si: SegmentIntersector): Unit
+  def computeIntersections(
+    edges0: util.List[Edge],
+    edges1: util.List[Edge],
+    si:     SegmentIntersector
+  ): Unit
 }

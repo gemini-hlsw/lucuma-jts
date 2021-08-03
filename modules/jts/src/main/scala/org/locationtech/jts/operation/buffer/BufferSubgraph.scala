@@ -36,11 +36,11 @@ import org.locationtech.jts.geomgraph.Position
  * @version 1.7
  */
 class BufferSubgraph() extends Comparable[BufferSubgraph] {
-  private val finder = new RightmostEdgeFinder
-  private val dirEdgeList = new util.ArrayList[DirectedEdge]
-  private val nodes = new util.ArrayList[Node]
+  private val finder                     = new RightmostEdgeFinder
+  private val dirEdgeList                = new util.ArrayList[DirectedEdge]
+  private val nodes                      = new util.ArrayList[Node]
   private var rightMostCoord: Coordinate = null
-  private var env: Envelope = null
+  private var env: Envelope              = null
 
   def getDirectedEdges: util.ArrayList[DirectedEdge] = dirEdgeList
 
@@ -55,16 +55,12 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
   def getEnvelope: Envelope = {
     if (env == null) {
       val edgeEnv = new Envelope
-      val it = dirEdgeList.iterator
-      while ( {
-        it.hasNext
-      }) {
+      val it      = dirEdgeList.iterator
+      while (it.hasNext) {
         val dirEdge = it.next
-        val pts = dirEdge.getEdge.getCoordinates
-        var i = 0
-        while ( {
-          i < pts.length - 1
-        }) {
+        val pts     = dirEdge.getEdge.getCoordinates
+        var i       = 0
+        while (i < pts.length - 1) {
           edgeEnv.expandToInclude(pts(i))
           i += 1
         }
@@ -100,9 +96,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
   private def addReachable(startNode: Node): Unit = {
     val nodeStack = new util.Stack[Node]
     nodeStack.add(startNode)
-    while ( {
-      !nodeStack.empty
-    }) {
+    while (!nodeStack.empty) {
       val node = nodeStack.pop
       add(node, nodeStack)
     }
@@ -118,12 +112,10 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
     node.setVisited(true)
     nodes.add(node)
     val i = node.getEdges.asInstanceOf[DirectedEdgeStar].iterator
-    while ( {
-      i.hasNext
-    }) {
-      val de = i.next.asInstanceOf[DirectedEdge]
+    while (i.hasNext) {
+      val de      = i.next.asInstanceOf[DirectedEdge]
       dirEdgeList.add(de)
-      val sym = de.getSym
+      val sym     = de.getSym
       val symNode = sym.getNode
 
       /**
@@ -137,9 +129,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
 
   private def clearVisitedEdges(): Unit = {
     val it = dirEdgeList.iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val de = it.next
       de.setVisited(false)
     }
@@ -166,14 +156,12 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
   // <FIX> MD - use iteration & queue rather than recursion, for speed and robustness
   private def computeDepths(startEdge: DirectedEdge): Unit = {
     val nodesVisited = new util.HashSet[Node]
-    val nodeQueue = new util.LinkedList[Node]
-    val startNode = startEdge.getNode
+    val nodeQueue    = new util.LinkedList[Node]
+    val startNode    = startEdge.getNode
     nodeQueue.addLast(startNode)
     nodesVisited.add(startNode)
     startEdge.setVisited(true)
-    while ( {
-      !nodeQueue.isEmpty
-    }) { //System.out.println(nodes.size() + " queue: " + nodeQueue.size());
+    while (!nodeQueue.isEmpty) { //System.out.println(nodes.size() + " queue: " + nodeQueue.size());
       val n = nodeQueue.removeFirst
       nodesVisited.add(n)
       // compute depths around node, starting at this edge since it has depths assigned
@@ -181,10 +169,8 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
       // add all adjacent nodes to process queue,
       // unless the node has been visited already
       val i = n.getEdges.asInstanceOf[DirectedEdgeStar].iterator
-      while ( {
-        i.hasNext
-      }) {
-        val de = i.next.asInstanceOf[DirectedEdge]
+      while (i.hasNext) {
+        val de  = i.next.asInstanceOf[DirectedEdge]
         val sym = de.getSym
         if (!sym.isVisited) {
           val adjNode = sym.getNode
@@ -194,95 +180,91 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
           }
         }
       }
+    }
+  }
+
+  private def computeNodeDepth(n: Node): Unit = { // find a visited dirEdge to start at
+    var startEdge: DirectedEdge = null
+    var i                       = n.getEdges.asInstanceOf[DirectedEdgeStar].iterator
+    var loopBreak               = false
+    while (i.hasNext && !loopBreak) {
+      val de = i.next.asInstanceOf[DirectedEdge]
+      if (de.isVisited || de.getSym.isVisited) {
+        startEdge = de
+        loopBreak = true
       }
     }
-
-    private def computeNodeDepth(n: Node): Unit = { // find a visited dirEdge to start at
-      var startEdge: DirectedEdge = null
-      var i = n.getEdges.asInstanceOf[DirectedEdgeStar].iterator
-      var loopBreak = false
-      while ( {
-        i.hasNext && !loopBreak
-      }) {
-        val de = i.next.asInstanceOf[DirectedEdge]
-        if (de.isVisited || de.getSym.isVisited) {
-          startEdge = de
-          loopBreak = true
-        }
-      }
-      // MD - testing  Result: breaks algorithm
-      //if (startEdge == null) return;
-      // only compute string append if assertion would fail
-      if (startEdge == null) throw new TopologyException("unable to find edge to compute depths at " + n.getCoordinate)
-      n.getEdges.asInstanceOf[DirectedEdgeStar].computeDepths(startEdge)
-      // copy depths to sym edges
-      i = n.getEdges.asInstanceOf[DirectedEdgeStar].iterator
-      while ( {
-        i.hasNext
-      }) {
-        val de = i.next.asInstanceOf[DirectedEdge]
-        de.setVisited(true)
-        copySymDepths(de)
-      }
+    // MD - testing  Result: breaks algorithm
+    //if (startEdge == null) return;
+    // only compute string append if assertion would fail
+    if (startEdge == null)
+      throw new TopologyException("unable to find edge to compute depths at " + n.getCoordinate)
+    n.getEdges.asInstanceOf[DirectedEdgeStar].computeDepths(startEdge)
+    // copy depths to sym edges
+    i = n.getEdges.asInstanceOf[DirectedEdgeStar].iterator
+    while (i.hasNext) {
+      val de = i.next.asInstanceOf[DirectedEdge]
+      de.setVisited(true)
+      copySymDepths(de)
     }
+  }
 
-    private def copySymDepths(de: DirectedEdge): Unit
+  private def copySymDepths(de: DirectedEdge): Unit = {
+    val sym = de.getSym
+    sym.setDepth(Position.LEFT, de.getDepth(Position.RIGHT))
+    sym.setDepth(Position.RIGHT, de.getDepth(Position.LEFT))
+  }
 
-    =
-    {
-      val sym = de.getSym
-      sym.setDepth(Position.LEFT, de.getDepth(Position.RIGHT))
-      sym.setDepth(Position.RIGHT, de.getDepth(Position.LEFT))
-    }
+  /**
+   * Find all edges whose depths indicates that they are in the result area(s).
+   * Since we want polygon shells to be
+   * oriented CW, choose dirEdges with the interior of the result on the RHS.
+   * Mark them as being in the result.
+   * Interior Area edges are the result of dimensional collapses.
+   * They do not form part of the result area boundary.
+   */
+  def findResultEdges(): Unit = {
+    val it = dirEdgeList.iterator
+    while (it.hasNext) {
+      val de = it.next
 
-    /**
-     * Find all edges whose depths indicates that they are in the result area(s).
-     * Since we want polygon shells to be
-     * oriented CW, choose dirEdges with the interior of the result on the RHS.
-     * Mark them as being in the result.
-     * Interior Area edges are the result of dimensional collapses.
-     * They do not form part of the result area boundary.
-     */
-    def findResultEdges(): Unit = {
-      val it = dirEdgeList.iterator
-      while ( {
-        it.hasNext
-      }) {
-        val de = it.next
-
-        /**
-         * Select edges which have an interior depth on the RHS
-         * and an exterior depth on the LHS.
-         * Note that because of weird rounding effects there may be
-         * edges which have negative depths!  Negative depths
-         * count as "outside".
-         */
-        // <FIX> - handle negative depths
-        if (de.getDepth(Position.RIGHT) >= 1 && de.getDepth(Position.LEFT) <= 0 && !de.isInteriorAreaEdge) {
-          de.setInResult(true)
-          //Debug.print("in result "); Debug.println(de);
-        }
+      /**
+       * Select edges which have an interior depth on the RHS
+       * and an exterior depth on the LHS.
+       * Note that because of weird rounding effects there may be
+       * edges which have negative depths!  Negative depths
+       * count as "outside".
+       */
+      // <FIX> - handle negative depths
+      if (
+        de.getDepth(Position.RIGHT) >= 1 && de.getDepth(
+          Position.LEFT
+        ) <= 0 && !de.isInteriorAreaEdge
+      ) {
+        de.setInResult(true)
+        //Debug.print("in result "); Debug.println(de);
       }
     }
+  }
 
-    /**
-     * BufferSubgraphs are compared on the x-value of their rightmost Coordinate.
-     * This defines a partial ordering on the graphs such that:
-     * <p>
-     * g1 >= g2 <==> Ring(g2) does not contain Ring(g1)
-     * <p>
-     * where Polygon(g) is the buffer polygon that is built from g.
-     * <p>
-     * This relationship is used to sort the BufferSubgraphs so that shells are guaranteed to
-     * be built before holes.
-     */
-    override def compareTo(o: BufferSubgraph): Int = {
-      val graph = o.asInstanceOf[BufferSubgraph]
-      if (this.rightMostCoord.x < graph.rightMostCoord.x) return -1
-      if (this.rightMostCoord.x > graph.rightMostCoord.x) return 1
-      0
-    }
-    /*
+  /**
+   * BufferSubgraphs are compared on the x-value of their rightmost Coordinate.
+   * This defines a partial ordering on the graphs such that:
+   * <p>
+   * g1 >= g2 <==> Ring(g2) does not contain Ring(g1)
+   * <p>
+   * where Polygon(g) is the buffer polygon that is built from g.
+   * <p>
+   * This relationship is used to sort the BufferSubgraphs so that shells are guaranteed to
+   * be built before holes.
+   */
+  override def compareTo(o: BufferSubgraph): Int = {
+    val graph = o.asInstanceOf[BufferSubgraph]
+    if (this.rightMostCoord.x < graph.rightMostCoord.x) return -1
+    if (this.rightMostCoord.x > graph.rightMostCoord.x) return 1
+    0
+  }
+  /*
     // DEBUGGING only - comment out
       private static final String SAVE_DIREDGES = "saveDirEdges";
       private static int saveCount = 0;
@@ -306,5 +288,5 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
       String filepath = "x:\\jts\\testBuffer\\dirEdges" + saveCount++ + ".jml";
         DebugFeature.saveFeatures(SAVE_DIREDGES, filepath);
       }
-      */
-  }
+   */
+}

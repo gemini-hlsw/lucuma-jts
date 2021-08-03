@@ -65,9 +65,7 @@ class TopologyLocation(var location: Array[Int] = Array.empty[Int]) {
     init(gl.location.length)
     if (gl != null) {
       var i = 0
-      while ( {
-        i < location.length
-      }) {
+      while (i < location.length) {
         location(i) = gl.location(i)
         i += 1
       }
@@ -89,9 +87,7 @@ class TopologyLocation(var location: Array[Int] = Array.empty[Int]) {
    */
   def isNull: Boolean = {
     var i = 0
-    while ( {
-      i < location.length
-    }) {
+    while (i < location.length) {
       if (location(i) != Location.NONE) return false
       i += 1
     }
@@ -103,16 +99,15 @@ class TopologyLocation(var location: Array[Int] = Array.empty[Int]) {
    */
   def isAnyNull: Boolean = {
     var i = 0
-    while ( {
-      i < location.length
-    }) {
+    while (i < location.length) {
       if (location(i) == Location.NONE) return true
       i += 1
     }
     false
   }
 
-  def isEqualOnSide(le: TopologyLocation, locIndex: Int): Boolean = location(locIndex) == le.location(locIndex)
+  def isEqualOnSide(le: TopologyLocation, locIndex: Int): Boolean =
+    location(locIndex) == le.location(locIndex)
 
   def isArea: Boolean = location.length > 1
 
@@ -127,9 +122,7 @@ class TopologyLocation(var location: Array[Int] = Array.empty[Int]) {
 
   def setAllLocations(locValue: Int): Unit = {
     var i = 0
-    while ( {
-      i < location.length
-    }) {
+    while (i < location.length) {
       location(i) = locValue
       i += 1
     }
@@ -137,9 +130,7 @@ class TopologyLocation(var location: Array[Int] = Array.empty[Int]) {
 
   def setAllLocationsIfNull(locValue: Int): Unit = {
     var i = 0
-    while ( {
-      i < location.length
-    }) {
+    while (i < location.length) {
       if (location(i) == Location.NONE) location(i) = locValue
       i += 1
     }
@@ -159,9 +150,7 @@ class TopologyLocation(var location: Array[Int] = Array.empty[Int]) {
 
   def allPositionsEqual(loc: Int): Boolean = {
     var i = 0
-    while ( {
-      i < location.length
-    }) {
+    while (i < location.length) {
       if (location(i) != loc) return false
       i += 1
     }
@@ -181,9 +170,7 @@ class TopologyLocation(var location: Array[Int] = Array.empty[Int]) {
       location = newLoc
     }
     var i = 0
-    while ( {
-      i < location.length
-    }) {
+    while (i < location.length) {
       if (location(i) == Location.NONE && i < gl.location.length) location(i) = gl.location(i)
       i += 1
     }

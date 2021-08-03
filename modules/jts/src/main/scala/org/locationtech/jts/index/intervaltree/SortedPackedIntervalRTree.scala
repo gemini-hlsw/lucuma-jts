@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -45,6 +45,7 @@ import org.locationtech.jts.index.ItemVisitor
  */
 class SortedPackedIntervalRTree() {
   private val leaves = new util.ArrayList[IntervalRTreeNode]
+
   /**
    * If root is null that indicates
    * that the tree has not yet been built,
@@ -62,7 +63,8 @@ class SortedPackedIntervalRTree() {
    * throws IllegalStateException if the index has already been queried
    */
   def insert(min: Double, max: Double, item: Any) = {
-    if (root != null) throw new IllegalStateException("Index cannot be added to once it has been queried")
+    if (root != null)
+      throw new IllegalStateException("Index cannot be added to once it has been queried")
     leaves.add(new IntervalRTreeLeafNode(min, max, item))
   }
 
@@ -85,12 +87,10 @@ class SortedPackedIntervalRTree() {
   private def buildTree: IntervalRTreeNode = { // sort the leaf nodes
     Collections.sort(leaves, new IntervalRTreeNode.NodeComparator)
     // now group nodes into blocks of two and build tree up recursively
-    var src = leaves
+    var src                                     = leaves
     var temp: util.ArrayList[IntervalRTreeNode] = null
-    var dest = new util.ArrayList[IntervalRTreeNode]
-    while ( {
-      true
-    }) {
+    var dest                                    = new util.ArrayList[IntervalRTreeNode]
+    while (true) {
       buildLevel(src, dest)
       if (dest.size == 1) return dest.get(0).asInstanceOf[IntervalRTreeNode]
       temp = src
@@ -106,12 +106,11 @@ class SortedPackedIntervalRTree() {
     level += 1
     dest.clear()
     var i = 0
-    while ( {
-      i < src.size
-    }) {
+    while (i < src.size) {
       val n1 = src.get(i)
-      val n2 = if (i + 1 < src.size) src.get(i)
-      else null
+      val n2 =
+        if (i + 1 < src.size) src.get(i)
+        else null
       if (n2 == null) dest.add(n1)
       else {
         val node = new IntervalRTreeBranchNode(src.get(i), src.get(i + 1))

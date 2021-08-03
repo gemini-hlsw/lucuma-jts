@@ -41,12 +41,12 @@ object MCIndexNoder {
 }
 
 class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString](si) {
-  private val monoChains = new util.ArrayList[MonotoneChain]
-  private val index = new STRtree
-  private var idCounter = 0
+  private val monoChains                                      = new util.ArrayList[MonotoneChain]
+  private val index                                           = new STRtree
+  private var idCounter                                       = 0
   private var nodedSegStrings: util.Collection[SegmentString] = null
   // statistics
-  private var nOverlaps = 0
+  private var nOverlaps                                       = 0
   def this() = this(null)
 
   def getMonotoneChains: util.ArrayList[MonotoneChain] = monoChains
@@ -54,30 +54,30 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
   def getIndex: STRtree = index
 
   override def getNodedSubstrings: util.List[SegmentString] =
-    NodedSegmentString.getNodedSubstrings(nodedSegStrings).asScala.map(x => x: SegmentString).toList.asJava
+    NodedSegmentString
+      .getNodedSubstrings(nodedSegStrings)
+      .asScala
+      .map(x => x: SegmentString)
+      .toList
+      .asJava
 
   override def computeNodes(inputSegStrings: util.Collection[SegmentString]): Unit = {
-    this.nodedSegStrings = inputSegStrings//.asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
+    this.nodedSegStrings =
+      inputSegStrings //.asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
     val i = inputSegStrings.iterator
-    while ( {
-      i.hasNext
-    }) add(i.next)
+    while (i.hasNext) add(i.next)
     intersectChains()
     //System.out.println("MCIndexNoder: # chain overlaps = " + nOverlaps);
   }
 
   private def intersectChains(): Unit = {
     val overlapAction = new MCIndexNoder.SegmentOverlapAction(segInt)
-    val i = monoChains.iterator
-    while ( {
-      i.hasNext
-    }) {
-      val queryChain = i.next
+    val i             = monoChains.iterator
+    while (i.hasNext) {
+      val queryChain    = i.next
       val overlapChains = index.query(queryChain.getEnvelope)
-      val j = overlapChains.iterator
-      while ( {
-        j.hasNext
-      }) {
+      val j             = overlapChains.iterator
+      while (j.hasNext) {
         val testChain = j.next.asInstanceOf[MonotoneChain]
 
         /**
@@ -96,10 +96,8 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
 
   private def add(segStr: SegmentString): Unit = {
     val segChains = MonotoneChainBuilder.getChains(segStr.getCoordinates, segStr)
-    val i = segChains.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i         = segChains.iterator
+    while (i.hasNext) {
       val mc = i.next
       mc.setId(idCounter)
       idCounter += 1

@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -45,10 +45,11 @@ object CoordinateArraySequenceFactory {
 }
 
 @SerialVersionUID(-4099577099607551657L)
-final class CoordinateArraySequenceFactory private() extends CoordinateSequenceFactory with Serializable {
-  private def readResolve = { // http://www.javaworld.com/javaworld/javatips/jw-javatip122.html
+final class CoordinateArraySequenceFactory private ()
+    extends CoordinateSequenceFactory
+    with Serializable {
+  private def readResolve = // http://www.javaworld.com/javaworld/javatips/jw-javatip122.html
     CoordinateArraySequenceFactory.instance
-  }
 
   /**
    * Returns a {link CoordinateArraySequence} based on the given array (the array is
@@ -58,30 +59,35 @@ final class CoordinateArraySequenceFactory private() extends CoordinateSequenceF
    * the coordinates, which may not be null nor contain null
    * elements
    */
-  def create(coordinates: Array[Coordinate]): CoordinateSequence = new CoordinateArraySequence(coordinates)
+  def create(coordinates: Array[Coordinate]): CoordinateSequence = new CoordinateArraySequence(
+    coordinates
+  )
 
   /**
    * @see org.locationtech.jts.geom.CoordinateSequenceFactory#create(org.locationtech.jts.geom.CoordinateSequence)
    */
-  def create(coordSeq: CoordinateSequence): CoordinateSequence = new CoordinateArraySequence(coordSeq)
+  def create(coordSeq: CoordinateSequence): CoordinateSequence = new CoordinateArraySequence(
+    coordSeq
+  )
 
   /**
    * The created sequence dimension is clamped to be &lt;= 3.
    *
    * @see org.locationtech.jts.geom.CoordinateSequenceFactory#create(int, int)
-   *
    */
   def create(size: Int, dimension: Int): CoordinateSequence = {
-    val dim = if (dimension > 3) 3
-    //throw new IllegalArgumentException("dimension must be <= 3");
-    // handle bogus dimension
-     else if (dimension < 2) 2 else dimension
+    val dim =
+      if (dimension > 3) 3
+      //throw new IllegalArgumentException("dimension must be <= 3");
+      // handle bogus dimension
+      else if (dimension < 2) 2
+      else dimension
     new CoordinateArraySequence(size, dim)
   }
 
   override def create(size: Int, dimension: Int, measures: Int): CoordinateSequence = {
     var spatial = dimension - measures
-    val meas = if (measures > 1) {
+    val meas    = if (measures > 1) {
       1 // clip measures
       //throw new IllegalArgumentException("measures must be <= 1");
     } else measures

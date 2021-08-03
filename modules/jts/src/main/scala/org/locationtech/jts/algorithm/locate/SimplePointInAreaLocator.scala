@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -52,6 +52,7 @@ import org.locationtech.jts.geom.Polygon
  * @version 1.7
  */
 object SimplePointInAreaLocator {
+
   /**
    * Determines the {link Location} of a point in an areal {link Geometry}.
    * The return value is one of:
@@ -65,15 +66,15 @@ object SimplePointInAreaLocator {
    * @param geom the areal geometry to test
    * return the Location of the point in the geometry
    */
-    def locate(p: Coordinate, geom: Geometry): Int = {
-      if (geom.isEmpty) return Location.EXTERIOR
+  def locate(p: Coordinate, geom: Geometry): Int = {
+    if (geom.isEmpty) return Location.EXTERIOR
 
-      /**
-       * Do a fast check against the geometry envelope first
-       */
-      if (!geom.getEnvelopeInternal.intersects(p)) return Location.EXTERIOR
-      locateInGeometry(p, geom)
-    }
+    /**
+     * Do a fast check against the geometry envelope first
+     */
+    if (!geom.getEnvelopeInternal.intersects(p)) return Location.EXTERIOR
+    locateInGeometry(p, geom)
+  }
 
   /**
    * Determines whether a point is contained in a {link Geometry},
@@ -93,9 +94,7 @@ object SimplePointInAreaLocator {
     if (geom.isInstanceOf[Polygon]) return locatePointInPolygon(p, geom.asInstanceOf[Polygon])
     if (geom.isInstanceOf[GeometryCollection]) {
       val geomi = new GeometryCollectionIterator(geom.asInstanceOf[GeometryCollection])
-      while ( {
-        geomi.hasNext
-      }) {
+      while (geomi.hasNext) {
         val g2 = geomi.next.asInstanceOf[Geometry]
         if (g2 ne geom) {
           val loc = locateInGeometry(p, g2)
@@ -121,19 +120,16 @@ object SimplePointInAreaLocator {
    * @param p    the point to test
    * @param poly the geometry to test
    * return the Location of the point in the polygon
-   *
    */
   def locatePointInPolygon(p: Coordinate, poly: Polygon): Int = {
     if (poly.isEmpty) return Location.EXTERIOR
-    val shell = poly.getExteriorRing
+    val shell    = poly.getExteriorRing
     val shellLoc = locatePointInRing(p, shell)
     if (shellLoc != Location.INTERIOR) return shellLoc
     // now test if the point lies in or on the holes
-    var i = 0
-    while ( {
-      i < poly.getNumInteriorRing
-    }) {
-      val hole = poly.getInteriorRingN(i)
+    var i        = 0
+    while (i < poly.getNumInteriorRing) {
+      val hole    = poly.getInteriorRingN(i)
       val holeLoc = locatePointInRing(p, hole)
       if (holeLoc == Location.BOUNDARY) return Location.BOUNDARY
       if (holeLoc == Location.INTERIOR) return Location.EXTERIOR
@@ -153,7 +149,8 @@ object SimplePointInAreaLocator {
    * @param poly the geometry to test
    * return true if the point lies in or on the polygon
    */
-  def containsPointInPolygon(p: Coordinate, poly: Polygon): Boolean = Location.EXTERIOR != locatePointInPolygon(p, poly)
+  def containsPointInPolygon(p: Coordinate, poly: Polygon): Boolean =
+    Location.EXTERIOR != locatePointInPolygon(p, poly)
 
   /**
    * Determines whether a point lies in a LinearRing,
@@ -177,7 +174,8 @@ class SimplePointInAreaLocator(var geom: Geometry)
  *
  * @param geom the areal geometry to locate in
  */
-  extends PointOnGeometryLocator {
+    extends PointOnGeometryLocator {
+
   /**
    * Determines the {link Location} of a point in an areal {link Geometry}.
    * The return value is one of:

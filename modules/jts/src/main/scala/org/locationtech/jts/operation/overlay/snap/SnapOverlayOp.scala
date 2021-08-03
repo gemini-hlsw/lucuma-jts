@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -49,24 +49,24 @@ object SnapOverlayOp {
 
   def difference(g0: Geometry, g1: Geometry): Geometry = overlayOp(g0, g1, OverlayOp.DIFFERENCE)
 
-  def symDifference(g0: Geometry, g1: Geometry): Geometry = overlayOp(g0, g1, OverlayOp.SYMDIFFERENCE)
+  def symDifference(g0: Geometry, g1: Geometry): Geometry =
+    overlayOp(g0, g1, OverlayOp.SYMDIFFERENCE)
 }
 
 class SnapOverlayOp(val g1: Geometry, val g2: Geometry) {
   computeSnapTolerance()
-  private val geom = new Array[Geometry](2)
+  private val geom          = new Array[Geometry](2)
   geom(0) = g1
   geom(1) = g2
   private var snapTolerance = .0
 
-  private def computeSnapTolerance(): Unit = {
+  private def computeSnapTolerance(): Unit =
     snapTolerance = GeometrySnapper.computeOverlaySnapTolerance(geom(0), geom(1))
-    // System.out.println("Snap tol = " + snapTolerance);
-  }
+  // System.out.println("Snap tol = " + snapTolerance);
 
   def getResultGeometry(opCode: Int): Geometry = { //  	Geometry[] selfSnapGeom = new Geometry[] { selfSnap(geom[0]), selfSnap(geom[1])};
     val prepGeom = snap(geom)
-    val result = OverlayOp.overlayOp(prepGeom(0), prepGeom(1), opCode)
+    val result   = OverlayOp.overlayOp(prepGeom(0), prepGeom(1), opCode)
     prepareResult(result)
   }
 
@@ -79,7 +79,7 @@ class SnapOverlayOp(val g1: Geometry, val g2: Geometry) {
 //  }
 
   private def snap(geom: Array[Geometry]) = {
-    val remGeom = removeCommonBits(geom)
+    val remGeom  = removeCommonBits(geom)
     // MD - testing only
     //  	Geometry[] remGeom = geom;
     val snapGeom = GeometrySnapper.snap(remGeom(0), remGeom(1), snapTolerance)
@@ -90,7 +90,8 @@ class SnapOverlayOp(val g1: Geometry, val g2: Geometry) {
         System.out.println("Snapped geoms: ");
         System.out.println(snapGeom[0]);
         System.out.println(snapGeom[1]);
-        */ snapGeom
+     */
+    snapGeom
   }
 
   private def prepareResult(geom: Geometry) = {

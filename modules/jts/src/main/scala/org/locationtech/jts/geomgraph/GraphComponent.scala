@@ -23,13 +23,14 @@ import org.locationtech.jts.util.Assert
  * @version 1.7
  */
 abstract class GraphComponent(var label: Label) {
+
   /**
    * isInResult indicates if this component has already been included in the result
    */
-  private var visInResult = false
-  private var visCovered = false
+  private var visInResult   = false
+  private var visCovered    = false
   private var visCoveredSet = false
-  private var visVisited = false
+  private var visVisited    = false
 
   def this() = {
     this(null)

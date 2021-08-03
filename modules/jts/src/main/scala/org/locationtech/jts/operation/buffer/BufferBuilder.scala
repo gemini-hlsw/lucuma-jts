@@ -19,10 +19,10 @@ import java.util
 import java.util.Collections
 
 import org.locationtech.jts.algorithm.RobustLineIntersector
-import org.locationtech.jts.geom.{Geometry, GeometryFactory, Location, Polygon, PrecisionModel}
+import org.locationtech.jts.geom.{ Geometry, GeometryFactory, Location, Polygon, PrecisionModel }
 import org.locationtech.jts.geomgraph._
-import org.locationtech.jts.noding.{IntersectionAdder, MCIndexNoder, Noder, SegmentString}
-import org.locationtech.jts.operation.overlay.{OverlayNodeFactory, PolygonBuilder}
+import org.locationtech.jts.noding.{ IntersectionAdder, MCIndexNoder, Noder, SegmentString }
+import org.locationtech.jts.operation.overlay.{ OverlayNodeFactory, PolygonBuilder }
 
 import scala.jdk.CollectionConverters._
 
@@ -40,16 +40,17 @@ import scala.jdk.CollectionConverters._
 //  * @version 1.7
 //  */
 object BufferBuilder {
+
   /**
    * Compute the change in depth as an edge is crossed from R to L
    */
-    private def depthDelta(label: Label): Int = {
-      val lLoc = label.getLocation(0, Position.LEFT)
-      val rLoc = label.getLocation(0, Position.RIGHT)
-      if (lLoc == Location.INTERIOR && rLoc == Location.EXTERIOR) return 1
-      else if (lLoc == Location.EXTERIOR && rLoc == Location.INTERIOR) return -1
-      0
-    }
+  private def depthDelta(label: Label): Int = {
+    val lLoc = label.getLocation(0, Position.LEFT)
+    val rLoc = label.getLocation(0, Position.RIGHT)
+    if (lLoc == Location.INTERIOR && rLoc == Location.EXTERIOR) return 1
+    else if (lLoc == Location.EXTERIOR && rLoc == Location.INTERIOR) return -1
+    0
+  }
 
 //  private def convertSegStrings(it: util.Iterator[SegmentString]) = {
 //    val fact = new GeometryFactory
@@ -67,17 +68,17 @@ object BufferBuilder {
 
 class BufferBuilder(var bufParams: BufferParameters) {
 
-/**
- * Creates a new BufferBuilder,
- * using the given parameters.
- *
- * @param bufParams the buffer parameters to use
- */
+  /**
+   * Creates a new BufferBuilder,
+   * using the given parameters.
+   *
+   * @param bufParams the buffer parameters to use
+   */
   private var workingPrecisionModel: PrecisionModel = null
-  private var workingNoder: Noder[SegmentString] = null
-  private var geomFact: GeometryFactory = null
-  private var graph: PlanarGraph = null
-  private val edgeList = new EdgeList
+  private var workingNoder: Noder[SegmentString]    = null
+  private var geomFact: GeometryFactory             = null
+  private var graph: PlanarGraph                    = null
+  private val edgeList                              = new EdgeList
 
   /**
    * Sets the precision model to use during the curve computation and noding,
@@ -99,12 +100,12 @@ class BufferBuilder(var bufParams: BufferParameters) {
   def setNoder(noder: Noder[SegmentString]): Unit = workingNoder = noder
 
   def buffer(g: Geometry, distance: Double): Geometry = {
-    var precisionModel = workingPrecisionModel
+    var precisionModel   = workingPrecisionModel
     if (precisionModel == null) precisionModel = g.getPrecisionModel
     // factory must be the same as the one used by the input
     geomFact = g.getFactory
-    val curveBuilder = new OffsetCurveBuilder(precisionModel, bufParams)
-    val curveSetBuilder = new OffsetCurveSetBuilder(g, distance, curveBuilder)
+    val curveBuilder     = new OffsetCurveBuilder(precisionModel, bufParams)
+    val curveSetBuilder  = new OffsetCurveSetBuilder(g, distance, curveBuilder)
     val bufferSegStrList = curveSetBuilder.getCurves
     // short-circuit test
     if (bufferSegStrList.size <= 0) return createEmptyResultGeometry
@@ -120,13 +121,13 @@ class BufferBuilder(var bufParams: BufferParameters) {
     computeNodedEdges(bufferSegStrList, precisionModel)
     graph = new PlanarGraph(new OverlayNodeFactory)
     graph.addEdges(edgeList.getEdges)
-    val subgraphList = createSubgraphs(graph)
-    val polyBuilder = new PolygonBuilder(geomFact)
+    val subgraphList     = createSubgraphs(graph)
+    val polyBuilder      = new PolygonBuilder(geomFact)
     buildSubgraphs(subgraphList, polyBuilder)
-    val resultPolyList = polyBuilder.getPolygons
+    val resultPolyList   = polyBuilder.getPolygons
     // just in case...
     if (resultPolyList.size <= 0) return createEmptyResultGeometry
-    val resultGeom = geomFact.buildGeometry(resultPolyList.asScala.map(x => x: Geometry).asJava)
+    val resultGeom       = geomFact.buildGeometry(resultPolyList.asScala.map(x => x: Geometry).asJava)
     resultGeom
   }
 
@@ -134,7 +135,7 @@ class BufferBuilder(var bufParams: BufferParameters) {
     if (workingNoder != null) return workingNoder
     // otherwise use a fast (but non-robust) noder
     val noder = new MCIndexNoder
-    val li = new RobustLineIntersector
+    val li    = new RobustLineIntersector
     li.setPrecisionModel(precisionModel)
     noder.setSegmentIntersector(new IntersectionAdder(li))
     //    Noder noder = new IteratedNoder(precisionModel);
@@ -145,16 +146,18 @@ class BufferBuilder(var bufParams: BufferParameters) {
     //                                  precisionModel.getScale());
   }
 
-  private def computeNodedEdges(bufferSegStrList: util.List[SegmentString], precisionModel: PrecisionModel): Unit = {
-    val noder = getNoder(precisionModel)
+  private def computeNodedEdges(
+    bufferSegStrList: util.List[SegmentString],
+    precisionModel:   PrecisionModel
+  ): Unit = {
+    val noder           = getNoder(precisionModel)
     noder.computeNodes(bufferSegStrList)
     val nodedSegStrings = noder.getNodedSubstrings
     //BufferDebug.saveEdges(nodedEdges, "run" + BufferDebug.runCount + "_nodedEdges");
-    val i = nodedSegStrings.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i               = nodedSegStrings.iterator
+    while (i.hasNext) {
       val segStr = i.next.asInstanceOf[SegmentString]
+
       /**
        * Discard edges which have zero length,
        * since they carry no information and cause problems with topology building
@@ -162,116 +165,113 @@ class BufferBuilder(var bufParams: BufferParameters) {
       val pts = segStr.getCoordinates
       if (!(pts.length == 2 && pts(0).equals2D(pts(1)))) {
         val oldLabel = segStr.getData.asInstanceOf[Label]
-        val edge = new Edge(segStr.getCoordinates, new Label(oldLabel))
+        val edge     = new Edge(segStr.getCoordinates, new Label(oldLabel))
         insertUniqueEdge(edge)
       }
     }
-      //saveEdges(edgeList.getEdges(), "run" + runCount + "_collapsedEdges");
-    }
+    //saveEdges(edgeList.getEdges(), "run" + runCount + "_collapsedEdges");
+  }
 
-    /**
-     * Inserted edges are checked to see if an identical edge already exists.
-     * If so, the edge is not inserted, but its label is merged
-     * with the existing edge.
-     */
-    protected def insertUniqueEdge(e: Edge): Unit
-
-    =
-    { //<FIX> MD 8 Oct 03  speed up identical edge lookup
-      // fast lookup
-      val existingEdge = edgeList.findEqualEdge(e)
-      // If an identical edge already exists, simply update its label
-      if (existingEdge != null) {
-        val existingLabel = existingEdge.getLabel
-        var labelToMerge = e.getLabel
-        // check if new edge is in reverse direction to existing edge
-        // if so, must flip the label before merging it
-        if (!existingEdge.isPointwiseEqual(e)) {
-          labelToMerge = new Label(e.getLabel)
-          labelToMerge.flip()
-        }
-        existingLabel.merge(labelToMerge)
-        // compute new depth delta of sum of edges
-        val mergeDelta = BufferBuilder.depthDelta(labelToMerge)
-        val existingDelta = existingEdge.getDepthDelta
-        val newDelta = existingDelta + mergeDelta
-        existingEdge.setDepthDelta(newDelta)
+  /**
+   * Inserted edges are checked to see if an identical edge already exists.
+   * If so, the edge is not inserted, but its label is merged
+   * with the existing edge.
+   */
+  protected def insertUniqueEdge(e: Edge): Unit = { //<FIX> MD 8 Oct 03  speed up identical edge lookup
+    // fast lookup
+    val existingEdge = edgeList.findEqualEdge(e)
+    // If an identical edge already exists, simply update its label
+    if (existingEdge != null) {
+      val existingLabel = existingEdge.getLabel
+      var labelToMerge  = e.getLabel
+      // check if new edge is in reverse direction to existing edge
+      // if so, must flip the label before merging it
+      if (!existingEdge.isPointwiseEqual(e)) {
+        labelToMerge = new Label(e.getLabel)
+        labelToMerge.flip()
       }
-      else { // no matching existing edge was found
-        // add this new edge to the list of edges in this graph
-        //e.setName(name + edges.size());
-        edgeList.add(e)
-        e.setDepthDelta(BufferBuilder.depthDelta(e.getLabel))
-      }
-    }
-
-    private def createSubgraphs(graph: PlanarGraph) = {
-      val subgraphList = new util.ArrayList[BufferSubgraph]
-      val i = graph.getNodes.iterator
-      while ( {
-        i.hasNext
-      }) {
-        val node = i.next
-        if (!node.isVisited) {
-          val subgraph = new BufferSubgraph
-          subgraph.create(node)
-          subgraphList.add(subgraph)
-        }
-      }
-
-      /**
-       * Sort the subgraphs in descending order of their rightmost coordinate.
-       * This ensures that when the Polygons for the subgraphs are built,
-       * subgraphs for shells will have been built before the subgraphs for
-       * any holes they contain.
-       */
-      Collections.sort(subgraphList, Collections.reverseOrder[BufferSubgraph])
-      subgraphList
-    }
-
-    /**
-     * Completes the building of the input subgraphs by depth-labelling them,
-     * and adds them to the PolygonBuilder.
-     * The subgraph list must be sorted in rightmost-coordinate order.
-     *
-     * @param subgraphList the subgraphs to build
-     * @param polyBuilder  the PolygonBuilder which will build the final polygons
-     */
-    private def buildSubgraphs(subgraphList: util.List[BufferSubgraph], polyBuilder: PolygonBuilder) = {
-      val processedGraphs = new util.ArrayList[BufferSubgraph]
-      val i = subgraphList.iterator
-      while ( {
-        i.hasNext
-      }) {
-        val subgraph = i.next
-        val p = subgraph.getRightmostCoordinate
-        //      int outsideDepth = 0;
-        //      if (polyBuilder.containsPoint(p))
-        //        outsideDepth = 1;
-        val locater = new SubgraphDepthLocater(processedGraphs)
-        val outsideDepth = locater.getDepth(p)
-        //      try {
-        subgraph.computeDepth(outsideDepth)
-        //      }
-        //      catch (RuntimeException ex) {
-        //        // debugging only
-        //        //subgraph.saveDirEdges();
-        //        throw ex;
-        subgraph.findResultEdges()
-        processedGraphs.add(subgraph)
-        polyBuilder.add(subgraph.getDirectedEdges.asScala.map(x => x: EdgeEnd).asJava, subgraph.getNodes)
-      }
-    }
-
-    /**
-     * Gets the standard result for an empty buffer.
-     * Since buffer always returns a polygonal result,
-     * this is chosen to be an empty polygon.
-     *
-     * return the empty result geometry
-     */
-    private def createEmptyResultGeometry: Polygon = {
-      val emptyGeom = geomFact.createPolygon
-      emptyGeom
+      existingLabel.merge(labelToMerge)
+      // compute new depth delta of sum of edges
+      val mergeDelta    = BufferBuilder.depthDelta(labelToMerge)
+      val existingDelta = existingEdge.getDepthDelta
+      val newDelta      = existingDelta + mergeDelta
+      existingEdge.setDepthDelta(newDelta)
+    } else { // no matching existing edge was found
+      // add this new edge to the list of edges in this graph
+      //e.setName(name + edges.size());
+      edgeList.add(e)
+      e.setDepthDelta(BufferBuilder.depthDelta(e.getLabel))
     }
   }
+
+  private def createSubgraphs(graph: PlanarGraph) = {
+    val subgraphList = new util.ArrayList[BufferSubgraph]
+    val i            = graph.getNodes.iterator
+    while (i.hasNext) {
+      val node = i.next
+      if (!node.isVisited) {
+        val subgraph = new BufferSubgraph
+        subgraph.create(node)
+        subgraphList.add(subgraph)
+      }
+    }
+
+    /**
+     * Sort the subgraphs in descending order of their rightmost coordinate.
+     * This ensures that when the Polygons for the subgraphs are built,
+     * subgraphs for shells will have been built before the subgraphs for
+     * any holes they contain.
+     */
+    Collections.sort(subgraphList, Collections.reverseOrder[BufferSubgraph])
+    subgraphList
+  }
+
+  /**
+   * Completes the building of the input subgraphs by depth-labelling them,
+   * and adds them to the PolygonBuilder.
+   * The subgraph list must be sorted in rightmost-coordinate order.
+   *
+   * @param subgraphList the subgraphs to build
+   * @param polyBuilder  the PolygonBuilder which will build the final polygons
+   */
+  private def buildSubgraphs(
+    subgraphList: util.List[BufferSubgraph],
+    polyBuilder:  PolygonBuilder
+  ) = {
+    val processedGraphs = new util.ArrayList[BufferSubgraph]
+    val i               = subgraphList.iterator
+    while (i.hasNext) {
+      val subgraph     = i.next
+      val p            = subgraph.getRightmostCoordinate
+      //      int outsideDepth = 0;
+      //      if (polyBuilder.containsPoint(p))
+      //        outsideDepth = 1;
+      val locater      = new SubgraphDepthLocater(processedGraphs)
+      val outsideDepth = locater.getDepth(p)
+      //      try {
+      subgraph.computeDepth(outsideDepth)
+      //      }
+      //      catch (RuntimeException ex) {
+      //        // debugging only
+      //        //subgraph.saveDirEdges();
+      //        throw ex;
+      subgraph.findResultEdges()
+      processedGraphs.add(subgraph)
+      polyBuilder.add(subgraph.getDirectedEdges.asScala.map(x => x: EdgeEnd).asJava,
+                      subgraph.getNodes
+      )
+    }
+  }
+
+  /**
+   * Gets the standard result for an empty buffer.
+   * Since buffer always returns a polygonal result,
+   * this is chosen to be an empty polygon.
+   *
+   * return the empty result geometry
+   */
+  private def createEmptyResultGeometry: Polygon = {
+    val emptyGeom = geomFact.createPolygon
+    emptyGeom
+  }
+}

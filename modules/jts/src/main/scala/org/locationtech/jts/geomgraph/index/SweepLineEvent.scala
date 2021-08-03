@@ -19,12 +19,13 @@ object SweepLineEvent {
   private val DELETE = 2
 }
 
-class SweepLineEvent(val label: Any, val x: Double, val obj: Any) extends Comparable[SweepLineEvent] {
+class SweepLineEvent(val label: Any, val x: Double, val obj: Any)
+    extends Comparable[SweepLineEvent] {
 //  private var label: AnyRef = null // used for red-blue intersection detection
-  private val xValue = x
-  private var eventType = SweepLineEvent.INSERT
+  private val xValue                      = x
+  private var eventType                   = SweepLineEvent.INSERT
   private var insertEvent: SweepLineEvent = null // null if this is an INSERT event
-  private var deleteEventIndex = 0
+  private var deleteEventIndex            = 0
 //  private var obj = null
 
   /**
@@ -79,7 +80,7 @@ class SweepLineEvent(val label: Any, val x: Double, val obj: Any) extends Compar
    * correctly handled.
    */
   override def compareTo(pe: SweepLineEvent): Int = {
-   if (xValue < pe.xValue) return -1
+    if (xValue < pe.xValue) return -1
     if (xValue > pe.xValue) return 1
     if (eventType < pe.eventType) return -1
     if (eventType > pe.eventType) return 1

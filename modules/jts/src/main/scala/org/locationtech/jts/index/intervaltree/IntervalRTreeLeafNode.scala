@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -23,7 +23,8 @@ package org.locationtech.jts.index.intervaltree
 
 import org.locationtech.jts.index.ItemVisitor
 
-class IntervalRTreeLeafNode(val minArg: Double, val maxArg: Double, var item: Any) extends IntervalRTreeNode(minArg, maxArg) {
+class IntervalRTreeLeafNode(val minArg: Double, val maxArg: Double, var item: Any)
+    extends IntervalRTreeNode(minArg, maxArg) {
 //  this.min = min
 //  this.max = max
 

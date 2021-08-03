@@ -25,6 +25,7 @@ import org.locationtech.jts.geom.Point
  * @version 1.9
  */
 object ComponentCoordinateExtracter {
+
   /**
    * Extracts a representative {link Coordinate}
    * from each connected component in a geometry.
@@ -36,11 +37,11 @@ object ComponentCoordinateExtracter {
    * @param geom the Geometry from which to extract
    * return a list of representative Coordinates
    */
-    def getCoordinates(geom: Geometry): util.ArrayList[Coordinate] = {
-      val coords = new util.ArrayList[Coordinate]
-      geom.applyF(new ComponentCoordinateExtracter(coords))
-      coords
-    }
+  def getCoordinates(geom: Geometry): util.ArrayList[Coordinate] = {
+    val coords = new util.ArrayList[Coordinate]
+    geom.applyF(new ComponentCoordinateExtracter(coords))
+    coords
+  }
 }
 
 class ComponentCoordinateExtracter(coords: util.List[Coordinate])
@@ -48,7 +49,7 @@ class ComponentCoordinateExtracter(coords: util.List[Coordinate])
 /**
  * Constructs a LineExtracterFilter with a list in which to store LineStrings found.
  */
-  extends GeometryComponentFilter {
+    extends GeometryComponentFilter {
   override def filter(geom: Geometry): Unit = { // add coordinates from connected components
     if (geom.isInstanceOf[LineString] || geom.isInstanceOf[Point]) coords.add(geom.getCoordinate)
     ()

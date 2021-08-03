@@ -32,14 +32,17 @@ import scala.jdk.CollectionConverters._
  * @version 1.7
  */
 abstract class EdgeEndStar() {
+
   /**
    * A map which maintains the edges in sorted order around the node
    */
   protected var edgeMap = mutable.TreeMap.empty[EdgeEnd, EdgeEnd]
+
   /**
    * A list of all outgoing edges in the result, in CCW order
    */
   protected var edgeList: java.util.List[EdgeEnd] = null
+
   /**
    * The location of the point for this star in Geometry i Areas
    */
@@ -65,7 +68,7 @@ abstract class EdgeEndStar() {
   def getCoordinate: Coordinate = {
     val it = iterator
     if (!it.hasNext) return null
-    val e = it.next
+    val e  = it.next
     e.getCoordinate
   }
 
@@ -86,7 +89,7 @@ abstract class EdgeEndStar() {
 
   def getNextCW(ee: EdgeEnd): EdgeEnd = {
     getEdges
-    val i = edgeList.indexOf(ee)
+    val i       = edgeList.indexOf(ee)
     var iNextCW = i - 1
     if (i == 0) iNextCW = edgeList.size - 1
     edgeList.get(iNextCW)
@@ -100,6 +103,7 @@ abstract class EdgeEndStar() {
     propagateSideLabels(0)
     //Debug.printIfWatch(this);
     propagateSideLabels(1)
+
     /**
      * If there are edges that still have null labels for a geometry
      * this must be because there are no area edges for that geometry incident on this node.
@@ -130,31 +134,24 @@ abstract class EdgeEndStar() {
      * area label propagation, symLabel merging, then finally null label resolution.
      */
     val hasDimensionalCollapseEdge = Array(false, false)
-    var it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val e = it.next
+    var it                         = iterator
+    while (it.hasNext) {
+      val e     = it.next
       val label = e.getLabel
       var geomi = 0
-      while ( {
-        geomi < 2
-      }) {
-        if (label.isLine(geomi) && label.getLocation(geomi) == Location.BOUNDARY) hasDimensionalCollapseEdge(geomi) = true
+      while (geomi < 2) {
+        if (label.isLine(geomi) && label.getLocation(geomi) == Location.BOUNDARY)
+          hasDimensionalCollapseEdge(geomi) = true
         geomi += 1
       }
     }
     it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val e = it.next
+    while (it.hasNext) {
+      val e     = it.next
       val label = e.getLabel
       //Debug.println(e);
       var geomi = 0
-      while ( {
-        geomi < 2
-      }) {
+      while (geomi < 2) {
         if (label.isAnyNull(geomi)) {
           var loc = Location.NONE
           if (hasDimensionalCollapseEdge(geomi)) loc = Location.EXTERIOR
@@ -173,16 +170,15 @@ abstract class EdgeEndStar() {
 
   private def computeEdgeEndLabels(boundaryNodeRule: BoundaryNodeRule): Unit = { // Compute edge label for each EdgeEnd
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val ee = it.next
       ee.computeLabel(boundaryNodeRule)
     }
   }
 
   private def getLocation(geomIndex: Int, p: Coordinate, geom: Array[GeometryGraph]) = { // compute location only on demand
-    if (ptInAreaLocation(geomIndex) == Location.NONE) ptInAreaLocation(geomIndex) = SimplePointInAreaLocator.locate(p, geom(geomIndex).getGeometry)
+    if (ptInAreaLocation(geomIndex) == Location.NONE)
+      ptInAreaLocation(geomIndex) = SimplePointInAreaLocator.locate(p, geom(geomIndex).getGeometry)
     ptInAreaLocation(geomIndex)
   }
 
@@ -193,24 +189,22 @@ abstract class EdgeEndStar() {
 
   private def checkAreaLabelsConsistent(geomIndex: Int): Boolean = { // Since edges are stored in CCW order around the node,
     // As we move around the ring we move from the right to the left side of the edge
-    val edges = getEdges
+    val edges         = getEdges
     // if no edges, trivially consistent
     if (edges.size <= 0) return true
     // initialize startLoc to location of last L side (if any)
     val lastEdgeIndex = edges.size - 1
-    val startLabel = edges.get(lastEdgeIndex).asInstanceOf[EdgeEnd].getLabel
-    val startLoc = startLabel.getLocation(geomIndex, Position.LEFT)
+    val startLabel    = edges.get(lastEdgeIndex).asInstanceOf[EdgeEnd].getLabel
+    val startLoc      = startLabel.getLocation(geomIndex, Position.LEFT)
     Assert.isTrue(startLoc != Location.NONE, "Found unlabelled area edge")
-    var currLoc = startLoc
-    val it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val e = it.next.asInstanceOf[EdgeEnd]
-      val label = e.getLabel
+    var currLoc       = startLoc
+    val it            = iterator
+    while (it.hasNext) {
+      val e        = it.next.asInstanceOf[EdgeEnd]
+      val label    = e.getLabel
       // we assume that we are only checking a area
       Assert.isTrue(label.isArea(geomIndex), "Found non-area edge")
-      val leftLoc = label.getLocation(geomIndex, Position.LEFT)
+      val leftLoc  = label.getLocation(geomIndex, Position.LEFT)
       val rightLoc = label.getLocation(geomIndex, Position.RIGHT)
       //System.out.println(leftLoc + " " + rightLoc);
       // check that edge is really a boundary between inside and outside!
@@ -227,43 +221,46 @@ abstract class EdgeEndStar() {
     var startLoc = Location.NONE
     // initialize loc to location of last L side (if any)
     //System.out.println("finding start location");
-    var it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val e = it.next
+    var it       = iterator
+    while (it.hasNext) {
+      val e     = it.next
       val label = e.getLabel
-      if (label.isArea(geomIndex) && label.getLocation(geomIndex, Position.LEFT) != Location.NONE) startLoc = label.getLocation(geomIndex, Position.LEFT)
+      if (label.isArea(geomIndex) && label.getLocation(geomIndex, Position.LEFT) != Location.NONE)
+        startLoc = label.getLocation(geomIndex, Position.LEFT)
     }
     // no labelled sides found, so no labels to propagate
     if (startLoc == Location.NONE) return
-    var currLoc = startLoc
+    var currLoc  = startLoc
     it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val e = it.next
+    while (it.hasNext) {
+      val e     = it.next
       val label = e.getLabel
       // set null ON values to be in current location
-      if (label.getLocation(geomIndex, Position.ON) == Location.NONE) label.setLocation(geomIndex, Position.ON, currLoc)
+      if (label.getLocation(geomIndex, Position.ON) == Location.NONE)
+        label.setLocation(geomIndex, Position.ON, currLoc)
       // set side labels (if any)
       if (label.isArea(geomIndex)) {
-        val leftLoc = label.getLocation(geomIndex, Position.LEFT)
+        val leftLoc  = label.getLocation(geomIndex, Position.LEFT)
         val rightLoc = label.getLocation(geomIndex, Position.RIGHT)
         // if there is a right location, that is the next location to propagate
         if (rightLoc != Location.NONE) { //Debug.print(rightLoc != currLoc, this);
-          if (rightLoc != currLoc) throw new TopologyException("side location conflict", e.getCoordinate)
-          if (leftLoc == Location.NONE) Assert.shouldNeverReachHere("found single null side (at " + e.getCoordinate + ")")
+          if (rightLoc != currLoc)
+            throw new TopologyException("side location conflict", e.getCoordinate)
+          if (leftLoc == Location.NONE)
+            Assert.shouldNeverReachHere("found single null side (at " + e.getCoordinate + ")")
           currLoc = leftLoc
-        }
-        else {
-          /** RHS is null - LHS must be null too.
+        } else {
+
+          /**
+           * RHS is null - LHS must be null too.
            * This must be an edge from the other geometry, which has no location
            * labelling for this geometry.  This edge must lie wholly inside or outside
            * the other geometry (which is determined by the current location).
            * Assign both sides to be the current location.
            */
-          Assert.isTrue(label.getLocation(geomIndex, Position.LEFT) == Location.NONE, "found single null side")
+          Assert.isTrue(label.getLocation(geomIndex, Position.LEFT) == Location.NONE,
+                        "found single null side"
+          )
           label.setLocation(geomIndex, Position.RIGHT, currLoc)
           label.setLocation(geomIndex, Position.LEFT, currLoc)
         }
@@ -274,9 +271,7 @@ abstract class EdgeEndStar() {
   def findIndex(eSearch: EdgeEnd): Int = {
     iterator // force edgelist to be computed
     var i = 0
-    while ( {
-      i < edgeList.size
-    }) {
+    while (i < edgeList.size) {
       val e = edgeList.get(i)
       if (e eq eSearch) return i
       i += 1
@@ -287,9 +282,7 @@ abstract class EdgeEndStar() {
   def print(out: PrintStream): Unit = {
     System.out.println("EdgeEndStar:   " + getCoordinate)
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val e = it.next
       e.print(out)
     }
@@ -299,10 +292,8 @@ abstract class EdgeEndStar() {
     val buf = new StringBuffer
     buf.append("EdgeEndStar:   " + getCoordinate)
     buf.append("\n")
-    val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    val it  = iterator
+    while (it.hasNext) {
       val e = it.next
       buf.append(e)
       buf.append("\n")

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -27,6 +27,5 @@ package org.locationtech.jts.geom
  * and have components which have {link Lineal} boundaries.
  *
  * @author Martin Davis
- *
  */
 trait Polygonal {}

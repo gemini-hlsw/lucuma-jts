@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2019 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -76,9 +76,9 @@ import org.locationtech.jts.geom.util.GeometryCombiner
  * And it will be more likely to happen if a snap-rounding overlay is used.
  *
  * @author mbdavis
- *
  */
 object OverlapUnion {
+
   /**
    * Union a pair of geometries,
    * using the more performant overlap union algorithm if possible.
@@ -87,14 +87,14 @@ object OverlapUnion {
    * @param g1 a geometry to union
    * return the union of the inputs
    */
-    def union(g0: Geometry, g1: Geometry): Geometry = {
-      val union = new OverlapUnion(g0, g1)
-      union.union
-    }
+  def union(g0: Geometry, g1: Geometry): Geometry = {
+    val union = new OverlapUnion(g0, g1)
+    union.union
+  }
 
   private def overlapEnvelope(g0: Geometry, g1: Geometry) = {
-    val g0Env = g0.getEnvelopeInternal
-    val g1Env = g1.getEnvelopeInternal
+    val g0Env      = g0.getEnvelopeInternal
+    val g1Env      = g1.getEnvelopeInternal
     val overlapEnv = g0Env.intersection(g1Env)
     overlapEnv
   }
@@ -110,12 +110,13 @@ object OverlapUnion {
    */
   private def unionBuffer(g0: Geometry, g1: Geometry): Geometry = {
     val factory = g0.getFactory
-    val gColl = factory.createGeometryCollection(Array[Geometry](g0, g1))
-    val union = gColl.buffer(0.0)
+    val gColl   = factory.createGeometryCollection(Array[Geometry](g0, g1))
+    val union   = gColl.buffer(0.0)
     union
   }
 
-  private def intersects(env: Envelope, p0: Coordinate, p1: Coordinate): Boolean = env.intersects(p0) || env.intersects(p1)
+  private def intersects(env: Envelope, p0: Coordinate, p1: Coordinate): Boolean =
+    env.intersects(p0) || env.intersects(p1)
 
   private def containsProperly(env: Envelope, p0: Coordinate, p1: Coordinate): Boolean =
     containsProperly(env, p0) && containsProperly(env, p1)
@@ -125,12 +126,16 @@ object OverlapUnion {
     p.getX > env.getMinX && p.getX < env.getMaxX && p.getY > env.getMinY && p.getY < env.getMaxY
   }
 
-  private def extractBorderSegments(geom: Geometry, env: Envelope, segs: util.List[LineSegment]): Unit = geom.applyF(new CoordinateSequenceFilter() {
+  private def extractBorderSegments(
+    geom: Geometry,
+    env:  Envelope,
+    segs: util.List[LineSegment]
+  ): Unit = geom.applyF(new CoordinateSequenceFilter() {
     override def filter(seq: CoordinateSequence, i: Int): Unit = {
       if (i <= 0) return
       // extract LineSegment
-      val p0 = seq.getCoordinate(i - 1)
-      val p1 = seq.getCoordinate(i)
+      val p0       = seq.getCoordinate(i - 1)
+      val p1       = seq.getCoordinate(i)
       val isBorder = intersects(env, p0, p1) && !containsProperly(env, p0, p1)
       if (isBorder) {
         val seg = new LineSegment(p0, p1)
@@ -139,24 +144,20 @@ object OverlapUnion {
       ()
     }
 
-    override
+    override def isDone = false
 
-    def isDone = false
-
-    override
-
-    def isGeometryChanged = false
+    override def isGeometryChanged = false
   })
 }
 
 class OverlapUnion(var g0: Geometry, var g1: Geometry) {
 
-/**
- * Creates a new instance for unioning the given geometries.
- *
- * @param g0 a geometry to union
- * @param g1 a geometry to union
- */
+  /**
+   * Creates a new instance for unioning the given geometries.
+   *
+   * @param g0 a geometry to union
+   * @param g1 a geometry to union
+   */
   private val geomFactory = g0.getFactory
   private var isUnionSafe = false
 
@@ -177,18 +178,17 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
       val g1Copy = g1.copy
       return GeometryCombiner.combine(g0Copy, g1Copy)
     }
-    val disjointPolys = new util.ArrayList[Geometry]
-    val g0Overlap = extractByEnvelope(overlapEnv, g0, disjointPolys)
-    val g1Overlap = extractByEnvelope(overlapEnv, g1, disjointPolys)
+    val disjointPolys    = new util.ArrayList[Geometry]
+    val g0Overlap        = extractByEnvelope(overlapEnv, g0, disjointPolys)
+    val g1Overlap        = extractByEnvelope(overlapEnv, g1, disjointPolys)
     //    System.out.println("# geoms in common: " + intersectingPolys.size());
-    val unionGeom = unionFull(g0Overlap, g1Overlap)
+    val unionGeom        = unionFull(g0Overlap, g1Overlap)
     var result: Geometry = null
     isUnionSafe = isBorderSegmentsSame(unionGeom, overlapEnv)
     if (!isUnionSafe) { // overlap union changed border segments... need to do full union
       //System.out.println("OverlapUnion: Falling back to full union");
       result = unionFull(g0, g1)
-    }
-    else { //System.out.println("OverlapUnion: fast path");
+    } else { //System.out.println("OverlapUnion: fast path");
       result = combine(unionGeom, disjointPolys)
     }
     result
@@ -210,12 +210,14 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
     result
   }
 
-  private def extractByEnvelope(env: Envelope, geom: Geometry, disjointGeoms: util.List[Geometry]): Geometry = {
+  private def extractByEnvelope(
+    env:           Envelope,
+    geom:          Geometry,
+    disjointGeoms: util.List[Geometry]
+  ): Geometry = {
     val intersectingGeoms = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < geom.getNumGeometries
-    }) {
+    var i                 = 0
+    while (i < geom.getNumGeometries) {
       val elem = geom.getGeometryN(i)
       if (elem.getEnvelopeInternal.intersects(env)) intersectingGeoms.add(elem)
       else {
@@ -230,7 +232,6 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
   private def unionFull(geom0: Geometry, geom1: Geometry): Geometry = try geom0.union(geom1)
   catch {
     case _: TopologyException =>
-
       /**
        * If the overlay union fails,
        * try a buffer union, which often succeeds
@@ -240,7 +241,7 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
 
   private def isBorderSegmentsSame(result: Geometry, env: Envelope) = {
     val segsBefore = extractBorderSegments(g0, g1, env)
-    val segsAfter = new util.ArrayList[LineSegment]
+    val segsAfter  = new util.ArrayList[LineSegment]
     OverlapUnion.extractBorderSegments(result, env, segsAfter)
     //System.out.println("# seg before: " + segsBefore.size() + " - # seg after: " + segsAfter.size());
     isEqual(segsBefore, segsAfter)
@@ -250,7 +251,7 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
     if (segs0.size != segs1.size) return false
     val segIndex = new util.HashSet[LineSegment](segs0)
     import scala.jdk.CollectionConverters._
-    segs1.asScala.foldLeft(true) {case (v, seg) => if (!segIndex.contains(seg)) false else v}
+    segs1.asScala.foldLeft(true) { case (v, seg) => if (!segIndex.contains(seg)) false else v }
   }
 
   private def extractBorderSegments(geom0: Geometry, geom1: Geometry, env: Envelope) = {

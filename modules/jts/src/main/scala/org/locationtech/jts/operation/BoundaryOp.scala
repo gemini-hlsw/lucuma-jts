@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -45,16 +45,17 @@ import scala.collection.mutable.TreeMap
 //  * @version 1.7
 //  */
 object BoundaryOp {
+
   /**
    * Computes a geometry representing the boundary of a geometry.
    *
    * @param g the input geometry
    * return the computed boundary
    */
-    def getBoundary(g: Geometry): Geometry = {
-      val bop = new BoundaryOp(g)
-      bop.getBoundary
-    }
+  def getBoundary(g: Geometry): Geometry = {
+    val bop = new BoundaryOp(g)
+    bop.getBoundary
+  }
 
   // /**
   //  * Computes a geometry representing the boundary of a geometry,
@@ -72,12 +73,12 @@ object BoundaryOp {
 
 class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
 
-/**
- * Creates a new instance for the given geometry.
- *
- * @param geom   the input geometry
- * @param bnRule the Boundary Node Rule to use
- */
+  /**
+   * Creates a new instance for the given geometry.
+   *
+   * @param geom   the input geometry
+   * @param bnRule the Boundary Node Rule to use
+   */
   private val geomFact = geom.getFactory
 
   /**
@@ -94,13 +95,12 @@ class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
    *
    * return the boundary geometry
    */
-  def getBoundary: Geometry = {
+  def getBoundary: Geometry =
     geom match {
-      case string: LineString => boundaryLineString(string)
-      case ml: MultiLineString =>boundaryMultiLineString(ml)
-      case _ => geom.getBoundary
+      case string: LineString  => boundaryLineString(string)
+      case ml: MultiLineString => boundaryMultiLineString(ml)
+      case _                   => geom.getBoundary
     }
-  }
 
   private def getEmptyMultiPoint = geomFact.createMultiPoint
 
@@ -118,54 +118,53 @@ class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
   private def computeBoundaryCoordinates(mLine: MultiLineString): Array[Coordinate] = {
     val bdyPts = new util.ArrayList[Coordinate]
     endpointMap = TreeMap.empty[Coordinate, Counter]
-    var i = 0
-    while ( {
-      i < mLine.getNumGeometries
-    }) {
+    var i      = 0
+    while (i < mLine.getNumGeometries) {
       val line = mLine.getGeometryN(i).asInstanceOf[LineString]
       if (line.getNumPoints != 0) {
         addEndpoint(line.getCoordinateN(0))
         addEndpoint(line.getCoordinateN(line.getNumPoints - 1))
         i += 1
-      }}
-      endpointMap.foreach {
-        case (k, v) =>
-          val valence = v.count
-          if (bnRule.isInBoundary(valence)) bdyPts.add(k)
       }
-
-      CoordinateArrays.toCoordinateArray(bdyPts)
+    }
+    endpointMap.foreach { case (k, v) =>
+      val valence = v.count
+      if (bnRule.isInBoundary(valence)) bdyPts.add(k)
     }
 
-    private def addEndpoint(pt: Coordinate): Unit = {
-      var counter = endpointMap.get(pt).orNull
-      if (counter == null) {
-        counter = new Counter
-        endpointMap.put(pt, counter)
-      }
-      counter.count += 1
-    }
-
-    private def boundaryLineString(line: LineString): Geometry = {
-      if (geom.isEmpty) return getEmptyMultiPoint
-      if (line.isClosed) { // check whether endpoints of valence 2 are on the boundary or not
-        val closedEndpointOnBoundary = bnRule.isInBoundary(2)
-        if (closedEndpointOnBoundary) return line.getStartPoint
-        else return geomFact.createMultiPoint
-      }
-      geomFact.createMultiPoint(Array[Point](line.getStartPoint, line.getEndPoint))
-    }
+    CoordinateArrays.toCoordinateArray(bdyPts)
   }
+
+  private def addEndpoint(pt: Coordinate): Unit = {
+    var counter = endpointMap.get(pt).orNull
+    if (counter == null) {
+      counter = new Counter
+      endpointMap.put(pt, counter)
+    }
+    counter.count += 1
+  }
+
+  private def boundaryLineString(line: LineString): Geometry = {
+    if (geom.isEmpty) return getEmptyMultiPoint
+    if (line.isClosed) { // check whether endpoints of valence 2 are on the boundary or not
+      val closedEndpointOnBoundary = bnRule.isInBoundary(2)
+      if (closedEndpointOnBoundary) return line.getStartPoint
+      else return geomFact.createMultiPoint
+    }
+    geomFact.createMultiPoint(Array[Point](line.getStartPoint, line.getEndPoint))
+  }
+}
+
+/**
+ * Stores an integer count, for use as a Map entry.
+ *
+ * @author Martin Davis
+ * @version 1.7
+ */
+class Counter {
 
   /**
-   * Stores an integer count, for use as a Map entry.
-   *
-   * @author Martin Davis
-   * @version 1.7
+   * The value of the count
    */
-  class Counter {
-    /**
-     * The value of the count
-     */
-      private[operation] var count = 0
-  }
+  private[operation] var count = 0
+}

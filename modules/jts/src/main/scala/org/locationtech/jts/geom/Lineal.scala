@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -26,6 +26,5 @@ package org.locationtech.jts.geom
  * are 1-dimensional and have components which are {link LineString}s.
  *
  * @author Martin Davis
- *
  */
 trait Lineal {}

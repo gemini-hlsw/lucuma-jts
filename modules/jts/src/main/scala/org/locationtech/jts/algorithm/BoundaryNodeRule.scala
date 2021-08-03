@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -57,30 +57,35 @@ package org.locationtech.jts.algorithm
  * @see PointLocator
  */
 object BoundaryNodeRule {
+
   /**
    * The Mod-2 Boundary Node Rule (which is the rule specified in the OGC SFS).
    *
    * @see Mod2BoundaryNodeRule
    */
-    val MOD2_BOUNDARY_RULE = new BoundaryNodeRule.Mod2BoundaryNodeRule
+  val MOD2_BOUNDARY_RULE = new BoundaryNodeRule.Mod2BoundaryNodeRule
+
   /**
    * The Endpoint Boundary Node Rule.
    *
    * @see EndPointBoundaryNodeRule
    */
   val ENDPOINT_BOUNDARY_RULE = new BoundaryNodeRule.EndPointBoundaryNodeRule
+
   /**
    * The MultiValent Endpoint Boundary Node Rule.
    *
    * @see MultiValentEndPointBoundaryNodeRule
    */
   val MULTIVALENT_ENDPOINT_BOUNDARY_RULE = new BoundaryNodeRule.MultiValentEndPointBoundaryNodeRule
+
   /**
    * The Monovalent Endpoint Boundary Node Rule.
    *
    * @see MonoValentEndPointBoundaryNodeRule
    */
   val MONOVALENT_ENDPOINT_BOUNDARY_RULE = new BoundaryNodeRule.MonoValentEndPointBoundaryNodeRule
+
   /**
    * The Boundary Node Rule specified by the OGC Simple Features Specification,
    * which is the same as the Mod-2 rule.
@@ -104,10 +109,9 @@ object BoundaryNodeRule {
    * @version 1.7
    */
   class Mod2BoundaryNodeRule extends BoundaryNodeRule {
-    override def isInBoundary(boundaryCount: Int): Boolean = {
+    override def isInBoundary(boundaryCount: Int): Boolean =
       // the "Mod-2 Rule"
       boundaryCount % 2 == 1
-    }
   }
 
   /**
@@ -166,6 +170,7 @@ object BoundaryNodeRule {
 }
 
 trait BoundaryNodeRule {
+
   /**
    * Tests whether a point that lies in <tt>boundaryCount</tt>
    * geometry component boundaries is considered to form part of the boundary
@@ -174,5 +179,5 @@ trait BoundaryNodeRule {
    * @param boundaryCount the number of component boundaries that this point occurs in
    * return true if points in this number of boundaries lie in the parent boundary
    */
-    def isInBoundary(boundaryCount: Int): Boolean
+  def isInBoundary(boundaryCount: Int): Boolean
 }

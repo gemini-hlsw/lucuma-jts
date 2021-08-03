@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -59,6 +59,7 @@ object GeometrySnapper {
    */
   def computeOverlaySnapTolerance(g: Geometry): Double = {
     var snapTolerance = computeSizeBasedSnapTolerance(g)
+
     /**
      * Overlay is carried out in the precision model
      * of the two inputs.
@@ -77,13 +78,14 @@ object GeometrySnapper {
   }
 
   def computeSizeBasedSnapTolerance(g: Geometry): Double = {
-    val env = g.getEnvelopeInternal
+    val env          = g.getEnvelopeInternal
     val minDimension = Math.min(env.getHeight, env.getWidth)
-    val snapTol = minDimension * SNAP_PRECISION_FACTOR
+    val snapTol      = minDimension * SNAP_PRECISION_FACTOR
     snapTol
   }
 
-  def computeOverlaySnapTolerance(g0: Geometry, g1: Geometry): Double = Math.min(computeOverlaySnapTolerance(g0), computeOverlaySnapTolerance(g1))
+  def computeOverlaySnapTolerance(g0: Geometry, g1: Geometry): Double =
+    Math.min(computeOverlaySnapTolerance(g0), computeOverlaySnapTolerance(g1))
 
   /**
    * Snaps two geometries together with a given tolerance.
@@ -97,6 +99,7 @@ object GeometrySnapper {
     val snapGeom = new Array[Geometry](2)
     val snapper0 = new GeometrySnapper(g0)
     snapGeom(0) = snapper0.snapTo(g1, snapTolerance)
+
     /**
      * Snap the second geometry to the snapped first geometry
      * (this strategy minimizes the number of possible different points in the result)
@@ -129,11 +132,11 @@ object GeometrySnapper {
 
 class GeometrySnapper(var srcGeom: Geometry) {
 
-/**
- * Creates a new snapper acting on the given geometry
- *
- * @param srcGeom the geometry to snap
- */
+  /**
+   * Creates a new snapper acting on the given geometry
+   *
+   * @param srcGeom the geometry to snap
+   */
   // /**
   //  * Snaps the vertices in the component {link LineString}s
   //  * of the source geometry
@@ -143,7 +146,7 @@ class GeometrySnapper(var srcGeom: Geometry) {
   //  * return a new snapped Geometry
   //  */
   def snapTo(snapGeom: Geometry, snapTolerance: Double): Geometry = {
-    val snapPts = extractTargetCoordinates(snapGeom)
+    val snapPts   = extractTargetCoordinates(snapGeom)
     val snapTrans = new SnapTransformer(snapTolerance, snapPts)
     snapTrans.transform(srcGeom)
   }
@@ -161,10 +164,10 @@ class GeometrySnapper(var srcGeom: Geometry) {
   //  * return a new snapped Geometry
   //  */
   def snapToSelf(snapTolerance: Double, cleanResult: Boolean): Geometry = {
-    val snapPts = extractTargetCoordinates(srcGeom)
-    val snapTrans = new SnapTransformer(snapTolerance, snapPts, true)
+    val snapPts     = extractTargetCoordinates(srcGeom)
+    val snapTrans   = new SnapTransformer(snapTolerance, snapPts, true)
     val snappedGeom = snapTrans.transform(srcGeom)
-    var result = snappedGeom
+    var result      = snappedGeom
     if (cleanResult && result.isInstanceOf[Polygonal]) { // TODO: use better cleaning approach
       result = snappedGeom.buffer(0)
     }
@@ -173,11 +176,9 @@ class GeometrySnapper(var srcGeom: Geometry) {
 
   private def extractTargetCoordinates(g: Geometry) = { // TODO: should do this more efficiently.  Use CoordSeq filter to get points, KDTree for uniqueness & queries
     val ptSet = new util.TreeSet[Coordinate]
-    val pts = g.getCoordinates
-    var i = 0
-    while ( {
-      i < pts.length
-    }) {
+    val pts   = g.getCoordinates
+    var i     = 0
+    while (i < pts.length) {
       ptSet.add(pts(i))
       i += 1
     }
@@ -211,7 +212,8 @@ class GeometrySnapper(var srcGeom: Geometry) {
 //  }
 }
 
-class SnapTransformer(snapTolerance: Double, snapPts: Array[Coordinate], isSelfSnap: Boolean) extends GeometryTransformer {
+class SnapTransformer(snapTolerance: Double, snapPts: Array[Coordinate], isSelfSnap: Boolean)
+    extends GeometryTransformer {
 //  private var snapTolerance = .0
 //  private var snapPts: Array[Coordinate] = null
 //  private var isSelfSnap = false
@@ -229,7 +231,10 @@ class SnapTransformer(snapTolerance: Double, snapPts: Array[Coordinate], isSelfS
 //    this.isSelfSnap = isSelfSnap
 //  }
 
-  override protected def transformCoordinates(coords: CoordinateSequence, parent: Geometry): CoordinateSequence = {
+  override protected def transformCoordinates(
+    coords: CoordinateSequence,
+    parent: Geometry
+  ): CoordinateSequence = {
     val srcPts = coords.toCoordinateArray
     val newPts = snapLine(srcPts, snapPts)
     factory.getCoordinateSequenceFactory.create(newPts)

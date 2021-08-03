@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -49,7 +49,7 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
    */
   def add(intPt: Coordinate, segmentIndex: Int): SegmentNode = {
     val eiNew = new SegmentNode(edge, intPt, segmentIndex, edge.getSegmentOctant(segmentIndex))
-    val ei = nodeMap.get(eiNew).orNull
+    val ei    = nodeMap.get(eiNew).orNull
     if (ei != null) { // debugging sanity check
       Assert.isTrue(ei.coord.equals2D(intPt), "Found equal nodes with different coordinates")
       //      if (! ei.coord.equals2D(intPt))
@@ -87,10 +87,8 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
     findCollapsesFromInsertedNodes(collapsedVertexIndexes)
     findCollapsesFromExistingVertices(collapsedVertexIndexes)
     // node the collapses
-    val it = collapsedVertexIndexes.iterator
-    while ( {
-      it.hasNext
-    }) {
+    val it                     = collapsedVertexIndexes.iterator
+    while (it.hasNext) {
       val vertexIndex = it.next.asInstanceOf[Integer].intValue
       add(edge.getCoordinate(vertexIndex), vertexIndex)
     }
@@ -102,9 +100,7 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
    */
   private def findCollapsesFromExistingVertices(collapsedVertexIndexes: util.List[Int]): Unit = {
     var i = 0
-    while ( {
-      i < edge.size - 2
-    }) {
+    while (i < edge.size - 2) {
       val p0 = edge.getCoordinate(i)
 //      val p1 = edge.getCoordinate(i + 1)
       val p2 = edge.getCoordinate(i + 2)
@@ -124,20 +120,22 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
    */
   private def findCollapsesFromInsertedNodes(collapsedVertexIndexes: util.List[Int]): Unit = {
     val collapsedVertexIndex = new Array[Int](1)
-    val it = iterator
+    val it                   = iterator
     // there should always be at least two entries in the list, since the endpoints are nodes
-    var eiPrev = it.next
-    while ( {
-      it.hasNext
-    }) {
-      val ei = it.next
+    var eiPrev               = it.next
+    while (it.hasNext) {
+      val ei          = it.next
       val isCollapsed = findCollapseIndex(eiPrev, ei, collapsedVertexIndex)
       if (isCollapsed) collapsedVertexIndexes.add(collapsedVertexIndex(0))
       eiPrev = ei
     }
   }
 
-  private def findCollapseIndex(ei0: SegmentNode, ei1: SegmentNode, collapsedVertexIndex: Array[Int]): Boolean = { // only looking for equal nodes
+  private def findCollapseIndex(
+    ei0:                  SegmentNode,
+    ei1:                  SegmentNode,
+    collapsedVertexIndex: Array[Int]
+  ): Boolean = { // only looking for equal nodes
     if (!ei0.coord.equals2D(ei1.coord)) return false
     var numVerticesBetween = ei1.segmentIndex - ei0.segmentIndex
     if (!ei1.isInterior) numVerticesBetween -= 1
@@ -159,17 +157,16 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   def addSplitEdges(edgeList: util.Collection[NodedSegmentString]): Unit = { // ensure that the list has entries for the first and last point of the edge
     addEndpoints()
     addCollapsedNodes()
-    val it = iterator
+    val it     = iterator
     var eiPrev = it.next
-    while ( {
-      it.hasNext
-    }) {
-      val ei = it.next
+    while (it.hasNext) {
+      val ei      = it.next
       val newEdge = createSplitEdge(eiPrev, ei)
       /*
             if (newEdge.size() < 2)
               throw new RuntimeException("created single point edge: " + newEdge.toString());
-            */ edgeList.add(newEdge)
+       */
+      edgeList.add(newEdge)
       eiPrev = ei
     }
     //checkSplitEdgesCorrectness(testingSplitEdges);
@@ -213,10 +210,11 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
    * return the points for the split edge
    */
   private def createSplitEdgePts(ei0: SegmentNode, ei1: SegmentNode): Array[Coordinate] = { //Debug.println("\ncreateSplitEdge"); Debug.print(ei0); Debug.print(ei1);
-    var npts = ei1.segmentIndex - ei0.segmentIndex + 2
+    var npts           = ei1.segmentIndex - ei0.segmentIndex + 2
     // if only two points in split edge they must be the node points
     if (npts == 2) return Array[Coordinate](new Coordinate(ei0.coord), new Coordinate(ei1.coord))
     val lastSegStartPt = edge.getCoordinate(ei1.segmentIndex)
+
     /**
      * If the last intersection point is not equal to the its segment start pt,
      * add it to the points list as well.
@@ -228,18 +226,16 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
      */
     val useIntPt1 = ei1.isInterior || !ei1.coord.equals2D(lastSegStartPt)
     if (!useIntPt1) npts -= 1
-    val pts = new Array[Coordinate](npts)
-    var ipt = 0
-    pts({
+    val pts       = new Array[Coordinate](npts)
+    var ipt       = 0
+    pts {
       ipt += 1; ipt - 1
-    }) = new Coordinate(ei0.coord)
-    var i = ei0.segmentIndex + 1
-    while ( {
-      i <= ei1.segmentIndex
-    }) {
-      pts({
+    } = new Coordinate(ei0.coord)
+    var i         = ei0.segmentIndex + 1
+    while (i <= ei1.segmentIndex) {
+      pts {
         ipt += 1; ipt - 1
-      }) = edge.getCoordinate(i)
+      } = edge.getCoordinate(i)
       i += 1
     }
     if (useIntPt1) pts(ipt) = new Coordinate(ei1.coord)
@@ -253,16 +249,13 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
    * Repeated coordinates are collapsed.
    *
    * return an array of Coordinates
-   *
    */
   def getSplitCoordinates: Array[Coordinate] = {
     val coordList = new CoordinateList(Array.empty)
     addEndpoints()
-    val it = iterator
-    var eiPrev = it.next
-    while ( {
-      it.hasNext
-    }) {
+    val it        = iterator
+    var eiPrev    = it.next
+    while (it.hasNext) {
       val ei = it.next
       addEdgeCoordinates(eiPrev, ei, coordList)
       eiPrev = ei
@@ -278,9 +271,7 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   def print(out: PrintStream): Unit = {
     out.println("Intersections:")
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val ei = it.next
       ei.print(out)
     }

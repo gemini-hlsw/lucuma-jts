@@ -80,6 +80,7 @@ object GeometryEditor {
    * @version 1.7
    */
   trait GeometryEditorOperation {
+
     /**
      * Edits a Geometry by returning a new Geometry with a modification.
      * The returned geometry may be:
@@ -95,7 +96,7 @@ object GeometryEditor {
      * return a new Geometry which is a modification of the input Geometry
      * return null if the Geometry is to be deleted completely
      */
-      def edit(geometry: Geometry, factory: GeometryFactory): Geometry
+    def edit(geometry: Geometry, factory: GeometryFactory): Geometry
   }
 
   /**
@@ -105,7 +106,6 @@ object GeometryEditor {
    * GeometryFactory (including PrecisionModel and SRID).
    *
    * @author mbdavis
-   *
    */
   class NoOpGeometryOperation extends GeometryEditor.GeometryEditorOperation {
     override def edit(geometry: Geometry, factory: GeometryFactory): Geometry = geometry
@@ -117,12 +117,16 @@ object GeometryEditor {
    */
   abstract class CoordinateOperation extends GeometryEditor.GeometryEditorOperation {
     override final def edit(geometry: Geometry, factory: GeometryFactory): Geometry = {
-      if (geometry.isInstanceOf[LinearRing]) return factory.createLinearRing(edit(geometry.getCoordinates, geometry))
-      if (geometry.isInstanceOf[LineString]) return factory.createLineString(edit(geometry.getCoordinates, geometry))
+      if (geometry.isInstanceOf[LinearRing])
+        return factory.createLinearRing(edit(geometry.getCoordinates, geometry))
+      if (geometry.isInstanceOf[LineString])
+        return factory.createLineString(edit(geometry.getCoordinates, geometry))
       if (geometry.isInstanceOf[Point]) {
         val newCoordinates = edit(geometry.getCoordinates, geometry)
-        return factory.createPoint(if (newCoordinates.length > 0) newCoordinates(0)
-        else null)
+        return factory.createPoint(
+          if (newCoordinates.length > 0) newCoordinates(0)
+          else null
+        )
       }
       geometry
     }
@@ -148,9 +152,18 @@ object GeometryEditor {
    */
   abstract class CoordinateSequenceOperation extends GeometryEditor.GeometryEditorOperation {
     override final def edit(geometry: Geometry, factory: GeometryFactory): Geometry = {
-      if (geometry.isInstanceOf[LinearRing]) return factory.createLinearRing(edit(geometry.asInstanceOf[LinearRing].getCoordinateSequence, geometry))
-      if (geometry.isInstanceOf[LineString]) return factory.createLineString(edit(geometry.asInstanceOf[LineString].getCoordinateSequence, geometry))
-      if (geometry.isInstanceOf[Point]) return factory.createPoint(edit(geometry.asInstanceOf[Point].getCoordinateSequence, geometry))
+      if (geometry.isInstanceOf[LinearRing])
+        return factory.createLinearRing(
+          edit(geometry.asInstanceOf[LinearRing].getCoordinateSequence, geometry)
+        )
+      if (geometry.isInstanceOf[LineString])
+        return factory.createLineString(
+          edit(geometry.asInstanceOf[LineString].getCoordinateSequence, geometry)
+        )
+      if (geometry.isInstanceOf[Point])
+        return factory.createPoint(
+          edit(geometry.asInstanceOf[Point].getCoordinateSequence, geometry)
+        )
       geometry
     }
 
@@ -168,10 +181,10 @@ object GeometryEditor {
 
 class GeometryEditor(var factory: GeometryFactory) {
 
-/**
- * Creates a new GeometryEditor object which will create
- * edited {link Geometry}s with the same {link GeometryFactory} as the input Geometry.
- */
+  /**
+   * Creates a new GeometryEditor object which will create
+   * edited {link Geometry}s with the same {link GeometryFactory} as the input Geometry.
+   */
   /**
    * The factory used to create the modified Geometry.
    * If <tt>null</tt> the GeometryFactory of the input is used.
@@ -213,30 +226,36 @@ class GeometryEditor(var factory: GeometryFactory) {
     result
   }
 
-  private def editInternal(geometry: Geometry, operation: GeometryEditor.GeometryEditorOperation): Geometry = { // if client did not supply a GeometryFactory, use the one from the input Geometry
+  private def editInternal(
+    geometry:  Geometry,
+    operation: GeometryEditor.GeometryEditorOperation
+  ): Geometry = { // if client did not supply a GeometryFactory, use the one from the input Geometry
     if (factory == null) factory = geometry.getFactory
-    if (geometry.isInstanceOf[GeometryCollection]) return editGeometryCollection(geometry.asInstanceOf[GeometryCollection], operation)
-    if (geometry.isInstanceOf[Polygon]) return editPolygon(geometry.asInstanceOf[Polygon], operation)
+    if (geometry.isInstanceOf[GeometryCollection])
+      return editGeometryCollection(geometry.asInstanceOf[GeometryCollection], operation)
+    if (geometry.isInstanceOf[Polygon])
+      return editPolygon(geometry.asInstanceOf[Polygon], operation)
     if (geometry.isInstanceOf[Point]) return operation.edit(geometry, factory)
     if (geometry.isInstanceOf[LineString]) return operation.edit(geometry, factory)
     Assert.shouldNeverReachHere("Unsupported Geometry class: " + geometry.getClass.getName)
     null
   }
 
-  private def editPolygon(polygon: Polygon, operation: GeometryEditor.GeometryEditorOperation): Polygon = {
+  private def editPolygon(
+    polygon:   Polygon,
+    operation: GeometryEditor.GeometryEditorOperation
+  ): Polygon = {
     var newPolygon = operation.edit(polygon, factory).asInstanceOf[Polygon]
     // create one if needed
     if (newPolygon == null) newPolygon = factory.createPolygon
     if (newPolygon.isEmpty) { //RemoveSelectedPlugIn relies on this behaviour. [Jon Aquino]
       return newPolygon
     }
-    val shell = edit(newPolygon.getExteriorRing, operation).asInstanceOf[LinearRing]
+    val shell      = edit(newPolygon.getExteriorRing, operation).asInstanceOf[LinearRing]
     if (shell == null || shell.isEmpty) return factory.createPolygon
-    val holes = new util.ArrayList[LinearRing]
-    var i = 0
-    while ( {
-      i < newPolygon.getNumInteriorRing
-    }) {
+    val holes      = new util.ArrayList[LinearRing]
+    var i          = 0
+    while (i < newPolygon.getNumInteriorRing) {
       val hole = edit(newPolygon.getInteriorRingN(i), operation).asInstanceOf[LinearRing]
       if (!(hole == null || hole.isEmpty))
         holes.add(hole)
@@ -245,23 +264,27 @@ class GeometryEditor(var factory: GeometryFactory) {
     factory.createPolygon(shell, holes.toArray(Array.empty[LinearRing]))
   }
 
-  private def editGeometryCollection(collection: GeometryCollection, operation: GeometryEditor.GeometryEditorOperation): GeometryCollection = { // first edit the entire collection
+  private def editGeometryCollection(
+    collection: GeometryCollection,
+    operation:  GeometryEditor.GeometryEditorOperation
+  ): GeometryCollection = { // first edit the entire collection
     // MD - not sure why this is done - could just check original collection?
     val collectionForType = operation.edit(collection, factory).asInstanceOf[GeometryCollection]
     // edit the component geometries
-    val geometries = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < collectionForType.getNumGeometries
-    }) {
+    val geometries        = new util.ArrayList[Geometry]
+    var i                 = 0
+    while (i < collectionForType.getNumGeometries) {
       val geometry = edit(collectionForType.getGeometryN(i), operation)
       if (!(geometry == null || geometry.isEmpty))
         geometries.add(geometry)
       i += 1
     }
-    if (collectionForType.getClass eq classOf[MultiPoint]) return factory.createMultiPoint(geometries.toArray(Array.empty[Point]))
-    if (collectionForType.getClass eq classOf[MultiLineString]) return factory.createMultiLineString(geometries.toArray(Array.empty[LineString]))
-    if (collectionForType.getClass eq classOf[MultiPolygon]) return factory.createMultiPolygon(geometries.toArray(Array.empty[Polygon]))
+    if (collectionForType.getClass eq classOf[MultiPoint])
+      return factory.createMultiPoint(geometries.toArray(Array.empty[Point]))
+    if (collectionForType.getClass eq classOf[MultiLineString])
+      return factory.createMultiLineString(geometries.toArray(Array.empty[LineString]))
+    if (collectionForType.getClass eq classOf[MultiPolygon])
+      return factory.createMultiPolygon(geometries.toArray(Array.empty[Polygon]))
     factory.createGeometryCollection(geometries.toArray(Array.empty[Geometry]))
 
   }

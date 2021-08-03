@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -59,20 +59,24 @@ import org.locationtech.jts.util.Assert
  * @version 1.7
  */
 object LineIntersector {
+
   /**
    * These are deprecated, due to ambiguous naming
    */
-    val DONT_INTERSECT = 0
-  val DO_INTERSECT = 1
-  val COLLINEAR = 2
+  val DONT_INTERSECT = 0
+  val DO_INTERSECT   = 1
+  val COLLINEAR      = 2
+
   /**
    * Indicates that line segments do not intersect
    */
   val NO_INTERSECTION = 0
+
   /**
    * Indicates that line segments intersect in a single point
    */
   val POINT_INTERSECTION = 1
+
   /**
    * Indicates that line segments intersect in a line segment
    */
@@ -96,12 +100,13 @@ object LineIntersector {
    * but not safe to use for <b>truncated</b> points.
    */
   def computeEdgeDistance(p: Coordinate, p0: Coordinate, p1: Coordinate): Double = {
-    val dx = Math.abs(p1.x - p0.x)
-    val dy = Math.abs(p1.y - p0.y)
+    val dx   = Math.abs(p1.x - p0.x)
+    val dy   = Math.abs(p1.y - p0.y)
     var dist = -1.0 // sentinel value
     if (p == p0) dist = 0.0
-    else if (p == p1) if (dx > dy) dist = dx
-    else dist = dy
+    else if (p == p1)
+      if (dx > dy) dist = dx
+      else dist = dy
     else {
       val pdx = Math.abs(p.x - p0.x)
       val pdy = Math.abs(p.y - p0.y)
@@ -120,8 +125,8 @@ object LineIntersector {
    * Currently not sure how to improve this.
    */
   def nonRobustComputeEdgeDistance(p: Coordinate, p1: Coordinate, p2: Coordinate): Double = {
-    val dx = p.x - p1.x
-    val dy = p.y - p1.y
+    val dx   = p.x - p1.x
+    val dy   = p.y - p1.y
     val dist = Math.sqrt(dx * dx + dy * dy) // dummy value
     Assert.isTrue(!(dist == 0.0 && !(p == p1)), "Invalid distance calculation")
     dist
@@ -129,23 +134,24 @@ object LineIntersector {
 }
 
 abstract class LineIntersector() {
-  protected var result = 0
+  protected var result                               = 0
   protected var inputLines: Array[Array[Coordinate]] = Array.ofDim[Coordinate](2, 2)
-  protected var intPt: Array[Coordinate] = Array[Coordinate](new Coordinate(), new Coordinate())
+  protected var intPt: Array[Coordinate]             = Array[Coordinate](new Coordinate(), new Coordinate())
+
   /**
    * The indexes of the endpoints of the intersection lines, in order along
    * the corresponding line
    */
   protected var intLineIndex: Array[Array[Int]] = null
-  protected[jts] var isProperF = false
-  protected var pa: Coordinate = intPt(0)
-  protected var pb: Coordinate = intPt(1)
+  protected[jts] var isProperF                  = false
+  protected var pa: Coordinate                  = intPt(0)
+  protected var pb: Coordinate                  = intPt(1)
   // alias the intersection points for ease of reference
   /**
    * If makePrecise is true, computed intersection coordinates will be made precise
    * using Coordinate#makePrecise
    */
-  protected var precisionModel: PrecisionModel = null
+  protected var precisionModel: PrecisionModel  = null
 
   /**
    * Force computed intersection to be rounded to a given precision model
@@ -196,10 +202,16 @@ abstract class LineIntersector() {
     //numIntersects++;
   }
 
-  protected def computeIntersect(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Int
+  protected def computeIntersect(
+    p1: Coordinate,
+    p2: Coordinate,
+    q1: Coordinate,
+    q2: Coordinate
+  ): Int
 
 //  override def toString: String = WKTWriter.toLineString(inputLines(0)(0), inputLines(0)(1)) + " - " + WKTWriter.toLineString(inputLines(1)(0), inputLines(1)(1)) + getTopologySummary
-  override def toString: String = s"${(inputLines(0)(0), inputLines(0)(1))} - (inputLines(1)(0), inputLines(1)(1)) + getTopologySummary"
+  override def toString: String =
+    s"${(inputLines(0)(0), inputLines(0)(1))} - (inputLines(1)(0), inputLines(1)(1)) + getTopologySummary"
 
 //  private def getTopologySummary = {
 //    val catBuilder = new StringBuilder
@@ -250,9 +262,7 @@ abstract class LineIntersector() {
    */
   def isIntersection(pt: Coordinate): Boolean = {
     var i = 0
-    while ( {
-      i < result
-    }) {
+    while (i < result) {
       if (intPt(i).equals2D(pt)) return true
       i += 1
     }
@@ -277,10 +287,12 @@ abstract class LineIntersector() {
    */
   def isInteriorIntersection(inputLineIndex: Int): Boolean = {
     var i = 0
-    while ( {
-      i < result
-    }) {
-      if (!(intPt(i).equals2D(inputLines(inputLineIndex)(0)) || intPt(i).equals2D(inputLines(inputLineIndex)(1)))) return true
+    while (i < result) {
+      if (
+        !(intPt(i).equals2D(inputLines(inputLineIndex)(0)) || intPt(i).equals2D(
+          inputLines(inputLineIndex)(1)
+        ))
+      ) return true
       i += 1
     }
     false
@@ -334,8 +346,7 @@ abstract class LineIntersector() {
     if (dist0 > dist1) {
       intLineIndex(segmentIndex)(0) = 0
       intLineIndex(segmentIndex)(1) = 1
-    }
-    else {
+    } else {
       intLineIndex(segmentIndex)(0) = 1
       intLineIndex(segmentIndex)(1) = 0
     }
@@ -349,7 +360,10 @@ abstract class LineIntersector() {
    * return the edge distance of the intersection point
    */
   def getEdgeDistance(segmentIndex: Int, intIndex: Int): Double = {
-    val dist = LineIntersector.computeEdgeDistance(intPt(intIndex), inputLines(segmentIndex)(0), inputLines(segmentIndex)(1))
+    val dist = LineIntersector.computeEdgeDistance(intPt(intIndex),
+                                                   inputLines(segmentIndex)(0),
+                                                   inputLines(segmentIndex)(1)
+    )
     dist
   }
 }

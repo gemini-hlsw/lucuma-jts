@@ -20,8 +20,19 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.MultiPolygon
 import org.locationtech.jts.geom.Polygon
-import org.locationtech.jts.geomgraph.{DirectedEdge, Edge, EdgeEnd, GeometryGraph, PlanarGraph, Position}
-import org.locationtech.jts.operation.overlay.{MaximalEdgeRing, MinimalEdgeRing, OverlayNodeFactory}
+import org.locationtech.jts.geomgraph.{
+  DirectedEdge,
+  Edge,
+  EdgeEnd,
+  GeometryGraph,
+  PlanarGraph,
+  Position
+}
+import org.locationtech.jts.operation.overlay.{
+  MaximalEdgeRing,
+  MinimalEdgeRing,
+  OverlayNodeFactory
+}
 import org.locationtech.jts.util.Assert
 
 /**
@@ -41,9 +52,7 @@ import org.locationtech.jts.util.Assert
 object ConnectedInteriorTester {
   def findDifferentPoint(coord: Array[Coordinate], pt: Coordinate): Coordinate = {
     var i = 0
-    while ( {
-      i < coord.length
-    }) {
+    while (i < coord.length) {
       if (!(coord(i) == pt)) return coord(i)
       i += 1
     }
@@ -52,7 +61,7 @@ object ConnectedInteriorTester {
 }
 
 class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
-  private val geometryFactory = new GeometryFactory
+  private val geometryFactory                   = new GeometryFactory
   // save a coordinate for any disconnected interior found
   // the coordinate will be somewhere on the ring surrounding the disconnected interior
   private var disconnectedRingcoord: Coordinate = null
@@ -63,11 +72,11 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
     val splitEdges = new util.ArrayList[Edge]
     geomGraph.computeSplitEdges(splitEdges)
     // form the edges into rings
-    val graph = new PlanarGraph(new OverlayNodeFactory)
+    val graph      = new PlanarGraph(new OverlayNodeFactory)
     graph.addEdges(splitEdges)
     setInteriorEdgesInResult(graph)
     graph.linkResultDirectedEdges()
-    val edgeRings = buildEdgeRings(graph.getEdgeEnds)
+    val edgeRings  = buildEdgeRings(graph.getEdgeEnds)
 
     /**
      * Mark all the edges for the edgeRings corresponding to the shells
@@ -87,9 +96,7 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
 
   private def setInteriorEdgesInResult(graph: PlanarGraph): Unit = {
     val it = graph.getEdgeEnds.iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
       if (de.getLabel.getLocation(0, Position.RIGHT) == Location.INTERIOR) de.setInResult(true)
     }
@@ -100,16 +107,16 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
    * (Minimal Edgerings must be used, because only they are guaranteed to provide
    * a correct isHole computation)
    */
-  private def buildEdgeRings(dirEdges: util.Collection[EdgeEnd]): util.ArrayList[MinimalEdgeRing] = {
+  private def buildEdgeRings(
+    dirEdges: util.Collection[EdgeEnd]
+  ): util.ArrayList[MinimalEdgeRing] = {
     val edgeRings = new util.ArrayList[MinimalEdgeRing]
-    val it = dirEdges.iterator
-    while ( {
-      it.hasNext
-    }) {
+    val it        = dirEdges.iterator
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
       // if this edge has not yet been processed
       if (de.isInResult && de.getEdgeRing == null) {
-        val er = new MaximalEdgeRing(de, geometryFactory)
+        val er           = new MaximalEdgeRing(de, geometryFactory)
         er.linkDirectedEdgesForMinimalEdgeRings()
         val minEdgeRings = er.buildMinimalRings
         edgeRings.addAll(minEdgeRings)
@@ -131,10 +138,8 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
     }
     if (g.isInstanceOf[MultiPolygon]) {
       val mp = g.asInstanceOf[MultiPolygon]
-      var i = 0
-      while ( {
-        i < mp.getNumGeometries
-      }) {
+      var i  = 0
+      while (i < mp.getNumGeometries) {
         val p = mp.getGeometryN(i).asInstanceOf[Polygon]
         visitInteriorRing(p.getExteriorRing, graph)
         i += 1
@@ -146,30 +151,30 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
     if (ring.isEmpty) return
     val pts = ring.getCoordinates
     val pt0 = pts(0)
+
     /**
      * Find first point in coord list different to initial point.
      * Need special check since the first point may be repeated.
      */
-    val pt1 = ConnectedInteriorTester.findDifferentPoint(pts, pt0)
-    val e = graph.findEdgeInSameDirection(pt0, pt1)
-    val de = graph.findEdgeEnd(e).asInstanceOf[DirectedEdge]
+    val pt1                 = ConnectedInteriorTester.findDifferentPoint(pts, pt0)
+    val e                   = graph.findEdgeInSameDirection(pt0, pt1)
+    val de                  = graph.findEdgeEnd(e).asInstanceOf[DirectedEdge]
     var intDe: DirectedEdge = null
     if (de.getLabel.getLocation(0, Position.RIGHT) == Location.INTERIOR) intDe = de
-    else if (de.getSym.getLabel.getLocation(0, Position.RIGHT) == Location.INTERIOR) intDe = de.getSym
+    else if (de.getSym.getLabel.getLocation(0, Position.RIGHT) == Location.INTERIOR)
+      intDe = de.getSym
     Assert.isTrue(intDe != null, "unable to find dirEdge with Interior on RHS")
     visitLinkedDirectedEdges(intDe)
   }
 
   protected def visitLinkedDirectedEdges(start: DirectedEdge) = {
     val startDe = start
-    var de = start
-    do {
+    var de      = start
+    while( { {
       Assert.isTrue(de != null, "found null Directed Edge")
       de.setVisited(true)
       de = de.getNext
-    } while ( {
-      de ne startDe
-    })
+    } ; de ne startDe }) ()
   }
 
   /**
@@ -184,25 +189,22 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
    */
   private def hasUnvisitedShellEdge(edgeRings: util.List[MinimalEdgeRing]): Boolean = {
     var i = 0
-    while ( {
-      i < edgeRings.size
-    }) {
+    while (i < edgeRings.size) {
       val er = edgeRings.get(i)
       // don't check hole rings
       if (!er.isHole) {
         val edges = er.getEdges
-        var de = edges.get(0).asInstanceOf[DirectedEdge]
+        var de    = edges.get(0).asInstanceOf[DirectedEdge]
         // don't check CW rings which are holes
         // (MD - this check may now be irrelevant)
         if (de.getLabel.getLocation(0, Position.RIGHT) == Location.INTERIOR) {
+
           /**
            * the edgeRing is CW ring which surrounds the INT of the area, so check all
            * edges have been visited.  If any are unvisited, this is a disconnected part of the interior
            */
           var j = 0
-          while ( {
-            j < edges.size
-          }) {
+          while (j < edges.size) {
             de = edges.get(j).asInstanceOf[DirectedEdge]
             //Debug.print("visted? "); Debug.println(de);
             if (!de.isVisited) { //Debug.print("not visited "); Debug.println(de);
@@ -214,7 +216,7 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
         }
       }
       i += 1
-        }
-        false
-      }
     }
+    false
+  }
+}

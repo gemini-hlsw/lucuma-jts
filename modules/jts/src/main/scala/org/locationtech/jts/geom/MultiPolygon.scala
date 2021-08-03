@@ -37,7 +37,9 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
 //  *            HREF="http://www.opengis.org/techno/specs.htm">OpenGIS Simple
 //  *            Features Specification for SQL</A>.
 //  */
-  extends GeometryCollection(polygons.map(x => x: Geometry), factory) with Polygonal {
+    extends GeometryCollection(polygons.map(x => x: Geometry), factory)
+    with Polygonal {
+
   /**
    * Constructs a <code>MultiPolygon</code>.
    *
@@ -71,17 +73,13 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
    */
   override def getBoundary: Geometry = {
     if (isEmpty) return getFactory.createMultiLineString
-    val allRings = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    val allRings      = new util.ArrayList[Geometry]
+    var i             = 0
+    while (i < geometries.length) {
       val polygon = geometries(i).asInstanceOf[Polygon]
-      val rings = polygon.getBoundary
-      var j = 0
-      while ( {
-        j < rings.getNumGeometries
-      }) {
+      val rings   = polygon.getBoundary
+      var j       = 0
+      while (j < rings.getNumGeometries) {
         allRings.add(rings.getGeometryN(j))
         j += 1
       }
@@ -108,12 +106,10 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
 
   override protected def copyInternal: MultiPolygon = {
     val polygons = new Array[Polygon](this.geometries.length)
-    var i = 0
-    while ( {
-      i < polygons.length
-    }) {
+    var i        = 0
+    while (i < polygons.length) {
       polygons(i) = this.geometries(i).copy.asInstanceOf[Polygon]
-        i += 1
+      i += 1
     }
     new MultiPolygon(polygons, factory)
   }

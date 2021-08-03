@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -55,7 +55,6 @@ import org.locationtech.jts.index.intervaltree.SortedPackedIntervalRTree
  * Thread-safe and immutable.
  *
  * @author Martin Davis
- *
  */
 object IndexedPointInAreaLocator {
 
@@ -70,25 +69,21 @@ object IndexedPointInAreaLocator {
     private var isEmpty = false
     if (geom.isEmpty) isEmpty = true
     else init(geom)
-    private val index = new SortedPackedIntervalRTree
+    private val index   = new SortedPackedIntervalRTree
 
     private def init(geom: Geometry): Unit = {
       val lines = LinearComponentExtracter.getLines(geom)
-      val i = lines.iterator
-      while ( {
-        i.hasNext
-      }) {
+      val i     = lines.iterator
+      while (i.hasNext) {
         val line = i.next.asInstanceOf[LineString]
-        val pts = line.getCoordinates
+        val pts  = line.getCoordinates
         addLine(pts)
       }
     }
 
     private def addLine(pts: Array[Coordinate]): Unit = {
       var i = 1
-      while ( {
-        i < pts.length
-      }) {
+      while (i < pts.length) {
         val seg = new LineSegment(pts(i - 1), pts(i))
         val min = Math.min(seg.p0.y, seg.p1.y)
         val max = Math.max(seg.p0.y, seg.p1.y)
@@ -121,8 +116,9 @@ class IndexedPointInAreaLocator(var geom: Geometry)
  *
  * @param g the Geometry to locate in
  */
-  extends PointOnGeometryLocator {
-  if (!(geom.isInstanceOf[Polygonal] || geom.isInstanceOf[LinearRing])) throw new IllegalArgumentException("Argument must be Polygonal or LinearRing")
+    extends PointOnGeometryLocator {
+  if (!(geom.isInstanceOf[Polygonal] || geom.isInstanceOf[LinearRing]))
+    throw new IllegalArgumentException("Argument must be Polygonal or LinearRing")
   private var index: IntervalIndexedGeometry = null
 
   /**
@@ -137,13 +133,14 @@ class IndexedPointInAreaLocator(var geom: Geometry)
       // no need to hold onto geom
       geom = null
     }
-    val rcc = new RayCrossingCounter(p)
+    val rcc     = new RayCrossingCounter(p)
     val visitor = new IndexedPointInAreaLocator.SegmentVisitor(rcc)
     index.query(p.y, p.y, visitor)
     /*
          // MD - slightly slower alternative
         List segs = index.query(p.y, p.y);
         countSegs(rcc, segs);
-        */ rcc.getLocation
+     */
+    rcc.getLocation
   }
 }

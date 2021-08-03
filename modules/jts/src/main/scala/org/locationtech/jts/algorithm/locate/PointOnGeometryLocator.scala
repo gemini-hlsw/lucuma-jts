@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,11 +30,12 @@ import org.locationtech.jts.geom.Coordinate
  * @author Martin Davis
  */
 trait PointOnGeometryLocator {
+
   /**
    * Determines the {link Location} of a point in the {link Geometry}.
    *
    * @param p the point to test
    * return the location of the point in the geometry
    */
-    def locate(p: Coordinate): Int
+  def locate(p: Coordinate): Int
 }

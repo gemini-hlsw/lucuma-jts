@@ -29,6 +29,7 @@ import org.locationtech.jts.geom.LineString
  * @version 1.7
  */
 object InteriorPointLine {
+
   /**
    * Computes an interior point for the
    * linear components of a Geometry.
@@ -37,16 +38,16 @@ object InteriorPointLine {
    * return the computed interior point,
    *         or <code>null</code> if the geometry has no linear components
    */
-    def getInteriorPoint(geom: Geometry): Coordinate = {
-      val intPt = new InteriorPointLine(geom)
-      intPt.getInteriorPoint
-    }
+  def getInteriorPoint(geom: Geometry): Coordinate = {
+    val intPt = new InteriorPointLine(geom)
+    intPt.getInteriorPoint
+  }
 }
 
 class InteriorPointLine(val g: Geometry) {
   addInterior(g)
-  private val centroid = g.getCentroid.getCoordinate
-  private var minDistance = Double.MaxValue
+  private val centroid                  = g.getCentroid.getCoordinate
+  private var minDistance               = Double.MaxValue
   private var interiorPoint: Coordinate = null
   if (interiorPoint == null) addEndpoints(g)
 
@@ -59,13 +60,12 @@ class InteriorPointLine(val g: Geometry) {
    *
    * @param geom the geometry to add
    */
-  private def addInterior(geom: Geometry): Unit = if (geom.isInstanceOf[LineString]) addInterior(geom.getCoordinates)
+  private def addInterior(geom: Geometry): Unit = if (geom.isInstanceOf[LineString])
+    addInterior(geom.getCoordinates)
   else if (geom.isInstanceOf[GeometryCollection]) {
     val gc = geom.asInstanceOf[GeometryCollection]
-    var i = 0
-    while ( {
-      i < gc.getNumGeometries
-    }) {
+    var i  = 0
+    while (i < gc.getNumGeometries) {
       addInterior(gc.getGeometryN(i))
       i += 1
     }
@@ -73,9 +73,7 @@ class InteriorPointLine(val g: Geometry) {
 
   private def addInterior(pts: Array[Coordinate]): Unit = {
     var i = 1
-    while ( {
-      i < pts.length - 1
-    }) {
+    while (i < pts.length - 1) {
       add(pts(i))
       i += 1
     }
@@ -88,13 +86,12 @@ class InteriorPointLine(val g: Geometry) {
    *
    * @param geom the geometry to add
    */
-  private def addEndpoints(geom: Geometry): Unit = if (geom.isInstanceOf[LineString]) addEndpoints(geom.getCoordinates)
+  private def addEndpoints(geom: Geometry): Unit = if (geom.isInstanceOf[LineString])
+    addEndpoints(geom.getCoordinates)
   else if (geom.isInstanceOf[GeometryCollection]) {
     val gc = geom.asInstanceOf[GeometryCollection]
-    var i = 0
-    while ( {
-      i < gc.getNumGeometries
-    }) {
+    var i  = 0
+    while (i < gc.getNumGeometries) {
       addEndpoints(gc.getGeometryN(i))
       i += 1
     }

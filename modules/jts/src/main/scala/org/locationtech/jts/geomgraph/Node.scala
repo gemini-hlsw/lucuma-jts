@@ -19,8 +19,11 @@ import org.locationtech.jts.geom.Location
 /**
  * @version 1.7
  */
-class Node(var coord: Coordinate // only non-null if this node is precise
-           , var edges: EdgeEndStar) extends GraphComponent(new Label(0, Location.NONE)) {
+class Node(
+  var coord: Coordinate // only non-null if this node is precise
+  ,
+  var edges: EdgeEndStar
+) extends GraphComponent(new Label(0, Location.NONE)) {
 
   override def getCoordinate: Coordinate = coord
 
@@ -36,9 +39,7 @@ class Node(var coord: Coordinate // only non-null if this node is precise
    */
   def isIncidentEdgeInResult: Boolean = {
     val it = getEdges.getEdges.iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
       if (de.getEdge.isInResult) return true
     }
@@ -50,8 +51,7 @@ class Node(var coord: Coordinate // only non-null if this node is precise
   /**
    * Basic nodes do not compute IMs
    */
-  override protected def computeIM(im: IntersectionMatrix): Unit = {
-  }
+  override protected def computeIM(im: IntersectionMatrix): Unit = {}
 
   /**
    * Add the edge to the list of edges at this node
@@ -71,17 +71,16 @@ class Node(var coord: Coordinate // only non-null if this node is precise
    */
   def mergeLabel(label2: Label): Unit = {
     var i = 0
-    while ( {
-      i < 2
-    }) {
-      val loc = computeMergedLocation(label2, i)
+    while (i < 2) {
+      val loc     = computeMergedLocation(label2, i)
       val thisLoc = label.getLocation(i)
       if (thisLoc == Location.NONE) label.setLocation(i, loc)
       i += 1
     }
   }
 
-  def setLabel(argIndex: Int, onLocation: Int): Unit = if (label == null) label = new Label(argIndex, onLocation)
+  def setLabel(argIndex: Int, onLocation: Int): Unit = if (label == null)
+    label = new Label(argIndex, onLocation)
   else label.setLocation(argIndex, onLocation)
 
   /**
@@ -91,7 +90,7 @@ class Node(var coord: Coordinate // only non-null if this node is precise
   def setLabelBoundary(argIndex: Int): Unit = {
     if (label == null) return
     // determine the current location for the point (if any)
-    var loc = Location.NONE
+    var loc    = Location.NONE
     if (label != null) loc = label.getLocation(argIndex)
     // flip the loc
     var newLoc = 0
@@ -100,7 +99,7 @@ class Node(var coord: Coordinate // only non-null if this node is precise
         newLoc = Location.INTERIOR
       case Location.INTERIOR =>
         newLoc = Location.BOUNDARY
-      case _ =>
+      case _                 =>
         newLoc = Location.BOUNDARY
     }
     label.setLocation(argIndex, newLoc)

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -42,10 +42,8 @@ import scala.annotation.nowarn
 object OffsetCurveBuilder {
   private def copyCoordinates(pts: Array[Coordinate]) = {
     val copy = new Array[Coordinate](pts.length)
-    var i = 0
-    while ( {
-      i < copy.length
-    }) {
+    var i    = 0
+    while (i < copy.length) {
       copy(i) = new Coordinate(pts(i))
       i += 1
     }
@@ -77,14 +75,13 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     this.distance = distance
     if (isLineOffsetEmpty(distance)) return null
     val posDistance = Math.abs(distance)
-    val segGen = getSegGen(posDistance)
+    val segGen      = getSegGen(posDistance)
     if (inputPts.length <= 1) computePointCurve(inputPts(0), segGen)
     else if (bufParams.isSingleSided) {
       val isRightSide = distance < 0.0
       computeSingleSidedBufferCurve(inputPts, isRightSide, segGen)
-    }
-    else computeLineBufferCurve(inputPts, segGen)
-    val lineCoord = segGen.getCoordinates
+    } else computeLineBufferCurve(inputPts, segGen)
+    val lineCoord   = segGen.getCoordinates
     lineCoord
   }
 
@@ -134,16 +131,17 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     if (distance == 0.0) return null
     val isRightSide = distance < 0.0
     val posDistance = Math.abs(distance)
-    val segGen = getSegGen(posDistance)
+    val segGen      = getSegGen(posDistance)
     if (inputPts.length <= 1) computePointCurve(inputPts(0), segGen)
     else computeOffsetCurve(inputPts, isRightSide, segGen)
-    val curvePts = segGen.getCoordinates
+    val curvePts    = segGen.getCoordinates
     // for right side line is traversed in reverse direction, so have to reverse generated line
     if (isRightSide) CoordinateArrays.reverse(curvePts)
     curvePts
   }
 
-  private def getSegGen(distance: Double) = new OffsetSegmentGenerator(precisionModel, bufParams, distance)
+  private def getSegGen(distance: Double) =
+    new OffsetSegmentGenerator(precisionModel, bufParams, distance)
 
   /**
    * Computes the distance tolerance to use during input
@@ -155,27 +153,29 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
   private def simplifyTolerance(bufDistance: Double) = bufDistance * bufParams.getSimplifyFactor
 
   @nowarn
-  private def computePointCurve(pt: Coordinate, segGen: OffsetSegmentGenerator) = bufParams.getEndCapStyle match {
-    case BufferParameters.CAP_ROUND =>
-      segGen.createCircle(pt)
-    case BufferParameters.CAP_SQUARE =>
-      segGen.createSquare(pt)
-    // otherwise curve is empty (e.g. for a butt cap);
-  }
+  private def computePointCurve(pt: Coordinate, segGen: OffsetSegmentGenerator) =
+    bufParams.getEndCapStyle match {
+      case BufferParameters.CAP_ROUND  =>
+        segGen.createCircle(pt)
+      case BufferParameters.CAP_SQUARE =>
+        segGen.createSquare(pt)
+      // otherwise curve is empty (e.g. for a butt cap);
+    }
 
-  private def computeLineBufferCurve(inputPts: Array[Coordinate], segGen: OffsetSegmentGenerator): Unit = {
+  private def computeLineBufferCurve(
+    inputPts: Array[Coordinate],
+    segGen:   OffsetSegmentGenerator
+  ): Unit = {
     val distTol = simplifyTolerance(distance)
     //--------- compute points for left side of line
     // Simplify the appropriate side of the line before generating
-    val simp1 = BufferInputLineSimplifier.simplify(inputPts, distTol)
+    val simp1   = BufferInputLineSimplifier.simplify(inputPts, distTol)
     // MD - used for testing only (to eliminate simplification)
     //    Coordinate[] simp1 = inputPts;
-    val n1 = simp1.length - 1
+    val n1      = simp1.length - 1
     segGen.initSideSegments(simp1(0), simp1(1), Position.LEFT)
-    var i = 2
-    while ( {
-      i <= n1
-    }) {
+    var i       = 2
+    while (i <= n1) {
       segGen.addNextSegment(simp1(i), true)
       i += 1
     }
@@ -183,15 +183,13 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     // add line cap for end of line
     segGen.addLineEndCap(simp1(n1 - 1), simp1(n1))
     //---------- compute points for right side of line
-    val simp2 = BufferInputLineSimplifier.simplify(inputPts, -distTol)
+    val simp2   = BufferInputLineSimplifier.simplify(inputPts, -distTol)
     //    Coordinate[] simp2 = inputPts;
-    val n2 = simp2.length - 1
+    val n2      = simp2.length - 1
     // since we are traversing line in opposite order, offset position is still LEFT
     segGen.initSideSegments(simp2(n2), simp2(n2 - 1), Position.LEFT)
     i = n2 - 2
-    while ( {
-      i >= 0
-    }) {
+    while (i >= 0) {
       segGen.addNextSegment(simp2(i), true)
       i -= 1
     }
@@ -201,33 +199,32 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     segGen.closeRing()
   }
 
-  private def computeSingleSidedBufferCurve(inputPts: Array[Coordinate], isRightSide: Boolean, segGen: OffsetSegmentGenerator): Unit = {
+  private def computeSingleSidedBufferCurve(
+    inputPts:    Array[Coordinate],
+    isRightSide: Boolean,
+    segGen:      OffsetSegmentGenerator
+  ): Unit = {
     val distTol = simplifyTolerance(distance)
     if (isRightSide) { // add original line
       segGen.addSegments(inputPts, true)
       val simp2 = BufferInputLineSimplifier.simplify(inputPts, -distTol)
-      val n2 = simp2.length - 1
+      val n2    = simp2.length - 1
       segGen.initSideSegments(simp2(n2), simp2(n2 - 1), Position.LEFT)
       segGen.addFirstSegment()
-      var i = n2 - 2
-      while ( {
-        i >= 0
-      }) {
+      var i     = n2 - 2
+      while (i >= 0) {
         segGen.addNextSegment(simp2(i), true)
         i -= 1
       }
-    }
-    else {
+    } else {
       segGen.addSegments(inputPts, false)
       val simp1 = BufferInputLineSimplifier.simplify(inputPts, distTol)
       //      Coordinate[] simp1 = inputPts;
-      val n1 = simp1.length - 1
+      val n1    = simp1.length - 1
       segGen.initSideSegments(simp1(0), simp1(1), Position.LEFT)
       segGen.addFirstSegment()
-      var i = 2
-      while ( {
-        i <= n1
-      }) {
+      var i     = 2
+      while (i <= n1) {
         segGen.addNextSegment(simp1(i), true)
         i += 1
       }
@@ -236,30 +233,29 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     segGen.closeRing()
   }
 
-  private def computeOffsetCurve(inputPts: Array[Coordinate], isRightSide: Boolean, segGen: OffsetSegmentGenerator): Unit = {
+  private def computeOffsetCurve(
+    inputPts:    Array[Coordinate],
+    isRightSide: Boolean,
+    segGen:      OffsetSegmentGenerator
+  ): Unit = {
     val distTol = simplifyTolerance(distance)
     if (isRightSide) {
       val simp2 = BufferInputLineSimplifier.simplify(inputPts, -distTol)
-      val n2 = simp2.length - 1
+      val n2    = simp2.length - 1
       segGen.initSideSegments(simp2(n2), simp2(n2 - 1), Position.LEFT)
       segGen.addFirstSegment()
-      var i = n2 - 2
-      while ( {
-        i >= 0
-      }) {
+      var i     = n2 - 2
+      while (i >= 0) {
         segGen.addNextSegment(simp2(i), true)
         i -= 1
       }
-    }
-    else {
+    } else {
       val simp1 = BufferInputLineSimplifier.simplify(inputPts, distTol)
-      val n1 = simp1.length - 1
+      val n1    = simp1.length - 1
       segGen.initSideSegments(simp1(0), simp1(1), Position.LEFT)
       segGen.addFirstSegment()
-      var i = 2
-      while ( {
-        i <= n1
-      }) {
+      var i     = 2
+      while (i <= n1) {
         segGen.addNextSegment(simp1(i), true)
         i += 1
       }
@@ -267,18 +263,20 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     segGen.addLastSegment()
   }
 
-  private def computeRingBufferCurve(inputPts: Array[Coordinate], side: Int, segGen: OffsetSegmentGenerator): Unit = { // simplify input line to improve performance
+  private def computeRingBufferCurve(
+    inputPts: Array[Coordinate],
+    side:     Int,
+    segGen:   OffsetSegmentGenerator
+  ): Unit = { // simplify input line to improve performance
     var distTol = simplifyTolerance(distance)
     // ensure that correct side is simplified
     if (side == Position.RIGHT) distTol = -distTol
-    val simp = BufferInputLineSimplifier.simplify(inputPts, distTol)
+    val simp    = BufferInputLineSimplifier.simplify(inputPts, distTol)
     //    Coordinate[] simp = inputPts;
-    val n = simp.length - 1
+    val n       = simp.length - 1
     segGen.initSideSegments(simp(n - 1), simp(0), side)
-    var i = 1
-    while ( {
-      i <= n
-    }) {
+    var i       = 1
+    while (i <= n) {
       val addStartPoint = i != 1
       segGen.addNextSegment(simp(i), addStartPoint)
       i += 1

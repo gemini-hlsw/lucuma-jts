@@ -33,5 +33,6 @@ class SweepLineSegment(var edge: Edge, var ptIndex: Int) {
     else x2
   }
 
-  def computeIntersections(ss: SweepLineSegment, si: SegmentIntersector): Unit = si.addIntersections(edge, ptIndex, ss.edge, ss.ptIndex)
+  def computeIntersections(ss: SweepLineSegment, si: SegmentIntersector): Unit =
+    si.addIntersections(edge, ptIndex, ss.edge, ss.ptIndex)
 }

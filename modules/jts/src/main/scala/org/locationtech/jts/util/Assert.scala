@@ -20,6 +20,7 @@ package org.locationtech.jts.util
  * @version 1.7
  */
 object Assert {
+
   /**
    * Throws an <code>AssertionFailedException</code> if the given assertion is
    * not true.
@@ -27,7 +28,7 @@ object Assert {
    * @param  assertion a condition that is supposed to be true
    * throws  AssertionFailedException if the condition is false
    */
-    def isTrue(assertion: Boolean): Unit = isTrue(assertion, null)
+  def isTrue(assertion: Boolean): Unit = isTrue(assertion, null)
 
   /**
    * Throws an <code>AssertionFailedException</code> with the given message if
@@ -37,8 +38,9 @@ object Assert {
    * @param  message   a description of the assertion
    * throws  AssertionFailedException if the condition is false
    */
-  def isTrue(assertion: Boolean, message: String): Unit = if (!assertion) if (message == null) throw new AssertionFailedException
-  else throw new AssertionFailedException(message)
+  def isTrue(assertion: Boolean, message: String): Unit = if (!assertion)
+    if (message == null) throw new AssertionFailedException
+    else throw new AssertionFailedException(message)
 
   /**
    * Throws an <code>AssertionFailedException</code> if the given objects are
@@ -60,8 +62,14 @@ object Assert {
    * @param  message       a description of the assertion
    * throws  AssertionFailedException if the two objects are not equal
    */
-  def equals(expectedValue: Any, actualValue: Any, message: String): Unit = if (!(actualValue == expectedValue)) throw new AssertionFailedException("Expected " + expectedValue + " but encountered " + actualValue + (if (message != null) ": " + message
-  else ""))
+  def equals(expectedValue: Any, actualValue: Any, message: String): Unit = if (
+    !(actualValue == expectedValue)
+  )
+    throw new AssertionFailedException(
+      "Expected " + expectedValue + " but encountered " + actualValue + (if (message != null)
+                                                                           ": " + message
+                                                                         else "")
+    )
 
   /**
    * Always throws an <code>AssertionFailedException</code>.
@@ -77,8 +85,10 @@ object Assert {
    * @param  message a description of the assertion
    * throws  AssertionFailedException thrown always
    */
-  def shouldNeverReachHere(message: String): Unit = throw new AssertionFailedException("Should never reach here" + (if (message != null) ": " + message
-  else ""))
+  def shouldNeverReachHere(message: String): Unit = throw new AssertionFailedException(
+    "Should never reach here" + (if (message != null) ": " + message
+                                 else "")
+  )
 }
 
 class Assert {}

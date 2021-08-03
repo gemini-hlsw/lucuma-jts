@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -32,7 +32,6 @@ import org.locationtech.jts.geom.GeometryFactory
  * mapping function.
  *
  * @author Martin Davis
- *
  */
 object GeometryCollectionMapper {
   def map(gc: GeometryCollection, op: GeometryMapper.MapOp): GeometryCollection = {
@@ -45,10 +44,8 @@ class GeometryCollectionMapper(val mapOp: GeometryMapper.MapOp) {
 
   def map(gc: GeometryCollection): GeometryCollection = {
     val mapped = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < gc.getNumGeometries
-    }) {
+    var i      = 0
+    while (i < gc.getNumGeometries) {
       val g = mapOp.map(gc.getGeometryN(i))
       if (!g.isEmpty) mapped.add(g)
       i += 1

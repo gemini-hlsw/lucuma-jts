@@ -26,10 +26,11 @@ import org.locationtech.jts.util.Assert
  */
 @SerialVersionUID(4902022702746614570L)
 class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
+
   /**
    * The <code>Coordinate</code> wrapped by this <code>Point</code>.
    */
-    private var coordinates: CoordinateSequence = null
+  private var coordinates: CoordinateSequence = null
 
   /**
    * Constructs a <code>Point</code> with the given coordinate.
@@ -44,8 +45,12 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
    */
   def this(coordinate: Coordinate, precisionModel: PrecisionModel, SRID: Int) = {
     this(new GeometryFactory(precisionModel, SRID))
-    init(getFactory.getCoordinateSequenceFactory.create(if (coordinate != null) Array[Coordinate](coordinate)
-    else Array.empty[Coordinate]))
+    init(
+      getFactory.getCoordinateSequenceFactory.create(
+        if (coordinate != null) Array[Coordinate](coordinate)
+        else Array.empty[Coordinate]
+      )
+    )
   }
 
   /**
@@ -58,7 +63,9 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
   }
 
   private def init(coordinates: CoordinateSequence): Unit = {
-    val coord: CoordinateSequence = if (coordinates == null) getFactory.getCoordinateSequenceFactory.create(Array[Coordinate]()) else coordinates
+    val coord: CoordinateSequence =
+      if (coordinates == null) getFactory.getCoordinateSequenceFactory.create(Array[Coordinate]())
+      else coordinates
     Assert.isTrue(coord.size <= 1)
     this.coordinates = coord
   }
@@ -142,7 +149,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
 
   override protected def copyInternal = new Point(coordinates.copy, factory)
 
-  /** @deprecated*/
+  /** @deprecated */
   override def reverse: Geometry = super.reverse
 
   override protected def reverseInternal: Point = getFactory.createPoint(coordinates.copy)

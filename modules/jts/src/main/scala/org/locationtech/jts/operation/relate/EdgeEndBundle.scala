@@ -33,7 +33,7 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
       this.boundaryNodeRule = boundaryNodeRule;
     else
       boundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOUNDARY_RULE;
-    */ extends EdgeEnd(e.getEdge, e.getCoordinate, e.getDirectedCoordinate, new Label(e.getLabel)) {
+ */ extends EdgeEnd(e.getEdge, e.getCoordinate, e.getDirectedCoordinate, new Label(e.getLabel)) {
   //  private BoundaryNodeRule boundaryNodeRule;
   private val edgeEnds = new util.ArrayList[EdgeEnd]
   insert(e)
@@ -48,10 +48,9 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
 
   def getEdgeEnds: util.ArrayList[EdgeEnd] = edgeEnds
 
-  def insert(e: EdgeEnd): Boolean = { // Assert: start point is the same
+  def insert(e: EdgeEnd): Boolean = // Assert: start point is the same
     // Assert: direction is the same
     edgeEnds.add(e)
-  }
 
   /**
    * This computes the overall edge label for the set of
@@ -61,20 +60,16 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
   override def computeLabel(boundaryNodeRule: BoundaryNodeRule): Unit = { // create the label.  If any of the edges belong to areas,
     // the label must be an area label
     var isArea = false
-    val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    val it     = iterator
+    while (it.hasNext) {
       val e = it.next
       if (e.getLabel.isArea) isArea = true
     }
     if (isArea) label = new Label(Location.NONE, Location.NONE, Location.NONE)
     else label = new Label(Location.NONE)
     // compute the On label, and the side labels if present
-    var i = 0
-    while ( {
-      i < 2
-    }) {
+    var i      = 0
+    while (i < 2) {
       computeLabelOn(i, boundaryNodeRule)
       if (isArea) computeLabelSides(i)
       i += 1
@@ -104,18 +99,16 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
   private def computeLabelOn(geomIndex: Int, boundaryNodeRule: BoundaryNodeRule): Unit = { // compute the ON location value
     var boundaryCount = 0
     var foundInterior = false
-    val it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val e = it.next
+    val it            = iterator
+    while (it.hasNext) {
+      val e   = it.next
       val loc = e.getLabel.getLocation(geomIndex)
       if (loc == Location.BOUNDARY) {
         boundaryCount += 1
       }
       if (loc == Location.INTERIOR) foundInterior = true
     }
-    var loc = Location.NONE
+    var loc           = Location.NONE
     if (foundInterior) loc = Location.INTERIOR
     if (boundaryCount > 0) loc = GeometryGraph.determineBoundary(boundaryNodeRule, boundaryCount)
     label.setLocation(geomIndex, loc)
@@ -145,17 +138,14 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
    */
   private def computeLabelSide(geomIndex: Int, side: Int): Unit = {
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val e = it.next
       if (e.getLabel.isArea) {
         val loc = e.getLabel.getLocation(geomIndex, side)
         if (loc == Location.INTERIOR) {
           label.setLocation(geomIndex, side, Location.INTERIOR)
           return
-        }
-        else if (loc == Location.EXTERIOR) label.setLocation(geomIndex, side, Location.EXTERIOR)
+        } else if (loc == Location.EXTERIOR) label.setLocation(geomIndex, side, Location.EXTERIOR)
       }
     }
   }
@@ -168,9 +158,7 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
   override def print(out: PrintStream): Unit = {
     out.println("EdgeEndBundle--> Label: " + label)
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val ee = it.next
       ee.print(out)
       out.println()

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016-2020 Association of Universities for Research in Astronomy, Inc. (AURA)
  * For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
- *//*
+ */ /*
  * Copyright (c) 2016-2020 Association of Universities for Research in Astronomy, Inc. (AURA)
  * For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
  */
@@ -31,6 +31,7 @@ import org.locationtech.jts.geom.Envelope
  * @version 1.7
  */
 object RobustLineIntersector {
+
   /**
    * Finds the endpoint of the segments P and Q which
    * is closest to the other segment.
@@ -50,26 +51,26 @@ object RobustLineIntersector {
    * @param q2 an endpoint of segment Q
    * return the nearest endpoint to the other segment
    */
-    private def nearestEndpoint(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) = {
-      var nearestPt = p1
-      var minDist = Distance.pointToSegment(p1, q1, q2)
-      var dist = Distance.pointToSegment(p1, q1, q2)
-      if (dist < minDist) {
-        minDist = dist
-        nearestPt = p2
-      }
-      dist = Distance.pointToSegment(q1, p1, p2)
-      if (dist < minDist) {
-        minDist = dist
-        nearestPt = q1
-      }
-      dist = Distance.pointToSegment(q2, p1, p2)
-      if (dist < minDist) {
-        minDist = dist
-        nearestPt = q2
-      }
-      nearestPt
+  private def nearestEndpoint(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) = {
+    var nearestPt = p1
+    var minDist   = Distance.pointToSegment(p1, q1, q2)
+    var dist      = Distance.pointToSegment(p1, q1, q2)
+    if (dist < minDist) {
+      minDist = dist
+      nearestPt = p2
     }
+    dist = Distance.pointToSegment(q1, p1, p2)
+    if (dist < minDist) {
+      minDist = dist
+      nearestPt = q1
+    }
+    dist = Distance.pointToSegment(q2, p1, p2)
+    if (dist < minDist) {
+      minDist = dist
+      nearestPt = q2
+    }
+    nearestPt
+  }
 }
 
 class RobustLineIntersector() extends LineIntersector {
@@ -77,27 +78,33 @@ class RobustLineIntersector() extends LineIntersector {
   override def computeIntersection(p: Coordinate, p1: Coordinate, p2: Coordinate): Unit = {
     isProperF = false
     // do between check first, since it is faster than the orientation test
-    if (Envelope.intersects(p1, p2, p)) if ((Orientation.index(p1, p2, p) == 0) && (Orientation.index(p2, p1, p) == 0)) {
-      isProperF = true
-      if (p == p1 || p == p2) isProperF = false
-      result = POINT_INTERSECTION
-      return
-    }
+    if (Envelope.intersects(p1, p2, p))
+      if ((Orientation.index(p1, p2, p) == 0) && (Orientation.index(p2, p1, p) == 0)) {
+        isProperF = true
+        if (p == p1 || p == p2) isProperF = false
+        result = POINT_INTERSECTION
+        return
+      }
     result = NO_INTERSECTION
   }
 
-  override protected def computeIntersect(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Int = {
+  override protected def computeIntersect(
+    p1: Coordinate,
+    p2: Coordinate,
+    q1: Coordinate,
+    q2: Coordinate
+  ): Int = {
     isProperF = false
     // first try a fast test to see if the envelopes of the lines intersect
     if (!Envelope.intersects(p1, p2, q1, q2)) return NO_INTERSECTION
     // for each endpoint, compute which side of the other segment it lies
     // if both endpoints lie on the same side of the other segment,
     // the segments do not intersect
-    val Pq1 = Orientation.index(p1, p2, q1)
-    val Pq2 = Orientation.index(p1, p2, q2)
+    val Pq1       = Orientation.index(p1, p2, q1)
+    val Pq2       = Orientation.index(p1, p2, q2)
     if ((Pq1 > 0 && Pq2 > 0) || (Pq1 < 0 && Pq2 < 0)) return NO_INTERSECTION
-    val Qp1 = Orientation.index(q1, q2, p1)
-    val Qp2 = Orientation.index(q1, q2, p2)
+    val Qp1       = Orientation.index(q1, q2, p1)
+    val Qp2       = Orientation.index(q1, q2, p2)
     if ((Qp1 > 0 && Qp2 > 0) || (Qp1 < 0 && Qp2 < 0)) return NO_INTERSECTION
     val collinear = Pq1 == 0 && Pq2 == 0 && Qp1 == 0 && Qp2 == 0
     if (collinear) return computeCollinearIntersection(p1, p2, q1, q2)
@@ -105,7 +112,8 @@ class RobustLineIntersector() extends LineIntersector {
     /**
      * At this point we know that there is a single intersection point
      * (since the lines are not collinear).
-     *//**
+     */
+    /**
      * Check if the intersection is an endpoint. If it is, copy the endpoint as
      * the intersection point. Copying the point rather than computing it
      * ensures the point has the exact value, which is important for
@@ -130,11 +138,11 @@ class RobustLineIntersector() extends LineIntersector {
        * LINESTRING ( -48.51001596420236 -22.063180333403878, 19.850257749638203 46.29709338043669 )
        *
        * which used to produce the INCORRECT result: (20.31970698357233, 46.76654261437082, NaN)
-       *
        */
       if (p1.equals2D(q1) || p1.equals2D(q2)) intPt(0) = p1
       else if (p2.equals2D(q1) || p2.equals2D(q2)) intPt(0) = p2
       else {
+
         /**
          * Now check to see if any endpoint lies on the interior of the other segment.
          */
@@ -143,15 +151,19 @@ class RobustLineIntersector() extends LineIntersector {
         else if (Qp1 == 0) intPt(0) = new Coordinate(p1)
         else if (Qp2 == 0) intPt(0) = new Coordinate(p2)
       }
-    }
-    else {
+    } else {
       isProperF = true
       intPt(0) = intersection(p1, p2, q1, q2)
     }
     POINT_INTERSECTION
   }
 
-  private def computeCollinearIntersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Int = {
+  private def computeCollinearIntersection(
+    p1: Coordinate,
+    p2: Coordinate,
+    q1: Coordinate,
+    q2: Coordinate
+  ): Int = {
     val p1q1p2 = Envelope.intersects(p1, p2, q1)
     val p1q2p2 = Envelope.intersects(p1, p2, q2)
     val q1p1q2 = Envelope.intersects(q1, q2, p1)
@@ -209,7 +221,7 @@ class RobustLineIntersector() extends LineIntersector {
         double dist = intPt.distance(intPtDD);
         System.out.println(intPt + " - " + intPtDD + " dist = " + dist);
         //intPt = intPtDD;
-        */
+     */
     /**
      * Due to rounding it can happen that the computed intersection is
      * outside the envelopes of the input segments.  Clearly this
@@ -239,9 +251,10 @@ class RobustLineIntersector() extends LineIntersector {
 
   def checkDD(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate, intPt: Coordinate) = {
     val intPtDD = CGAlgorithmsDD.intersection(p1, p2, q1, q2)
-    val isIn = isInSegmentEnvelopes(intPtDD)
+    val isIn    = isInSegmentEnvelopes(intPtDD)
     System.out.println("DD in env = " + isIn + "  --------------------- " + intPtDD)
-    if (intPt.distance(intPtDD) > 0.0001) System.out.println("Distance = " + intPt.distance(intPtDD))
+    if (intPt.distance(intPtDD) > 0.0001)
+      System.out.println("Distance = " + intPt.distance(intPtDD))
   }
 
   /**

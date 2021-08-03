@@ -28,15 +28,16 @@ import org.locationtech.jts.util.Assert
  *
  * @version 1.7
  */
-class EdgeEnd protected(var edge: Edge // the parent edge of this edge end
-                       ) extends Comparable[EdgeEnd] {
+class EdgeEnd protected (
+  var edge: Edge // the parent edge of this edge end
+) extends Comparable[EdgeEnd] {
   protected var label: Label = null
-  private var node: Node = null // the node this edge end originates at
+  private var node: Node     = null // the node this edge end originates at
   private var p0: Coordinate = null
   private var p1: Coordinate = null // points of initial line segment
-  private var dx = .0
-  private var dy = .0 // the direction vector for this edge from its starting point
-  private var quadrant = 0
+  private var dx             = .0
+  private var dy             = .0   // the direction vector for this edge from its starting point
+  private var quadrant       = 0
 
   def this(edge: Edge, p0: Coordinate, p1: Coordinate, label: Label) = {
     this(edge)
@@ -75,9 +76,8 @@ class EdgeEnd protected(var edge: Edge // the parent edge of this edge end
 
   def getNode: Node = node
 
-  override def compareTo(e: EdgeEnd): Int = {
+  override def compareTo(e: EdgeEnd): Int =
     compareDirection(e)
-  }
 
   /**
    * Implements the total order relation:
@@ -107,18 +107,18 @@ class EdgeEnd protected(var edge: Edge // the parent edge of this edge end
   }
 
   def print(out: PrintStream): Unit = {
-    val angle = Math.atan2(dy, dx)
-    val className = getClass.getName
+    val angle      = Math.atan2(dy, dx)
+    val className  = getClass.getName
     val lastDotPos = className.lastIndexOf('.')
-    val name = className.substring(lastDotPos + 1)
+    val name       = className.substring(lastDotPos + 1)
     out.print("  " + name + ": " + p0 + " - " + p1 + " " + quadrant + ":" + angle + "   " + label)
   }
 
   override def toString: String = {
-    val angle = Math.atan2(dy, dx)
-    val className = getClass.getName
+    val angle      = Math.atan2(dy, dx)
+    val className  = getClass.getName
     val lastDotPos = className.lastIndexOf('.')
-    val name = className.substring(lastDotPos + 1)
+    val name       = className.substring(lastDotPos + 1)
     "  " + name + ": " + p0 + " - " + p1 + " " + quadrant + ":" + angle + "   " + label
   }
 }

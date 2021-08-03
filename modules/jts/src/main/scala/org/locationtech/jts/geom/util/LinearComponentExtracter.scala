@@ -25,6 +25,7 @@ import org.locationtech.jts.geom.LinearRing
  * @version 1.7
  */
 object LinearComponentExtracter {
+
   /**
    * Extracts the linear components from a single {link Geometry}
    * and adds them to the provided {link Collection}.
@@ -33,16 +34,17 @@ object LinearComponentExtracter {
    * @param lines the collection to add the extracted linear components to
    * return the collection of linear components (LineStrings or LinearRings)
    */
-    def getLines(geoms: util.Collection[Geometry], lines: util.Collection[Geometry]): util.Collection[Geometry] = {
-      val i = geoms.iterator
-      while ( {
-        i.hasNext
-      }) {
-        val g = i.next
-        getLines(g, lines)
-      }
-      lines
+  def getLines(
+    geoms: util.Collection[Geometry],
+    lines: util.Collection[Geometry]
+  ): util.Collection[Geometry] = {
+    val i = geoms.iterator
+    while (i.hasNext) {
+      val g = i.next
+      getLines(g, lines)
     }
+    lines
+  }
 
   /**
    * Extracts the linear components from a single {link Geometry}
@@ -53,11 +55,13 @@ object LinearComponentExtracter {
    * @param forceToLineString true if LinearRings should be converted to LineStrings
    * return the collection of linear components (LineStrings or LinearRings)
    */
-  def getLines(geoms: util.Collection[Geometry], lines: util.Collection[Geometry], forceToLineString: Boolean): util.Collection[Geometry] = {
+  def getLines(
+    geoms:             util.Collection[Geometry],
+    lines:             util.Collection[Geometry],
+    forceToLineString: Boolean
+  ): util.Collection[Geometry] = {
     val i = geoms.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val g = i.next
       getLines(g, lines, forceToLineString)
     }
@@ -87,7 +91,11 @@ object LinearComponentExtracter {
    * @param forceToLineString true if LinearRings should be converted to LineStrings
    * return the Collection of linear components (LineStrings or LinearRings)
    */
-  def getLines(geom: Geometry, lines: util.Collection[Geometry], forceToLineString: Boolean): util.Collection[Geometry] = {
+  def getLines(
+    geom:              Geometry,
+    lines:             util.Collection[Geometry],
+    forceToLineString: Boolean
+  ): util.Collection[Geometry] = {
     geom.applyF(new LinearComponentExtracter(lines, forceToLineString))
     lines
   }
@@ -136,10 +144,12 @@ object LinearComponentExtracter {
    * @param forceToLineString true if LinearRings should be converted to LineStrings
    * return a linear geometry
    */
-  def getGeometry(geom: Geometry, forceToLineString: Boolean): Geometry = geom.getFactory.buildGeometry(getLines(geom, forceToLineString))
+  def getGeometry(geom: Geometry, forceToLineString: Boolean): Geometry =
+    geom.getFactory.buildGeometry(getLines(geom, forceToLineString))
 }
 
-class LinearComponentExtracter(lines: util.Collection[Geometry], var isForcedToLineString: Boolean) extends GeometryComponentFilter {
+class LinearComponentExtracter(lines: util.Collection[Geometry], var isForcedToLineString: Boolean)
+    extends GeometryComponentFilter {
 
   /**
    * Constructs a LineExtracterFilter with a list in which to store LineStrings found.
@@ -154,11 +164,13 @@ class LinearComponentExtracter(lines: util.Collection[Geometry], var isForcedToL
    *
    * @param isForcedToLineString true if LinearRings should be converted to LineStrings
    */
-  def setForceToLineString(isForcedToLineString: Boolean): Unit = this.isForcedToLineString = isForcedToLineString
+  def setForceToLineString(isForcedToLineString: Boolean): Unit = this.isForcedToLineString =
+    isForcedToLineString
 
   override def filter(geom: Geometry): Unit = {
     if (isForcedToLineString && geom.isInstanceOf[LinearRing]) {
-      val line = geom.getFactory.createLineString(geom.asInstanceOf[LinearRing].getCoordinateSequence)
+      val line =
+        geom.getFactory.createLineString(geom.asInstanceOf[LinearRing].getCoordinateSequence)
       lines.add(line)
       return
     }

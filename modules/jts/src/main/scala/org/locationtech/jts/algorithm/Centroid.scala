@@ -48,16 +48,17 @@ import org.locationtech.jts.geom.Polygon
  * @version 1.7
  */
 object Centroid {
+
   /**
    * Computes the centroid point of a geometry.
    *
    * @param geom the geometry to use
    * return the centroid point, or null if the geometry is empty
    */
-    def getCentroid(geom: Geometry): Coordinate = {
-      val cent = new Centroid(geom)
-      cent.getCentroid
-    }
+  def getCentroid(geom: Geometry): Coordinate = {
+    val cent = new Centroid(geom)
+    cent.getCentroid
+  }
 
   /**
    * Computes three times the centroid of the triangle p1-p2-p3.
@@ -73,25 +74,26 @@ object Centroid {
    * Returns twice the signed area of the triangle p1-p2-p3.
    * The area is positive if the triangle is oriented CCW, and negative if CW.
    */
-  private def area2(p1: Coordinate, p2: Coordinate, p3: Coordinate): Double = (p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y)
+  private def area2(p1: Coordinate, p2: Coordinate, p3: Coordinate): Double =
+    (p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y)
 }
 
 class Centroid(val geom: Geometry) {
 
-/**
- * Creates a new instance for computing the centroid of a geometry
- */
+  /**
+   * Creates a new instance for computing the centroid of a geometry
+   */
   add(geom)
-  private var areaBasePt: Coordinate = null // the point all triangles are based at
-  private val triangleCent3 = new Coordinate // temporary variable to hold centroid of triangle
-  private var areasum2: Double = 0
+  private var areaBasePt: Coordinate = null           // the point all triangles are based at
+  private val triangleCent3          = new Coordinate // temporary variable to hold centroid of triangle
+  private var areasum2: Double       = 0
   /* Partial area sum */
-  private val cg3 = new Coordinate // partial centroid sum
+  private val cg3                    = new Coordinate // partial centroid sum
   // data for linear centroid computation, if needed
-  private val lineCentSum = new Coordinate
-  private var totalLength = 0.0
-  private var ptCount = 0
-  private val ptCentSum = new Coordinate
+  private val lineCentSum            = new Coordinate
+  private var totalLength            = 0.0
+  private var ptCount                = 0
+  private val ptCentSum              = new Coordinate
 
   /**
    * Adds a Geometry to the centroid total.
@@ -101,19 +103,17 @@ class Centroid(val geom: Geometry) {
   private def add(geom: Geometry): Unit = {
     if (geom.isEmpty) return
     geom match {
-      case _: Point => addPoint(geom.getCoordinate)
-      case _: LineString => addLineSegments(geom.getCoordinates)
-      case poly: Polygon =>
+      case _: Point               => addPoint(geom.getCoordinate)
+      case _: LineString          => addLineSegments(geom.getCoordinates)
+      case poly: Polygon          =>
         add(poly)
       case gc: GeometryCollection =>
         var i = 0
-        while ( {
-          i < gc.getNumGeometries
-        }) {
+        while (i < gc.getNumGeometries) {
           add(gc.getGeometryN(i))
           i += 1
         }
-      case _ =>
+      case _                      =>
     }
   }
 
@@ -123,35 +123,36 @@ class Centroid(val geom: Geometry) {
    * return the computed centroid, or null if the input is empty
    */
   def getCentroid: Coordinate = {
+
     /**
      * The centroid is computed from the highest dimension components present in the input.
      * I.e. areas dominate lineal geometry, which dominates points.
      * Degenerate geometry are computed using their effective dimension
      * (e.g. areas may degenerate to lines or points)
      */
-      val cent = new Coordinate
+    val cent = new Coordinate
     if (Math.abs(areasum2) > 0.0) {
+
       /**
        * Input contains areal geometry
        */
       cent.x = cg3.x / 3 / areasum2
       cent.y = cg3.y / 3 / areasum2
-    }
-    else if (totalLength > 0.0) {
+    } else if (totalLength > 0.0) {
+
       /**
        * Input contains lineal geometry
        */
       cent.x = lineCentSum.x / totalLength
       cent.y = lineCentSum.y / totalLength
-    }
-    else if (ptCount > 0) {
+    } else if (ptCount > 0) {
+
       /**
        * Input contains puntal geometry only
        */
       cent.x = ptCentSum.x / ptCount
       cent.y = ptCentSum.y / ptCount
-    }
-    else return null
+    } else return null
     cent
   }
 
@@ -160,9 +161,7 @@ class Centroid(val geom: Geometry) {
   private def add(poly: Polygon): Unit = {
     addShell(poly.getExteriorRing.getCoordinates)
     var i = 0
-    while ( {
-      i < poly.getNumInteriorRing
-    }) {
+    while (i < poly.getNumInteriorRing) {
       addHole(poly.getInteriorRingN(i).getCoordinates)
       i += 1
     }
@@ -171,10 +170,8 @@ class Centroid(val geom: Geometry) {
   private def addShell(pts: Array[Coordinate]): Unit = {
     if (pts.length > 0) setAreaBasePoint(pts(0))
     val isPositiveArea = !Orientation.isCCW(pts)
-    var i = 0
-    while ( {
-      i < pts.length - 1
-    }) {
+    var i              = 0
+    while (i < pts.length - 1) {
       addTriangle(areaBasePt, pts(i), pts(i + 1), isPositiveArea)
       i += 1
     }
@@ -183,18 +180,21 @@ class Centroid(val geom: Geometry) {
 
   private def addHole(pts: Array[Coordinate]): Unit = {
     val isPositiveArea = Orientation.isCCW(pts)
-    var i = 0
-    while ( {
-      i < pts.length - 1
-    }) {
+    var i              = 0
+    while (i < pts.length - 1) {
       addTriangle(areaBasePt, pts(i), pts(i + 1), isPositiveArea)
       i += 1
     }
     addLineSegments(pts)
   }
 
-  private def addTriangle(p0: Coordinate, p1: Coordinate, p2: Coordinate, isPositiveArea: Boolean): Unit = {
-    val sign: Double = if (isPositiveArea) 1.0 else -1.0
+  private def addTriangle(
+    p0:             Coordinate,
+    p1:             Coordinate,
+    p2:             Coordinate,
+    isPositiveArea: Boolean
+  ): Unit = {
+    val sign: Double  = if (isPositiveArea) 1.0 else -1.0
     Centroid.centroid3(p0, p1, p2, triangleCent3)
     val area2: Double = Centroid.area2(p0, p1, p2)
     cg3.x += sign * area2 * triangleCent3.x
@@ -210,10 +210,8 @@ class Centroid(val geom: Geometry) {
    */
   private def addLineSegments(pts: Array[Coordinate]): Unit = {
     var lineLen = 0.0
-    var i = 0
-    while ( {
-      i < pts.length - 1
-    }) {
+    var i       = 0
+    while (i < pts.length - 1) {
       val segmentLen = pts(i).distance(pts(i + 1))
       if (segmentLen != 0.0) {
         lineLen += segmentLen
@@ -229,14 +227,14 @@ class Centroid(val geom: Geometry) {
     }
   }
 
-    /**
-     * Adds a point to the point centroid accumulator.
-     *
-     * @param pt a { @link Coordinate}
-     */
-    private def addPoint(pt: Coordinate): Unit = {
-      ptCount += 1
-      ptCentSum.x += pt.x
-      ptCentSum.y += pt.y
-    }
+  /**
+   * Adds a point to the point centroid accumulator.
+   *
+   * @param pt a { @link Coordinate}
+   */
+  private def addPoint(pt: Coordinate): Unit = {
+    ptCount += 1
+    ptCentSum.x += pt.x
+    ptCentSum.y += pt.y
+  }
 }

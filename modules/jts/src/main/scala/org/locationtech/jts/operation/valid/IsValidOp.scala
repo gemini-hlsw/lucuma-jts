@@ -45,10 +45,10 @@ object IsValidOp {
   //  * @param geom the Geometry to test
   //  * return true if the geometry is valid
   //  */
-    def isValid(geom: Geometry): Boolean = {
-      val isValidOp = new IsValidOp(geom)
-      isValidOp.isValid
-    }
+  def isValid(geom: Geometry): Boolean = {
+    val isValidOp = new IsValidOp(geom)
+    isValidOp.isValid
+  }
 
   /**
    * Checks whether a coordinate is valid for processing.
@@ -72,15 +72,17 @@ object IsValidOp {
    *
    * return the point found, or <code>null</code> if none found
    */
-  def findPtNotNode(testCoords: Array[Coordinate], searchRing: LinearRing, graph: GeometryGraph): Coordinate = { // find edge corresponding to searchRing.
+  def findPtNotNode(
+    testCoords: Array[Coordinate],
+    searchRing: LinearRing,
+    graph:      GeometryGraph
+  ): Coordinate = { // find edge corresponding to searchRing.
     val searchEdge = graph.findEdge(searchRing)
     // find a point in the testCoords which is not a node of the searchRing
-    val eiList = searchEdge.getEdgeIntersectionList
+    val eiList     = searchEdge.getEdgeIntersectionList
     // somewhat inefficient - is there a better way? (Use a node map, for instance?)
-    var i = 0
-    while ( {
-      i < testCoords.length
-    }) {
+    var i          = 0
+    while (i < testCoords.length) {
       val pt = testCoords(i)
       if (!eiList.isIntersection(pt)) return pt
       i += 1
@@ -89,13 +91,13 @@ object IsValidOp {
   }
 }
 
-class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be validated ) {
+class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be validated ) {
   /**
    * If the following condition is TRUE JTS will validate inverted shells and exverted holes
    * (the ESRI SDE model)
    */
   private var isSelfTouchingRingFormingHoleValid = false
-  private var validErr: TopologyValidationError = null
+  private var validErr: TopologyValidationError  = null
 
   /**
    * Sets whether polygons using <b>Self-Touching Rings</b> to form
@@ -121,7 +123,8 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
    *
    * @param isValid states whether geometry with this condition is valid
    */
-  def setSelfTouchingRingFormingHoleValid(isValid: Boolean): Unit = isSelfTouchingRingFormingHoleValid = isValid
+  def setSelfTouchingRingFormingHoleValid(isValid: Boolean): Unit =
+    isSelfTouchingRingFormingHoleValid = isValid
 
   /**
    * Computes the validity of the geometry,
@@ -194,7 +197,7 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
     val graph = new GeometryGraph(0, g)
     checkTooFewPoints(graph)
     if (validErr != null) return
-    val li = new RobustLineIntersector
+    val li    = new RobustLineIntersector
     graph.computeSelfNodes(li, true, true)
     checkNoSelfIntersectingRings(graph)
   }
@@ -226,10 +229,8 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
   }
 
   private def checkValid(g: MultiPolygon): Unit = {
-    var i = 0
-    while ( {
-      i < g.getNumGeometries
-    }) {
+    var i     = 0
+    while (i < g.getNumGeometries) {
       val p = g.getGeometryN(i).asInstanceOf[Polygon]
       checkInvalidCoordinates(p)
       if (validErr != null) return ()
@@ -247,18 +248,14 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
       if (validErr != null) return ()
     }
     i = 0
-    while ( {
-      i < g.getNumGeometries
-    }) {
+    while (i < g.getNumGeometries) {
       val p = g.getGeometryN(i).asInstanceOf[Polygon]
       checkHolesInShell(p, graph)
       if (validErr != null) return ()
       i += 1
     }
     i = 0
-    while ( {
-      i < g.getNumGeometries
-    }) {
+    while (i < g.getNumGeometries) {
       val p = g.getGeometryN(i).asInstanceOf[Polygon]
       checkHolesNotNested(p, graph)
       if (validErr != null) return ()
@@ -271,9 +268,7 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
 
   private def checkValid(gc: GeometryCollection): Unit = {
     var i = 0
-    while ( {
-      i < gc.getNumGeometries
-    }) {
+    while (i < gc.getNumGeometries) {
       val g = gc.getGeometryN(i)
       checkValid(g)
       if (validErr != null) return ()
@@ -283,11 +278,10 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
 
   private def checkInvalidCoordinates(coords: Array[Coordinate]): Unit = {
     var i = 0
-    while ( {
-      i < coords.length
-    }) {
+    while (i < coords.length) {
       if (!IsValidOp.isValid(coords(i))) {
-        validErr = new TopologyValidationError(TopologyValidationError.INVALID_COORDINATE, coords(i))
+        validErr =
+          new TopologyValidationError(TopologyValidationError.INVALID_COORDINATE, coords(i))
         return ()
       }
       i += 1
@@ -298,9 +292,7 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
     checkInvalidCoordinates(poly.getExteriorRing.getCoordinates)
     if (validErr != null) return ()
     var i = 0
-    while ( {
-      i < poly.getNumInteriorRing
-    }) {
+    while (i < poly.getNumInteriorRing) {
       checkInvalidCoordinates(poly.getInteriorRingN(i).getCoordinates)
       if (validErr != null) return ()
       i += 1
@@ -311,9 +303,7 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
     checkClosedRing(poly.getExteriorRing)
     if (validErr != null) return ()
     var i = 0
-    while ( {
-      i < poly.getNumInteriorRing
-    }) {
+    while (i < poly.getNumInteriorRing) {
       checkClosedRing(poly.getInteriorRingN(i))
       if (validErr != null) return ()
       i += 1
@@ -330,7 +320,8 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
   }
 
   private def checkTooFewPoints(graph: GeometryGraph): Unit = if (graph.hasTooFewPoints) {
-    validErr = new TopologyValidationError(TopologyValidationError.TOO_FEW_POINTS, graph.getInvalidPoint)
+    validErr =
+      new TopologyValidationError(TopologyValidationError.TOO_FEW_POINTS, graph.getInvalidPoint)
   }
 
   /**
@@ -341,13 +332,16 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
    * @see ConsistentAreaTester
    */
   private def checkConsistentArea(graph: GeometryGraph): Unit = {
-    val cat = new ConsistentAreaTester(graph)
+    val cat         = new ConsistentAreaTester(graph)
     val isValidArea = cat.isNodeConsistentArea
     if (!isValidArea) {
-      validErr = new TopologyValidationError(TopologyValidationError.SELF_INTERSECTION, cat.getInvalidPoint)
+      validErr =
+        new TopologyValidationError(TopologyValidationError.SELF_INTERSECTION, cat.getInvalidPoint)
       return
     }
-    if (cat.hasDuplicateRings) validErr = new TopologyValidationError(TopologyValidationError.DUPLICATE_RINGS, cat.getInvalidPoint)
+    if (cat.hasDuplicateRings)
+      validErr =
+        new TopologyValidationError(TopologyValidationError.DUPLICATE_RINGS, cat.getInvalidPoint)
   }
 
   /**
@@ -359,9 +353,7 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
    */
   private def checkNoSelfIntersectingRings(graph: GeometryGraph): Unit = {
     val i = graph.getEdgeIterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val e = i.next.asInstanceOf[Edge]
       checkNoSelfIntersectingRing(e.getEdgeIntersectionList)
       if (validErr != null) return
@@ -376,19 +368,17 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
   private def checkNoSelfIntersectingRing(eiList: EdgeIntersectionList): Unit = {
     val nodeSet = new util.TreeSet[Coordinate]
     var isFirst = true
-    val i = eiList.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i       = eiList.iterator
+    while (i.hasNext) {
       val ei = i.next.asInstanceOf[EdgeIntersection]
       if (isFirst) {
         isFirst = false
       } else {
         if (nodeSet.contains(ei.coord)) {
-          validErr = new TopologyValidationError(TopologyValidationError.RING_SELF_INTERSECTION, ei.coord)
+          validErr =
+            new TopologyValidationError(TopologyValidationError.RING_SELF_INTERSECTION, ei.coord)
           return
-        }
-        else nodeSet.add(ei.coord)
+        } else nodeSet.add(ei.coord)
       }
     }
   }
@@ -407,15 +397,13 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
    */
   private def checkHolesInShell(p: Polygon, graph: GeometryGraph): Unit = { // skip test if no holes are present
     if (p.getNumInteriorRing <= 0) return
-    val shell = p.getExteriorRing
+    val shell        = p.getExteriorRing
     val isShellEmpty = shell.isEmpty
     //PointInRing pir = new SimplePointInRing(shell); // testing only
-    val pir = new IndexedPointInAreaLocator(shell)
-    var i = 0
-    while ( {
-      i < p.getNumInteriorRing
-    }) {
-      val hole = p.getInteriorRingN(i)
+    val pir          = new IndexedPointInAreaLocator(shell)
+    var i            = 0
+    while (i < p.getNumInteriorRing) {
+      val hole               = p.getInteriorRingN(i)
       var holePt: Coordinate = null
       if (!hole.isEmpty) {
         holePt = IsValidOp.findPtNotNode(hole.getCoordinates, shell, graph)
@@ -436,148 +424,149 @@ class IsValidOp(var parentGeometry: Geometry) {// the base Geometry to be valida
     }
   }
 
-    /**
-     * Tests that no hole is nested inside another hole.
-     * This routine assumes that the holes are disjoint.
-     * To ensure this, holes have previously been tested
-     * to ensure that:
-     * <ul>
-     * <li>they do not partially overlap
-     * (checked by <code>checkRelateConsistency</code>)
-     * <li>they are not identical
-     * (checked by <code>checkRelateConsistency</code>)
-     * </ul>
-     */
-    private def checkHolesNotNested(p: Polygon, graph: GeometryGraph): Unit = {
-      if (p.getNumInteriorRing <= 0) return ()
-      val nestedTester = new IndexedNestedRingTester(graph)
-      //SimpleNestedRingTester nestedTester = new SimpleNestedRingTester(arg[0]);
-      //SweeplineNestedRingTester nestedTester = new SweeplineNestedRingTester(arg[0]);
-      var i = 0
-      while ( {
-        i < p.getNumInteriorRing
-      }) {
-        val innerHole = p.getInteriorRingN(i)
-        if (!innerHole.isEmpty) {
-          nestedTester.add(innerHole)
+  /**
+   * Tests that no hole is nested inside another hole.
+   * This routine assumes that the holes are disjoint.
+   * To ensure this, holes have previously been tested
+   * to ensure that:
+   * <ul>
+   * <li>they do not partially overlap
+   * (checked by <code>checkRelateConsistency</code>)
+   * <li>they are not identical
+   * (checked by <code>checkRelateConsistency</code>)
+   * </ul>
+   */
+  private def checkHolesNotNested(p: Polygon, graph: GeometryGraph): Unit = {
+    if (p.getNumInteriorRing <= 0) return ()
+    val nestedTester = new IndexedNestedRingTester(graph)
+    //SimpleNestedRingTester nestedTester = new SimpleNestedRingTester(arg[0]);
+    //SweeplineNestedRingTester nestedTester = new SweeplineNestedRingTester(arg[0]);
+    var i            = 0
+    while (i < p.getNumInteriorRing) {
+      val innerHole = p.getInteriorRingN(i)
+      if (!innerHole.isEmpty) {
+        nestedTester.add(innerHole)
+      }
+      i += 1
+    }
+    val isNonNested  = nestedTester.isNonNested
+    if (!isNonNested)
+      validErr = new TopologyValidationError(TopologyValidationError.NESTED_HOLES,
+                                             nestedTester.getNestedPoint
+      )
+  }
+
+  /**
+   * Tests that no element polygon is wholly in the interior of another element polygon.
+   * <p>
+   * Preconditions:
+   * <ul>
+   * <li>shells do not partially overlap
+   * <li>shells do not touch along an edge
+   * <li>no duplicate rings exist
+   * </ul>
+   * This routine relies on the fact that while polygon shells may touch at one or
+   * more vertices, they cannot touch at ALL vertices.
+   */
+  private def checkShellsNotNested(mp: MultiPolygon, graph: GeometryGraph): Unit = {
+    var i = 0
+    while (i < mp.getNumGeometries) {
+      val p     = mp.getGeometryN(i).asInstanceOf[Polygon]
+      val shell = p.getExteriorRing
+      var j     = 0
+      while (j < mp.getNumGeometries) {
+        if (i != j) {
+          val p2 = mp.getGeometryN(j).asInstanceOf[Polygon]
+          checkShellNotNested(shell, p2, graph)
+          if (validErr != null) return
+          j += 1
         }
         i += 1
-        }
-        val isNonNested = nestedTester.isNonNested
-        if (!isNonNested) validErr = new TopologyValidationError(TopologyValidationError.NESTED_HOLES, nestedTester.getNestedPoint)
       }
+    }
+  }
 
-      /**
-       * Tests that no element polygon is wholly in the interior of another element polygon.
-       * <p>
-       * Preconditions:
-       * <ul>
-       * <li>shells do not partially overlap
-       * <li>shells do not touch along an edge
-       * <li>no duplicate rings exist
-       * </ul>
-       * This routine relies on the fact that while polygon shells may touch at one or
-       * more vertices, they cannot touch at ALL vertices.
-       */
-      private def checkShellsNotNested(mp: MultiPolygon, graph: GeometryGraph): Unit = {
-        var i = 0
-        while ( {
-          i < mp.getNumGeometries
-        }) {
-          val p = mp.getGeometryN(i).asInstanceOf[Polygon]
-          val shell = p.getExteriorRing
-          var j = 0
-          while ( {
-            j < mp.getNumGeometries
-          }) {
-            if (i != j) {
-              val p2 = mp.getGeometryN(j).asInstanceOf[Polygon]
-              checkShellNotNested(shell, p2, graph)
-              if (validErr != null) return
-              j += 1
-            }
-            i += 1
-          }
-        }
-      }
+  /**
+   * Check if a shell is incorrectly nested within a polygon.  This is the case
+   * if the shell is inside the polygon shell, but not inside a polygon hole.
+   * (If the shell is inside a polygon hole, the nesting is valid.)
+   * <p>
+   * The algorithm used relies on the fact that the rings must be properly contained.
+   * E.g. they cannot partially overlap (this has been previously checked by
+   * <code>checkRelateConsistency</code> )
+   */
+  private def checkShellNotNested(shell: LinearRing, p: Polygon, graph: GeometryGraph): Unit = {
+    val shellPts        = shell.getCoordinates
+    // test if shell is inside polygon shell
+    val polyShell       = p.getExteriorRing
+    if (polyShell.isEmpty) return ()
+    val polyPts         = polyShell.getCoordinates
+    val shellPt         = IsValidOp.findPtNotNode(shellPts, polyShell, graph)
+    // if no point could be found, we can assume that the shell is outside the polygon
+    if (shellPt == null) return ()
+    val insidePolyShell = PointLocation.isInRing(shellPt, polyPts)
+    if (!insidePolyShell) return ()
+    // if no holes, this is an error!
+    if (p.getNumInteriorRing <= 0) {
+      validErr = new TopologyValidationError(TopologyValidationError.NESTED_SHELLS, shellPt)
+      return ()
+    }
 
-        /**
-         * Check if a shell is incorrectly nested within a polygon.  This is the case
-         * if the shell is inside the polygon shell, but not inside a polygon hole.
-         * (If the shell is inside a polygon hole, the nesting is valid.)
-         * <p>
-         * The algorithm used relies on the fact that the rings must be properly contained.
-         * E.g. they cannot partially overlap (this has been previously checked by
-         * <code>checkRelateConsistency</code> )
-         */
-        private def checkShellNotNested(shell: LinearRing, p: Polygon, graph: GeometryGraph): Unit = {
-          val shellPts = shell.getCoordinates
-          // test if shell is inside polygon shell
-          val polyShell = p.getExteriorRing
-          if (polyShell.isEmpty) return ()
-          val polyPts = polyShell.getCoordinates
-          val shellPt = IsValidOp.findPtNotNode(shellPts, polyShell, graph)
-          // if no point could be found, we can assume that the shell is outside the polygon
-          if (shellPt == null) return ()
-          val insidePolyShell = PointLocation.isInRing(shellPt, polyPts)
-          if (!insidePolyShell) return ()
-          // if no holes, this is an error!
-          if (p.getNumInteriorRing <= 0) {
-            validErr = new TopologyValidationError(TopologyValidationError.NESTED_SHELLS, shellPt)
-            return ()
-          }
-          /**
-           * Check if the shell is inside one of the holes.
-           * This is the case if one of the calls to checkShellInsideHole
-           * returns a null coordinate.
-           * Otherwise, the shell is not properly contained in a hole, which is an error.
-           */
-          var badNestedPt: Coordinate = null
-          var i = 0
-          while ( {
-            i < p.getNumInteriorRing
-          }) {
-            val hole = p.getInteriorRingN(i)
-            badNestedPt = checkShellInsideHole(shell, hole, graph)
-            if (badNestedPt == null) return ()
-            i += 1
-          }
-          validErr = new TopologyValidationError(TopologyValidationError.NESTED_SHELLS, badNestedPt)
-        }
+    /**
+     * Check if the shell is inside one of the holes.
+     * This is the case if one of the calls to checkShellInsideHole
+     * returns a null coordinate.
+     * Otherwise, the shell is not properly contained in a hole, which is an error.
+     */
+    var badNestedPt: Coordinate = null
+    var i                       = 0
+    while (i < p.getNumInteriorRing) {
+      val hole = p.getInteriorRingN(i)
+      badNestedPt = checkShellInsideHole(shell, hole, graph)
+      if (badNestedPt == null) return ()
+      i += 1
+    }
+    validErr = new TopologyValidationError(TopologyValidationError.NESTED_SHELLS, badNestedPt)
+  }
 
-        /**
-         * This routine checks to see if a shell is properly contained in a hole.
-         * It assumes that the edges of the shell and hole do not
-         * properly intersect.
-         *
-         * return <code>null</code> if the shell is properly contained, or
-         *         a Coordinate which is not inside the hole if it is not
-         *
-         */
-        private def checkShellInsideHole(shell: LinearRing, hole: LinearRing, graph: GeometryGraph): Coordinate =
-        {
-          val shellPts = shell.getCoordinates
-          val holePts = hole.getCoordinates
-          // TODO: improve performance of this - by sorting pointlists for instance?
-          val shellPt = IsValidOp.findPtNotNode(shellPts, hole, graph)
-          // if point is on shell but not hole, check that the shell is inside the hole
-          if (shellPt != null) {
-            val insideHole = PointLocation.isInRing(shellPt, holePts)
-            if (!insideHole) return shellPt
-          }
-          val holePt = IsValidOp.findPtNotNode(holePts, shell, graph)
-          // if point is on hole but not shell, check that the hole is outside the shell
-          if (holePt != null) {
-            val insideShell = PointLocation.isInRing(holePt, shellPts)
-            if (insideShell) return holePt
-            return null
-          }
-          Assert.shouldNeverReachHere("points in shell and hole appear to be equal")
-          null
-        }
+  /**
+   * This routine checks to see if a shell is properly contained in a hole.
+   * It assumes that the edges of the shell and hole do not
+   * properly intersect.
+   *
+   * return <code>null</code> if the shell is properly contained, or
+   *         a Coordinate which is not inside the hole if it is not
+   */
+  private def checkShellInsideHole(
+    shell: LinearRing,
+    hole:  LinearRing,
+    graph: GeometryGraph
+  ): Coordinate = {
+    val shellPts = shell.getCoordinates
+    val holePts  = hole.getCoordinates
+    // TODO: improve performance of this - by sorting pointlists for instance?
+    val shellPt  = IsValidOp.findPtNotNode(shellPts, hole, graph)
+    // if point is on shell but not hole, check that the shell is inside the hole
+    if (shellPt != null) {
+      val insideHole = PointLocation.isInRing(shellPt, holePts)
+      if (!insideHole) return shellPt
+    }
+    val holePt   = IsValidOp.findPtNotNode(holePts, shell, graph)
+    // if point is on hole but not shell, check that the hole is outside the shell
+    if (holePt != null) {
+      val insideShell = PointLocation.isInRing(holePt, shellPts)
+      if (insideShell) return holePt
+      return null
+    }
+    Assert.shouldNeverReachHere("points in shell and hole appear to be equal")
+    null
+  }
 
-        private def checkConnectedInteriors(graph: GeometryGraph): Unit = {
-          val cit = new ConnectedInteriorTester(graph)
-          if (!cit.isInteriorsConnected) validErr = new TopologyValidationError(TopologyValidationError.DISCONNECTED_INTERIOR, cit.getCoordinate)
-        }
-      }
+  private def checkConnectedInteriors(graph: GeometryGraph): Unit = {
+    val cit = new ConnectedInteriorTester(graph)
+    if (!cit.isInteriorsConnected)
+      validErr = new TopologyValidationError(TopologyValidationError.DISCONNECTED_INTERIOR,
+                                             cit.getCoordinate
+      )
+  }
+}

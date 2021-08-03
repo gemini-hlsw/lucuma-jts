@@ -40,6 +40,7 @@ import org.locationtech.jts.geom.TopologyException
 //  * @see NodingIntersectionFinder
 //  */
 object FastNodingValidator {
+
   /**
    * Gets a list of all intersections found.
    * Intersections are represented as {link Coordinate}s.
@@ -48,27 +49,28 @@ object FastNodingValidator {
    * @param segStrings a collection of SegmentStrings
    * return a list of Coordinate
    */
-    def computeIntersections(segStrings: util.Collection[SegmentString]): util.List[_] = {
-      val nv = new FastNodingValidator(segStrings)
-      nv.setFindAllIntersections(true)
-      nv.isValid()
-      nv.getIntersections
-    }
+  def computeIntersections(segStrings: util.Collection[SegmentString]): util.List[_] = {
+    val nv = new FastNodingValidator(segStrings)
+    nv.setFindAllIntersections(true)
+    nv.isValid()
+    nv.getIntersections
+  }
 }
 
 class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
 
-/**
- * Creates a new noding validator for a given set of linework.
- *
- * @param segStrings a collection of { @link SegmentString}s
- */
-  private val li = new RobustLineIntersector
-  private var findAllIntersections= false
-  private var segInt: NodingIntersectionFinder  = null
-  private var visValid = true
+  /**
+   * Creates a new noding validator for a given set of linework.
+   *
+   * @param segStrings a collection of { @link SegmentString}s
+   */
+  private val li                               = new RobustLineIntersector
+  private var findAllIntersections             = false
+  private var segInt: NodingIntersectionFinder = null
+  private var visValid                         = true
 
-  def setFindAllIntersections(findAllIntersections: Boolean): Unit = this.findAllIntersections = findAllIntersections
+  def setFindAllIntersections(findAllIntersections: Boolean): Unit = this.findAllIntersections =
+    findAllIntersections
 
   /**
    * Gets a list of all intersections found.
@@ -120,6 +122,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
   }
 
   private def checkInteriorIntersections(): Unit = {
+
     /**
      * MD - It may even be reliable to simply check whether
      * end segments (of SegmentStrings) have an interior intersection,

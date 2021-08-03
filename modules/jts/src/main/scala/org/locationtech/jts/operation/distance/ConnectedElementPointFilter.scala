@@ -13,7 +13,14 @@ package org.locationtech.jts.operation.distance
 
 import java.util
 
-import org.locationtech.jts.geom.{Coordinate, Geometry, GeometryFilter, LineString, Point, Polygon}
+import org.locationtech.jts.geom.{
+  Coordinate,
+  Geometry,
+  GeometryFilter,
+  LineString,
+  Point,
+  Polygon
+}
 
 /**
  * Extracts a single point
@@ -24,21 +31,24 @@ import org.locationtech.jts.geom.{Coordinate, Geometry, GeometryFilter, LineStri
  * @version 1.7
  */
 object ConnectedElementPointFilter {
+
   /**
    * Returns a list containing a Coordinate from each Polygon, LineString, and Point
    * found inside the specified geometry. Thus, if the specified geometry is
    * not a GeometryCollection, an empty list will be returned.
    */
-    def getCoordinates(geom: Geometry): util.ArrayList[Coordinate] = {
-      val pts = new util.ArrayList[Coordinate]
-      geom.applyF(new ConnectedElementPointFilter(pts))
-      pts
-    }
+  def getCoordinates(geom: Geometry): util.ArrayList[Coordinate] = {
+    val pts = new util.ArrayList[Coordinate]
+    geom.applyF(new ConnectedElementPointFilter(pts))
+    pts
+  }
 }
 
-class ConnectedElementPointFilter private[distance](var pts: util.List[Coordinate]) extends GeometryFilter {
+class ConnectedElementPointFilter private[distance] (var pts: util.List[Coordinate])
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
-    if (geom.isInstanceOf[Point] || geom.isInstanceOf[LineString] || geom.isInstanceOf[Polygon]) pts.add(geom.getCoordinate)
+    if (geom.isInstanceOf[Point] || geom.isInstanceOf[LineString] || geom.isInstanceOf[Polygon])
+      pts.add(geom.getCoordinate)
     ()
   }
 }

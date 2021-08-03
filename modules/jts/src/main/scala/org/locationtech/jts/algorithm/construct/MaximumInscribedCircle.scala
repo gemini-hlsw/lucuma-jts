@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2020 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -65,9 +65,9 @@ import org.locationtech.jts.operation.distance.IndexedFacetDistance
  * </ul>
  *
  * @author Martin Davis
- *
  */
 object MaximumInscribedCircle {
+
   /**
    * Computes the center point of the Maximum Inscribed Circle
    * of a polygonal geometry, up to a given tolerance distance.
@@ -76,10 +76,10 @@ object MaximumInscribedCircle {
    * @param tolerance the distance tolerance for computing the center point
    * return the center point of the maximum inscribed circle
    */
-    def getCenter(polygonal: Geometry, tolerance: Double) = {
-      val mic = new MaximumInscribedCircle(polygonal, tolerance)
-      mic.getCenter
-    }
+  def getCenter(polygonal: Geometry, tolerance: Double) = {
+    val mic = new MaximumInscribedCircle(polygonal, tolerance)
+    mic.getCenter
+  }
 
   /**
    * Computes a radius line of the Maximum Inscribed Circle
@@ -102,16 +102,20 @@ object MaximumInscribedCircle {
    * boundary can be computed, and is used
    * as the ordering and upper-bound function in
    * the branch-and-bound algorithm.
-   *
    */
   private object Cell {
     private val SQRT2 = 1.4142135623730951
   }
 
-  private class Cell private[construct](var x: Double, var y: Double, var hSide: Double, var distance: Double) // cell center x
+  private class Cell(
+    var x:        Double,
+    var y:        Double,
+    var hSide:    Double,
+    var distance: Double
+  ) // cell center x
   // cell center y
   // half the cell size
-    extends Comparable[MaximumInscribedCircle.Cell] { // the distance from cell center to area boundary
+      extends Comparable[MaximumInscribedCircle.Cell] { // the distance from cell center to area boundary
     // the maximum possible distance to area boundary for points in this cell
     private var maxDist = .0
     this.maxDist = distance + hSide * Cell.SQRT2
@@ -138,22 +142,25 @@ object MaximumInscribedCircle {
 
 class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
 
-/**
- * Creates a new instance of a Maximum Inscribed Circle computation.
- *
- * @param polygonal an areal geometry
- * @param tolerance the distance tolerance for computing the centre point
- */
-  if (!(inputGeom.isInstanceOf[Polygon] || inputGeom.isInstanceOf[MultiPolygon])) throw new IllegalArgumentException("Input geometry must be a Polygon or MultiPolygon")
+  /**
+   * Creates a new instance of a Maximum Inscribed Circle computation.
+   *
+   * @param polygonal an areal geometry
+   * @param tolerance the distance tolerance for computing the centre point
+   */
+  if (!(inputGeom.isInstanceOf[Polygon] || inputGeom.isInstanceOf[MultiPolygon]))
+    throw new IllegalArgumentException("Input geometry must be a Polygon or MultiPolygon")
   if (inputGeom.isEmpty) throw new IllegalArgumentException("Empty input geometry is not supported")
-  private var factory: GeometryFactory = inputGeom.getFactory
-  private val ptLocater: IndexedPointInAreaLocator = new IndexedPointInAreaLocator(inputGeom)
-  private val indexedDistance: IndexedFacetDistance = new IndexedFacetDistance(inputGeom.getBoundary)
-  private var centerCell: Cell = null
-  private var centerPt: Coordinate = null
-  private var radiusPt: Coordinate = null
-  private var centerPoint: Point = null
-  private var radiusPoint: Point = null
+  private var factory: GeometryFactory              = inputGeom.getFactory
+  private val ptLocater: IndexedPointInAreaLocator  = new IndexedPointInAreaLocator(inputGeom)
+  private val indexedDistance: IndexedFacetDistance = new IndexedFacetDistance(
+    inputGeom.getBoundary
+  )
+  private var centerCell: Cell                      = null
+  private var centerPt: Coordinate                  = null
+  private var radiusPt: Coordinate                  = null
+  private var centerPoint: Point                    = null
+  private var radiusPoint: Point                    = null
   this.factory = inputGeom.getFactory
 
   /**
@@ -203,7 +210,7 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
    * return the signed distance to the area boundary (negative indicates outside the area)
    */
   private def distanceToBoundary(p: Point): Double = {
-    val dist = indexedDistance.distance(p)
+    val dist     = indexedDistance.distance(p)
     val isOutide = Location.EXTERIOR == ptLocater.locate(p.getCoordinate)
     if (isOutide) return -dist
     dist
@@ -211,14 +218,14 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
 
   private def distanceToBoundary(x: Double, y: Double): Double = {
     val coord = new Coordinate(x, y)
-    val pt = factory.createPoint(coord)
+    val pt    = factory.createPoint(coord)
     distanceToBoundary(pt)
   }
 
   private def compute(): Unit = { // check if already computed
     if (centerCell != null) return
     // Priority queue of cells, ordered by maximum distance from boundary
-    val cellQueue = new PriorityQueue[MaximumInscribedCircle.Cell]
+    val cellQueue    = new PriorityQueue[MaximumInscribedCircle.Cell]
     createInitialGrid(inputGeom.getEnvelopeInternal, cellQueue)
     // use the area centroid as the initial candidate center point
     var farthestCell = createCentroidCell(inputGeom)
@@ -227,13 +234,12 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
      * Carry out the branch-and-bound search
      * of the cell space
      */
-    while ( {
-      !cellQueue.isEmpty
-    }) { // pick the most promising cell from the queue
+    while (!cellQueue.isEmpty) { // pick the most promising cell from the queue
       val cell = cellQueue.remove()
       //System.out.println(factory.toGeometry(cell.getEnvelope()));
       // update the center cell if the candidate is further from the boundary
       if (cell.getDistance > farthestCell.getDistance) farthestCell = cell
+
       /**
        * Refine this cell if the potential distance improvement
        * is greater than the required tolerance.
@@ -256,7 +262,7 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
     centerPt = new Coordinate(centerCell.getX, centerCell.getY)
     centerPoint = factory.createPoint(centerPt)
     // compute radius point
-    val nearestPts = indexedDistance.nearestPoints(centerPoint)
+    val nearestPts   = indexedDistance.nearestPoints(centerPoint)
     radiusPt = nearestPts(0).copy
     radiusPoint = factory.createPoint(radiusPt)
   }
@@ -268,24 +274,23 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
    * @param env       the area extent to cover
    * @param cellQueue the queue to initialize
    */
-  private def createInitialGrid(env: Envelope, cellQueue: PriorityQueue[MaximumInscribedCircle.Cell]) = {
-    val minX = env.getMinX
-    val maxX = env.getMaxX
-    val minY = env.getMinY
-    val maxY = env.getMaxY
-    val width = env.getWidth
-    val height = env.getHeight
+  private def createInitialGrid(
+    env:       Envelope,
+    cellQueue: PriorityQueue[MaximumInscribedCircle.Cell]
+  ) = {
+    val minX     = env.getMinX
+    val maxX     = env.getMaxX
+    val minY     = env.getMinY
+    val maxY     = env.getMaxY
+    val width    = env.getWidth
+    val height   = env.getHeight
     val cellSize = Math.min(width, height)
-    val hSide = cellSize / 2.0
+    val hSide    = cellSize / 2.0
     // compute initial grid of cells to cover area
-    var x = minX
-    while ( {
-      x < maxX
-    }) {
+    var x        = minX
+    while (x < maxX) {
       var y = minY
-      while ( {
-        y < maxY
-      }) {
+      while (y < maxY) {
         cellQueue.add(createCell(x + hSide, y + hSide, hSide))
         y += cellSize
       }
@@ -293,7 +298,8 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
     }
   }
 
-  private def createCell(x: Double, y: Double, hSide: Double) = new MaximumInscribedCircle.Cell(x, y, hSide, distanceToBoundary(x, y))
+  private def createCell(x: Double, y: Double, hSide: Double) =
+    new MaximumInscribedCircle.Cell(x, y, hSide, distanceToBoundary(x, y))
 
   // create a cell centered on area centroid
   private def createCentroidCell(geom: Geometry) = {

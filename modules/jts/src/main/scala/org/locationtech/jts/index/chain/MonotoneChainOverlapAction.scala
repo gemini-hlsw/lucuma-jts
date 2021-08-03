@@ -42,6 +42,5 @@ class MonotoneChainOverlapAction {
    * @param seg1
    * @param seg2
    */
-  def overlap(seg1: LineSegment, seg2: LineSegment): Unit = {
-  }
+  def overlap(seg1: LineSegment, seg2: LineSegment): Unit = {}
 }

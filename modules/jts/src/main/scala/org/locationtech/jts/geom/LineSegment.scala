@@ -32,16 +32,20 @@ import org.locationtech.jts.algorithm.RobustLineIntersector
  */
 @SerialVersionUID(3252005833466256227L)
 object LineSegment {
+
   /**
    * Computes the midpoint of a segment
    *
    * return the midpoint of the segment
    */
-    def midPoint(p0: Coordinate, p1: Coordinate) = new Coordinate((p0.x + p1.x) / 2, (p0.y + p1.y) / 2)
+  def midPoint(p0: Coordinate, p1: Coordinate) =
+    new Coordinate((p0.x + p1.x) / 2, (p0.y + p1.y) / 2)
 }
 
 @SerialVersionUID(3252005833466256227L)
-class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[LineSegment] with Serializable {
+class LineSegment(var p0: Coordinate, var p1: Coordinate)
+    extends Comparable[LineSegment]
+    with Serializable {
   def this(x0: Double, y0: Double, x1: Double, y1: Double) = {
     this(new Coordinate(x0, y0), new Coordinate(x1, y1))
   }
@@ -248,15 +252,16 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
    * throws IllegalStateException if the segment has zero length
    */
   def pointAlongOffset(segmentLengthFraction: Double, offsetDistance: Double): Coordinate = { // the point on the segment line
-    val segx = p0.x + segmentLengthFraction * (p1.x - p0.x)
-    val segy = p0.y + segmentLengthFraction * (p1.y - p0.y)
-    val dx = p1.x - p0.x
-    val dy = p1.y - p0.y
-    val len = Math.sqrt(dx * dx + dy * dy)
-    var ux = 0.0
-    var uy = 0.0
+    val segx    = p0.x + segmentLengthFraction * (p1.x - p0.x)
+    val segy    = p0.y + segmentLengthFraction * (p1.y - p0.y)
+    val dx      = p1.x - p0.x
+    val dy      = p1.y - p0.y
+    val len     = Math.sqrt(dx * dx + dy * dy)
+    var ux      = 0.0
+    var uy      = 0.0
     if (offsetDistance != 0.0) {
-      if (len <= 0.0) throw new IllegalStateException("Cannot compute offset from zero-length line segment")
+      if (len <= 0.0)
+        throw new IllegalStateException("Cannot compute offset from zero-length line segment")
       // u is the vector that is the length of the offset, in the direction of the segment
       ux = offsetDistance * dx / len
       uy = offsetDistance * dy / len
@@ -264,7 +269,7 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
     // the offset point is the seg point plus the offset vector rotated 90 degrees CCW
     val offsetx = segx - uy
     val offsety = segy + ux
-    val coord = new Coordinate(offsetx, offsety)
+    val coord   = new Coordinate(offsetx, offsety)
     coord
   }
 
@@ -294,12 +299,13 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
                     r<0 P is on the backward extension of AB
                     r>1 P is on the forward extension of AB
                     0<r<1 P is interior to AB
-            */ val dx = p1.x - p0.x
-    val dy = p1.y - p0.y
+     */
+    val dx  = p1.x - p0.x
+    val dy  = p1.y - p0.y
     val len = dx * dx + dy * dy
     // handle zero-length segments
     if (len <= 0.0) return Double.NaN
-    val r = ((p.x - p0.x) * dx + (p.y - p0.y) * dy) / len
+    val r   = ((p.x - p0.x) * dx + (p.y - p0.y) * dy) / len
     r
   }
 
@@ -333,7 +339,7 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
    */
   def project(p: Coordinate): Coordinate = {
     if (p == p0 || p == p1) return new Coordinate(p)
-    val r = projectionFactor(p)
+    val r     = projectionFactor(p)
     val coord = new Coordinate
     coord.x = p0.x + r * (p1.x - p0.x)
     coord.y = p0.y + r * (p1.y - p0.y)
@@ -353,8 +359,8 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
    * return the projected line segment, or <code>null</code> if there is no overlap
    */
   def project(seg: LineSegment): LineSegment = {
-    val pf0 = projectionFactor(seg.p0)
-    val pf1 = projectionFactor(seg.p1)
+    val pf0   = projectionFactor(seg.p0)
+    val pf1   = projectionFactor(seg.p1)
     // check if segment projects at all
     if (pf0 >= 1.0 && pf1 >= 1.0) return null
     if (pf0 <= 0.0 && pf1 <= 0.0) return null
@@ -375,16 +381,16 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
    * return the reflected point
    */
   def reflect(p: Coordinate): Coordinate = { // general line equation
-    val A = p1.getY - p0.getY
-    val B = p0.getX - p1.getX
-    val C = p0.getY * (p1.getX - p0.getX) - p0.getX * (p1.getY - p0.getY)
+    val A        = p1.getY - p0.getY
+    val B        = p0.getX - p1.getX
+    val C        = p0.getY * (p1.getX - p0.getX) - p0.getX * (p1.getY - p0.getY)
     // compute reflected point
     val A2plusB2 = A * A + B * B
-    val A2subB2 = A * A - B * B
-    val x = p.getX
-    val y = p.getY
-    val rx = (-A2subB2 * x - 2 * A * B * y - 2 * A * C) / A2plusB2
-    val ry = (A2subB2 * y - 2 * A * B * x - 2 * B * C) / A2plusB2
+    val A2subB2  = A * A - B * B
+    val x        = p.getX
+    val y        = p.getY
+    val rx       = (-A2subB2 * x - 2 * A * B * y - 2 * A * C) / A2plusB2
+    val ry       = (A2subB2 * y - 2 * A * B * x - 2 * B * C) / A2plusB2
     new Coordinate(rx, ry)
   }
 
@@ -397,8 +403,8 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
   def closestPoint(p: Coordinate): Coordinate = {
     val factor = projectionFactor(p)
     if (factor > 0 && factor < 1) return project(p)
-    val dist0 = p0.distance(p)
-    val dist1 = p1.distance(p)
+    val dist0  = p0.distance(p)
+    val dist1  = p1.distance(p)
     if (dist0 < dist1) return p0
     p1
   }
@@ -412,32 +418,33 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
   def closestPoints(line: LineSegment): Array[Coordinate] = { // test for intersection
     val intPt = intersection(line)
     if (intPt != null) return Array[Coordinate](intPt, intPt)
+
     /**
      * if no intersection closest pair contains at least one endpoint.
      * Test each endpoint in turn.
      */
-    val closestPt = new Array[Coordinate](2)
+    val closestPt   = new Array[Coordinate](2)
     var minDistance = java.lang.Double.MAX_VALUE
-    var dist = .0
-    val close00 = closestPoint(line.p0)
+    var dist        = .0
+    val close00     = closestPoint(line.p0)
     minDistance = close00.distance(line.p0)
     closestPt(0) = close00
     closestPt(1) = line.p0
-    val close01 = closestPoint(line.p1)
+    val close01     = closestPoint(line.p1)
     dist = close01.distance(line.p1)
     if (dist < minDistance) {
       minDistance = dist
       closestPt(0) = close01
       closestPt(1) = line.p1
     }
-    val close10 = line.closestPoint(p0)
+    val close10     = line.closestPoint(p0)
     dist = close10.distance(p0)
     if (dist < minDistance) {
       minDistance = dist
       closestPt(0) = p0
       closestPt(1) = close10
     }
-    val close11 = line.closestPoint(p1)
+    val close11     = line.closestPoint(p1)
     dist = close11.distance(p1)
     if (dist < minDistance) {
       minDistance = dist
@@ -494,7 +501,8 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
    * @param geomFactory the geometry factory to use
    * return a LineString with the same geometry as this segment
    */
-  def toGeometry(geomFactory: GeometryFactory): LineString = geomFactory.createLineString(Array[Coordinate](p0, p1))
+  def toGeometry(geomFactory: GeometryFactory): LineString =
+    geomFactory.createLineString(Array[Coordinate](p0, p1))
 
   /**
    * Returns <code>true</code> if <code>other</code> has the same values for
@@ -550,7 +558,9 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate) extends Comparable[Lin
    * return <code>true</code> if <code>other</code> is a <code>LineSegment</code>
    *         with the same values for the x and y ordinates.
    */
-  def equalsTopo(other: LineSegment): Boolean = p0 == other.p0 && p1 == other.p1 || p0 == other.p1 && p1 == other.p0
+  def equalsTopo(other: LineSegment): Boolean =
+    p0 == other.p0 && p1 == other.p1 || p0 == other.p1 && p1 == other.p0
 
-  override def toString: String = "LINESTRING( " + p0.x + " " + p0.y + ", " + p1.x + " " + p1.y + ")"
+  override def toString: String =
+    "LINESTRING( " + p0.x + " " + p0.y + ", " + p1.x + " " + p1.y + ")"
 }

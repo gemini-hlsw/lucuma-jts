@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -45,10 +45,10 @@ import org.locationtech.jts.operation.distance.DistanceOp
  * (I.e. it should never report a valid result as invalid.)
  *
  * @author mbdavis
- *
  */
 object BufferDistanceValidator {
   private val VERBOSE = false
+
   /**
    * Maximum allowable fraction of buffer distance the
    * actual distance can differ by.
@@ -58,25 +58,28 @@ object BufferDistanceValidator {
 }
 
 class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var result: Geometry) {
-  private var minValidDistance = .0
-  private var maxValidDistance = .0
-  private var minDistanceFound = .0
-  private var maxDistanceFound = .0
-  private var visValid = true
-  private var errMsg: String = null
+  private var minValidDistance          = .0
+  private var maxValidDistance          = .0
+  private var minDistanceFound          = .0
+  private var maxDistanceFound          = .0
+  private var visValid                  = true
+  private var errMsg: String            = null
   private var errorLocation: Coordinate = null
-  private var errorIndicator: Geometry = null
+  private var errorIndicator: Geometry  = null
 
   def isValid: Boolean = {
     val posDistance = Math.abs(bufDistance)
-    val distDelta = BufferDistanceValidator.MAX_DISTANCE_DIFF_FRAC * posDistance
+    val distDelta   = BufferDistanceValidator.MAX_DISTANCE_DIFF_FRAC * posDistance
     minValidDistance = posDistance - distDelta
     maxValidDistance = posDistance + distDelta
     // can't use this test if either is empty
     if (input.isEmpty || result.isEmpty) return true
     if (bufDistance > 0.0) checkPositiveValid()
     else checkNegativeValid()
-    if (BufferDistanceValidator.VERBOSE) System.out.println("Min Dist= " + minDistanceFound + "  err= " + (1.0 - minDistanceFound / bufDistance) + "  Max Dist= " + maxDistanceFound + "  err= " + (maxDistanceFound / bufDistance - 1.0))
+    if (BufferDistanceValidator.VERBOSE)
+      System.out.println(
+        "Min Dist= " + minDistanceFound + "  err= " + (1.0 - minDistanceFound / bufDistance) + "  Max Dist= " + maxDistanceFound + "  err= " + (maxDistanceFound / bufDistance - 1.0)
+      )
     visValid
   }
 
@@ -102,9 +105,13 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
     checkMaximumDistance(input, bufCurve, maxValidDistance)
   }
 
-  private def checkNegativeValid(): Unit = { // Assert: only polygonal inputs can be checked for negative buffers
+  private def checkNegativeValid()
+    : Unit = { // Assert: only polygonal inputs can be checked for negative buffers
     // MD - could generalize this to handle GCs too
-    if (!(input.isInstanceOf[Polygon] || input.isInstanceOf[MultiPolygon] || input.isInstanceOf[GeometryCollection])) return
+    if (
+      !(input.isInstanceOf[Polygon] || input.isInstanceOf[MultiPolygon] || input
+        .isInstanceOf[GeometryCollection])
+    ) return
     val inputCurve = getPolygonLines(input)
     checkMinimumDistance(inputCurve, result, minValidDistance)
     if (!visValid) return
@@ -112,13 +119,11 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
   }
 
   private def getPolygonLines(g: Geometry) = {
-    val lines = new util.ArrayList[Geometry]
+    val lines         = new util.ArrayList[Geometry]
     val lineExtracter = new LinearComponentExtracter(lines)
-    val polys = PolygonExtracter.getPolygons(g)
-    val i = polys.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val polys         = PolygonExtracter.getPolygons(g)
+    val i             = polys.iterator
+    while (i.hasNext) {
       val poly = i.next.asInstanceOf[Polygon]
       poly.applyF(lineExtracter)
     }
@@ -141,7 +146,10 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
       errorLocation = distOp.nearestPoints(1)
       errorIndicator = g1.getFactory.createLineString(pts)
 //      errMsg = "Distance between buffer curve and input is too small " + "(" + minDistanceFound + " at " + WKTWriter.toLineString(pts(0), pts(1)) + " )"
-      errMsg = "Distance between buffer curve and input is too small " + "(" + minDistanceFound + " at " + (pts(0).toString + " " +pts(1).toString) + " )"
+      errMsg =
+        "Distance between buffer curve and input is too small " + "(" + minDistanceFound + " at " + (pts(
+          0
+        ).toString + " " + pts(1).toString) + " )"
     }
   }
 
@@ -167,7 +175,10 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
       errorLocation = pts(1)
       errorIndicator = input.getFactory.createLineString(pts)
 //      errMsg = "Distance between buffer curve and input is too large " + "(" + maxDistanceFound + " at " + WKTWriter.toLineString(pts(0), pts(1)) + ")"
-      errMsg = "Distance between buffer curve and input is too large " + "(" + maxDistanceFound + " at " + (pts(0).toString + " " + pts(1).toString) + ")"
+      errMsg =
+        "Distance between buffer curve and input is too large " + "(" + maxDistanceFound + " at " + (pts(
+          0
+        ).toString + " " + pts(1).toString) + ")"
     }
   }
 
@@ -187,5 +198,5 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
           + " at " + ptPairDist.toString() +")";
       }
     }
-    */
+   */
 }

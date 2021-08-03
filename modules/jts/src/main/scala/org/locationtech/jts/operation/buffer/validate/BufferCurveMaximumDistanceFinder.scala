@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -40,7 +40,6 @@ import org.locationtech.jts.geom.Geometry
  * should be a very close approximation.
  *
  * @author mbdavis
- *
  */
 object BufferCurveMaximumDistanceFinder {
 
@@ -63,8 +62,8 @@ object BufferCurveMaximumDistanceFinder {
 
     override def filter(seq: CoordinateSequence, index: Int): Unit = {
       if (index == 0) return
-      val p0 = seq.getCoordinate(index - 1)
-      val p1 = seq.getCoordinate(index)
+      val p0    = seq.getCoordinate(index - 1)
+      val p1    = seq.getCoordinate(index)
       val midPt = new Coordinate((p0.x + p1.x) / 2, (p0.y + p1.y) / 2)
       minPtDist.initialize()
       DistanceToPointFinder.computeDistance(geom, midPt, minPtDist)

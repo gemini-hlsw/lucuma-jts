@@ -75,7 +75,7 @@ object IsSimpleOp {
 
   private class EndpointInfo(var pt: Coordinate) {
     private[operation] var isClosed = false
-    private[operation] var degree = 0
+    private[operation] var degree   = 0
 
     def getCoordinate: Coordinate = pt
 
@@ -89,12 +89,12 @@ object IsSimpleOp {
 
 class IsSimpleOp(inputGeom: Geometry) {
 
-/**
- * Creates a simplicity checker using the default SFS Mod-2 Boundary Node Rule
- *
- * @deprecated use IsSimpleOp(Geometry)
- */
-  private var isClosedEndpointsInInterior = true
+  /**
+   * Creates a simplicity checker using the default SFS Mod-2 Boundary Node Rule
+   *
+   * @deprecated use IsSimpleOp(Geometry)
+   */
+  private var isClosedEndpointsInInterior   = true
   private var nonSimpleLocation: Coordinate = null
 
   /**
@@ -179,12 +179,10 @@ class IsSimpleOp(inputGeom: Geometry) {
   private def isSimpleMultiPoint(mp: MultiPoint): Boolean = {
     if (mp.isEmpty) return true
     val points = new util.TreeSet[Coordinate]
-    var i = 0
-    while ( {
-      i < mp.getNumGeometries
-    }) {
+    var i      = 0
+    while (i < mp.getNumGeometries) {
       val pt = mp.getGeometryN(i).asInstanceOf[Point]
-      val p = pt.getCoordinate
+      val p  = pt.getCoordinate
       if (points.contains(p)) {
         nonSimpleLocation = p
         return false
@@ -205,10 +203,8 @@ class IsSimpleOp(inputGeom: Geometry) {
    */
   private def isSimplePolygonal(geom: Geometry): Boolean = {
     val rings = LinearComponentExtracter.getLines(geom)
-    val i = rings.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i     = rings.iterator
+    while (i.hasNext) {
       val ring = i.next.asInstanceOf[LinearRing]
       if (!isSimpleLinearGeometry(ring)) return false
     }
@@ -224,9 +220,7 @@ class IsSimpleOp(inputGeom: Geometry) {
    */
   private def isSimpleGeometryCollection(geom: Geometry): Boolean = {
     var i = 0
-    while ( {
-      i < geom.getNumGeometries
-    }) {
+    while (i < geom.getNumGeometries) {
       val comp = geom.getGeometryN(i)
       if (!computeSimple(comp)) return false
       i += 1
@@ -237,8 +231,8 @@ class IsSimpleOp(inputGeom: Geometry) {
   private def isSimpleLinearGeometry(geom: Geometry): Boolean = {
     if (geom.isEmpty) return true
     val graph = new GeometryGraph(0, geom)
-    val li = new RobustLineIntersector
-    val si = graph.computeSelfNodes(li, true)
+    val li    = new RobustLineIntersector
+    val si    = graph.computeSelfNodes(li, true)
     // if no self-intersection, must be simple
     if (!si.hasIntersection) return true
     if (si.hasProperIntersection) {
@@ -256,15 +250,11 @@ class IsSimpleOp(inputGeom: Geometry) {
    */
   private def hasNonEndpointIntersection(graph: GeometryGraph): Boolean = {
     val i = graph.getEdgeIterator
-    while ( {
-      i.hasNext
-    }) {
-      val e = i.next.asInstanceOf[Edge]
+    while (i.hasNext) {
+      val e               = i.next.asInstanceOf[Edge]
       val maxSegmentIndex = e.getMaximumSegmentIndex
-      val eiIt = e.getEdgeIntersectionList.iterator
-      while ( {
-        eiIt.hasNext
-      }) {
+      val eiIt            = e.getEdgeIntersectionList.iterator
+      while (eiIt.hasNext) {
         val ei = eiIt.next.asInstanceOf[EdgeIntersection]
         if (!ei.isEndPoint(maxSegmentIndex)) {
           nonSimpleLocation = ei.getCoordinate
@@ -285,21 +275,17 @@ class IsSimpleOp(inputGeom: Geometry) {
    */
   private def hasClosedEndpointIntersection(graph: GeometryGraph): Boolean = {
     val endPoints = mutable.TreeMap.empty[Coordinate, IsSimpleOp.EndpointInfo]
-    val i = graph.getEdgeIterator
-    while ( {
-      i.hasNext
-    }) {
-      val e = i.next
+    val i         = graph.getEdgeIterator
+    while (i.hasNext) {
+      val e        = i.next
       val isClosed = e.isClosed
-      val p0 = e.getCoordinate(0)
+      val p0       = e.getCoordinate(0)
       addEndpoint(endPoints, p0, isClosed)
-      val p1 = e.getCoordinate(e.getNumPoints - 1)
+      val p1       = e.getCoordinate(e.getNumPoints - 1)
       addEndpoint(endPoints, p1, isClosed)
     }
-    val j = endPoints.values.iterator
-    while ( {
-      j.hasNext
-    }) {
+    val j         = endPoints.values.iterator
+    while (j.hasNext) {
       val eiInfo = j.next()
       if (eiInfo.isClosed && eiInfo.degree != 2) {
         nonSimpleLocation = eiInfo.getCoordinate
@@ -312,7 +298,11 @@ class IsSimpleOp(inputGeom: Geometry) {
   /**
    * Add an endpoint to the map, creating an entry for it if none exists
    */
-  private def addEndpoint(endPoints: mutable.Map[Coordinate, IsSimpleOp.EndpointInfo], p: Coordinate, isClosed: Boolean): Unit = {
+  private def addEndpoint(
+    endPoints: mutable.Map[Coordinate, IsSimpleOp.EndpointInfo],
+    p:         Coordinate,
+    isClosed:  Boolean
+  ): Unit = {
     var eiInfo = endPoints.get(p).orNull
     if (eiInfo == null) {
       eiInfo = new IsSimpleOp.EndpointInfo(p)

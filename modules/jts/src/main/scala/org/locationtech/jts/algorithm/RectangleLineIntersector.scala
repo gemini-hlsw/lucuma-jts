@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -37,27 +37,26 @@ import org.locationtech.jts.geom.Envelope
  * of line intersection tests.
  *
  * @author Martin Davis
- *
  */
 class RectangleLineIntersector(var rectEnv: Envelope) {
 
-/**
- * Creates a new intersector for the given query rectangle,
- * specified as an {link Envelope}.
- *
- * @param rectEnv the query rectangle, specified as an Envelope
- */
+  /**
+   * Creates a new intersector for the given query rectangle,
+   * specified as an {link Envelope}.
+   *
+   * @param rectEnv the query rectangle, specified as an Envelope
+   */
   /**
    * Up and Down are the diagonal orientations
    * relative to the Left side of the rectangle.
    * Index 0 is the left side, 1 is the right side.
    */
-  private val diagUp0 = new Coordinate(rectEnv.getMinX, rectEnv.getMinY)
-  private val diagUp1 = new Coordinate(rectEnv.getMaxX, rectEnv.getMaxY)
+  private val diagUp0   = new Coordinate(rectEnv.getMinX, rectEnv.getMinY)
+  private val diagUp1   = new Coordinate(rectEnv.getMaxX, rectEnv.getMaxY)
   private val diagDown0 = new Coordinate(rectEnv.getMinX, rectEnv.getMaxY)
   private val diagDown1 = new Coordinate(rectEnv.getMaxX, rectEnv.getMinY)
   // for intersection testing, don't need to set precision model
-  private val li = new RobustLineIntersector
+  private val li        = new RobustLineIntersector
 
   /**
    * Tests whether the query rectangle intersects a
@@ -70,6 +69,7 @@ class RectangleLineIntersector(var rectEnv: Envelope) {
   def intersects(p0a: Coordinate, p1a: Coordinate): Boolean = { // TODO: confirm that checking envelopes first is faster
     var p0 = p0a
     var p1 = p1a
+
     /**
      * If the segment envelope is disjoint from the
      * rectangle envelope, there is no intersection
@@ -95,6 +95,7 @@ class RectangleLineIntersector(var rectEnv: Envelope) {
       p0 = p1
       p1 = tmp
     }
+
     /**
      * Compute angle of segment.
      * Since the segment is normalized to run left to right,

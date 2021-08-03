@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -31,9 +31,9 @@ import org.locationtech.jts.math.DD
  * Implements basic computational geometry algorithms using {link DD} arithmetic.
  *
  * @author Martin Davis
- *
  */
 object CGAlgorithmsDD {
+
   /**
    * Returns the index of the direction of the point <code>q</code> relative to
    * a vector specified by <code>p1-p2</code>.
@@ -45,18 +45,18 @@ object CGAlgorithmsDD {
    * return -1 if q is clockwise (right) from p1-p2
    * return 0 if q is collinear with p1-p2
    */
-    def orientationIndex(p1: Coordinate, p2: Coordinate, q: Coordinate): Int = { // fast filter for orientation index
-      // avoids use of slow extended-precision arithmetic in many cases
-      val index = orientationIndexFilter(p1, p2, q)
-      if (index <= 1) return index
-      // normalize coordinates
-      val dx1 = DD.valueOf(p2.x).selfAdd(-p1.x)
-      val dy1 = DD.valueOf(p2.y).selfAdd(-p1.y)
-      val dx2 = DD.valueOf(q.x).selfAdd(-p2.x)
-      val dy2 = DD.valueOf(q.y).selfAdd(-p2.y)
-      // sign of determinant - unrolled for performance
-      dx1.selfMultiply(dy2).selfSubtract(dy1.selfMultiply(dx2)).signum
-    }
+  def orientationIndex(p1: Coordinate, p2: Coordinate, q: Coordinate): Int = { // fast filter for orientation index
+    // avoids use of slow extended-precision arithmetic in many cases
+    val index = orientationIndexFilter(p1, p2, q)
+    if (index <= 1) return index
+    // normalize coordinates
+    val dx1   = DD.valueOf(p2.x).selfAdd(-p1.x)
+    val dy1   = DD.valueOf(p2.y).selfAdd(-p1.y)
+    val dx2   = DD.valueOf(q.x).selfAdd(-p2.x)
+    val dy2   = DD.valueOf(q.y).selfAdd(-p2.y)
+    // sign of determinant - unrolled for performance
+    dx1.selfMultiply(dy2).selfSubtract(dy1.selfMultiply(dx2)).signum
+  }
 
   /**
    * Computes the sign of the determinant of the 2x2 matrix
@@ -72,10 +72,10 @@ object CGAlgorithmsDD {
   }
 
   def signOfDet2x2(dx1: Double, dy1: Double, dx2: Double, dy2: Double): Int = {
-    val x1 = DD.valueOf(dx1)
-    val y1 = DD.valueOf(dy1)
-    val x2 = DD.valueOf(dx2)
-    val y2 = DD.valueOf(dy2)
+    val x1  = DD.valueOf(dx1)
+    val y1  = DD.valueOf(dy1)
+    val x2  = DD.valueOf(dx2)
+    val y2  = DD.valueOf(dy2)
     val det = x1.multiply(y2).selfSubtract(y1.multiply(x2))
     det.signum
   }
@@ -107,14 +107,16 @@ object CGAlgorithmsDD {
    * return i > 1 if the orientation index cannot be computed safely
    */
   private def orientationIndexFilter(pa: Coordinate, pb: Coordinate, pc: Coordinate): Int = {
-    var detsum = .0
-    val detleft = (pa.x - pc.x) * (pb.y - pc.y)
+    var detsum   = .0
+    val detleft  = (pa.x - pc.x) * (pb.y - pc.y)
     val detright = (pa.y - pc.y) * (pb.x - pc.x)
-    val det = detleft - detright
-    if (detleft > 0.0) if (detright <= 0.0) return signum(det)
-    else detsum = detleft + detright
-    else if (detleft < 0.0) if (detright >= 0.0) return signum(det)
-    else detsum = -detleft - detright
+    val det      = detleft - detright
+    if (detleft > 0.0)
+      if (detright <= 0.0) return signum(det)
+      else detsum = detleft + detright
+    else if (detleft < 0.0)
+      if (detright >= 0.0) return signum(det)
+      else detsum = -detleft - detright
     else return signum(det)
     val errbound = DP_SAFE_EPSILON * detsum
     if ((det >= errbound) || (-det >= errbound)) return signum(det)
@@ -140,19 +142,21 @@ object CGAlgorithmsDD {
    * return an intersection point if one exists, or null if the lines are parallel
    */
   def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Coordinate = {
-    val px = new DD(p1.y).selfSubtract(p2.y)
-    val py = new DD(p2.x).selfSubtract(p1.x)
-    val pw = new DD(p1.x).selfMultiply(p2.y).selfSubtract(new DD(p2.x).selfMultiply(p1.y))
-    val qx = new DD(q1.y).selfSubtract(q2.y)
-    val qy = new DD(q2.x).selfSubtract(q1.x)
-    val qw = new DD(q1.x).selfMultiply(q2.y).selfSubtract(new DD(q2.x).selfMultiply(q1.y))
-    val x = py.multiply(qw).selfSubtract(qy.multiply(pw))
-    val y = qx.multiply(pw).selfSubtract(px.multiply(qw))
-    val w = px.multiply(qy).selfSubtract(qx.multiply(py))
+    val px   = new DD(p1.y).selfSubtract(p2.y)
+    val py   = new DD(p2.x).selfSubtract(p1.x)
+    val pw   = new DD(p1.x).selfMultiply(p2.y).selfSubtract(new DD(p2.x).selfMultiply(p1.y))
+    val qx   = new DD(q1.y).selfSubtract(q2.y)
+    val qy   = new DD(q2.x).selfSubtract(q1.x)
+    val qw   = new DD(q1.x).selfMultiply(q2.y).selfSubtract(new DD(q2.x).selfMultiply(q1.y))
+    val x    = py.multiply(qw).selfSubtract(qy.multiply(pw))
+    val y    = qx.multiply(pw).selfSubtract(px.multiply(qw))
+    val w    = px.multiply(qy).selfSubtract(qx.multiply(py))
     val xInt = x.selfDivide(w).doubleValue
     val yInt = y.selfDivide(w).doubleValue
-    if (java.lang.Double.isNaN(xInt) || (java.lang.Double.isInfinite(xInt) || java.lang.Double.isNaN(yInt)) || java.lang.Double.isInfinite(yInt)) return null
+    if (
+      java.lang.Double.isNaN(xInt) || (java.lang.Double
+        .isInfinite(xInt) || java.lang.Double.isNaN(yInt)) || java.lang.Double.isInfinite(yInt)
+    ) return null
     new Coordinate(xInt, yInt)
   }
 }
-

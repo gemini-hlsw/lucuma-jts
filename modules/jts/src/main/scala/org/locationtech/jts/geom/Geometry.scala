@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -141,7 +141,6 @@ import org.locationtech.jts.util.Assert
  * Finally, {link #equalsExact(Geometry, double)}
  * allows using a tolerance value for point comparison.
  *
- *
  * <h4>Topological Equality</h4>
  *
  * Topological Equality is provided by the
@@ -160,15 +159,15 @@ import org.locationtech.jts.util.Assert
  */
 @SerialVersionUID(8763622679187376702L)
 object Geometry {
-  private[geom] val SORTINDEX_POINT = 0
-  private[geom] val SORTINDEX_MULTIPOINT = 1
-  private[geom] val SORTINDEX_LINESTRING = 2
-  private[geom] val SORTINDEX_LINEARRING = 3
-  private[geom] val SORTINDEX_MULTILINESTRING = 4
-  private[geom] val SORTINDEX_POLYGON = 5
-  private[geom] val SORTINDEX_MULTIPOLYGON = 6
+  private[geom] val SORTINDEX_POINT              = 0
+  private[geom] val SORTINDEX_MULTIPOINT         = 1
+  private[geom] val SORTINDEX_LINESTRING         = 2
+  private[geom] val SORTINDEX_LINEARRING         = 3
+  private[geom] val SORTINDEX_MULTILINESTRING    = 4
+  private[geom] val SORTINDEX_POLYGON            = 5
+  private[geom] val SORTINDEX_MULTIPOLYGON       = 6
   private[geom] val SORTINDEX_GEOMETRYCOLLECTION = 7
-  private val geometryChangedFilter = new GeometryComponentFilter() {
+  private val geometryChangedFilter              = new GeometryComponentFilter() {
     override def filter(geom: Geometry): Unit = geom.geometryChangedAction()
   }
 
@@ -182,9 +181,7 @@ object Geometry {
    */
   def hasNonEmptyElements(geometries: Array[Geometry]): Boolean = {
     var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    while (i < geometries.length) {
       if (!geometries(i).isEmpty) return true
       i += 1; i - 1
     }
@@ -200,9 +197,7 @@ object Geometry {
    */
   def hasNullElements(array: Array[AnyRef]): Boolean = {
     var i = 0
-    while ( {
-      i < array.length
-    }) {
+    while (i < array.length) {
       if (array(i) == null) return true
       i += 1
     }
@@ -217,29 +212,37 @@ object Geometry {
    * throws  IllegalArgumentException if <code>g</code> is a <code>GeometryCollection</code>
    *                                   but not one of its subclasses
    */
-  def checkNotGeometryCollection(g: Geometry): Unit = if (g.isGeometryCollection) throw new IllegalArgumentException("Operation does not support GeometryCollection arguments")
+  def checkNotGeometryCollection(g: Geometry): Unit = if (g.isGeometryCollection)
+    throw new IllegalArgumentException("Operation does not support GeometryCollection arguments")
 }
 
 @SerialVersionUID(8763622679187376702L)
-abstract class Geometry(/**
-                         * The {link GeometryFactory} used to create this Geometry
-                         */
-                        val factory: GeometryFactory)
+abstract class Geometry(
+  /**
+   * The {link GeometryFactory} used to create this Geometry
+   */
+  val factory: GeometryFactory
+)
 
 /**
  * Creates a new <code>Geometry</code> via the specified GeometryFactory.
  *
  * @param factory
  */
-  extends Cloneable with Comparable[Geometry] with Serializable {
+    extends Cloneable
+    with Comparable[Geometry]
+    with Serializable {
+
   /**
    * The bounding box of this <code>Geometry</code>.
    */
   protected var envelope: Envelope = null
+
   /**
    * The ID of the Spatial Reference System used by this <code>Geometry</code>
    */
   protected var SRID = factory.getSRID
+
   /**
    * An object reference which can be used to carry ancillary data defined
    * by the client.
@@ -265,7 +268,6 @@ abstract class Geometry(/**
    *
    * return the ID of the coordinate space in which the <code>Geometry</code>
    *         is defined.
-   *
    */
   def getSRID: Int = SRID
 
@@ -440,16 +442,16 @@ abstract class Geometry(/**
    * @param distance the distance value to compare
    * return <code>true</code> if the geometries are less than <code>distance</code> apart.
    */
-  def isWithinDistance(geom: Geometry, distance: Double): Boolean = DistanceOp.isWithinDistance(this, geom, distance)
+  def isWithinDistance(geom: Geometry, distance: Double): Boolean =
+    DistanceOp.isWithinDistance(this, geom, distance)
 
   /**
    * Tests whether this is a rectangular {link Polygon}.
    *
    * return true if the geometry is a rectangle.
    */
-  def isRectangle: Boolean = { // Polygon overrides to check for actual rectangle
+  def isRectangle: Boolean = // Polygon overrides to check for actual rectangle
     false
-  }
 
   /**
    * Returns the area of this <code>Geometry</code>.
@@ -692,13 +694,9 @@ abstract class Geometry(/**
     if (g.isRectangle) return RectangleIntersects.intersects(g.asInstanceOf[Polygon], this)
     if (isGeometryCollection || g.isGeometryCollection) {
       var i = 0
-      while ( {
-        i < getNumGeometries
-      }) {
+      while (i < getNumGeometries) {
         var j = 0
-        while ( {
-          j < g.getNumGeometries
-        }) {
+        while (j < g.getNumGeometries) {
           if (getGeometryN(i).intersects(g.getGeometryN(j))) return true
           j += 1
         }
@@ -930,7 +928,8 @@ abstract class Geometry(/**
    *         matrix for the two <code>Geometry</code>s match <code>intersectionPattern</code>
    * @see IntersectionMatrix
    */
-  def relate(g: Geometry, intersectionPattern: String): Boolean = relate(g).matches(intersectionPattern)
+  def relate(g: Geometry, intersectionPattern: String): Boolean =
+    relate(g).matches(intersectionPattern)
 
   /**
    * Returns the DE-9IM {link IntersectionMatrix} for the two <code>Geometry</code>s.
@@ -1102,7 +1101,8 @@ abstract class Geometry(/**
    * @see #buffer(double)
    * @see #buffer(double, int, int)
    */
-  def buffer(distance: Double, quadrantSegments: Int): Geometry = BufferOp.bufferOp(this, distance, quadrantSegments)
+  def buffer(distance: Double, quadrantSegments: Int): Geometry =
+    BufferOp.bufferOp(this, distance, quadrantSegments)
 
   /**
    * Computes a buffer area around this geometry having the given
@@ -1136,7 +1136,8 @@ abstract class Geometry(/**
    * @see #buffer(double, int)
    * @see BufferOp
    */
-  def buffer(distance: Double, quadrantSegments: Int, endCapStyle: Int): Geometry = BufferOp.bufferOp(this, distance, quadrantSegments, endCapStyle)
+  def buffer(distance: Double, quadrantSegments: Int, endCapStyle: Int): Geometry =
+    BufferOp.bufferOp(this, distance, quadrantSegments, endCapStyle)
 
   /**
    * Computes the smallest convex <code>Polygon</code> that contains all the
@@ -1207,19 +1208,24 @@ abstract class Geometry(/**
    * throws IllegalArgumentException if the argument is a non-empty heterogeneous <code>GeometryCollection</code>
    */
   def intersection(other: Geometry): Geometry = {
+
     /**
      * TODO: MD - add optimization for P-A case using Point-In-Polygon
      */
     // special case: if one input is empty ==> empty
-    if (this.isEmpty || other.isEmpty) return OverlayOp.createEmptyResult(OverlayOp.INTERSECTION, this, other, factory)
+    if (this.isEmpty || other.isEmpty)
+      return OverlayOp.createEmptyResult(OverlayOp.INTERSECTION, this, other, factory)
     // compute for GCs
     // (An inefficient algorithm, but will work)
     // TODO: improve efficiency of computation for GCs
     if (this.isGeometryCollection) {
       val g2 = other
-      return GeometryCollectionMapper.map(this.asInstanceOf[GeometryCollection], new GeometryMapper.MapOp() {
-        override def map(g: Geometry): Geometry = g.intersection(g2)
-      })
+      return GeometryCollectionMapper.map(this.asInstanceOf[GeometryCollection],
+                                          new GeometryMapper.MapOp() {
+                                            override def map(g: Geometry): Geometry =
+                                              g.intersection(g2)
+                                          }
+      )
     }
     // No longer needed since GCs are handled by previous code
     //checkNotGeometryCollection(this);
@@ -1263,7 +1269,8 @@ abstract class Geometry(/**
    */
   def union(other: Geometry): Geometry = { // handle empty geometry cases
     if (this.isEmpty || other.isEmpty) {
-      if (this.isEmpty && other.isEmpty) return OverlayOp.createEmptyResult(OverlayOp.UNION, this, other, factory)
+      if (this.isEmpty && other.isEmpty)
+        return OverlayOp.createEmptyResult(OverlayOp.UNION, this, other, factory)
       // special case: if either input is empty ==> other input
       if (this.isEmpty) return other.copy
       if (other.isEmpty) return copy
@@ -1319,7 +1326,8 @@ abstract class Geometry(/**
    */
   def symDifference(other: Geometry): Geometry = {
     if (this.isEmpty || other.isEmpty) { // both empty - check dimensions
-      if (this.isEmpty && other.isEmpty) return OverlayOp.createEmptyResult(OverlayOp.SYMDIFFERENCE, this, other, factory)
+      if (this.isEmpty && other.isEmpty)
+        return OverlayOp.createEmptyResult(OverlayOp.SYMDIFFERENCE, this, other, factory)
       // special case: if either input is empty ==> result = other arg
       if (this.isEmpty) return other.copy
       if (other.isEmpty) return copy
@@ -1507,8 +1515,9 @@ abstract class Geometry(/**
    */
   def copy: Geometry = {
     val copy: Geometry = copyInternal
-    copy.envelope = if (envelope == null) null
-    else envelope.copy
+    copy.envelope =
+      if (envelope == null) null
+      else envelope.copy
     copy.SRID = this.SRID
     copy.userData = this.userData
     copy
@@ -1634,7 +1643,8 @@ abstract class Geometry(/**
    * return <code>true</code> if the classes of the two <code>Geometry</code>
    *         s are considered to be equal by the <code>equalsExact</code> method.
    */
-  protected def isEquivalentClass(other: Geometry): Boolean = this.getClass.getName == other.getClass.getName
+  protected def isEquivalentClass(other: Geometry): Boolean =
+    this.getClass.getName == other.getClass.getName
 
   /**
    * Tests whether this is an instance of a general {link GeometryCollection},
@@ -1642,7 +1652,8 @@ abstract class Geometry(/**
    *
    * return true if this is a heterogeneous GeometryCollection
    */
-  protected def isGeometryCollection: Boolean = getSortIndex == Geometry.SORTINDEX_GEOMETRYCOLLECTION
+  protected def isGeometryCollection: Boolean =
+    getSortIndex == Geometry.SORTINDEX_GEOMETRYCOLLECTION
 
   /**
    * Returns the minimum and maximum x and y values in this <code>Geometry</code>
@@ -1695,14 +1706,16 @@ abstract class Geometry(/**
    * return the first non-zero <code>compareTo</code> result, if any;
    *         otherwise, zero
    */
-  def compare[A](a: java.util.Collection[A], b: java.util.Collection[A], comparator: Comparator[A]): Int = {
+  def compare[A](
+    a:          java.util.Collection[A],
+    b:          java.util.Collection[A],
+    comparator: Comparator[A]
+  ): Int = {
     val i = a.iterator
     val j = b.iterator
-    while ( {
-      i.hasNext && j.hasNext
-    }) {
-      val aElement= i.next
-      val bElement= j.next
+    while (i.hasNext && j.hasNext) {
+      val aElement   = i.next
+      val bElement   = j.next
       // This is a BUG on jts upstream
       val comparison = comparator.compare(aElement, bElement)
       if (comparison != 0) return comparison

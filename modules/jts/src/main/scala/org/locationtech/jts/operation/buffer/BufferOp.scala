@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -25,7 +25,7 @@ package org.locationtech.jts.operation.buffer
  * @version 1.7
  */
 
-import org.locationtech.jts.geom.{Geometry, PrecisionModel, TopologyException}
+import org.locationtech.jts.geom.{ Geometry, PrecisionModel, TopologyException }
 import org.locationtech.jts.math.MathUtil
 import org.locationtech.jts.noding.ScaledNoder
 import org.locationtech.jts.noding.snaprounder.MCIndexSnapRounder
@@ -77,12 +77,14 @@ import org.locationtech.jts.noding.snaprounder.MCIndexSnapRounder
 //  * @version 1.7
 //  */
 object BufferOp {
+
   /**
    * Specifies a round line buffer end cap style.
    *
    * @deprecated use BufferParameters
    */
-    val CAP_ROUND: Int = BufferParameters.CAP_ROUND
+  val CAP_ROUND: Int = BufferParameters.CAP_ROUND
+
   /**
    * Specifies a butt (or flat) line buffer end cap style.
    *
@@ -90,12 +92,14 @@ object BufferOp {
    */
   val CAP_BUTT: Int = BufferParameters.CAP_FLAT
   val CAP_FLAT: Int = BufferParameters.CAP_FLAT
+
   /**
    * Specifies a square line buffer end cap style.
    *
    * @deprecated use BufferParameters
    */
   val CAP_SQUARE: Int = BufferParameters.CAP_SQUARE
+
   /**
    * A number of digits of precision which leaves some computational "headroom"
    * for floating point operations.
@@ -121,15 +125,20 @@ object BufferOp {
    * return a scale factor for the buffer computation
    */
   private def precisionScaleFactor(g: Geometry, distance: Double, maxPrecisionDigits: Int) = {
-    val env = g.getEnvelopeInternal
-    val envMax = MathUtil.max(Math.abs(env.getMaxX), Math.abs(env.getMaxY), Math.abs(env.getMinX), Math.abs(env.getMinY))
-    val expandByDistance = if (distance > 0.0) distance
-    else 0.0
-    val bufEnvMax = envMax + 2 * expandByDistance
+    val env                   = g.getEnvelopeInternal
+    val envMax                = MathUtil.max(Math.abs(env.getMaxX),
+                              Math.abs(env.getMaxY),
+                              Math.abs(env.getMinX),
+                              Math.abs(env.getMinY)
+    )
+    val expandByDistance      =
+      if (distance > 0.0) distance
+      else 0.0
+    val bufEnvMax             = envMax + 2 * expandByDistance
     // the smallest power of 10 greater than the buffer envelope
     val bufEnvPrecisionDigits = (Math.log(bufEnvMax) / Math.log(10) + 1.0).toInt
-    val minUnitLog10 = maxPrecisionDigits - bufEnvPrecisionDigits
-    val scaleFactor = Math.pow(10.0, minUnitLog10.toDouble)
+    val minUnitLog10          = maxPrecisionDigits - bufEnvPrecisionDigits
+    val scaleFactor           = Math.pow(10.0, minUnitLog10.toDouble)
     scaleFactor
   }
 
@@ -141,7 +150,7 @@ object BufferOp {
    * return the buffer of the input geometry
    */
   def bufferOp(g: Geometry, distance: Double): Geometry = {
-    val gBuf = new BufferOp(g)
+    val gBuf    = new BufferOp(g)
     val geomBuf = gBuf.getResultGeometry(distance)
     //BufferDebug.saveBuffer(geomBuf);
     //BufferDebug.runCount++;
@@ -156,10 +165,9 @@ object BufferOp {
    * @param distance the buffer distance
    * @param params   the buffer parameters to use
    * return the buffer of the input geometry
-   *
    */
   def bufferOp(g: Geometry, distance: Double, params: BufferParameters): Geometry = {
-    val bufOp = new BufferOp(g, params)
+    val bufOp   = new BufferOp(g, params)
     val geomBuf = bufOp.getResultGeometry(distance)
     geomBuf
   }
@@ -172,10 +180,9 @@ object BufferOp {
    * @param distance         the buffer distance
    * @param quadrantSegments the number of segments used to approximate a quarter circle
    * return the buffer of the input geometry
-   *
    */
   def bufferOp(g: Geometry, distance: Double, quadrantSegments: Int): Geometry = {
-    val bufOp = new BufferOp(g)
+    val bufOp   = new BufferOp(g)
     bufOp.setQuadrantSegments(quadrantSegments)
     val geomBuf = bufOp.getResultGeometry(distance)
     geomBuf
@@ -190,10 +197,9 @@ object BufferOp {
    * @param quadrantSegments the number of segments used to approximate a quarter circle
    * @param endCapStyle      the end cap style to use
    * return the buffer of the input geometry
-   *
    */
   def bufferOp(g: Geometry, distance: Double, quadrantSegments: Int, endCapStyle: Int): Geometry = {
-    val bufOp = new BufferOp(g)
+    val bufOp   = new BufferOp(g)
     bufOp.setQuadrantSegments(quadrantSegments)
     bufOp.setEndCapStyle(endCapStyle)
     val geomBuf = bufOp.getResultGeometry(distance)
@@ -202,9 +208,9 @@ object BufferOp {
 }
 
 class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()) {
-  private val argGeom: Geometry = g
-  private var distance = .0
-  private var resultGeometry: Geometry = null
+  private val argGeom: Geometry               = g
+  private var distance                        = .0
+  private var resultGeometry: Geometry        = null
   private var saveException: RuntimeException = null // debugging only
   /**
    * Initializes a buffer computation for the given geometry
@@ -243,7 +249,8 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
    *
    * @param quadrantSegments the number of segments in a fillet for a quadrant
    */
-  def setQuadrantSegments(quadrantSegments: Int): Unit = bufParams.setQuadrantSegments(quadrantSegments)
+  def setQuadrantSegments(quadrantSegments: Int): Unit =
+    bufParams.setQuadrantSegments(quadrantSegments)
 
   /**
    * Returns the buffer computed for a geometry for a given buffer distance.
@@ -267,9 +274,7 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
 
   private def bufferReducedPrecision(): Unit = { // try and compute with decreasing precision
     var precDigits = BufferOp.MAX_PRECISION_DIGITS
-    while ( {
-      precDigits >= 0
-    }) {
+    while (precDigits >= 0) {
       try bufferReducedPrecision(precDigits)
       catch {
         case ex: TopologyException =>
@@ -299,12 +304,12 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
   private def bufferReducedPrecision(precisionDigits: Int): Unit = {
     val sizeBasedScaleFactor = BufferOp.precisionScaleFactor(argGeom, distance, precisionDigits)
     //    System.out.println("recomputing with precision scale factor = " + sizeBasedScaleFactor);
-    val fixedPM = new PrecisionModel(sizeBasedScaleFactor)
+    val fixedPM              = new PrecisionModel(sizeBasedScaleFactor)
     bufferFixedPrecision(fixedPM)
   }
 
   private def bufferFixedPrecision(fixedPM: PrecisionModel): Unit = {
-    val noder = new ScaledNoder(new MCIndexSnapRounder(new PrecisionModel(1.0)), fixedPM.getScale)
+    val noder      = new ScaledNoder(new MCIndexSnapRounder(new PrecisionModel(1.0)), fixedPM.getScale)
     val bufBuilder = new BufferBuilder(bufParams)
     bufBuilder.setWorkingPrecisionModel(fixedPM)
     bufBuilder.setNoder(noder)

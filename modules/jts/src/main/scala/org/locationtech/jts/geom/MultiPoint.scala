@@ -19,7 +19,10 @@ package org.locationtech.jts.geom
  * @version 1.7
  */
 @SerialVersionUID(-8048474874175355449L)
-class MultiPoint(points: Array[Point], factory: GeometryFactory) extends GeometryCollection(points.map(x => x: Geometry), factory) with Puntal {
+class MultiPoint(points: Array[Point], factory: GeometryFactory)
+    extends GeometryCollection(points.map(x => x: Geometry), factory)
+    with Puntal {
+
   /**
    * Constructs a <code>MultiPoint</code>.
    *
@@ -32,9 +35,9 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory) extends Geometr
    *                        <code>MultiPoint</code>
    * @deprecated Use GeometryFactory instead
    */
-    def this(points: Array[Point], precisionModel: PrecisionModel, SRID: Int) = {
-      this(points, new GeometryFactory(precisionModel, SRID))
-    }
+  def this(points: Array[Point], precisionModel: PrecisionModel, SRID: Int) = {
+    this(points, new GeometryFactory(precisionModel, SRID))
+  }
 
   /**
    * @param  points the <code>Point</code>s for this <code>MultiPoint</code>
@@ -80,10 +83,8 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory) extends Geometr
 
   override protected def copyInternal: MultiPoint = {
     val points = new Array[Point](this.geometries.length)
-    var i = 0
-    while ( {
-      i < points.length
-    }) {
+    var i      = 0
+    while (i < points.length) {
       points(i) = this.geometries(i).copy.asInstanceOf[Point]
       i += 1
     }

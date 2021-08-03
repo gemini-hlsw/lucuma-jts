@@ -28,11 +28,12 @@ package org.locationtech.jts.geom
  */
 @SerialVersionUID(-4261142084085851829L)
 object LinearRing {
+
   /**
    * The minimum number of vertices allowed in a valid non-empty ring (= 4).
    * Empty rings with 0 vertices are also valid.
    */
-    val MINIMUM_VALID_SIZE = 4
+  val MINIMUM_VALID_SIZE = 4
 }
 
 @SerialVersionUID(-4261142084085851829L)
@@ -47,7 +48,7 @@ class LinearRing(val point: CoordinateSequence, val factor: GeometryFactory)
 //  * throws IllegalArgumentException if the ring is not closed, or has too few points
 //  *
 //  */
-  extends LineString(point, factor) {
+    extends LineString(point, factor) {
   validateConstruction()
 
   /**
@@ -80,8 +81,14 @@ class LinearRing(val point: CoordinateSequence, val factor: GeometryFactory)
   }
 
   private def validateConstruction(): Unit = {
-    if (!isEmpty && !super.isClosed) throw new IllegalArgumentException("Points of LinearRing do not form a closed linestring")
-    if (getCoordinateSequence.size >= 1 && getCoordinateSequence.size < LinearRing.MINIMUM_VALID_SIZE) throw new IllegalArgumentException("Invalid number of points in LinearRing (found " + getCoordinateSequence.size + " - must be 0 or >= 4)")
+    if (!isEmpty && !super.isClosed)
+      throw new IllegalArgumentException("Points of LinearRing do not form a closed linestring")
+    if (
+      getCoordinateSequence.size >= 1 && getCoordinateSequence.size < LinearRing.MINIMUM_VALID_SIZE
+    )
+      throw new IllegalArgumentException(
+        "Invalid number of points in LinearRing (found " + getCoordinateSequence.size + " - must be 0 or >= 4)"
+      )
   }
 
   /**
@@ -111,7 +118,7 @@ class LinearRing(val point: CoordinateSequence, val factor: GeometryFactory)
 
   override protected def copyInternal = new LinearRing(points.copy, factory)
 
-  /** @deprecated*/
+  /** @deprecated */
   override def reverse: Geometry = super.reverse
 
   override def reverseInternal: LinearRing = {

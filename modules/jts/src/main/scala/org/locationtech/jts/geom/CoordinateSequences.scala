@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -29,6 +29,7 @@ package org.locationtech.jts.geom
  * @version 1.7
  */
 object CoordinateSequences {
+
   /**
    * Reverses the coordinates in a sequence in-place.
    *
@@ -36,13 +37,11 @@ object CoordinateSequences {
    */
   def reverse(seq: CoordinateSequence): Unit = {
     val last = seq.size - 1
-    val mid = last / 2
-    var i = 0
-    while ( {
-      i <= mid
-    }) {
+    val mid  = last / 2
+    var i    = 0
+    while (i <= mid) {
       swap(seq, i, last - i)
-        i += 1;
+      i += 1;
     }
   }
 
@@ -56,13 +55,11 @@ object CoordinateSequences {
   def swap(seq: CoordinateSequence, i: Int, j: Int): Unit = {
     if (i == j) return
     var dim = 0
-    while ( {
-      dim < seq.getDimension
-    }) {
+    while (dim < seq.getDimension) {
       val tmp = seq.getOrdinate(i, dim)
       seq.setOrdinate(i, dim, seq.getOrdinate(j, dim))
       seq.setOrdinate(j, dim, tmp)
-        dim += 1;
+      dim += 1;
     }
   }
 
@@ -77,13 +74,17 @@ object CoordinateSequences {
    * @param destPos the position in the destination sequence to copy to
    * @param length  the number of coordinates to copy
    */
-  def copy(src: CoordinateSequence, srcPos: Int, dest: CoordinateSequence, destPos: Int, length: Int): Unit = {
+  def copy(
+    src:     CoordinateSequence,
+    srcPos:  Int,
+    dest:    CoordinateSequence,
+    destPos: Int,
+    length:  Int
+  ): Unit = {
     var i = 0
-    while ( {
-      i < length
-    }) {
+    while (i < length) {
       copyCoord(src, srcPos + i, dest, destPos + i)
-        i += 1;
+      i += 1;
     }
   }
 
@@ -97,14 +98,17 @@ object CoordinateSequences {
    * @param dest    the sequence to copy to
    * @param destPos the destination coordinate to copy to
    */
-  def copyCoord(src: CoordinateSequence, srcPos: Int, dest: CoordinateSequence, destPos: Int): Unit = {
+  def copyCoord(
+    src:     CoordinateSequence,
+    srcPos:  Int,
+    dest:    CoordinateSequence,
+    destPos: Int
+  ): Unit = {
     val minDim = Math.min(src.getDimension, dest.getDimension)
-    var dim = 0
-    while ( {
-      dim < minDim
-    }) {
+    var dim    = 0
+    while (dim < minDim) {
       dest.setOrdinate(destPos, dim, src.getOrdinate(srcPos, dim))
-        dim += 1;
+      dim += 1;
     }
   }
 
@@ -124,7 +128,8 @@ object CoordinateSequences {
     // too few points
     if (n <= 3) return false
     // test if closed
-    seq.getOrdinate(0, CoordinateSequence.X) == seq.getOrdinate(n - 1, CoordinateSequence.X) && seq.getOrdinate(0, CoordinateSequence.Y) == seq.getOrdinate(n - 1, CoordinateSequence.Y)
+    seq.getOrdinate(0, CoordinateSequence.X) == seq.getOrdinate(n - 1, CoordinateSequence.X) && seq
+      .getOrdinate(0, CoordinateSequence.Y) == seq.getOrdinate(n - 1, CoordinateSequence.Y)
   }
 
   /**
@@ -139,42 +144,53 @@ object CoordinateSequences {
    * @param seq  the sequence to test
    * return the original sequence, if it was a valid ring, or a new sequence which is valid.
    */
-  def ensureValidRing(fact: CoordinateSequenceFactory, seq: CoordinateSequence): CoordinateSequence = {
-    val n = seq.size
+  def ensureValidRing(
+    fact: CoordinateSequenceFactory,
+    seq:  CoordinateSequence
+  ): CoordinateSequence = {
+    val n        = seq.size
     // empty sequence is valid
     if (n == 0) return seq
     // too short - make a new one
     if (n <= 3) return createClosedRing(fact, seq, 4)
-    val isClosed = seq.getOrdinate(0, CoordinateSequence.X) == seq.getOrdinate(n - 1, CoordinateSequence.X) && seq.getOrdinate(0, CoordinateSequence.Y) == seq.getOrdinate(n - 1, CoordinateSequence.Y)
+    val isClosed = seq.getOrdinate(0, CoordinateSequence.X) == seq.getOrdinate(n - 1,
+                                                                               CoordinateSequence.X
+    ) && seq.getOrdinate(0, CoordinateSequence.Y) == seq.getOrdinate(n - 1, CoordinateSequence.Y)
     if (isClosed) return seq
     // make a new closed ring
     createClosedRing(fact, seq, n + 1)
   }
 
-  private def createClosedRing(fact: CoordinateSequenceFactory, seq: CoordinateSequence, size: Int) = {
+  private def createClosedRing(
+    fact: CoordinateSequenceFactory,
+    seq:  CoordinateSequence,
+    size: Int
+  ) = {
     val newseq = fact.create(size, seq.getDimension)
-    val n = seq.size
+    val n      = seq.size
     copy(seq, 0, newseq, 0, n)
     // fill remaining coordinates with start point
-    var i = n
-    while ( {
-      i < size
-    }) {copy(seq, 0, newseq, i, 1)
+    var i      = n
+    while (i < size) {
+      copy(seq, 0, newseq, i, 1)
       i += 1;
     }
     newseq
   }
 
-  def extend(fact: CoordinateSequenceFactory, seq: CoordinateSequence, size: Int): CoordinateSequence = {
+  def extend(
+    fact: CoordinateSequenceFactory,
+    seq:  CoordinateSequence,
+    size: Int
+  ): CoordinateSequence = {
     val newseq = fact.create(size, seq.getDimension)
-    val n = seq.size
+    val n      = seq.size
     copy(seq, 0, newseq, 0, n)
     // fill remaining coordinates with end point, if it exists
     if (n > 0) {
       var i = n
-      while ( {
-        i < size
-      }) {copy(seq, n - 1, newseq, i, 1)
+      while (i < size) {
+        copy(seq, n - 1, newseq, i, 1)
         i += 1;
       }
     }
@@ -223,190 +239,178 @@ object CoordinateSequences {
 //    }
 //  }
 
-      /**
-       * Creates a string representation of a {link CoordinateSequence}.
-       * The format is:
-       * <pre>
-       * ( ord0,ord1.. ord0,ord1,...  ... )
-       * </pre>
-       *
-       * @param cs the sequence to output
-       * return the string representation of the sequence
-       */
-      def toString(cs: CoordinateSequence): String = {
-        val size = cs.size
-        if (size == 0) return "()"
-        val dim = cs.getDimension
-        val builder = new StringBuilder
-        builder.append('(')
-        var i = 0
-        while ( {
-          i < size
-        }) {
-          if (i > 0) builder.append(" ")
-          var d = 0
-          while ( {
-            d < dim
-          }) {
-            if (d > 0) builder.append(",")
+  /**
+   * Creates a string representation of a {link CoordinateSequence}.
+   * The format is:
+   * <pre>
+   * ( ord0,ord1.. ord0,ord1,...  ... )
+   * </pre>
+   *
+   * @param cs the sequence to output
+   * return the string representation of the sequence
+   */
+  def toString(cs: CoordinateSequence): String = {
+    val size    = cs.size
+    if (size == 0) return "()"
+    val dim     = cs.getDimension
+    val builder = new StringBuilder
+    builder.append('(')
+    var i       = 0
+    while (i < size) {
+      if (i > 0) builder.append(" ")
+      var d = 0
+      while (d < dim) {
+        if (d > 0) builder.append(",")
 //            builder.append(OrdinateFormat.DEFAULT.format(cs.getOrdinate(i, d))
-            {
-              d += 1;
-              d - 1
-            }
-          }
-          {
-            i += 1;
-            i - 1
-          }
-        }
-        builder.append(')')
-        builder.toString
+        d += 1;
+        d - 1
       }
-
-      /**
-       * Returns the minimum coordinate, using the usual lexicographic comparison.
-       *
-       * @param  seq the coordinate sequence to search
-       * return the minimum coordinate in the sequence, found using <code>compareTo</code>
-       * @see Coordinate#compareTo(Object)
-       */
-      def minCoordinate(seq: CoordinateSequence): Coordinate = {
-        var minCoord: Coordinate = null
-        var i = 0
-        while ( {
-          i < seq.size
-        }) {
-          val testCoord = seq.getCoordinate(i)
-          if (minCoord == null || minCoord.compareTo(testCoord) > 0) minCoord = testCoord
-            i += 1;
-        }
-        minCoord
-      }
-
-      /**
-       * Returns the index of the minimum coordinate of the whole
-       * coordinate sequence, using the usual lexicographic comparison.
-       *
-       * @param  seq the coordinate sequence to search
-       * return the index of the minimum coordinate in the sequence, found using <code>compareTo</code>
-       * @see Coordinate#compareTo(Object)
-       */
-      def minCoordinateIndex(seq: CoordinateSequence): Int = minCoordinateIndex(seq, 0, seq.size - 1)
-
-      /**
-       * Returns the index of the minimum coordinate of a part of
-       * the coordinate sequence (defined by {@code from} and {@code to},
-       * using the usual lexicographic comparison.
-       *
-       * @param  seq  the coordinate sequence to search
-       * @param  from the lower search index
-       * @param  to   the upper search index
-       * return the index of the minimum coordinate in the sequence, found using <code>compareTo</code>
-       * @see Coordinate#compareTo(Object)
-       */
-      def minCoordinateIndex(seq: CoordinateSequence, from: Int, to: Int) = {
-        var minCoordIndex = -1
-        var minCoord: Coordinate = null
-        var i = from
-        while ( {
-          i <= to
-        }) {
-          val testCoord = seq.getCoordinate(i)
-          if (minCoord == null || minCoord.compareTo(testCoord) > 0) {
-            minCoord = testCoord
-            minCoordIndex = i
-          }
-          {
-            i += 1;
-            i - 1
-          }
-        }
-        minCoordIndex
-      }
-
-      /**
-       * Shifts the positions of the coordinates until <code>firstCoordinate</code>
-       * is first.
-       *
-       * @param  seq             the coordinate sequence to rearrange
-       * @param  firstCoordinate the coordinate to make first
-       */
-      def scroll(seq: CoordinateSequence, firstCoordinate: Coordinate): Unit = {
-        val i = indexOf(firstCoordinate, seq)
-        if (i <= 0) return
-        scroll(seq, i)
-      }
-
-      /**
-       * Shifts the positions of the coordinates until the coordinate at  <code>firstCoordinateIndex</code>
-       * is first.
-       *
-       * @param  seq                    the coordinate sequence to rearrange
-       * @param  indexOfFirstCoordinate the index of the coordinate to make first
-       */
-      def scroll(seq: CoordinateSequence, indexOfFirstCoordinate: Int): Unit = scroll(seq, indexOfFirstCoordinate, CoordinateSequences.isRing(seq))
-
-      /**
-       * Shifts the positions of the coordinates until the coordinate at  <code>firstCoordinateIndex</code>
-       * is first.
-       *
-       * @param  seq the coordinate sequence to rearrange
-       * @param  indexOfFirstCoordinate
-       *             the index of the coordinate to make first
-       * @param  ensureRing
-       *             makes sure that { @code } will be a closed ring upon exit
-       */
-      def scroll(seq: CoordinateSequence, indexOfFirstCoordinate: Int, ensureRing: Boolean): Unit = {
-        val i = indexOfFirstCoordinate
-        if (i <= 0) return
-        // make a copy of the sequence
-        val copy = seq.copy
-        // test if ring, determine last index
-        val last = if (ensureRing) seq.size - 1
-        else seq.size
-        // fill in values
-        var j = 0
-        while ( {
-          j < last
-        }) {
-          var k = 0
-          while ( {
-            k < seq.getDimension
-          }) {seq.setOrdinate(j, k, copy.getOrdinate((indexOfFirstCoordinate + j) % last, k))
-            k += 1;
-          }
-            j += 1;
-        }
-        // Fix the ring (first == last)
-        if (ensureRing) {
-          var k = 0
-          while ( {
-            k < seq.getDimension
-          }) {
-            seq.setOrdinate(last, k, seq.getOrdinate(0, k))
-              k += 1;
-          }
-        }
-      }
-
-      /**
-       * Returns the index of <code>coordinate</code> in a {link CoordinateSequence}
-       * The first position is 0; the second, 1; etc.
-       *
-       * @param  coordinate the <code>Coordinate</code> to search for
-       * @param  seq        the coordinate sequence to search
-       * return the position of <code>coordinate</code>, or -1 if it is
-       *         not found
-       */
-      def indexOf(coordinate: Coordinate, seq: CoordinateSequence): Int = {
-        var i = 0
-        while ( {
-          i < seq.size
-        }) {
-          if ((coordinate.x == seq.getOrdinate(i, CoordinateSequence.X)) && (coordinate.y == seq.getOrdinate(i, CoordinateSequence.Y))) return i
-            i += 1;
-        }
-        -1
+      {
+        i += 1;
+        i - 1
       }
     }
+    builder.append(')')
+    builder.toString
+  }
+
+  /**
+   * Returns the minimum coordinate, using the usual lexicographic comparison.
+   *
+   * @param  seq the coordinate sequence to search
+   * return the minimum coordinate in the sequence, found using <code>compareTo</code>
+   * @see Coordinate#compareTo(Object)
+   */
+  def minCoordinate(seq: CoordinateSequence): Coordinate = {
+    var minCoord: Coordinate = null
+    var i                    = 0
+    while (i < seq.size) {
+      val testCoord = seq.getCoordinate(i)
+      if (minCoord == null || minCoord.compareTo(testCoord) > 0) minCoord = testCoord
+      i += 1;
+    }
+    minCoord
+  }
+
+  /**
+   * Returns the index of the minimum coordinate of the whole
+   * coordinate sequence, using the usual lexicographic comparison.
+   *
+   * @param  seq the coordinate sequence to search
+   * return the index of the minimum coordinate in the sequence, found using <code>compareTo</code>
+   * @see Coordinate#compareTo(Object)
+   */
+  def minCoordinateIndex(seq: CoordinateSequence): Int = minCoordinateIndex(seq, 0, seq.size - 1)
+
+  /**
+   * Returns the index of the minimum coordinate of a part of
+   * the coordinate sequence (defined by {@code from} and {@code to},
+   * using the usual lexicographic comparison.
+   *
+   * @param  seq  the coordinate sequence to search
+   * @param  from the lower search index
+   * @param  to   the upper search index
+   * return the index of the minimum coordinate in the sequence, found using <code>compareTo</code>
+   * @see Coordinate#compareTo(Object)
+   */
+  def minCoordinateIndex(seq: CoordinateSequence, from: Int, to: Int) = {
+    var minCoordIndex        = -1
+    var minCoord: Coordinate = null
+    var i                    = from
+    while (i <= to) {
+      val testCoord = seq.getCoordinate(i)
+      if (minCoord == null || minCoord.compareTo(testCoord) > 0) {
+        minCoord = testCoord
+        minCoordIndex = i
+      }
+      {
+        i += 1;
+        i - 1
+      }
+    }
+    minCoordIndex
+  }
+
+  /**
+   * Shifts the positions of the coordinates until <code>firstCoordinate</code>
+   * is first.
+   *
+   * @param  seq             the coordinate sequence to rearrange
+   * @param  firstCoordinate the coordinate to make first
+   */
+  def scroll(seq: CoordinateSequence, firstCoordinate: Coordinate): Unit = {
+    val i = indexOf(firstCoordinate, seq)
+    if (i <= 0) return
+    scroll(seq, i)
+  }
+
+  /**
+   * Shifts the positions of the coordinates until the coordinate at  <code>firstCoordinateIndex</code>
+   * is first.
+   *
+   * @param  seq                    the coordinate sequence to rearrange
+   * @param  indexOfFirstCoordinate the index of the coordinate to make first
+   */
+  def scroll(seq: CoordinateSequence, indexOfFirstCoordinate: Int): Unit =
+    scroll(seq, indexOfFirstCoordinate, CoordinateSequences.isRing(seq))
+
+  /**
+   * Shifts the positions of the coordinates until the coordinate at  <code>firstCoordinateIndex</code>
+   * is first.
+   *
+   * @param  seq the coordinate sequence to rearrange
+   * @param  indexOfFirstCoordinate
+   *             the index of the coordinate to make first
+   * @param  ensureRing
+   *             makes sure that { @code } will be a closed ring upon exit
+   */
+  def scroll(seq: CoordinateSequence, indexOfFirstCoordinate: Int, ensureRing: Boolean): Unit = {
+    val i    = indexOfFirstCoordinate
+    if (i <= 0) return
+    // make a copy of the sequence
+    val copy = seq.copy
+    // test if ring, determine last index
+    val last =
+      if (ensureRing) seq.size - 1
+      else seq.size
+    // fill in values
+    var j    = 0
+    while (j < last) {
+      var k = 0
+      while (k < seq.getDimension) {
+        seq.setOrdinate(j, k, copy.getOrdinate((indexOfFirstCoordinate + j) % last, k))
+        k += 1;
+      }
+      j += 1;
+    }
+    // Fix the ring (first == last)
+    if (ensureRing) {
+      var k = 0
+      while (k < seq.getDimension) {
+        seq.setOrdinate(last, k, seq.getOrdinate(0, k))
+        k += 1;
+      }
+    }
+  }
+
+  /**
+   * Returns the index of <code>coordinate</code> in a {link CoordinateSequence}
+   * The first position is 0; the second, 1; etc.
+   *
+   * @param  coordinate the <code>Coordinate</code> to search for
+   * @param  seq        the coordinate sequence to search
+   * return the position of <code>coordinate</code>, or -1 if it is
+   *         not found
+   */
+  def indexOf(coordinate: Coordinate, seq: CoordinateSequence): Int = {
+    var i = 0
+    while (i < seq.size) {
+      if (
+        (coordinate.x == seq.getOrdinate(i, CoordinateSequence.X)) && (coordinate.y == seq
+          .getOrdinate(i, CoordinateSequence.Y))
+      ) return i
+      i += 1;
+    }
+    -1
+  }
+}

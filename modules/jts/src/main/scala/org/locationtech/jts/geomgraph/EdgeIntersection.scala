@@ -24,19 +24,21 @@ import org.locationtech.jts.geom.Coordinate
  *
  * @version 1.7
  */
-class EdgeIntersection(val coordArg: Coordinate, var segmentIndex: Int // the index of the containing line segment in the parent edge
-                       , var dist: Double // the edge distance of this point along the containing line segment
-                      ) extends Comparable[EdgeIntersection] {
-  var coord = new Coordinate(coordArg)
+class EdgeIntersection(
+  val coordArg:     Coordinate,
+  var segmentIndex: Int // the index of the containing line segment in the parent edge
+  ,
+  var dist:         Double // the edge distance of this point along the containing line segment
+) extends Comparable[EdgeIntersection] {
+  var coord                     = new Coordinate(coordArg)
   def getCoordinate: Coordinate = coord
 
   def getSegmentIndex: Int = segmentIndex
 
   def getDistance: Double = dist
 
-  override def compareTo(other: EdgeIntersection): Int = {
+  override def compareTo(other: EdgeIntersection): Int =
     compare(other.segmentIndex, other.dist)
-  }
 
   /**
    * return -1 this EdgeIntersection is located before the argument location

@@ -19,15 +19,16 @@ import org.locationtech.jts.geom.TopologyException
  * @version 1.7
  */
 object DirectedEdge {
+
   /**
    * Computes the factor for the change in depth when moving from one location to another.
    * E.g. if crossing from the INTERIOR to the EXTERIOR the depth decreases, so the factor is -1
    */
-    def depthFactor(currLocation: Int, nextLocation: Int): Int = {
-      if (currLocation == Location.EXTERIOR && nextLocation == Location.INTERIOR) return 1
-      else if (currLocation == Location.INTERIOR && nextLocation == Location.EXTERIOR) return -1
-      0
-    }
+  def depthFactor(currLocation: Int, nextLocation: Int): Int = {
+    if (currLocation == Location.EXTERIOR && nextLocation == Location.INTERIOR) return 1
+    else if (currLocation == Location.INTERIOR && nextLocation == Location.EXTERIOR) return -1
+    0
+  }
 }
 
 class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) {
@@ -37,18 +38,20 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
     init(edge.getCoordinate(n), edge.getCoordinate(n - 1))
   }
   computeDirectedLabel()
-  private var visInResult = false
-  private var visVisited = false
-  private var sym: DirectedEdge = null // the symmetric edge
-  private var next: DirectedEdge = null // the next edge in the edge ring for the polygon containing this edge
-  private var nextMin: DirectedEdge = null // the next edge in the MinimalEdgeRing that contains this edge
-  private var edgeRing: EdgeRing = null // the EdgeRing that this edge is part of
+  private var visInResult        = false
+  private var visVisited         = false
+  private var sym: DirectedEdge  = null // the symmetric edge
+  private var next: DirectedEdge =
+    null // the next edge in the edge ring for the polygon containing this edge
+  private var nextMin: DirectedEdge =
+    null // the next edge in the MinimalEdgeRing that contains this edge
+  private var edgeRing: EdgeRing    = null // the EdgeRing that this edge is part of
   private var minEdgeRing: EdgeRing = null // the MinimalEdgeRing that this edge is part of
   /**
    * The depth of each side (position) of this edge.
    * The 0 element of the array is never used.
    */
-  private val depth = Array(0, -999, -999)
+  private val depth                 = Array(0, -999, -999)
 
   override def getEdge: Edge = edge
 
@@ -74,7 +77,8 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
     if (depth(position) != -999) { //      if (depth[position] != depthVal) {
       //        Debug.print(this);
       //      }
-      if (depth(position) != depthVal) throw new TopologyException("assigned depths do not match", getCoordinate)
+      if (depth(position) != depthVal)
+        throw new TopologyException("assigned depths do not match", getCoordinate)
       //Assert.isTrue(depth[position] == depthVal, "assigned depths do not match at " + getCoordinate());
     }
     depth(position) = depthVal
@@ -124,7 +128,7 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
    * </ul>
    */
   def isLineEdge: Boolean = {
-    val isLine = label.isLine(0) || label.isLine(1)
+    val isLine            = label.isLine(0) || label.isLine(1)
     val isExteriorIfArea0 = !label.isArea(0) || label.allPositionsEqual(0, Location.EXTERIOR)
     val isExteriorIfArea1 = !label.isArea(1) || label.allPositionsEqual(1, Location.EXTERIOR)
     isLine && isExteriorIfArea0 && isExteriorIfArea1
@@ -141,11 +145,12 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
    */
   def isInteriorAreaEdge: Boolean = {
     var isInteriorAreaEdge = true
-    var i = 0
-    while ( {
-      i < 2
-    }) {
-      if (!(label.isArea(i) && (label.getLocation(i, Position.LEFT) == Location.INTERIOR) && (label.getLocation(i, Position.RIGHT) == Location.INTERIOR))) isInteriorAreaEdge = false
+    var i                  = 0
+    while (i < 2) {
+      if (
+        !(label.isArea(i) && (label.getLocation(i, Position.LEFT) == Location.INTERIOR) && (label
+          .getLocation(i, Position.RIGHT) == Location.INTERIOR))
+      ) isInteriorAreaEdge = false
       i += 1
     }
     isInteriorAreaEdge
@@ -164,15 +169,15 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
    * computed depending on the Location transition and the depthDelta of the edge.
    */
   def setEdgeDepths(position: Int, depth: Int): Unit = { // get the depth transition delta from R to L for this directed Edge
-    var depthDelta = getEdge.getDepthDelta
+    var depthDelta      = getEdge.getDepthDelta
     if (!visForward) depthDelta = -depthDelta
     // if moving from L to R instead of R to L must change sign of delta
     var directionFactor = 1
     if (position == Position.LEFT) directionFactor = -1
-    val oppositePos = Position.opposite(position)
-    val delta = depthDelta * directionFactor
+    val oppositePos     = Position.opposite(position)
+    val delta           = depthDelta * directionFactor
     //TESTINGint delta = depthDelta * DirectedEdge.depthFactor(loc, oppositeLoc);
-    val oppositeDepth = depth + delta
+    val oppositeDepth   = depth + delta
     setDepth(position, depth)
     setDepth(oppositePos, oppositeDepth)
   }

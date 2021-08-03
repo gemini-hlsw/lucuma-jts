@@ -42,6 +42,5 @@ class MonotoneChainSelectAction {
    *
    * @param seg
    */
-  def select(seg: LineSegment): Unit = {
-  }
+  def select(seg: LineSegment): Unit = {}
 }

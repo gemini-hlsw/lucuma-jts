@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -33,9 +33,9 @@ import org.locationtech.jts.util.GeometricShapeFactory
  * geometry for testing algorithms.
  *
  * @author Martin Davis
- *
  */
 object SineStarFactory {
+
   /**
    * Creates a sine star with the given parameters.
    *
@@ -46,16 +46,22 @@ object SineStarFactory {
    * @param armLengthRatio the arm length ratio
    * return a sine star shape
    */
-    def create(origin: Coordinate, size: Double, nPts: Int, nArms: Int, armLengthRatio: Double): Polygon = {
-      val gsf = new SineStarFactory
-      gsf.setCentre(origin)
-      gsf.setSize(size)
-      gsf.setNumPoints(nPts)
-      gsf.setArmLengthRatio(armLengthRatio)
-      gsf.setNumArms(nArms)
-      val poly = gsf.createSineStar
-      poly
-    }
+  def create(
+    origin:         Coordinate,
+    size:           Double,
+    nPts:           Int,
+    nArms:          Int,
+    armLengthRatio: Double
+  ): Polygon = {
+    val gsf  = new SineStarFactory
+    gsf.setCentre(origin)
+    gsf.setSize(size)
+    gsf.setNumPoints(nPts)
+    gsf.setArmLengthRatio(armLengthRatio)
+    gsf.setNumArms(nArms)
+    val poly = gsf.createSineStar
+    poly
+  }
 }
 
 class SineStarFactory(geomFac: GeometryFactory)
@@ -64,8 +70,8 @@ class SineStarFactory(geomFac: GeometryFactory)
  * Creates a factory which will create sine stars using the default
  * {link GeometryFactory}.
  */
-  extends GeometricShapeFactory(geomFac) {
-  protected var numArms = 8
+    extends GeometricShapeFactory(geomFac) {
+  protected var numArms        = 8
   protected var armLengthRatio = 0.5
 
   /**
@@ -101,42 +107,40 @@ class SineStarFactory(geomFac: GeometryFactory)
    * return the geometry representing the sine star
    */
   def createSineStar: Polygon = {
-    val env = dim.getEnvelope
-    val radius = env.getWidth / 2.0
-    var armRatio = armLengthRatio
+    val env          = dim.getEnvelope
+    val radius       = env.getWidth / 2.0
+    var armRatio     = armLengthRatio
     if (armRatio < 0.0) armRatio = 0.0
     if (armRatio > 1.0) armRatio = 1.0
-    val armMaxLen = armRatio * radius
+    val armMaxLen    = armRatio * radius
     val insideRadius = (1 - armRatio) * radius
-    val centreX = env.getMinX + radius
-    val centreY = env.getMinY + radius
-    val pts = new Array[Coordinate](nPts + 1)
-    var iPt = 0
-    var i = 0
-    while ( {
-      i < nPts
-    }) { // the fraction of the way through the current arm - in [0,1]
-      val ptArcFrac = (i / nPts.asInstanceOf[Double]) * numArms
-      val armAngFrac = ptArcFrac - Math.floor(ptArcFrac)
+    val centreX      = env.getMinX + radius
+    val centreY      = env.getMinY + radius
+    val pts          = new Array[Coordinate](nPts + 1)
+    var iPt          = 0
+    var i            = 0
+    while (i < nPts) { // the fraction of the way through the current arm - in [0,1]
+      val ptArcFrac   = (i / nPts.asInstanceOf[Double]) * numArms
+      val armAngFrac  = ptArcFrac - Math.floor(ptArcFrac)
       // the angle for the current arm - in [0,2Pi]
       // (each arm is a complete sine wave cycle)
-      val armAng = 2 * Math.PI * armAngFrac
+      val armAng      = 2 * Math.PI * armAngFrac
       // the current length of the arm
-      val armLenFrac = (Math.cos(armAng) + 1.0) / 2.0
+      val armLenFrac  = (Math.cos(armAng) + 1.0) / 2.0
       // the current radius of the curve (core + arm)
       val curveRadius = insideRadius + armMaxLen * armLenFrac
       // the current angle of the curve
-      val ang = i * (2 * Math.PI / nPts)
-      val x = curveRadius * Math.cos(ang) + centreX
-      val y = curveRadius * Math.sin(ang) + centreY
-      pts({
+      val ang         = i * (2 * Math.PI / nPts)
+      val x           = curveRadius * Math.cos(ang) + centreX
+      val y           = curveRadius * Math.sin(ang) + centreY
+      pts {
         iPt += 1; iPt - 1
-      }) = coord(x, y)
+      } = coord(x, y)
       i += 1
     }
     pts(iPt) = new Coordinate(pts(0))
-    val ring = geomFact.createLinearRing(pts)
-    val poly = geomFact.createPolygon(ring)
+    val ring         = geomFact.createLinearRing(pts)
+    val poly         = geomFact.createPolygon(ring)
     poly
   }
 }

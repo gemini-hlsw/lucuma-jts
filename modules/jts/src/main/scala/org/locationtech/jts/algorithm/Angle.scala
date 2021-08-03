@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -28,22 +28,28 @@ import org.locationtech.jts.geom.Coordinate
  * Unless otherwise noted, methods in this class express angles in radians.
  */
 object Angle {
+
   /**
    * The value of 2*Pi
    */
-    val PI_TIMES_2: Double = 2.0 * Math.PI
+  val PI_TIMES_2: Double = 2.0 * Math.PI
+
   /**
    * The value of Pi/2
    */
   val PI_OVER_2: Double = Math.PI / 2.0
+
   /**
    * The value of Pi/4
    */
   val PI_OVER_4: Double = Math.PI / 4.0
+
   /** Constant representing counterclockwise orientation */
   val COUNTERCLOCKWISE: Int = Orientation.COUNTERCLOCKWISE
+
   /** Constant representing clockwise orientation */
   val CLOCKWISE: Int = Orientation.CLOCKWISE
+
   /** Constant representing no orientation */
   val NONE: Int = Orientation.COLLINEAR
 
@@ -100,10 +106,10 @@ object Angle {
    * return true if the angle is acute
    */
   def isAcute(p0: Coordinate, p1: Coordinate, p2: Coordinate): Boolean = { // relies on fact that A dot B is positive iff A ang B is acute
-    val dx0 = p0.x - p1.x
-    val dy0 = p0.y - p1.y
-    val dx1 = p2.x - p1.x
-    val dy1 = p2.y - p1.y
+    val dx0     = p0.x - p1.x
+    val dy0     = p0.y - p1.y
+    val dx1     = p2.x - p1.x
+    val dy1     = p2.y - p1.y
     val dotprod = dx0 * dx1 + dy0 * dy1
     dotprod > 0
   }
@@ -120,10 +126,10 @@ object Angle {
    * return true if the angle is obtuse
    */
   def isObtuse(p0: Coordinate, p1: Coordinate, p2: Coordinate): Boolean = { // relies on fact that A dot B is negative iff A ang B is obtuse
-    val dx0 = p0.x - p1.x
-    val dy0 = p0.y - p1.y
-    val dx1 = p2.x - p1.x
-    val dy1 = p2.y - p1.y
+    val dx0     = p0.x - p1.x
+    val dy0     = p0.y - p1.y
+    val dx1     = p2.x - p1.x
+    val dy1     = p2.y - p1.y
     val dotprod = dx0 * dx1 + dy0 * dy1
     dotprod < 0
   }
@@ -158,8 +164,8 @@ object Angle {
    * return the angle between v1 and v2, relative to v1
    */
   def angleBetweenOriented(tip1: Coordinate, tail: Coordinate, tip2: Coordinate): Double = {
-    val a1 = angle(tail, tip1)
-    val a2 = angle(tail, tip2)
+    val a1     = angle(tail, tip1)
+    val a2     = angle(tail, tip2)
     val angDel = a2 - a1
     // normalize, maintaining orientation
     if (angDel <= -Math.PI) return angDel + PI_TIMES_2
@@ -211,12 +217,8 @@ object Angle {
    */
   def normalize(angl: Double): Double = {
     var angle = angl
-    while ( {
-      angle > Math.PI
-    }) angle -= PI_TIMES_2
-    while ( {
-      angle <= -Math.PI
-    }) angle += PI_TIMES_2
+    while (angle > Math.PI) angle -= PI_TIMES_2
+    while (angle <= -Math.PI) angle += PI_TIMES_2
     angle
   }
 
@@ -242,16 +244,11 @@ object Angle {
   def normalizePositive(angl: Double): Double = {
     var angle = angl
     if (angle < 0.0) {
-      while ( {
-        angle < 0.0
-      }) angle += PI_TIMES_2
+      while (angle < 0.0) angle += PI_TIMES_2
       // in case round-off error bumps the value over
       if (angle >= PI_TIMES_2) angle = 0.0
-    }
-    else {
-      while ( {
-        angle >= PI_TIMES_2
-      }) angle -= PI_TIMES_2
+    } else {
+      while (angle >= PI_TIMES_2) angle -= PI_TIMES_2
       // in case round-off error bumps the value under
       if (angle < 0.0) angle = 0.0
     }
@@ -275,4 +272,3 @@ object Angle {
     delAngle
   }
 }
-

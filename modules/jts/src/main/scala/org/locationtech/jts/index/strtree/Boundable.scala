@@ -17,6 +17,7 @@ package org.locationtech.jts.index.strtree
  * @version 1.7
  */
 trait Boundable {
+
   /**
    * Returns a representation of space that encloses this Boundable, preferably
    * not much bigger than this Boundable's boundary yet fast to test for intersection
@@ -26,5 +27,5 @@ trait Boundable {
    * return an Envelope (for STRtrees), an Interval (for SIRtrees), or other object
    *         (for other subclasses of AbstractSTRtree)
    */
-    def getBounds: Any
+  def getBounds: Any
 }
