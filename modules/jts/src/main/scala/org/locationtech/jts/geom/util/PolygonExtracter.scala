@@ -24,6 +24,7 @@ import org.locationtech.jts.geom.Polygon
  * @see GeometryExtracter
  */
 object PolygonExtracter {
+
   /**
    * Extracts the {link Polygon} elements from a single {link Geometry}
    * and adds them to the provided {link List}.
@@ -31,15 +32,15 @@ object PolygonExtracter {
    * @param geom the geometry from which to extract
    * @param list the list to add the extracted elements to
    */
-    def getPolygons(geom: Geometry, list: util.List[Geometry]): util.List[Geometry] = {
-      geom match {
-        case _: Polygon => list.add(geom)
-        case _: GeometryCollection => geom.applyF(new PolygonExtracter(list))
-        case _ =>
-      }
-      // skip non-Polygonal elemental geometries
-      list
+  def getPolygons(geom: Geometry, list: util.List[Geometry]): util.List[Geometry] = {
+    geom match {
+      case _: Polygon            => list.add(geom)
+      case _: GeometryCollection => geom.applyF(new PolygonExtracter(list))
+      case _                     =>
     }
+    // skip non-Polygonal elemental geometries
+    list
+  }
 
   /**
    * Extracts the {link Polygon} elements from a single {link Geometry}
@@ -47,7 +48,8 @@ object PolygonExtracter {
    *
    * @param geom the geometry from which to extract
    */
-  def getPolygons(geom: Geometry): util.List[Geometry] = getPolygons(geom, new util.ArrayList[Geometry])
+  def getPolygons(geom: Geometry): util.List[Geometry] =
+    getPolygons(geom, new util.ArrayList[Geometry])
 }
 
 class PolygonExtracter(var comps: util.List[Geometry])
@@ -55,7 +57,7 @@ class PolygonExtracter(var comps: util.List[Geometry])
 /**
  * Constructs a PolygonExtracterFilter with a list in which to store Polygons found.
  */
-  extends GeometryFilter {
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (geom.isInstanceOf[Polygon]) comps.add(geom)
     ()

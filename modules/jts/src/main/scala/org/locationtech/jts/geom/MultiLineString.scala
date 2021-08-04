@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -31,7 +31,10 @@ import org.locationtech.jts.operation.BoundaryOp
  * @version 1.7
  */
 @SerialVersionUID(8166665132445433741L)
-class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory) extends GeometryCollection(lineStrings.map(x => x: Geometry), factory) with Lineal {
+class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
+    extends GeometryCollection(lineStrings.map(x => x: Geometry), factory)
+    with Lineal {
+
   /**
    * Constructs a <code>MultiLineString</code>.
    *
@@ -45,9 +48,9 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory) 
    *                        <code>MultiLineString</code>
    * @deprecated Use GeometryFactory instead
    */
-    def this(lineStrings: Array[LineString], precisionModel: PrecisionModel, SRID: Int) = {
-      this(lineStrings, new GeometryFactory(precisionModel, SRID))
-    }
+  def this(lineStrings: Array[LineString], precisionModel: PrecisionModel, SRID: Int) = {
+    this(lineStrings, new GeometryFactory(precisionModel, SRID))
+  }
 
   /**
    * @param lineStrings
@@ -73,9 +76,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory) 
   def isClosed: Boolean = {
     if (isEmpty) return false
     var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    while (i < geometries.length) {
       if (!(geometries(i).asInstanceOf[LineString]).isClosed) return false
       i += 1
     }
@@ -105,10 +106,8 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory) 
 
   override protected def copyInternal: MultiLineString = {
     val lineStrings = new Array[LineString](this.geometries.length)
-    var i = 0
-    while ( {
-      i < lineStrings.length
-    }) {
+    var i           = 0
+    while (i < lineStrings.length) {
       lineStrings(i) = this.geometries(i).copy.asInstanceOf[LineString]
       i += 1
     }

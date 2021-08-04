@@ -40,9 +40,13 @@ object Quadrant {
    * throws IllegalArgumentException if the displacements are both 0
    */
   def quadrant(dx: Double, dy: Double): Int = {
-    if (dx == 0.0 && dy == 0.0) throw new IllegalArgumentException("Cannot compute the quadrant for point ( " + dx + ", " + dy + " )")
-    if (dx >= 0.0) if (dy >= 0.0) NE
-    else SE
+    if (dx == 0.0 && dy == 0.0)
+      throw new IllegalArgumentException(
+        "Cannot compute the quadrant for point ( " + dx + ", " + dy + " )"
+      )
+    if (dx >= 0.0)
+      if (dy >= 0.0) NE
+      else SE
     else if (dy >= 0.0) NW
     else SW
   }
@@ -53,9 +57,13 @@ object Quadrant {
    * throws IllegalArgumentException if the points are equal
    */
   def quadrant(p0: Coordinate, p1: Coordinate): Int = {
-    if ((p1.x == p0.x) && (p1.y == p0.y)) throw new IllegalArgumentException("Cannot compute the quadrant for two identical points " + p0)
-    if (p1.x >= p0.x) if (p1.y >= p0.y) NE
-    else SE
+    if ((p1.x == p0.x) && (p1.y == p0.y))
+      throw new IllegalArgumentException(
+        "Cannot compute the quadrant for two identical points " + p0
+      )
+    if (p1.x >= p0.x)
+      if (p1.y >= p0.y) NE
+      else SE
     else if (p1.y >= p0.y) NW
     else SW
   }
@@ -82,10 +90,12 @@ object Quadrant {
     // if quadrants are not adjacent, they do not share a common halfplane
     if (diff == 2) return -1
     //
-    val min = if (quad1 < quad2) quad1
-    else quad2
-    val max = if (quad1 > quad2) quad1
-    else quad2
+    val min  =
+      if (quad1 < quad2) quad1
+      else quad2
+    val max  =
+      if (quad1 > quad2) quad1
+      else quad2
     // for this one case, the righthand plane is NOT the minimum index;
     if (min == 0 && max == 3) return 3
     // in general, the halfplane index is the minimum of the two adjacent quadrants

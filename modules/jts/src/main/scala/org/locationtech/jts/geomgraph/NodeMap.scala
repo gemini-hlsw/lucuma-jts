@@ -73,10 +73,8 @@ class NodeMap(var nodeFact: NodeFactory) {
 
   def getBoundaryNodes(geomIndex: Int): util.ArrayList[Node] = {
     val bdyNodes = new util.ArrayList[Node]
-    val i = iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i        = iterator
+    while (i.hasNext) {
       val node = i.next
       if (node.getLabel.getLocation(geomIndex) == Location.BOUNDARY) bdyNodes.add(node)
     }
@@ -85,9 +83,7 @@ class NodeMap(var nodeFact: NodeFactory) {
 
   def print(out: PrintStream): Unit = {
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val n = it.next
       n.print(out)
     }

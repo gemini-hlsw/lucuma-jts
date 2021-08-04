@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -50,8 +50,8 @@ import org.locationtech.jts.geom.Polygon
  */
 class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOUNDARY_RULE) {
   // default is to use OGC SFS rule
-  private var isIn = false // true if the point lies in or on any Geometry element
-  private var numBoundaries = 0 // the number of sub-elements whose boundaries the point lies in
+  private var isIn          = false // true if the point lies in or on any Geometry element
+  private var numBoundaries = 0     // the number of sub-elements whose boundaries the point lies in
 
   /**
    * Convenience method to test a point for intersection with
@@ -87,35 +87,29 @@ class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOU
 
   private def computeLocation(p: Coordinate, geom: Geometry): Unit = {
     if (geom.isInstanceOf[Point]) updateLocationInfo(locateOnPoint(p, geom.asInstanceOf[Point]))
-    if (geom.isInstanceOf[LineString]) updateLocationInfo(locateOnLineString(p, geom.asInstanceOf[LineString]))
-    else if (geom.isInstanceOf[Polygon]) updateLocationInfo(locateInPolygon(p, geom.asInstanceOf[Polygon]))
+    if (geom.isInstanceOf[LineString])
+      updateLocationInfo(locateOnLineString(p, geom.asInstanceOf[LineString]))
+    else if (geom.isInstanceOf[Polygon])
+      updateLocationInfo(locateInPolygon(p, geom.asInstanceOf[Polygon]))
     else if (geom.isInstanceOf[MultiLineString]) {
       val ml = geom.asInstanceOf[MultiLineString]
-      var i = 0
-      while ( {
-        i < ml.getNumGeometries
-      }) {
+      var i  = 0
+      while (i < ml.getNumGeometries) {
         val l = ml.getGeometryN(i).asInstanceOf[LineString]
         updateLocationInfo(locateOnLineString(p, l))
         i += 1
       }
-    }
-    else if (geom.isInstanceOf[MultiPolygon]) {
+    } else if (geom.isInstanceOf[MultiPolygon]) {
       val mpoly = geom.asInstanceOf[MultiPolygon]
-      var i = 0
-      while ( {
-        i < mpoly.getNumGeometries
-      }) {
+      var i     = 0
+      while (i < mpoly.getNumGeometries) {
         val poly = mpoly.getGeometryN(i).asInstanceOf[Polygon]
         updateLocationInfo(locateInPolygon(p, poly))
         i += 1
       }
-    }
-    else if (geom.isInstanceOf[GeometryCollection]) {
+    } else if (geom.isInstanceOf[GeometryCollection]) {
       val geomi = new GeometryCollectionIterator(geom.asInstanceOf[GeometryCollection])
-      while ( {
-        geomi.hasNext
-      }) {
+      while (geomi.hasNext) {
         val g2 = geomi.next.asInstanceOf[Geometry]
         if (g2 ne geom) computeLocation(p, g2)
       }
@@ -138,7 +132,9 @@ class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOU
   private def locateOnLineString(p: Coordinate, l: LineString): Int = { // bounding-box check
     if (!l.getEnvelopeInternal.intersects(p)) return Location.EXTERIOR
     val seq = l.getCoordinateSequence
-    if (!l.isClosed) if (p == seq.getCoordinate(0) || p == seq.getCoordinate(seq.size - 1)) return Location.BOUNDARY
+    if (!l.isClosed)
+      if (p == seq.getCoordinate(0) || p == seq.getCoordinate(seq.size - 1))
+        return Location.BOUNDARY
     if (PointLocation.isOnLine(p, seq)) return Location.INTERIOR
     Location.EXTERIOR
   }
@@ -150,16 +146,14 @@ class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOU
 
   private def locateInPolygon(p: Coordinate, poly: Polygon): Int = {
     if (poly.isEmpty) return Location.EXTERIOR
-    val shell = poly.getExteriorRing
+    val shell    = poly.getExteriorRing
     val shellLoc = locateInPolygonRing(p, shell)
     if (shellLoc == Location.EXTERIOR) return Location.EXTERIOR
     if (shellLoc == Location.BOUNDARY) return Location.BOUNDARY
     // now test if the point lies in or on the holes
-    var i = 0
-    while ( {
-      i < poly.getNumInteriorRing
-    }) {
-      val hole = poly.getInteriorRingN(i)
+    var i        = 0
+    while (i < poly.getNumInteriorRing) {
+      val hole    = poly.getInteriorRingN(i)
       val holeLoc = locateInPolygonRing(p, hole)
       if (holeLoc == Location.INTERIOR) return Location.EXTERIOR
       if (holeLoc == Location.BOUNDARY) return Location.BOUNDARY

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -45,6 +45,7 @@ import org.locationtech.jts.geom.Coordinate
  * @version 1.7
  */
 object NodingIntersectionFinder {
+
   /**
    * Creates a finder which tests if there is at least one intersection.
    * Uses short-circuiting for efficient performance.
@@ -53,7 +54,7 @@ object NodingIntersectionFinder {
    * @param li a line intersector
    * return a finder which tests if there is at least one intersection.
    */
-    def createAnyIntersectionFinder(li: LineIntersector) = new NodingIntersectionFinder(li)
+  def createAnyIntersectionFinder(li: LineIntersector) = new NodingIntersectionFinder(li)
 
   /**
    * Creates a finder which finds all intersections.
@@ -126,7 +127,16 @@ object NodingIntersectionFinder {
    * @param isEnd11 true if vertex is a segmentString endpoint
    * return true if an intersection is found
    */
-  private def isInteriorVertexIntersection(p00: Coordinate, p01: Coordinate, p10: Coordinate, p11: Coordinate, isEnd00: Boolean, isEnd01: Boolean, isEnd10: Boolean, isEnd11: Boolean): Boolean = {
+  private def isInteriorVertexIntersection(
+    p00:     Coordinate,
+    p01:     Coordinate,
+    p10:     Coordinate,
+    p11:     Coordinate,
+    isEnd00: Boolean,
+    isEnd01: Boolean,
+    isEnd10: Boolean,
+    isEnd11: Boolean
+  ): Boolean = {
     if (isInteriorVertexIntersection(p00, p10, isEnd00, isEnd10)) return true
     if (isInteriorVertexIntersection(p00, p11, isEnd00, isEnd11)) return true
     if (isInteriorVertexIntersection(p01, p10, isEnd01, isEnd10)) return true
@@ -144,7 +154,12 @@ object NodingIntersectionFinder {
    * @param isEnd1 true if vertex is a segmentString endpoint
    * return true if an intersection is found
    */
-  private def isInteriorVertexIntersection(p0: Coordinate, p1: Coordinate, isEnd0: Boolean, isEnd1: Boolean): Boolean = { // Intersections between endpoints are valid nodes, so not reported
+  private def isInteriorVertexIntersection(
+    p0:     Coordinate,
+    p1:     Coordinate,
+    isEnd0: Boolean,
+    isEnd1: Boolean
+  ): Boolean = { // Intersections between endpoints are valid nodes, so not reported
     if (isEnd0 && isEnd1) return false
     if (p0.equals2D(p1)) return true
     false
@@ -173,16 +188,16 @@ class NodingIntersectionFinder(var li: LineIntersector)
  *
  * @param li the LineIntersector to use
  */
-  extends SegmentIntersector {
+    extends SegmentIntersector {
 //  interiorIntersection = null
-  private var findAllIntersections = false
-  private var isCheckEndSegmentsOnly = false
-  private var keepIntersections = true
-  private var isInteriorIntersectionsOnly = false
+  private var findAllIntersections             = false
+  private var isCheckEndSegmentsOnly           = false
+  private var keepIntersections                = true
+  private var isInteriorIntersectionsOnly      = false
   private var interiorIntersection: Coordinate = null
-  private var intSegments: Array[Coordinate] = null
-  private val intersections = new util.ArrayList[Coordinate]
-  private var intersectionCount = 0
+  private var intSegments: Array[Coordinate]   = null
+  private val intersections                    = new util.ArrayList[Coordinate]
+  private var intersectionCount                = 0
 
   /**
    * Sets whether all intersections should be computed.
@@ -193,14 +208,16 @@ class NodingIntersectionFinder(var li: LineIntersector)
    *
    * @param findAllIntersections whether all intersections should be computed
    */
-  def setFindAllIntersections(findAllIntersections: Boolean): Unit = this.findAllIntersections = findAllIntersections
+  def setFindAllIntersections(findAllIntersections: Boolean): Unit = this.findAllIntersections =
+    findAllIntersections
 
   /**
    * Sets whether only interior (proper) intersections will be found.
    *
    * @param isInteriorIntersectionsOnly whether to find only interior intersections
    */
-  def setInteriorIntersectionsOnly(isInteriorIntersectionsOnly: Boolean): Unit = this.isInteriorIntersectionsOnly = isInteriorIntersectionsOnly
+  def setInteriorIntersectionsOnly(isInteriorIntersectionsOnly: Boolean): Unit =
+    this.isInteriorIntersectionsOnly = isInteriorIntersectionsOnly
 
   /**
    * Sets whether only end segments should be tested for intersection.
@@ -211,7 +228,8 @@ class NodingIntersectionFinder(var li: LineIntersector)
    *
    * @param isCheckEndSegmentsOnly whether to test only end segments
    */
-  def setCheckEndSegmentsOnly(isCheckEndSegmentsOnly: Boolean): Unit = this.isCheckEndSegmentsOnly = isCheckEndSegmentsOnly
+  def setCheckEndSegmentsOnly(isCheckEndSegmentsOnly: Boolean): Unit = this.isCheckEndSegmentsOnly =
+    isCheckEndSegmentsOnly
 
   /**
    * Sets whether intersection points are recorded.
@@ -221,7 +239,8 @@ class NodingIntersectionFinder(var li: LineIntersector)
    *
    * @param keepIntersections indicates whether intersections should be recorded
    */
-  def setKeepIntersections(keepIntersections: Boolean): Unit = this.keepIntersections = keepIntersections
+  def setKeepIntersections(keepIntersections: Boolean): Unit = this.keepIntersections =
+    keepIntersections
 
   /**
    * Gets the intersections found.
@@ -267,42 +286,58 @@ class NodingIntersectionFinder(var li: LineIntersector)
    * this call for segment pairs which they have determined do not intersect
    * (e.g. by an disjoint envelope test).
    */
-  override def processIntersections(e0: SegmentString, segIndex0: Int, e1: SegmentString, segIndex1: Int): Unit = { // short-circuit if intersection already found
+  override def processIntersections(
+    e0:        SegmentString,
+    segIndex0: Int,
+    e1:        SegmentString,
+    segIndex1: Int
+  ): Unit = { // short-circuit if intersection already found
     if (!findAllIntersections && hasIntersection) return
     // don't bother intersecting a segment with itself
     val isSameSegString = e0 == e1
-    val isSameSegment = isSameSegString && segIndex0 == segIndex1
+    val isSameSegment   = isSameSegString && segIndex0 == segIndex1
     if (isSameSegment) return
 
     /**
      * If enabled, only test end segments (on either segString).
-     *
      */
     if (isCheckEndSegmentsOnly) {
-      val isEndSegPresent = NodingIntersectionFinder.isEndSegment(e0, segIndex0) || NodingIntersectionFinder.isEndSegment(e1, segIndex1)
+      val isEndSegPresent = NodingIntersectionFinder.isEndSegment(e0,
+                                                                  segIndex0
+      ) || NodingIntersectionFinder.isEndSegment(e1, segIndex1)
       if (!isEndSegPresent) return
     }
-    val p00 = e0.getCoordinate(segIndex0)
-    val p01 = e0.getCoordinate(segIndex0 + 1)
-    val p10 = e1.getCoordinate(segIndex1)
-    val p11 = e1.getCoordinate(segIndex1 + 1)
-    val isEnd00 = segIndex0 == 0
-    val isEnd01 = segIndex0 + 2 == e0.size
-    val isEnd10 = segIndex1 == 0
-    val isEnd11 = segIndex1 + 2 == e1.size
+    val p00           = e0.getCoordinate(segIndex0)
+    val p01           = e0.getCoordinate(segIndex0 + 1)
+    val p10           = e1.getCoordinate(segIndex1)
+    val p11           = e1.getCoordinate(segIndex1 + 1)
+    val isEnd00       = segIndex0 == 0
+    val isEnd01       = segIndex0 + 2 == e0.size
+    val isEnd10       = segIndex1 == 0
+    val isEnd11       = segIndex1 + 2 == e1.size
     li.computeIntersection(p00, p01, p10, p11)
     //if (li.hasIntersection() && li.isProper()) Debug.println(li);
     /**
      * Check for an intersection in the interior of a segment
      */
     val isInteriorInt = li.hasIntersection && li.isInteriorIntersection
+
     /**
      * Check for an intersection between two vertices which are not both endpoints.
      */
     var isInteriorVertexInt = false
     if (!isInteriorIntersectionsOnly) {
       val isAdjacentSegment = isSameSegString && Math.abs(segIndex1 - segIndex0) <= 1
-      isInteriorVertexInt = (!isAdjacentSegment) && NodingIntersectionFinder.isInteriorVertexIntersection(p00, p01, p10, p11, isEnd00, isEnd01, isEnd10, isEnd11)
+      isInteriorVertexInt =
+        (!isAdjacentSegment) && NodingIntersectionFinder.isInteriorVertexIntersection(p00,
+                                                                                      p01,
+                                                                                      p10,
+                                                                                      p11,
+                                                                                      isEnd00,
+                                                                                      isEnd01,
+                                                                                      isEnd10,
+                                                                                      isEnd11
+        )
     }
     if (isInteriorInt || isInteriorVertexInt) { // found an intersection!
       intSegments = new Array[Coordinate](4)
@@ -318,7 +353,6 @@ class NodingIntersectionFinder(var li: LineIntersector)
   }
 
   /**
-   *
    */
   override def isDone: Boolean = {
     if (findAllIntersections) return false

@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2018 Vivid Solutions
  *
  * All rights reserved. This program and the accompanying materials
@@ -37,20 +37,23 @@ import scala.annotation.nowarn
  */
 @SerialVersionUID(3532307803472313082L)
 object CoordinateXY {
+
   /** Standard ordinate index value for X */
-    val X = 0
+  val X = 0
+
   /** Standard ordinate index value for Y */
   val Y = 1
+
   /** CoordinateXY does not support Z values. */
   val Z: Int = -1
+
   /** CoordinateXY does not support M measures. */
   val M: Int = -1
 }
 
 @SerialVersionUID(3532307803472313082L)
 class CoordinateXY(xArg: Double, yArg: Double)
-
-  extends Coordinate(xArg, yArg, Coordinate.NULL_ORDINATE) {
+    extends Coordinate(xArg, yArg, Coordinate.NULL_ORDINATE) {
 
   /**
    * Constructs a CoordinateXY instance with the x and y ordinates of the given Coordinate.
@@ -80,7 +83,9 @@ class CoordinateXY(xArg: Double, yArg: Double)
   /** The z-ordinate is not supported */
   override def getZ: Double = Coordinate.NULL_ORDINATE
 
-  override def setZ(z: Double): Unit = throw new IllegalArgumentException("CoordinateXY dimension 2 does not support z-ordinate")
+  override def setZ(z: Double): Unit = throw new IllegalArgumentException(
+    "CoordinateXY dimension 2 does not support z-ordinate"
+  )
 
   override def setCoordinate(other: Coordinate): Unit = {
     x = other.x
@@ -104,7 +109,7 @@ class CoordinateXY(xArg: Double, yArg: Double)
       x = value
     case CoordinateXY.Y =>
       y = value
-    case _ =>
+    case _              =>
       throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 

@@ -21,10 +21,13 @@ import org.locationtech.jts.util.Assert
  * @version 1.7
  */
 @SerialVersionUID(-5694727726395021467L)
-class GeometryCollection(/**
-                          * Internal representation of this <code>GeometryCollection</code>.
-                          */
-                         var geometries: Array[Geometry], override val factory: GeometryFactory)
+class GeometryCollection(
+  /**
+   * Internal representation of this <code>GeometryCollection</code>.
+   */
+  var geometries:       Array[Geometry],
+  override val factory: GeometryFactory
+)
 
 // /**
 //  * @param geometries
@@ -33,9 +36,10 @@ class GeometryCollection(/**
 //  *            geometry. Elements may be empty <code>Geometry</code>s,
 //  *            but not <code>null</code>s.
 //  */
-  extends Geometry(factory) {
+    extends Geometry(factory) {
   if (geometries == null) geometries = Array.empty[Geometry]
-  if (Geometry.hasNullElements(geometries.map(x => x: AnyRef))) throw new IllegalArgumentException("geometries must not contain null elements")
+  if (Geometry.hasNullElements(geometries.map(x => x: AnyRef)))
+    throw new IllegalArgumentException("geometries must not contain null elements")
 
   /** @deprecated Use GeometryFactory instead */
   def this(geometries: Array[Geometry], precisionModel: PrecisionModel, SRID: Int) = {
@@ -55,19 +59,15 @@ class GeometryCollection(/**
    * is only a temporary container which is not synchronized back.
    *
    * return the collected coordinates
-   **/
+   */
   override def getCoordinates: Array[Coordinate] = {
     val coordinates = new Array[Coordinate](getNumPoints)
-    var k = -1
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var k           = -1
+    var i           = 0
+    while (i < geometries.length) {
       val childCoordinates = geometries(i).getCoordinates
-      var j = 0
-      while ( {
-        j < childCoordinates.length
-      }) {
+      var j                = 0
+      while (j < childCoordinates.length) {
         k += 1
         coordinates(k) = childCoordinates(j)
         j += 1
@@ -79,9 +79,7 @@ class GeometryCollection(/**
 
   override def isEmpty: Boolean = {
     var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    while (i < geometries.length) {
       if (!geometries(i).isEmpty) return false
       i += 1
     }
@@ -90,10 +88,8 @@ class GeometryCollection(/**
 
   override def getDimension: Int = {
     var dimension = Dimension.FALSE
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var i         = 0
+    while (i < geometries.length) {
       dimension = Math.max(dimension, geometries(i).getDimension)
       i += 1
     }
@@ -102,10 +98,8 @@ class GeometryCollection(/**
 
   override def getBoundaryDimension: Int = {
     var dimension = Dimension.FALSE
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var i         = 0
+    while (i < geometries.length) {
       dimension = Math.max(dimension, geometries(i).getBoundaryDimension)
       i += 1; i - 1
     }
@@ -118,10 +112,8 @@ class GeometryCollection(/**
 
   override def getNumPoints: Int = {
     var numPoints = 0
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var i         = 0
+    while (i < geometries.length) {
       numPoints += geometries(i).getNumPoints
       i += 1
     }
@@ -143,10 +135,8 @@ class GeometryCollection(/**
    */
   override def getArea: Double = {
     var area = 0.0
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var i    = 0
+    while (i < geometries.length) {
       area += geometries(i).getArea
       i += 1
     }
@@ -155,10 +145,8 @@ class GeometryCollection(/**
 
   override def getLength: Double = {
     var sum = 0.0
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var i   = 0
+    while (i < geometries.length) {
       sum += geometries(i).getLength
       i += 1
     }
@@ -169,10 +157,8 @@ class GeometryCollection(/**
     if (!isEquivalentClass(other)) return false
     val otherCollection = other.asInstanceOf[GeometryCollection]
     if (geometries.length != otherCollection.geometries.length) return false
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var i               = 0
+    while (i < geometries.length) {
       if (!(geometries(i)).equalsExact(otherCollection.geometries(i), tolerance)) return false
       i += 1
     }
@@ -181,9 +167,7 @@ class GeometryCollection(/**
 
   def applyF(filter: CoordinateFilter): Unit = {
     var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    while (i < geometries.length) {
       geometries(i).applyF(filter)
       i += 1
     }
@@ -192,12 +176,11 @@ class GeometryCollection(/**
   def applyF(filter: CoordinateSequenceFilter): Unit = {
     if (geometries.isEmpty) return
     var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    while (i < geometries.length) {
       geometries(i).applyF(filter)
-      if (filter.isDone) {i = geometries.length} else //todo: break is not supported
-      i += 1
+      if (filter.isDone) { i = geometries.length }
+      else //todo: break is not supported
+        i += 1
     }
     if (filter.isGeometryChanged) geometryChanged()
   }
@@ -205,9 +188,7 @@ class GeometryCollection(/**
   def applyF(filter: GeometryFilter): Unit = {
     filter.filter(this)
     var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    while (i < geometries.length) {
       geometries(i).applyF(filter)
       i += 1
     }
@@ -216,9 +197,7 @@ class GeometryCollection(/**
   def applyF(filter: GeometryComponentFilter): Unit = {
     filter.filter(this)
     var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    while (i < geometries.length) {
       geometries(i).applyF(filter)
       i += 1
     }
@@ -235,10 +214,8 @@ class GeometryCollection(/**
 
   override protected def copyInternal: GeometryCollection = {
     val geometries = new Array[Geometry](this.geometries.length)
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var i          = 0
+    while (i < geometries.length) {
       geometries(i) = this.geometries(i).copy
       i += 1
     }
@@ -247,9 +224,7 @@ class GeometryCollection(/**
 
   override def normalize(): Unit = {
     var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    while (i < geometries.length) {
       geometries(i).normalize()
       i += 1
     }
@@ -258,10 +233,8 @@ class GeometryCollection(/**
 
   override protected def computeEnvelopeInternal: Envelope = {
     val envelope = new Envelope
-    var i = 0
-    while ( {
-      i < geometries.length
-    }) {
+    var i        = 0
+    while (i < geometries.length) {
       envelope.expandToInclude(geometries(i).getEnvelopeInternal)
       i += 1
     }
@@ -270,7 +243,8 @@ class GeometryCollection(/**
 
   protected def compareToSameClass(o: Geometry): Int = {
     val theseElements = new util.TreeSet(util.Arrays.asList(geometries))
-    val otherElements = new util.TreeSet(util.Arrays.asList(o.asInstanceOf[GeometryCollection].geometries))
+    val otherElements =
+      new util.TreeSet(util.Arrays.asList(o.asInstanceOf[GeometryCollection].geometries))
     // TODO this is a bug
     compare(theseElements, otherElements, null)
   }
@@ -279,12 +253,10 @@ class GeometryCollection(/**
     val gc = o.asInstanceOf[GeometryCollection]
     val n1 = getNumGeometries
     val n2 = gc.getNumGeometries
-    var i = 0
-    while ( {
-      i < n1 && i < n2
-    }) {
-      val thisGeom = getGeometryN(i)
-      val otherGeom = gc.getGeometryN(i)
+    var i  = 0
+    while (i < n1 && i < n2) {
+      val thisGeom      = getGeometryN(i)
+      val otherGeom     = gc.getGeometryN(i)
       val holeComp: Int = thisGeom.compareToSameClass(otherGeom, comp)
       if (holeComp != 0) return holeComp
       i += 1
@@ -308,11 +280,9 @@ class GeometryCollection(/**
 
   override protected def reverseInternal: Geometry = {
     val numGeometries = geometries.length
-    val reversed = new util.ArrayList[Geometry](numGeometries)
-    var i = 0
-    while ( {
-      i < numGeometries
-    }) {
+    val reversed      = new util.ArrayList[Geometry](numGeometries)
+    var i             = 0
+    while (i < numGeometries) {
       reversed.add(geometries(i).reverse)
       i += 1
     }

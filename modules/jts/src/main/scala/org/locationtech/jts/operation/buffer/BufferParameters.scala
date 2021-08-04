@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -35,33 +35,39 @@ package org.locationtech.jts.operation.buffer
  * </ul>
  *
  * @author Martin Davis
- *
  */
 object BufferParameters {
+
   /**
    * Specifies a round line buffer end cap style.
    */
-    val CAP_ROUND = 1
+  val CAP_ROUND = 1
+
   /**
    * Specifies a flat line buffer end cap style.
    */
   val CAP_FLAT = 2
+
   /**
    * Specifies a square line buffer end cap style.
    */
   val CAP_SQUARE = 3
+
   /**
    * Specifies a round join style.
    */
   val JOIN_ROUND = 1
+
   /**
    * Specifies a mitre join style.
    */
   val JOIN_MITRE = 2
+
   /**
    * Specifies a bevel join style.
    */
   val JOIN_BEVEL = 3
+
   /**
    * The default number of facets into which to divide a fillet of 90 degrees.
    * A value of 8 gives less than 2% max error in the buffer distance.
@@ -69,11 +75,13 @@ object BufferParameters {
    * For a max error of &lt; 0.1%, use QS = 18.
    */
   val DEFAULT_QUADRANT_SEGMENTS = 8
+
   /**
    * The default mitre limit
    * Allows fairly pointy mitres.
    */
   val DEFAULT_MITRE_LIMIT = 5.0
+
   /**
    * The default simplify factor
    * Provides an accuracy of about 1%, which matches the accuracy of the default Quadrant Segments parameter.
@@ -95,16 +103,15 @@ object BufferParameters {
 
 class BufferParameters() {
 
-/**
- * Creates a default set of parameters
- *
- */
+  /**
+   * Creates a default set of parameters
+   */
   private var quadrantSegments = BufferParameters.DEFAULT_QUADRANT_SEGMENTS
-  private var endCapStyle = BufferParameters.CAP_ROUND
-  private var joinStyle = BufferParameters.JOIN_ROUND
-  private var mitreLimit = BufferParameters.DEFAULT_MITRE_LIMIT
-  private var visSingleSided = false
-  private var simplifyFactor = BufferParameters.DEFAULT_SIMPLIFY_FACTOR
+  private var endCapStyle      = BufferParameters.CAP_ROUND
+  private var joinStyle        = BufferParameters.JOIN_ROUND
+  private var mitreLimit       = BufferParameters.DEFAULT_MITRE_LIMIT
+  private var visSingleSided   = false
+  private var simplifyFactor   = BufferParameters.DEFAULT_SIMPLIFY_FACTOR
 
   /**
    * Creates a set of parameters with the
@@ -201,7 +208,8 @@ class BufferParameters() {
      * If join style was set by the quadSegs value,
      * use the default for the actual quadrantSegments value.
      */
-    if (joinStyle != BufferParameters.JOIN_ROUND) quadrantSegments = BufferParameters.DEFAULT_QUADRANT_SEGMENTS
+    if (joinStyle != BufferParameters.JOIN_ROUND)
+      quadrantSegments = BufferParameters.DEFAULT_QUADRANT_SEGMENTS
   }
 
   /**
@@ -302,6 +310,7 @@ class BufferParameters() {
    *
    * @param simplifyFactor a value greater than or equal to zero.
    */
-  def setSimplifyFactor(simplifyFactor: Double): Unit = this.simplifyFactor = if (simplifyFactor < 0) 0
-  else simplifyFactor
+  def setSimplifyFactor(simplifyFactor: Double): Unit = this.simplifyFactor =
+    if (simplifyFactor < 0) 0
+    else simplifyFactor
 }

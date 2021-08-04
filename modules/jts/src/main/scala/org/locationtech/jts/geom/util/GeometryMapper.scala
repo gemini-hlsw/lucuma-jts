@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,9 +30,9 @@ import org.locationtech.jts.geom.Geometry
  * via defined mapping functions.
  *
  * @author Martin Davis
- *
  */
 object GeometryMapper {
+
   /**
    * Maps the members of a {link Geometry}
    * (which may be atomic or composite)
@@ -45,26 +45,22 @@ object GeometryMapper {
    * @param op   the mapping operation
    * return a result collection or geometry of most specific type
    */
-    def map(geom: Geometry, op: GeometryMapper.MapOp): Geometry = {
-      val mapped = new util.ArrayList[Geometry]
-      var i = 0
-      while ( {
-        i < geom.getNumGeometries
-      }) {
-        val g = op.map(geom.getGeometryN(i))
-        if (g != null) mapped.add(g)
-        i += 1
-      }
-      geom.getFactory.buildGeometry(mapped)
+  def map(geom: Geometry, op: GeometryMapper.MapOp): Geometry = {
+    val mapped = new util.ArrayList[Geometry]
+    var i      = 0
+    while (i < geom.getNumGeometries) {
+      val g = op.map(geom.getGeometryN(i))
+      if (g != null) mapped.add(g)
+      i += 1
     }
+    geom.getFactory.buildGeometry(mapped)
+  }
 
   def map(geoms: util.Collection[Geometry], op: GeometryMapper.MapOp): util.ArrayList[Geometry] = {
     val mapped = new util.ArrayList[Geometry]
-    val i = geoms.iterator
-    while ( {
-      i.hasNext
-    }) {
-      val g = i.next
+    val i      = geoms.iterator
+    while (i.hasNext) {
+      val g  = i.next
       val gr = op.map(g)
       if (gr != null) mapped.add(gr)
     }
@@ -75,16 +71,16 @@ object GeometryMapper {
    * An interface for geometry functions used for mapping.
    *
    * @author Martin Davis
-   *
    */
   trait MapOp {
+
     /**
      * Computes a new geometry value.
      *
      * @param g the input geometry
      * return a result geometry
      */
-      def map(g: Geometry): Geometry
+    def map(g: Geometry): Geometry
   }
 
 }

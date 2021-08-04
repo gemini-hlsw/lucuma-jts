@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -32,6 +32,7 @@ package org.locationtech.jts.geom
  * @version 1.7
  */
 trait CoordinateSequenceFactory {
+
   /**
    * Returns a {link CoordinateSequence} based on the given array.
    * Whether the array is copied or simply referenced
@@ -40,7 +41,7 @@ trait CoordinateSequenceFactory {
    *
    * @param coordinates the coordinates
    */
-    def create(coordinates: Array[Coordinate]): CoordinateSequence
+  def create(coordinates: Array[Coordinate]): CoordinateSequence
 
   /**
    * Creates a {link CoordinateSequence} which is a copy

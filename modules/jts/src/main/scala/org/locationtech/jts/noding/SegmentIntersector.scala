@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -35,12 +35,18 @@ package org.locationtech.jts.noding
 //  * @version 1.7
 //  */
 trait SegmentIntersector {
+
   /**
    * This method is called by clients
    * of the {link SegmentIntersector} interface to process
    * intersections for two segments of the {link SegmentString}s being intersected.
    */
-    def processIntersections(e0: SegmentString, segIndex0: Int, e1: SegmentString, segIndex1: Int): Unit
+  def processIntersections(
+    e0:        SegmentString,
+    segIndex0: Int,
+    e1:        SegmentString,
+    segIndex1: Int
+  ): Unit
 
   /**
    * Reports whether the client of this class

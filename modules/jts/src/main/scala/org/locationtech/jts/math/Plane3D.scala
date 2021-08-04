@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -27,9 +27,9 @@ import org.locationtech.jts.geom.Coordinate
  * Models a plane in 3-dimensional Cartesian space.
  *
  * @author mdavis
- *
  */
 object Plane3D {
+
   /**
    * Enums for the 3 coordinate planes
    */
@@ -39,6 +39,7 @@ object Plane3D {
 }
 
 class Plane3D(var normal: Vector3D, var basePt: Coordinate) {
+
   /**
    * Computes the oriented distance from a point to the plane.
    * The distance is:
@@ -52,10 +53,11 @@ class Plane3D(var normal: Vector3D, var basePt: Coordinate) {
    * return the oriented distance to the plane
    */
   def orientedDistance(p: Coordinate): Double = {
-    val pb = new Vector3D(p, basePt)
+    val pb           = new Vector3D(p, basePt)
     val pbdDotNormal = pb.dot(normal)
-    if (java.lang.Double.isNaN(pbdDotNormal)) throw new IllegalArgumentException("3D Coordinate has NaN ordinate")
-    val d = pbdDotNormal / normal.length
+    if (java.lang.Double.isNaN(pbdDotNormal))
+      throw new IllegalArgumentException("3D Coordinate has NaN ordinate")
+    val d            = pbdDotNormal / normal.length
     d
   }
 
@@ -74,8 +76,9 @@ class Plane3D(var normal: Vector3D, var basePt: Coordinate) {
     val xmag = Math.abs(normal.getX)
     val ymag = Math.abs(normal.getY)
     val zmag = Math.abs(normal.getZ)
-    if (xmag > ymag) if (xmag > zmag) return Plane3D.YZ_PLANE
-    else return Plane3D.XY_PLANE
+    if (xmag > ymag)
+      if (xmag > zmag) return Plane3D.YZ_PLANE
+      else return Plane3D.XY_PLANE
     else { // y >= x
       if (zmag > ymag) return Plane3D.XY_PLANE
     }

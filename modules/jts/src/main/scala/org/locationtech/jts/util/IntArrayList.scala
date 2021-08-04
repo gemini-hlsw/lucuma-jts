@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2019 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -27,16 +27,15 @@ import java.util
  * An extendable array of primitive <code>int</code> values.
  *
  * @author Martin Davis
- *
  */
 class IntArrayList(val initialCapacity: Int) {
 
-/**
- * Constructs an empty list with the specified initial capacity
- *
- * @param initialCapacity the initial capacity of the list
- */
-  private var data = new Array[Int](initialCapacity)
+  /**
+   * Constructs an empty list with the specified initial capacity
+   *
+   * @param initialCapacity the initial capacity of the list
+   */
+  private var data  = new Array[Int](initialCapacity)
   private var vsize = 0
 
   /**

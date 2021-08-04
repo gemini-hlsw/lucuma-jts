@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -61,7 +61,6 @@ import org.locationtech.jts.operation.overlay.snap.SnapIfNeededOverlayOp
  * (although the polygon components must all still be individually valid.)
  *
  * @author mbdavis
- *
  */
 object UnaryUnionOp {
   // /**
@@ -72,10 +71,10 @@ object UnaryUnionOp {
   //  * return the union of the geometries,
   //  *         or <code>null</code> if the input is empty
   //  */
-    def union(geoms: util.Collection[Geometry]): Geometry = {
-      val op = new UnaryUnionOp(geoms)
-      op.union
-    }
+  def union(geoms: util.Collection[Geometry]): Geometry = {
+    val op = new UnaryUnionOp(geoms)
+    op.union
+  }
 
   // /**
   //  * Computes the geometric union of a {link Collection}
@@ -149,7 +148,8 @@ class UnaryUnionOp(geoms: util.Collection[Geometry], var geomFact: GeometryFacto
     extract(geom)
   }
 
-  private def extract(geoms: util.Collection[Geometry]): Unit = extracter = InputExtracter.extract(geoms)
+  private def extract(geoms: util.Collection[Geometry]): Unit = extracter =
+    InputExtracter.extract(geoms)
 
   private def extract(geom: Geometry): Unit = extracter = InputExtracter.extract(geom)
 
@@ -176,33 +176,35 @@ class UnaryUnionOp(geoms: util.Collection[Geometry], var geomFact: GeometryFacto
     if (geomFact == null) return null
     // Case 1 & 2
     if (extracter.isEmpty) return geomFact.createEmpty(extracter.getDimension)
-    val points = extracter.getExtract(0)
-    val lines = extracter.getExtract(1)
+    val points   = extracter.getExtract(0)
+    val lines    = extracter.getExtract(1)
     val polygons = extracter.getExtract(2)
+
     /**
      * For points and lines, only a single union operation is
      * required, since the OGC model allows self-intersecting
      * MultiPoint and MultiLineStrings.
      * This is not the case for polygons, so Cascaded Union is required.
      */
-    var unionPoints: Geometry = null
+    var unionPoints: Geometry   = null
     if (points.size > 0) {
       val ptGeom = geomFact.buildGeometry(points)
       unionPoints = unionNoOpt(ptGeom)
     }
-    var unionLines: Geometry = null
+    var unionLines: Geometry    = null
     if (lines.size > 0) {
       val lineGeom = geomFact.buildGeometry(lines)
       unionLines = unionNoOpt(lineGeom)
     }
     var unionPolygons: Geometry = null
     if (polygons.size > 0) unionPolygons = CascadedPolygonUnion.union(polygons)
+
     /**
      * Performing two unions is somewhat inefficient,
      * but is mitigated by unioning lines and points first
      */
     val unionLA: Geometry = unionWithNull(unionLines, unionPolygons)
-    var union: Geometry = null
+    var union: Geometry   = null
     if (unionPoints == null) union = unionLA
     else if (unionLA == null) union = unionPoints
     else union = PointGeometryUnion.union(unionPoints.asInstanceOf[Puntal], unionLA)

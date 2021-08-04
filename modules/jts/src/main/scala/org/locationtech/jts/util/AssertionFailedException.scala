@@ -20,7 +20,4 @@ package org.locationtech.jts.util
  *
  * @version 1.7
  */
-class AssertionFailedException(message: String = "")
-
-  extends RuntimeException(message) {
-}
+class AssertionFailedException(message: String = "") extends RuntimeException(message) {}

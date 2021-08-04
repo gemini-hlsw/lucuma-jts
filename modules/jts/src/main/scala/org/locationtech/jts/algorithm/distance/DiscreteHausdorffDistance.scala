@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -89,27 +89,27 @@ object DiscreteHausdorffDistance {
     def getMaxPointDistance: PointPairDistance = maxPtDist
   }
 
-  class MaxDensifiedByFractionDistanceFilter(var geom: Geometry, val fraction: Double) extends CoordinateSequenceFilter {
-    private val maxPtDist = new PointPairDistance
-    private val minPtDist = new PointPairDistance
+  class MaxDensifiedByFractionDistanceFilter(var geom: Geometry, val fraction: Double)
+      extends CoordinateSequenceFilter {
+    private val maxPtDist  = new PointPairDistance
+    private val minPtDist  = new PointPairDistance
     private var numSubSegs = 0
     numSubSegs = Math.rint(1.0 / fraction).toInt
 
     override def filter(seq: CoordinateSequence, index: Int): Unit = {
+
       /**
        * This logic also handles skipping Point geometries
        */
       if (index == 0) return
-      val p0 = seq.getCoordinate(index - 1)
-      val p1 = seq.getCoordinate(index)
+      val p0   = seq.getCoordinate(index - 1)
+      val p1   = seq.getCoordinate(index)
       val delx = (p1.x - p0.x) / numSubSegs
       val dely = (p1.y - p0.y) / numSubSegs
-      var i = 0
-      while ( {
-        i < numSubSegs
-      }) {
-        val x = p0.x + i * delx
-        val y = p0.y + i * dely
+      var i    = 0
+      while (i < numSubSegs) {
+        val x  = p0.x + i * delx
+        val y  = p0.y + i * dely
         val pt = new Coordinate(x, y)
         minPtDist.initialize()
         DistanceToPoint.computeDistance(geom, pt, minPtDist)
@@ -129,6 +129,7 @@ object DiscreteHausdorffDistance {
 
 class DiscreteHausdorffDistance(var g0: Geometry, var g1: Geometry) {
   private val ptDist = new PointPairDistance
+
   /**
    * Value of 0.0 indicates that no densification should take place
    */
@@ -143,7 +144,8 @@ class DiscreteHausdorffDistance(var g0: Geometry, var g1: Geometry) {
    * @param densifyFrac
    */
   def setDensifyFraction(densifyFrac: Double): Unit = {
-    if (densifyFrac > 1.0 || densifyFrac <= 0.0) throw new IllegalArgumentException("Fraction is not in range (0.0 - 1.0]")
+    if (densifyFrac > 1.0 || densifyFrac <= 0.0)
+      throw new IllegalArgumentException("Fraction is not in range (0.0 - 1.0]")
     this.densifyFrac = densifyFrac
   }
 
@@ -164,12 +166,17 @@ class DiscreteHausdorffDistance(var g0: Geometry, var g1: Geometry) {
     computeOrientedDistance(g1, g0, ptDist)
   }
 
-  private def computeOrientedDistance(discreteGeom: Geometry, geom: Geometry, ptDist: PointPairDistance): Unit = {
+  private def computeOrientedDistance(
+    discreteGeom: Geometry,
+    geom:         Geometry,
+    ptDist:       PointPairDistance
+  ): Unit = {
     val distFilter = new DiscreteHausdorffDistance.MaxPointDistanceFilter(geom)
     discreteGeom.applyF(distFilter)
     ptDist.setMaximum(distFilter.getMaxPointDistance)
     if (densifyFrac > 0) {
-      val fracFilter = new DiscreteHausdorffDistance.MaxDensifiedByFractionDistanceFilter(geom, densifyFrac)
+      val fracFilter =
+        new DiscreteHausdorffDistance.MaxDensifiedByFractionDistanceFilter(geom, densifyFrac)
       discreteGeom.applyF(fracFilter)
       ptDist.setMaximum(fracFilter.getMaxPointDistance)
     }

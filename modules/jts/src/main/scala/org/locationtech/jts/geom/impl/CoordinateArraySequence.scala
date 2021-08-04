@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -41,9 +41,15 @@ import org.locationtech.jts.geom._
  * @version 1.7
  */
 @SerialVersionUID(-915438501601840650L)
-class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int = 3, measures: Int = 0) extends CoordinateSequence with Serializable {
-  private var coordinates: Array[Coordinate] = if (coordinatesArg == null) new Array[Coordinate](0)
-  else enforceArrayConsistency(coordinatesArg)
+class CoordinateArraySequence(
+  coordinatesArg: Array[Coordinate],
+  dimension:      Int = 3,
+  measures:       Int = 0
+) extends CoordinateSequence
+    with Serializable {
+  private var coordinates: Array[Coordinate] =
+    if (coordinatesArg == null) new Array[Coordinate](0)
+    else enforceArrayConsistency(coordinatesArg)
 
   /**
    * The actual dimension of the coordinates in the sequence.
@@ -65,7 +71,10 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
    * @param coordinates the coordinate array that will be referenced.
    */
   def this(coordinates: Array[Coordinate]) = {
-    this(coordinates, CoordinateArrays.dimension(coordinates), CoordinateArrays.measures(coordinates))
+    this(coordinates,
+         CoordinateArrays.dimension(coordinates),
+         CoordinateArrays.measures(coordinates)
+    )
   }
 
   /**
@@ -89,14 +98,10 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
   def this(size: Int) = {
     this(new Array[Coordinate](size))
     var i = 0
-    while ( {
-      i < size
-    }) {
-      coordinates(i) = new Coordinate
-      {
+    while (i < size)
+      coordinates(i) = new Coordinate {
         i += 1; i - 1
       }
-    }
   }
 
   /**
@@ -126,9 +131,7 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
     this(new Array[Coordinate](coordSeq.size), coordSeq.getDimension, coordSeq.getMeasures)
 
     var i = 0
-    while ( {
-      i < coordinates.length
-    }) {
+    while (i < coordinates.length) {
       coordinates(i) = coordSeq.getCoordinateCopy(i)
 
       {
@@ -147,8 +150,8 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
    * @param array array containing consistent coordinate instances
    */
   protected def enforceArrayConsistency(array: Array[Coordinate]): Array[Coordinate] = {
-    val sample = createCoordinate
-    val `type` = sample.getClass
+    val sample       = createCoordinate
+    val `type`       = sample.getClass
     val isConsistent = array.foldLeft(true) { (consistent, c) =>
       if (c != null && !(c.getClass == `type`)) false else consistent
     }
@@ -159,8 +162,7 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
           val duplicate = createCoordinate
           duplicate.setCoordinate(c)
           duplicate
-        }
-        else c
+        } else c
       }
     }
   }
@@ -196,7 +198,8 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
   /**
    * @see org.locationtech.jts.geom.CoordinateSequence#getX(int)
    */
-  override def getCoordinate(index: Int, coord: Coordinate): Unit = coord.setCoordinate(coordinates(index))
+  override def getCoordinate(index: Int, coord: Coordinate): Unit =
+    coord.setCoordinate(coordinates(index))
 
   override def getX(index: Int): Double = coordinates(index).x
 
@@ -225,7 +228,7 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
       coordinates(index).x
     case CoordinateSequence.Y =>
       coordinates(index).y
-    case _ =>
+    case _                    =>
       coordinates(index).getOrdinate(ordinateIndex)
   }
 
@@ -262,14 +265,15 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
   /**
    * @see org.locationtech.jts.geom.CoordinateSequence#setOrdinate(int, int, double)
    */
-  override def setOrdinate(index: Int, ordinateIndex: Int, value: Double): Unit = ordinateIndex match {
-    case CoordinateSequence.X =>
-      coordinates(index).x = value
-    case CoordinateSequence.Y =>
-      coordinates(index).y = value
-    case _ =>
-      coordinates(index).setOrdinate(ordinateIndex, value)
-  }
+  override def setOrdinate(index: Int, ordinateIndex: Int, value: Double): Unit =
+    ordinateIndex match {
+      case CoordinateSequence.X =>
+        coordinates(index).x = value
+      case CoordinateSequence.Y =>
+        coordinates(index).y = value
+      case _                    =>
+        coordinates(index).setOrdinate(ordinateIndex, value)
+    }
 
   /**
    * This method exposes the internal Array of Coordinate Objects
@@ -292,18 +296,14 @@ class CoordinateArraySequence(coordinatesArg: Array[Coordinate], dimension: Int 
     val strBuilder = new StringBuilder(17 * coordinates.length)
     strBuilder.append('(')
     strBuilder.append(coordinates(0))
-    var i = 1
-    while ( {
-      i < coordinates.length
-    }) {
+    var i          = 1
+    while (i < coordinates.length) {
       strBuilder.append(", ")
-      strBuilder.append(coordinates(i))
-      {
+      strBuilder.append(coordinates(i)) {
         i += 1; i - 1
       }
     }
     strBuilder.append(')')
     strBuilder.toString
-  }
-  else "()"
+  } else "()"
 }

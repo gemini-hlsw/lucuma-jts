@@ -22,27 +22,34 @@ import org.locationtech.jts.geomgraph.index.MonotoneChainEdge
  * @version 1.7
  */
 object Edge {
+
   /**
    * Updates an IM from the label for an edge.
    * Handles edges from both L and A geometries.
    */
-    def updateIM(label: Label, im: IntersectionMatrix): Unit = {
-      im.setAtLeastIfValid(label.getLocation(0, Position.ON), label.getLocation(1, Position.ON), 1)
-      if (label.isArea) {
-        im.setAtLeastIfValid(label.getLocation(0, Position.LEFT), label.getLocation(1, Position.LEFT), 2)
-        im.setAtLeastIfValid(label.getLocation(0, Position.RIGHT), label.getLocation(1, Position.RIGHT), 2)
-      }
+  def updateIM(label: Label, im: IntersectionMatrix): Unit = {
+    im.setAtLeastIfValid(label.getLocation(0, Position.ON), label.getLocation(1, Position.ON), 1)
+    if (label.isArea) {
+      im.setAtLeastIfValid(label.getLocation(0, Position.LEFT),
+                           label.getLocation(1, Position.LEFT),
+                           2
+      )
+      im.setAtLeastIfValid(label.getLocation(0, Position.RIGHT),
+                           label.getLocation(1, Position.RIGHT),
+                           2
+      )
     }
+  }
 }
 
 class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphComponent(labelArg) {
-  private var env: Envelope = null
-  private[geomgraph] val eiList = new EdgeIntersectionList(this)
-  private var name: String = null
+  private var env: Envelope          = null
+  private[geomgraph] val eiList      = new EdgeIntersectionList(this)
+  private var name: String           = null
   private var mce: MonotoneChainEdge = null
-  private var visIsolated = true
-  private val depth = new Depth
-  private var depthDelta = 0 // the change in area depth from the R to L side of this edge
+  private var visIsolated            = true
+  private val depth                  = new Depth
+  private var depthDelta             = 0 // the change in area depth from the R to L side of this edge
   def this(pts: Array[Coordinate]) = {
     this(pts, null)
   }
@@ -64,9 +71,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
     if (env == null) {
       env = new Envelope
       var i = 0
-      while ( {
-        i < pts.length
-      }) {
+      while (i < pts.length) {
         env.expandToInclude(pts(i))
         i += 1
       }
@@ -111,7 +116,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
     val newPts = new Array[Coordinate](2)
     newPts(0) = pts(0)
     newPts(1) = pts(1)
-    val newe = new Edge(newPts, Label.toLineLabel(label))
+    val newe   = new Edge(newPts, Label.toLineLabel(label))
     newe
   }
 
@@ -125,9 +130,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
    */
   def addIntersections(li: LineIntersector, segmentIndex: Int, geomIndex: Int): Unit = {
     var i = 0
-    while ( {
-      i < li.getIntersectionNum
-    }) {
+    while (i < li.getIntersectionNum) {
       addIntersection(li, segmentIndex, geomIndex, i)
       i += 1
     }
@@ -138,13 +141,18 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
    * An intersection that falls exactly on a vertex of the edge is normalized
    * to use the higher of the two possible segmentIndexes
    */
-  def addIntersection(li: LineIntersector, segmentIndex: Int, geomIndex: Int, intIndex: Int): Unit = {
-    val intPt = new Coordinate(li.getIntersection(intIndex))
+  def addIntersection(
+    li:           LineIntersector,
+    segmentIndex: Int,
+    geomIndex:    Int,
+    intIndex:     Int
+  ): Unit = {
+    val intPt                  = new Coordinate(li.getIntersection(intIndex))
     var normalizedSegmentIndex = segmentIndex
-    var dist = li.getEdgeDistance(geomIndex, intIndex)
+    var dist                   = li.getEdgeDistance(geomIndex, intIndex)
     //Debug.println("edge intpt: " + intPt + " dist: " + dist);
     // normalize the intersection point location
-    val nextSegIndex = normalizedSegmentIndex + 1
+    val nextSegIndex           = normalizedSegmentIndex + 1
     if (nextSegIndex < pts.length) {
       val nextPt = pts(nextSegIndex)
       //Debug.println("next pt: " + nextPt);
@@ -155,6 +163,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
         dist = 0.0
       }
     }
+
     /**
      * Add the intersection point to edge intersection list.
      */
@@ -178,19 +187,19 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
    */
   override def equals(o: Any): Boolean = {
     if (!o.isInstanceOf[Edge]) return false
-    val e = o.asInstanceOf[Edge]
+    val e              = o.asInstanceOf[Edge]
     if (pts.length != e.pts.length) return false
     var isEqualForward = true
     var isEqualReverse = true
-    var iRev = pts.length
-    var i = 0
-    while ( {
-      i < pts.length
-    }) {
+    var iRev           = pts.length
+    var i              = 0
+    while (i < pts.length) {
       if (!pts(i).equals2D(e.pts(i))) isEqualForward = false
-      if (!pts(i).equals2D(e.pts({
-        iRev -= 1; iRev
-      }))) isEqualReverse = false
+      if (
+        !pts(i).equals2D(e.pts {
+          iRev -= 1; iRev
+        })
+      ) isEqualReverse = false
       if (!isEqualForward && !isEqualReverse) return false
       i += 1
     }
@@ -203,9 +212,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
   def isPointwiseEqual(e: Edge): Boolean = {
     if (pts.length != e.pts.length) return false
     var i = 0
-    while ( {
-      i < pts.length
-    }) {
+    while (i < pts.length) {
       if (!pts(i).equals2D(e.pts(i))) return false
       i += 1
     }
@@ -216,10 +223,8 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
     val builder = new StringBuilder
     builder.append("edge " + name + ": ")
     builder.append("LINESTRING (")
-    var i = 0
-    while ( {
-      i < pts.length
-    }) {
+    var i       = 0
+    while (i < pts.length) {
       if (i > 0) builder.append(",")
       builder.append(s"${pts(i).x} ${pts(i).y}")
       i += 1
@@ -232,9 +237,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
     out.print("edge " + name + ": ")
     out.print("LINESTRING (")
     var i = 0
-    while ( {
-      i < pts.length
-    }) {
+    while (i < pts.length) {
       if (i > 0) out.print(",")
       out.print(s"${pts(i).x} ${pts(i).y}")
       i += 1
@@ -245,9 +248,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
   def printReverse(out: PrintStream): Unit = {
     out.print("edge " + name + ": ")
     var i = pts.length - 1
-    while ( {
-      i >= 0
-    }) {
+    while (i >= 0) {
       out.print(s"${pts(i)} ")
       i -= 1
     }

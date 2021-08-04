@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,11 +30,12 @@ import org.locationtech.jts.geom.Coordinate
  * @author Martin Davis
  */
 trait NodableSegmentString extends SegmentString {
+
   /**
    * Adds an intersection node for a given point and segment to this segment string.
    *
    * @param intPt        the location of the intersection
    * @param segmentIndex the index of the segment containing the intersection
    */
-    def addIntersection(intPt: Coordinate, segmentIndex: Int): Unit
+  def addIntersection(intPt: Coordinate, segmentIndex: Int): Unit
 }

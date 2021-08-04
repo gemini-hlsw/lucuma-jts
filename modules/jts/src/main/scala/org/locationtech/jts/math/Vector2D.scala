@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,9 +30,9 @@ import org.locationtech.jts.util.Assert
  * A 2-dimensional mathematical vector represented by double-precision X and Y components.
  *
  * @author mbdavis
- *
  */
 object Vector2D {
+
   /**
    * Creates a new vector with given X and Y components.
    *
@@ -40,7 +40,7 @@ object Vector2D {
    * @param y the y component
    * return a new vector
    */
-    def create(x: Double, y: Double) = new Vector2D(x, y)
+  def create(x: Double, y: Double) = new Vector2D(x, y)
 
   /**
    * Creates a new vector from an existing one.
@@ -71,6 +71,7 @@ object Vector2D {
 }
 
 class Vector2D(protected val x: Double = 0.0, protected val y: Double = 0.0) {
+
   /**
    * The X component of this vector.
    */
@@ -160,7 +161,8 @@ class Vector2D(protected val x: Double = 0.0, protected val y: Double = 0.0) {
    * @param frac the fraction of the total contributed by this vector
    * return the weighted sum of the two vectors
    */
-  def weightedSum(v: Vector2D, frac: Double): Vector2D = Vector2D.create(frac * x + (1.0 - frac) * v.x, frac * y + (1.0 - frac) * v.y)
+  def weightedSum(v: Vector2D, frac: Double): Vector2D =
+    Vector2D.create(frac * x + (1.0 - frac) * v.x, frac * y + (1.0 - frac) * v.y)
 
   /**
    * Computes the distance between this vector and another one.
@@ -187,8 +189,8 @@ class Vector2D(protected val x: Double = 0.0, protected val y: Double = 0.0) {
   def angle(v: Vector2D): Double = Angle.diff(v.angle, angle)
 
   def angleTo(v: Vector2D): Double = {
-    val a1 = angle
-    val a2 = v.angle
+    val a1     = angle
+    val a2     = v.angle
     val angDel = a2 - a1
     // normalize, maintaining orientation
     if (angDel <= -Math.PI) return angDel + Angle.PI_TIMES_2

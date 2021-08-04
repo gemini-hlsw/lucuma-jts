@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -53,7 +53,9 @@ object PackedCoordinateSequence {
    * Packed coordinate sequence implementation based on doubles
    */
   @SerialVersionUID(5777450686367912719L)
-  class Double(private val coords: Array[scala.Double], dim: Int, meas: Int) extends PackedCoordinateSequence(dim, meas) {
+  class Double(private val coords: Array[scala.Double], dim: Int, meas: Int)
+      extends PackedCoordinateSequence(dim, meas) {
+
     /**
      * The packed coordinate array
      */
@@ -66,7 +68,10 @@ object PackedCoordinateSequence {
      * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
      * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
-      if (coords.length % dimension != 0) throw new IllegalArgumentException("Packed array does not contain " + "an integral number of coordinates")
+    if (coords.length % dimension != 0)
+      throw new IllegalArgumentException(
+        "Packed array does not contain " + "an integral number of coordinates"
+      )
 
     /**
      * Builds a new packed coordinate sequence out of a float coordinate array
@@ -130,12 +135,10 @@ object PackedCoordinateSequence {
       else if (dimension == 3 && measures == 0) {
         val z = coords(i * dimension + 2)
         return new Coordinate(x, y, z)
-      }
-      else if (dimension == 3 && measures == 1) {
+      } else if (dimension == 3 && measures == 1) {
         val m = coords(i * dimension + 2)
         return new CoordinateXYM(x, y, m)
-      }
-      else if (dimension == 4 && measures == 1) {
+      } else if (dimension == 4 && measures == 1) {
         val z = coords(i * dimension + 2)
         val m = coords(i * dimension + 3)
         return new CoordinateXYZM(x, y, z, m)
@@ -176,7 +179,9 @@ object PackedCoordinateSequence {
      *      it's over dimensions you may not get an exception but a meaningless
      *      value.
      */
-    override def getOrdinate(index: Int, ordinate: Int): scala.Double = coords(index * dimension + ordinate)
+    override def getOrdinate(index: Int, ordinate: Int): scala.Double = coords(
+      index * dimension + ordinate
+    )
 
     /**
      * @see PackedCoordinateSequence#setOrdinate(int, int, double)
@@ -191,9 +196,7 @@ object PackedCoordinateSequence {
      */
     override def expandEnvelope(env: Envelope): Envelope = {
       var i = 0
-      while ( {
-        i < coords.length
-      }) {
+      while (i < coords.length) {
         env.expandToInclude(coords(i), coords(i + 1))
         i += dimension
       }
@@ -203,7 +206,7 @@ object PackedCoordinateSequence {
 
   def toFloatArray(coordRef: Array[Coordinate], dimension: Int): Array[scala.Float] = {
     val coordinates = if (coordRef == null) new Array[Coordinate](0) else coordRef
-    val coords = new Array[scala.Float](coordinates.length * dimension)
+    val coords      = new Array[scala.Float](coordinates.length * dimension)
     coordinates.zipWithIndex.foreach { case (c, i) =>
       val offset = i * dimension
       coords(offset) = c.x.toFloat
@@ -216,7 +219,7 @@ object PackedCoordinateSequence {
 
   def toDoubleArray(coordRef: Array[Coordinate], dimension: Int): Array[scala.Double] = {
     val coordinates = if (coordRef == null) new Array[Coordinate](0) else coordRef
-    val coords = new Array[scala.Double](coordinates.length * dimension)
+    val coords      = new Array[scala.Double](coordinates.length * dimension)
     coordinates.zipWithIndex.foreach { case (c, i) =>
       val offset = i * dimension
       coords(offset) = c.x
@@ -226,11 +229,13 @@ object PackedCoordinateSequence {
     }
     coords
   }
+
   /**
    * Packed coordinate sequence implementation based on floats
    */
   @SerialVersionUID(-2902252401427938986L)
-  class Float(private val coords: Array[scala.Float], dim: Int, meas: Int)  extends PackedCoordinateSequence(dim, meas) {
+  class Float(private val coords: Array[scala.Float], dim: Int, meas: Int)
+      extends PackedCoordinateSequence(dim, meas) {
 //    private[impl] var coords = null
 
     /**
@@ -241,7 +246,10 @@ object PackedCoordinateSequence {
      * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
 
-    if (coords.length % dimension != 0) throw new IllegalArgumentException("Packed array does not contain " + "an integral number of coordinates")
+    if (coords.length % dimension != 0)
+      throw new IllegalArgumentException(
+        "Packed array does not contain " + "an integral number of coordinates"
+      )
 
     /**
      * Constructs a packed coordinate sequence from an array of <code>double</code>s
@@ -293,12 +301,10 @@ object PackedCoordinateSequence {
       else if (dimension == 3 && measures == 0) {
         val z = coords(i * dimension + 2)
         return new Coordinate(x.toDouble, y.toDouble, z.toDouble)
-      }
-      else if (dimension == 3 && measures == 1) {
+      } else if (dimension == 3 && measures == 1) {
         val m = coords(i * dimension + 2)
         return new CoordinateXYM(x.toDouble, y.toDouble, m.toDouble)
-      }
-      else if (dimension == 4 && measures == 1) {
+      } else if (dimension == 4 && measures == 1) {
         val z = coords(i * dimension + 2)
         val m = coords(i * dimension + 3)
         return new CoordinateXYZM(x.toDouble, y.toDouble, z.toDouble, m.toDouble)
@@ -326,7 +332,9 @@ object PackedCoordinateSequence {
      *      If it is larger than the dimension a meaningless
      *      value may be returned.
      */
-    override def getOrdinate(index: Int, ordinate: Int): scala.Double = coords(index * dimension + ordinate).toDouble
+    override def getOrdinate(index: Int, ordinate: Int): scala.Double = coords(
+      index * dimension + ordinate
+    ).toDouble
 
     override def setOrdinate(index: Int, ordinate: Int, value: scala.Double): Unit = {
       coordRef = null
@@ -335,9 +343,7 @@ object PackedCoordinateSequence {
 
     override def expandEnvelope(env: Envelope): Envelope = {
       var i = 0
-      while ( {
-        i < coords.length
-      }) {
+      while (i < coords.length) {
         env.expandToInclude(coords(i).toDouble, coords(i + 1).toDouble)
         i += dimension
       }
@@ -348,15 +354,16 @@ object PackedCoordinateSequence {
 }
 
 @SerialVersionUID(-3151899011275603L)
-abstract class PackedCoordinateSequence protected(/**
-                                                   * The dimensions of the coordinates held in the packed array
-                                                   */
-                                                  var dimension: Int,
-
-                                                  /**
-                                                   * The number of measures of the coordinates held in the packed array.
-                                                   */
-                                                  var measures: Int)
+abstract class PackedCoordinateSequence protected (
+  /**
+   * The dimensions of the coordinates held in the packed array
+   */
+  var dimension: Int,
+  /**
+   * The number of measures of the coordinates held in the packed array.
+   */
+  var measures:  Int
+)
 
 /**
  * Creates an instance of this class
@@ -364,8 +371,11 @@ abstract class PackedCoordinateSequence protected(/**
  * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
  * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
  */
-  extends CoordinateSequence with Serializable {
-  if (dimension - measures < 2) throw new IllegalArgumentException("Must have at least 2 spatial dimensions")
+    extends CoordinateSequence
+    with Serializable {
+  if (dimension - measures < 2)
+    throw new IllegalArgumentException("Must have at least 2 spatial dimensions")
+
   /**
    * A soft reference to the Coordinate[] representation of this sequence.
    * Makes repeated coordinate array accesses more efficient.
@@ -408,10 +418,8 @@ abstract class PackedCoordinateSequence protected(/**
     // testing - never cache
     if (coords != null) return coords
     coords = new Array[Coordinate](size)
-    var i = 0
-    while ( {
-      i < coords.length
-    }) {
+    var i      = 0
+    while (i < coords.length) {
       coords(i) = getCoordinateInternal(i)
       i += 1
     }
@@ -426,8 +434,7 @@ abstract class PackedCoordinateSequence protected(/**
       coordRef = null
       null
     }
-  }
-  else null
+  } else null
 
   /**
    * @see CoordinateSequence#getX(int)

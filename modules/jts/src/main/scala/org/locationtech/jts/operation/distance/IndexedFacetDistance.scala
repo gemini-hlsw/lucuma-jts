@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -51,7 +51,6 @@ import org.locationtech.jts.index.strtree.ItemDistance
  * This class is thread-safe.
  *
  * @author Martin Davis
- *
  */
 object IndexedFacetDistance {
   private val FACET_SEQ_DIST = new IndexedFacetDistance.FacetSequenceDistance
@@ -111,24 +110,23 @@ object IndexedFacetDistance {
     }
   }
 
-
 }
 
 class IndexedFacetDistance(var baseGeometry: Geometry) {
 
-/**
- * Creates a new distance-finding instance for a given target {link Geometry}.
- * <p>
- * Distances will be computed to all facets of the input geometry.
- * The facets of the geometry are the discrete segments and points
- * contained in its components.
- * In the case of {link Lineal} and {link Puntal} inputs,
- * this is equivalent to computing the conventional distance.
- * In the case of {link Polygonal} inputs, this is equivalent
- * to computing the distance to the polygon boundaries.
- *
- * @param geom a Geometry, which may be of any type.
- */
+  /**
+   * Creates a new distance-finding instance for a given target {link Geometry}.
+   * <p>
+   * Distances will be computed to all facets of the input geometry.
+   * The facets of the geometry are the discrete segments and points
+   * contained in its components.
+   * In the case of {link Lineal} and {link Puntal} inputs,
+   * this is equivalent to computing the conventional distance.
+   * In the case of {link Polygonal} inputs, this is equivalent
+   * to computing the distance to the polygon boundaries.
+   *
+   * @param geom a Geometry, which may be of any type.
+   */
   private val cachedTree = FacetSequenceTreeBuilder.build(baseGeometry)
 
   /**
@@ -141,9 +139,9 @@ class IndexedFacetDistance(var baseGeometry: Geometry) {
 
   def distance(g: Geometry): Double = {
     val tree2 = FacetSequenceTreeBuilder.build(g)
-    val obj = cachedTree.nearestNeighbour(tree2, IndexedFacetDistance.FACET_SEQ_DIST)
-    val fs1 = obj(0).asInstanceOf[FacetSequence]
-    val fs2 = obj(1).asInstanceOf[FacetSequence]
+    val obj   = cachedTree.nearestNeighbour(tree2, IndexedFacetDistance.FACET_SEQ_DIST)
+    val fs1   = obj(0).asInstanceOf[FacetSequence]
+    val fs2   = obj(1).asInstanceOf[FacetSequence]
     fs1.distance(fs2)
   }
 
@@ -156,9 +154,9 @@ class IndexedFacetDistance(var baseGeometry: Geometry) {
    */
   def nearestLocations(g: Geometry): Array[GeometryLocation] = {
     val tree2 = FacetSequenceTreeBuilder.build(g)
-    val obj = cachedTree.nearestNeighbour(tree2, IndexedFacetDistance.FACET_SEQ_DIST)
-    val fs1 = obj(0).asInstanceOf[FacetSequence]
-    val fs2 = obj(1).asInstanceOf[FacetSequence]
+    val obj   = cachedTree.nearestNeighbour(tree2, IndexedFacetDistance.FACET_SEQ_DIST)
+    val fs1   = obj(0).asInstanceOf[FacetSequence]
+    val fs2   = obj(1).asInstanceOf[FacetSequence]
     fs1.nearestLocations(fs2)
   }
 
@@ -171,7 +169,7 @@ class IndexedFacetDistance(var baseGeometry: Geometry) {
    */
   def nearestPoints(g: Geometry): Array[Coordinate] = {
     val minDistanceLocation = nearestLocations(g)
-    val nearestPts = IndexedFacetDistance.toPoints(minDistanceLocation)
+    val nearestPts          = IndexedFacetDistance.toPoints(minDistanceLocation)
     nearestPts
   }
 
@@ -186,7 +184,7 @@ class IndexedFacetDistance(var baseGeometry: Geometry) {
   def isWithinDistance(g: Geometry, maxDistance: Double): Boolean = { // short-ciruit check
     val envDist = baseGeometry.getEnvelopeInternal.distance(g.getEnvelopeInternal)
     if (envDist > maxDistance) return false
-    val tree2 = FacetSequenceTreeBuilder.build(g)
+    val tree2   = FacetSequenceTreeBuilder.build(g)
     cachedTree.isWithinDistance(tree2, IndexedFacetDistance.FACET_SEQ_DIST, maxDistance)
   }
 }

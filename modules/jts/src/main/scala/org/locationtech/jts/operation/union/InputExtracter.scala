@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2019 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -41,20 +41,20 @@ import scala.jdk.CollectionConverters._
  * do not contribute to the result of {link UnaryUnionOp}.
  *
  * @author Martin Davis
- *
  */
 object InputExtracter {
+
   /**
    * Extracts elements from a collection of geometries.
    *
    * @param geoms a collection of geometries
    * return an extracter over the geometries
    */
-    def extract(geoms: util.Collection[Geometry]): InputExtracter = {
-      val extracter = new InputExtracter
-      extracter.add(geoms)
-      extracter
-    }
+  def extract(geoms: util.Collection[Geometry]): InputExtracter = {
+    val extracter = new InputExtracter
+    extracter.add(geoms)
+    extracter
+  }
 
   /**
    * Extracts elements from a geometry.
@@ -71,9 +71,10 @@ object InputExtracter {
 
 class InputExtracter() extends GeometryFilter {
   private var geomFactory: GeometryFactory = null
-  private val polygons = new util.ArrayList[Polygon]
-  private val lines = new util.ArrayList[LineString]
-  private val points = new util.ArrayList[Point]
+  private val polygons                     = new util.ArrayList[Polygon]
+  private val lines                        = new util.ArrayList[LineString]
+  private val points                       = new util.ArrayList[Point]
+
   /**
    * The default dimension for an empty GeometryCollection
    */
@@ -121,9 +122,8 @@ class InputExtracter() extends GeometryFilter {
     null
   }
 
-  private def add(geoms: util.Collection[Geometry]): Unit = {
+  private def add(geoms: util.Collection[Geometry]): Unit =
     geoms.asScala.foreach(add)
-  }
 
   private def add(geom: Geometry): Unit = {
     if (geomFactory == null) geomFactory = geom.getFactory
@@ -141,12 +141,10 @@ class InputExtracter() extends GeometryFilter {
     if (geom.isInstanceOf[Polygon]) {
       polygons.add(geom.asInstanceOf[Polygon])
       return
-    }
-    else if (geom.isInstanceOf[LineString]) {
+    } else if (geom.isInstanceOf[LineString]) {
       lines.add(geom.asInstanceOf[LineString])
       return
-    }
-    else if (geom.isInstanceOf[Point]) {
+    } else if (geom.isInstanceOf[Point]) {
       points.add(geom.asInstanceOf[Point])
       return
     }

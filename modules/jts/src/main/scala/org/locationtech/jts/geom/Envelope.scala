@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -42,6 +42,7 @@ import java.io.Serializable
  */
 @SerialVersionUID(5873921885273102420L)
 object Envelope {
+
   /**
    * Test the point q to see whether it intersects the Envelope defined by p1-p2
    *
@@ -50,15 +51,20 @@ object Envelope {
    * @param q  the point to test for intersection
    * return <code>true</code> if q intersects the envelope p1-p2
    */
-    def intersects(p1: Coordinate, p2: Coordinate, q: Coordinate): Boolean = { //OptimizeIt shows that Math#min and Math#max here are a bottleneck.
-      //Replace with direct comparisons. [Jon Aquino]
-      if (((q.x >= (if (p1.x < p2.x) p1.x
-      else p2.x)) && (q.x <= (if (p1.x > p2.x) p1.x
-      else p2.x))) && ((q.y >= (if (p1.y < p2.y) p1.y
-      else p2.y)) && (q.y <= (if (p1.y > p2.y) p1.y
-      else p2.y)))) return true
-      false
-    }
+  def intersects(p1: Coordinate, p2: Coordinate, q: Coordinate): Boolean = { //OptimizeIt shows that Math#min and Math#max here are a bottleneck.
+    //Replace with direct comparisons. [Jon Aquino]
+    if (
+      ((q.x >= (if (p1.x < p2.x) p1.x
+                else p2.x)) && (q.x <= (if (p1.x > p2.x) p1.x
+                                        else p2.x))) && ((q.y >= (if (p1.y < p2.y) p1.y
+                                                                  else
+                                                                    p2.y)) && (q.y <= (if (
+                                                                                         p1.y > p2.y
+                                                                                       ) p1.y
+                                                                                       else p2.y)))
+    ) return true
+    false
+  }
 
   /**
    * Tests whether the envelope defined by p1-p2
@@ -89,9 +95,7 @@ object Envelope {
 }
 
 @SerialVersionUID(5873921885273102420L)
-class Envelope()
-
-  extends Comparable[Envelope] with Serializable {
+class Envelope() extends Comparable[Envelope] with Serializable {
 
   override def hashCode: Int = { //Algorithm from Effective Java by Joshua Bloch [Jon Aquino]
     var result = 17
@@ -106,14 +110,17 @@ class Envelope()
    * the minimum x-coordinate
    */
   private var minx = .0
+
   /**
    * the maximum x-coordinate
    */
   private var maxx = .0
+
   /**
    * the minimum y-coordinate
    */
   private var miny = .0
+
   /**
    * the maximum y-coordinate
    */
@@ -181,16 +188,14 @@ class Envelope()
     if (x1 < x2) {
       minx = x1
       maxx = x2
-    }
-    else {
+    } else {
       minx = x2
       maxx = x1
     }
     if (y1 < y2) {
       miny = y1
       maxy = y2
-    }
-    else {
+    } else {
       miny = y2
       maxy = y1
     }
@@ -395,8 +400,7 @@ class Envelope()
     maxx = x
     miny = y
     maxy = y
-  }
-  else {
+  } else {
     if (x < minx) minx = x
     if (x > maxx) maxx = x
     if (y < miny) miny = y
@@ -418,8 +422,7 @@ class Envelope()
       maxx = other.getMaxX
       miny = other.getMinY
       maxy = other.getMaxY
-    }
-    else {
+    } else {
       if (other.minx < minx) minx = other.minx
       if (other.maxx > maxx) maxx = other.maxx
       if (other.miny < miny) miny = other.miny
@@ -458,14 +461,18 @@ class Envelope()
    */
   def intersection(env: Envelope): Envelope = {
     if (isNull || env.isNull || !intersects(env)) return new Envelope
-    val intMinX = if (minx > env.minx) minx
-    else env.minx
-    val intMinY = if (miny > env.miny) miny
-    else env.miny
-    val intMaxX = if (maxx < env.maxx) maxx
-    else env.maxx
-    val intMaxY = if (maxy < env.maxy) maxy
-    else env.maxy
+    val intMinX =
+      if (minx > env.minx) minx
+      else env.minx
+    val intMinY =
+      if (miny > env.miny) miny
+      else env.miny
+    val intMaxX =
+      if (maxx < env.maxx) maxx
+      else env.maxx
+    val intMaxY =
+      if (maxy < env.maxy) maxy
+      else env.maxy
     new Envelope(intMinX, intMaxX, intMinY, intMaxY)
   }
 
@@ -492,17 +499,21 @@ class Envelope()
    */
   def intersects(a: Coordinate, b: Coordinate): Boolean = {
     if (isNull) return false
-    val envminx = if (a.x < b.x) a.x
-    else b.x
+    val envminx =
+      if (a.x < b.x) a.x
+      else b.x
     if (envminx > maxx) return false
-    val envmaxx = if (a.x > b.x) a.x
-    else b.x
+    val envmaxx =
+      if (a.x > b.x) a.x
+      else b.x
     if (envmaxx < minx) return false
-    val envminy = if (a.y < b.y) a.y
-    else b.y
+    val envminy =
+      if (a.y < b.y) a.y
+      else b.y
     if (envminy > maxy) return false
-    val envmaxy = if (a.y > b.y) a.y
-    else b.y
+    val envmaxy =
+      if (a.y > b.y) a.y
+      else b.y
     if (envmaxy < miny) return false
     true
   }
@@ -679,8 +690,7 @@ class Envelope()
     if (isNull) {
       if (env.isNull) return 0
       return -1
-    }
-    else if (env.isNull) return 1
+    } else if (env.isNull) return 1
     // compare based on numerical ordering of ordinates
     if (minx < env.minx) return -1
     if (minx > env.minx) return 1

@@ -15,5 +15,6 @@ package org.locationtech.jts.geomgraph.index
  * @version 1.7
  */
 class MonotoneChain(var mce: MonotoneChainEdge, var chainIndex: Int) {
-  def computeIntersections(mc: MonotoneChain, si: SegmentIntersector): Unit = this.mce.computeIntersectsForChain(chainIndex, mc.mce, mc.chainIndex, si)
+  def computeIntersections(mc: MonotoneChain, si: SegmentIntersector): Unit =
+    this.mce.computeIntersectsForChain(chainIndex, mc.mce, mc.chainIndex, si)
 }

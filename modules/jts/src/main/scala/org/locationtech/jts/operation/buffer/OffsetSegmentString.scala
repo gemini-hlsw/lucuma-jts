@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -32,15 +32,15 @@ import org.locationtech.jts.geom.PrecisionModel
  * which are closer than a given tolerance.
  *
  * @author Martin Davis
- *
  */
 object OffsetSegmentString {
   private val COORDINATE_ARRAY_TYPE = new Array[Coordinate](0)
 }
 
 class OffsetSegmentString() {
-  private val ptList = new util.ArrayList[Coordinate]
+  private val ptList                         = new util.ArrayList[Coordinate]
   private var precisionModel: PrecisionModel = null
+
   /**
    * The distance below which two adjacent points on the curve
    * are considered to be coincident.
@@ -50,7 +50,8 @@ class OffsetSegmentString() {
 
   def setPrecisionModel(precisionModel: PrecisionModel): Unit = this.precisionModel = precisionModel
 
-  def setMinimumVertexDistance(minimimVertexDistance: Double): Unit = this.minimimVertexDistance = minimimVertexDistance
+  def setMinimumVertexDistance(minimimVertexDistance: Double): Unit = this.minimimVertexDistance =
+    minimimVertexDistance
 
   def addPt(pt: Coordinate): Unit = {
     val bufPt = new Coordinate(pt)
@@ -64,18 +65,13 @@ class OffsetSegmentString() {
 
   def addPts(pt: Array[Coordinate], isForward: Boolean): Unit = if (isForward) {
     var i = 0
-    while ( {
-      i < pt.length
-    }) {
+    while (i < pt.length) {
       addPt(pt(i))
       i += 1
     }
-  }
-  else {
+  } else {
     var i = pt.length - 1
-    while ( {
-      i >= 0
-    }) {
+    while (i >= 0) {
       addPt(pt(i))
       i -= 1
     }
@@ -100,14 +96,13 @@ class OffsetSegmentString() {
   def closeRing(): Unit = {
     if (ptList.size < 1) return
     val startPt = new Coordinate(ptList.get(0))
-    val lastPt = ptList.get(ptList.size - 1)
+    val lastPt  = ptList.get(ptList.size - 1)
     if (startPt == lastPt) return
     ptList.add(startPt)
     ()
   }
 
-  def reverse(): Unit = {
-  }
+  def reverse(): Unit = {}
 
   def getCoordinates: Array[Coordinate] = {
     /*
@@ -117,7 +112,8 @@ class OffsetSegmentString() {
          Coordinate end    = (Coordinate) ptList.get(ptList.size() - 1);
          if (! start.equals(end) ) addPt(start);
        }
-       */ val coord = ptList.toArray(OffsetSegmentString.COORDINATE_ARRAY_TYPE)
+     */
+    val coord = ptList.toArray(OffsetSegmentString.COORDINATE_ARRAY_TYPE)
     coord
   }
 

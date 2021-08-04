@@ -26,9 +26,9 @@ import scala.collection.mutable
  */
 class EdgeList() {
   private val edges = new util.ArrayList[Edge]
+
   /**
    * An index of the edges, for fast lookup.
-   *
    */
   private val ocaMap = mutable.TreeMap.empty[OrientedCoordinateArray, Edge]
 
@@ -43,9 +43,7 @@ class EdgeList() {
 
   def addAll(edgeColl: util.Collection[Edge]): Unit = {
     val i = edgeColl.iterator
-    while ( {
-      i.hasNext
-    }) add(i.next)
+    while (i.hasNext) add(i.next)
   }
 
   def getEdges: util.ArrayList[Edge] = edges
@@ -58,7 +56,7 @@ class EdgeList() {
    *         null otherwise
    */
   def findEqualEdge(e: Edge): Edge = {
-    val oca = new OrientedCoordinateArray(e.getCoordinates)
+    val oca       = new OrientedCoordinateArray(e.getCoordinates)
     // will return null if no edge matches
     val matchEdge = ocaMap.get(oca)
     matchEdge.orNull
@@ -76,9 +74,7 @@ class EdgeList() {
    */
   def findEdgeIndex(e: Edge): Int = {
     var i = 0
-    while ( {
-      i < edges.size
-    }) {
+    while (i < edges.size) {
       if (edges.get(i) == e) return i
       i += 1; i - 1
     }
@@ -88,17 +84,13 @@ class EdgeList() {
   def print(out: PrintStream): Unit = {
     out.print("MULTILINESTRING ( ")
     var j = 0
-    while ( {
-      j < edges.size
-    }) {
-      val e = edges.get(j)
+    while (j < edges.size) {
+      val e   = edges.get(j)
       if (j > 0) out.print(",")
       out.print("(")
       val pts = e.getCoordinates
-      var i = 0
-      while ( {
-        i < pts.length
-      }) {
+      var i   = 0
+      while (i < pts.length) {
         if (i > 0) out.print(",")
         out.print(s"${pts(i).x} ${pts(i).y}")
         i += 1

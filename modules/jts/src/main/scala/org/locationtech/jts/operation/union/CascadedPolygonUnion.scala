@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -56,7 +56,6 @@ import scala.jdk.CollectionConverters._
  * However, this case is likely rare in practice.
  *
  * @author Martin Davis
- *
  */
 object CascadedPolygonUnion {
   // /**
@@ -65,10 +64,10 @@ object CascadedPolygonUnion {
   //  *
   //  * @param polys a collection of { @link Polygonal} { @link Geometry}s
   //  */
-    def union(polys: util.Collection[Geometry]): Geometry = {
-      val op = new CascadedPolygonUnion(polys)
-      op.union
-    }
+  def union(polys: util.Collection[Geometry]): Geometry = {
+    val op = new CascadedPolygonUnion(polys)
+    op.union
+  }
 
   /**
    * The effectiveness of the index is somewhat sensitive
@@ -122,7 +121,8 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
 //  *
 //  * @param polys a collection of { @link Polygonal} { @link Geometry}s
 //  */  // guard against null input
-  var inputPolys: util.Collection[Geometry] = if (inputPolysArg == null) new util.ArrayList[Geometry] else inputPolysArg
+  var inputPolys: util.Collection[Geometry] =
+    if (inputPolysArg == null) new util.ArrayList[Geometry] else inputPolysArg
 //  private var geomFactory: GeometryFactory = null
 
   // /**
@@ -150,11 +150,9 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
      * to be eliminated on each round.
      */
     //    STRtree index = new STRtree();
-    val index = new STRtree(CascadedPolygonUnion.STRTREE_NODE_CAPACITY)
-    val i = inputPolys.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val index    = new STRtree(CascadedPolygonUnion.STRTREE_NODE_CAPACITY)
+    val i        = inputPolys.iterator
+    while (i.hasNext) {
       val item = i.next
       index.insert(item.getEnvelopeInternal, item)
     }
@@ -167,11 +165,12 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
   }
 
   private def unionTree(geomTree: util.List[Geometry]): Geometry = {
+
     /**
      * Recursively unions all subtrees in the list into single geometries.
      * The result is a list of Geometrys only
      */
-      val geoms = reduceToGeometries(geomTree)
+    val geoms = reduceToGeometries(geomTree)
     //    Geometry union = bufferUnion(geoms);
     val union = binaryUnion(geoms)
     // print out union (allows visualizing hierarchy)
@@ -181,10 +180,8 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
 
   def repeatedUnion(geoms: util.List[Geometry]): Geometry = {
     var union: Geometry = null
-    val i = geoms.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i               = geoms.iterator
+    while (i.hasNext) {
       val g = i.next
       if (union == null) union = g.copy
       else union = union.union(g)
@@ -193,15 +190,15 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
   }
 
   def bufferUnion(geoms: util.List[Geometry]): Geometry = {
-    val factory = geoms.get(0).getFactory
-    val gColl = factory.buildGeometry(geoms)
+    val factory  = geoms.get(0).getFactory
+    val gColl    = factory.buildGeometry(geoms)
     val unionAll = gColl.buffer(0.0)
     unionAll
   }
 
   def bufferUnion(g0: Geometry, g1: Geometry): Geometry = {
-    val factory = g0.getFactory
-    val gColl = factory.createGeometryCollection(Array[Geometry](g0, g1))
+    val factory  = g0.getFactory
+    val gColl    = factory.createGeometryCollection(Array[Geometry](g0, g1))
     val unionAll = gColl.buffer(0.0)
     unionAll
   }
@@ -222,15 +219,19 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
    * @param end   the index after the end of the section
    * return the union of the list section
    */
-  private def binaryUnion(geoms: util.List[Geometry], start: Int, end: Int): Geometry = if (end - start <= 1) {
+  private def binaryUnion(geoms: util.List[Geometry], start: Int, end: Int): Geometry = if (
+    end - start <= 1
+  ) {
     val g0 = CascadedPolygonUnion.getGeometry(geoms, start)
     unionSafe(g0, null)
-  }
-  else if (end - start == 2) unionSafe(CascadedPolygonUnion.getGeometry(geoms, start), CascadedPolygonUnion.getGeometry(geoms, start + 1))
+  } else if (end - start == 2)
+    unionSafe(CascadedPolygonUnion.getGeometry(geoms, start),
+              CascadedPolygonUnion.getGeometry(geoms, start + 1)
+    )
   else { // recurse on both halves of the list
     val mid = (end + start) / 2
-    val g0 = binaryUnion(geoms, start, mid)
-    val g1 = binaryUnion(geoms, mid, end)
+    val g0  = binaryUnion(geoms, start, mid)
+    val g1  = binaryUnion(geoms, mid, end)
     unionSafe(g0, g1)
   }
 
@@ -243,11 +244,9 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
    */
   private def reduceToGeometries(geomTree: util.List[Geometry]) = {
     val geoms = new util.ArrayList[Geometry]
-    val i = geomTree.iterator
-    while ( {
-      i.hasNext
-    }) {
-      val o = i.next
+    val i     = geomTree.iterator
+    while (i.hasNext) {
+      val o              = i.next
       var geom: Geometry = null
       if (o.isInstanceOf[util.List[_]]) geom = unionTree(o.asInstanceOf[util.List[Geometry]])
       else if (o.isInstanceOf[Geometry]) geom = o.asInstanceOf[Geometry]

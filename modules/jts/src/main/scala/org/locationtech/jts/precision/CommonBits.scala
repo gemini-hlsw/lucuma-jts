@@ -21,6 +21,7 @@ package org.locationtech.jts.precision
  * @version 1.7
  */
 object CommonBits {
+
   /**
    * Computes the bit pattern for the sign and exponent of a
    * double-precision number.
@@ -28,7 +29,7 @@ object CommonBits {
    * @param num
    * return the bit pattern for the sign and exponent
    */
-    def signExpBits(num: Long): Long = num >> 52
+  def signExpBits(num: Long): Long = num >> 52
 
   /**
    * This computes the number of common most-significant bits in the mantissas
@@ -43,10 +44,8 @@ object CommonBits {
    */
   def numCommonMostSigMantissaBits(num1: Long, num2: Long): Int = {
     var count = 0
-    var i = 52
-    while ( {
-      i >= 0
-    }) {
+    var i     = 52
+    while (i >= 0) {
       if (getBit(num1, i) != getBit(num2, i)) return count
       count += 1
       i -= 1
@@ -62,8 +61,8 @@ object CommonBits {
    */
   def zeroLowerBits(bits: Long, nBits: Int): Long = {
     val invMask = (1L << nBits) - 1L
-    val mask = ~invMask
-    val zeroed = bits & mask
+    val mask    = ~invMask
+    val zeroed  = bits & mask
     zeroed
   }
 
@@ -82,13 +81,13 @@ object CommonBits {
 }
 
 class CommonBits() {
-  private var isFirst = true
+  private var isFirst                 = true
   private var commonMantissaBitsCount = 53
-  private var commonBits = 0L
-  private var commonSignExp = 0L
+  private var commonBits              = 0L
+  private var commonSignExp           = 0L
 
   def add(num: Double): Unit = {
-    val numBits = java.lang.Double.doubleToLongBits(num)
+    val numBits    = java.lang.Double.doubleToLongBits(num)
     if (isFirst) {
       commonBits = numBits
       commonSignExp = CommonBits.signExpBits(commonBits)
@@ -112,11 +111,13 @@ class CommonBits() {
    * A representation of the Double bits formatted for easy readability
    */
   def toString(bits: Long): String = {
-    val x = java.lang.Double.longBitsToDouble(bits)
+    val x      = java.lang.Double.longBitsToDouble(bits)
     val numStr = java.lang.Long.toBinaryString(bits)
     val padStr = "0000000000000000000000000000000000000000000000000000000000000000" + numStr
     val bitStr = padStr.substring(padStr.length - 64)
-    val str = bitStr.substring(0, 1) + "  " + bitStr.substring(1, 12) + "(exp) " + bitStr.substring(12) + " [ " + x + " ]"
+    val str    = bitStr.substring(0, 1) + "  " + bitStr.substring(1, 12) + "(exp) " + bitStr.substring(
+      12
+    ) + " [ " + x + " ]"
     str
   }
 }

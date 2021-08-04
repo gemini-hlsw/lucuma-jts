@@ -31,17 +31,18 @@ import scala.jdk.CollectionConverters._
  * @version 1.7
  */
 object NodedSegmentString {
+
   /**
    * Gets the {link SegmentString}s which result from splitting this string at node points.
    *
    * @param segStrings a Collection of NodedSegmentStrings
    * return a Collection of NodedSegmentStrings representing the substrings
    */
-    def getNodedSubstrings(segStrings: util.Collection[SegmentString]): util.List[SegmentString] = {
-      val resultEdgelist = new util.ArrayList[NodedSegmentString]
-      getNodedSubstrings(segStrings, resultEdgelist)
-      resultEdgelist.asScala.map(x => x: SegmentString).toList.asJava
-    }
+  def getNodedSubstrings(segStrings: util.Collection[SegmentString]): util.List[SegmentString] = {
+    val resultEdgelist = new util.ArrayList[NodedSegmentString]
+    getNodedSubstrings(segStrings, resultEdgelist)
+    resultEdgelist.asScala.map(x => x: SegmentString).toList.asJava
+  }
 
   /**
    * Adds the noded {link SegmentString}s which result from splitting this string at node points.
@@ -49,11 +50,12 @@ object NodedSegmentString {
    * @param segStrings     a Collection of NodedSegmentStrings
    * @param resultEdgelist a List which will collect the NodedSegmentStrings representing the substrings
    */
-  def getNodedSubstrings(segStrings: util.Collection[SegmentString], resultEdgelist: util.Collection[NodedSegmentString]): Unit = {
+  def getNodedSubstrings(
+    segStrings:     util.Collection[SegmentString],
+    resultEdgelist: util.Collection[NodedSegmentString]
+  ): Unit = {
     val i = segStrings.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val ss = i.next.asInstanceOf[NodedSegmentString]
       ss.getNodeList.addSplitEdges(resultEdgelist)
     }
@@ -68,7 +70,7 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
  * @param pts  the vertices of the segment string
  * @param data the user-defined data of this segment string (may be null)
  */
-  extends NodableSegmentString {
+    extends NodableSegmentString {
   private val nodeList = new SegmentNodeList(this)
 
   /**
@@ -119,9 +121,7 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
    */
   def addIntersections(li: LineIntersector, segmentIndex: Int, geomIndex: Int): Unit = {
     var i = 0
-    while ( {
-      i < li.getIntersectionNum
-    }) {
+    while (i < li.getIntersectionNum) {
       addIntersection(li, segmentIndex, geomIndex, i)
       i += 1
     }
@@ -133,7 +133,12 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
    * of the SegmentString is normalized
    * to use the higher of the two possible segmentIndexes
    */
-  def addIntersection(li: LineIntersector, segmentIndex: Int, geomIndex: Int, intIndex: Int): Unit = {
+  def addIntersection(
+    li:           LineIntersector,
+    segmentIndex: Int,
+    geomIndex:    Int,
+    intIndex:     Int
+  ): Unit = {
     val intPt = new Coordinate(li.getIntersection(intIndex))
     addIntersection(intPt, segmentIndex)
   }
@@ -162,7 +167,7 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
     var normalizedSegmentIndex = segmentIndex
     //Debug.println("edge intpt: " + intPt + " dist: " + dist);
     // normalize the intersection point location
-    val nextSegIndex = normalizedSegmentIndex + 1
+    val nextSegIndex           = normalizedSegmentIndex + 1
     if (nextSegIndex < pts.length) {
       val nextPt = pts(nextSegIndex)
       //Debug.println("next pt: " + nextPt);
@@ -172,6 +177,7 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
         normalizedSegmentIndex = nextSegIndex
       }
     }
+
     /**
      * Add the intersection point to edge intersection list.
      */

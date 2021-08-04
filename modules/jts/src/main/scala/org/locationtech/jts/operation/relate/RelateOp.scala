@@ -46,11 +46,11 @@ object RelateOp {
   //  * @param b a Geometry to test
   //  * return the IntersectionMatrix for the spatial relationship between the geometries
   //  */
-    def relate(a: Geometry, b: Geometry): IntersectionMatrix = {
-      val relOp = new RelateOp(a, b)
-      val im = relOp.getIntersectionMatrix
-      im
-    }
+  def relate(a: Geometry, b: Geometry): IntersectionMatrix = {
+    val relOp = new RelateOp(a, b)
+    val im    = relOp.getIntersectionMatrix
+    im
+  }
 
   // /**
   //  * Computes the {link IntersectionMatrix} for the spatial relationship
@@ -63,12 +63,16 @@ object RelateOp {
   //  */
   def relate(a: Geometry, b: Geometry, boundaryNodeRule: BoundaryNodeRule): IntersectionMatrix = {
     val relOp = new RelateOp(a, b, boundaryNodeRule)
-    val im = relOp.getIntersectionMatrix
+    val im    = relOp.getIntersectionMatrix
     im
   }
 }
 
-class RelateOp(g0: Geometry, g1: Geometry, boundaryNodeRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOUNDARY_RULE) extends GeometryGraphOperation(g0, g1, boundaryNodeRule) {
+class RelateOp(
+  g0:               Geometry,
+  g1:               Geometry,
+  boundaryNodeRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOUNDARY_RULE
+) extends GeometryGraphOperation(g0, g1, boundaryNodeRule) {
   private val relate = new RelateComputer(arg)
 
   /**

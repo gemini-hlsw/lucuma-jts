@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -33,6 +33,7 @@ import org.locationtech.jts.geom.Geometry
  * The interior point of an empty geometry is <code>null</code>.
  */
 object InteriorPoint {
+
   /**
    * Compute a location of an interior point in a {link Geometry}.
    * Handles all geometry types.
@@ -41,13 +42,13 @@ object InteriorPoint {
    * return the location of an interior point,
    *         or <code>null</code> if the input is empty
    */
-    def getInteriorPoint(geom: Geometry): Coordinate = {
-      if (geom.isEmpty) return null
-      var interiorPt: Coordinate = null
-      val dim = geom.getDimension
-      if (dim == 0) interiorPt = InteriorPointPoint.getInteriorPoint(geom)
-      else if (dim == 1) interiorPt = InteriorPointLine.getInteriorPoint(geom)
-      else interiorPt = InteriorPointArea.getInteriorPoint(geom)
-      interiorPt
-    }
+  def getInteriorPoint(geom: Geometry): Coordinate = {
+    if (geom.isEmpty) return null
+    var interiorPt: Coordinate = null
+    val dim                    = geom.getDimension
+    if (dim == 0) interiorPt = InteriorPointPoint.getInteriorPoint(geom)
+    else if (dim == 1) interiorPt = InteriorPointLine.getInteriorPoint(geom)
+    else interiorPt = InteriorPointArea.getInteriorPoint(geom)
+    interiorPt
+  }
 }

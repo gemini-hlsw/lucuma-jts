@@ -57,11 +57,12 @@ class RelateNodeGraph() {
      * any labels determined by intersections.
      */
     copyNodesAndLabels(geomGraph, 0)
+
     /**
      * Build EdgeEnds for all intersections.
      */
     val eeBuilder = new EdgeEndBuilder
-    val eeList = eeBuilder.computeEdgeEnds(geomGraph.getEdgeIterator)
+    val eeList    = eeBuilder.computeEdgeEnds(geomGraph.getEdgeIterator)
     insertEdgeEnds(eeList)
     //Debug.println("==== NodeList ===");
     //Debug.print(nodes);
@@ -78,17 +79,13 @@ class RelateNodeGraph() {
    */
   def computeIntersectionNodes(geomGraph: GeometryGraph, argIndex: Int): Unit = {
     val edgeIt = geomGraph.getEdgeIterator
-    while ( {
-      edgeIt.hasNext
-    }) {
-      val e = edgeIt.next.asInstanceOf[Edge]
+    while (edgeIt.hasNext) {
+      val e    = edgeIt.next.asInstanceOf[Edge]
       val eLoc = e.getLabel.getLocation(argIndex)
       val eiIt = e.getEdgeIntersectionList.iterator
-      while ( {
-        eiIt.hasNext
-      }) {
+      while (eiIt.hasNext) {
         val ei = eiIt.next.asInstanceOf[EdgeIntersection]
-        val n = nodes.addNode(ei.coord).asInstanceOf[RelateNode]
+        val n  = nodes.addNode(ei.coord).asInstanceOf[RelateNode]
         if (eLoc == Location.BOUNDARY) n.setLabelBoundary(argIndex)
         else if (n.getLabel.isNull(argIndex)) n.setLabel(argIndex, Location.INTERIOR)
         //Debug.println(n);
@@ -107,11 +104,9 @@ class RelateNodeGraph() {
    */
   def copyNodesAndLabels(geomGraph: GeometryGraph, argIndex: Int): Unit = {
     val nodeIt = geomGraph.getNodeIterator
-    while ( {
-      nodeIt.hasNext
-    }) {
+    while (nodeIt.hasNext) {
       val graphNode = nodeIt.next.asInstanceOf[Node]
-      val newNode = nodes.addNode(graphNode.getCoordinate)
+      val newNode   = nodes.addNode(graphNode.getCoordinate)
       newNode.setLabel(argIndex, graphNode.getLabel.getLocation(argIndex))
       //node.print(System.out);
     }
@@ -119,9 +114,7 @@ class RelateNodeGraph() {
 
   def insertEdgeEnds(ee: util.List[_]): Unit = {
     val i = ee.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val e = i.next.asInstanceOf[EdgeEnd]
       nodes.add(e)
     }

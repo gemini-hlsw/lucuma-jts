@@ -44,10 +44,8 @@ import org.locationtech.jts.util.IntArrayList
 object MonotoneChainIndexer {
   def toIntArray(list: util.List[Int]): Array[Int] = {
     val array = new Array[Int](list.size)
-    var i = 0
-    while ( {
-      i < array.length
-    }) {
+    var i     = 0
+    while (i < array.length) {
       array(i) = list.get(i).asInstanceOf[Integer].intValue
       i += 1; i - 1
     }
@@ -57,34 +55,30 @@ object MonotoneChainIndexer {
 
 class MonotoneChainIndexer() {
   def getChainStartIndices(pts: Array[Coordinate]): Array[Int] = { // find the startpoint (and endpoints) of all monotone chains in this edge
-    var start = 0
+    var start          = 0
     val startIndexList = new IntArrayList(pts.length / 2)
     // use heuristic to size initial array
     //startIndexList.ensureCapacity(pts.length / 4);
     startIndexList.add(start)
-    do {
+    while( { {
       val last = findChainEnd(pts, start)
       startIndexList.add(last)
       start = last
-    } while ( {
-      start < pts.length - 1
-    })
+    } ; start < pts.length - 1 })()
     // copy list to an array of ints, for efficiency
     startIndexList.toArray
   }
 
   def OLDgetChainStartIndices(pts: Array[Coordinate]): Array[Int] = {
-    var start = 0
+    var start          = 0
     val startIndexList = new util.ArrayList[Int]
     startIndexList.add(start)
-    do {
+    while( { {
       val last = findChainEnd(pts, start)
       startIndexList.add(last)
       start = last
-    } while ( {
-      start < pts.length - 1
-    })
-    val startIndex = MonotoneChainIndexer.toIntArray(startIndexList)
+    } ; start < pts.length - 1 })()
+    val startIndex     = MonotoneChainIndexer.toIntArray(startIndexList)
     startIndex
   }
 
@@ -93,10 +87,8 @@ class MonotoneChainIndexer() {
    */
   private def findChainEnd(pts: Array[Coordinate], start: Int): Int = { // determine quadrant for chain
     val chainQuad = Quadrant.quadrant(pts(start), pts(start + 1))
-    var last = start + 1
-    while ( {
-      last < pts.length
-    }) { //if (last - start > 100) break;
+    var last      = start + 1
+    while (last < pts.length) { //if (last - start > 100) break;
       // compute quadrant for next possible segment in chain
       val quad = Quadrant.quadrant(pts(last - 1), pts(last))
       if (quad != chainQuad) {

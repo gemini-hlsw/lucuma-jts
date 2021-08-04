@@ -22,10 +22,9 @@ import org.locationtech.jts.geom.GeometryFilter
  * @version 1.7
  */
 object GeometryExtracter {
-  protected def isOfClass(o: Any, clz: Class[_]): Boolean = {
+  protected def isOfClass(o: Any, clz: Class[_]): Boolean =
     clz.isAssignableFrom(o.getClass)
-    //		return o.getClass() == clz;
-  }
+  //		return o.getClass() == clz;
 
   /**
    * Extracts the components of type <tt>clz</tt> from a {link Geometry}
@@ -47,7 +46,8 @@ object GeometryExtracter {
    *
    * @param geom the geometry from which to extract
    */
-  def extract(geom: Geometry, clz: Class[_]): util.List[Geometry] = extract(geom, clz, new util.ArrayList[Geometry])
+  def extract(geom: Geometry, clz: Class[_]): util.List[Geometry] =
+    extract(geom, clz, new util.ArrayList[Geometry])
 }
 
 class GeometryExtracter(var clz: Class[_], var comps: util.List[Geometry])
@@ -58,7 +58,7 @@ class GeometryExtracter(var clz: Class[_], var comps: util.List[Geometry])
  * @param clz   the class of the components to extract (null means all types)
  * @param comps the list to extract into
  */
-  extends GeometryFilter {
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (clz == null || GeometryExtracter.isOfClass(geom, clz)) comps.add(geom)
     ()

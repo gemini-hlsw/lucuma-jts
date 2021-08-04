@@ -23,7 +23,8 @@ import org.locationtech.jts.geomgraph.EdgeRing
  * @version 1.7
  * @see org.locationtech.jts.operation.overlay.MaximalEdgeRing
  */
-class MinimalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: GeometryFactory) extends EdgeRing(start, geometryFactoryArg) {
+class MinimalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: GeometryFactory)
+    extends EdgeRing(start, geometryFactoryArg) {
   override def getNext(de: DirectedEdge): DirectedEdge = de.getNextMin
 
   override def setEdgeRing(de: DirectedEdge, er: EdgeRing): Unit = de.setMinEdgeRing(er)

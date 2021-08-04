@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -25,5 +25,6 @@
 package org.locationtech.jts.util
 
 object NumberUtil {
-  def equalsWithTolerance(x1: Double, x2: Double, tolerance: Double): Boolean = Math.abs(x1 - x2) <= tolerance
+  def equalsWithTolerance(x1: Double, x2: Double, tolerance: Double): Boolean =
+    Math.abs(x1 - x2) <= tolerance
 }

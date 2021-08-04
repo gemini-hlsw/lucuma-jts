@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -35,8 +35,7 @@ import scala.annotation.nowarn
  */
 @SerialVersionUID(-8763329985881823442L)
 class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
-
-  extends Coordinate(xArg, yArg, zArg) {
+    extends Coordinate(xArg, yArg, zArg) {
 
   /**
    * Constructs a CoordinateXYZM instance with the ordinates of the given Coordinate.
@@ -44,7 +43,7 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
    * @param coord the coordinate providing the ordinates
    */
   def this(coord: Coordinate) = {
-    this (coord.x, coord.y, coord.z, coord.getM)
+    this(coord.x, coord.y, coord.z, coord.getM)
   }
 
   /**
@@ -54,7 +53,7 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
    */
   def this(coord: CoordinateXYZM) = {
     this(coord.x, coord.y, coord.z, coord.m)
- }
+  }
 
   /**
    * Creates a copy of this CoordinateXYZM.
@@ -99,7 +98,7 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
       z = value
     case Coordinate.M =>
       m = value
-    case _ =>
+    case _            =>
       throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 

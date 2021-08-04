@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -36,23 +36,24 @@ object IntersectionAdder {
 }
 
 class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
+
   /**
    * These variables keep track of what types of intersections were
    * found during ALL edges that have been intersected.
    */
-  private var vhasIntersection = false
-  private var hasProper = false
-  private var hasProperInterior = false
-  private var hasInterior = false
+  private var vhasIntersection                    = false
+  private var hasProper                           = false
+  private var hasProperInterior                   = false
+  private var hasInterior                         = false
   // the proper intersection point found
   private val properIntersectionPoint: Coordinate = null
   //private val isSelfIntersection = false
   //private boolean intersectionFound;
-  var numIntersections = 0
-  var numInteriorIntersections = 0
-  var numProperIntersections = 0
+  var numIntersections                            = 0
+  var numInteriorIntersections                    = 0
+  var numProperIntersections                      = 0
   // testing only
-  var numTests = 0
+  var numTests                                    = 0
 
   def getLineIntersector: LineIntersector = li
 
@@ -90,12 +91,19 @@ class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
    * Note that closed edges require a special check for the point shared by the beginning
    * and end segments.
    */
-  private def isTrivialIntersection(e0: SegmentString, segIndex0: Int, e1: SegmentString, segIndex1: Int): Boolean = {
+  private def isTrivialIntersection(
+    e0:        SegmentString,
+    segIndex0: Int,
+    e1:        SegmentString,
+    segIndex1: Int
+  ): Boolean = {
     if (e0 eq e1) if (li.getIntersectionNum == 1) {
       if (IntersectionAdder.isAdjacentSegments(segIndex0, segIndex1)) return true
       if (e0.isClosed) {
         val maxSegIndex = e0.size - 1
-        if ((segIndex0 == 0 && segIndex1 == maxSegIndex) || (segIndex1 == 0 && segIndex0 == maxSegIndex)) return true
+        if (
+          (segIndex0 == 0 && segIndex1 == maxSegIndex) || (segIndex1 == 0 && segIndex0 == maxSegIndex)
+        ) return true
       }
     }
     false
@@ -109,7 +117,12 @@ class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
    * this call for segment pairs which they have determined do not intersect
    * (e.g. by an disjoint envelope test).
    */
-  override def processIntersections(e0: SegmentString, segIndex0: Int, e1: SegmentString, segIndex1: Int): Unit = {
+  override def processIntersections(
+    e0:        SegmentString,
+    segIndex0: Int,
+    e1:        SegmentString,
+    segIndex1: Int
+  ): Unit = {
     if ((e0 eq e1) && segIndex0 == segIndex1) return
     numTests += 1
     val p00 = e0.getCoordinates(segIndex0)

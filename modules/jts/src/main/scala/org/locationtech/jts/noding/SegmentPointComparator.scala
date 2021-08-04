@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -36,6 +36,7 @@ import org.locationtech.jts.util.Assert
  * @version 1.7
  */
 object SegmentPointComparator {
+
   /**
    * Compares two {link Coordinate}s for their relative position along a segment
    * lying in the specified {link Octant}.
@@ -44,31 +45,31 @@ object SegmentPointComparator {
    *         0 the two nodes are equal;
    *         1 node1 occurs first
    */
-    def compare(octant: Int, p0: Coordinate, p1: Coordinate): Int = { // nodes can only be equal if their coordinates are equal
-      if (p0.equals2D(p1)) return 0
-      val xSign = relativeSign(p0.x, p1.x)
-      val ySign = relativeSign(p0.y, p1.y)
-      octant match {
-        case 0 =>
-          return compareValue(xSign, ySign)
-        case 1 =>
-          return compareValue(ySign, xSign)
-        case 2 =>
-          return compareValue(ySign, -xSign)
-        case 3 =>
-          return compareValue(-xSign, ySign)
-        case 4 =>
-          return compareValue(-xSign, -ySign)
-        case 5 =>
-          return compareValue(-ySign, -xSign)
-        case 6 =>
-          return compareValue(-ySign, xSign)
-        case 7 =>
-          return compareValue(xSign, -ySign)
-      }
-      Assert.shouldNeverReachHere("invalid octant value")
-      0
+  def compare(octant: Int, p0: Coordinate, p1: Coordinate): Int = { // nodes can only be equal if their coordinates are equal
+    if (p0.equals2D(p1)) return 0
+    val xSign = relativeSign(p0.x, p1.x)
+    val ySign = relativeSign(p0.y, p1.y)
+    octant match {
+      case 0 =>
+        return compareValue(xSign, ySign)
+      case 1 =>
+        return compareValue(ySign, xSign)
+      case 2 =>
+        return compareValue(ySign, -xSign)
+      case 3 =>
+        return compareValue(-xSign, ySign)
+      case 4 =>
+        return compareValue(-xSign, -ySign)
+      case 5 =>
+        return compareValue(-ySign, -xSign)
+      case 6 =>
+        return compareValue(-ySign, xSign)
+      case 7 =>
+        return compareValue(xSign, -ySign)
     }
+    Assert.shouldNeverReachHere("invalid octant value")
+    0
+  }
 
   def relativeSign(x0: Double, x1: Double): Int = {
     if (x0 < x1) return -1

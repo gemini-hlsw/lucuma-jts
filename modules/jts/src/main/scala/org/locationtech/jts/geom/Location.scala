@@ -4,7 +4,7 @@
 /*
  * Copyright (c) 2016-2020 Association of Universities for Research in Astronomy, Inc. (AURA)
  * For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
- *//*
+ */ /*
  * Copyright (c) 2016-2020 Association of Universities for Research in Astronomy, Inc. (AURA)
  * For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
  */
@@ -32,24 +32,28 @@ import scala.annotation.nowarn
  * @version 1.7
  */
 object Location {
+
   /**
    * The location value for the interior of a geometry.
    * Also, DE-9IM row index of the interior of the first geometry and column index of
    * the interior of the second geometry.
    */
-    val INTERIOR = 0
+  val INTERIOR = 0
+
   /**
    * The location value for the boundary of a geometry.
    * Also, DE-9IM row index of the boundary of the first geometry and column index of
    * the boundary of the second geometry.
    */
   val BOUNDARY = 1
+
   /**
    * The location value for the exterior of a geometry.
    * Also, DE-9IM row index of the exterior of the first geometry and column index of
    * the exterior of the second geometry.
    */
   val EXTERIOR = 2
+
   /**
    * Used for uninitialized location values.
    */
@@ -71,7 +75,7 @@ object Location {
         return 'b'
       case INTERIOR =>
         return 'i'
-      case NONE =>
+      case NONE     =>
         return '-'
     }
     throw new IllegalArgumentException("Unknown location value: " + locationValue)

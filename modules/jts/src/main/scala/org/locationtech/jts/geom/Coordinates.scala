@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2018 Contributors to the Eclipse Foundation
  *
  * All rights reserved. This program and the accompanying materials
@@ -28,13 +28,14 @@ package org.locationtech.jts.geom
  * Useful utility functions for handling Coordinate objects.
  */
 object Coordinates {
+
   /**
    * Factory method providing access to common Coordinate implementations.
    *
    * @param dimension
    * return created coordinate
    */
-    def create(dimension: Int): Coordinate = create(dimension, 0)
+  def create(dimension: Int): Coordinate = create(dimension, 0)
 
   /**
    * Factory method providing access to common Coordinate implementations.

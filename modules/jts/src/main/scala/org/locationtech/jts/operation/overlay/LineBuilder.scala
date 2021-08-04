@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -36,8 +36,12 @@ import org.locationtech.jts.util.Assert
  *
  * @version 1.7
  */
-class LineBuilder(var op: OverlayOp, var geometryFactory: GeometryFactory, var ptLocator: PointLocator) {
-  private val lineEdgesList = new util.ArrayList[Edge]
+class LineBuilder(
+  var op:              OverlayOp,
+  var geometryFactory: GeometryFactory,
+  var ptLocator:       PointLocator
+) {
+  private val lineEdgesList  = new util.ArrayList[Edge]
   private val resultLineList = new util.ArrayList[LineString]
 
   /**
@@ -58,25 +62,23 @@ class LineBuilder(var op: OverlayOp, var geometryFactory: GeometryFactory, var p
    * L edges at nodes which do not have A edges can be checked by doing a
    * point-in-polygon test with the previously computed result areas.
    */
-  private def findCoveredLineEdges(): Unit = { // first set covered for all L edges at nodes which have A edges too
+  private def findCoveredLineEdges()
+    : Unit = { // first set covered for all L edges at nodes which have A edges too
     val nodeit = op.getGraph.getNodes.iterator
-    while ( {
-      nodeit.hasNext
-    }) {
+    while (nodeit.hasNext) {
       val node = nodeit.next
       //node.print(System.out);
       node.getEdges.asInstanceOf[DirectedEdgeStar].findCoveredLineEdges()
     }
+
     /**
      * For all L edges which weren't handled by the above,
      * use a point-in-poly test to determine whether they are covered
      */
     val it = op.getGraph.getEdgeEnds.iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
-      val e = de.getEdge
+      val e  = de.getEdge
       if (de.isLineEdge && !e.isCoveredSet) {
         val isCovered = op.isCoveredByA(de.getCoordinate)
         e.setCovered(isCovered)
@@ -86,9 +88,7 @@ class LineBuilder(var op: OverlayOp, var geometryFactory: GeometryFactory, var p
 
   private def collectLines(opCode: Int): Unit = {
     val it = op.getGraph.getEdgeEnds.iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
       collectLineEdge(de, opCode, lineEdgesList)
       collectBoundaryTouchEdge(de, opCode, lineEdgesList)
@@ -107,13 +107,14 @@ class LineBuilder(var op: OverlayOp, var geometryFactory: GeometryFactory, var p
    */
   private def collectLineEdge(de: DirectedEdge, opCode: Int, edges: util.List[Edge]): Unit = {
     val label = de.getLabel
-    val e = de.getEdge
+    val e     = de.getEdge
     // include L edges which are in the result
-    if (de.isLineEdge) if (!de.isVisited && OverlayOp.isResultOfOp(label, opCode) && !e.isCovered) { //Debug.println("de: " + de.getLabel());
-      //Debug.println("edge: " + e.getLabel());
-      edges.add(e)
-      de.setVisitedEdge(true)
-    }
+    if (de.isLineEdge)
+      if (!de.isVisited && OverlayOp.isResultOfOp(label, opCode) && !e.isCovered) { //Debug.println("de: " + de.getLabel());
+        //Debug.println("edge: " + e.getLabel());
+        edges.add(e)
+        de.setVisitedEdge(true)
+      }
   }
 
   /**
@@ -126,12 +127,17 @@ class LineBuilder(var op: OverlayOp, var geometryFactory: GeometryFactory, var p
    * <li> OR as a result of a dimensional collapse.
    * </ul>
    */
-  private def collectBoundaryTouchEdge(de: DirectedEdge, opCode: Int, edges: util.List[Edge]): Unit = {
+  private def collectBoundaryTouchEdge(
+    de:     DirectedEdge,
+    opCode: Int,
+    edges:  util.List[Edge]
+  ): Unit = {
     val label = de.getLabel
-    if (de.isLineEdge) return // only interested in area edges
-    if (de.isVisited) return // already processed
+    if (de.isLineEdge) return         // only interested in area edges
+    if (de.isVisited) return          // already processed
     if (de.isInteriorAreaEdge) return // added to handle dimensional collapses
-    if (de.getEdge.isInResult) return // if the edge linework is already included, don't include it again
+    if (de.getEdge.isInResult)
+      return                          // if the edge linework is already included, don't include it again
     // sanity check for labelling of result edgerings
     Assert.isTrue(!(de.isInResult || de.getSym.isInResult) || !de.getEdge.isInResult)
     // include the linework if it's in the result of the operation
@@ -143,10 +149,8 @@ class LineBuilder(var op: OverlayOp, var geometryFactory: GeometryFactory, var p
 
   private def buildLines(opCode: Int): Unit = {
     val it = lineEdgesList.iterator
-    while ( {
-      it.hasNext
-    }) {
-      val e = it.next.asInstanceOf[Edge]
+    while (it.hasNext) {
+      val e    = it.next.asInstanceOf[Edge]
       // Label label = e.getLabel();
       val line = geometryFactory.createLineString(e.getCoordinates)
       resultLineList.add(line)

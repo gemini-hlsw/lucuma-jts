@@ -27,24 +27,29 @@ object SegmentIntersector {
   def isAdjacentSegments(i1: Int, i2: Int): Boolean = Math.abs(i1 - i2) == 1
 }
 
-class SegmentIntersector(var li: LineIntersector, var includeProper: Boolean, var recordIsolated: Boolean) {
+class SegmentIntersector(
+  var li:             LineIntersector,
+  var includeProper:  Boolean,
+  var recordIsolated: Boolean
+) {
+
   /**
    * These variables keep track of what types of intersections were
    * found during ALL edges that have been intersected.
    */
-  private var vhasIntersection = false
-  private var hasProper = false
-  private var hasProperInterior = false
+  private var vhasIntersection                       = false
+  private var hasProper                              = false
+  private var hasProperInterior                      = false
   // the proper intersection point found
-  private var properIntersectionPoint: Coordinate = null
+  private var properIntersectionPoint: Coordinate    = null
 //  private val isSelfIntersection = false
   //private boolean intersectionFound;
-  private var numIntersections = 0
+  private var numIntersections                       = 0
   // testing only
-  var numTests = 0
+  var numTests                                       = 0
   private var bdyNodes: Array[util.Collection[Node]] = null
-  var isDone = false
-  var isDoneWhenProperInt = false
+  var isDone                                         = false
+  var isDoneWhenProperInt                            = false
 
   def setBoundaryNodes(bdyNodes0: util.Collection[Node], bdyNodes1: util.Collection[Node]): Unit = {
     bdyNodes = new Array[util.Collection[Node]](2)
@@ -52,7 +57,8 @@ class SegmentIntersector(var li: LineIntersector, var includeProper: Boolean, va
     bdyNodes(1) = bdyNodes1
   }
 
-  def setIsDoneIfProperInt(isDoneWhenProperInt: Boolean): Unit = this.isDoneWhenProperInt = isDoneWhenProperInt
+  def setIsDoneIfProperInt(isDoneWhenProperInt: Boolean): Unit = this.isDoneWhenProperInt =
+    isDoneWhenProperInt
 
 //  def isDone = isDone
 
@@ -89,7 +95,9 @@ class SegmentIntersector(var li: LineIntersector, var includeProper: Boolean, va
       if (SegmentIntersector.isAdjacentSegments(segIndex0, segIndex1)) return true
       if (e0.isClosed) {
         val maxSegIndex = e0.getNumPoints - 1
-        if ((segIndex0 == 0 && segIndex1 == maxSegIndex) || (segIndex1 == 0 && segIndex0 == maxSegIndex)) return true
+        if (
+          (segIndex0 == 0 && segIndex1 == maxSegIndex) || (segIndex1 == 0 && segIndex0 == maxSegIndex)
+        ) return true
       }
     }
     false
@@ -142,20 +150,24 @@ class SegmentIntersector(var li: LineIntersector, var includeProper: Boolean, va
     }
   }
 
-  private def isBoundaryPoint(li: LineIntersector, bdyNodes: Array[util.Collection[Node]]): Boolean = {
+  private def isBoundaryPoint(
+    li:       LineIntersector,
+    bdyNodes: Array[util.Collection[Node]]
+  ): Boolean = {
     if (bdyNodes == null) return false
     if (isBoundaryPointInternal(li, bdyNodes(0))) return true
     if (isBoundaryPointInternal(li, bdyNodes(1))) return true
     false
   }
 
-  private def isBoundaryPointInternal(li: LineIntersector, bdyNodes: util.Collection[Node]): Boolean = {
+  private def isBoundaryPointInternal(
+    li:       LineIntersector,
+    bdyNodes: util.Collection[Node]
+  ): Boolean = {
     val i = bdyNodes.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val node = i.next
-      val pt = node.getCoordinate
+      val pt   = node.getCoordinate
       if (li.isIntersection(pt)) return true
     }
     false

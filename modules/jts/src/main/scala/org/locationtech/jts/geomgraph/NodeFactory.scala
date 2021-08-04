@@ -17,8 +17,9 @@ import org.locationtech.jts.geom.Coordinate
  * @version 1.7
  */
 class NodeFactory {
+
   /**
    * The basic node constructor does not allow for incident edges
    */
-    def createNode(coord: Coordinate): Node = new Node(coord, null)
+  def createNode(coord: Coordinate): Node = new Node(coord, null)
 }

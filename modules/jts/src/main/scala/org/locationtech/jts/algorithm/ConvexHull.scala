@@ -46,6 +46,7 @@ object ConvexHull {
    * @version 1.7
    */
   private object RadialComparator {
+
     /**
      * Given two points p and q compare them with respect to their radial
      * ordering about point o.  First checks radial ordering.
@@ -82,20 +83,20 @@ object ConvexHull {
               result = 1;
             }
             if (result !=  0) return result;
-            */
+       */
       val orient: Int = Orientation.index(o, p, q)
 
       if (orient == Orientation.COUNTERCLOCKWISE) {
         return 1
       }
       if (orient == Orientation.CLOCKWISE) {
-        return -(1)
+        return -1
       }
       // points are collinear - check distance
       val op: Double = dxp * dxp + dyp * dyp
       val oq: Double = dxq * dxq + dyq * dyq
       if (op < oq) {
-        return -(1)
+        return -1
       }
       if (op > oq) {
         return 1
@@ -105,18 +106,17 @@ object ConvexHull {
   }
 
   private class RadialComparator(var origin: Coordinate) extends Comparator[Coordinate] {
-    override def compare(p1: Coordinate, p2: Coordinate): Int = {
+    override def compare(p1: Coordinate, p2: Coordinate): Int =
       RadialComparator.polarCompare(origin, p1, p2)
-    }
   }
 
 }
 
 class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
 
-/**
- * Create a new convex hull construction for the input {link Coordinate} array.
- */
+  /**
+   * Create a new convex hull construction for the input {link Coordinate} array.
+   */
 //inputPts = pts;
 
   private val inputPts: Array[Coordinate] = UniqueCoordinateArrayFilter.filterCoordinates(pts)
@@ -156,11 +156,11 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
       reducedPts = reduce(inputPts)
     }
     // sort points for Graham scan.
-    val sortedPts: Array[Coordinate] = preSort(reducedPts)
+    val sortedPts: Array[Coordinate]  = preSort(reducedPts)
     // Use Graham scan to find convex hull.
-    val cHS: util.Stack[_] = grahamScan(sortedPts)
+    val cHS: util.Stack[_]            = grahamScan(sortedPts)
     // Convert stack to an array.
-    val cH: Array[Coordinate] = toCoordinateArray(cHS)
+    val cH: Array[Coordinate]         = toCoordinateArray(cHS)
     // Convert array to appropriate output geometry.
     return lineOrPolygon(cH)
   }
@@ -171,10 +171,8 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
    */
   protected def toCoordinateArray(stack: util.Stack[_]): Array[Coordinate] = {
     val coordinates: Array[Coordinate] = new Array[Coordinate](stack.size)
-    var i: Int = 0
-    while ( {
-      i < stack.size
-    }) {
+    var i: Int                         = 0
+    while (i < stack.size) {
       val coordinate: Coordinate = stack.get(i).asInstanceOf[Coordinate]
       coordinates(i) = coordinate
 
@@ -205,7 +203,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
    * return the reduced list of points (at least 3)
    */
   private def reduce(inputPts: Array[Coordinate]): Array[Coordinate] = { //Coordinate[] polyPts = computeQuad(inputPts);
-    val polyPts: Array[Coordinate] = computeOctRing(inputPts)
+    val polyPts: Array[Coordinate]           = computeOctRing(inputPts)
     //Coordinate[] polyPts = null;
     // unable to compute interior polygon for some reason
     if (polyPts == null) {
@@ -215,16 +213,15 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     //    System.out.println(ring);
     // add points defining polygon
     val reducedSet: util.TreeSet[Coordinate] = new util.TreeSet[Coordinate]
-    var i: Int = 0
-    while ( {
-      i < polyPts.length
-    }) {
+    var i: Int                               = 0
+    while (i < polyPts.length) {
       reducedSet.add(polyPts(i))
 
       {
         i += 1; i - 1
       }
     }
+
     /**
      * Add all unique points not in the interior poly.
      * CGAlgorithms.isPointInRing is not defined for points actually on the ring,
@@ -232,9 +229,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
      * are forced to be in the reduced set.
      */
     i = 0
-    while ( {
-      i < inputPts.length
-    }) {
+    while (i < inputPts.length) {
       if (!(PointLocation.isInRing(inputPts(i), polyPts))) {
         reducedSet.add(inputPts(i))
       }
@@ -250,14 +245,11 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
 
   private def padArray3(pts: Array[Coordinate]): Array[Coordinate] = {
     val pad: Array[Coordinate] = new Array[Coordinate](3)
-    var i: Int = 0
-    while ( {
-      i < pad.length
-    }) {
+    var i: Int                 = 0
+    while (i < pad.length) {
       if (i < pts.length) {
         pad(i) = pts(i)
-      }
-      else {
+      } else {
         pad(i) = pts(0)
       }
       i += 1
@@ -270,11 +262,9 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     // find the lowest point in the set. If two or more points have
     // the same minimum y coordinate choose the one with the minimu x.
     // This focal point is put in array location pts[0].
-    var i: Int = 1
-    while ( {
-      i < pts.length
-    }) {
-      if ((pts(i).y < pts(0).y) || (((pts(i).y == pts(0).y)) && (pts(i).x < pts(0).x))) {
+    var i: Int        = 1
+    while (i < pts.length) {
+      if ((pts(i).y < pts(0).y) || ((pts(i).y == pts(0).y) && (pts(i).x < pts(0).x))) {
         t = pts(0)
         pts(0) = pts(i)
         pts(i) = t
@@ -294,22 +284,17 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
    * return a Stack containing the ordered points of the convex hull ring
    */
   private def grahamScan(c: Array[Coordinate]): util.Stack[Coordinate] = {
-    var p: Coordinate = null
+    var p: Coordinate              = null
     val ps: util.Stack[Coordinate] = new util.Stack[Coordinate]
     ps.push(c(0))
     ps.push(c(1))
     ps.push(c(2))
-    var i: Int = 3
-    while ( {
-      i < c.length
-    }) {
+    var i: Int                     = 3
+    while (i < c.length) {
       p = ps.pop.asInstanceOf[Coordinate]
       // check for empty stack to guard against robustness problems
-      while ( {
-        !(ps.empty) && Orientation.index(ps.peek.asInstanceOf[Coordinate], p, c(i)) > 0
-      }) {
+      while (!(ps.empty) && Orientation.index(ps.peek.asInstanceOf[Coordinate], p, c(i)) > 0)
         p = ps.pop.asInstanceOf[Coordinate]
-      }
       ps.push(p)
       ps.push(c(i))
 
@@ -362,20 +347,16 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
 
   private def computeOctPts(inputPts: Array[Coordinate]): Array[Coordinate] = {
     val pts: Array[Coordinate] = new Array[Coordinate](8)
-    var j: Int = 0
-    while ( {
-      j < pts.length
-    }) {
+    var j: Int                 = 0
+    while (j < pts.length) {
       pts(j) = inputPts(0)
 
       {
         j += 1; j - 1
       }
     }
-    var i: Int = 1
-    while ( {
-      i < inputPts.length
-    }) {
+    var i: Int                 = 1
+    while (i < inputPts.length) {
       if (inputPts(i).x < pts(0).x) {
         pts(0) = inputPts(i)
       }
@@ -416,7 +397,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
    *         (collinear) vertices removed
    */
   private def lineOrPolygon(coordinate: Array[Coordinate]): Geometry = {
-    val coordinates = cleanRing(coordinate)
+    val coordinates            = cleanRing(coordinate)
     if (coordinates.length == 3) {
       return geomFactory.createLineString(Array[Coordinate](coordinates(0), coordinates(1)))
       //      return new LineString(new Coordinate[]{coordinates[0], coordinates[1]},
@@ -434,19 +415,23 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
    */
   private def cleanRing(original: Array[Coordinate]): Array[Coordinate] = {
     Assert.equals(original(0), original(original.length - 1))
-    val cleanedRing: util.ArrayList[Coordinate] = new util.ArrayList[Coordinate]
-    var previousDistinctCoordinate: Coordinate = null
-    var i: Int = 0
-    while ( {
-      i <= original.length - 2
-    }) {
+    val cleanedRing: util.ArrayList[Coordinate]   = new util.ArrayList[Coordinate]
+    var previousDistinctCoordinate: Coordinate    = null
+    var i: Int                                    = 0
+    while (i <= original.length - 2) {
       val currentCoordinate: Coordinate = original(i)
-      val nextCoordinate: Coordinate = original(i + 1)
-      if (!(currentCoordinate == nextCoordinate || (previousDistinctCoordinate != null && isBetween(previousDistinctCoordinate, currentCoordinate, nextCoordinate)))) {
+      val nextCoordinate: Coordinate    = original(i + 1)
+      if (
+        !(currentCoordinate == nextCoordinate || (previousDistinctCoordinate != null && isBetween(
+          previousDistinctCoordinate,
+          currentCoordinate,
+          nextCoordinate
+        )))
+      ) {
         cleanedRing.add(currentCoordinate)
         previousDistinctCoordinate = currentCoordinate
       }
-        i += 1
+      i += 1
     }
     cleanedRing.add(original(original.length - 1))
     val cleanedRingCoordinates: Array[Coordinate] = new Array[Coordinate](cleanedRing.size)

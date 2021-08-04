@@ -80,7 +80,7 @@ object CommonBitsRemover {
 
 class CommonBitsRemover() {
   private var commonCoord: Coordinate = null
-  private val ccFilter = new CommonBitsRemover.CommonCoordinateFilter
+  private val ccFilter                = new CommonBitsRemover.CommonCoordinateFilter
 
   /**
    * Add a geometry to the set of geometries whose common bits are
@@ -112,7 +112,7 @@ class CommonBitsRemover() {
     val invCoord = new Coordinate(commonCoord)
     invCoord.x = -invCoord.x
     invCoord.y = -invCoord.y
-    val trans = new CommonBitsRemover.Translater(invCoord)
+    val trans    = new CommonBitsRemover.Translater(invCoord)
     geom.applyF(trans)
     geom.geometryChanged()
     geom

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -72,22 +72,26 @@ import org.locationtech.jts.geom.Polygon
  * @see GeometryEditor
  */
 class GeometryTransformer() {
+
   /**
    * Possible extensions:
    * getParent() method to return immediate parent e.g. of LinearRings in Polygons
    */
-  private var inputGeom: Geometry = null
+  private var inputGeom: Geometry        = null
   protected var factory: GeometryFactory = null
+
   /**
    * <code>true</code> if empty geometries should not be included in the result
    */
   private val pruneEmptyGeometry = true
+
   /**
    * <code>true</code> if a homogenous collection result
    * from a {link GeometryCollection} should still
    * be a general GeometryCollection
    */
   private val preserveGeometryCollectionType = true
+
   /**
    * <code>true</code> if the output from a collection argument should still be a collection
    */
@@ -108,13 +112,20 @@ class GeometryTransformer() {
     this.inputGeom = inputGeom
     this.factory = inputGeom.getFactory
     if (inputGeom.isInstanceOf[Point]) return transformPoint(inputGeom.asInstanceOf[Point], null)
-    if (inputGeom.isInstanceOf[MultiPoint]) return transformMultiPoint(inputGeom.asInstanceOf[MultiPoint], null)
-    if (inputGeom.isInstanceOf[LinearRing]) return transformLinearRing(inputGeom.asInstanceOf[LinearRing], null)
-    if (inputGeom.isInstanceOf[LineString]) return transformLineString(inputGeom.asInstanceOf[LineString], null)
-    if (inputGeom.isInstanceOf[MultiLineString]) return transformMultiLineString(inputGeom.asInstanceOf[MultiLineString], null)
-    if (inputGeom.isInstanceOf[Polygon]) return transformPolygon(inputGeom.asInstanceOf[Polygon], null)
-    if (inputGeom.isInstanceOf[MultiPolygon]) return transformMultiPolygon(inputGeom.asInstanceOf[MultiPolygon], null)
-    if (inputGeom.isInstanceOf[GeometryCollection]) return transformGeometryCollection(inputGeom.asInstanceOf[GeometryCollection], null)
+    if (inputGeom.isInstanceOf[MultiPoint])
+      return transformMultiPoint(inputGeom.asInstanceOf[MultiPoint], null)
+    if (inputGeom.isInstanceOf[LinearRing])
+      return transformLinearRing(inputGeom.asInstanceOf[LinearRing], null)
+    if (inputGeom.isInstanceOf[LineString])
+      return transformLineString(inputGeom.asInstanceOf[LineString], null)
+    if (inputGeom.isInstanceOf[MultiLineString])
+      return transformMultiLineString(inputGeom.asInstanceOf[MultiLineString], null)
+    if (inputGeom.isInstanceOf[Polygon])
+      return transformPolygon(inputGeom.asInstanceOf[Polygon], null)
+    if (inputGeom.isInstanceOf[MultiPolygon])
+      return transformMultiPolygon(inputGeom.asInstanceOf[MultiPolygon], null)
+    if (inputGeom.isInstanceOf[GeometryCollection])
+      return transformGeometryCollection(inputGeom.asInstanceOf[GeometryCollection], null)
     throw new IllegalArgumentException("Unknown Geometry subtype: " + inputGeom.getClass.getName)
   }
 
@@ -125,7 +136,8 @@ class GeometryTransformer() {
    * @param coords the coordinate array to copy
    * return a coordinate sequence for the array
    */
-  final protected def createCoordinateSequence(coords: Array[Coordinate]): CoordinateSequence = factory.getCoordinateSequenceFactory.create(coords)
+  final protected def createCoordinateSequence(coords: Array[Coordinate]): CoordinateSequence =
+    factory.getCoordinateSequenceFactory.create(coords)
 
   /**
    * Convenience method which provides a standard way of copying {link CoordinateSequence}s
@@ -147,23 +159,25 @@ class GeometryTransformer() {
   //  * @param parent the parent geometry
   //  * return the transformed coordinates
   //  */
-  protected def transformCoordinates(coords: CoordinateSequence, parent: Geometry): CoordinateSequence = copy(coords)
+  protected def transformCoordinates(
+    coords: CoordinateSequence,
+    parent: Geometry
+  ): CoordinateSequence = copy(coords)
 
-  protected def transformPoint(geom: Point, parent: Geometry): Point = factory.createPoint(transformCoordinates(geom.getCoordinateSequence, geom))
+  protected def transformPoint(geom: Point, parent: Geometry): Point =
+    factory.createPoint(transformCoordinates(geom.getCoordinateSequence, geom))
 
   protected def transformMultiPoint(geom: MultiPoint, parent: Geometry): Geometry = {
     val transGeomList = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < geom.getNumGeometries
-    }) {
+    var i             = 0
+    while (i < geom.getNumGeometries) {
       val transformGeom = transformPoint(geom.getGeometryN(i).asInstanceOf[Point], geom)
       if (transformGeom != null) {
-      if (!transformGeom.isEmpty) {
-        transGeomList.add(transformGeom)
+        if (!transformGeom.isEmpty) {
+          transGeomList.add(transformGeom)
+        }
       }
-    }
-        i += 1
+      i += 1
     }
     factory.buildGeometry(transGeomList)
   }
@@ -182,7 +196,7 @@ class GeometryTransformer() {
   //  * return a LineString if the transformation caused the LinearRing to collapse to 3 or fewer points
   //  */
   protected def transformLinearRing(geom: LinearRing, parent: Geometry): Geometry = {
-    val seq = transformCoordinates(geom.getCoordinateSequence, geom)
+    val seq     = transformCoordinates(geom.getCoordinateSequence, geom)
     if (seq == null) return factory.createLinearRing(null.asInstanceOf[CoordinateSequence])
     val seqSize = seq.size
     // ensure a valid LinearRing
@@ -197,40 +211,35 @@ class GeometryTransformer() {
    * @param parent
    * return
    */
-  protected def transformLineString(geom: LineString, parent: Geometry): LineString = { // should check for 1-point sequences and downgrade them to points
+  protected def transformLineString(
+    geom:   LineString,
+    parent: Geometry
+  ): LineString = // should check for 1-point sequences and downgrade them to points
     factory.createLineString(transformCoordinates(geom.getCoordinateSequence, geom))
-  }
 
-  protected def transformMultiLineString(geom: MultiLineString, parent: Geometry): Geometry
-
-  = {
+  protected def transformMultiLineString(geom: MultiLineString, parent: Geometry): Geometry = {
     val transGeomList = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < geom.getNumGeometries
-    }) {
+    var i             = 0
+    while (i < geom.getNumGeometries) {
       val transformGeom = transformLineString(geom.getGeometryN(i).asInstanceOf[LineString], geom)
       if (transformGeom != null) {
         if (!transformGeom.isEmpty) {
           transGeomList.add(transformGeom)
         }
       }
-        i += 1
+      i += 1
     }
     factory.buildGeometry(transGeomList)
   }
 
-  protected def transformPolygon(geom: Polygon, parent: Geometry): Geometry
-
-  = {
+  protected def transformPolygon(geom: Polygon, parent: Geometry): Geometry = {
     var isAllValidLinearRings = true
-    val shell = transformLinearRing(geom.getExteriorRing, geom)
-    if (shell == null || !shell.isInstanceOf[LinearRing] || shell.isEmpty) isAllValidLinearRings = false
-    val holes = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < geom.getNumInteriorRing
-    }) {
+    val shell                 = transformLinearRing(geom.getExteriorRing, geom)
+    if (shell == null || !shell.isInstanceOf[LinearRing] || shell.isEmpty)
+      isAllValidLinearRings = false
+    val holes                 = new util.ArrayList[Geometry]
+    var i                     = 0
+    while (i < geom.getNumInteriorRing) {
       val hole = transformLinearRing(geom.getInteriorRingN(i), geom)
       if (!(hole == null || hole.isEmpty)) {
         if (!hole.isInstanceOf[LinearRing]) isAllValidLinearRings = false
@@ -238,7 +247,11 @@ class GeometryTransformer() {
       }
       i += 1
     }
-    if (isAllValidLinearRings) return factory.createPolygon(shell.asInstanceOf[LinearRing], holes.toArray(Array.empty[LinearRing]).asInstanceOf[Array[LinearRing]])
+    if (isAllValidLinearRings)
+      return factory.createPolygon(
+        shell.asInstanceOf[LinearRing],
+        holes.toArray(Array.empty[LinearRing]).asInstanceOf[Array[LinearRing]]
+      )
     else {
       val components = new util.ArrayList[Geometry]
       if (shell != null) components.add(shell)
@@ -247,42 +260,38 @@ class GeometryTransformer() {
     }
   }
 
-  protected def transformMultiPolygon(geom: MultiPolygon, parent: Geometry): Geometry
-
-  = {
+  protected def transformMultiPolygon(geom: MultiPolygon, parent: Geometry): Geometry = {
     val transGeomList = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < geom.getNumGeometries
-    }) {
+    var i             = 0
+    while (i < geom.getNumGeometries) {
       val transformGeom = transformPolygon(geom.getGeometryN(i).asInstanceOf[Polygon], geom)
       if (transformGeom != null) {
         if (!transformGeom.isEmpty) {
           transGeomList.add(transformGeom)
         }
       }
-        i += 1
+      i += 1
     }
     factory.buildGeometry(transGeomList)
   }
 
-  protected def transformGeometryCollection(geom: GeometryCollection, parent: Geometry): Geometry
-
-  = {
+  protected def transformGeometryCollection(
+    geom:   GeometryCollection,
+    parent: Geometry
+  ): Geometry = {
     val transGeomList = new util.ArrayList[Geometry]
-    var i = 0
-    while ( {
-      i < geom.getNumGeometries
-    }) {
+    var i             = 0
+    while (i < geom.getNumGeometries) {
       val transformGeom = transform(geom.getGeometryN(i))
       if (transformGeom != null) {
-      if (!(pruneEmptyGeometry && transformGeom.isEmpty)) {
-        transGeomList.add(transformGeom)
+        if (!(pruneEmptyGeometry && transformGeom.isEmpty)) {
+          transGeomList.add(transformGeom)
+        }
       }
-     }
-     i += 1
+      i += 1
     }
-    if (preserveGeometryCollectionType) return factory.createGeometryCollection(GeometryFactory.toGeometryArray(transGeomList))
+    if (preserveGeometryCollectionType)
+      return factory.createGeometryCollection(GeometryFactory.toGeometryArray(transGeomList))
     factory.buildGeometry(transGeomList)
   }
 }

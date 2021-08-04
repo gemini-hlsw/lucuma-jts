@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -44,15 +44,15 @@ object HotPixel {
 
 class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: LineIntersector) {
 
-/**
- * Creates a new hot pixel, using a given scale factor.
- * The scale factor must be strictly positive (non-zero).
- *
- * @param pt          the coordinate at the centre of the pixel
- * @param scaleFactor the scaleFactor determining the pixel size.  Must be &gt; 0
- * @param li          the intersector to use for testing intersection with line segments
- *
- */  //tolerance = 0.5;
+  /**
+   * Creates a new hot pixel, using a given scale factor.
+   * The scale factor must be strictly positive (non-zero).
+   *
+   * @param pt          the coordinate at the centre of the pixel
+   * @param scaleFactor the scaleFactor determining the pixel size.  Must be &gt; 0
+   * @param li          the intersector to use for testing intersection with line segments
+   */
+  //tolerance = 0.5;
   private var p0Scaled: Coordinate = null
   private var p1Scaled: Coordinate = null
   if (scaleFactor <= 0) throw new IllegalArgumentException("Scale factor must be non-zero")
@@ -62,18 +62,19 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
     p1Scaled = new Coordinate
   }
   initCorners(this.originalPt)
-  private val pt = originalPt
+  private val pt                   = originalPt
 //  private val ptScaled = null
-  private var minx = .0
-  private var maxx = .0
-  private var miny = .0
-  private var maxy = .0
+  private var minx                 = .0
+  private var maxx                 = .0
+  private var miny                 = .0
+  private var maxy                 = .0
+
   /**
    * The corners of the hot pixel, in the order:
    * 10
    * 23
    */
-  private val corner = new Array[Coordinate](4)
+  private val corner            = new Array[Coordinate](4)
   private var safeEnv: Envelope = null
 
   /**
@@ -93,7 +94,11 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   def getSafeEnvelope = {
     if (safeEnv == null) {
       val safeTolerance = HotPixel.SAFE_ENV_EXPANSION_FACTOR / scaleFactor
-      safeEnv = new Envelope(originalPt.x - safeTolerance, originalPt.x + safeTolerance, originalPt.y - safeTolerance, originalPt.y + safeTolerance)
+      safeEnv = new Envelope(originalPt.x - safeTolerance,
+                             originalPt.x + safeTolerance,
+                             originalPt.y - safeTolerance,
+                             originalPt.y + safeTolerance
+      )
     }
     safeEnv
   }
@@ -133,13 +138,13 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   }
 
   private def intersectsScaled(p0: Coordinate, p1: Coordinate): Boolean = {
-    val segMinx = Math.min(p0.x, p1.x)
-    val segMaxx = Math.max(p0.x, p1.x)
-    val segMiny = Math.min(p0.y, p1.y)
-    val segMaxy = Math.max(p0.y, p1.y)
+    val segMinx           = Math.min(p0.x, p1.x)
+    val segMaxx           = Math.max(p0.x, p1.x)
+    val segMiny           = Math.min(p0.y, p1.y)
+    val segMaxy           = Math.max(p0.y, p1.y)
     val isOutsidePixelEnv = maxx < segMinx || minx > segMaxx || maxy < segMiny || miny > segMaxy
     if (isOutsidePixelEnv) return false
-    val intersects = intersectsToleranceSquare(p0, p1)
+    val intersects        = intersectsToleranceSquare(p0, p1)
     //    boolean intersectsPixelClosure = intersectsPixelClosure(p0, p1);
     //    if (intersectsPixel != intersects) {
     //      Debug.println("Found hot pixel intersection mismatch at " + pt);
@@ -155,7 +160,8 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
           }
           return intersectsScaled;
         }
-    */ Assert.isTrue(!(isOutsidePixelEnv && intersects), "Found bad envelope test")
+     */
+    Assert.isTrue(!(isOutsidePixelEnv && intersects), "Found bad envelope test")
     //    if (isOutsideEnv && intersects) {
     //      Debug.println("Found bad envelope test");
     intersects
@@ -182,7 +188,7 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
    * return
    */
   private def intersectsToleranceSquare(p0: Coordinate, p1: Coordinate): Boolean = {
-    var intersectsLeft = false
+    var intersectsLeft   = false
     var intersectsBottom = false
     //System.out.println("Hot Pixel: " + WKTWriter.toLineString(corner));
     //System.out.println("Line: " + WKTWriter.toLineString(p0, p1));

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -27,9 +27,9 @@ import org.locationtech.jts.geom.Coordinate
  * Represents a vector in 3-dimensional Cartesian space.
  *
  * @author mdavis
- *
  */
 object Vector3D {
+
   /**
    * Computes the dot product of the 3D vectors AB and CD.
    *
@@ -39,15 +39,15 @@ object Vector3D {
    * @param D the end point of the second vector
    * return the dot product
    */
-    def dot(A: Coordinate, B: Coordinate, C: Coordinate, D: Coordinate): Double = {
-      val ABx = B.x - A.x
-      val ABy = B.y - A.y
-      val ABz = B.getZ - A.getZ
-      val CDx = D.x - C.x
-      val CDy = D.y - C.y
-      val CDz = D.getZ - C.getZ
-      ABx * CDx + ABy * CDy + ABz * CDz
-    }
+  def dot(A: Coordinate, B: Coordinate, C: Coordinate, D: Coordinate): Double = {
+    val ABx = B.x - A.x
+    val ABy = B.y - A.y
+    val ABz = B.getZ - A.getZ
+    val CDx = D.x - C.x
+    val CDy = D.y - C.y
+    val CDz = D.getZ - C.getZ
+    ABx * CDx + ABy * CDy + ABz * CDz
+  }
 
   /**
    * Creates a new vector with given X, Y and Z components.
@@ -99,7 +99,11 @@ object Vector3D {
   }
 }
 
-class Vector3D(protected val x: Double = 0, protected val y: Double = 0, protected val z: Double = 0) {
+class Vector3D(
+  protected val x: Double = 0,
+  protected val y: Double = 0,
+  protected val z: Double = 0
+) {
 //  private var x = .0
 //  private var y = .0
 //  private var z = .0

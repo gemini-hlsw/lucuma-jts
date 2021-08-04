@@ -36,15 +36,12 @@ import org.locationtech.jts.geom.Location
  * with specific geometries.
  *
  * @version 1.7
- *
  */
 object Label { // converts a Label to a Line label (that is, one with no side Locations)
   def toLineLabel(label: Label): Label = {
     val lineLabel = new Label(Location.NONE)
-    var i = 0
-    while ( {
-      i < 2
-    }) {
+    var i         = 0
+    while (i < 2) {
       lineLabel.setLocation(i, label.getLocation(i))
       i += 1
     }
@@ -115,13 +112,17 @@ class Label() {
 
   def getLocation(geomIndex: Int): Int = elt(geomIndex).get(Position.ON)
 
-  def setLocation(geomIndex: Int, posIndex: Int, location: Int): Unit = elt(geomIndex).setLocation(posIndex, location)
+  def setLocation(geomIndex: Int, posIndex: Int, location: Int): Unit =
+    elt(geomIndex).setLocation(posIndex, location)
 
-  def setLocation(geomIndex: Int, location: Int): Unit = elt(geomIndex).setLocation(Position.ON, location)
+  def setLocation(geomIndex: Int, location: Int): Unit =
+    elt(geomIndex).setLocation(Position.ON, location)
 
-  def setAllLocations(geomIndex: Int, location: Int): Unit = elt(geomIndex).setAllLocations(location)
+  def setAllLocations(geomIndex: Int, location: Int): Unit =
+    elt(geomIndex).setAllLocations(location)
 
-  def setAllLocationsIfNull(geomIndex: Int, location: Int): Unit = elt(geomIndex).setAllLocationsIfNull(location)
+  def setAllLocationsIfNull(geomIndex: Int, location: Int): Unit =
+    elt(geomIndex).setAllLocationsIfNull(location)
 
   def setAllLocationsIfNull(location: Int): Unit = {
     setAllLocationsIfNull(0, location)
@@ -134,9 +135,7 @@ class Label() {
    */
   def merge(lbl: Label): Unit = {
     var i = 0
-    while ( {
-      i < 2
-    }) {
+    while (i < 2) {
       if (elt(i) == null && lbl.elt(i) != null) elt(i) = new TopologyLocation(lbl.elt(i))
       else elt(i).merge(lbl.elt(i))
       i += 1
@@ -160,24 +159,25 @@ class Label() {
 
   def isArea: Boolean = elt(0).isArea || elt(1).isArea
 
-  def isArea(geomIndex: Int): Boolean = {
+  def isArea(geomIndex: Int): Boolean =
     /*  Testing
        if (elt[0].getLocations().length != elt[1].getLocations().length) {
          System.out.println(this);
        }
-         */ elt(geomIndex).isArea
-  }
+     */ elt(geomIndex).isArea
 
   def isLine(geomIndex: Int): Boolean = elt(geomIndex).isLine
 
-  def isEqualOnSide(lbl: Label, side: Int): Boolean = this.elt(0).isEqualOnSide(lbl.elt(0), side) && this.elt(1).isEqualOnSide(lbl.elt(1), side)
+  def isEqualOnSide(lbl: Label, side: Int): Boolean =
+    this.elt(0).isEqualOnSide(lbl.elt(0), side) && this.elt(1).isEqualOnSide(lbl.elt(1), side)
 
   def allPositionsEqual(geomIndex: Int, loc: Int): Boolean = elt(geomIndex).allPositionsEqual(loc)
 
   /**
    * Converts one GeometryLocation to a Line location
    */
-  def toLine(geomIndex: Int): Unit = if (elt(geomIndex).isArea) elt(geomIndex) = new TopologyLocation(elt(geomIndex).location(0))
+  def toLine(geomIndex: Int): Unit =
+    if (elt(geomIndex).isArea) elt(geomIndex) = new TopologyLocation(elt(geomIndex).location(0))
 
   override def toString: String = {
     val buf = new StringBuffer

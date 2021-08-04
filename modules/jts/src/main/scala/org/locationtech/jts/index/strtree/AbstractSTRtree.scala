@@ -13,7 +13,7 @@ package org.locationtech.jts.index.strtree
 
 import java.io.Serializable
 import java.util
-import java.util.{Collections, Comparator}
+import java.util.{ Collections, Comparator }
 
 import org.locationtech.jts.index.ItemVisitor
 import org.locationtech.jts.index.strtree.AbstractSTRtree.IntersectsOp
@@ -45,6 +45,7 @@ object AbstractSTRtree {
    * of AbstractSTRtree have different implementations of bounds.
    */
   trait IntersectsOp {
+
     /**
      * For STRtrees, the bounds will be Envelopes; for SIRtrees, Intervals;
      * for other subclasses of AbstractSTRtree, some other class.
@@ -53,7 +54,7 @@ object AbstractSTRtree {
      * @param bBounds the bounds of another spatial object
      * return whether the two bounds intersect
      */
-      def intersects(aBounds: Any, bBounds: Any): Boolean
+    def intersects(aBounds: Any, bBounds: Any): Boolean
   }
 
   private val DEFAULT_NODE_CAPACITY = 10
@@ -72,10 +73,11 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
  *
  * @param nodeCapacity the maximum number of child nodes in a node
  */
-  extends Serializable {
+    extends Serializable {
   Assert.isTrue(nodeCapacity > 1, "Node capacity must be greater than 1")
   protected var root: AbstractNode = null
-  private var built = false
+  private var built                = false
+
   /**
    * Set to <tt>null</tt> when index is built, to avoid retaining memory.
    */
@@ -97,8 +99,9 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
    */
   def build(): Unit = {
     if (built) return
-    root = if (itemBoundables.isEmpty) createNode(0)
-    else createHigherLevels(itemBoundables, -1)
+    root =
+      if (itemBoundables.isEmpty) createNode(0)
+      else createHigherLevels(itemBoundables, -1)
     // the item list is no longer needed
     itemBoundables = null
     built = true
@@ -110,18 +113,20 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
    * Sorts the childBoundables then divides them into groups of size M, where
    * M is the node capacity.
    */
-  protected def createParentBoundables(childBoundables: util.List[Boundable], newLevel: Int): util.ArrayList[AbstractNode] = {
+  protected def createParentBoundables(
+    childBoundables: util.List[Boundable],
+    newLevel:        Int
+  ): util.ArrayList[AbstractNode] = {
     Assert.isTrue(!childBoundables.isEmpty)
-    val parentBoundables = new util.ArrayList[AbstractNode]
+    val parentBoundables                            = new util.ArrayList[AbstractNode]
     parentBoundables.add(createNode(newLevel))
     val sortedChildBoundables: util.List[Boundable] = new util.ArrayList(childBoundables)
     Collections.sort(sortedChildBoundables, getComparator)
-    val i = sortedChildBoundables.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i                                           = sortedChildBoundables.iterator
+    while (i.hasNext) {
       val childBoundable = i.next
-      if (lastNode(parentBoundables).getChildBoundables.size == getNodeCapacity) parentBoundables.add(createNode(newLevel))
+      if (lastNode(parentBoundables).getChildBoundables.size == getNodeCapacity)
+        parentBoundables.add(createNode(newLevel))
       lastNode(parentBoundables).addChildBoundable(childBoundable)
     }
     parentBoundables
@@ -139,7 +144,10 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
    * boundables (that is, below level 0)
    * return the root, which may be a ParentNode or a LeafNode
    */
-  private def createHigherLevels(boundablesOfALevel: util.List[Boundable], level: Int): AbstractNode = {
+  private def createHigherLevels(
+    boundablesOfALevel: util.List[Boundable],
+    level:              Int
+  ): AbstractNode = {
     Assert.isTrue(!boundablesOfALevel.isEmpty)
     val parentBoundables = createParentBoundables(boundablesOfALevel, level + 1)
     if (parentBoundables.size == 1) return parentBoundables.get(0)
@@ -183,12 +191,11 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
 
   protected def size(node: AbstractNode): Int = {
     var vsize = 0
-    val i = node.getChildBoundables.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i     = node.getChildBoundables.iterator
+    while (i.hasNext) {
       val childBoundable = i.next
-      if (childBoundable.isInstanceOf[AbstractNode]) vsize += size(childBoundable.asInstanceOf[AbstractNode])
+      if (childBoundable.isInstanceOf[AbstractNode])
+        vsize += size(childBoundable.asInstanceOf[AbstractNode])
       else if (childBoundable.isInstanceOf[ItemBoundable]) vsize += 1
     }
     vsize
@@ -202,10 +209,8 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
 
   protected def depth(node: AbstractNode): Int = {
     var maxChildDepth = 0
-    val i = node.getChildBoundables.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i             = node.getChildBoundables.iterator
+    while (i.hasNext) {
       val childBoundable = i.next
       if (childBoundable.isInstanceOf[AbstractNode]) {
         val childDepth = depth(childBoundable.asInstanceOf[AbstractNode])
@@ -229,7 +234,8 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
     if (isEmpty) { //Assert.isTrue(root.getBounds() == null);
       return matches
     }
-    if (getIntersectsOp.intersects(root.getBounds, searchBounds)) queryInternal(searchBounds, root, matches)
+    if (getIntersectsOp.intersects(root.getBounds, searchBounds))
+      queryInternal(searchBounds, root, matches)
     matches
   }
 
@@ -238,7 +244,8 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
     if (isEmpty) { // nothing in tree, so return
       return
     }
-    if (getIntersectsOp.intersects(root.getBounds, searchBounds)) queryInternal(searchBounds, root, visitor)
+    if (getIntersectsOp.intersects(root.getBounds, searchBounds))
+      queryInternal(searchBounds, root, visitor)
   }
 
   /**
@@ -248,16 +255,20 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
    */
   protected def getIntersectsOp: IntersectsOp
 
-  private def queryInternal(searchBounds: Any, node: AbstractNode, matches: util.List[Any]): Unit = {
+  private def queryInternal(
+    searchBounds: Any,
+    node:         AbstractNode,
+    matches:      util.List[Any]
+  ): Unit = {
     val childBoundables = node.getChildBoundables
-    var i = 0
-    while ( {
-      i < childBoundables.size
-    }) {
+    var i               = 0
+    while (i < childBoundables.size) {
       val childBoundable = childBoundables.get(i)
       if (getIntersectsOp.intersects(childBoundable.getBounds, searchBounds)) {
-        if (childBoundable.isInstanceOf[AbstractNode]) queryInternal(searchBounds, childBoundable.asInstanceOf[AbstractNode], matches)
-        else if (childBoundable.isInstanceOf[ItemBoundable]) matches.add(childBoundable.asInstanceOf[ItemBoundable].getItem)
+        if (childBoundable.isInstanceOf[AbstractNode])
+          queryInternal(searchBounds, childBoundable.asInstanceOf[AbstractNode], matches)
+        else if (childBoundable.isInstanceOf[ItemBoundable])
+          matches.add(childBoundable.asInstanceOf[ItemBoundable].getItem)
         else Assert.shouldNeverReachHere()
       }
       i += 1
@@ -266,14 +277,14 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
 
   private def queryInternal(searchBounds: Any, node: AbstractNode, visitor: ItemVisitor): Unit = {
     val childBoundables = node.getChildBoundables
-    var i = 0
-    while ( {
-      i < childBoundables.size
-    }) {
+    var i               = 0
+    while (i < childBoundables.size) {
       val childBoundable = childBoundables.get(i)
       if (getIntersectsOp.intersects(childBoundable.getBounds, searchBounds)) {
-        if (childBoundable.isInstanceOf[AbstractNode]) queryInternal(searchBounds, childBoundable.asInstanceOf[AbstractNode], visitor)
-        else if (childBoundable.isInstanceOf[ItemBoundable]) visitor.visitItem(childBoundable.asInstanceOf[ItemBoundable].getItem)
+        if (childBoundable.isInstanceOf[AbstractNode])
+          queryInternal(searchBounds, childBoundable.asInstanceOf[AbstractNode], visitor)
+        else if (childBoundable.isInstanceOf[ItemBoundable])
+          visitor.visitItem(childBoundable.asInstanceOf[ItemBoundable].getItem)
         else Assert.shouldNeverReachHere()
       }
       i += 1
@@ -301,17 +312,15 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
 
   private def itemsTree(node: AbstractNode): util.List[Any] = {
     val valuesTreeForNode = new util.ArrayList[Any]
-    val i = node.getChildBoundables.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i                 = node.getChildBoundables.iterator
+    while (i.hasNext) {
       val childBoundable = i.next
       if (childBoundable.isInstanceOf[AbstractNode]) {
         val valuesTreeForChild = itemsTree(childBoundable.asInstanceOf[AbstractNode])
         // only add if not null (which indicates an item somewhere in this tree
         if (valuesTreeForChild != null) valuesTreeForNode.add(valuesTreeForChild)
-      }
-      else if (childBoundable.isInstanceOf[ItemBoundable]) valuesTreeForNode.add(childBoundable.asInstanceOf[ItemBoundable].getItem)
+      } else if (childBoundable.isInstanceOf[ItemBoundable])
+        valuesTreeForNode.add(childBoundable.asInstanceOf[ItemBoundable].getItem)
       else Assert.shouldNeverReachHere()
     }
     if (valuesTreeForNode.size <= 0) return null
@@ -324,18 +333,19 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
    */
   protected def remove(searchBounds: Any, item: Any): Boolean = {
     build()
-    if (getIntersectsOp.intersects(root.getBounds, searchBounds)) return remove(searchBounds, root, item)
+    if (getIntersectsOp.intersects(root.getBounds, searchBounds))
+      return remove(searchBounds, root, item)
     false
   }
 
   private def removeItem(node: AbstractNode, item: Any): Boolean = {
     var childToRemove: Boundable = null
-    val i = node.getChildBoundables.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i                        = node.getChildBoundables.iterator
+    while (i.hasNext) {
       val childBoundable = i.next
-      if (childBoundable.isInstanceOf[ItemBoundable]) if (childBoundable.asInstanceOf[ItemBoundable].getItem == item) childToRemove = childBoundable
+      if (childBoundable.isInstanceOf[ItemBoundable])
+        if (childBoundable.asInstanceOf[ItemBoundable].getItem == item)
+          childToRemove = childBoundable
     }
     if (childToRemove != null) {
       node.getChildBoundables.remove(childToRemove)
@@ -345,15 +355,13 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   }
 
   private def remove(searchBounds: Any, node: AbstractNode, item: Any): Boolean = { // first try removing item from this node
-    var found = removeItem(node, item)
+    var found                      = removeItem(node, item)
     if (found) return true
     var childToPrune: AbstractNode = null
     // next try removing item from lower nodes
-    val i = node.getChildBoundables.iterator
-    var shouldBreak = false
-    while ( {
-      i.hasNext && !shouldBreak
-    }) {
+    val i                          = node.getChildBoundables.iterator
+    var shouldBreak                = false
+    while (i.hasNext && !shouldBreak) {
       val childBoundable = i.next
       if (getIntersectsOp.intersects(childBoundable.getBounds, searchBounds)) {
         if (childBoundable.isInstanceOf[AbstractNode]) {
@@ -367,7 +375,8 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
       }
     }
     // prune child if possible
-    if (childToPrune != null) if (childToPrune.getChildBoundables.isEmpty) node.getChildBoundables.remove(childToPrune)
+    if (childToPrune != null)
+      if (childToPrune.getChildBoundables.isEmpty) node.getChildBoundables.remove(childToPrune)
     found
   }
 
@@ -380,18 +389,21 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   /**
    * @param level -1 to get items
    */
-  private def boundablesAtLevel(level: Int, top: AbstractNode, boundables: util.Collection[Boundable]): Unit = {
+  private def boundablesAtLevel(
+    level:      Int,
+    top:        AbstractNode,
+    boundables: util.Collection[Boundable]
+  ): Unit = {
     Assert.isTrue(level > -2)
     if (top.getLevel == level) {
       boundables.add(top)
       return
     }
     val i = top.getChildBoundables.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val boundable = i.next
-      if (boundable.isInstanceOf[AbstractNode]) boundablesAtLevel(level, boundable.asInstanceOf[AbstractNode], boundables)
+      if (boundable.isInstanceOf[AbstractNode])
+        boundablesAtLevel(level, boundable.asInstanceOf[AbstractNode], boundables)
       else {
         Assert.isTrue(boundable.isInstanceOf[ItemBoundable])
         if (level == -1) boundables.add(boundable)

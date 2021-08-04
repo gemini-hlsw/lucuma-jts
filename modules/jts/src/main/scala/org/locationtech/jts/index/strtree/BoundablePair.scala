@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -35,7 +35,6 @@ import org.locationtech.jts.util.PriorityQueue
  * which allows building a priority queue by minimum distance.
  *
  * @author Martin Davis
- *
  */
 object BoundablePair {
   def isComposite(item: Any): Boolean = item.isInstanceOf[AbstractNode]
@@ -43,7 +42,11 @@ object BoundablePair {
   private def area(b: Boundable) = b.getBounds.asInstanceOf[Envelope].getArea
 }
 
-class BoundablePair(var boundable1: Boundable, var boundable2: Boundable, var itemDistance: ItemDistance) extends Comparable[BoundablePair] {
+class BoundablePair(
+  var boundable1:   Boundable,
+  var boundable2:   Boundable,
+  var itemDistance: ItemDistance
+) extends Comparable[BoundablePair] {
   private val vdistance = distance
 
   /**
@@ -64,7 +67,10 @@ class BoundablePair(var boundable1: Boundable, var boundable2: Boundable, var it
    *
    * return the maximum distance between items in the pair
    */
-  def maximumDistance: Double = EnvelopeDistance.maximumDistance(boundable1.getBounds.asInstanceOf[Envelope], boundable2.getBounds.asInstanceOf[Envelope])
+  def maximumDistance: Double = EnvelopeDistance.maximumDistance(
+    boundable1.getBounds.asInstanceOf[Envelope],
+    boundable2.getBounds.asInstanceOf[Envelope]
+  )
 
   /**
    * Computes the distance between the {link Boundable}s in this pair.
@@ -76,9 +82,14 @@ class BoundablePair(var boundable1: Boundable, var boundable2: Boundable, var it
    * return
    */
   private def distance: Double = { // if items, compute exact distance
-    if (isLeaves) return itemDistance.distance(boundable1.asInstanceOf[ItemBoundable], boundable2.asInstanceOf[ItemBoundable])
+    if (isLeaves)
+      return itemDistance.distance(boundable1.asInstanceOf[ItemBoundable],
+                                   boundable2.asInstanceOf[ItemBoundable]
+      )
     // otherwise compute distance between bounds of boundables
-    boundable1.getBounds.asInstanceOf[Envelope].distance(boundable2.getBounds.asInstanceOf[Envelope])
+    boundable1.getBounds
+      .asInstanceOf[Envelope]
+      .distance(boundable2.getBounds.asInstanceOf[Envelope])
   }
 
   /**
@@ -107,7 +118,8 @@ class BoundablePair(var boundable1: Boundable, var boundable2: Boundable, var it
    *
    * return true if both pair elements are leaf nodes
    */
-  def isLeaves: Boolean = !(BoundablePair.isComposite(boundable1) || BoundablePair.isComposite(boundable2))
+  def isLeaves: Boolean =
+    !(BoundablePair.isComposite(boundable1) || BoundablePair.isComposite(boundable2))
 
   /**
    * For a pair which is not a leaf
@@ -125,7 +137,6 @@ class BoundablePair(var boundable1: Boundable, var boundable2: Boundable, var it
    *
    * @param priQ        the priority queue to add the new pairs to
    * @param minDistance the limit on the distance between added pairs
-   *
    */
   def expandToQueue(priQ: PriorityQueue, minDistance: Double): Unit = {
     val isComp1 = BoundablePair.isComposite(boundable1)
@@ -139,29 +150,31 @@ class BoundablePair(var boundable1: Boundable, var boundable2: Boundable, var it
     if (isComp1 && isComp2) if (BoundablePair.area(boundable1) > BoundablePair.area(boundable2)) {
       expand(boundable1, boundable2, false, priQ, minDistance)
       return
-    }
-    else {
+    } else {
       expand(boundable2, boundable1, true, priQ, minDistance)
       return
     }
     else if (isComp1) {
       expand(boundable1, boundable2, false, priQ, minDistance)
       return
-    }
-    else if (isComp2) {
+    } else if (isComp2) {
       expand(boundable2, boundable1, true, priQ, minDistance)
       return
     }
     throw new IllegalArgumentException("neither boundable is composite")
   }
 
-  private def expand(bndComposite: Boundable, bndOther: Boundable, isFlipped: Boolean, priQ: PriorityQueue, minDistance: Double): Unit = {
+  private def expand(
+    bndComposite: Boundable,
+    bndOther:     Boundable,
+    isFlipped:    Boolean,
+    priQ:         PriorityQueue,
+    minDistance:  Double
+  ): Unit = {
     val children = bndComposite.asInstanceOf[AbstractNode].getChildBoundables
-    val i = children.iterator
-    while ( {
-      i.hasNext
-    }) {
-      val child = i.next
+    val i        = children.iterator
+    while (i.hasNext) {
+      val child             = i.next
       var bp: BoundablePair = null
       if (isFlipped) bp = new BoundablePair(bndOther, child, itemDistance)
       else bp = new BoundablePair(child, bndOther, itemDistance)

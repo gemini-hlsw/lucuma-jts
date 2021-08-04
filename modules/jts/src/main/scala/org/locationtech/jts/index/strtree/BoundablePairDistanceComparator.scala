@@ -18,21 +18,22 @@ import java.util.Comparator
  * The Class BoundablePairDistanceComparator. It implements Java comparator and is used
  * as a parameter to sort the BoundablePair list.
  */
-class BoundablePairDistanceComparator(/** The normal order. */
-                                      var normalOrder: Boolean)
-
-  extends Comparator[BoundablePair] with Serializable {
+class BoundablePairDistanceComparator(
+  /** The normal order. */
+  var normalOrder: Boolean
+) extends Comparator[BoundablePair]
+    with Serializable {
   /* (non-Javadoc)
-     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-     */ override def compare(p1: BoundablePair, p2: BoundablePair): Int = {
+   * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+   */
+  override def compare(p1: BoundablePair, p2: BoundablePair): Int = {
     val distance1 = p1.getDistance
     val distance2 = p2.getDistance
     if (this.normalOrder) {
       if (distance1 > distance2) return 1
       else if (distance1 == distance2) return 0
       -1
-    }
-    else {
+    } else {
       if (distance1 > distance2) return -1
       else if (distance1 == distance2) return 0
       1

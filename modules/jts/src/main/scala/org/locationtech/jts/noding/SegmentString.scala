@@ -21,12 +21,13 @@ import org.locationtech.jts.geom.Coordinate
  * @version 1.7
  */
 trait SegmentString {
+
   /**
    * Gets the user-defined data for this segment string.
    *
    * return the user-defined data
    */
-    def getData: Any
+  def getData: Any
 
   /**
    * Sets the user-defined data for this segment string.

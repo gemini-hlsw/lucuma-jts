@@ -27,7 +27,6 @@ import org.locationtech.jts.geomgraph.Edge
  * The use of MonotoneChains as the items in the index
  * seems to offer an improvement in performance over a sweep-line alone.
  *
- *
  * @version 1.7
  */
 class SimpleMCSweepLineIntersector()
@@ -36,18 +35,26 @@ class SimpleMCSweepLineIntersector()
  * A SimpleMCSweepLineIntersector creates monotone chains from the edges
  * and compares them using a simple sweep-line along the x-axis.
  */
-  extends EdgeSetIntersector {
-  private[index] val events = new util.ArrayList[SweepLineEvent]
+    extends EdgeSetIntersector {
+  private[index] val events    = new util.ArrayList[SweepLineEvent]
   // statistics information
   private[index] var nOverlaps = 0
 
-  override def computeIntersections(edges: util.List[Edge], si: SegmentIntersector, testAllSegments: Boolean): Unit = {
+  override def computeIntersections(
+    edges:           util.List[Edge],
+    si:              SegmentIntersector,
+    testAllSegments: Boolean
+  ): Unit = {
     if (testAllSegments) addEdges(edges, null)
     else addEdges(edges)
     computeIntersections(si)
   }
 
-  override def computeIntersections(edges0: util.List[Edge], edges1: util.List[Edge], si: SegmentIntersector): Unit = {
+  override def computeIntersections(
+    edges0: util.List[Edge],
+    edges1: util.List[Edge],
+    si:     SegmentIntersector
+  ): Unit = {
     addEdges(edges0, edges0)
     addEdges(edges1, edges1)
     computeIntersections(si)
@@ -55,9 +62,7 @@ class SimpleMCSweepLineIntersector()
 
   private def addEdges(edges: util.List[Edge]): Unit = {
     val i = edges.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val edge = i.next
       // edge is its own group
       addEdge(edge, edge)
@@ -66,22 +71,18 @@ class SimpleMCSweepLineIntersector()
 
   private def addEdges(edges: util.List[Edge], edgeSet: Any): Unit = {
     val i = edges.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val edge = i.next
       addEdge(edge, edgeSet)
     }
   }
 
   private def addEdge(edge: Edge, edgeSet: Any): Unit = {
-    val mce = edge.getMonotoneChainEdge
+    val mce        = edge.getMonotoneChainEdge
     val startIndex = mce.getStartIndexes
-    var i = 0
-    while ( {
-      i < startIndex.length - 1
-    }) {
-      val mc = new MonotoneChain(mce, i)
+    var i          = 0
+    while (i < startIndex.length - 1) {
+      val mc          = new MonotoneChain(mce, i)
       val insertEvent = new SweepLineEvent(edgeSet, mce.getMinX(i), mc)
       events.add(insertEvent)
       events.add(new SweepLineEvent(mce.getMaxX(i), insertEvent))
@@ -98,9 +99,7 @@ class SimpleMCSweepLineIntersector()
     Collections.sort(events)
     // set DELETE event indexes
     var i = 0
-    while ( {
-      i < events.size
-    }) {
+    while (i < events.size) {
       val ev = events.get(i)
       if (ev.isDelete) ev.getInsertEvent.setDeleteEventIndex(i)
       i += 1
@@ -111,9 +110,7 @@ class SimpleMCSweepLineIntersector()
     nOverlaps = 0
     prepareEvents()
     var i = 0
-    while ( {
-      i < events.size
-    }) {
+    while (i < events.size) {
       val ev = events.get(i)
       if (ev.isInsert) processOverlaps(i, ev.getDeleteEventIndex, ev, si)
       if (si.isDone) return () //todo: break is not supported
@@ -121,17 +118,21 @@ class SimpleMCSweepLineIntersector()
     }
   }
 
-  private def processOverlaps(start: Int, end: Int, ev0: SweepLineEvent, si: SegmentIntersector): Unit = {
+  private def processOverlaps(
+    start: Int,
+    end:   Int,
+    ev0:   SweepLineEvent,
+    si:    SegmentIntersector
+  ): Unit = {
     val mc0 = ev0.getObject.asInstanceOf[MonotoneChain]
+
     /**
      * Since we might need to test for self-intersections,
      * include current INSERT event object in list of event objects to test.
      * Last index can be skipped, because it must be a Delete event.
      */
     var i = start
-    while ( {
-      i < end
-    }) {
+    while (i < end) {
       val ev1 = events.get(i)
       if (ev1.isInsert) {
         val mc1 = ev1.getObject.asInstanceOf[MonotoneChain]

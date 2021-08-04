@@ -23,10 +23,11 @@ package org.locationtech.jts.geom
  * @version 1.7
  */
 trait GeometryFilter {
+
   /**
    * Performs an operation with or on <code>geom</code>.
    *
    * @param  geom a <code>Geometry</code> to which the filter is applied.
    */
-    def filter(geom: Geometry): Unit
+  def filter(geom: Geometry): Unit
 }

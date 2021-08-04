@@ -34,9 +34,7 @@ class EdgeEndBuilder() {
   def computeEdgeEnds(edges: util.Iterator[Edge]): util.ArrayList[EdgeEnd] = {
     val l = new util.ArrayList[EdgeEnd]
     val i = edges
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val e = i.next
       computeEdgeEnds(e, l)
     }
@@ -48,17 +46,17 @@ class EdgeEndBuilder() {
    * Edge (if any) and inserts them into the graph.
    */
   def computeEdgeEnds(edge: Edge, l: util.List[EdgeEnd]): Unit = {
-    val eiList = edge.getEdgeIntersectionList
+    val eiList                   = edge.getEdgeIntersectionList
     //Debug.print(eiList);
     // ensure that the list has entries for the first and last point of the edge
     eiList.addEndpoints()
-    val it = eiList.iterator
+    val it                       = eiList.iterator
     var eiPrev: EdgeIntersection = null
     var eiCurr: EdgeIntersection = null
     // no intersections, so there is nothing to do
     if (!it.hasNext) return
-    var eiNext = it.next
-    do {
+    var eiNext                   = it.next
+    while( { {
       eiPrev = eiCurr
       eiCurr = eiNext
       eiNext = null
@@ -67,9 +65,7 @@ class EdgeEndBuilder() {
         createEdgeEndForPrev(edge, l, eiCurr, eiPrev)
         createEdgeEndForNext(edge, l, eiCurr, eiNext)
       }
-    } while ( {
-      eiCurr != null
-    })
+    } ; eiCurr != null})()
   }
 
   /**
@@ -80,7 +76,12 @@ class EdgeEndBuilder() {
    * <br>
    * eiCurr will always be an EdgeIntersection, but eiPrev may be null.
    */
-  private[relate] def createEdgeEndForPrev(edge: Edge, l: util.List[EdgeEnd], eiCurr: EdgeIntersection, eiPrev: EdgeIntersection): Unit = {
+  private[relate] def createEdgeEndForPrev(
+    edge:   Edge,
+    l:      util.List[EdgeEnd],
+    eiCurr: EdgeIntersection,
+    eiPrev: EdgeIntersection
+  ): Unit = {
     var iPrev = eiCurr.segmentIndex
     if (eiCurr.dist == 0.0) { // if at the start of the edge there is no previous edge
       if (iPrev == 0) return
@@ -92,7 +93,7 @@ class EdgeEndBuilder() {
     val label = new Label(edge.getLabel)
     // since edgeStub is oriented opposite to it's parent edge, have to flip sides for edge label
     label.flip()
-    val e = new EdgeEnd(edge, eiCurr.coord, pPrev, label)
+    val e     = new EdgeEnd(edge, eiCurr.coord, pPrev, label)
     //e.print(System.out);  System.out.println();
     l.add(e)
     ()
@@ -106,14 +107,19 @@ class EdgeEndBuilder() {
    * <br>
    * eiCurr will always be an EdgeIntersection, but eiNext may be null.
    */
-  private[relate] def createEdgeEndForNext(edge: Edge, l: util.List[EdgeEnd], eiCurr: EdgeIntersection, eiNext: EdgeIntersection): Unit = {
+  private[relate] def createEdgeEndForNext(
+    edge:   Edge,
+    l:      util.List[EdgeEnd],
+    eiCurr: EdgeIntersection,
+    eiNext: EdgeIntersection
+  ): Unit = {
     val iNext = eiCurr.segmentIndex + 1
     // if there is no next edge there is nothing to do
     if (iNext >= edge.getNumPoints && eiNext == null) return
     var pNext = edge.getCoordinate(iNext)
     // if the next intersection is in the same segment as the current, use it as the endpoint
     if (eiNext != null && (eiNext.segmentIndex == eiCurr.segmentIndex)) pNext = eiNext.coord
-    val e = new EdgeEnd(edge, eiCurr.coord, pNext, new Label(edge.getLabel))
+    val e     = new EdgeEnd(edge, eiCurr.coord, pNext, new Label(edge.getLabel))
     //Debug.println(e);
     l.add(e)
     ()

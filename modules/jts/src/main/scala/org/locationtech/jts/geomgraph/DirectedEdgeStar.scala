@@ -25,11 +25,12 @@ import org.locationtech.jts.util.Assert
  * @version 1.7
  */
 class DirectedEdgeStar() extends EdgeEndStar {
+
   /**
    * A list of all outgoing edges in the result, in CCW order
    */
   private var resultAreaEdgeList: util.List[DirectedEdge] = null
-  private var label: Label = null
+  private var label: Label                                = null
 
   /**
    * Insert a directed edge in the list
@@ -43,10 +44,8 @@ class DirectedEdgeStar() extends EdgeEndStar {
 
   def getOutgoingDegree: Int = {
     var degree = 0
-    val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    val it     = iterator
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
       if (de.isInResult) {
         degree += 1; degree - 1
@@ -57,10 +56,8 @@ class DirectedEdgeStar() extends EdgeEndStar {
 
   def getOutgoingDegree(er: EdgeRing): Int = {
     var degree = 0
-    val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    val it     = iterator
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
       if (de.getEdgeRing eq er) {
         degree += 1; degree - 1
@@ -70,14 +67,14 @@ class DirectedEdgeStar() extends EdgeEndStar {
   }
 
   def getRightmostEdge: DirectedEdge = {
-    val edges = getEdges
-    val size = edges.size
+    val edges  = getEdges
+    val size   = edges.size
     if (size < 1) return null
-    val de0 = edges.get(0).asInstanceOf[DirectedEdge]
+    val de0    = edges.get(0).asInstanceOf[DirectedEdge]
     if (size == 1) return de0
     val deLast = edges.get(size - 1).asInstanceOf[DirectedEdge]
-    val quad0 = de0.getQuadrant
-    val quad1 = deLast.getQuadrant
+    val quad0  = de0.getQuadrant
+    val quad1  = deLast.getQuadrant
     if (Quadrant.isNorthern(quad0) && Quadrant.isNorthern(quad1)) return de0
     else if (!Quadrant.isNorthern(quad0) && !Quadrant.isNorthern(quad1)) return deLast
     else { // edges are in different hemispheres - make sure we return one that is non-horizontal
@@ -100,18 +97,15 @@ class DirectedEdgeStar() extends EdgeEndStar {
     // (i.e. for the node it is based at)
     label = new Label(Location.NONE)
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val ee = it.next.asInstanceOf[EdgeEnd]
-      val e = ee.getEdge
+    while (it.hasNext) {
+      val ee     = it.next.asInstanceOf[EdgeEnd]
+      val e      = ee.getEdge
       val eLabel = e.getLabel
-      var i = 0
-      while ( {
-        i < 2
-      }) {
+      var i      = 0
+      while (i < 2) {
         val eLoc = eLabel.getLocation(i)
-        if (eLoc == Location.INTERIOR || eLoc == Location.BOUNDARY) label.setLocation(i, Location.INTERIOR)
+        if (eLoc == Location.INTERIOR || eLoc == Location.BOUNDARY)
+          label.setLocation(i, Location.INTERIOR)
         i += 1
       }
     }
@@ -123,10 +117,8 @@ class DirectedEdgeStar() extends EdgeEndStar {
    */
   def mergeSymLabels(): Unit = {
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val de = it.next.asInstanceOf[DirectedEdge]
+    while (it.hasNext) {
+      val de    = it.next.asInstanceOf[DirectedEdge]
       val label = de.getLabel
       label.merge(de.getSym.getLabel)
     }
@@ -137,10 +129,8 @@ class DirectedEdgeStar() extends EdgeEndStar {
    */
   def updateLabelling(nodeLabel: Label): Unit = {
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
-      val de = it.next.asInstanceOf[DirectedEdge]
+    while (it.hasNext) {
+      val de    = it.next.asInstanceOf[DirectedEdge]
       val label = de.getLabel
       label.setAllLocationsIfNull(0, nodeLabel.getLocation(0))
       label.setAllLocationsIfNull(1, nodeLabel.getLocation(1))
@@ -151,9 +141,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
     if (resultAreaEdgeList != null) return resultAreaEdgeList
     resultAreaEdgeList = new util.ArrayList[DirectedEdge]
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
       if (de.isInResult || de.getSym.isInResult) resultAreaEdgeList.add(de)
     }
@@ -161,7 +149,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
   }
 
   final private val SCANNING_FOR_INCOMING = 1
-  final private val LINKING_TO_OUTGOING = 2
+  final private val LINKING_TO_OUTGOING   = 2
 
   /**
    * Traverse the star of DirectedEdges, linking the included edges together.
@@ -184,16 +172,14 @@ class DirectedEdgeStar() extends EdgeEndStar {
   def linkResultDirectedEdges(): Unit = { // make sure edges are copied to resultAreaEdges list
     getResultAreaEdges
     // find first area edge (if any) to start linking at
-    var firstOut: DirectedEdge= null
+    var firstOut: DirectedEdge = null
     var incoming: DirectedEdge = null
-    var state = SCANNING_FOR_INCOMING
+    var state                  = SCANNING_FOR_INCOMING
     // link edges in CCW order
-    var i = 0
-    while ( {
-      i < resultAreaEdgeList.size
-    }) {
+    var i                      = 0
+    while (i < resultAreaEdgeList.size) {
       val nextOut = resultAreaEdgeList.get(i).asInstanceOf[DirectedEdge]
-      val nextIn = nextOut.getSym
+      val nextIn  = nextOut.getSym
       // skip de's that we're not interested in
       if (nextOut.getLabel.isArea) {
         // record first outgoing edge, in order to link the last incoming edge
@@ -205,7 +191,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
               incoming = nextIn
               state = LINKING_TO_OUTGOING
             }
-          case LINKING_TO_OUTGOING =>
+          case LINKING_TO_OUTGOING   =>
             if (nextOut.isInResult) {
               incoming.setNext(nextOut)
               state = SCANNING_FOR_INCOMING
@@ -225,14 +211,12 @@ class DirectedEdgeStar() extends EdgeEndStar {
   def linkMinimalDirectedEdges(er: EdgeRing): Unit = {
     var firstOut: DirectedEdge = null
     var incoming: DirectedEdge = null
-    var state = SCANNING_FOR_INCOMING
+    var state                  = SCANNING_FOR_INCOMING
     // link edges in CW order
-    var i = resultAreaEdgeList.size - 1
-    while ( {
-      i >= 0
-    }) {
+    var i                      = resultAreaEdgeList.size - 1
+    while (i >= 0) {
       val nextOut = resultAreaEdgeList.get(i)
-      val nextIn = nextOut.getSym
+      val nextIn  = nextOut.getSym
       if (firstOut == null && (nextOut.getEdgeRing == er)) firstOut = nextOut
       state match {
         case SCANNING_FOR_INCOMING =>
@@ -240,7 +224,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
             incoming = nextIn
             state = LINKING_TO_OUTGOING
           }
-        case LINKING_TO_OUTGOING =>
+        case LINKING_TO_OUTGOING   =>
           if (nextOut.getEdgeRing == er) {
             incoming.setNextMin(nextOut)
             state = SCANNING_FOR_INCOMING
@@ -259,12 +243,10 @@ class DirectedEdgeStar() extends EdgeEndStar {
     getEdges
     var prevOut: DirectedEdge = null
     var firstIn: DirectedEdge = null
-    var i = edgeList.size - 1
-    while ( {
-      i >= 0
-    }) {
+    var i                     = edgeList.size - 1
+    while (i >= 0) {
       val nextOut = edgeList.get(i).asInstanceOf[DirectedEdge]
-      val nextIn = nextOut.getSym
+      val nextIn  = nextOut.getSym
       if (firstIn == null) firstIn = nextIn
       if (prevOut != null) nextIn.setNext(prevOut)
       // record outgoing edge, in order to link the last incoming edge
@@ -290,15 +272,13 @@ class DirectedEdgeStar() extends EdgeEndStar {
      * - EXTERIOR if the edge is incoming
      */
     var startLoc = Location.NONE
-    var it = iterator
+    var it       = iterator
     import scala.util.control.Breaks._
 
     breakable {
-      while ( {
-        it.hasNext
-      }) {
+      while (it.hasNext) {
         val nextOut = it.next.asInstanceOf[DirectedEdge]
-        val nextIn = nextOut.getSym
+        val nextIn  = nextOut.getSym
         if (!nextOut.isLineEdge) {
           if (nextOut.isInResult) {
             startLoc = Location.INTERIOR
@@ -320,16 +300,13 @@ class DirectedEdgeStar() extends EdgeEndStar {
      */
     var currLoc = startLoc
     it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val nextOut = it.next.asInstanceOf[DirectedEdge]
-      val nextIn = nextOut.getSym
+      val nextIn  = nextOut.getSym
       if (nextOut.isLineEdge) {
         nextOut.getEdge.setCovered(currLoc == Location.INTERIOR)
         //Debug.println(nextOut);
-      }
-      else { // edge is an Area edge
+      } else { // edge is an Area edge
         if (nextOut.isInResult) currLoc = Location.EXTERIOR
         if (nextIn.isInResult) currLoc = Location.INTERIOR
       }
@@ -337,16 +314,17 @@ class DirectedEdgeStar() extends EdgeEndStar {
   }
 
   def computeDepths(de: DirectedEdge): Unit = {
-    val edgeIndex = findIndex(de)
-    val startDepth = de.getDepth(Position.LEFT)
+    val edgeIndex       = findIndex(de)
+    val startDepth      = de.getDepth(Position.LEFT)
     val targetLastDepth = de.getDepth(Position.RIGHT)
     // compute the depths from this edge up to the end of the edge array
-    val nextDepth: Int = computeDepths(edgeIndex + 1, edgeList.size, startDepth)
+    val nextDepth: Int  = computeDepths(edgeIndex + 1, edgeList.size, startDepth)
     // compute the depths for the initial part of the array
-    val lastDepth = computeDepths(0, edgeIndex, nextDepth)
+    val lastDepth       = computeDepths(0, edgeIndex, nextDepth)
     //Debug.print(lastDepth != targetLastDepth, this);
     //Debug.print(lastDepth != targetLastDepth, "mismatch: " + lastDepth + " / " + targetLastDepth);
-    if (lastDepth != targetLastDepth) throw new TopologyException("depth mismatch at " + de.getCoordinate)
+    if (lastDepth != targetLastDepth)
+      throw new TopologyException("depth mismatch at " + de.getCoordinate)
     //Assert.isTrue(lastDepth == targetLastDepth, "depth mismatch at " + de.getCoordinate());
   }
 
@@ -357,10 +335,8 @@ class DirectedEdgeStar() extends EdgeEndStar {
    */
   private def computeDepths(startIndex: Int, endIndex: Int, startDepth: Int): Int = {
     var currDepth = startDepth
-    var i = startIndex
-    while ( {
-      i < endIndex
-    }) {
+    var i         = startIndex
+    while (i < endIndex) {
       val nextDe = edgeList.get(i).asInstanceOf[DirectedEdge]
       nextDe.setEdgeDepths(Position.RIGHT, currDepth)
       currDepth = nextDe.getDepth(Position.LEFT)
@@ -372,9 +348,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
   override def print(out: PrintStream): Unit = {
     System.out.println("DirectedEdgeStar: " + getCoordinate)
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val de = it.next.asInstanceOf[DirectedEdge]
       out.print("out ")
       de.print(out)

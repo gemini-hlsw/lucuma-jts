@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -49,20 +49,27 @@ import org.locationtech.jts.math.Matrix
  *
  * @author Martin Davis
  */
-class AffineTransformationBuilder(var src0: Coordinate, var src1: Coordinate, var src2: Coordinate, var dest0: Coordinate, var dest1: Coordinate, var dest2: Coordinate) {
+class AffineTransformationBuilder(
+  var src0:  Coordinate,
+  var src1:  Coordinate,
+  var src2:  Coordinate,
+  var dest0: Coordinate,
+  var dest1: Coordinate,
+  var dest2: Coordinate
+) {
 
-/**
- * Constructs a new builder for
- * the transformation defined by the given
- * set of control point mappings.
- *
- * @param src0  a control point
- * @param src1  a control point
- * @param src2  a control point
- * @param dest0 the image of control point 0 under the required transformation
- * @param dest1 the image of control point 1 under the required transformation
- * @param dest2 the image of control point 2 under the required transformation
- */
+  /**
+   * Constructs a new builder for
+   * the transformation defined by the given
+   * set of control point mappings.
+   *
+   * @param src0  a control point
+   * @param src1  a control point
+   * @param src2  a control point
+   * @param dest0 the image of control point 0 under the required transformation
+   * @param dest1 the image of control point 1 under the required transformation
+   * @param dest2 the image of control point 2 under the required transformation
+   */
   // the matrix entries for the transformation
   private var m00 = .0
   private var m01 = .0
@@ -93,13 +100,13 @@ class AffineTransformationBuilder(var src0: Coordinate, var src1: Coordinate, va
    * return true if the transformation matrix is solvable
    */
   private def compute: Boolean = {
-    val bx = Array[Double](dest0.x, dest1.x, dest2.x)
+    val bx   = Array[Double](dest0.x, dest1.x, dest2.x)
     val row0 = solve(bx)
     if (row0 == null) return false
     m00 = row0(0)
     m01 = row0(1)
     m02 = row0(2)
-    val by = Array[Double](dest0.y, dest1.y, dest2.y)
+    val by   = Array[Double](dest0.y, dest1.y, dest2.y)
     val row1 = solve(by)
     if (row1 == null) return false
     m10 = row1(0)
@@ -116,7 +123,10 @@ class AffineTransformationBuilder(var src0: Coordinate, var src1: Coordinate, va
    * return the solution vector, or <code>null</code> if no solution could be determined
    */
   private def solve(b: Array[Double]): Array[Double] = {
-    val a = Array[Array[Double]](Array(src0.x, src0.y, 1), Array(src1.x, src1.y, 1), Array(src2.x, src2.y, 1))
+    val a = Array[Array[Double]](Array(src0.x, src0.y, 1),
+                                 Array(src1.x, src1.y, 1),
+                                 Array(src2.x, src2.y, 1)
+    )
     Matrix.solve(a, b)
   }
 }

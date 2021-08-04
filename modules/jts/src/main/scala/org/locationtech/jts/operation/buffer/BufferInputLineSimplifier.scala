@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -56,9 +56,9 @@ import org.locationtech.jts.geom.CoordinateList
  * cannot be used as a general-purpose polygon simplification technique.
  *
  * @author Martin Davis
- *
  */
 object BufferInputLineSimplifier {
+
   /**
    * Simplify the input coordinate list.
    * If the distance tolerance is positive,
@@ -70,21 +70,21 @@ object BufferInputLineSimplifier {
    * @param distanceTol simplification distance tolerance to use
    * return the simplified coordinate list
    */
-    def simplify(inputLine: Array[Coordinate], distanceTol: Double): Array[Coordinate] = {
-      val simp = new BufferInputLineSimplifier(inputLine)
-      simp.simplify(distanceTol)
-    }
+  def simplify(inputLine: Array[Coordinate], distanceTol: Double): Array[Coordinate] = {
+    val simp = new BufferInputLineSimplifier(inputLine)
+    simp.simplify(distanceTol)
+  }
 
 //  private val INIT = 0
-  private val DELETE = 1
+  private val DELETE           = 1
 //  private val KEEP = 1
   private val NUM_PTS_TO_CHECK = 10
 }
 
 class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
-  private var distanceTol = .0
+  private var distanceTol            = .0
   private var isDeleted: Array[Byte] = null
-  private var angleOrientation = Orientation.COUNTERCLOCKWISE
+  private var angleOrientation       = Orientation.COUNTERCLOCKWISE
 
   /**
    * Simplify the input coordinate list.
@@ -102,9 +102,7 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
     // rely on fact that boolean array is filled with false value
     isDeleted = new Array[Byte](inputLine.length)
     var isChanged = false
-    do isChanged = deleteShallowConcavities while({
-      isChanged
-    })
+    while( { isChanged = deleteShallowConcavities ;  isChanged})()
     collapseLine
   }
 
@@ -116,17 +114,16 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
    * return
    */
   private def deleteShallowConcavities = {
+
     /**
      * Do not simplify end line segments of the line string.
      * This ensures that end caps are generated consistently.
      */
-      var index = 1
-    var midIndex = findNextNonDeletedIndex(index)
+    var index     = 1
+    var midIndex  = findNextNonDeletedIndex(index)
     var lastIndex = findNextNonDeletedIndex(midIndex)
     var isChanged = false
-    while ( {
-      lastIndex < inputLine.length
-    }) { // test triple for shallow concavity
+    while (lastIndex < inputLine.length) { // test triple for shallow concavity
       var isMiddleVertexDeleted = false
       if (isDeletable(index, midIndex, lastIndex, distanceTol)) {
         isDeleted(midIndex) = BufferInputLineSimplifier.DELETE.toByte
@@ -151,9 +148,7 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
    */
   private def findNextNonDeletedIndex(index: Int) = {
     var next = index + 1
-    while ( {
-      next < inputLine.length && isDeleted(next) == BufferInputLineSimplifier.DELETE
-    }) {
+    while (next < inputLine.length && isDeleted(next) == BufferInputLineSimplifier.DELETE) {
       next += 1; next - 1
     }
     next
@@ -161,10 +156,8 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
 
   private def collapseLine = {
     val coordList = new CoordinateList(Array.empty)
-    var i = 0
-    while ( {
-      i < inputLine.length
-    }) {
+    var i         = 0
+    while (i < inputLine.length) {
       if (isDeleted(i) != BufferInputLineSimplifier.DELETE) coordList.add(inputLine(i))
       i += 1
     }
@@ -203,13 +196,17 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
    * @param distanceTol distance tolerance
    * return
    */
-  private def isShallowSampled(p0: Coordinate, p2: Coordinate, i0: Int, i2: Int, distanceTol: Double): Boolean = { // check every n'th point to see if it is within tolerance
+  private def isShallowSampled(
+    p0:          Coordinate,
+    p2:          Coordinate,
+    i0:          Int,
+    i2:          Int,
+    distanceTol: Double
+  ): Boolean = { // check every n'th point to see if it is within tolerance
     var inc = (i2 - i0) / BufferInputLineSimplifier.NUM_PTS_TO_CHECK
     if (inc <= 0) inc = 1
-    var i = i0
-    while ( {
-      i < i2
-    }) {
+    var i   = i0
+    while (i < i2) {
       if (!isShallow(p0, p2, inputLine(i), distanceTol)) return false
       i += inc
     }
@@ -223,7 +220,7 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
 
   private def isConcave(p0: Coordinate, p1: Coordinate, p2: Coordinate) = {
     val orientation = Orientation.index(p0, p1, p2)
-    val isConcave = orientation == angleOrientation
+    val isConcave   = orientation == angleOrientation
     isConcave
   }
 }

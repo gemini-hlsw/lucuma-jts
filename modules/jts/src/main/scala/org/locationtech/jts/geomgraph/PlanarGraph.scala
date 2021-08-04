@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -51,25 +51,24 @@ import org.locationtech.jts.geom.Location
  * @version 1.7
  */
 object PlanarGraph {
+
   /**
    * For nodes in the Collection, link the DirectedEdges at the node that are in the result.
    * This allows clients to link only a subset of nodes in the graph, for
    * efficiency (because they know that only a subset is of interest).
    */
-    def linkResultDirectedEdges(nodes: util.Collection[Node]): Unit = {
-      val nodeit = nodes.iterator
-      while ( {
-        nodeit.hasNext
-      }) {
-        val node = nodeit.next
-        node.getEdges.asInstanceOf[DirectedEdgeStar].linkResultDirectedEdges()
-      }
+  def linkResultDirectedEdges(nodes: util.Collection[Node]): Unit = {
+    val nodeit = nodes.iterator
+    while (nodeit.hasNext) {
+      val node = nodeit.next
+      node.getEdges.asInstanceOf[DirectedEdgeStar].linkResultDirectedEdges()
     }
+  }
 }
 
 class PlanarGraph(nodeFact: NodeFactory) {
-  protected var edges = new util.ArrayList[Edge]
-  protected var nodes = new NodeMap(nodeFact)
+  protected var edges       = new util.ArrayList[Edge]
+  protected var nodes       = new NodeMap(nodeFact)
   protected var edgeEndList = new util.ArrayList[EdgeEnd]
 
   def this() = {
@@ -81,7 +80,7 @@ class PlanarGraph(nodeFact: NodeFactory) {
   def getEdgeEnds: util.ArrayList[EdgeEnd] = edgeEndList
 
   def isBoundaryNode(geomIndex: Int, coord: Coordinate): Boolean = {
-    val node = nodes.find(coord)
+    val node  = nodes.find(coord)
     if (node == null) return false
     val label = node.getLabel
     if (label != null && label.getLocation(geomIndex) == Location.BOUNDARY) return true
@@ -114,10 +113,8 @@ class PlanarGraph(nodeFact: NodeFactory) {
    */
   def addEdges(edgesToAdd: util.List[Edge]): Unit = { // create all the nodes for the edges
     val it = edgesToAdd.iterator
-    while ( {
-      it.hasNext
-    }) {
-      val e = it.next
+    while (it.hasNext) {
+      val e   = it.next
       edges.add(e)
       val de1 = new DirectedEdge(e, true)
       val de2 = new DirectedEdge(e, false)
@@ -135,9 +132,7 @@ class PlanarGraph(nodeFact: NodeFactory) {
    */
   def linkResultDirectedEdges(): Unit = {
     val nodeit = nodes.iterator
-    while ( {
-      nodeit.hasNext
-    }) {
+    while (nodeit.hasNext) {
       val node = nodeit.next
       node.getEdges.asInstanceOf[DirectedEdgeStar].linkResultDirectedEdges()
     }
@@ -145,9 +140,7 @@ class PlanarGraph(nodeFact: NodeFactory) {
 
   def linkAllDirectedEdges(): Unit = {
     val nodeit = nodes.iterator
-    while ( {
-      nodeit.hasNext
-    }) {
+    while (nodeit.hasNext) {
       val node = nodeit.next
       node.getEdges.asInstanceOf[DirectedEdgeStar].linkAllDirectedEdges()
     }
@@ -162,9 +155,7 @@ class PlanarGraph(nodeFact: NodeFactory) {
    */
   def findEdgeEnd(e: Edge): EdgeEnd = {
     val i = getEdgeEnds.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val ee = i.next
       if (ee.getEdge eq e) return ee
     }
@@ -179,10 +170,8 @@ class PlanarGraph(nodeFact: NodeFactory) {
    */
   def findEdge(p0: Coordinate, p1: Coordinate): Edge = {
     var i = 0
-    while ( {
-      i < edges.size
-    }) {
-      val e = edges.get(i)
+    while (i < edges.size) {
+      val e      = edges.get(i)
       val eCoord = e.getCoordinates
       if (p0 == eCoord(0) && p1 == eCoord(1)) return e
       i += 1
@@ -199,13 +188,12 @@ class PlanarGraph(nodeFact: NodeFactory) {
    */
   def findEdgeInSameDirection(p0: Coordinate, p1: Coordinate): Edge = {
     var i = 0
-    while ( {
-      i < edges.size
-    }) {
-      val e = edges.get(i)
+    while (i < edges.size) {
+      val e      = edges.get(i)
       val eCoord = e.getCoordinates
       if (matchInSameDirection(p0, p1, eCoord(0), eCoord(1))) return e
-      if (matchInSameDirection(p0, p1, eCoord(eCoord.length - 1), eCoord(eCoord.length - 2))) return e
+      if (matchInSameDirection(p0, p1, eCoord(eCoord.length - 1), eCoord(eCoord.length - 2)))
+        return e
       i += 1
     }
     null
@@ -216,18 +204,25 @@ class PlanarGraph(nodeFact: NodeFactory) {
    * E.g. the segments are parallel and in the same quadrant
    * (as opposed to parallel and opposite!).
    */
-  private def matchInSameDirection(p0: Coordinate, p1: Coordinate, ep0: Coordinate, ep1: Coordinate): Boolean = {
+  private def matchInSameDirection(
+    p0:  Coordinate,
+    p1:  Coordinate,
+    ep0: Coordinate,
+    ep1: Coordinate
+  ): Boolean = {
     if (!(p0 == ep0)) return false
-    if (Orientation.index(p0, p1, ep1) == Orientation.COLLINEAR && Quadrant.quadrant(p0, p1) == Quadrant.quadrant(ep0, ep1)) return true
+    if (
+      Orientation.index(p0, p1, ep1) == Orientation.COLLINEAR && Quadrant.quadrant(p0,
+                                                                                   p1
+      ) == Quadrant.quadrant(ep0, ep1)
+    ) return true
     false
   }
 
   def printEdges(out: PrintStream): Unit = {
     out.println("Edges:")
     var i = 0
-    while ( {
-      i < edges.size
-    }) {
+    while (i < edges.size) {
       out.println("edge " + i + ":")
       val e = edges.get(i)
       e.print(out)

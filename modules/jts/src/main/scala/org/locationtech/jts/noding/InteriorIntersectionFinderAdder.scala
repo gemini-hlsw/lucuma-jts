@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -43,7 +43,7 @@ class InteriorIntersectionFinderAdder(var li: LineIntersector)
  *
  * @param li the LineIntersector to use
  */
-  extends SegmentIntersector {
+    extends SegmentIntersector {
   final private val interiorIntersections = new util.ArrayList[Coordinate]
 
   def getInteriorIntersections: util.ArrayList[Coordinate] = interiorIntersections
@@ -56,7 +56,12 @@ class InteriorIntersectionFinderAdder(var li: LineIntersector)
    * this call for segment pairs which they have determined do not intersect
    * (e.g. by an disjoint envelope test).
    */
-  override def processIntersections(e0: SegmentString, segIndex0: Int, e1: SegmentString, segIndex1: Int): Unit = { // don't bother intersecting a segment with itself
+  override def processIntersections(
+    e0:        SegmentString,
+    segIndex0: Int,
+    e1:        SegmentString,
+    segIndex1: Int
+  ): Unit = { // don't bother intersecting a segment with itself
     if ((e0 eq e1) && segIndex0 == segIndex1) return
     val p00 = e0.getCoordinates(segIndex0)
     val p01 = e0.getCoordinates(segIndex0 + 1)
@@ -66,9 +71,7 @@ class InteriorIntersectionFinderAdder(var li: LineIntersector)
     //if (li.hasIntersection() && li.isProper()) Debug.println(li);
     if (li.hasIntersection) if (li.isInteriorIntersection) {
       var intIndex = 0
-      while ( {
-        intIndex < li.getIntersectionNum
-      }) {
+      while (intIndex < li.getIntersectionNum) {
         interiorIntersections.add(li.getIntersection(intIndex))
         intIndex += 1
       }

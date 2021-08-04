@@ -32,9 +32,10 @@ abstract class AbstractNode(level: Int = 0)
 /**
  * Default constructor required for serialization.
  */
-  extends Boundable with Serializable {
+    extends Boundable
+    with Serializable {
   private val childBoundables = new util.ArrayList[Boundable]
-  private var bounds: AnyRef = null
+  private var bounds: AnyRef  = null
 //  private var level = 0
 
   /**

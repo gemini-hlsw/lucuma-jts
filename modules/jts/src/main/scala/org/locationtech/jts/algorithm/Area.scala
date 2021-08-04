@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -28,16 +28,16 @@ import org.locationtech.jts.geom.CoordinateSequence
  * Functions for computing area.
  *
  * @author Martin Davis
- *
  */
 object Area {
+
   /**
    * Computes the area for a ring.
    *
    * @param ring the coordinates forming the ring
    * return the area of the ring
    */
-    def ofRing(ring: Array[Coordinate]): Double = Math.abs(ofRingSigned(ring))
+  def ofRing(ring: Array[Coordinate]): Double = Math.abs(ofRingSigned(ring))
 
   def ofRing(ring: CoordinateSequence): Double = Math.abs(ofRingSigned(ring))
 
@@ -53,16 +53,15 @@ object Area {
   def ofRingSigned(ring: Array[Coordinate]): Double = {
     if (ring.length < 3) return 0.0
     var sum = 0.0
+
     /**
      * Based on the Shoelace formula.
      * http://en.wikipedia.org/wiki/Shoelace_formula
      */
     val x0 = ring(0).x
-    var i = 1
-    while ( {
-      i < ring.length - 1
-    }) {
-      val x = ring(i).x - x0
+    var i  = 1
+    while (i < ring.length - 1) {
+      val x  = ring(i).x - x0
       val y1 = ring(i + 1).y
       val y2 = ring(i - 1).y
       sum += x * (y2 - y1)
@@ -84,20 +83,18 @@ object Area {
    * return the signed area of the ring
    */
   def ofRingSigned(ring: CoordinateSequence): Double = {
-    val n = ring.size
+    val n   = ring.size
     if (n < 3) return 0.0
-    val p0 = new Coordinate
-    val p1 = new Coordinate
-    val p2 = new Coordinate
+    val p0  = new Coordinate
+    val p1  = new Coordinate
+    val p2  = new Coordinate
     ring.getCoordinate(0, p1)
     ring.getCoordinate(1, p2)
-    val x0 = p1.x
+    val x0  = p1.x
     p2.x -= x0
     var sum = 0.0
-    var i = 1
-    while ( {
-      i < n - 1
-    }) {
+    var i   = 1
+    while (i < n - 1) {
       p0.y = p1.y
       p1.x = p2.x
       p1.y = p2.y

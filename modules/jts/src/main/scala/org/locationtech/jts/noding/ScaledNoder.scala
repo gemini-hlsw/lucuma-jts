@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -39,7 +39,12 @@ import org.locationtech.jts.geom.CoordinateArrays
  *
  * @version 1.7
  */
-class ScaledNoder(var noder: Noder[SegmentString], var scaleFactor: Double, val offsetX: Double, val offsetY: Double) extends Noder[SegmentString] { // no need to scale if input precision is already integral
+class ScaledNoder(
+  var noder:       Noder[SegmentString],
+  var scaleFactor: Double,
+  val offsetX:     Double,
+  val offsetY:     Double
+) extends Noder[SegmentString] { // no need to scale if input precision is already integral
 //  private val offsetX = .0
 //  private val offsetY = .0
   private val isScaled = !isIntegerPrecision
@@ -64,11 +69,9 @@ class ScaledNoder(var noder: Noder[SegmentString], var scaleFactor: Double, val 
 
   private def scale(segStrings: util.Collection[SegmentString]): util.List[SegmentString] = {
     val nodedSegmentStrings = new util.ArrayList[SegmentString](segStrings.size)
-    val i = segStrings.iterator
-    while ( {
-      i.hasNext
-    }) {
-      val ss = i.next
+    val i                   = segStrings.iterator
+    while (i.hasNext) {
+      val ss  = i.next
       val str = new NodedSegmentString(scale(ss.getCoordinates), ss.getData)
       nodedSegmentStrings.add(str)
     }
@@ -76,12 +79,13 @@ class ScaledNoder(var noder: Noder[SegmentString], var scaleFactor: Double, val 
   }
 
   private def scale(pts: Array[Coordinate]): Array[Coordinate] = {
-    val roundPts = new Array[Coordinate](pts.length)
-    var i = 0
-    while ( {
-      i < pts.length
-    }) {
-      roundPts(i) = new Coordinate(Math.round((pts(i).x - offsetX) * scaleFactor).toDouble, Math.round((pts(i).y - offsetY) * scaleFactor).toDouble, pts(i).getZ)
+    val roundPts      = new Array[Coordinate](pts.length)
+    var i             = 0
+    while (i < pts.length) {
+      roundPts(i) = new Coordinate(Math.round((pts(i).x - offsetX) * scaleFactor).toDouble,
+                                   Math.round((pts(i).y - offsetY) * scaleFactor).toDouble,
+                                   pts(i).getZ
+      )
       i += 1
     }
     val roundPtsNoDup = CoordinateArrays.removeRepeatedPoints(roundPts)
@@ -90,9 +94,7 @@ class ScaledNoder(var noder: Noder[SegmentString], var scaleFactor: Double, val 
 
   private def rescale(segStrings: util.Collection[SegmentString]): Unit = {
     val i = segStrings.iterator
-    while ( {
-      i.hasNext
-    }) {
+    while (i.hasNext) {
       val ss = i.next
       rescale(ss.getCoordinates)
     }
@@ -100,9 +102,7 @@ class ScaledNoder(var noder: Noder[SegmentString], var scaleFactor: Double, val 
 
   private def rescale(pts: Array[Coordinate]): Unit = {
     var i = 0
-    while ( {
-      i < pts.length
-    }) {
+    while (i < pts.length) {
       pts(i).x = pts(i).x / scaleFactor + offsetX
       pts(i).y = pts(i).y / scaleFactor + offsetY
       i += 1

@@ -27,7 +27,8 @@ class EdgeEndBundleStar()
 /**
  * Creates a new empty EdgeEndBundleStar
  */
-  extends EdgeEndStar {
+    extends EdgeEndStar {
+
   /**
    * Insert a EdgeEnd in order in the list.
    * If there is an existing EdgeStubBundle which is parallel, the EdgeEnd is
@@ -40,8 +41,7 @@ class EdgeEndBundleStar()
     if (eb == null) {
       eb = new EdgeEndBundle(e)
       insertEdgeEnd(e, eb)
-    }
-    else eb.insert(e)
+    } else eb.insert(e)
     ()
   }
 
@@ -50,9 +50,7 @@ class EdgeEndBundleStar()
    */
   private[relate] def updateIM(im: IntersectionMatrix): Unit = {
     val it = iterator
-    while ( {
-      it.hasNext
-    }) {
+    while (it.hasNext) {
       val esb = it.next.asInstanceOf[EdgeEndBundle]
       esb.updateIM(im)
     }

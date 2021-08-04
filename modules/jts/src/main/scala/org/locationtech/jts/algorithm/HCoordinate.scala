@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -32,6 +32,7 @@ import org.locationtech.jts.geom.Coordinate
  * @version 1.7
  */
 object HCoordinate {
+
   /**
    * Computes the (approximate) intersection point between two line segments
    * using homogeneous coordinates.
@@ -44,22 +45,25 @@ object HCoordinate {
    *
    * @deprecated use { @link Intersection#intersection(Coordinate, Coordinate, Coordinate, Coordinate)}
    */
-    @throws[NotRepresentableException]
-    def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Coordinate = { // unrolled computation
-      val px = p1.y - p2.y
-      val py = p2.x - p1.x
-      val pw = p1.x * p2.y - p2.x * p1.y
-      val qx = q1.y - q2.y
-      val qy = q2.x - q1.x
-      val qw = q1.x * q2.y - q2.x * q1.y
-      val x = py * qw - qy * pw
-      val y = qx * pw - px * qw
-      val w = px * qy - qx * py
-      val xInt = x / w
-      val yInt = y / w
-      if (java.lang.Double.isNaN(xInt) || (java.lang.Double.isInfinite(xInt) || java.lang.Double.isNaN(yInt)) || java.lang.Double.isInfinite(yInt)) throw new NotRepresentableException
-      new Coordinate(xInt, yInt)
-    }
+  @throws[NotRepresentableException]
+  def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Coordinate = { // unrolled computation
+    val px   = p1.y - p2.y
+    val py   = p2.x - p1.x
+    val pw   = p1.x * p2.y - p2.x * p1.y
+    val qx   = q1.y - q2.y
+    val qy   = q2.x - q1.x
+    val qw   = q1.x * q2.y - q2.x * q1.y
+    val x    = py * qw - qy * pw
+    val y    = qx * pw - px * qw
+    val w    = px * qy - qx * py
+    val xInt = x / w
+    val yInt = y / w
+    if (
+      java.lang.Double.isNaN(xInt) || (java.lang.Double
+        .isInfinite(xInt) || java.lang.Double.isNaN(yInt)) || java.lang.Double.isInfinite(yInt)
+    ) throw new NotRepresentableException
+    new Coordinate(xInt, yInt)
+  }
 
   private def xArg(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Double = {
     val py = p2.x - p1.x
@@ -94,7 +98,7 @@ class HCoordinate(val x: Double = 0.0, val y: Double = 0.0, val w: Double = 1.0)
     this(_x, _y, 1.0)
   }
 
-  def this(p: Coordinate)  = {
+  def this(p: Coordinate) = {
     this(p.x, p.y, 1.0)
   }
 
@@ -112,24 +116,29 @@ class HCoordinate(val x: Double = 0.0, val y: Double = 0.0, val w: Double = 1.0)
    */
   def this(p1: Coordinate, p2: Coordinate) = {
     // optimization when it is known that w = 1
-    this(p1.y - p2.y,p2.x - p1.x, p1.x * p2.y - p2.x * p1.y)
+    this(p1.y - p2.y, p2.x - p1.x, p1.x * p2.y - p2.x * p1.y)
   }
 
   def this(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) = {
-    this(HCoordinate.xArg(p1, p2, q1, q2), HCoordinate.yArg(p1, p2, q1, q2), HCoordinate.zArg(p1, p2, q1, q2))
+    this(HCoordinate.xArg(p1, p2, q1, q2),
+         HCoordinate.yArg(p1, p2, q1, q2),
+         HCoordinate.zArg(p1, p2, q1, q2)
+    )
   }
 
   @throws[NotRepresentableException]
   def getX: Double = {
     val a = x / w
-    if (java.lang.Double.isNaN(a) || java.lang.Double.isInfinite(a)) throw new NotRepresentableException
+    if (java.lang.Double.isNaN(a) || java.lang.Double.isInfinite(a))
+      throw new NotRepresentableException
     a
   }
 
   @throws[NotRepresentableException]
   def getY: Double = {
     val a = y / w
-    if (java.lang.Double.isNaN(a) || java.lang.Double.isInfinite(a)) throw new NotRepresentableException
+    if (java.lang.Double.isNaN(a) || java.lang.Double.isInfinite(a))
+      throw new NotRepresentableException
     a
   }
 

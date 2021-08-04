@@ -29,23 +29,26 @@ import org.locationtech.jts.geom.Polygon
  * @version 1.7
  */
 object ConnectedElementLocationFilter {
+
   /**
    * Returns a list containing a point from each Polygon, LineString, and Point
    * found inside the specified geometry. Thus, if the specified geometry is
    * not a GeometryCollection, an empty list will be returned. The elements of the list
    * are {link org.locationtech.jts.operation.distance.GeometryLocation}s.
    */
-    def getLocations(geom: Geometry): util.ArrayList[GeometryLocation] = {
-      val locations = new util.ArrayList[GeometryLocation]
-      geom.applyF(new ConnectedElementLocationFilter(locations))
-      locations
-    }
+  def getLocations(geom: Geometry): util.ArrayList[GeometryLocation] = {
+    val locations = new util.ArrayList[GeometryLocation]
+    geom.applyF(new ConnectedElementLocationFilter(locations))
+    locations
+  }
 }
 
-class ConnectedElementLocationFilter private[distance](var locations: util.List[GeometryLocation]) extends GeometryFilter {
+class ConnectedElementLocationFilter private[distance] (var locations: util.List[GeometryLocation])
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = { // empty geometries do not provide a location
     if (geom.isEmpty) return
-    if (geom.isInstanceOf[Point] || geom.isInstanceOf[LineString] || geom.isInstanceOf[Polygon]) locations.add(new GeometryLocation(geom, 0, geom.getCoordinate))
+    if (geom.isInstanceOf[Point] || geom.isInstanceOf[LineString] || geom.isInstanceOf[Polygon])
+      locations.add(new GeometryLocation(geom, 0, geom.getCoordinate))
     ()
   }
 }

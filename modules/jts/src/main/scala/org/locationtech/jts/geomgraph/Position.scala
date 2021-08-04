@@ -18,10 +18,13 @@ package org.locationtech.jts.geomgraph
  * @version 1.7
  */
 object Position {
+
   /** An indicator that a Location is <i>on</i> a GraphComponent */
-    val ON = 0
+  val ON = 0
+
   /** An indicator that a Location is to the <i>left</i> of a GraphComponent */
   val LEFT = 1
+
   /** An indicator that a Location is to the <i>right</i> of a GraphComponent */
   val RIGHT = 2
 

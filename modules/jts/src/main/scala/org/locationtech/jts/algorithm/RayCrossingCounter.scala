@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -53,9 +53,9 @@ import org.locationtech.jts.geom.Location
  * other algorithms.
  *
  * @author Martin Davis
- *
  */
 object RayCrossingCounter {
+
   /**
    * Determines the {link Location} of a point in a ring.
    * This method is an exemplar of how to use this class.
@@ -64,20 +64,18 @@ object RayCrossingCounter {
    * @param ring an array of Coordinates forming a ring
    * return the location of the point in the ring
    */
-    def locatePointInRing(p: Coordinate, ring: Array[Coordinate]): Int = {
-      val counter = new RayCrossingCounter(p)
-      var i = 1
-      while ( {
-        i < ring.length
-      }) {
-        val p1 = ring(i)
-        val p2 = ring(i - 1)
-        counter.countSegment(p1, p2)
-        if (counter.isOnSegment) return counter.getLocation
-        i += 1
-      }
-      counter.getLocation
+  def locatePointInRing(p: Coordinate, ring: Array[Coordinate]): Int = {
+    val counter = new RayCrossingCounter(p)
+    var i       = 1
+    while (i < ring.length) {
+      val p1 = ring(i)
+      val p2 = ring(i - 1)
+      counter.countSegment(p1, p2)
+      if (counter.isOnSegment) return counter.getLocation
+      i += 1
     }
+    counter.getLocation
+  }
 
   /**
    * Determines the {link Location} of a point in a ring.
@@ -90,24 +88,22 @@ object RayCrossingCounter {
    */
   def locatePointInRing(p: Coordinate, ring: CoordinateSequence): Int = {
     val counter = new RayCrossingCounter(p)
-    val p1 = new Coordinate
-    val p2 = new Coordinate
-    var i = 1
-    while ( {
-      i < ring.size
-    }) {
+    val p1      = new Coordinate
+    val p2      = new Coordinate
+    var i       = 1
+    while (i < ring.size) {
       ring.getCoordinate(i, p1)
       ring.getCoordinate(i - 1, p2)
       counter.countSegment(p1, p2)
       if (counter.isOnSegment) return counter.getLocation
-        i += 1
+      i += 1
     }
     counter.getLocation
   }
 }
 
 class RayCrossingCounter(var p: Coordinate) {
-  private var crossingCount = 0
+  private var crossingCount    = 0
   // true if the test point lies on an input segment
   private var isPointOnSegment = false
 
@@ -118,6 +114,7 @@ class RayCrossingCounter(var p: Coordinate) {
    * @param p2 another endpoint of the segment
    */
   def countSegment(p1: Coordinate, p2: Coordinate): Unit = {
+
     /**
      * For each segment, check if it crosses
      * a horizontal ray running from the test point in the positive x direction.

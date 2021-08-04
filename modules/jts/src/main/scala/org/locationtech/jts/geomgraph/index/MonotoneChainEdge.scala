@@ -34,9 +34,9 @@ import org.locationtech.jts.geomgraph.Edge
  * @version 1.7
  */
 class MonotoneChainEdge(var e: Edge) {
-  val mcb = new MonotoneChainIndexer
+  val mcb                       = new MonotoneChainIndexer
   // cache a reference to the coord array, for efficiency
-  private[index] var pts = e.getCoordinates
+  private[index] var pts        = e.getCoordinates
   // the lists of start/end indexes of the monotone chains.
   // Includes the end point of the edge as a sentinel
   private[index] var startIndex = mcb.getChainStartIndices(pts)
@@ -61,13 +61,9 @@ class MonotoneChainEdge(var e: Edge) {
 
   def computeIntersects(mce: MonotoneChainEdge, si: SegmentIntersector): Unit = {
     var i = 0
-    while ( {
-      i < startIndex.length - 1
-    }) {
+    while (i < startIndex.length - 1) {
       var j = 0
-      while ( {
-        j < mce.startIndex.length - 1
-      }) {
+      while (j < mce.startIndex.length - 1) {
         computeIntersectsForChain(i, mce, j, si)
         j += 1
       }
@@ -75,9 +71,27 @@ class MonotoneChainEdge(var e: Edge) {
     }
   }
 
-  def computeIntersectsForChain(chainIndex0: Int, mce: MonotoneChainEdge, chainIndex1: Int, si: SegmentIntersector): Unit = computeIntersectsForChain(startIndex(chainIndex0), startIndex(chainIndex0 + 1), mce, mce.startIndex(chainIndex1), mce.startIndex(chainIndex1 + 1), si)
+  def computeIntersectsForChain(
+    chainIndex0: Int,
+    mce:         MonotoneChainEdge,
+    chainIndex1: Int,
+    si:          SegmentIntersector
+  ): Unit = computeIntersectsForChain(startIndex(chainIndex0),
+                                      startIndex(chainIndex0 + 1),
+                                      mce,
+                                      mce.startIndex(chainIndex1),
+                                      mce.startIndex(chainIndex1 + 1),
+                                      si
+  )
 
-  private def computeIntersectsForChain(start0: Int, end0: Int, mce: MonotoneChainEdge, start1: Int, end1: Int, ei: SegmentIntersector): Unit = { //Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
+  private def computeIntersectsForChain(
+    start0: Int,
+    end0:   Int,
+    mce:    MonotoneChainEdge,
+    start1: Int,
+    end1:   Int,
+    ei:     SegmentIntersector
+  ): Unit = { //Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
     // terminating condition for the recursion
     if (end0 - start0 == 1 && end1 - start1 == 1) {
       ei.addIntersections(e, start0, mce.e, start1)
@@ -110,5 +124,11 @@ class MonotoneChainEdge(var e: Edge) {
    * @param end1
    * return true if the section envelopes overlap
    */
-  private def overlaps(start0: Int, end0: Int, mce: MonotoneChainEdge, start1: Int, end1: Int): Boolean = Envelope.intersects(pts(start0), pts(end0), mce.pts(start1), mce.pts(end1))
+  private def overlaps(
+    start0: Int,
+    end0:   Int,
+    mce:    MonotoneChainEdge,
+    start1: Int,
+    end1:   Int
+  ): Boolean = Envelope.intersects(pts(start0), pts(end0), mce.pts(start1), mce.pts(end1))
 }

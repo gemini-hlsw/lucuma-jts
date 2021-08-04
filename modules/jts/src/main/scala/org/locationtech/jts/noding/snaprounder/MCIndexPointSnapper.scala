@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -36,8 +36,11 @@ import org.locationtech.jts.noding.SegmentString
  */
 object MCIndexPointSnapper {
 
-  class HotPixelSnapAction(var hotPixel: HotPixel, var parentEdge: SegmentString, // is -1 if hotPixel is not a vertex
-                           var hotPixelVertexIndex: Int) extends MonotoneChainSelectAction {
+  class HotPixelSnapAction(
+    var hotPixel:            HotPixel,
+    var parentEdge:          SegmentString, // is -1 if hotPixel is not a vertex
+    var hotPixelVertexIndex: Int
+  ) extends MonotoneChainSelectAction {
     private var visNodeAdded = false
 
     /**
@@ -95,12 +98,15 @@ class MCIndexPointSnapper(val vindex: SpatialIndex[Any]) {
    */
   def snap(hotPixel: HotPixel, parentEdge: SegmentString, hotPixelVertexIndex: Int): Boolean = {
 
-    val pixelEnv = hotPixel.getSafeEnvelope
-    val hotPixelSnapAction = new MCIndexPointSnapper.HotPixelSnapAction(hotPixel, parentEdge, hotPixelVertexIndex)
-    index.query(pixelEnv, (item: Any) => {
-      val testChain = item.asInstanceOf[MonotoneChain]
-      testChain.select(pixelEnv, hotPixelSnapAction)
-    })
+    val pixelEnv           = hotPixel.getSafeEnvelope
+    val hotPixelSnapAction =
+      new MCIndexPointSnapper.HotPixelSnapAction(hotPixel, parentEdge, hotPixelVertexIndex)
+    index.query(pixelEnv,
+                (item: Any) => {
+                  val testChain = item.asInstanceOf[MonotoneChain]
+                  testChain.select(pixelEnv, hotPixelSnapAction)
+                }
+    )
     hotPixelSnapAction.isNodeAdded
   }
 

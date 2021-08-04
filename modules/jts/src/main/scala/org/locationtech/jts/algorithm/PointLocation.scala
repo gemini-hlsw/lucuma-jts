@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,9 +30,9 @@ import org.locationtech.jts.geom.Location
  * structures such as lines and rings.
  *
  * @author Martin Davis
- *
  */
 object PointLocation {
+
   /**
    * Tests whether a point lies on the line defined by a list of
    * coordinates.
@@ -42,20 +42,18 @@ object PointLocation {
    * return true if the point is a vertex of the line or lies in the interior
    *         of a line segment in the line
    */
-    def isOnLine(p: Coordinate, line: Array[Coordinate]): Boolean = {
-      val lineIntersector = new RobustLineIntersector
-      var i = 1
-      while ( {
-        i < line.length
-      }) {
-        val p0 = line(i - 1)
-        val p1 = line(i)
-        lineIntersector.computeIntersection(p, p0, p1)
-        if (lineIntersector.hasIntersection) return true
-        i += 1
-      }
-      false
+  def isOnLine(p: Coordinate, line: Array[Coordinate]): Boolean = {
+    val lineIntersector = new RobustLineIntersector
+    var i               = 1
+    while (i < line.length) {
+      val p0 = line(i - 1)
+      val p1 = line(i)
+      lineIntersector.computeIntersection(p, p0, p1)
+      if (lineIntersector.hasIntersection) return true
+      i += 1
     }
+    false
+  }
 
   /**
    * Tests whether a point lies on the line defined by a
@@ -68,13 +66,11 @@ object PointLocation {
    */
   def isOnLine(p: Coordinate, line: CoordinateSequence): Boolean = {
     val lineIntersector = new RobustLineIntersector
-    val p0 = new Coordinate
-    val p1 = new Coordinate
-    val n = line.size
-    var i = 1
-    while ( {
-      i < n
-    }) {
+    val p0              = new Coordinate
+    val p1              = new Coordinate
+    val n               = line.size
+    var i               = 1
+    while (i < n) {
       line.getCoordinate(i - 1, p0)
       line.getCoordinate(i, p1)
       lineIntersector.computeIntersection(p, p0, p1)
@@ -100,7 +96,8 @@ object PointLocation {
    * return true if p is inside ring
    * @see locatePointInRing
    */
-  def isInRing(p: Coordinate, ring: Array[Coordinate]): Boolean = PointLocation.locateInRing(p, ring) != Location.EXTERIOR
+  def isInRing(p: Coordinate, ring: Array[Coordinate]): Boolean =
+    PointLocation.locateInRing(p, ring) != Location.EXTERIOR
 
   /**
    * Determines whether a point lies in the interior, on the boundary, or in the
@@ -116,5 +113,6 @@ object PointLocation {
    * first point identical to last point)
    * return the { @link Location} of p relative to the ring
    */
-  def locateInRing(p: Coordinate, ring: Array[Coordinate]): Int = RayCrossingCounter.locatePointInRing(p, ring)
+  def locateInRing(p: Coordinate, ring: Array[Coordinate]): Int =
+    RayCrossingCounter.locatePointInRing(p, ring)
 }

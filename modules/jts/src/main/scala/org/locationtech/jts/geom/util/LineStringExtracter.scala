@@ -24,6 +24,7 @@ import org.locationtech.jts.geom.LineString
  * @see GeometryExtracter
  */
 object LineStringExtracter {
+
   /**
    * Extracts the {link LineString} elements from a single {link Geometry}
    * and adds them to the provided {link List}.
@@ -32,15 +33,15 @@ object LineStringExtracter {
    * @param lines the list to add the extracted LineStrings to
    * return the list argument
    */
-    def getLines(geom: Geometry, lines: util.List[Geometry]): util.List[Geometry] = {
-      geom match {
-        case _: LineString => lines.add(geom)
-        case _: GeometryCollection => geom.applyF(new LineStringExtracter(lines))
-        case _ =>
-      }
-      // skip non-LineString elemental geometries
-      lines
+  def getLines(geom: Geometry, lines: util.List[Geometry]): util.List[Geometry] = {
+    geom match {
+      case _: LineString         => lines.add(geom)
+      case _: GeometryCollection => geom.applyF(new LineStringExtracter(lines))
+      case _                     =>
     }
+    // skip non-LineString elemental geometries
+    lines
+  }
 
   /**
    * Extracts the {link LineString} elements from a single {link Geometry}
@@ -66,7 +67,7 @@ class LineStringExtracter(var comps: util.List[Geometry])
 /**
  * Constructs a filter with a list in which to store the elements found.
  */
-  extends GeometryFilter {
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (geom.isInstanceOf[LineString]) comps.add(geom)
     ()

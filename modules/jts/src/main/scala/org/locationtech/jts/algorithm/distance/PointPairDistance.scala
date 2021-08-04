@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,9 +30,9 @@ import org.locationtech.jts.geom.Coordinate
  * either maximum or minimum distance.
  */
 class PointPairDistance() {
-  private val pt = Array(new Coordinate, new Coordinate)
+  private val pt       = Array(new Coordinate, new Coordinate)
   private var distance = Double.NaN
-  private var isNull = true
+  private var isNull   = true
 
   def initialize(): Unit = isNull = true
 

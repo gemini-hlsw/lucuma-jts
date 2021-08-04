@@ -18,5 +18,5 @@ package org.locationtech.jts.algorithm
  * @version 1.7
  * @see HCoordinate
  */
-class NotRepresentableException() extends Exception("Projective point not representable on the Cartesian plane.") {
-}
+class NotRepresentableException()
+    extends Exception("Projective point not representable on the Cartesian plane.") {}

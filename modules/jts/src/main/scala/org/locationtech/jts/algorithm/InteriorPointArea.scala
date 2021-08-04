@@ -67,6 +67,7 @@ import org.locationtech.jts.util.Assert
  * @version 1.17
  */
 object InteriorPointArea {
+
   /**
    * Computes an interior point for the
    * polygonal components of a Geometry.
@@ -75,10 +76,10 @@ object InteriorPointArea {
    * return the computed interior point,
    *         or <code>null</code> if the geometry has no polygonal components
    */
-    def getInteriorPoint(geom: Geometry): Coordinate = {
-      val intPt = new InteriorPointArea(geom)
-      intPt.getInteriorPoint
-    }
+  def getInteriorPoint(geom: Geometry): Coordinate = {
+    val intPt = new InteriorPointArea(geom)
+    intPt.getInteriorPoint
+  }
 
   private def avg(a: Double, b: Double) = (a + b) / 2.0
 
@@ -88,9 +89,9 @@ object InteriorPointArea {
    * to allow choosing the widest section occurrence.
    *
    * @author mdavis
-   *
    */
   private object InteriorPointPolygon {
+
     /**
      * Tests if an edge intersection contributes to the crossing count.
      * Some crossing situations are not counted,
@@ -102,18 +103,18 @@ object InteriorPointArea {
      * @param scanY the Y-ordinate of the horizontal line
      * return true if the edge crossing is counted
      */
-      private def isEdgeCrossingCounted(p0: Coordinate, p1: Coordinate, scanY: Double): Boolean = {
-        val y0 = p0.getY
-        val y1 = p1.getY
-        // skip horizontal lines
-        if (y0 == y1) return false
-        // handle cases where vertices lie on scan-line
-        // downward segment does not include start point
-        if (y0 == scanY && y1 < scanY) return false
-        // upward segment does not include endpoint
-        if (y1 == scanY && y0 < scanY) return false
-        true
-      }
+    private def isEdgeCrossingCounted(p0: Coordinate, p1: Coordinate, scanY: Double): Boolean = {
+      val y0 = p0.getY
+      val y1 = p1.getY
+      // skip horizontal lines
+      if (y0 == y1) return false
+      // handle cases where vertices lie on scan-line
+      // downward segment does not include start point
+      if (y0 == scanY && y1 < scanY) return false
+      // upward segment does not include endpoint
+      if (y1 == scanY && y0 < scanY) return false
+      true
+    }
 
     /**
      * Computes the intersection of a segment with a horizontal line.
@@ -128,14 +129,14 @@ object InteriorPointArea {
      * return
      */
     private def intersection(p0: Coordinate, p1: Coordinate, Y: Double): Double = {
-      val x0 = p0.getX
-      val x1 = p1.getX
+      val x0    = p0.getX
+      val x1    = p1.getX
       if (x0 == x1) return x0
       // Assert: segDX is non-zero, due to previous equality test
       val segDX = x1 - x0
       val segDY = p1.getY - p0.getY
-      val m = segDY / segDX
-      val x = x0 + ((Y - p0.getY) / m)
+      val m     = segDY / segDX
+      val x     = x0 + ((Y - p0.getY) / m)
       x
     }
 
@@ -171,13 +172,13 @@ object InteriorPointArea {
 
   private class InteriorPointPolygon(var polygon: Polygon) {
 
-  /**
-   * Creates a new InteriorPointPolygon instance.
-   *
-   * @param polygon the polygon to test
-   */
-    private val interiorPointY = ScanLineYOrdinateFinder.getScanLineY(polygon)
-    private var interiorSectionWidth = 0.0
+    /**
+     * Creates a new InteriorPointPolygon instance.
+     *
+     * @param polygon the polygon to test
+     */
+    private val interiorPointY            = ScanLineYOrdinateFinder.getScanLineY(polygon)
+    private var interiorSectionWidth      = 0.0
     private var interiorPoint: Coordinate = null
 
     /**
@@ -198,9 +199,9 @@ object InteriorPointArea {
 
     /**
      * Compute the interior point.
-     *
      */
     def process(): Unit = {
+
       /**
        * This results in returning a null Coordinate
        */
@@ -212,10 +213,8 @@ object InteriorPointArea {
       interiorPoint = new Coordinate(polygon.getCoordinate)
       val crossings = new util.ArrayList[Double]
       scanRing(polygon.getExteriorRing, crossings)
-      var i = 0
-      while ( {
-        i < polygon.getNumInteriorRing
-      }) {
+      var i         = 0
+      while (i < polygon.getNumInteriorRing) {
         scanRing(polygon.getInteriorRingN(i), crossings)
         i += 1
       }
@@ -223,20 +222,24 @@ object InteriorPointArea {
     }
 
     private def scanRing(ring: LinearRing, crossings: util.List[Double]): Unit = { // skip rings which don't cross scan line
-      if (!InteriorPointPolygon.intersectsHorizontalLine(ring.getEnvelopeInternal, interiorPointY)) return
+      if (!InteriorPointPolygon.intersectsHorizontalLine(ring.getEnvelopeInternal, interiorPointY))
+        return
       val seq = ring.getCoordinateSequence
-      var i = 1
-      while ( {
-        i < seq.size
-      }) {
+      var i   = 1
+      while (i < seq.size) {
         val ptPrev = seq.getCoordinate(i - 1)
-        val pt = seq.getCoordinate(i)
+        val pt     = seq.getCoordinate(i)
         addEdgeCrossing(ptPrev, pt, interiorPointY, crossings)
         i += 1
       }
     }
 
-    private def addEdgeCrossing(p0: Coordinate, p1: Coordinate, scanY: Double, crossings: util.List[Double]): Unit = { // skip non-crossing segments
+    private def addEdgeCrossing(
+      p0:        Coordinate,
+      p1:        Coordinate,
+      scanY:     Double,
+      crossings: util.List[Double]
+    ): Unit = { // skip non-crossing segments
       if (!InteriorPointPolygon.intersectsHorizontalLine(p0, p1, scanY)) return
       if (!InteriorPointPolygon.isEdgeCrossingCounted(p0, p1, scanY)) return
       // edge intersects scan line, so add a crossing
@@ -256,18 +259,20 @@ object InteriorPointArea {
     private def findBestMidpoint(crossings: util.List[Double]): Unit = { // zero-area polygons will have no crossings
       if (crossings.size == 0) return
       // TODO: is there a better way to verify the crossings are correct?
-      Assert.isTrue(0 == crossings.size % 2, "Interior Point robustness failure: odd number of scanline crossings")
-      crossings.sort(java.lang.Double.compare)
+      Assert.isTrue(0 == crossings.size % 2,
+                    "Interior Point robustness failure: odd number of scanline crossings"
+      )
+      val comparator: util.Comparator[Double] = java.lang.Double.compare _
+      crossings.sort(comparator)
       /*
-             * Entries in crossings list are expected to occur in pairs representing a
-             * section of the scan line interior to the polygon (which may be zero-length)
-             */ var i = 0
-      while ( {
-        i < crossings.size
-      }) {
-        val x1 = crossings.get(i)
+       * Entries in crossings list are expected to occur in pairs representing a
+       * section of the scan line interior to the polygon (which may be zero-length)
+       */
+      var i = 0
+      while (i < crossings.size) {
+        val x1    = crossings.get(i)
         // crossings count must be even so this should be safe
-        val x2 = crossings.get(i + 1)
+        val x2    = crossings.get(i + 1)
         val width = x2 - x1
         if (width > interiorSectionWidth) {
           interiorSectionWidth = width
@@ -304,7 +309,7 @@ object InteriorPointArea {
           DD xInt = DD.valueOf(x0).selfAdd(dx);
           return xInt.doubleValue();
         }
-      */
+     */
   }
 
   /**
@@ -320,7 +325,6 @@ object InteriorPointArea {
    * may be equal to a vertex Y-ordinate.
    *
    * @author mdavis
-   *
    */
   private object ScanLineYOrdinateFinder {
     def getScanLineY(poly: Polygon): Double = {
@@ -331,18 +335,16 @@ object InteriorPointArea {
 
   private class ScanLineYOrdinateFinder(var poly: Polygon) { // initialize using extremal values
     private var centreY = .0
-    private var hiY = Double.MaxValue
-    private var loY = -Double.MaxValue
+    private var hiY     = Double.MaxValue
+    private var loY     = -Double.MaxValue
     hiY = poly.getEnvelopeInternal.getMaxY
     loY = poly.getEnvelopeInternal.getMinY
     centreY = avg(loY, hiY)
 
     def getScanLineY: Double = {
       process(poly.getExteriorRing)
-      var i = 0
-      while ( {
-        i < poly.getNumInteriorRing
-      }) {
+      var i         = 0
+      while (i < poly.getNumInteriorRing) {
         process(poly.getInteriorRingN(i))
         i += 1
       }
@@ -352,32 +354,31 @@ object InteriorPointArea {
 
     private def process(line: LineString): Unit = {
       val seq = line.getCoordinateSequence
-      var i = 0
-      while ( {
-        i < seq.size
-      }) {
+      var i   = 0
+      while (i < seq.size) {
         val y = seq.getY(i)
         updateInterval(y)
         i += 1
       }
     }
 
-    private def updateInterval(y: Double): Unit = if (y <= centreY) if (y > loY) loY = y
-    else if (y > centreY) if (y < hiY) hiY = y
+    private def updateInterval(y: Double): Unit = if (y <= centreY)
+      if (y > loY) loY = y
+      else if (y > centreY) if (y < hiY) hiY = y
   }
 
 }
 
 class InteriorPointArea(val g: Geometry) {
 
-/**
- * Creates a new interior point finder for an areal geometry.
- *
- * @param g an areal geometry
- */
+  /**
+   * Creates a new interior point finder for an areal geometry.
+   *
+   * @param g an areal geometry
+   */
   process(g)
   private var interiorPoint: Coordinate = null
-  private var maxWidth: Double = -1
+  private var maxWidth: Double          = -1
 
   /**
    * Gets the computed interior point.
@@ -399,10 +400,8 @@ class InteriorPointArea(val g: Geometry) {
     if (geom.isInstanceOf[Polygon]) processPolygon(geom.asInstanceOf[Polygon])
     else if (geom.isInstanceOf[GeometryCollection]) {
       val gc = geom.asInstanceOf[GeometryCollection]
-      var i = 0
-      while ( {
-        i < gc.getNumGeometries
-      }) {
+      var i  = 0
+      while (i < gc.getNumGeometries) {
         process(gc.getGeometryN(i))
         i += 1
       }
@@ -419,7 +418,7 @@ class InteriorPointArea(val g: Geometry) {
   private def processPolygon(polygon: Polygon): Unit = {
     val intPtPoly = new InteriorPointArea.InteriorPointPolygon(polygon)
     intPtPoly.process()
-    val width = intPtPoly.getWidth
+    val width     = intPtPoly.getWidth
     if (width > maxWidth) {
       maxWidth = width
       interiorPoint = intPtPoly.getInteriorPoint

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -35,9 +35,7 @@ abstract class ShortCircuitedGeometryVisitor() {
 
   def applyTo(geom: Geometry): Unit = {
     var i = 0
-    while ( {
-      i < geom.getNumGeometries && !visDone
-    }) {
+    while (i < geom.getNumGeometries && !visDone) {
       val element = geom.getGeometryN(i)
       if (!element.isInstanceOf[GeometryCollection]) {
         visit(element)
@@ -45,8 +43,7 @@ abstract class ShortCircuitedGeometryVisitor() {
           visDone = true
           return
         }
-      }
-      else applyTo(element)
+      } else applyTo(element)
       i += 1
     }
   }

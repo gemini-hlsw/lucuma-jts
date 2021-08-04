@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -37,7 +37,6 @@ import org.locationtech.jts.geom.util.GeometryCombiner
  * Does not copy any component geometries.
  *
  * @author mbdavis
- *
  */
 object PointGeometryUnion {
   def union(pointGeom: Puntal, otherGeom: Geometry): Geometry = {
@@ -49,19 +48,17 @@ object PointGeometryUnion {
 class PointGeometryUnion(val pointGeomArg: Puntal, var otherGeom: Geometry) {
   val pointGeom: Geometry = pointGeomArg.asInstanceOf[Geometry]
 //  private var pointGeom = null
-  private val geomFact = otherGeom.getFactory
+  private val geomFact    = otherGeom.getFactory
 
   def union: Geometry = {
-    val locater = new PointLocator
+    val locater          = new PointLocator
     // use a set to eliminate duplicates, as required for union
-    val exteriorCoords = new util.TreeSet[Coordinate]
-    var i = 0
-    while ( {
-      i < pointGeom.getNumGeometries
-    }) {
+    val exteriorCoords   = new util.TreeSet[Coordinate]
+    var i                = 0
+    while (i < pointGeom.getNumGeometries) {
       val point = pointGeom.getGeometryN(i).asInstanceOf[Point]
       val coord = point.getCoordinate
-      val loc = locater.locate(coord, otherGeom)
+      val loc   = locater.locate(coord, otherGeom)
       if (loc == Location.EXTERIOR) exteriorCoords.add(coord)
       i += 1
     }
@@ -69,7 +66,7 @@ class PointGeometryUnion(val pointGeomArg: Puntal, var otherGeom: Geometry) {
     if (exteriorCoords.size == 0) return otherGeom
     // make a puntal geometry of appropriate size
     var ptComp: Geometry = null
-    val coords = CoordinateArrays.toCoordinateArray(exteriorCoords)
+    val coords           = CoordinateArrays.toCoordinateArray(exteriorCoords)
     if (coords.length == 1) ptComp = geomFact.createPoint(coords(0))
     else ptComp = geomFact.createMultiPointFromCoords(coords)
     // add point component to the other geometry

@@ -30,10 +30,12 @@ object GeometryCollectionIterator {
   private def isAtomic(geom: Geometry) = !geom.isInstanceOf[GeometryCollection]
 }
 
-class GeometryCollectionIterator(/**
-                                  * The <code>Geometry</code> being iterated over.
-                                  */
-                                 var parent: Geometry)
+class GeometryCollectionIterator(
+  /**
+   * The <code>Geometry</code> being iterated over.
+   */
+  var parent: Geometry
+)
 
 // /**
 //  * Constructs an iterator over the given <code>Geometry</code>.
@@ -41,21 +43,25 @@ class GeometryCollectionIterator(/**
 //  * @param  parent the geometry over which to iterate; also, the first
 //  *                element returned by the iterator.
 //  */
-  extends util.Iterator[Geometry] {
+    extends util.Iterator[Geometry] {
+
   /**
    * Indicates whether or not the first element
    * (the root <code>GeometryCollection</code>) has been returned.
    */
   private var atStart = false
+
   /**
    * The number of <code>Geometry</code>s in the the <code>GeometryCollection</code>.
    */
   private var max = 0
+
   /**
    * The index of the <code>Geometry</code> that will be returned when <code>next</code>
    * is called.
    */
   private var index = 0
+
   /**
    * The iterator over a nested <code>Geometry</code>, or <code>null</code>
    * if this <code>GeometryCollectionIterator</code> is not currently iterating
@@ -94,12 +100,13 @@ class GeometryCollectionIterator(/**
       }
       return parent
     }
-    if (subcollectionIterator != null) if (subcollectionIterator.hasNext) return subcollectionIterator.next
-    else subcollectionIterator = null
+    if (subcollectionIterator != null)
+      if (subcollectionIterator.hasNext) return subcollectionIterator.next
+      else subcollectionIterator = null
     if (index >= max) throw new NoSuchElementException
-    val obj = parent.getGeometryN({
+    val obj = parent.getGeometryN {
       index += 1; index - 1
-    })
+    }
     if (obj.isInstanceOf[GeometryCollection]) {
       subcollectionIterator = new GeometryCollectionIterator(obj.asInstanceOf[GeometryCollection])
       // there will always be at least one element in the sub-collection

@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -30,17 +30,15 @@ import org.locationtech.jts.geom.Point
 import org.locationtech.jts.index.strtree.STRtree
 
 object FacetSequenceTreeBuilder { // 6 seems to be a good facet sequence size
-  private val FACET_SEQUENCE_SIZE = 6
+  private val FACET_SEQUENCE_SIZE    = 6
   // Seems to be better to use a minimum node capacity
   private val STR_TREE_NODE_CAPACITY = 4
 
   def build(g: Geometry): STRtree = {
-    val tree = new STRtree(STR_TREE_NODE_CAPACITY)
+    val tree     = new STRtree(STR_TREE_NODE_CAPACITY)
     val sections = computeFacetSequences(g)
-    val i = sections.iterator
-    while ( {
-      i.hasNext
-    }) {
+    val i        = sections.iterator
+    while (i.hasNext) {
       val section = i.next
       tree.insert(section.getEnvelope, section)
     }
@@ -62,8 +60,7 @@ object FacetSequenceTreeBuilder { // 6 seems to be a good facet sequence size
         if (geom.isInstanceOf[LineString]) {
           seq = geom.asInstanceOf[LineString].getCoordinateSequence
           addFacetSequences(geom, seq, sections)
-        }
-        else if (geom.isInstanceOf[Point]) {
+        } else if (geom.isInstanceOf[Point]) {
           seq = geom.asInstanceOf[Point].getCoordinateSequence
           addFacetSequences(geom, seq, sections)
         }
@@ -72,13 +69,15 @@ object FacetSequenceTreeBuilder { // 6 seems to be a good facet sequence size
     sections
   }
 
-  private def addFacetSequences(geom: Geometry, pts: CoordinateSequence, sections: util.List[FacetSequence]): Unit = {
-    var i = 0
+  private def addFacetSequences(
+    geom:     Geometry,
+    pts:      CoordinateSequence,
+    sections: util.List[FacetSequence]
+  ): Unit = {
+    var i    = 0
     val size = pts.size
-    while ( {
-      i <= size - 1
-    }) {
-      var end = i + FACET_SEQUENCE_SIZE + 1
+    while (i <= size - 1) {
+      var end  = i + FACET_SEQUENCE_SIZE + 1
       // if only one point remains after this section, include it in this
       // section
       if (end >= size - 1) end = size

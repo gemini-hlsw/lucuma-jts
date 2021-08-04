@@ -26,34 +26,34 @@ class SimpleEdgeSetIntersector() extends EdgeSetIntersector {
   // statistics information
   private[index] var nOverlaps = 0
 
-  override def computeIntersections(edges: util.List[Edge], si: SegmentIntersector, testAllSegments: Boolean): Unit = {
+  override def computeIntersections(
+    edges:           util.List[Edge],
+    si:              SegmentIntersector,
+    testAllSegments: Boolean
+  ): Unit = {
     nOverlaps = 0
     val i0 = edges.iterator
-    while ( {
-      i0.hasNext
-    }) {
+    while (i0.hasNext) {
       val edge0 = i0.next
-      val i1 = edges.iterator
-      while ( {
-        i1.hasNext
-      }) {
+      val i1    = edges.iterator
+      while (i1.hasNext) {
         val edge1 = i1.next
         if (testAllSegments || (edge0 ne edge1)) computeIntersects(edge0, edge1, si)
       }
     }
   }
 
-  override def computeIntersections(edges0: util.List[Edge], edges1: util.List[Edge], si: SegmentIntersector): Unit = {
+  override def computeIntersections(
+    edges0: util.List[Edge],
+    edges1: util.List[Edge],
+    si:     SegmentIntersector
+  ): Unit = {
     nOverlaps = 0
     val i0 = edges0.iterator
-    while ( {
-      i0.hasNext
-    }) {
+    while (i0.hasNext) {
       val edge0 = i0.next
-      val i1 = edges1.iterator
-      while ( {
-        i1.hasNext
-      }) {
+      val i1    = edges1.iterator
+      while (i1.hasNext) {
         val edge1 = i1.next
         computeIntersects(edge0, edge1, si)
       }
@@ -64,18 +64,14 @@ class SimpleEdgeSetIntersector() extends EdgeSetIntersector {
    * Performs a brute-force comparison of every segment in each Edge.
    * This has n^2 performance, and is about 100 times slower than using
    * monotone chains.
-   **/
+   */
   private def computeIntersects(e0: Edge, e1: Edge, si: SegmentIntersector): Unit = {
     val pts0 = e0.getCoordinates
     val pts1 = e1.getCoordinates
-    var i0 = 0
-    while ( {
-      i0 < pts0.length - 1
-    }) {
+    var i0   = 0
+    while (i0 < pts0.length - 1) {
       var i1 = 0
-      while ( {
-        i1 < pts1.length - 1
-      }) {
+      while (i1 < pts1.length - 1) {
         si.addIntersections(e0, i0, e1, i1)
         i1 += 1
       }

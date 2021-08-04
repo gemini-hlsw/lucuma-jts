@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2018 Vivid Solutions
  *
  * All rights reserved. This program and the accompanying materials
@@ -52,12 +52,16 @@ package org.locationtech.jts.geom
  * @version 1.7
  */
 object CoordinateSequence {
+
   /** Standard ordinate index value for, where X is 0 */
-    val X = 0
+  val X = 0
+
   /** Standard ordinate index value for, where Y is 1 */
   val Y = 1
+
   /** Standard z-ordinate index */
   val Z = 2
+
   /**
    * Standard ordinate index value for, where M is 3.
    *
@@ -68,6 +72,7 @@ object CoordinateSequence {
 }
 
 trait CoordinateSequence extends Cloneable {
+
   /**
    * Returns the dimension (number of ordinates in each coordinate) for this sequence.
    *
@@ -75,7 +80,7 @@ trait CoordinateSequence extends Cloneable {
    *
    * return the dimension of the sequence.
    */
-    def getDimension: Int
+  def getDimension: Int
 
   /**
    * Returns the number of measures included in {link #getDimension()} for each coordinate for this
@@ -177,7 +182,7 @@ trait CoordinateSequence extends Cloneable {
 
   /**
    * Returns ordinate Z of the specified coordinate if available.
-
+   *
    * @param index
    * return the value of the Z ordinate in the index'th coordinate, or Double.NaN if not defined.
    */
@@ -193,8 +198,7 @@ trait CoordinateSequence extends Cloneable {
   def getM(index: Int): Double = if (hasM) {
     val mIndex = getDimension - getMeasures
     getOrdinate(index, mIndex)
-  }
-  else Double.NaN
+  } else Double.NaN
 
   /**
    * Returns the ordinate of a coordinate in this sequence.

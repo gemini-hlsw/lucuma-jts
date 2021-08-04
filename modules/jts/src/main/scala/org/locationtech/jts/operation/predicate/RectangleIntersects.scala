@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -46,6 +46,7 @@ import org.locationtech.jts.geom.util.ShortCircuitedGeometryVisitor
  * @version 1.7
  */
 object RectangleIntersects {
+
   /**
    * Tests whether a rectangle intersects a given geometry.
    *
@@ -55,20 +56,20 @@ object RectangleIntersects {
    * a Geometry of any type
    * return true if the geometries intersect
    */
-    def intersects(rectangle: Polygon, b: Geometry): Boolean = {
-      val rp = new RectangleIntersects(rectangle)
-      rp.intersects(b)
-    }
+  def intersects(rectangle: Polygon, b: Geometry): Boolean = {
+    val rp = new RectangleIntersects(rectangle)
+    rp.intersects(b)
+  }
 }
 
 class RectangleIntersects(var rectangle: Polygon) {
 
-/**
- * Create a new intersects computer for a rectangle.
- *
- * @param rectangle
- * a rectangular Polygon
- */
+  /**
+   * Create a new intersects computer for a rectangle.
+   *
+   * @param rectangle
+   * a rectangular Polygon
+   */
   private val rectEnv = rectangle.getEnvelopeInternal
 
   /**
@@ -80,6 +81,7 @@ class RectangleIntersects(var rectangle: Polygon) {
    */
   def intersects(geom: Geometry): Boolean = {
     if (!rectEnv.intersects(geom.getEnvelopeInternal)) return false
+
     /**
      * Test if rectangle envelope intersects any component envelope.
      * This handles Point components as well
@@ -87,12 +89,14 @@ class RectangleIntersects(var rectangle: Polygon) {
     val visitor = new EnvelopeIntersectsVisitor(rectEnv)
     visitor.applyTo(geom)
     if (visitor.intersects) return true
+
     /**
      * Test if any rectangle vertex is contained in the target geometry
      */
     val ecpVisitor = new GeometryContainsPointVisitor(rectangle)
     ecpVisitor.applyTo(geom)
     if (ecpVisitor.containsPoint) return true
+
     /**
      * Test if any target geometry line segment intersects the rectangle
      */
@@ -163,8 +167,8 @@ class EnvelopeIntersectsVisitor(var rectEnv: Envelope) extends ShortCircuitedGeo
  * @version 1.7
  */
 class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuitedGeometryVisitor {
-  private val rectSeq = rectangle.getExteriorRing.getCoordinateSequence
-  private val rectEnv = rectangle.getEnvelopeInternal
+  private val rectSeq        = rectangle.getExteriorRing.getCoordinateSequence
+  private val rectEnv        = rectangle.getEnvelopeInternal
   private var vcontainsPoint = false
 
   /**
@@ -182,11 +186,9 @@ class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuite
     val elementEnv = geom.getEnvelopeInternal
     if (!rectEnv.intersects(elementEnv)) return
     // test each corner of rectangle for inclusion
-    val rectPt = new Coordinate
-    var i = 0
-    while ( {
-      i < 4
-    }) {
+    val rectPt     = new Coordinate
+    var i          = 0
+    while (i < 4) {
       rectSeq.getCoordinate(i, rectPt)
       if (elementEnv.contains(rectPt)) {
         // check rect point in poly (rect is known not to touch polygon at this
@@ -200,82 +202,78 @@ class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuite
     }
   }
 
-    override protected def isDone: Boolean = vcontainsPoint
-  }
+  override protected def isDone: Boolean = vcontainsPoint
+}
 
-  /**
-   * A visitor to test for intersection between the query
-   * rectangle and the line segments of the geometry.
-   *
-   * @author Martin Davis
-   *
-   */
-  class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
+/**
+ * A visitor to test for intersection between the query
+ * rectangle and the line segments of the geometry.
+ *
+ * @author Martin Davis
+ */
+class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
 
-  /**
-   * Creates a visitor for checking rectangle intersection
-   * with segments
-   *
-   * @param rectangle the query rectangle
-   */
+/**
+ * Creates a visitor for checking rectangle intersection
+ * with segments
+ *
+ * @param rectangle the query rectangle
+ */
     extends ShortCircuitedGeometryVisitor {
-    private val rectEnv = rectangle.getEnvelopeInternal
-    private val rectIntersector = new RectangleLineIntersector(rectEnv)
-    private var hasIntersection = false
-    private val p0 = new Coordinate
-    private val p1 = new Coordinate
+  private val rectEnv         = rectangle.getEnvelopeInternal
+  private val rectIntersector = new RectangleLineIntersector(rectEnv)
+  private var hasIntersection = false
+  private val p0              = new Coordinate
+  private val p1              = new Coordinate
+
+  /**
+   * Reports whether any segment intersection exists.
+   *
+   * return true if a segment intersection exists
+   *         or false if no segment intersection exists
+   */
+  def intersects: Boolean = hasIntersection
+
+  override protected def visit(geom: Geometry): Unit = {
 
     /**
-     * Reports whether any segment intersection exists.
-     *
-     * return true if a segment intersection exists
-     *         or false if no segment intersection exists
+     * It may be the case that the rectangle and the
+     * envelope of the geometry component are disjoint,
+     * so it is worth checking this simple condition.
      */
-    def intersects: Boolean = hasIntersection
-
-    override protected def visit(geom: Geometry): Unit = {
-      /**
-       * It may be the case that the rectangle and the
-       * envelope of the geometry component are disjoint,
-       * so it is worth checking this simple condition.
-       */
-        val elementEnv = geom.getEnvelopeInternal
-      if (!rectEnv.intersects(elementEnv)) return
-      // check segment intersections
-      // get all lines from geometry component
-      // (there may be more than one if it's a multi-ring polygon)
-      val lines = LinearComponentExtracter.getLines(geom)
-      checkIntersectionWithLineStrings(lines)
-    }
-
-    private def checkIntersectionWithLineStrings(lines: util.List[_]): Unit = {
-      val i = lines.iterator
-      while ( {
-        i.hasNext
-      }) {
-        val testLine = i.next.asInstanceOf[LineString]
-        checkIntersectionWithSegments(testLine)
-        if (hasIntersection) return
-      }
-    }
-
-    private def checkIntersectionWithSegments(testLine: LineString): Unit = {
-      val seq1 = testLine.getCoordinateSequence
-      var j = 1
-      while ( {
-        j < seq1.size
-      }) {
-        seq1.getCoordinate(j - 1, p0)
-        seq1.getCoordinate(j, p1)
-        if (rectIntersector.intersects(p0, p1)) {
-          hasIntersection = true
-          return
-        }
-        {
-          j += 1; j - 1
-        }
-      }
-    }
-
-    override protected def isDone: Boolean = hasIntersection
+    val elementEnv = geom.getEnvelopeInternal
+    if (!rectEnv.intersects(elementEnv)) return
+    // check segment intersections
+    // get all lines from geometry component
+    // (there may be more than one if it's a multi-ring polygon)
+    val lines      = LinearComponentExtracter.getLines(geom)
+    checkIntersectionWithLineStrings(lines)
   }
+
+  private def checkIntersectionWithLineStrings(lines: util.List[_]): Unit = {
+    val i = lines.iterator
+    while (i.hasNext) {
+      val testLine = i.next.asInstanceOf[LineString]
+      checkIntersectionWithSegments(testLine)
+      if (hasIntersection) return
+    }
+  }
+
+  private def checkIntersectionWithSegments(testLine: LineString): Unit = {
+    val seq1 = testLine.getCoordinateSequence
+    var j    = 1
+    while (j < seq1.size) {
+      seq1.getCoordinate(j - 1, p0)
+      seq1.getCoordinate(j, p1)
+      if (rectIntersector.intersects(p0, p1)) {
+        hasIntersection = true
+        return
+      }
+      {
+        j += 1; j - 1
+      }
+    }
+  }
+
+  override protected def isDone: Boolean = hasIntersection
+}

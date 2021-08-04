@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -41,6 +41,7 @@ import org.locationtech.jts.geom.Polygon
  * @version 1.7
  */
 object RectangleContains {
+
   /**
    * Tests whether a rectangle contains a given geometry.
    *
@@ -48,19 +49,19 @@ object RectangleContains {
    * @param b         a Geometry of any type
    * return true if the geometries intersect
    */
-    def contains(rectangle: Polygon, b: Geometry): Boolean = {
-      val rc = new RectangleContains(rectangle)
-      rc.contains(b)
-    }
+  def contains(rectangle: Polygon, b: Geometry): Boolean = {
+    val rc = new RectangleContains(rectangle)
+    rc.contains(b)
+  }
 }
 
 class RectangleContains(val rectangle: Polygon) {
 
-/**
- * Create a new contains computer for two geometries.
- *
- * @param rectangle a rectangular geometry
- */
+  /**
+   * Create a new contains computer for two geometries.
+   *
+   * @param rectangle a rectangular geometry
+   */
   private val rectEnv = rectangle.getEnvelopeInternal
 
   def contains(geom: Geometry): Boolean = { // the test geometry must be wholly contained in the rectangle envelope
@@ -78,11 +79,10 @@ class RectangleContains(val rectangle: Polygon) {
   private def isContainedInBoundary(geom: Geometry): Boolean = { // polygons can never be wholely contained in the boundary
     if (geom.isInstanceOf[Polygon]) return false
     if (geom.isInstanceOf[Point]) return isPointContainedInBoundary(geom.asInstanceOf[Point])
-    if (geom.isInstanceOf[LineString]) return isLineStringContainedInBoundary(geom.asInstanceOf[LineString])
+    if (geom.isInstanceOf[LineString])
+      return isLineStringContainedInBoundary(geom.asInstanceOf[LineString])
     var i = 0
-    while ( {
-      i < geom.getNumGeometries
-    }) {
+    while (i < geom.getNumGeometries) {
       val comp = geom.getGeometryN(i)
       if (!isContainedInBoundary(comp)) return false
       i += 1
@@ -90,7 +90,9 @@ class RectangleContains(val rectangle: Polygon) {
     true
   }
 
-  private def isPointContainedInBoundary(point: Point): Boolean = isPointContainedInBoundary(point.getCoordinate)
+  private def isPointContainedInBoundary(point: Point): Boolean = isPointContainedInBoundary(
+    point.getCoordinate
+  )
 
   /**
    * Tests if a point is contained in the boundary of the target rectangle.
@@ -98,14 +100,13 @@ class RectangleContains(val rectangle: Polygon) {
    * @param pt the point to test
    * return true if the point is contained in the boundary
    */
-  private def isPointContainedInBoundary(pt: Coordinate): Boolean = {
+  private def isPointContainedInBoundary(pt: Coordinate): Boolean =
     /**
      * contains = false iff the point is properly contained in the rectangle.
      *
      * This code assumes that the point lies in the rectangle envelope
      */
     (pt.x == rectEnv.getMinX) || (pt.x == rectEnv.getMaxX) || (pt.y == rectEnv.getMinY) || (pt.y == rectEnv.getMaxY)
-  }
 
   /**
    * Tests if a linestring is completely contained in the boundary of the target rectangle.
@@ -115,12 +116,10 @@ class RectangleContains(val rectangle: Polygon) {
    */
   private def isLineStringContainedInBoundary(line: LineString): Boolean = {
     val seq = line.getCoordinateSequence
-    val p0 = new Coordinate
-    val p1 = new Coordinate
-    var i = 0
-    while ( {
-      i < seq.size - 1
-    }) {
+    val p0  = new Coordinate
+    val p1  = new Coordinate
+    var i   = 0
+    while (i < seq.size - 1) {
       seq.getCoordinate(i, p0)
       seq.getCoordinate(i + 1, p1)
       if (!isLineSegmentContainedInBoundary(p0, p1)) return false
@@ -139,8 +138,9 @@ class RectangleContains(val rectangle: Polygon) {
   private def isLineSegmentContainedInBoundary(p0: Coordinate, p1: Coordinate): Boolean = {
     if (p0 == p1) return isPointContainedInBoundary(p0)
     // we already know that the segment is contained in the rectangle envelope
-    if (p0.x == p1.x) if ((p0.x == rectEnv.getMinX) || (p0.x == rectEnv.getMaxX)) return true
-    else if (p0.y == p1.y) if ((p0.y == rectEnv.getMinY) || (p0.y == rectEnv.getMaxY)) return true
+    if (p0.x == p1.x)
+      if ((p0.x == rectEnv.getMinX) || (p0.x == rectEnv.getMaxX)) return true
+      else if (p0.y == p1.y) if ((p0.y == rectEnv.getMinY) || (p0.y == rectEnv.getMaxY)) return true
 
     /**
      * Either

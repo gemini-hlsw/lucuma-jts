@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2018 Vivid Solutions
  *
  * All rights reserved. This program and the accompanying materials
@@ -56,16 +56,20 @@ import scala.annotation.nowarn
  */
 @SerialVersionUID(6683108902428366910L)
 object Coordinate {
+
   /**
    * The value used to indicate a null or missing ordinate value.
    * In particular, used for the value of ordinates for dimensions
    * greater than the defined dimension of a coordinate.
    */
-    val NULL_ORDINATE: Double = Double.NaN
+  val NULL_ORDINATE: Double = Double.NaN
+
   /** Standard ordinate index value for, where X is 0 */
   val X = 0
+
   /** Standard ordinate index value for, where Y is 1 */
   val Y = 1
+
   /**
    * Standard ordinate index value for, where Z is 2.
    *
@@ -73,6 +77,7 @@ object Coordinate {
    * using {link #getDimension()} and {link #getMeasures()} before use.
    */
   val Z = 2
+
   /**
    * Standard ordinate index value for, where M is 3.
    *
@@ -98,6 +103,7 @@ object Coordinate {
    * or 3-dimensional comparison, and handling NaN values correctly.
    */
   object DimensionalComparator {
+
     /**
      * Compare two <code>double</code>s, allowing for NaN values.
      * NaN is treated as being less than any valid number.
@@ -106,21 +112,21 @@ object Coordinate {
      * @param b a <code>double</code>
      * return -1, 0, or 1 depending on whether a is less than, equal to or greater than b
      */
-      def compare(a: Double, b: Double): Int = {
-        if (a < b) return -1
-        if (a > b) return 1
-        if (java.lang.Double.isNaN(a)) {
-          if (java.lang.Double.isNaN(b)) return 0
-          return -1
-        }
-        if (java.lang.Double.isNaN(b)) return 1
-        0
+    def compare(a: Double, b: Double): Int = {
+      if (a < b) return -1
+      if (a > b) return 1
+      if (java.lang.Double.isNaN(a)) {
+        if (java.lang.Double.isNaN(b)) return 0
+        return -1
       }
+      if (java.lang.Double.isNaN(b)) return 1
+      0
+    }
   }
 
-  class DimensionalComparator(val dimensionsToTest: Int)
-    extends Comparator[Coordinate] {
-    if (dimensionsToTest != 2 && dimensionsToTest != 3) throw new IllegalArgumentException("only 2 or 3 dimensions may be specified")
+  class DimensionalComparator(val dimensionsToTest: Int) extends Comparator[Coordinate] {
+    if (dimensionsToTest != 2 && dimensionsToTest != 3)
+      throw new IllegalArgumentException("only 2 or 3 dimensions may be specified")
 
     /**
      * Creates a comparator for 2 dimensional coordinates.
@@ -137,7 +143,6 @@ object Coordinate {
      * @param o2 a {link Coordinate}
      * return -1, 0, or 1 depending on whether o1 is less than,
      *         equal to, or greater than 02
-     *
      */
     override def compare(c1: Coordinate, c2: Coordinate): Int = {
       val compX = DimensionalComparator.compare(c1.x, c2.x)
@@ -153,9 +158,10 @@ object Coordinate {
 }
 
 @SerialVersionUID(6683108902428366910L)
-class Coordinate( var x: Double, var y: Double, var z: Double)
-
-  extends Comparable[Coordinate] with Cloneable with Serializable {
+class Coordinate(var x: Double, var y: Double, var z: Double)
+    extends Comparable[Coordinate]
+    with Cloneable
+    with Serializable {
 
   /**
    * Constructs a <code>Coordinate</code> having the same (x,y,z) values as
@@ -183,6 +189,7 @@ class Coordinate( var x: Double, var y: Double, var z: Double)
   def this() = {
     this(0.0, 0.0)
   }
+
   /**
    * Sets this <code>Coordinate</code>s (x,y,z) values to that of <code>other</code>.
    *
@@ -250,7 +257,9 @@ class Coordinate( var x: Double, var y: Double, var z: Double)
    *
    * @param m the value to set as M
    */
-  def setM(m: Double): Unit = throw new IllegalArgumentException("Invalid ordinate index: " + Coordinate.M)
+  def setM(m: Double): Unit = throw new IllegalArgumentException(
+    "Invalid ordinate index: " + Coordinate.M
+  )
 
   /**
    * Gets the ordinate value for the given index.
@@ -263,13 +272,13 @@ class Coordinate( var x: Double, var y: Double, var z: Double)
    * throws IllegalArgumentException if the index is not valid
    */
   @nowarn
-  def getOrdinate(ordinateIndex: Int): Double = {
+  def getOrdinate(ordinateIndex: Int): Double =
     ordinateIndex match {
       case Coordinate.X => x
       case Coordinate.Y => y
-      case Coordinate.Z => getZ // sure to delegate to subclass rather than offer direct field access
+      case Coordinate.Z =>
+        getZ // sure to delegate to subclass rather than offer direct field access
     }
- }
 
   /**
    * Sets the ordinate for the given index
@@ -289,7 +298,7 @@ class Coordinate( var x: Double, var y: Double, var z: Double)
       y = value
     case Coordinate.Z =>
       setZ(value) // delegate to subclass rather than offer direct field access
-    case _ =>
+    case _            =>
       throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 
@@ -330,7 +339,10 @@ class Coordinate( var x: Double, var y: Double, var z: Double)
    * return true if <code>other</code> is a <code>Coordinate</code>
    *         with the same values for X, Y and Z.
    */
-  def equals3D(other: Coordinate): Boolean = (x == other.x) && (y == other.y) && ((getZ == other.getZ) || (java.lang.Double.isNaN(getZ) && java.lang.Double.isNaN(other.getZ)))
+  def equals3D(other: Coordinate): Boolean =
+    (x == other.x) && (y == other.y) && ((getZ == other.getZ) || (java.lang.Double.isNaN(
+      getZ
+    ) && java.lang.Double.isNaN(other.getZ)))
 
   /**
    * Tests if another coordinate has the same value for Z, within a tolerance.
@@ -339,7 +351,8 @@ class Coordinate( var x: Double, var y: Double, var z: Double)
    * @param tolerance the tolerance value
    * return true if the Z ordinates are within the given tolerance
    */
-  def equalInZ(c: Coordinate, tolerance: Double): Boolean = NumberUtil.equalsWithTolerance(this.getZ, c.getZ, tolerance)
+  def equalInZ(c: Coordinate, tolerance: Double): Boolean =
+    NumberUtil.equalsWithTolerance(this.getZ, c.getZ, tolerance)
 
   /**
    * Returns <code>true</code> if <code>other</code> has the same values for

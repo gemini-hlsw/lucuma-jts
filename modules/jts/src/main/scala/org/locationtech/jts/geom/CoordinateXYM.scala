@@ -11,7 +11,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2018 Vivid Solutions
  *
  * All rights reserved. This program and the accompanying materials
@@ -37,12 +37,16 @@ import scala.annotation.nowarn
  */
 @SerialVersionUID(2842127537691165613L)
 object CoordinateXYM {
+
   /** Standard ordinate index value for X */
-    val X = 0
+  val X = 0
+
   /** Standard ordinate index value for Y */
   val Y = 1
+
   /** CoordinateXYM does not support Z values. */
   val Z: Int = -1
+
   /**
    * Standard ordinate index value for M in XYM sequences.
    *
@@ -54,8 +58,7 @@ object CoordinateXYM {
 
 @SerialVersionUID(2842127537691165613L)
 class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
-
-  extends Coordinate(xArg, yArg, Coordinate.NULL_ORDINATE) {
+    extends Coordinate(xArg, yArg, Coordinate.NULL_ORDINATE) {
 
   /**
    * Constructs a CoordinateXYM instance with the x and y ordinates of the given Coordinate.
@@ -72,7 +75,7 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
    * @param coord the coordinate providing the ordinates
    */
   def this(coord: CoordinateXYM) = {
-    this (coord.x, coord.y, coord.m)
+    this(coord.x, coord.y, coord.m)
   }
 
   /**
@@ -93,7 +96,9 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
   /** The z-ordinate is not supported */
   override def getZ: Double = Coordinate.NULL_ORDINATE
 
-  override def setZ(z: Double): Unit = throw new IllegalArgumentException("CoordinateXY dimension 2 does not support z-ordinate")
+  override def setZ(z: Double): Unit = throw new IllegalArgumentException(
+    "CoordinateXY dimension 2 does not support z-ordinate"
+  )
 
   override def setCoordinate(other: Coordinate): Unit = {
     x = other.x
@@ -122,7 +127,7 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
       y = value
     case CoordinateXYM.M =>
       m = value
-    case _ =>
+    case _               =>
       throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 

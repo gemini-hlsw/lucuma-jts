@@ -44,6 +44,7 @@ package org.locationtech.jts.geom
  * @version 1.7
  */
 object IntersectionMatrix {
+
   /**
    * Tests if the dimension value matches <tt>TRUE</tt>
    * (i.e.  has value 0, 1, 2 or TRUE).
@@ -52,10 +53,10 @@ object IntersectionMatrix {
    *                              . Possible values are <code>{TRUE, FALSE, DONTCARE, 0, 1, 2}</code>.
    * return true if the dimension value matches TRUE
    */
-    def isTrue(actualDimensionValue: Int): Boolean = {
-      if (actualDimensionValue >= 0 || actualDimensionValue == Dimension.TRUE) return true
-      false
-    }
+  def isTrue(actualDimensionValue: Int): Boolean = {
+    if (actualDimensionValue >= 0 || actualDimensionValue == Dimension.TRUE) return true
+    false
+  }
 
   /**
    * Tests if the dimension value satisfies the dimension symbol.
@@ -70,11 +71,17 @@ object IntersectionMatrix {
    */
   def matches(actualDimensionValue: Int, requiredDimensionSymbol: Char): Boolean = {
     if (requiredDimensionSymbol == Dimension.SYM_DONTCARE) return true
-    if (requiredDimensionSymbol == Dimension.SYM_TRUE && (actualDimensionValue >= 0 || actualDimensionValue == Dimension.TRUE)) return true
-    if (requiredDimensionSymbol == Dimension.SYM_FALSE && actualDimensionValue == Dimension.FALSE) return true
-    if (requiredDimensionSymbol == Dimension.SYM_P && actualDimensionValue == Dimension.P) return true
-    if (requiredDimensionSymbol == Dimension.SYM_L && actualDimensionValue == Dimension.L) return true
-    if (requiredDimensionSymbol == Dimension.SYM_A && actualDimensionValue == Dimension.A) return true
+    if (
+      requiredDimensionSymbol == Dimension.SYM_TRUE && (actualDimensionValue >= 0 || actualDimensionValue == Dimension.TRUE)
+    ) return true
+    if (requiredDimensionSymbol == Dimension.SYM_FALSE && actualDimensionValue == Dimension.FALSE)
+      return true
+    if (requiredDimensionSymbol == Dimension.SYM_P && actualDimensionValue == Dimension.P)
+      return true
+    if (requiredDimensionSymbol == Dimension.SYM_L && actualDimensionValue == Dimension.L)
+      return true
+    if (requiredDimensionSymbol == Dimension.SYM_A && actualDimensionValue == Dimension.A)
+      return true
     false
   }
 
@@ -101,13 +108,15 @@ class IntersectionMatrix()
  * Creates an <code>IntersectionMatrix</code> with <code>FALSE</code>
  * dimension values.
  */
-  extends Cloneable {
+    extends Cloneable {
+
   /**
    * Internal representation of this <code>IntersectionMatrix</code>.
    */
   private val matrix = Array.ofDim[Int](3, 3)
 
   setAll(Dimension.FALSE)
+
   /**
    * Creates an <code>IntersectionMatrix</code> with the given dimension
    * symbols.
@@ -127,15 +136,24 @@ class IntersectionMatrix()
    */
   def this(other: IntersectionMatrix) = {
     this()
-    matrix(Location.INTERIOR)(Location.INTERIOR) = other.matrix(Location.INTERIOR)(Location.INTERIOR)
-    matrix(Location.INTERIOR)(Location.BOUNDARY) = other.matrix(Location.INTERIOR)(Location.BOUNDARY)
-    matrix(Location.INTERIOR)(Location.EXTERIOR) = other.matrix(Location.INTERIOR)(Location.EXTERIOR)
-    matrix(Location.BOUNDARY)(Location.INTERIOR) = other.matrix(Location.BOUNDARY)(Location.INTERIOR)
-    matrix(Location.BOUNDARY)(Location.BOUNDARY) = other.matrix(Location.BOUNDARY)(Location.BOUNDARY)
-    matrix(Location.BOUNDARY)(Location.EXTERIOR) = other.matrix(Location.BOUNDARY)(Location.EXTERIOR)
-    matrix(Location.EXTERIOR)(Location.INTERIOR) = other.matrix(Location.EXTERIOR)(Location.INTERIOR)
-    matrix(Location.EXTERIOR)(Location.BOUNDARY) = other.matrix(Location.EXTERIOR)(Location.BOUNDARY)
-    matrix(Location.EXTERIOR)(Location.EXTERIOR) = other.matrix(Location.EXTERIOR)(Location.EXTERIOR)
+    matrix(Location.INTERIOR)(Location.INTERIOR) =
+      other.matrix(Location.INTERIOR)(Location.INTERIOR)
+    matrix(Location.INTERIOR)(Location.BOUNDARY) =
+      other.matrix(Location.INTERIOR)(Location.BOUNDARY)
+    matrix(Location.INTERIOR)(Location.EXTERIOR) =
+      other.matrix(Location.INTERIOR)(Location.EXTERIOR)
+    matrix(Location.BOUNDARY)(Location.INTERIOR) =
+      other.matrix(Location.BOUNDARY)(Location.INTERIOR)
+    matrix(Location.BOUNDARY)(Location.BOUNDARY) =
+      other.matrix(Location.BOUNDARY)(Location.BOUNDARY)
+    matrix(Location.BOUNDARY)(Location.EXTERIOR) =
+      other.matrix(Location.BOUNDARY)(Location.EXTERIOR)
+    matrix(Location.EXTERIOR)(Location.INTERIOR) =
+      other.matrix(Location.EXTERIOR)(Location.INTERIOR)
+    matrix(Location.EXTERIOR)(Location.BOUNDARY) =
+      other.matrix(Location.EXTERIOR)(Location.BOUNDARY)
+    matrix(Location.EXTERIOR)(Location.EXTERIOR) =
+      other.matrix(Location.EXTERIOR)(Location.EXTERIOR)
   }
 
   /**
@@ -147,13 +165,9 @@ class IntersectionMatrix()
    */
   def add(im: IntersectionMatrix): Unit = {
     var i = 0
-    while ( {
-      i < 3
-    }) {
+    while (i < 3) {
       var j = 0
-      while ( {
-        j < 3
-      }) {
+      while (j < 3) {
         setAtLeast(i, j, im.get(i, j))
         j += 1
       }
@@ -182,9 +196,7 @@ class IntersectionMatrix()
    */
   def set(dimensionSymbols: String): Unit = {
     var i = 0
-    while ( {
-      i < dimensionSymbols.length
-    }) {
+    while (i < dimensionSymbols.length) {
       val row = i / 3
       val col = i % 3
       matrix(row)(col) = Dimension.toDimensionValue(dimensionSymbols.charAt(i))
@@ -204,7 +216,8 @@ class IntersectionMatrix()
    *      element. The order of dimension values from least to greatest is
    *                               <code>{DONTCARE, TRUE, FALSE, 0, 1, 2}</code>.
    */
-  def setAtLeast(row: Int, column: Int, minimumDimensionValue: Int): Unit = if (matrix(row)(column) < minimumDimensionValue) matrix(row)(column) = minimumDimensionValue
+  def setAtLeast(row: Int, column: Int, minimumDimensionValue: Int): Unit =
+    if (matrix(row)(column) < minimumDimensionValue) matrix(row)(column) = minimumDimensionValue
 
   /**
    * If row &gt;= 0 and column &gt;= 0, changes the specified element to <code>minimumDimensionValue</code>
@@ -218,7 +231,8 @@ class IntersectionMatrix()
    *      element. The order of dimension values from least to greatest is
    *                               <code>{DONTCARE, TRUE, FALSE, 0, 1, 2}</code>.
    */
-  def setAtLeastIfValid(row: Int, column: Int, minimumDimensionValue: Int): Unit = if (row >= 0 && column >= 0) setAtLeast(row, column, minimumDimensionValue)
+  def setAtLeastIfValid(row: Int, column: Int, minimumDimensionValue: Int): Unit =
+    if (row >= 0 && column >= 0) setAtLeast(row, column, minimumDimensionValue)
 
   /**
    * For each element in this <code>IntersectionMatrix</code>, changes the
@@ -232,14 +246,12 @@ class IntersectionMatrix()
    */
   def setAtLeast(minimumDimensionSymbols: String): Unit = {
     var i = 0
-    while ( {
-      i < minimumDimensionSymbols.length
-    }) {
+    while (i < minimumDimensionSymbols.length) {
       val row = i / 3
       val col = i % 3
       setAtLeast(row, col, Dimension.toDimensionValue(minimumDimensionSymbols.charAt(i)))
       i += 1
-   }
+    }
   }
 
   /**
@@ -252,13 +264,9 @@ class IntersectionMatrix()
    */
   def setAll(dimensionValue: Int): Unit = {
     var ai = 0
-    while ( {
-      ai < 3
-    }) {
+    while (ai < 3) {
       var bi = 0
-      while ( {
-        bi < 3
-      }) {
+      while (bi < 3) {
         matrix(ai)(bi) = dimensionValue
         bi += 1
       }
@@ -289,7 +297,12 @@ class IntersectionMatrix()
    * return <code>true</code> if the two <code>Geometry</code>s related by
    *         this <code>IntersectionMatrix</code> are disjoint
    */
-  def isDisjoint: Boolean = matrix(Location.INTERIOR)(Location.INTERIOR) == Dimension.FALSE && matrix(Location.INTERIOR)(Location.BOUNDARY) == Dimension.FALSE && matrix(Location.BOUNDARY)(Location.INTERIOR) == Dimension.FALSE && matrix(Location.BOUNDARY)(Location.BOUNDARY) == Dimension.FALSE
+  def isDisjoint: Boolean =
+    matrix(Location.INTERIOR)(Location.INTERIOR) == Dimension.FALSE && matrix(Location.INTERIOR)(
+      Location.BOUNDARY
+    ) == Dimension.FALSE && matrix(Location.BOUNDARY)(
+      Location.INTERIOR
+    ) == Dimension.FALSE && matrix(Location.BOUNDARY)(Location.BOUNDARY) == Dimension.FALSE
 
   /**
    * Returns <code>true</code> if <code>isDisjoint</code> returns false.
@@ -313,7 +326,13 @@ class IntersectionMatrix()
     if (dimensionOfGeometryA > dimensionOfGeometryB) { //no need to get transpose because pattern matrix is symmetrical
       return isTouches(dimensionOfGeometryB, dimensionOfGeometryA)
     }
-    if ((dimensionOfGeometryA == Dimension.A && dimensionOfGeometryB == Dimension.A) || (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.L) || (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.A) || (dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.A) || (dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.L)) return matrix(Location.INTERIOR)(Location.INTERIOR) == Dimension.FALSE && (IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.BOUNDARY)) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.INTERIOR)) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.BOUNDARY)))
+    if (
+      (dimensionOfGeometryA == Dimension.A && dimensionOfGeometryB == Dimension.A) || (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.L) || (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.A) || (dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.A) || (dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.L)
+    )
+      return matrix(Location.INTERIOR)(Location.INTERIOR) == Dimension.FALSE && (IntersectionMatrix
+        .isTrue(matrix(Location.INTERIOR)(Location.BOUNDARY)) || IntersectionMatrix.isTrue(
+        matrix(Location.BOUNDARY)(Location.INTERIOR)
+      ) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.BOUNDARY)))
     false
   }
 
@@ -343,9 +362,20 @@ class IntersectionMatrix()
    *         related by this <code>IntersectionMatrix</code> cross.
    */
   def isCrosses(dimensionOfGeometryA: Int, dimensionOfGeometryB: Int): Boolean = {
-    if ((dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.L) || (dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.A) || (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.A)) return IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) && IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.EXTERIOR))
-    if ((dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.P) || (dimensionOfGeometryA == Dimension.A && dimensionOfGeometryB == Dimension.P) || (dimensionOfGeometryA == Dimension.A && dimensionOfGeometryB == Dimension.L)) return IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) && IntersectionMatrix.isTrue(matrix(Location.EXTERIOR)(Location.INTERIOR))
-    if (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.L) return matrix(Location.INTERIOR)(Location.INTERIOR) == 0
+    if (
+      (dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.L) || (dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.A) || (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.A)
+    )
+      return IntersectionMatrix.isTrue(
+        matrix(Location.INTERIOR)(Location.INTERIOR)
+      ) && IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.EXTERIOR))
+    if (
+      (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.P) || (dimensionOfGeometryA == Dimension.A && dimensionOfGeometryB == Dimension.P) || (dimensionOfGeometryA == Dimension.A && dimensionOfGeometryB == Dimension.L)
+    )
+      return IntersectionMatrix.isTrue(
+        matrix(Location.INTERIOR)(Location.INTERIOR)
+      ) && IntersectionMatrix.isTrue(matrix(Location.EXTERIOR)(Location.INTERIOR))
+    if (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.L)
+      return matrix(Location.INTERIOR)(Location.INTERIOR) == 0
     false
   }
 
@@ -356,7 +386,11 @@ class IntersectionMatrix()
    * return <code>true</code> if the first <code>Geometry</code> is within
    *         the second
    */
-  def isWithin: Boolean = IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) && matrix(Location.INTERIOR)(Location.EXTERIOR) == Dimension.FALSE && matrix(Location.BOUNDARY)(Location.EXTERIOR) == Dimension.FALSE
+  def isWithin: Boolean = IntersectionMatrix.isTrue(
+    matrix(Location.INTERIOR)(Location.INTERIOR)
+  ) && matrix(Location.INTERIOR)(Location.EXTERIOR) == Dimension.FALSE && matrix(Location.BOUNDARY)(
+    Location.EXTERIOR
+  ) == Dimension.FALSE
 
   /**
    * Tests whether this <code>IntersectionMatrix</code> is
@@ -365,7 +399,11 @@ class IntersectionMatrix()
    * return <code>true</code> if the first <code>Geometry</code> contains the
    *         second
    */
-  def isContains: Boolean = IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) && matrix(Location.EXTERIOR)(Location.INTERIOR) == Dimension.FALSE && matrix(Location.EXTERIOR)(Location.BOUNDARY) == Dimension.FALSE
+  def isContains: Boolean = IntersectionMatrix.isTrue(
+    matrix(Location.INTERIOR)(Location.INTERIOR)
+  ) && matrix(Location.EXTERIOR)(Location.INTERIOR) == Dimension.FALSE && matrix(Location.EXTERIOR)(
+    Location.BOUNDARY
+  ) == Dimension.FALSE
 
   /**
    * Returns <code>true</code> if this <code>IntersectionMatrix</code> is
@@ -378,8 +416,14 @@ class IntersectionMatrix()
    *         second
    */
   def isCovers: Boolean = {
-    val hasPointInCommon = IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) || IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.BOUNDARY)) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.INTERIOR)) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.BOUNDARY))
-    hasPointInCommon && matrix(Location.EXTERIOR)(Location.INTERIOR) == Dimension.FALSE && matrix(Location.EXTERIOR)(Location.BOUNDARY) == Dimension.FALSE
+    val hasPointInCommon =
+      IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) || IntersectionMatrix
+        .isTrue(matrix(Location.INTERIOR)(Location.BOUNDARY)) || IntersectionMatrix.isTrue(
+        matrix(Location.BOUNDARY)(Location.INTERIOR)
+      ) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.BOUNDARY))
+    hasPointInCommon && matrix(Location.EXTERIOR)(Location.INTERIOR) == Dimension.FALSE && matrix(
+      Location.EXTERIOR
+    )(Location.BOUNDARY) == Dimension.FALSE
   }
 
   /**
@@ -393,8 +437,14 @@ class IntersectionMatrix()
    *         is covered by the second
    */
   def isCoveredBy: Boolean = {
-    val hasPointInCommon = IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) || IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.BOUNDARY)) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.INTERIOR)) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.BOUNDARY))
-    hasPointInCommon && matrix(Location.INTERIOR)(Location.EXTERIOR) == Dimension.FALSE && matrix(Location.BOUNDARY)(Location.EXTERIOR) == Dimension.FALSE
+    val hasPointInCommon =
+      IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) || IntersectionMatrix
+        .isTrue(matrix(Location.INTERIOR)(Location.BOUNDARY)) || IntersectionMatrix.isTrue(
+        matrix(Location.BOUNDARY)(Location.INTERIOR)
+      ) || IntersectionMatrix.isTrue(matrix(Location.BOUNDARY)(Location.BOUNDARY))
+    hasPointInCommon && matrix(Location.INTERIOR)(Location.EXTERIOR) == Dimension.FALSE && matrix(
+      Location.BOUNDARY
+    )(Location.EXTERIOR) == Dimension.FALSE
   }
 
   /**
@@ -417,7 +467,13 @@ class IntersectionMatrix()
    */
   def isEquals(dimensionOfGeometryA: Int, dimensionOfGeometryB: Int): Boolean = {
     if (dimensionOfGeometryA != dimensionOfGeometryB) return false
-    IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) && matrix(Location.INTERIOR)(Location.EXTERIOR) == Dimension.FALSE && matrix(Location.BOUNDARY)(Location.EXTERIOR) == Dimension.FALSE && matrix(Location.EXTERIOR)(Location.INTERIOR) == Dimension.FALSE && matrix(Location.EXTERIOR)(Location.BOUNDARY) == Dimension.FALSE
+    IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) && matrix(
+      Location.INTERIOR
+    )(Location.EXTERIOR) == Dimension.FALSE && matrix(Location.BOUNDARY)(
+      Location.EXTERIOR
+    ) == Dimension.FALSE && matrix(Location.EXTERIOR)(
+      Location.INTERIOR
+    ) == Dimension.FALSE && matrix(Location.EXTERIOR)(Location.BOUNDARY) == Dimension.FALSE
   }
 
   /**
@@ -435,8 +491,18 @@ class IntersectionMatrix()
    *         be two points, two curves or two surfaces.
    */
   def isOverlaps(dimensionOfGeometryA: Int, dimensionOfGeometryB: Int): Boolean = {
-    if ((dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.P) || (dimensionOfGeometryA == Dimension.A && dimensionOfGeometryB == Dimension.A)) return IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.INTERIOR)) && IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.EXTERIOR)) && IntersectionMatrix.isTrue(matrix(Location.EXTERIOR)(Location.INTERIOR))
-    if (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.L) return matrix(Location.INTERIOR)(Location.INTERIOR) == 1 && IntersectionMatrix.isTrue(matrix(Location.INTERIOR)(Location.EXTERIOR)) && IntersectionMatrix.isTrue(matrix(Location.EXTERIOR)(Location.INTERIOR))
+    if (
+      (dimensionOfGeometryA == Dimension.P && dimensionOfGeometryB == Dimension.P) || (dimensionOfGeometryA == Dimension.A && dimensionOfGeometryB == Dimension.A)
+    )
+      return IntersectionMatrix.isTrue(
+        matrix(Location.INTERIOR)(Location.INTERIOR)
+      ) && IntersectionMatrix.isTrue(
+        matrix(Location.INTERIOR)(Location.EXTERIOR)
+      ) && IntersectionMatrix.isTrue(matrix(Location.EXTERIOR)(Location.INTERIOR))
+    if (dimensionOfGeometryA == Dimension.L && dimensionOfGeometryB == Dimension.L)
+      return matrix(Location.INTERIOR)(Location.INTERIOR) == 1 && IntersectionMatrix.isTrue(
+        matrix(Location.INTERIOR)(Location.EXTERIOR)
+      ) && IntersectionMatrix.isTrue(matrix(Location.EXTERIOR)(Location.INTERIOR))
     false
   }
 
@@ -451,16 +517,15 @@ class IntersectionMatrix()
    *         matches the required dimension symbols
    */
   def matches(requiredDimensionSymbols: String): Boolean = {
-    if (requiredDimensionSymbols.length != 9) throw new IllegalArgumentException("Should be length 9: " + requiredDimensionSymbols)
+    if (requiredDimensionSymbols.length != 9)
+      throw new IllegalArgumentException("Should be length 9: " + requiredDimensionSymbols)
     var ai = 0
-    while ( {
-      ai < 3
-    }) {
+    while (ai < 3) {
       var bi = 0
-      while ( {
-        bi < 3
-      }) {
-        if (!IntersectionMatrix.matches(matrix(ai)(bi), requiredDimensionSymbols.charAt(3 * ai + bi))) return false
+      while (bi < 3) {
+        if (
+          !IntersectionMatrix.matches(matrix(ai)(bi), requiredDimensionSymbols.charAt(3 * ai + bi))
+        ) return false
         bi += 1
       }
       ai += 1
@@ -495,14 +560,10 @@ class IntersectionMatrix()
    */
   override def toString: String = {
     val builder = new StringBuilder("123456789")
-    var ai = 0
-    while ( {
-      ai < 3
-    }) {
+    var ai      = 0
+    while (ai < 3) {
       var bi = 0
-      while ( {
-        bi < 3
-      }) {
+      while (bi < 3) {
         builder.setCharAt(3 * ai + bi, Dimension.toDimensionSymbol(matrix(ai)(bi)))
         bi += 1
       }

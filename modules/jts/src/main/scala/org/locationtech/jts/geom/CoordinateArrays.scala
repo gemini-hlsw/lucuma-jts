@@ -35,9 +35,8 @@ object CoordinateArrays {
   def dimension(pts: Array[Coordinate]): Int = {
     if (pts == null || pts.length == 0) return 3 // unknown, assume default
     var dimension = 0
-    for (coordinate <- pts) {
+    for (coordinate <- pts)
       dimension = Math.max(dimension, Coordinates.dimension(coordinate))
-    }
     dimension
   }
 
@@ -50,9 +49,8 @@ object CoordinateArrays {
   def measures(pts: Array[Coordinate]): Int = {
     if (pts == null || pts.length == 0) return 0
     var measures = 0
-    for (coordinate <- pts) {
+    for (coordinate <- pts)
       measures = Math.max(measures, Coordinates.measures(coordinate))
-    }
     measures
   }
 
@@ -78,9 +76,8 @@ object CoordinateArrays {
    * return a { @link Coordinate} from <code>testPts</code> which is not in <code>pts</code>, '
    *                   or <code>null</code>
    */
-  def ptNotInList(testPts: Array[Coordinate], pts: Array[Coordinate]): Coordinate = {
+  def ptNotInList(testPts: Array[Coordinate], pts: Array[Coordinate]): Coordinate =
     testPts.find(CoordinateArrays.indexOf(_, pts) < 0).orNull
-  }
 
   /**
    * Compares two {link Coordinate} arrays
@@ -93,9 +90,7 @@ object CoordinateArrays {
    */
   def compare(pts1: Array[Coordinate], pts2: Array[Coordinate]): Int = {
     var i = 0
-    while ( {
-      i < pts1.length && i < pts2.length
-    }) {
+    while (i < pts1.length && i < pts2.length) {
       val compare = pts1(i).compareTo(pts2(i))
       if (compare != 0) return compare
       i += 1
@@ -112,9 +107,8 @@ object CoordinateArrays {
    * using lexicographic ordering.
    */
   class ForwardComparator extends Comparator[Array[Coordinate]] {
-    override def compare(o1: Array[Coordinate], o2: Array[Coordinate]): Int = {
+    override def compare(o1: Array[Coordinate], o2: Array[Coordinate]): Int =
       CoordinateArrays.compare(o1, o2)
-    }
   }
 
   /**
@@ -133,14 +127,12 @@ object CoordinateArrays {
    */
   def increasingDirection(pts: Array[Coordinate]): Int = {
     var i = 0
-    while ( {
-      i < pts.length / 2
-    }) {
-      val j = pts.length - 1 - i
+    while (i < pts.length / 2) {
+      val j    = pts.length - 1 - i
       // skip equal points on both ends
       val comp = pts(i).compareTo(pts(j))
       if (comp != 0) return comp
-        i += 1
+      i += 1
     }
     // array must be a palindrome - defined to be in positive direction
     1
@@ -156,9 +148,7 @@ object CoordinateArrays {
    */
   private def isEqualReversed(pts1: Array[Coordinate], pts2: Array[Coordinate]): Boolean = {
     var i = 0
-    while ( {
-      i < pts1.length
-    }) {
+    while (i < pts1.length) {
       val p1 = pts1(i)
       val p2 = pts2(pts1.length - i - 1)
       if (p1.compareTo(p2) != 0) return false
@@ -174,7 +164,6 @@ object CoordinateArrays {
    * they will compare as equal under this ordering.
    * If the arrays are not equal, the ordering returned
    * is the ordering in the forward direction.
-   *
    */
   class BidirectionalComparator extends Comparator[Array[Coordinate]] {
     override def compare(pts1: Array[Coordinate], pts2: Array[Coordinate]): Int = {
@@ -182,7 +171,7 @@ object CoordinateArrays {
       if (pts1.length > pts2.length) return 1
       if (pts1.length == 0) return 0
       val forwardComp = CoordinateArrays.compare(pts1, pts2)
-      val isEqualRev = isEqualReversed(pts1, pts2)
+      val isEqualRev  = isEqualReversed(pts1, pts2)
       if (isEqualRev) return 0
       forwardComp
     }
@@ -195,14 +184,14 @@ object CoordinateArrays {
       if (pts1.length == 0) return 0
       val dir1 = increasingDirection(pts1)
       val dir2 = increasingDirection(pts2)
-      var i1 = if (dir1 > 0) 0
-      else pts1.length - 1
-      var i2 = if (dir2 > 0) 0
-      else pts1.length - 1
-      var i = 0
-      while ( {
-        i < pts1.length
-      }) {
+      var i1   =
+        if (dir1 > 0) 0
+        else pts1.length - 1
+      var i2   =
+        if (dir2 > 0) 0
+        else pts1.length - 1
+      var i    = 0
+      while (i < pts1.length) {
         val comparePt = pts1(i1).compareTo(pts2(i2))
         if (comparePt != 0) return comparePt
         i1 += dir1
@@ -221,10 +210,8 @@ object CoordinateArrays {
    */
   def copyDeep(coordinates: Array[Coordinate]): Array[Coordinate] = {
     val copy = new Array[Coordinate](coordinates.length)
-    var i = 0
-    while ( {
-      i < coordinates.length
-    }) {
+    var i    = 0
+    while (i < coordinates.length) {
       copy(i) = coordinates(i).copy
       i += 1
     }
@@ -243,11 +230,15 @@ object CoordinateArrays {
    * @param destStart the destination index to start copying to
    * @param length    the number of items to copy
    */
-  def copyDeep(src: Array[Coordinate], srcStart: Int, dest: Array[Coordinate], destStart: Int, length: Int): Unit = {
+  def copyDeep(
+    src:       Array[Coordinate],
+    srcStart:  Int,
+    dest:      Array[Coordinate],
+    destStart: Int,
+    length:    Int
+  ): Unit = {
     var i = 0
-    while ( {
-      i < length
-    }) {
+    while (i < length) {
       dest(destStart + i) = src(srcStart + i).copy
       i += 1
     }
@@ -256,7 +247,8 @@ object CoordinateArrays {
   /**
    * Converts the given Collection of Coordinates into a Coordinate array.
    */
-  def toCoordinateArray(coordList: util.Collection[_]): Array[Coordinate] = coordList.toArray(coordArrayType).asInstanceOf[Array[Coordinate]]
+  def toCoordinateArray(coordList: util.Collection[_]): Array[Coordinate] =
+    coordList.toArray(coordArrayType).asInstanceOf[Array[Coordinate]]
 
   /**
    * Returns whether #equals returns true for any two consecutive Coordinates
@@ -264,9 +256,7 @@ object CoordinateArrays {
    */
   def hasRepeatedPoints(coord: Array[Coordinate]): Boolean = {
     var i = 1
-    while ( {
-      i < coord.length
-    }) {
+    while (i < coord.length) {
       if (coord(i - 1) == coord(i)) return true
       i += 1
     }
@@ -277,7 +267,9 @@ object CoordinateArrays {
    * Returns either the given coordinate array if its length is greater than the
    * given amount, or an empty coordinate array.
    */
-  def atLeastNCoordinatesOrNothing(n: Int, c: Array[Coordinate]): Array[Coordinate] = if (c.length >= n) c
+  def atLeastNCoordinatesOrNothing(n: Int, c: Array[Coordinate]): Array[Coordinate] = if (
+    c.length >= n
+  ) c
   else Array[Coordinate]()
 
   /**
@@ -300,11 +292,9 @@ object CoordinateArrays {
    * return an array containing only non-null elements
    */
   def removeNull(coord: Array[Coordinate]): Array[Coordinate] = {
-    var nonNull = 0
-    var i = 0
-    while ( {
-      i < coord.length
-    }) {
+    var nonNull  = 0
+    var i        = 0
+    while (i < coord.length) {
       if (coord(i) != null) {
         nonNull += 1; nonNull - 1
       }
@@ -313,14 +303,12 @@ object CoordinateArrays {
     val newCoord = new Array[Coordinate](nonNull)
     // empty case
     if (nonNull == 0) return newCoord
-    var j = 0
+    var j        = 0
     i = 0
-    while ( {
-      i < coord.length
-    }) {
-      if (coord(i) != null) newCoord({
+    while (i < coord.length) {
+      if (coord(i) != null) newCoord {
         j += 1; j - 1
-      }) = coord(i)
+      } = coord(i)
       i += 1
     }
     newCoord
@@ -331,11 +319,9 @@ object CoordinateArrays {
    */
   def reverse(coord: Array[Coordinate]): Unit = {
     val last = coord.length - 1
-    val mid = last / 2
-    var i = 0
-    while ( {
-      i <= mid
-    }) {
+    val mid  = last / 2
+    var i    = 0
+    while (i <= mid) {
       val tmp = coord(i)
       coord(i) = coord(last - i)
       coord(last - i) = tmp
@@ -354,9 +340,7 @@ object CoordinateArrays {
     if (coord1 == null || coord2 == null) return false
     if (coord1.length != coord2.length) return false
     var i = 0
-    while ( {
-      i < coord1.length
-    }) {
+    while (i < coord1.length) {
       if (!(coord1(i) == coord2(i))) return false
       i += 1
     }
@@ -371,14 +355,16 @@ object CoordinateArrays {
    * @param coord2               an array of Coordinates
    * @param coordinateComparator a Comparator for Coordinates
    */
-  def equals(coord1: Array[Coordinate], coord2: Array[Coordinate], coordinateComparator: Comparator[Coordinate]): Boolean = {
+  def equals(
+    coord1:               Array[Coordinate],
+    coord2:               Array[Coordinate],
+    coordinateComparator: Comparator[Coordinate]
+  ): Boolean = {
     if (coord1 eq coord2) return true
     if (coord1 == null || coord2 == null) return false
     if (coord1.length != coord2.length) return false
     var i = 0
-    while ( {
-      i < coord1.length
-    }) {
+    while (i < coord1.length) {
       if (coordinateComparator.compare(coord1(i), coord2(i)) != 0) return false
       i += 1
     }
@@ -394,10 +380,8 @@ object CoordinateArrays {
    */
   def minCoordinate(coordinates: Array[Coordinate]): Coordinate = {
     var minCoord: Coordinate = null
-    var i = 0
-    while ( {
-      i < coordinates.length
-    }) {
+    var i                    = 0
+    while (i < coordinates.length) {
       if (minCoord == null || minCoord.compareTo(coordinates(i)) > 0) minCoord = coordinates(i)
       i += 1
     }
@@ -412,7 +396,7 @@ object CoordinateArrays {
    * @param  firstCoordinate the coordinate to make first
    */
   def scroll(coordinates: Array[Coordinate], firstCoordinate: Coordinate): Unit = {
-    val i = indexOf(firstCoordinate, coordinates)
+    val i              = indexOf(firstCoordinate, coordinates)
     if (i < 0) return
     val newCoordinates = new Array[Coordinate](coordinates.length)
     System.arraycopy(coordinates, i, newCoordinates, 0, coordinates.length - i)
@@ -431,9 +415,7 @@ object CoordinateArrays {
    */
   def indexOf(coordinate: Coordinate, coordinates: Array[Coordinate]): Int = {
     var i = 0
-    while ( {
-      i < coordinates.length
-    }) {
+    while (i < coordinates.length) {
       if (coordinate == coordinates(i)) return i
       i += 1
     }
@@ -454,22 +436,20 @@ object CoordinateArrays {
    * return a subsequence of the input array
    */
   def extract(pts: Array[Coordinate], startArg: Int, endArg: Int): Array[Coordinate] = {
-    val start = MathUtil.clamp(startArg, 0, pts.length)
-    val end = MathUtil.clamp(endArg, -1, pts.length)
-    var npts = end - start + 1
+    val start      = MathUtil.clamp(startArg, 0, pts.length)
+    val end        = MathUtil.clamp(endArg, -1, pts.length)
+    var npts       = end - start + 1
     if (end < 0) npts = 0
     if (start >= pts.length) npts = 0
     if (end < start) npts = 0
     val extractPts = new Array[Coordinate](npts)
     if (npts == 0) return extractPts
-    var iPts = 0
-    var i = start
-    while ( {
-      i <= end
-    }) {
-      extractPts({
+    var iPts       = 0
+    var i          = start
+    while (i <= end) {
+      extractPts {
         iPts += 1; iPts - 1
-      }) = pts(i)
+      } = pts(i)
       i += 1
     }
     extractPts
@@ -497,10 +477,9 @@ object CoordinateArrays {
   def intersection(coordinates: Array[Coordinate], env: Envelope): Array[Coordinate] = {
 
     val coordList = new CoordinateList(Array[Coordinate]())
-    coordinates.foreach {c =>
+    coordinates.foreach { c =>
       if (env.intersects(c)) coordList.add(c, allowRepeated = true)
     }
     coordList.toCoordinateArray
   }
 }
-

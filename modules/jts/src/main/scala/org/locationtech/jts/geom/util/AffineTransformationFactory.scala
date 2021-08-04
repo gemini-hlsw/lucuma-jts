@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -29,9 +29,9 @@ import org.locationtech.jts.geom.Coordinate
  * inputs and transformation mapping rules.
  *
  * @author Martin Davis
- *
  */
 object AffineTransformationFactory {
+
   /**
    * Creates a transformation from a set of three control vectors. A control
    * vector consists of a source point and a destination point, which is the
@@ -46,10 +46,17 @@ object AffineTransformationFactory {
    * @param dest2
    * return the computed transformation
    */
-    def createFromControlVectors(src0: Coordinate, src1: Coordinate, src2: Coordinate, dest0: Coordinate, dest1: Coordinate, dest2: Coordinate): AffineTransformation = {
-      val builder = new AffineTransformationBuilder(src0, src1, src2, dest0, dest1, dest2)
-      builder.getTransformation
-    }
+  def createFromControlVectors(
+    src0:  Coordinate,
+    src1:  Coordinate,
+    src2:  Coordinate,
+    dest0: Coordinate,
+    dest1: Coordinate,
+    dest2: Coordinate
+  ): AffineTransformation = {
+    val builder = new AffineTransformationBuilder(src0, src1, src2, dest0, dest1, dest2)
+    builder.getTransformation
+  }
 
   /**
    * Creates an AffineTransformation defined by a pair of control vectors. A
@@ -65,14 +72,19 @@ object AffineTransformationFactory {
    * @param dest1
    * return the computed transformation, or null if the control vectors do not determine a well-defined transformation
    */
-  def createFromControlVectors(src0: Coordinate, src1: Coordinate, dest0: Coordinate, dest1: Coordinate): AffineTransformation = {
-    val rotPt = new Coordinate(dest1.x - dest0.x, dest1.y - dest0.y)
-    val ang = Angle.angleBetweenOriented(src1, src0, rotPt)
-    val srcDist = src1.distance(src0)
+  def createFromControlVectors(
+    src0:  Coordinate,
+    src1:  Coordinate,
+    dest0: Coordinate,
+    dest1: Coordinate
+  ): AffineTransformation = {
+    val rotPt    = new Coordinate(dest1.x - dest0.x, dest1.y - dest0.y)
+    val ang      = Angle.angleBetweenOriented(src1, src0, rotPt)
+    val srcDist  = src1.distance(src0)
     val destDist = dest1.distance(dest0)
     if (srcDist == 0.0) return null
-    val scale = destDist / srcDist
-    val trans = AffineTransformation.translationInstance(-src0.x, -src0.y)
+    val scale    = destDist / srcDist
+    val trans    = AffineTransformation.translationInstance(-src0.x, -src0.y)
     trans.rotate(ang)
     trans.scale(scale, scale)
     trans.translate(dest0.x, dest0.y)
@@ -110,8 +122,12 @@ object AffineTransformationFactory {
    * if the control vector arrays are too short, long or of different
    * lengths
    */
-  def createFromControlVectors(src: Array[Coordinate], dest: Array[Coordinate]): AffineTransformation = {
-    if (src.length != dest.length) throw new IllegalArgumentException("Src and Dest arrays are not the same length")
+  def createFromControlVectors(
+    src:  Array[Coordinate],
+    dest: Array[Coordinate]
+  ): AffineTransformation = {
+    if (src.length != dest.length)
+      throw new IllegalArgumentException("Src and Dest arrays are not the same length")
     if (src.length <= 0) throw new IllegalArgumentException("Too few control points")
     if (src.length > 3) throw new IllegalArgumentException("Too many control points")
     if (src.length == 1) return createFromControlVectors(src(0), dest(0))
@@ -136,15 +152,20 @@ object AffineTransformationFactory {
    * @param dest1 the end point of the destination baseline
    * return the computed transformation
    */
-  def createFromBaseLines(src0: Coordinate, src1: Coordinate, dest0: Coordinate, dest1: Coordinate): AffineTransformation = {
-    val rotPt = new Coordinate(src0.x + dest1.x - dest0.x, src0.y + dest1.y - dest0.y)
-    val ang = Angle.angleBetweenOriented(src1, src0, rotPt)
-    val srcDist = src1.distance(src0)
+  def createFromBaseLines(
+    src0:  Coordinate,
+    src1:  Coordinate,
+    dest0: Coordinate,
+    dest1: Coordinate
+  ): AffineTransformation = {
+    val rotPt    = new Coordinate(src0.x + dest1.x - dest0.x, src0.y + dest1.y - dest0.y)
+    val ang      = Angle.angleBetweenOriented(src1, src0, rotPt)
+    val srcDist  = src1.distance(src0)
     val destDist = dest1.distance(dest0)
     // return identity if transformation would be degenerate
     if (srcDist == 0.0) return new AffineTransformation
-    val scale = destDist / srcDist
-    val trans = AffineTransformation.translationInstance(-src0.x, -src0.y)
+    val scale    = destDist / srcDist
+    val trans    = AffineTransformation.translationInstance(-src0.x, -src0.y)
     trans.rotate(ang)
     trans.scale(scale, scale)
     trans.translate(dest0.x, dest0.y)

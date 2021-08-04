@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -36,31 +36,29 @@ object DistanceToPointFinder {
   def computeDistance(geom: Geometry, pt: Coordinate, ptDist: PointPairDistance): Unit =
     geom match {
       case string: LineString => computeDistance(string, pt, ptDist)
-      case _ => geom match {
-        case polygon: Polygon => computeDistance(polygon, pt, ptDist)
-        case _ => geom match {
-          case gc: GeometryCollection =>
-            var i = 0
-            while ( {
-              i < gc.getNumGeometries
-            }) {
-              val g = gc.getGeometryN(i)
-              computeDistance(g, pt, ptDist)
-              i += 1
+      case _                  =>
+        geom match {
+          case polygon: Polygon => computeDistance(polygon, pt, ptDist)
+          case _                =>
+            geom match {
+              case gc: GeometryCollection =>
+                var i = 0
+                while (i < gc.getNumGeometries) {
+                  val g = gc.getGeometryN(i)
+                  computeDistance(g, pt, ptDist)
+                  i += 1
+                }
+              case _                      => // assume geom is Point
+                ptDist.setMinimum(geom.getCoordinate, pt)
             }
-          case _ => // assume geom is Point
-            ptDist.setMinimum(geom.getCoordinate, pt)
         }
-      }
     }
 
   def computeDistance(line: LineString, pt: Coordinate, ptDist: PointPairDistance): Unit = {
-    val coords = line.getCoordinates
+    val coords      = line.getCoordinates
     val tempSegment = new LineSegment
-    var i = 0
-    while ( {
-      i < coords.length - 1
-    }) {
+    var i           = 0
+    while (i < coords.length - 1) {
       tempSegment.setCoordinates(coords(i), coords(i + 1))
       // this is somewhat inefficient - could do better
       val closestPt = tempSegment.closestPoint(pt)
@@ -77,12 +75,9 @@ object DistanceToPointFinder {
   def computeDistance(poly: Polygon, pt: Coordinate, ptDist: PointPairDistance): Unit = {
     computeDistance(poly.getExteriorRing, pt, ptDist)
     var i = 0
-    while ( {
-      i < poly.getNumInteriorRing
-    }) {
+    while (i < poly.getNumInteriorRing) {
       computeDistance(poly.getInteriorRingN(i), pt, ptDist)
       i += 1
     }
   }
 }
-

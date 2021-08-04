@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2019 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -27,9 +27,9 @@ import org.locationtech.jts.geom.Envelope
  * Functions for computing distances between {link Envelope}s.
  *
  * @author mdavis
- *
  */
 object EnvelopeDistance {
+
   /**
    * Computes the maximum distance between the points defining two envelopes.
    * It is equal to the length of the diagonal of
@@ -41,13 +41,13 @@ object EnvelopeDistance {
    * @param env2 an envelope
    * return the maximum distance between the points defining the envelopes
    */
-    def maximumDistance(env1: Envelope, env2: Envelope): Double = {
-      val minx = Math.min(env1.getMinX, env2.getMinX)
-      val miny = Math.min(env1.getMinY, env2.getMinY)
-      val maxx = Math.max(env1.getMaxX, env2.getMaxX)
-      val maxy = Math.max(env1.getMaxY, env2.getMaxY)
-      distance(minx, miny, maxx, maxy)
-    }
+  def maximumDistance(env1: Envelope, env2: Envelope): Double = {
+    val minx = Math.min(env1.getMinX, env2.getMinX)
+    val miny = Math.min(env1.getMinY, env2.getMinY)
+    val maxx = Math.max(env1.getMaxX, env2.getMaxX)
+    val maxy = Math.max(env1.getMaxY, env2.getMaxY)
+    distance(minx, miny, maxx, maxy)
+  }
 
   private def distance(x1: Double, y1: Double, x2: Double, y2: Double) = {
     val dx = x2 - x1
@@ -79,7 +79,7 @@ object EnvelopeDistance {
     val bminy = b.getMinY
     val bmaxx = b.getMaxX
     val bmaxy = b.getMaxY
-    var dist = maxDistance(aminx, aminy, aminx, amaxy, bminx, bminy, bminx, bmaxy)
+    var dist  = maxDistance(aminx, aminy, aminx, amaxy, bminx, bminy, bminx, bmaxy)
     dist = Math.min(dist, maxDistance(aminx, aminy, aminx, amaxy, bminx, bminy, bmaxx, bminy))
     dist = Math.min(dist, maxDistance(aminx, aminy, aminx, amaxy, bmaxx, bmaxy, bminx, bmaxy))
     dist = Math.min(dist, maxDistance(aminx, aminy, aminx, amaxy, bmaxx, bmaxy, bmaxx, bminy))
@@ -111,7 +111,16 @@ object EnvelopeDistance {
    * @param by2 y ordinate of second endpoint of segment 2
    * return maximum distance between the segments
    */
-  private def maxDistance(ax1: Double, ay1: Double, ax2: Double, ay2: Double, bx1: Double, by1: Double, bx2: Double, by2: Double) = {
+  private def maxDistance(
+    ax1: Double,
+    ay1: Double,
+    ax2: Double,
+    ay2: Double,
+    bx1: Double,
+    by1: Double,
+    bx2: Double,
+    by2: Double
+  ) = {
     var dist = distance(ax1, ay1, bx1, by1)
     dist = Math.max(dist, distance(ax1, ay1, bx2, by2))
     dist = Math.max(dist, distance(ax2, ay2, bx1, by1))

@@ -42,13 +42,14 @@ import org.locationtech.jts.geom.Polygon
  * @version 1.7
  */
 object MinimumDiameter {
+
   /**
    * Gets the minimum rectangle enclosing a geometry.
    *
    * @param geom the geometry
    * return the minimum rectangle enclosing the geometry
    */
-    def getMinimumRectangle(geom: Geometry): Geometry = new MinimumDiameter(geom).getMinimumRectangle
+  def getMinimumRectangle(geom: Geometry): Geometry = new MinimumDiameter(geom).getMinimumRectangle
 
   /**
    * Gets the length of the minimum diameter enclosing a geometry
@@ -71,14 +72,14 @@ object MinimumDiameter {
     var p0: Coordinate = null
     var p1: Coordinate = null
     /*
-        * Line eqn is ax + by = c
-        * Slope is a/b.
-        * If slope is steep, use y values as the inputs
-        */ if (Math.abs(b) > Math.abs(a)) {
+     * Line eqn is ax + by = c
+     * Slope is a/b.
+     * If slope is steep, use y values as the inputs
+     */
+    if (Math.abs(b) > Math.abs(a)) {
       p0 = new Coordinate(0.0, c / b)
       p1 = new Coordinate(1.0, c / b - a / b)
-    }
-    else {
+    } else {
       p0 = new Coordinate(c / a, 0.0)
       p1 = new Coordinate(c / a - b / a, 1.0)
     }
@@ -88,21 +89,21 @@ object MinimumDiameter {
 
 class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
 
-/**
- * Compute a minimum diameter for a giver {link Geometry},
- * with a hint if
- * the Geometry is convex
- * (e.g. a convex Polygon or LinearRing,
- * or a two-point LineString, or a Point).
- *
- * @param inputGeom a Geometry which is convex
- * @param isConvex  <code>true</code> if the input geometry is convex
- */
+  /**
+   * Compute a minimum diameter for a giver {link Geometry},
+   * with a hint if
+   * the Geometry is convex
+   * (e.g. a convex Polygon or LinearRing,
+   * or a two-point LineString, or a Point).
+   *
+   * @param inputGeom a Geometry which is convex
+   * @param isConvex  <code>true</code> if the input geometry is convex
+   */
   private var convexHullPts: Array[Coordinate] = null
-  private var minBaseSeg = new LineSegment
-  private var minWidthPt: Coordinate = null
-  private var minPtIndex = 0
-  private var minWidth = 0.0
+  private var minBaseSeg                       = new LineSegment
+  private var minWidthPt: Coordinate           = null
+  private var minPtIndex                       = 0
+  private var minWidth                         = 0.0
 
   /**
    * Compute a minimum diameter for a given {link Geometry}.
@@ -166,27 +167,25 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
   }
 
   private def computeWidthConvex(convexGeom: Geometry): Unit = { //System.out.println("Input = " + geom);
-    if (convexGeom.isInstanceOf[Polygon]) convexHullPts = convexGeom.asInstanceOf[Polygon].getExteriorRing.getCoordinates
+    if (convexGeom.isInstanceOf[Polygon])
+      convexHullPts = convexGeom.asInstanceOf[Polygon].getExteriorRing.getCoordinates
     else convexHullPts = convexGeom.getCoordinates
     // special cases for lines or points or degenerate rings
     if (convexHullPts.length == 0) {
       minWidth = 0.0
       minWidthPt = null
       minBaseSeg = null
-    }
-    else if (convexHullPts.length == 1) {
+    } else if (convexHullPts.length == 1) {
       minWidth = 0.0
       minWidthPt = convexHullPts(0)
       minBaseSeg.p0 = convexHullPts(0)
       minBaseSeg.p1 = convexHullPts(0)
-    }
-    else if (convexHullPts.length == 2 || convexHullPts.length == 3) {
+    } else if (convexHullPts.length == 2 || convexHullPts.length == 3) {
       minWidth = 0.0
       minWidthPt = convexHullPts(0)
       minBaseSeg.p0 = convexHullPts(0)
       minBaseSeg.p1 = convexHullPts(1)
-    }
-    else computeConvexRingMinDiameter(convexHullPts)
+    } else computeConvexRingMinDiameter(convexHullPts)
   }
 
   /**
@@ -198,12 +197,10 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
   private def computeConvexRingMinDiameter(pts: Array[Coordinate]): Unit = { // for each segment in the ring
     minWidth = Double.MaxValue
     var currMaxIndex = 1
-    val seg = new LineSegment
+    val seg          = new LineSegment
     // compute the max distance for all segments in the ring, and pick the minimum
-    var i = 0
-    while ( {
-      i < pts.length - 1
-    }) {
+    var i            = 0
+    while (i < pts.length - 1) {
       seg.p0 = pts(i)
       seg.p1 = pts(i + 1)
       currMaxIndex = findMaxPerpDistance(pts, seg, currMaxIndex)
@@ -212,13 +209,11 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
   }
 
   private def findMaxPerpDistance(pts: Array[Coordinate], seg: LineSegment, startIndex: Int) = {
-    var maxPerpDistance = seg.distancePerpendicular(pts(startIndex))
+    var maxPerpDistance  = seg.distancePerpendicular(pts(startIndex))
     var nextPerpDistance = maxPerpDistance
-    var maxIndex = startIndex
-    var nextIndex = maxIndex
-    while ( {
-      nextPerpDistance >= maxPerpDistance
-    }) {
+    var maxIndex         = startIndex
+    var nextIndex        = maxIndex
+    while (nextPerpDistance >= maxPerpDistance) {
       maxPerpDistance = nextPerpDistance
       maxIndex = nextIndex
       nextIndex = MinimumDiameter.nextIndex(pts, maxIndex)
@@ -252,24 +247,24 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
     computeMinimumDiameter()
     // check if minimum rectangle is degenerate (a point or line segment)
     if (minWidth == 0.0) {
-      if (minBaseSeg.p0.equals2D(minBaseSeg.p1)) return inputGeom.getFactory.createPoint(minBaseSeg.p0)
+      if (minBaseSeg.p0.equals2D(minBaseSeg.p1))
+        return inputGeom.getFactory.createPoint(minBaseSeg.p0)
       return minBaseSeg.toGeometry(inputGeom.getFactory)
     }
     // deltas for the base segment of the minimum diameter
-    val dx = minBaseSeg.p1.x - minBaseSeg.p0.x
-    val dy = minBaseSeg.p1.y - minBaseSeg.p0.y
+    val dx          = minBaseSeg.p1.x - minBaseSeg.p0.x
+    val dy          = minBaseSeg.p1.y - minBaseSeg.p0.y
     /*
         double c0 = computeC(dx, dy, minBaseSeg.p0);
         double c1 = computeC(dx, dy, minBaseSeg.p1);
-        */ var minPara = Double.MaxValue
-    var maxPara = -Double.MaxValue
-    var minPerp = Double.MaxValue
-    var maxPerp = -Double.MaxValue
+     */
+    var minPara     = Double.MaxValue
+    var maxPara     = -Double.MaxValue
+    var minPerp     = Double.MaxValue
+    var maxPerp     = -Double.MaxValue
     // compute maxima and minima of lines parallel and perpendicular to base segment
-    var i = 0
-    while ( {
-      i < convexHullPts.length
-    }) {
+    var i           = 0
+    while (i < convexHullPts.length) {
       val paraC = MinimumDiameter.computeC(dx, dy, convexHullPts(i))
       if (paraC > maxPara) maxPara = paraC
       if (paraC < minPara) minPara = paraC
@@ -284,11 +279,11 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
     val maxParaLine = MinimumDiameter.computeSegmentForLine(-dy, dx, maxPara)
     val minParaLine = MinimumDiameter.computeSegmentForLine(-dy, dx, minPara)
     // compute vertices of rectangle (where the para/perp max & min lines intersect)
-    val p0 = maxParaLine.lineIntersection(maxPerpLine)
-    val p1 = minParaLine.lineIntersection(maxPerpLine)
-    val p2 = minParaLine.lineIntersection(minPerpLine)
-    val p3 = maxParaLine.lineIntersection(minPerpLine)
-    val shell = inputGeom.getFactory.createLinearRing(Array[Coordinate](p0, p1, p2, p3, p0))
+    val p0          = maxParaLine.lineIntersection(maxPerpLine)
+    val p1          = minParaLine.lineIntersection(maxPerpLine)
+    val p2          = minParaLine.lineIntersection(minPerpLine)
+    val p3          = maxParaLine.lineIntersection(minPerpLine)
+    val shell       = inputGeom.getFactory.createLinearRing(Array[Coordinate](p0, p1, p2, p3, p0))
     inputGeom.getFactory.createPolygon(shell)
   }
 }

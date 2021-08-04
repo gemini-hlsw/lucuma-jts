@@ -22,50 +22,62 @@ import scala.annotation.nowarn
  * @version 1.7
  */
 object Dimension {
+
   /**
    * Dimension value of a point (0).
    */
-    val P = 0
+  val P = 0
+
   /**
    * Dimension value of a curve (1).
    */
   val L = 1
+
   /**
    * Dimension value of a surface (2).
    */
   val A = 2
+
   /**
    * Dimension value of the empty geometry (-1).
    */
   val FALSE = -1
+
   /**
    * Dimension value of non-empty geometries (= {P, L, A}).
    */
   val TRUE = -2
+
   /**
    * Dimension value for any dimension (= {FALSE, TRUE}).
    */
   val DONTCARE = -3
+
   /**
    * Symbol for the FALSE pattern matrix entry
    */
   val SYM_FALSE = 'F'
+
   /**
    * Symbol for the TRUE pattern matrix entry
    */
   val SYM_TRUE = 'T'
+
   /**
    * Symbol for the DONTCARE pattern matrix entry
    */
   val SYM_DONTCARE = '*'
+
   /**
    * Symbol for the P (dimension 0) pattern matrix entry
    */
   val SYM_P = '0'
+
   /**
    * Symbol for the L (dimension 1) pattern matrix entry
    */
   val SYM_L = '1'
+
   /**
    * Symbol for the A (dimension 2) pattern matrix entry
    */
@@ -84,17 +96,17 @@ object Dimension {
   @nowarn
   def toDimensionSymbol(dimensionValue: Int): Char = {
     dimensionValue match {
-      case FALSE =>
+      case FALSE    =>
         return SYM_FALSE
-      case TRUE =>
+      case TRUE     =>
         return SYM_TRUE
       case DONTCARE =>
         return SYM_DONTCARE
-      case P =>
+      case P        =>
         return SYM_P
-      case L =>
+      case L        =>
         return SYM_L
-      case A =>
+      case A        =>
         return SYM_A
     }
     throw new IllegalArgumentException("Unknown dimension value: " + dimensionValue)
@@ -113,17 +125,17 @@ object Dimension {
   @nowarn
   def toDimensionValue(dimensionSymbol: Char): Int = {
     Character.toUpperCase(dimensionSymbol) match {
-      case SYM_FALSE =>
+      case SYM_FALSE    =>
         return FALSE
-      case SYM_TRUE =>
+      case SYM_TRUE     =>
         return TRUE
       case SYM_DONTCARE =>
         return DONTCARE
-      case SYM_P =>
+      case SYM_P        =>
         return P
-      case SYM_L =>
+      case SYM_L        =>
         return L
-      case SYM_A =>
+      case SYM_A        =>
         return A
     }
     throw new IllegalArgumentException("Unknown dimension symbol: " + dimensionSymbol)

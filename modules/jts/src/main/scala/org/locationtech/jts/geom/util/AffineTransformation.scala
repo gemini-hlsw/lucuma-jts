@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -80,9 +80,9 @@ import org.locationtech.jts.util.Assert
  * computes the inverse of a transformation, if one exists.
  *
  * @author Martin Davis
- *
  */
 object AffineTransformation {
+
   /**
    * Creates a transformation for a reflection about the
    * line (x0,y0) - (x1,y1).
@@ -93,11 +93,11 @@ object AffineTransformation {
    * @param y1 the y-ordinate of a another point on the reflection line
    * return a transformation for the reflection
    */
-    def reflectionInstance(x0: Double, y0: Double, x1: Double, y1: Double): AffineTransformation = {
-      val trans = new AffineTransformation
-      trans.setToReflection(x0, y0, x1, y1)
-      trans
-    }
+  def reflectionInstance(x0: Double, y0: Double, x1: Double, y1: Double): AffineTransformation = {
+    val trans = new AffineTransformation
+    trans.setToReflection(x0, y0, x1, y1)
+    trans
+  }
 
   /**
    * Creates a transformation for a reflection about the
@@ -123,7 +123,8 @@ object AffineTransformation {
    * @param theta the rotation angle, in radians
    * return a transformation for the rotation
    */
-  def rotationInstance(theta: Double): AffineTransformation = rotationInstance(Math.sin(theta), Math.cos(theta))
+  def rotationInstance(theta: Double): AffineTransformation =
+    rotationInstance(Math.sin(theta), Math.cos(theta))
 
   /**
    * Creates a transformation for a rotation
@@ -153,7 +154,8 @@ object AffineTransformation {
    * @param y     the y-ordinate of the rotation point
    * return a transformation for the rotation
    */
-  def rotationInstance(theta: Double, x: Double, y: Double): AffineTransformation = rotationInstance(Math.sin(theta), Math.cos(theta), x, y)
+  def rotationInstance(theta: Double, x: Double, y: Double): AffineTransformation =
+    rotationInstance(Math.sin(theta), Math.cos(theta), x, y)
 
   /**
    * Creates a transformation for a rotation
@@ -168,7 +170,12 @@ object AffineTransformation {
    * @param y        the y-ordinate of the rotation point
    * return a transformation for the rotation
    */
-  def rotationInstance(sinTheta: Double, cosTheta: Double, x: Double, y: Double): AffineTransformation = {
+  def rotationInstance(
+    sinTheta: Double,
+    cosTheta: Double,
+    x:        Double,
+    y:        Double
+  ): AffineTransformation = {
     val trans = new AffineTransformation
     trans.setToRotation(sinTheta, cosTheta, x, y)
     trans
@@ -236,7 +243,8 @@ class AffineTransformation()
 /**
  * Constructs a new identity transformation
  */
-  extends Cloneable with CoordinateSequenceFilter {
+    extends Cloneable
+    with CoordinateSequenceFilter {
   setToIdentity
   // affine matrix entries
   // (bottom row is always [ 0 0 1 ])
@@ -303,9 +311,15 @@ class AffineTransformation()
    * @param dest0 the mapped point for source point 0
    * @param dest1 the mapped point for source point 1
    * @param dest2 the mapped point for source point 2
-   *
    */
-  def this(src0: Coordinate, src1: Coordinate, src2: Coordinate, dest0: Coordinate, dest1: Coordinate, dest2: Coordinate) = this()
+  def this(
+    src0:  Coordinate,
+    src1:  Coordinate,
+    src2:  Coordinate,
+    dest0: Coordinate,
+    dest1: Coordinate,
+    dest2: Coordinate
+  ) = this()
 
   /**
    * Sets this transformation to be the identity transformation.
@@ -339,7 +353,14 @@ class AffineTransformation()
    * @param m12 the entry for the [1, 2] element in the transformation matrix
    * return this transformation, with an updated matrix
    */
-  def setTransformation(m00: Double, m01: Double, m02: Double, m10: Double, m11: Double, m12: Double): AffineTransformation = {
+  def setTransformation(
+    m00: Double,
+    m01: Double,
+    m02: Double,
+    m10: Double,
+    m11: Double,
+    m12: Double
+  ): AffineTransformation = {
     this.m00 = m00
     this.m01 = m01
     this.m02 = m02
@@ -418,12 +439,9 @@ class AffineTransformation()
    * inverse(A)  =  ---   x  adjoint(A)
    * det
    *
-   *
    * =   1       |  m11  -m01   m01*m12-m02*m11  |
    * ---   x  | -m10   m00  -m00*m12+m10*m02  |
    * det      |  0     0     m00*m11-m10*m01  |
-   *
-   *
    *
    * = |  m11/det  -m01/det   m01*m12-m02*m11/det |
    * | -m10/det   m00/det  -m00*m12+m10*m02/det |
@@ -437,7 +455,7 @@ class AffineTransformation()
    */
   @throws[NoninvertibleTransformationException]
   def getInverse: AffineTransformation = {
-    val det = getDeterminant
+    val det  = getDeterminant
     if (det == 0) throw new NoninvertibleTransformationException("Transformation is non-invertible")
     val im00 = m11 / det
     val im10 = -m10 / det
@@ -458,13 +476,14 @@ class AffineTransformation()
    * return this transformation, with an updated matrix
    */
   def setToReflectionBasic(x0: Double, y0: Double, x1: Double, y1: Double): AffineTransformation = {
-    if (x0 == x1 && y0 == y1) throw new IllegalArgumentException("Reflection line points must be distinct")
-    val dx = x1 - x0
-    val dy = y1 - y0
-    val d = Math.sqrt(dx * dx + dy * dy)
-    val sin = dy / d
-    val cos = dx / d
-    val cs2 = 2 * sin * cos
+    if (x0 == x1 && y0 == y1)
+      throw new IllegalArgumentException("Reflection line points must be distinct")
+    val dx   = x1 - x0
+    val dy   = y1 - y0
+    val d    = Math.sqrt(dx * dx + dy * dy)
+    val sin  = dy / d
+    val cos  = dx / d
+    val cs2  = 2 * sin * cos
     val c2s2 = cos * cos - sin * sin
     m00 = c2s2
     m01 = cs2
@@ -486,13 +505,14 @@ class AffineTransformation()
    * return this transformation, with an updated matrix
    */
   def setToReflection(x0: Double, y0: Double, x1: Double, y1: Double): AffineTransformation = {
-    if (x0 == x1 && y0 == y1) throw new IllegalArgumentException("Reflection line points must be distinct")
+    if (x0 == x1 && y0 == y1)
+      throw new IllegalArgumentException("Reflection line points must be distinct")
     // translate line vector to origin
     setToTranslation(-x0, -y0)
     // rotate vector to positive x axis direction
-    val dx = x1 - x0
-    val dy = y1 - y0
-    val d = Math.sqrt(dx * dx + dy * dy)
+    val dx  = x1 - x0
+    val dy  = y1 - y0
+    val d   = Math.sqrt(dx * dx + dy * dy)
     val sin = dy / d
     val cos = dx / d
     rotate(-sin, cos)
@@ -523,7 +543,8 @@ class AffineTransformation()
    * return this transformation, with an updated matrix
    */
   def setToReflection(x: Double, y: Double): AffineTransformation = {
-    if (x == 0.0 && y == 0.0) throw new IllegalArgumentException("Reflection vector must be non-zero")
+    if (x == 0.0 && y == 0.0)
+      throw new IllegalArgumentException("Reflection vector must be non-zero")
 
     /**
      * Handle special case - x = y.
@@ -538,7 +559,7 @@ class AffineTransformation()
       m12 = 0.0
       return this
     }
-    val d = Math.sqrt(x * x + y * y)
+    val d   = Math.sqrt(x * x + y * y)
     val sin = y / d
     val cos = x / d
     rotate(-sin, cos)
@@ -636,7 +657,12 @@ class AffineTransformation()
    * @param y        the y-ordinate of the rotation point
    * return this transformation, with an updated matrix
    */
-  def setToRotation(sinTheta: Double, cosTheta: Double, x: Double, y: Double): AffineTransformation = {
+  def setToRotation(
+    sinTheta: Double,
+    cosTheta: Double,
+    x:        Double,
+    y:        Double
+  ): AffineTransformation = {
     m00 = cosTheta
     m01 = -sinTheta
     m02 = x - x * cosTheta + y * sinTheta
@@ -1011,16 +1037,16 @@ class AffineTransformation()
    * </pre>
    *
    * return a string representing this transformation
-   *
    */
-  override def toString: String = "AffineTransformation[[" + m00 + ", " + m01 + ", " + m02 + "], [" + m10 + ", " + m11 + ", " + m12 + "]]"
+  override def toString: String =
+    "AffineTransformation[[" + m00 + ", " + m01 + ", " + m02 + "], [" + m10 + ", " + m11 + ", " + m12 + "]]"
 
   /**
    * Clones this transformation
    *
    * return a copy of this transformation
    */
-  override def clone: Any = {
+  override def clone: Object = {
     try return super.clone
     catch {
       case _: Exception =>

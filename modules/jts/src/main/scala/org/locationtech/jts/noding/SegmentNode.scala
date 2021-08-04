@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -29,9 +29,14 @@ import org.locationtech.jts.geom.Coordinate
  *
  * @version 1.7
  */
-class SegmentNode(val segString: NodedSegmentString, val coordArg: Coordinate, val segmentIndex: Int // the index of the containing line segment in the parent edge
-                  , val segmentOctant: Int) extends Comparable[SegmentNode] {
-  final var coord: Coordinate = new Coordinate(coordArg)
+class SegmentNode(
+  val segString:     NodedSegmentString,
+  val coordArg:      Coordinate,
+  val segmentIndex:  Int // the index of the containing line segment in the parent edge
+  ,
+  val segmentOctant: Int
+) extends Comparable[SegmentNode] {
+  final var coord: Coordinate   = new Coordinate(coordArg)
   final private val visInterior = !coord.equals2D(segString.getCoordinate(segmentIndex))
 
   /**

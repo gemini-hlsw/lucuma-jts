@@ -8,7 +8,7 @@
  * and the Eclipse Distribution License is available at
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
- *//*
+ */ /*
  * Copyright (c) 2019 Martin Davis.
  *
  * All rights reserved. This program and the accompanying materials
@@ -39,9 +39,9 @@ import org.locationtech.jts.geom.Polygon
  * are typically specified individually for each line.
  *
  * @author Martin Davis
- *
  */
 object VariableBuffer {
+
   /**
    * Creates a buffer polygon along a line with the buffer distance interpolated
    * between a start distance and an end distance.
@@ -51,11 +51,11 @@ object VariableBuffer {
    * @param endDistance   the buffer width at the end of the line
    * return the variable-distance buffer polygon
    */
-    def buffer(line: Geometry, startDistance: Double, endDistance: Double) = {
-      val distance = interpolate(line.asInstanceOf[LineString], startDistance, endDistance)
-      val vb = new VariableBuffer(line, distance)
-      vb.getResult
-    }
+  def buffer(line: Geometry, startDistance: Double, endDistance: Double) = {
+    val distance = interpolate(line.asInstanceOf[LineString], startDistance, endDistance)
+    val vb       = new VariableBuffer(line, distance)
+    vb.getResult
+  }
 
   // /**
   //  * Creates a buffer polygon along a line with the buffer distance interpolated
@@ -72,8 +72,9 @@ object VariableBuffer {
   //  * return the variable-distance buffer polygon
   //  */
   def buffer(line: Geometry, startDistance: Double, midDistance: Double, endDistance: Double) = {
-    val distance = interpolate(line.asInstanceOf[LineString], startDistance, midDistance, endDistance)
-    val vb = new VariableBuffer(line, distance)
+    val distance =
+      interpolate(line.asInstanceOf[LineString], startDistance, midDistance, endDistance)
+    val vb       = new VariableBuffer(line, distance)
     vb.getResult
   }
 
@@ -103,22 +104,20 @@ object VariableBuffer {
    * return the array of interpolated values
    */
   private def interpolate(line: LineString, startValueArg: Double, endValueArg: Double) = {
-    val startValue = Math.abs(startValueArg)
-    val endValue = Math.abs(endValueArg)
-    val values = new Array[Double](line.getNumPoints)
+    val startValue      = Math.abs(startValueArg)
+    val endValue        = Math.abs(endValueArg)
+    val values          = new Array[Double](line.getNumPoints)
     values(0) = startValue
     values(values.length - 1) = endValue
-    val totalLen = line.getLength
-    val pts = line.getCoordinates
+    val totalLen        = line.getLength
+    val pts             = line.getCoordinates
     var currLen: Double = 0
-    var i = 1
-    while ( {
-      i < values.length - 1
-    }) {
-      val segLen = pts(i).distance(pts(i - 1))
+    var i               = 1
+    while (i < values.length - 1) {
+      val segLen  = pts(i).distance(pts(i - 1))
       currLen += segLen
       val lenFrac = currLen / totalLen
-      val delta = lenFrac * (endValue - startValue)
+      val delta   = lenFrac * (endValue - startValue)
       values(i) = startValue + delta
       i += 1
     }
@@ -140,41 +139,42 @@ object VariableBuffer {
    * @param endValue   the end value
    * return the array of interpolated values
    */
-  private def interpolate(line: LineString, startValueArg: Double, midValueArg: Double, endValueArg: Double) = {
-    val startValue = Math.abs(startValueArg)
-    val midValue = Math.abs(midValueArg)
-    val endValue = Math.abs(endValueArg)
-    val values = new Array[Double](line.getNumPoints)
+  private def interpolate(
+    line:          LineString,
+    startValueArg: Double,
+    midValueArg:   Double,
+    endValueArg:   Double
+  ) = {
+    val startValue      = Math.abs(startValueArg)
+    val midValue        = Math.abs(midValueArg)
+    val endValue        = Math.abs(endValueArg)
+    val values          = new Array[Double](line.getNumPoints)
     values(0) = startValue
     values(values.length - 1) = endValue
-    val pts = line.getCoordinates
-    val lineLen = line.getLength
-    val midIndex = indexAtLength(pts, lineLen / 2)
-    val delMidStart = midValue - startValue
-    val delEndMid = endValue - midValue
-    val lenSM = length(pts, 0, midIndex)
+    val pts             = line.getCoordinates
+    val lineLen         = line.getLength
+    val midIndex        = indexAtLength(pts, lineLen / 2)
+    val delMidStart     = midValue - startValue
+    val delEndMid       = endValue - midValue
+    val lenSM           = length(pts, 0, midIndex)
     var currLen: Double = 0
-    var i = 1
-    while ( {
-      i <= midIndex
-    }) {
-      val segLen = pts(i).distance(pts(i - 1))
+    var i               = 1
+    while (i <= midIndex) {
+      val segLen  = pts(i).distance(pts(i - 1))
       currLen += segLen
       val lenFrac = currLen / lenSM
-      val `val` = startValue + lenFrac * delMidStart
+      val `val`   = startValue + lenFrac * delMidStart
       values(i) = `val`
       i += 1
     }
-    val lenME = length(pts, midIndex, pts.length - 1)
+    val lenME           = length(pts, midIndex, pts.length - 1)
     currLen = 0
     i = midIndex + 1
-    while ( {
-      i < values.length - 1
-    }) {
-      val segLen = pts(i).distance(pts(i - 1))
+    while (i < values.length - 1) {
+      val segLen  = pts(i).distance(pts(i - 1))
       currLen += segLen
       val lenFrac = currLen / lenME
-      val `val` = midValue + lenFrac * delEndMid
+      val `val`   = midValue + lenFrac * delEndMid
       values(i) = `val`
       i += 1
     }
@@ -183,10 +183,8 @@ object VariableBuffer {
 
   private def indexAtLength(pts: Array[Coordinate], targetLen: Double): Int = {
     var len: Double = 0
-    var i = 1
-    while ( {
-      i < pts.length
-    }) {
+    var i           = 1
+    while (i < pts.length) {
       len += pts(i).distance(pts(i - 1))
       if (len > targetLen) return i
       i += 1
@@ -196,10 +194,8 @@ object VariableBuffer {
 
   private def length(pts: Array[Coordinate], i1: Int, i2: Int) = {
     var len: Double = 0
-    var i = i1 + 1
-    while ( {
-      i <= i2
-    }) {
+    var i           = i1 + 1
+    while (i <= i2) {
       len += pts(i).distance(pts(i - 1))
       i += 1
     }
@@ -219,6 +215,7 @@ object VariableBuffer {
    * return the outer tangent line segment, or null if none exists
    */
   private def outerTangent(c1: Coordinate, r1: Double, c2: Coordinate, r2: Double): LineSegment = {
+
     /**
      * If distances are inverted then flip to compute and flip result back.
      */
@@ -233,7 +230,7 @@ object VariableBuffer {
     // TODO: handle r1 == r2?
     val a3 = -Math.atan2(y2 - y1, x2 - x1)
     val dr = r2 - r1
-    val d = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
+    val d  = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
     val a2 = Math.asin(dr / d)
     // check if no tangent exists
     if (java.lang.Double.isNaN(a2)) return null
@@ -270,15 +267,16 @@ object VariableBuffer {
 
 class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
 
-/**
- * Creates a generator for a variable-distance line buffer.
- *
- * @param line     the linestring to buffer
- * @param distance the buffer distance for each vertex of the line
- */
-  if (distance.length != lineArg.getNumPoints) throw new IllegalArgumentException("Number of distances is not equal to number of vertices")
-  private val line = lineArg.asInstanceOf[LineString]
-  private val geomFactory = line.getFactory
+  /**
+   * Creates a generator for a variable-distance line buffer.
+   *
+   * @param line     the linestring to buffer
+   * @param distance the buffer distance for each vertex of the line
+   */
+  if (distance.length != lineArg.getNumPoints)
+    throw new IllegalArgumentException("Number of distances is not equal to number of vertices")
+  private val line         = lineArg.asInstanceOf[LineString]
+  private val geomFactory  = line.getFactory
   private val quadrantSegs = BufferParameters.DEFAULT_QUADRANT_SEGMENTS
 
   /**
@@ -287,13 +285,11 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
    * return a buffer polygon
    */
   def getResult: Geometry = {
-    val parts = new util.ArrayList[Geometry]
-    val pts = line.getCoordinates
+    val parts     = new util.ArrayList[Geometry]
+    val pts       = line.getCoordinates
     // construct segment buffers
-    var i = 1
-    while ( {
-      i < pts.length
-    }) {
+    var i         = 1
+    while (i < pts.length) {
       val dist0 = distance(i - 1)
       val dist1 = distance(i)
       if (dist0 > 0 || dist1 > 0) {
@@ -305,7 +301,7 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
       }
     }
     val partsGeom = geomFactory.createGeometryCollection(GeometryFactory.toGeometryArray(parts))
-    val buffer = partsGeom.union
+    val buffer    = partsGeom.union
     // ensure an empty polygon is returned if needed
     if (buffer.isEmpty) return geomFactory.createPolygon
     buffer
@@ -323,7 +319,13 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
    * @param dist1 the buffer distance at the end point
    * return the segment buffer.
    */
-  private def segmentBuffer(p0: Coordinate, p1: Coordinate, dist0: Double, dist1: Double): Polygon = {
+  private def segmentBuffer(
+    p0:    Coordinate,
+    p1:    Coordinate,
+    dist0: Double,
+    dist1: Double
+  ): Polygon = {
+
     /**
      * Compute for increasing distance only, so flip if needed
      */
@@ -333,20 +335,20 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
     // if tangent is null then compute a buffer for largest circle
     if (tangent == null) {
       var center = p0
-      var dist = dist0
+      var dist   = dist0
       if (dist1 > dist0) {
         center = p1
         dist = dist1
       }
       return circle(center, dist)
     }
-    val t0 = tangent.getCoordinate(0)
-    val t1 = tangent.getCoordinate(1)
+    val t0      = tangent.getCoordinate(0)
+    val t1      = tangent.getCoordinate(1)
     // reverse tangent line on other side of segment
-    val seg = new LineSegment(p0, p1)
-    val tr0 = seg.reflect(t0)
-    val tr1 = seg.reflect(t1)
-    val coords = new CoordinateList(Array.empty)
+    val seg     = new LineSegment(p0, p1)
+    val tr0     = seg.reflect(t0)
+    val tr1     = seg.reflect(t1)
+    val coords  = new CoordinateList(Array.empty)
     coords.add(t0)
     coords.add(t1)
     // end cap
@@ -357,7 +359,7 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
     addCap(p0, dist0, tr0, t0, coords)
     // close
     coords.add(t0)
-    val pts = coords.toCoordinateArray
+    val pts     = coords.toCoordinateArray
     val polygon = geomFactory.createPolygon(pts)
     polygon
   }
@@ -371,13 +373,11 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
    */
   private def circle(center: Coordinate, radius: Double): Polygon = {
     if (radius <= 0) return null
-    val nPts = 4 * quadrantSegs
-    val pts = new Array[Coordinate](nPts + 1)
+    val nPts   = 4 * quadrantSegs
+    val pts    = new Array[Coordinate](nPts + 1)
     val angInc = Math.PI / 2 / quadrantSegs
-    var i = 0
-    while ( {
-      i < nPts
-    }) {
+    var i      = 0
+    while (i < nPts) {
       pts(i) = VariableBuffer.projectPolar(center, radius, i * angInc)
       i += 1
     }
@@ -394,16 +394,20 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
    * @param t2     the ending point of the cap
    * @param coords the coordinate list to add to
    */
-  private def addCap(p: Coordinate, r: Double, t1: Coordinate, t2: Coordinate, coords: CoordinateList) = {
-    var angStart = Angle.angle(p, t1)
-    val angEnd = Angle.angle(p, t2)
+  private def addCap(
+    p:      Coordinate,
+    r:      Double,
+    t1:     Coordinate,
+    t2:     Coordinate,
+    coords: CoordinateList
+  ) = {
+    var angStart   = Angle.angle(p, t1)
+    val angEnd     = Angle.angle(p, t2)
     if (angStart < angEnd) angStart += 2 * Math.PI
     val indexStart = capAngleIndex(angStart)
-    val indexEnd = capAngleIndex(angEnd)
-    var i = indexStart
-    while ( {
-      i > indexEnd
-    }) { // use negative increment to create points CW
+    val indexEnd   = capAngleIndex(angEnd)
+    var i          = indexStart
+    while (i > indexEnd) { // use negative increment to create points CW
       val ang = capAngle(i)
       coords.add(VariableBuffer.projectPolar(p, r, ang))
       i -= 1
@@ -438,7 +442,7 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
    */
   private def capAngleIndex(ang: Double) = {
     val capSegAng = Math.PI / 2 / quadrantSegs
-    val index = (ang / capSegAng).toInt
+    val index     = (ang / capSegAng).toInt
     index
   }
 }
