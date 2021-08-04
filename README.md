@@ -1,4 +1,4 @@
-# gpp-jts
+# lucuma-jts
 
 This projects contains a port of [JTS](https://github.com/locationtech/jts) to scala.
 The rationale is the need to use it in both scala and scala.js.
