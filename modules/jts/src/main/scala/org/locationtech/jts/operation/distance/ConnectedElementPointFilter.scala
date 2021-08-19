@@ -23,19 +23,17 @@ import org.locationtech.jts.geom.{
 }
 
 /**
- * Extracts a single point
- * from each connected element in a Geometry
- * (e.g. a polygon, linestring or point)
- * and returns them in a list
+ * Extracts a single point from each connected element in a Geometry (e.g. a polygon, linestring or
+ * point) and returns them in a list
  *
  * @version 1.7
  */
 object ConnectedElementPointFilter {
 
   /**
-   * Returns a list containing a Coordinate from each Polygon, LineString, and Point
-   * found inside the specified geometry. Thus, if the specified geometry is
-   * not a GeometryCollection, an empty list will be returned.
+   * Returns a list containing a Coordinate from each Polygon, LineString, and Point found inside
+   * the specified geometry. Thus, if the specified geometry is not a GeometryCollection, an empty
+   * list will be returned.
    */
   def getCoordinates(geom: Geometry): util.ArrayList[Coordinate] = {
     val pts = new util.ArrayList[Coordinate]

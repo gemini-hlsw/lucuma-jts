@@ -31,9 +31,8 @@ import org.locationtech.jts.index.SpatialIndex
 import org.locationtech.jts.index.strtree.STRtree
 
 /**
- * Tests whether any of a set of {link LinearRing}s are
- * nested inside another ring in the set, using a spatial
- * index to speed up the comparisons.
+ * Tests whether any of a set of {link LinearRing}s are nested inside another ring in the set, using
+ * a spatial index to speed up the comparisons.
  *
  * @version 1.7
  */
@@ -69,14 +68,11 @@ class IndexedNestedRingTester(
             val innerRingPt = IsValidOp.findPtNotNode(innerRingPts, searchRing, graph)
 
             /**
-             * If no non-node pts can be found, this means
-             * that the searchRing touches ALL of the innerRing vertices.
-             * This indicates an invalid polygon, since either
-             * the two holes create a disconnected interior,
-             * or they touch in an infinite number of points
-             * (i.e. along a line segment).
-             * Both of these cases are caught by other tests,
-             * so it is safe to simply skip this situation here.
+             * If no non-node pts can be found, this means that the searchRing touches ALL of the
+             * innerRing vertices. This indicates an invalid polygon, since either the two holes
+             * create a disconnected interior, or they touch in an infinite number of points (i.e.
+             * along a line segment). Both of these cases are caught by other tests, so it is safe
+             * to simply skip this situation here.
              */
             if (innerRingPt != null) {
               val isInside = PointLocation.isInRing(innerRingPt, searchRingPts)

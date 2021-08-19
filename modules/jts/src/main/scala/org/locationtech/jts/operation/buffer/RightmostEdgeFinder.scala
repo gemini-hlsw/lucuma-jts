@@ -24,16 +24,16 @@ import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.util.Assert
 
 /**
- * A RightmostEdgeFinder find the DirectedEdge in a list which has the highest coordinate,
- * and which is oriented L to R at that point. (I.e. the right side is on the RHS of the edge.)
+ * A RightmostEdgeFinder find the DirectedEdge in a list which has the highest coordinate, and which
+ * is oriented L to R at that point. (I.e. the right side is on the RHS of the edge.)
  *
  * @version 1.7
  */
 class RightmostEdgeFinder() {
 
   /**
-   * A RightmostEdgeFinder finds the DirectedEdge with the rightmost coordinate.
-   * Te DirectedEdge returned is guaranteed to have the R of the world on its RHS.
+   * A RightmostEdgeFinder finds the DirectedEdge with the rightmost coordinate. Te DirectedEdge
+   * returned is guaranteed to have the R of the world on its RHS.
    */
   //private Coordinate extremeCoord;
   private var minIndex                 = -1
@@ -48,8 +48,8 @@ class RightmostEdgeFinder() {
   def findEdge(dirEdgeList: util.List[_]): Unit = {
 
     /**
-     * Check all forward DirectedEdges only.  This is still general,
-     * because each edge has a forward DirectedEdge.
+     * Check all forward DirectedEdges only. This is still general, because each edge has a forward
+     * DirectedEdge.
      */
     val i = dirEdgeList.iterator
     while (i.hasNext) {
@@ -60,8 +60,8 @@ class RightmostEdgeFinder() {
     }
 
     /**
-     * If the rightmost point is a node, we need to identify which of
-     * the incident edges is rightmost.
+     * If the rightmost point is a node, we need to identify which of the incident edges is
+     * rightmost.
      */
     Assert.isTrue(minIndex != 0 || minCoord == minDe.getCoordinate,
                   "inconsistency in rightmost processing"
@@ -70,8 +70,7 @@ class RightmostEdgeFinder() {
     else findRightmostEdgeAtVertex()
 
     /**
-     * now check that the extreme side is the R side.
-     * If not, use the sym instead.
+     * now check that the extreme side is the R side. If not, use the sym instead.
      */
     orientedDe = minDe
     val rightmostSide = getRightmostSide(minDe, minIndex)
@@ -93,9 +92,9 @@ class RightmostEdgeFinder() {
   private def findRightmostEdgeAtVertex(): Unit = {
 
     /**
-     * The rightmost point is an interior vertex, so it has a segment on either side of it.
-     * If these segments are both above or below the rightmost point, we need to
-     * determine their relative orientation to decide which is rightmost.
+     * The rightmost point is an interior vertex, so it has a segment on either side of it. If these
+     * segments are both above or below the rightmost point, we need to determine their relative
+     * orientation to decide which is rightmost.
      */
     val pts         = minDe.getEdge.getCoordinates
     Assert.isTrue(minIndex > 0 && minIndex < pts.length,

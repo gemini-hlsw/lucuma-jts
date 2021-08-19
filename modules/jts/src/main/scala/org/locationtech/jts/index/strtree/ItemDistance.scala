@@ -22,21 +22,16 @@
 package org.locationtech.jts.index.strtree
 
 /**
- * A function method which computes the distance
- * between two {link ItemBoundable}s in an {link STRtree}.
- * Used for Nearest Neighbour searches.
- * <p>
- * To make a distance function suitable for
- * querying a single index tree
- * via {link STRtree#nearestNeighbour(ItemDistance)} ,
- * the function should have a non-zero <i>reflexive distance</i>.
- * That is, if the two arguments are the same object,
- * the distance returned should be non-zero.
- * If it is required that only pairs of <b>distinct</b> items be returned,
- * the distance function must be <i>anti-reflexive</i>,
- * and must return {link Double#MAX_VALUE} for identical arguments.
+ * A function method which computes the distance between two {link ItemBoundable}s in an {link
+ * STRtree}. Used for Nearest Neighbour searches. <p> To make a distance function suitable for
+ * querying a single index tree via {link STRtree#nearestNeighbour(ItemDistance)} , the function
+ * should have a non-zero <i>reflexive distance</i>. That is, if the two arguments are the same
+ * object, the distance returned should be non-zero. If it is required that only pairs of
+ * <b>distinct</b> items be returned, the distance function must be <i>anti-reflexive</i>, and must
+ * return {link Double#MAX_VALUE} for identical arguments.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 trait ItemDistance {
 
@@ -45,8 +40,8 @@ trait ItemDistance {
    *
    * @param item1
    * @param item2
-   * return the distance between the items
-   * throws IllegalArgumentException if the metric is not applicable to the arguments
+   *   return the distance between the items throws IllegalArgumentException if the metric is not
+   *   applicable to the arguments
    */
   def distance(item1: ItemBoundable, item2: ItemBoundable): Double
 }

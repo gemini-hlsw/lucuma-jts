@@ -51,12 +51,11 @@ object IsValidOp {
   }
 
   /**
-   * Checks whether a coordinate is valid for processing.
-   * Coordinates are valid iff their x and y ordinates are in the
-   * range of the floating point representation.
+   * Checks whether a coordinate is valid for processing. Coordinates are valid iff their x and y
+   * ordinates are in the range of the floating point representation.
    *
-   * @param coord the coordinate to validate
-   * return <code>true</code> if the coordinate is valid
+   * @param coord
+   *   the coordinate to validate return <code>true</code> if the coordinate is valid
    */
   def isValid(coord: Coordinate): Boolean = {
     if (java.lang.Double.isNaN(coord.x)) return false
@@ -67,8 +66,8 @@ object IsValidOp {
   }
 
   /**
-   * Find a point from the list of testCoords
-   * that is NOT a node in the edge for the list of searchCoords
+   * Find a point from the list of testCoords that is NOT a node in the edge for the list of
+   * searchCoords
    *
    * return the point found, or <code>null</code> if none found
    */
@@ -93,42 +92,32 @@ object IsValidOp {
 
 class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be validated ) {
   /**
-   * If the following condition is TRUE JTS will validate inverted shells and exverted holes
-   * (the ESRI SDE model)
+   * If the following condition is TRUE JTS will validate inverted shells and exverted holes (the
+   * ESRI SDE model)
    */
   private var isSelfTouchingRingFormingHoleValid = false
   private var validErr: TopologyValidationError  = null
 
   /**
-   * Sets whether polygons using <b>Self-Touching Rings</b> to form
-   * holes are reported as valid.
-   * If this flag is set, the following Self-Touching conditions
-   * are treated as being valid:
-   * <ul>
-   * <li>the shell ring self-touches to create a hole touching the shell
-   * <li>a hole ring self-touches to create two holes touching at a point
-   * </ul>
-   * <p>
-   * The default (following the OGC SFS standard)
-   * is that this condition is <b>not</b> valid (<code>false</code>).
-   * <p>
-   * This does not affect whether Self-Touching Rings
-   * disconnecting the polygon interior are considered valid
-   * (these are considered to be <b>invalid</b> under the SFS, and many other
-   * spatial models as well).
-   * This includes "bow-tie" shells,
-   * which self-touch at a single point causing the interior to
-   * be disconnected,
-   * and "C-shaped" holes which self-touch at a single point causing an island to be formed.
+   * Sets whether polygons using <b>Self-Touching Rings</b> to form holes are reported as valid. If
+   * this flag is set, the following Self-Touching conditions are treated as being valid: <ul>
+   * <li>the shell ring self-touches to create a hole touching the shell <li>a hole ring
+   * self-touches to create two holes touching at a point </ul> <p> The default (following the OGC
+   * SFS standard) is that this condition is <b>not</b> valid (<code>false</code>). <p> This does
+   * not affect whether Self-Touching Rings disconnecting the polygon interior are considered valid
+   * (these are considered to be <b>invalid</b> under the SFS, and many other spatial models as
+   * well). This includes "bow-tie" shells, which self-touch at a single point causing the interior
+   * to be disconnected, and "C-shaped" holes which self-touch at a single point causing an island
+   * to be formed.
    *
-   * @param isValid states whether geometry with this condition is valid
+   * @param isValid
+   *   states whether geometry with this condition is valid
    */
   def setSelfTouchingRingFormingHoleValid(isValid: Boolean): Unit =
     isSelfTouchingRingFormingHoleValid = isValid
 
   /**
-   * Computes the validity of the geometry,
-   * and returns <tt>true</tt> if it is valid.
+   * Computes the validity of the geometry, and returns <tt>true</tt> if it is valid.
    *
    * return true if the geometry is valid
    */
@@ -138,12 +127,10 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Computes the validity of the geometry,
-   * and if not valid returns the validation error for the geometry,
-   * or null if the geometry is valid.
+   * Computes the validity of the geometry, and if not valid returns the validation error for the
+   * geometry, or null if the geometry is valid.
    *
-   * return the validation error, if the geometry is invalid
-   *         or null if the geometry is valid
+   * return the validation error, if the geometry is invalid or null if the geometry is valid
    */
   def getValidationError: TopologyValidationError = {
     checkValid(parentGeometry)
@@ -177,7 +164,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   private def checkValid(g: MultiPoint): Unit = checkInvalidCoordinates(g.getCoordinates)
 
   /**
-   * Checks validity of a LineString.  Almost anything goes for linestrings!
+   * Checks validity of a LineString. Almost anything goes for linestrings!
    */
   private def checkValid(g: LineString): Unit = {
     checkInvalidCoordinates(g.getCoordinates)
@@ -203,8 +190,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Checks the validity of a polygon.
-   * Sets the validErr flag.
+   * Checks the validity of a polygon. Sets the validErr flag.
    */
   private def checkValid(g: Polygon): Unit = {
     checkInvalidCoordinates(g)
@@ -325,11 +311,11 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Checks that the arrangement of edges in a polygonal geometry graph
-   * forms a consistent area.
+   * Checks that the arrangement of edges in a polygonal geometry graph forms a consistent area.
    *
    * @param graph
-   * @see ConsistentAreaTester
+   * @see
+   *   ConsistentAreaTester
    */
   private def checkConsistentArea(graph: GeometryGraph): Unit = {
     val cat         = new ConsistentAreaTester(graph)
@@ -345,11 +331,12 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Check that there is no ring which self-intersects (except of course at its endpoints).
-   * This is required by OGC topology rules (but not by other models
-   * such as ESRI SDE, which allow inverted shells and exverted holes).
+   * Check that there is no ring which self-intersects (except of course at its endpoints). This is
+   * required by OGC topology rules (but not by other models such as ESRI SDE, which allow inverted
+   * shells and exverted holes).
    *
-   * @param graph the topology graph of the geometry
+   * @param graph
+   *   the topology graph of the geometry
    */
   private def checkNoSelfIntersectingRings(graph: GeometryGraph): Unit = {
     val i = graph.getEdgeIterator
@@ -361,9 +348,9 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Check that a ring does not self-intersect, except at its endpoints.
-   * Algorithm is to count the number of times each node along edge occurs.
-   * If any occur more than once, that must be a self-intersection.
+   * Check that a ring does not self-intersect, except at its endpoints. Algorithm is to count the
+   * number of times each node along edge occurs. If any occur more than once, that must be a
+   * self-intersection.
    */
   private def checkNoSelfIntersectingRing(eiList: EdgeIntersectionList): Unit = {
     val nodeSet = new util.TreeSet[Coordinate]
@@ -384,16 +371,17 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Tests that each hole is inside the polygon shell.
-   * This routine assumes that the holes have previously been tested
-   * to ensure that all vertices lie on the shell or on the same side of it
-   * (i.e. that the hole rings do not cross the shell ring).
-   * In other words, this test is only correct if the ConsistentArea test is passed first.
-   * Given this, a simple point-in-polygon test of a single point in the hole can be used,
-   * provided the point is chosen such that it does not lie on the shell.
+   * Tests that each hole is inside the polygon shell. This routine assumes that the holes have
+   * previously been tested to ensure that all vertices lie on the shell or on the same side of it
+   * (i.e. that the hole rings do not cross the shell ring). In other words, this test is only
+   * correct if the ConsistentArea test is passed first. Given this, a simple point-in-polygon test
+   * of a single point in the hole can be used, provided the point is chosen such that it does not
+   * lie on the shell.
    *
-   * @param p     the polygon to be tested for hole inclusion
-   * @param graph a GeometryGraph incorporating the polygon
+   * @param p
+   *   the polygon to be tested for hole inclusion
+   * @param graph
+   *   a GeometryGraph incorporating the polygon
    */
   private def checkHolesInShell(p: Polygon, graph: GeometryGraph): Unit = { // skip test if no holes are present
     if (p.getNumInteriorRing <= 0) return
@@ -409,9 +397,8 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
         holePt = IsValidOp.findPtNotNode(hole.getCoordinates, shell, graph)
 
         /**
-         * If no non-node hole vertex can be found, the hole must
-         * split the polygon into disconnected interiors.
-         * This will be caught by a subsequent check.
+         * If no non-node hole vertex can be found, the hole must split the polygon into
+         * disconnected interiors. This will be caught by a subsequent check.
          */
         if (holePt == null) return
         val outside = isShellEmpty || (Location.EXTERIOR == pir.locate(holePt))
@@ -425,16 +412,10 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Tests that no hole is nested inside another hole.
-   * This routine assumes that the holes are disjoint.
-   * To ensure this, holes have previously been tested
-   * to ensure that:
-   * <ul>
-   * <li>they do not partially overlap
-   * (checked by <code>checkRelateConsistency</code>)
-   * <li>they are not identical
-   * (checked by <code>checkRelateConsistency</code>)
-   * </ul>
+   * Tests that no hole is nested inside another hole. This routine assumes that the holes are
+   * disjoint. To ensure this, holes have previously been tested to ensure that: <ul> <li>they do
+   * not partially overlap (checked by <code>checkRelateConsistency</code>) <li>they are not
+   * identical (checked by <code>checkRelateConsistency</code>) </ul>
    */
   private def checkHolesNotNested(p: Polygon, graph: GeometryGraph): Unit = {
     if (p.getNumInteriorRing <= 0) return ()
@@ -457,16 +438,10 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Tests that no element polygon is wholly in the interior of another element polygon.
-   * <p>
-   * Preconditions:
-   * <ul>
-   * <li>shells do not partially overlap
-   * <li>shells do not touch along an edge
-   * <li>no duplicate rings exist
-   * </ul>
-   * This routine relies on the fact that while polygon shells may touch at one or
-   * more vertices, they cannot touch at ALL vertices.
+   * Tests that no element polygon is wholly in the interior of another element polygon. <p>
+   * Preconditions: <ul> <li>shells do not partially overlap <li>shells do not touch along an edge
+   * <li>no duplicate rings exist </ul> This routine relies on the fact that while polygon shells
+   * may touch at one or more vertices, they cannot touch at ALL vertices.
    */
   private def checkShellsNotNested(mp: MultiPolygon, graph: GeometryGraph): Unit = {
     var i = 0
@@ -487,12 +462,10 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * Check if a shell is incorrectly nested within a polygon.  This is the case
-   * if the shell is inside the polygon shell, but not inside a polygon hole.
-   * (If the shell is inside a polygon hole, the nesting is valid.)
-   * <p>
-   * The algorithm used relies on the fact that the rings must be properly contained.
-   * E.g. they cannot partially overlap (this has been previously checked by
+   * Check if a shell is incorrectly nested within a polygon. This is the case if the shell is
+   * inside the polygon shell, but not inside a polygon hole. (If the shell is inside a polygon
+   * hole, the nesting is valid.) <p> The algorithm used relies on the fact that the rings must be
+   * properly contained. E.g. they cannot partially overlap (this has been previously checked by
    * <code>checkRelateConsistency</code> )
    */
   private def checkShellNotNested(shell: LinearRing, p: Polygon, graph: GeometryGraph): Unit = {
@@ -513,10 +486,9 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     }
 
     /**
-     * Check if the shell is inside one of the holes.
-     * This is the case if one of the calls to checkShellInsideHole
-     * returns a null coordinate.
-     * Otherwise, the shell is not properly contained in a hole, which is an error.
+     * Check if the shell is inside one of the holes. This is the case if one of the calls to
+     * checkShellInsideHole returns a null coordinate. Otherwise, the shell is not properly
+     * contained in a hole, which is an error.
      */
     var badNestedPt: Coordinate = null
     var i                       = 0
@@ -530,12 +502,11 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   }
 
   /**
-   * This routine checks to see if a shell is properly contained in a hole.
-   * It assumes that the edges of the shell and hole do not
-   * properly intersect.
+   * This routine checks to see if a shell is properly contained in a hole. It assumes that the
+   * edges of the shell and hole do not properly intersect.
    *
-   * return <code>null</code> if the shell is properly contained, or
-   *         a Coordinate which is not inside the hole if it is not
+   * return <code>null</code> if the shell is properly contained, or a Coordinate which is not
+   * inside the hole if it is not
    */
   private def checkShellInsideHole(
     shell: LinearRing,

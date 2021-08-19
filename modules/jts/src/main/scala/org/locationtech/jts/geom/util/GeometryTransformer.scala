@@ -36,46 +36,37 @@ import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 
 /**
- * A framework for processes which transform an input {link Geometry} into
- * an output {link Geometry}, possibly changing its structure and type(s).
- * This class is a framework for implementing subclasses
- * which perform transformations on
- * various different Geometry subclasses.
- * It provides an easy way of applying specific transformations
- * to given geometry types, while allowing unhandled types to be simply copied.
- * Also, the framework ensures that if subcomponents change type
- * the parent geometries types change appropriately to maintain valid structure.
- * Subclasses will override whichever <code>transformX</code> methods
- * they need to to handle particular Geometry types.
- * <p>
- * A typically usage would be a transformation class that transforms <tt>Polygons</tt> into
- * <tt>Polygons</tt>, <tt>LineStrings</tt> or <tt>Points</tt>, depending on the geometry of the input
- * (For instance, a simplification operation).
- * This class would likely need to override the {link #transformMultiPolygon(MultiPolygon, Geometry)}
- * method to ensure that if input Polygons change type the result is a <tt>GeometryCollection</tt>,
- * not a <tt>MultiPolygon</tt>.
- * <p>
- * The default behaviour of this class is simply to recursively transform
- * each Geometry component into an identical object by deep copying down
- * to the level of, but not including, coordinates.
- * <p>
- * All <code>transformX</code> methods may return <code>null</code>,
- * to avoid creating empty or invalid geometry objects. This will be handled correctly
- * by the transformer.   <code>transform<i>XXX</i></code> methods should always return valid
- * geometry - if they cannot do this they should return <code>null</code>
- * (for instance, it may not be possible for a transformLineString implementation
- * to return at least two points - in this case, it should return <code>null</code>).
- * The {link #transform(Geometry)} method itself will always
- * return a non-null Geometry object (but this may be empty).
+ * A framework for processes which transform an input {link Geometry} into an output {link
+ * Geometry}, possibly changing its structure and type(s). This class is a framework for
+ * implementing subclasses which perform transformations on various different Geometry subclasses.
+ * It provides an easy way of applying specific transformations to given geometry types, while
+ * allowing unhandled types to be simply copied. Also, the framework ensures that if subcomponents
+ * change type the parent geometries types change appropriately to maintain valid structure.
+ * Subclasses will override whichever <code>transformX</code> methods they need to to handle
+ * particular Geometry types. <p> A typically usage would be a transformation class that transforms
+ * <tt>Polygons</tt> into <tt>Polygons</tt>, <tt>LineStrings</tt> or <tt>Points</tt>, depending on
+ * the geometry of the input (For instance, a simplification operation). This class would likely
+ * need to override the {link #transformMultiPolygon(MultiPolygon, Geometry)} method to ensure that
+ * if input Polygons change type the result is a <tt>GeometryCollection</tt>, not a
+ * <tt>MultiPolygon</tt>. <p> The default behaviour of this class is simply to recursively transform
+ * each Geometry component into an identical object by deep copying down to the level of, but not
+ * including, coordinates. <p> All <code>transformX</code> methods may return <code>null</code>, to
+ * avoid creating empty or invalid geometry objects. This will be handled correctly by the
+ * transformer. <code>transform<i>XXX</i></code> methods should always return valid geometry - if
+ * they cannot do this they should return <code>null</code> (for instance, it may not be possible
+ * for a transformLineString implementation to return at least two points - in this case, it should
+ * return <code>null</code>). The {link #transform(Geometry)} method itself will always return a
+ * non-null Geometry object (but this may be empty).
  *
  * @version 1.7
- * @see GeometryEditor
+ * @see
+ *   GeometryEditor
  */
 class GeometryTransformer() {
 
   /**
-   * Possible extensions:
-   * getParent() method to return immediate parent e.g. of LinearRings in Polygons
+   * Possible extensions: getParent() method to return immediate parent e.g. of LinearRings in
+   * Polygons
    */
   private var inputGeom: Geometry        = null
   protected var factory: GeometryFactory = null
@@ -86,9 +77,8 @@ class GeometryTransformer() {
   private val pruneEmptyGeometry = true
 
   /**
-   * <code>true</code> if a homogenous collection result
-   * from a {link GeometryCollection} should still
-   * be a general GeometryCollection
+   * <code>true</code> if a homogenous collection result from a {link GeometryCollection} should
+   * still be a general GeometryCollection
    */
   private val preserveGeometryCollectionType = true
 
@@ -130,11 +120,10 @@ class GeometryTransformer() {
   }
 
   /**
-   * Convenience method which provides standard way of
-   * creating a {link CoordinateSequence}
+   * Convenience method which provides standard way of creating a {link CoordinateSequence}
    *
-   * @param coords the coordinate array to copy
-   * return a coordinate sequence for the array
+   * @param coords
+   *   the coordinate array to copy return a coordinate sequence for the array
    */
   final protected def createCoordinateSequence(coords: Array[Coordinate]): CoordinateSequence =
     factory.getCoordinateSequenceFactory.create(coords)
@@ -142,8 +131,8 @@ class GeometryTransformer() {
   /**
    * Convenience method which provides a standard way of copying {link CoordinateSequence}s
    *
-   * @param seq the sequence to copy
-   * return a deep copy of the sequence
+   * @param seq
+   *   the sequence to copy return a deep copy of the sequence
    */
   final protected def copy(seq: CoordinateSequence): CoordinateSequence = seq.copy
 
@@ -209,7 +198,7 @@ class GeometryTransformer() {
    *
    * @param geom
    * @param parent
-   * return
+   *   return
    */
   protected def transformLineString(
     geom:   LineString,

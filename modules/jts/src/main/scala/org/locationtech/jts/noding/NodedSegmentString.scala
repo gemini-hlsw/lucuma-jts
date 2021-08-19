@@ -19,14 +19,11 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequence
 import scala.jdk.CollectionConverters._
 
 /**
- * Represents a list of contiguous line segments,
- * and supports noding the segments.
- * The line segments are represented by an array of {link Coordinate}s.
- * Intended to optimize the noding of contiguous segments by
- * reducing the number of allocated objects.
- * SegmentStrings can carry a context object, which is useful
- * for preserving topological or parentage information.
- * All noded substrings are initialized with the same context object.
+ * Represents a list of contiguous line segments, and supports noding the segments. The line
+ * segments are represented by an array of {link Coordinate}s. Intended to optimize the noding of
+ * contiguous segments by reducing the number of allocated objects. SegmentStrings can carry a
+ * context object, which is useful for preserving topological or parentage information. All noded
+ * substrings are initialized with the same context object.
  *
  * @version 1.7
  */
@@ -35,8 +32,9 @@ object NodedSegmentString {
   /**
    * Gets the {link SegmentString}s which result from splitting this string at node points.
    *
-   * @param segStrings a Collection of NodedSegmentStrings
-   * return a Collection of NodedSegmentStrings representing the substrings
+   * @param segStrings
+   *   a Collection of NodedSegmentStrings return a Collection of NodedSegmentStrings representing
+   *   the substrings
    */
   def getNodedSubstrings(segStrings: util.Collection[SegmentString]): util.List[SegmentString] = {
     val resultEdgelist = new util.ArrayList[NodedSegmentString]
@@ -47,8 +45,10 @@ object NodedSegmentString {
   /**
    * Adds the noded {link SegmentString}s which result from splitting this string at node points.
    *
-   * @param segStrings     a Collection of NodedSegmentStrings
-   * @param resultEdgelist a List which will collect the NodedSegmentStrings representing the substrings
+   * @param segStrings
+   *   a Collection of NodedSegmentStrings
+   * @param resultEdgelist
+   *   a List which will collect the NodedSegmentStrings representing the substrings
    */
   def getNodedSubstrings(
     segStrings:     util.Collection[SegmentString],
@@ -69,8 +69,7 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
  *
  * @param pts  the vertices of the segment string
  * @param data the user-defined data of this segment string (may be null)
- */
-    extends NodableSegmentString {
+ */ extends NodableSegmentString {
   private val nodeList = new SegmentNodeList(this)
 
   /**
@@ -83,7 +82,8 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
   /**
    * Sets the user-defined data for this segment string.
    *
-   * @param data an Object containing user-defined data
+   * @param data
+   *   an Object containing user-defined data
    */
   override def setData(data: Any): Unit = this.data = data
 
@@ -100,9 +100,9 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
   /**
    * Gets the octant of the segment starting at vertex <code>index</code>.
    *
-   * @param index the index of the vertex starting the segment.  Must not be
-   *              the last index in the vertex list
-   * return the octant of the segment at the vertex
+   * @param index
+   *   the index of the vertex starting the segment. Must not be the last index in the vertex list
+   *   return the octant of the segment at the vertex
    */
   def getSegmentOctant(index: Int): Int = {
     if (index == pts.length - 1) return -1
@@ -116,8 +116,8 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
   }
 
   /**
-   * Adds EdgeIntersections for one or both
-   * intersections found for a segment of an edge to the edge intersection list.
+   * Adds EdgeIntersections for one or both intersections found for a segment of an edge to the edge
+   * intersection list.
    */
   def addIntersections(li: LineIntersector, segmentIndex: Int, geomIndex: Int): Unit = {
     var i = 0
@@ -128,10 +128,8 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
   }
 
   /**
-   * Add an SegmentNode for intersection intIndex.
-   * An intersection that falls exactly on a vertex
-   * of the SegmentString is normalized
-   * to use the higher of the two possible segmentIndexes
+   * Add an SegmentNode for intersection intIndex. An intersection that falls exactly on a vertex of
+   * the SegmentString is normalized to use the higher of the two possible segmentIndexes
    */
   def addIntersection(
     li:           LineIntersector,
@@ -146,8 +144,10 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
   /**
    * Adds an intersection node for a given point and segment to this segment string.
    *
-   * @param intPt        the location of the intersection
-   * @param segmentIndex the index of the segment containing the intersection
+   * @param intPt
+   *   the location of the intersection
+   * @param segmentIndex
+   *   the index of the segment containing the intersection
    */
   override def addIntersection(intPt: Coordinate, segmentIndex: Int): Unit = {
     addIntersectionNode(intPt, segmentIndex)
@@ -155,13 +155,14 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
   }
 
   /**
-   * Adds an intersection node for a given point and segment to this segment string.
-   * If an intersection already exists for this exact location, the existing
-   * node will be returned.
+   * Adds an intersection node for a given point and segment to this segment string. If an
+   * intersection already exists for this exact location, the existing node will be returned.
    *
-   * @param intPt        the location of the intersection
-   * @param segmentIndex the index of the segment containing the intersection
-   * return the intersection node for the point
+   * @param intPt
+   *   the location of the intersection
+   * @param segmentIndex
+   *   the index of the segment containing the intersection return the intersection node for the
+   *   point
    */
   def addIntersectionNode(intPt: Coordinate, segmentIndex: Int): SegmentNode = {
     var normalizedSegmentIndex = segmentIndex

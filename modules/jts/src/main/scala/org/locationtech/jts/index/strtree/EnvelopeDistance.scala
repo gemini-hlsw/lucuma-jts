@@ -26,20 +26,20 @@ import org.locationtech.jts.geom.Envelope
 /**
  * Functions for computing distances between {link Envelope}s.
  *
- * @author mdavis
+ * @author
+ *   mdavis
  */
 object EnvelopeDistance {
 
   /**
-   * Computes the maximum distance between the points defining two envelopes.
-   * It is equal to the length of the diagonal of
-   * the envelope containing both input envelopes.
-   * This is a coarse upper bound on the distance between
-   * geometries bounded by the envelopes.
+   * Computes the maximum distance between the points defining two envelopes. It is equal to the
+   * length of the diagonal of the envelope containing both input envelopes. This is a coarse upper
+   * bound on the distance between geometries bounded by the envelopes.
    *
-   * @param env1 an envelope
-   * @param env2 an envelope
-   * return the maximum distance between the points defining the envelopes
+   * @param env1
+   *   an envelope
+   * @param env2
+   *   an envelope return the maximum distance between the points defining the envelopes
    */
   def maximumDistance(env1: Envelope, env2: Envelope): Double = {
     val minx = Math.min(env1.getMinX, env2.getMinX)
@@ -56,19 +56,17 @@ object EnvelopeDistance {
   }
 
   /**
-   * Computes the Min-Max Distance between two {link Envelope}s.
-   * It is equal to the minimum of the maximum distances between all pairs of
-   * edge segments from the two envelopes.
-   * This is the tight upper bound on the distance between
-   * geometric items bounded by the envelopes.
-   * <p>
-   * Theoretically this bound can be used in the R-tree nearest-neighbour branch-and-bound search
-   * instead of {link #maximumDistance(Envelope, Envelope)}.
-   * However, little performance improvement is observed in practice.
+   * Computes the Min-Max Distance between two {link Envelope}s. It is equal to the minimum of the
+   * maximum distances between all pairs of edge segments from the two envelopes. This is the tight
+   * upper bound on the distance between geometric items bounded by the envelopes. <p> Theoretically
+   * this bound can be used in the R-tree nearest-neighbour branch-and-bound search instead of {link
+   * #maximumDistance(Envelope, Envelope)}. However, little performance improvement is observed in
+   * practice.
    *
-   * @param a an envelope
-   * @param b an envelope
-   * return the min-max-distance between the envelopes
+   * @param a
+   *   an envelope
+   * @param b
+   *   an envelope return the min-max-distance between the envelopes
    */
   def minMaxDistance(a: Envelope, b: Envelope): Double = {
     val aminx = a.getMinX
@@ -101,15 +99,22 @@ object EnvelopeDistance {
   /**
    * Computes the maximum distance between two line segments.
    *
-   * @param ax1 x ordinate of first endpoint of segment 1
-   * @param ay1 y ordinate of first endpoint of segment 1
-   * @param ax2 x ordinate of second endpoint of segment 1
-   * @param ay2 y ordinate of second endpoint of segment 1
-   * @param bx1 x ordinate of first endpoint of segment 2
-   * @param by1 y ordinate of first endpoint of segment 2
-   * @param bx2 x ordinate of second endpoint of segment 2
-   * @param by2 y ordinate of second endpoint of segment 2
-   * return maximum distance between the segments
+   * @param ax1
+   *   x ordinate of first endpoint of segment 1
+   * @param ay1
+   *   y ordinate of first endpoint of segment 1
+   * @param ax2
+   *   x ordinate of second endpoint of segment 1
+   * @param ay2
+   *   y ordinate of second endpoint of segment 1
+   * @param bx1
+   *   x ordinate of first endpoint of segment 2
+   * @param by1
+   *   y ordinate of first endpoint of segment 2
+   * @param bx2
+   *   x ordinate of second endpoint of segment 2
+   * @param by2
+   *   y ordinate of second endpoint of segment 2 return maximum distance between the segments
    */
   private def maxDistance(
     ax1: Double,

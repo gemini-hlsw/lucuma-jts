@@ -27,9 +27,8 @@ package org.locationtech.jts.geom
 import scala.annotation.nowarn
 
 /**
- * Coordinate subclass supporting XYZM ordinates.
- * <p>
- * This data object is suitable for use with coordinate sequences with <tt>dimension</tt> = 4 and <tt>measures</tt> = 1.
+ * Coordinate subclass supporting XYZM ordinates. <p> This data object is suitable for use with
+ * coordinate sequences with <tt>dimension</tt> = 4 and <tt>measures</tt> = 1.
  *
  * @since 1.16
  */
@@ -40,7 +39,8 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
   /**
    * Constructs a CoordinateXYZM instance with the ordinates of the given Coordinate.
    *
-   * @param coord the coordinate providing the ordinates
+   * @param coord
+   *   the coordinate providing the ordinates
    */
   def this(coord: Coordinate) = {
     this(coord.x, coord.y, coord.z, coord.getM)
@@ -49,7 +49,8 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
   /**
    * Constructs a CoordinateXYZM instance with the ordinates of the given CoordinateXYZM.
    *
-   * @param coord the coordinate providing the ordinates
+   * @param coord
+   *   the coordinate providing the ordinates
    */
   def this(coord: CoordinateXYZM) = {
     this(coord.x, coord.y, coord.z, coord.m)

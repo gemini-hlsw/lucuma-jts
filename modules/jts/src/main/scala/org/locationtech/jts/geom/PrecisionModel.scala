@@ -18,50 +18,28 @@ import java.io.Serializable
 import java.util
 
 /**
- * Specifies the precision model of the {link Coordinate}s in a {link Geometry}.
- * In other words, specifies the grid of allowable
- * points for all <code>Geometry</code>s.
- * <p>
- * The {link #makePrecise(Coordinate)} method allows rounding a coordinate to
- * a "precise" value; that is, one whose
- * precision is known exactly.
- * <p>
- * Coordinates are assumed to be precise in geometries.
- * That is, the coordinates are assumed to be rounded to the
- * precision model given for the geometry.
- * JTS input routines automatically round coordinates to the precision model
- * before creating Geometries.
- * All internal operations
- * assume that coordinates are rounded to the precision model.
- * Constructive methods (such as boolean operations) always round computed
- * coordinates to the appropriate precision model.
- * <p>
- * Currently three types of precision model are supported:
- * <ul>
- * <li>FLOATING - represents full double precision floating point.
- * This is the default precision model used in JTS
- * <li>FLOATING_SINGLE - represents single precision floating point.
- * <li>FIXED - represents a model with a fixed number of decimal places.
- * A Fixed Precision Model is specified by a scale factor.
- * The scale factor specifies the size of the grid which numbers are rounded to.
- * Input coordinates are mapped to fixed coordinates according to the following
- * equations:
- * <UL>
- * <LI> jtsPt.x = round( (inputPt.x * scale ) / scale
- * <LI> jtsPt.y = round( (inputPt.y * scale ) / scale
- * </UL>
- * </ul>
- * For example, to specify 3 decimal places of precision, use a scale factor
- * of 1000. To specify -3 decimal places of precision (i.e. rounding to
- * the nearest 1000), use a scale factor of 0.001.
- * <p>
- * Coordinates are represented internally as Java double-precision values.
- * Since Java uses the IEEE-394 floating point standard, this
- * provides 53 bits of precision. (Thus the maximum precisely representable
- * <i>integer</i> is 9,007,199,254,740,992 - or almost 16 decimal digits of precision).
- * <p>
- * JTS binary methods currently do not handle inputs which have different precision models.
- * The precision model of any constructed geometric value is undefined.
+ * Specifies the precision model of the {link Coordinate}s in a {link Geometry}. In other words,
+ * specifies the grid of allowable points for all <code>Geometry</code>s. <p> The {link
+ * #makePrecise(Coordinate)} method allows rounding a coordinate to a "precise" value; that is, one
+ * whose precision is known exactly. <p> Coordinates are assumed to be precise in geometries. That
+ * is, the coordinates are assumed to be rounded to the precision model given for the geometry. JTS
+ * input routines automatically round coordinates to the precision model before creating Geometries.
+ * All internal operations assume that coordinates are rounded to the precision model. Constructive
+ * methods (such as boolean operations) always round computed coordinates to the appropriate
+ * precision model. <p> Currently three types of precision model are supported: <ul> <li>FLOATING -
+ * represents full double precision floating point. This is the default precision model used in JTS
+ * <li>FLOATING_SINGLE - represents single precision floating point. <li>FIXED - represents a model
+ * with a fixed number of decimal places. A Fixed Precision Model is specified by a scale factor.
+ * The scale factor specifies the size of the grid which numbers are rounded to. Input coordinates
+ * are mapped to fixed coordinates according to the following equations: <UL> <LI> jtsPt.x = round(
+ * (inputPt.x * scale ) / scale <LI> jtsPt.y = round( (inputPt.y * scale ) / scale </UL> </ul> For
+ * example, to specify 3 decimal places of precision, use a scale factor of 1000. To specify -3
+ * decimal places of precision (i.e. rounding to the nearest 1000), use a scale factor of 0.001. <p>
+ * Coordinates are represented internally as Java double-precision values. Since Java uses the
+ * IEEE-394 floating point standard, this provides 53 bits of precision. (Thus the maximum precisely
+ * representable <i>integer</i> is 9,007,199,254,740,992 - or almost 16 decimal digits of
+ * precision). <p> JTS binary methods currently do not handle inputs which have different precision
+ * models. The precision model of any constructed geometric value is undefined.
  *
  * @version 1.7
  */
@@ -69,12 +47,13 @@ import java.util
 object PrecisionModel {
 
   /**
-   * Determines which of two {link PrecisionModel}s is the most precise
-   * (allows the greatest number of significant digits).
+   * Determines which of two {link PrecisionModel}s is the most precise (allows the greatest number
+   * of significant digits).
    *
-   * @param pm1 a PrecisionModel
-   * @param pm2 a PrecisionModel
-   * return the PrecisionModel which is most precise
+   * @param pm1
+   *   a PrecisionModel
+   * @param pm2
+   *   a PrecisionModel return the PrecisionModel which is most precise
    */
   def mostPrecise(pm1: PrecisionModel, pm2: PrecisionModel): PrecisionModel = {
     if (pm1.compareTo(pm2) >= 0) return pm1
@@ -102,29 +81,27 @@ object PrecisionModel {
   }
 
   /**
-   * Fixed Precision indicates that coordinates have a fixed number of decimal places.
-   * The number of decimal places is determined by the log10 of the scale factor.
+   * Fixed Precision indicates that coordinates have a fixed number of decimal places. The number of
+   * decimal places is determined by the log10 of the scale factor.
    */
   val FIXED = new PrecisionModel.Type("FIXED")
 
   /**
-   * Floating precision corresponds to the standard Java
-   * double-precision floating-point representation, which is
-   * based on the IEEE-754 standard
+   * Floating precision corresponds to the standard Java double-precision floating-point
+   * representation, which is based on the IEEE-754 standard
    */
   val FLOATING = new PrecisionModel.Type("FLOATING")
 
   /**
-   * Floating single precision corresponds to the standard Java
-   * single-precision floating-point representation, which is
-   * based on the IEEE-754 standard
+   * Floating single precision corresponds to the standard Java single-precision floating-point
+   * representation, which is based on the IEEE-754 standard
    */
   val FLOATING_SINGLE = new PrecisionModel.Type("FLOATING SINGLE")
 
   /**
-   * The maximum precise value representable in a double. Since IEE754
-   * double-precision numbers allow 53 bits of mantissa, the value is equal to
-   * 2^53 - 1.  This provides <i>almost</i> 16 decimal digits of precision.
+   * The maximum precise value representable in a double. Since IEE754 double-precision numbers
+   * allow 53 bits of mantissa, the value is equal to 2^53 - 1. This provides <i>almost</i> 16
+   * decimal digits of precision.
    */
   val maximumPreciseValue = 9007199254740992.0
 }
@@ -142,11 +119,11 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   private var scale = .0
 
   /**
-   * Creates a <code>PrecisionModel</code> that specifies
-   * an explicit precision model type.
-   * If the model type is FIXED the scale factor will default to 1.
+   * Creates a <code>PrecisionModel</code> that specifies an explicit precision model type. If the
+   * model type is FIXED the scale factor will default to 1.
    *
-   * @param modelType the type of the precision model
+   * @param modelType
+   *   the type of the precision model
    */
   def this(modelType: PrecisionModel.Type) = {
     this()
@@ -155,15 +132,19 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   }
 
   /**
-   * Creates a <code>PrecisionModel</code> that specifies Fixed precision.
-   * Fixed-precision coordinates are represented as precise internal coordinates,
-   * which are rounded to the grid defined by the scale factor.
+   * Creates a <code>PrecisionModel</code> that specifies Fixed precision. Fixed-precision
+   * coordinates are represented as precise internal coordinates, which are rounded to the grid
+   * defined by the scale factor.
    *
-   * @param  scale   amount by which to multiply a coordinate after subtracting
-   *                 the offset, to obtain a precise coordinate
-   * @param  offsetX not used.
-   * @param  offsetY not used.
-   * @deprecated offsets are no longer supported, since internal representation is rounded floating point
+   * @param scale
+   *   amount by which to multiply a coordinate after subtracting the offset, to obtain a precise
+   *   coordinate
+   * @param offsetX
+   *   not used.
+   * @param offsetY
+   *   not used.
+   * @deprecated
+   *   offsets are no longer supported, since internal representation is rounded floating point
    */
   def this(scale: Double, offsetX: Double, offsetY: Double) = {
     this()
@@ -172,12 +153,13 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   }
 
   /**
-   * Creates a <code>PrecisionModel</code> that specifies Fixed precision.
-   * Fixed-precision coordinates are represented as precise internal coordinates,
-   * which are rounded to the grid defined by the scale factor.
+   * Creates a <code>PrecisionModel</code> that specifies Fixed precision. Fixed-precision
+   * coordinates are represented as precise internal coordinates, which are rounded to the grid
+   * defined by the scale factor.
    *
-   * @param  scale amount by which to multiply a coordinate after subtracting
-   *               the offset, to obtain a precise coordinate
+   * @param scale
+   *   amount by which to multiply a coordinate after subtracting the offset, to obtain a precise
+   *   coordinate
    */
   def this(scale: Double) = {
     this()
@@ -186,8 +168,7 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   }
 
   /**
-   * Copy constructor to create a new <code>PrecisionModel</code>
-   * from an existing one.
+   * Copy constructor to create a new <code>PrecisionModel</code> from an existing one.
    */
   def this(pm: PrecisionModel) = {
     this()
@@ -204,22 +185,15 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
     (modelType eq PrecisionModel.FLOATING) || (modelType eq PrecisionModel.FLOATING_SINGLE)
 
   /**
-   * Returns the maximum number of significant digits provided by this
-   * precision model.
-   * Intended for use by routines which need to print out
-   * decimal representations of precise values (such as {link WKTWriter}).
-   * <p>
-   * This method would be more correctly called
-   * <tt>getMinimumDecimalPlaces</tt>,
-   * since it actually computes the number of decimal places
-   * that is required to correctly display the full
-   * precision of an ordinate value.
-   * <p>
-   * Since it is difficult to compute the required number of
-   * decimal places for scale factors which are not powers of 10,
-   * the algorithm uses a very rough approximation in this case.
-   * This has the side effect that for scale factors which are
-   * powers of 10 the value returned is 1 greater than the true value.
+   * Returns the maximum number of significant digits provided by this precision model. Intended for
+   * use by routines which need to print out decimal representations of precise values (such as
+   * {link WKTWriter}). <p> This method would be more correctly called
+   * <tt>getMinimumDecimalPlaces</tt>, since it actually computes the number of decimal places that
+   * is required to correctly display the full precision of an ordinate value. <p> Since it is
+   * difficult to compute the required number of decimal places for scale factors which are not
+   * powers of 10, the algorithm uses a very rough approximation in this case. This has the side
+   * effect that for scale factors which are powers of 10 the value returned is 1 greater than the
+   * true value.
    *
    * return the maximum number of decimal places provided by this precision model
    */
@@ -233,12 +207,10 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   }
 
   /**
-   * Returns the scale factor used to specify a fixed precision model.
-   * The number of decimal places of precision is
-   * equal to the base-10 logarithm of the scale factor.
-   * Non-integral and negative scale factors are supported.
-   * Negative scale factors indicate that the places
-   * of precision is to the left of the decimal point.
+   * Returns the scale factor used to specify a fixed precision model. The number of decimal places
+   * of precision is equal to the base-10 logarithm of the scale factor. Non-integral and negative
+   * scale factors are supported. Negative scale factors indicate that the places of precision is to
+   * the left of the decimal point.
    *
    * return the scale factor for the fixed precision model
    */
@@ -248,22 +220,23 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
    * Gets the type of this precision model
    *
    * return the type of this precision model
-   * @see Type
+   * @see
+   *   Type
    */
   def getType: PrecisionModel.Type = modelType
 
   /**
-   * Sets the multiplying factor used to obtain a precise coordinate.
-   * This method is private because PrecisionModel is an immutable (value) type.
+   * Sets the multiplying factor used to obtain a precise coordinate. This method is private because
+   * PrecisionModel is an immutable (value) type.
    */
   private def setScale(scale: Double): Unit = this.scale = Math.abs(scale)
 
   /**
    * Returns the x-offset used to obtain a precise coordinate.
    *
-   * return the amount by which to subtract the x-coordinate before
-   *         multiplying by the scale
-   * @deprecated Offsets are no longer used
+   * return the amount by which to subtract the x-coordinate before multiplying by the scale
+   * @deprecated
+   *   Offsets are no longer used
    */
   def getOffsetX: Int = //We actually don't use offsetX and offsetY anymore ... [Jon Aquino]
     0
@@ -271,19 +244,22 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   /**
    * Returns the y-offset used to obtain a precise coordinate.
    *
-   * return the amount by which to subtract the y-coordinate before
-   *         multiplying by the scale
-   * @deprecated Offsets are no longer used
+   * return the amount by which to subtract the y-coordinate before multiplying by the scale
+   * @deprecated
+   *   Offsets are no longer used
    */
   def getOffsetY = 0
 
   /**
    * Sets <code>internal</code> to the precise representation of <code>external</code>.
    *
-   * @param external the original coordinate
-   * @param internal the coordinate whose values will be changed to the
-   *                 precise representation of <code>external</code>
-   * @deprecated use makePrecise instead
+   * @param external
+   *   the original coordinate
+   * @param internal
+   *   the coordinate whose values will be changed to the precise representation of
+   *   <code>external</code>
+   * @deprecated
+   *   use makePrecise instead
    */
   def toInternal(external: Coordinate, internal: Coordinate) = {
     if (isFloating) {
@@ -299,10 +275,11 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   /**
    * Returns the precise representation of <code>external</code>.
    *
-   * @param  external the original coordinate
-   * return the coordinate whose values will be changed to the precise
-   *         representation of <code>external</code>
-   * @deprecated use makePrecise instead
+   * @param external
+   *   the original coordinate return the coordinate whose values will be changed to the precise
+   *   representation of <code>external</code>
+   * @deprecated
+   *   use makePrecise instead
    */
   def toInternal(external: Coordinate) = {
     val internal = new Coordinate(external)
@@ -313,10 +290,11 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   /**
    * Returns the external representation of <code>internal</code>.
    *
-   * @param  internal the original coordinate
-   * return the coordinate whose values will be changed to the
-   *         external representation of <code>internal</code>
-   * @deprecated no longer needed, since internal representation is same as external representation
+   * @param internal
+   *   the original coordinate return the coordinate whose values will be changed to the external
+   *   representation of <code>internal</code>
+   * @deprecated
+   *   no longer needed, since internal representation is same as external representation
    */
   def toExternal(internal: Coordinate) = {
     val external = new Coordinate(internal)
@@ -326,10 +304,13 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   /**
    * Sets <code>external</code> to the external representation of <code>internal</code>.
    *
-   * @param  internal the original coordinate
-   * @param  external the coordinate whose values will be changed to the
-   *                  external representation of <code>internal</code>
-   * @deprecated no longer needed, since internal representation is same as external representation
+   * @param internal
+   *   the original coordinate
+   * @param external
+   *   the coordinate whose values will be changed to the external representation of
+   *   <code>internal</code>
+   * @deprecated
+   *   no longer needed, since internal representation is same as external representation
    */
   def toExternal(internal: Coordinate, external: Coordinate): Unit = {
     external.x = internal.x
@@ -337,15 +318,10 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   }
 
   /**
-   * Rounds a numeric value to the PrecisionModel grid.
-   * Asymmetric Arithmetic Rounding is used, to provide
-   * uniform rounding behaviour no matter where the number is
-   * on the number line.
-   * <p>
-   * This method has no effect on NaN values.
-   * <p>
-   * <b>Note:</b> Java's <code>Math#rint</code> uses the "Banker's Rounding" algorithm,
-   * which is not suitable for precision operations elsewhere in JTS.
+   * Rounds a numeric value to the PrecisionModel grid. Asymmetric Arithmetic Rounding is used, to
+   * provide uniform rounding behaviour no matter where the number is on the number line. <p> This
+   * method has no effect on NaN values. <p> <b>Note:</b> Java's <code>Math#rint</code> uses the
+   * "Banker's Rounding" algorithm, which is not suitable for precision operations elsewhere in JTS.
    */
   def makePrecise(`val`: Double): Double = { // don't change NaN values
     if (java.lang.Double.isNaN(`val`)) return `val`
@@ -386,17 +362,16 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
   }
 
   /**
-   * Compares this {link PrecisionModel} object with the specified object for order.
-   * A PrecisionModel is greater than another if it provides greater precision.
-   * The comparison is based on the value returned by the
-   * {link #getMaximumSignificantDigits} method.
-   * This comparison is not strictly accurate when comparing floating precision models
-   * to fixed models; however, it is correct when both models are either floating or fixed.
+   * Compares this {link PrecisionModel} object with the specified object for order. A
+   * PrecisionModel is greater than another if it provides greater precision. The comparison is
+   * based on the value returned by the {link #getMaximumSignificantDigits} method. This comparison
+   * is not strictly accurate when comparing floating precision models to fixed models; however, it
+   * is correct when both models are either floating or fixed.
    *
-   * @param  o the <code>PrecisionModel</code> with which this <code>PrecisionModel</code>
-   *           is being compared
-   * return a negative integer, zero, or a positive integer as this <code>PrecisionModel</code>
-   *         is less than, equal to, or greater than the specified <code>PrecisionModel</code>
+   * @param o
+   *   the <code>PrecisionModel</code> with which this <code>PrecisionModel</code> is being compared
+   *   return a negative integer, zero, or a positive integer as this <code>PrecisionModel</code> is
+   *   less than, equal to, or greater than the specified <code>PrecisionModel</code>
    */
   override def compareTo(o: PrecisionModel): Int = {
     val other          = o

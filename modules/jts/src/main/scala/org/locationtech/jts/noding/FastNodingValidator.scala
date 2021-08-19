@@ -42,12 +42,11 @@ import org.locationtech.jts.geom.TopologyException
 object FastNodingValidator {
 
   /**
-   * Gets a list of all intersections found.
-   * Intersections are represented as {link Coordinate}s.
+   * Gets a list of all intersections found. Intersections are represented as {link Coordinate}s.
    * List is empty if none were found.
    *
-   * @param segStrings a collection of SegmentStrings
-   * return a list of Coordinate
+   * @param segStrings
+   *   a collection of SegmentStrings return a list of Coordinate
    */
   def computeIntersections(segStrings: util.Collection[SegmentString]): util.List[_] = {
     val nv = new FastNodingValidator(segStrings)
@@ -62,7 +61,8 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
   /**
    * Creates a new noding validator for a given set of linework.
    *
-   * @param segStrings a collection of { @link SegmentString}s
+   * @param segStrings
+   *   a collection of { @link SegmentString}s
    */
   private val li                               = new RobustLineIntersector
   private var findAllIntersections             = false
@@ -73,8 +73,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
     findAllIntersections
 
   /**
-   * Gets a list of all intersections found.
-   * Intersections are represented as {link Coordinate}s.
+   * Gets a list of all intersections found. Intersections are represented as {link Coordinate}s.
    * List is empty if none were found.
    *
    * return a list of Coordinate
@@ -82,8 +81,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
   def getIntersections: util.ArrayList[_] = segInt.getIntersections
 
   /**
-   * Checks for an intersection and
-   * reports if one is found.
+   * Checks for an intersection and reports if one is found.
    *
    * return true if the arrangement contains an interior intersection
    */
@@ -93,8 +91,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
   }
 
   /**
-   * Returns an error message indicating the segments containing
-   * the intersection.
+   * Returns an error message indicating the segments containing the intersection.
    *
    * return an error message documenting the intersection location
    */
@@ -106,8 +103,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
   }
 
   /**
-   * Checks for an intersection and throws
-   * a TopologyException if one is found.
+   * Checks for an intersection and throws a TopologyException if one is found.
    *
    * throws TopologyException if an intersection is found
    */
@@ -124,9 +120,9 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
   private def checkInteriorIntersections(): Unit = {
 
     /**
-     * MD - It may even be reliable to simply check whether
-     * end segments (of SegmentStrings) have an interior intersection,
-     * since noding should have split any true interior intersections already.
+     * MD - It may even be reliable to simply check whether end segments (of SegmentStrings) have an
+     * interior intersection, since noding should have split any true interior intersections
+     * already.
      */
     visValid = true
     segInt = new NodingIntersectionFinder(li)

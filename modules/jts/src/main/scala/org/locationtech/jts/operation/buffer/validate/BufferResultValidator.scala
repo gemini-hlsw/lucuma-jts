@@ -28,26 +28,21 @@ import org.locationtech.jts.geom.MultiPolygon
 import org.locationtech.jts.geom.Polygon
 
 /**
- * Validates that the result of a buffer operation
- * is geometrically correct, within a computed tolerance.
- * <p>
- * This is a heuristic test, and may return false positive results
- * (I.e. it may fail to detect an invalid result.)
- * It should never return a false negative result, however
- * (I.e. it should never report a valid result as invalid.)
- * <p>
- * This test may be (much) more expensive than the original
- * buffer computation.
+ * Validates that the result of a buffer operation is geometrically correct, within a computed
+ * tolerance. <p> This is a heuristic test, and may return false positive results (I.e. it may fail
+ * to detect an invalid result.) It should never return a false negative result, however (I.e. it
+ * should never report a valid result as invalid.) <p> This test may be (much) more expensive than
+ * the original buffer computation.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object BufferResultValidator {
   private val VERBOSE = false
 
   /**
-   * Maximum allowable fraction of buffer distance the
-   * actual distance can differ by.
-   * 1% sometimes causes an error - 1.2% should be safe.
+   * Maximum allowable fraction of buffer distance the actual distance can differ by. 1% sometimes
+   * causes an error - 1.2% should be safe.
    */
   private val MAX_ENV_DIFF_FRAC = .012
 
@@ -58,14 +53,12 @@ object BufferResultValidator {
   }
 
   /**
-   * Checks whether the geometry buffer is valid,
-   * and returns an error message if not.
+   * Checks whether the geometry buffer is valid, and returns an error message if not.
    *
    * @param g
    * @param distance
    * @param result
-   * return an appropriate error message
-   *         or null if the buffer is valid
+   *   return an appropriate error message or null if the buffer is valid
    */
   def isValidMsg(g: Geometry, distance: Double, result: Geometry): String = {
     val validator = new BufferResultValidator(g, distance, result)
@@ -98,14 +91,11 @@ class BufferResultValidator(var input: Geometry, var distance: Double, var resul
   def getErrorLocation: Coordinate = errorLocation
 
   /**
-   * Gets a geometry which indicates the location and nature of a validation failure.
-   * <p>
-   * If the failure is due to the buffer curve being too far or too close
-   * to the input, the indicator is a line segment showing the location and size
-   * of the discrepancy.
+   * Gets a geometry which indicates the location and nature of a validation failure. <p> If the
+   * failure is due to the buffer curve being too far or too close to the input, the indicator is a
+   * line segment showing the location and size of the discrepancy.
    *
-   * return a geometric error indicator
-   *         or null if no error was found
+   * return a geometric error indicator or null if no error was found
    */
   def getErrorIndicator: Geometry = errorIndicator
 

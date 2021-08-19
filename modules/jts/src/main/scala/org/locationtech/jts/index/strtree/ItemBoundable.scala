@@ -14,8 +14,7 @@ package org.locationtech.jts.index.strtree
 import java.io.Serializable
 
 /**
- * Boundable wrapper for a non-Boundable spatial object. Used internally by
- * AbstractSTRtree.
+ * Boundable wrapper for a non-Boundable spatial object. Used internally by AbstractSTRtree.
  *
  * @version 1.7
  */

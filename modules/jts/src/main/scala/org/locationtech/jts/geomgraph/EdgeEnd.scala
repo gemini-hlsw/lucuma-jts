@@ -18,13 +18,10 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.util.Assert
 
 /**
- * Models the end of an edge incident on a node.
- * EdgeEnds have a direction
- * determined by the direction of the ray from the initial
- * point to the next point.
- * EdgeEnds are comparable under the ordering
- * "a has a greater angle with the x-axis than b".
- * This ordering is used to sort EdgeEnds around a node.
+ * Models the end of an edge incident on a node. EdgeEnds have a direction determined by the
+ * direction of the ray from the initial point to the next point. EdgeEnds are comparable under the
+ * ordering "a has a greater angle with the x-axis than b". This ordering is used to sort EdgeEnds
+ * around a node.
  *
  * @version 1.7
  */
@@ -80,17 +77,13 @@ class EdgeEnd protected (
     compareDirection(e)
 
   /**
-   * Implements the total order relation:
-   * <p>
-   * a has a greater angle with the positive x-axis than b
-   * <p>
-   * Using the obvious algorithm of simply computing the angle is not robust,
-   * since the angle calculation is obviously susceptible to roundoff.
-   * A robust algorithm is:
-   * - first compare the quadrant.  If the quadrants
-   * are different, it it trivial to determine which vector is "greater".
-   * - if the vectors lie in the same quadrant, the computeOrientation function
-   * can be used to decide the relative orientation of the vectors.
+   * Implements the total order relation: <p> a has a greater angle with the positive x-axis than b
+   * <p> Using the obvious algorithm of simply computing the angle is not robust, since the angle
+   * calculation is obviously susceptible to roundoff. A robust algorithm is:
+   *   - first compare the quadrant. If the quadrants are different, it it trivial to determine
+   *     which vector is "greater".
+   *   - if the vectors lie in the same quadrant, the computeOrientation function can be used to
+   *     decide the relative orientation of the vectors.
    */
   def compareDirection(e: EdgeEnd): Int = {
     if (dx == e.dx && dy == e.dy) return 0

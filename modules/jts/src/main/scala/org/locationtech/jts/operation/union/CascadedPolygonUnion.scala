@@ -31,31 +31,21 @@ import org.locationtech.jts.index.strtree.STRtree
 import scala.jdk.CollectionConverters._
 
 /**
- * Provides an efficient method of unioning a collection of
- * {link Polygonal} geometries.
- * The geometries are indexed using a spatial index,
- * and unioned recursively in index order.
- * For geometries with a high degree of overlap,
- * this has the effect of reducing the number of vertices
- * early in the process, which increases speed
- * and robustness.
- * <p>
- * This algorithm is faster and more robust than
- * the simple iterated approach of
- * repeatedly unioning each polygon to a result geometry.
- * <p>
- * The <tt>buffer(0)</tt> trick is sometimes faster, but can be less robust and
- * can sometimes take a long time to complete.
- * This is particularly the case where there is a high degree of overlap
- * between the polygons.  In this case, <tt>buffer(0)</tt> is forced to compute
- * with <i>all</i> line segments from the outset,
- * whereas cascading can eliminate many segments
- * at each stage of processing.
- * The best situation for using <tt>buffer(0)</tt> is the trivial case
- * where there is <i>no</i> overlap between the input geometries.
- * However, this case is likely rare in practice.
+ * Provides an efficient method of unioning a collection of {link Polygonal} geometries. The
+ * geometries are indexed using a spatial index, and unioned recursively in index order. For
+ * geometries with a high degree of overlap, this has the effect of reducing the number of vertices
+ * early in the process, which increases speed and robustness. <p> This algorithm is faster and more
+ * robust than the simple iterated approach of repeatedly unioning each polygon to a result
+ * geometry. <p> The <tt>buffer(0)</tt> trick is sometimes faster, but can be less robust and can
+ * sometimes take a long time to complete. This is particularly the case where there is a high
+ * degree of overlap between the polygons. In this case, <tt>buffer(0)</tt> is forced to compute
+ * with <i>all</i> line segments from the outset, whereas cascading can eliminate many segments at
+ * each stage of processing. The best situation for using <tt>buffer(0)</tt> is the trivial case
+ * where there is <i>no</i> overlap between the input geometries. However, this case is likely rare
+ * in practice.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object CascadedPolygonUnion {
   // /**
@@ -70,22 +60,18 @@ object CascadedPolygonUnion {
   }
 
   /**
-   * The effectiveness of the index is somewhat sensitive
-   * to the node capacity.
-   * Testing indicates that a smaller capacity is better.
-   * For an STRtree, 4 is probably a good number (since
-   * this produces 2x2 "squares").
+   * The effectiveness of the index is somewhat sensitive to the node capacity. Testing indicates
+   * that a smaller capacity is better. For an STRtree, 4 is probably a good number (since this
+   * produces 2x2 "squares").
    */
   private val STRTREE_NODE_CAPACITY = 4
 
   /**
-   * Gets the element at a given list index, or
-   * null if the index is out of range.
+   * Gets the element at a given list index, or null if the index is out of range.
    *
    * @param list
    * @param index
-   * return the geometry at the given index
-   *         or null if the index is out of range
+   *   return the geometry at the given index or null if the index is out of range
    */
   private def getGeometry(list: util.List[_], index: Int): Geometry = {
     if (index >= list.size) return null
@@ -93,17 +79,13 @@ object CascadedPolygonUnion {
   }
 
   /**
-   * Computes a {link Geometry} containing only {link Polygonal} components.
-   * Extracts the {link Polygon}s from the input
-   * and returns them as an appropriate {link Polygonal} geometry.
-   * <p>
-   * If the input is already <tt>Polygonal</tt>, it is returned unchanged.
-   * <p>
-   * A particular use case is to filter out non-polygonal components
-   * returned from an overlay operation.
+   * Computes a {link Geometry} containing only {link Polygonal} components. Extracts the {link
+   * Polygon}s from the input and returns them as an appropriate {link Polygonal} geometry. <p> If
+   * the input is already <tt>Polygonal</tt>, it is returned unchanged. <p> A particular use case is
+   * to filter out non-polygonal components returned from an overlay operation.
    *
-   * @param g the geometry to filter
-   * return a Polygonal geometry
+   * @param g
+   *   the geometry to filter return a Polygonal geometry
    */
   private def restrictToPolygons(g: Geometry): Geometry = {
     if (g.isInstanceOf[Polygonal]) return g
@@ -144,10 +126,8 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
     if (inputPolys.isEmpty) return null
 //    geomFactory = inputPolys.iterator.next.getFactory
     /**
-     * A spatial index to organize the collection
-     * into groups of close geometries.
-     * This makes unioning more efficient, since vertices are more likely
-     * to be eliminated on each round.
+     * A spatial index to organize the collection into groups of close geometries. This makes
+     * unioning more efficient, since vertices are more likely to be eliminated on each round.
      */
     //    STRtree index = new STRtree();
     val index    = new STRtree(CascadedPolygonUnion.STRTREE_NODE_CAPACITY)
@@ -167,8 +147,8 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
   private def unionTree(geomTree: util.List[Geometry]): Geometry = {
 
     /**
-     * Recursively unions all subtrees in the list into single geometries.
-     * The result is a list of Geometrys only
+     * Recursively unions all subtrees in the list into single geometries. The result is a list of
+     * Geometrys only
      */
     val geoms = reduceToGeometries(geomTree)
     //    Geometry union = bufferUnion(geoms);
@@ -204,20 +184,20 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
   }
 
   /**
-   * Unions a list of geometries
-   * by treating the list as a flattened binary tree,
-   * and performing a cascaded union on the tree.
+   * Unions a list of geometries by treating the list as a flattened binary tree, and performing a
+   * cascaded union on the tree.
    */
   private def binaryUnion(geoms: util.List[Geometry]): Geometry = binaryUnion(geoms, 0, geoms.size)
 
   /**
-   * Unions a section of a list using a recursive binary union on each half
-   * of the section.
+   * Unions a section of a list using a recursive binary union on each half of the section.
    *
-   * @param geoms the list of geometries containing the section to union
-   * @param start the start index of the section
-   * @param end   the index after the end of the section
-   * return the union of the list section
+   * @param geoms
+   *   the list of geometries containing the section to union
+   * @param start
+   *   the start index of the section
+   * @param end
+   *   the index after the end of the section return the union of the list section
    */
   private def binaryUnion(geoms: util.List[Geometry], start: Int, end: Int): Geometry = if (
     end - start <= 1
@@ -236,11 +216,11 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
   }
 
   /**
-   * Reduces a tree of geometries to a list of geometries
-   * by recursively unioning the subtrees in the list.
+   * Reduces a tree of geometries to a list of geometries by recursively unioning the subtrees in
+   * the list.
    *
-   * @param geomTree a tree-structured list of geometries
-   * return a list of Geometrys
+   * @param geomTree
+   *   a tree-structured list of geometries return a list of Geometrys
    */
   private def reduceToGeometries(geomTree: util.List[Geometry]) = {
     val geoms = new util.ArrayList[Geometry]
@@ -256,13 +236,12 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
   }
 
   /**
-   * Computes the union of two geometries,
-   * either or both of which may be null.
+   * Computes the union of two geometries, either or both of which may be null.
    *
-   * @param g0 a Geometry
-   * @param g1 a Geometry
-   * return the union of the input(s)
-   *         or null if both inputs are null
+   * @param g0
+   *   a Geometry
+   * @param g1
+   *   a Geometry return the union of the input(s) or null if both inputs are null
    */
   private def unionSafe(g0: Geometry, g1: Geometry): Geometry = {
     if (g0 == null && g1 == null) return null
@@ -276,7 +255,7 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
    *
    * @param g0
    * @param g1
-   * return
+   *   return
    */
   private def unionActual(g0: Geometry, g1: Geometry): Geometry = {
     val union = OverlapUnion.union(g0, g1)

@@ -16,12 +16,12 @@ import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.EdgeRing
 
 /**
- * A ring of {link Edge}s with the property that no node
- * has degree greater than 2.  These are the form of rings required
- * to represent polygons under the OGC SFS spatial data model.
+ * A ring of {link Edge}s with the property that no node has degree greater than 2. These are the
+ * form of rings required to represent polygons under the OGC SFS spatial data model.
  *
  * @version 1.7
- * @see org.locationtech.jts.operation.overlay.MaximalEdgeRing
+ * @see
+ *   org.locationtech.jts.operation.overlay.MaximalEdgeRing
  */
 class MinimalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: GeometryFactory)
     extends EdgeRing(start, geometryFactoryArg) {

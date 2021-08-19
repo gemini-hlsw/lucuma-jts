@@ -12,9 +12,8 @@
 package org.locationtech.jts.operation.relate
 
 /**
- * An EdgeEndBuilder creates EdgeEnds for all the "split edges"
- * created by the
- * intersections determined for an Edge.
+ * An EdgeEndBuilder creates EdgeEnds for all the "split edges" created by the intersections
+ * determined for an Edge.
  *
  * @version 1.7
  */
@@ -42,8 +41,8 @@ class EdgeEndBuilder() {
   }
 
   /**
-   * Creates stub edges for all the intersections in this
-   * Edge (if any) and inserts them into the graph.
+   * Creates stub edges for all the intersections in this Edge (if any) and inserts them into the
+   * graph.
    */
   def computeEdgeEnds(edge: Edge, l: util.List[EdgeEnd]): Unit = {
     val eiList                   = edge.getEdgeIntersectionList
@@ -56,25 +55,25 @@ class EdgeEndBuilder() {
     // no intersections, so there is nothing to do
     if (!it.hasNext) return
     var eiNext                   = it.next
-    while( { {
-      eiPrev = eiCurr
-      eiCurr = eiNext
-      eiNext = null
-      if (it.hasNext) eiNext = it.next
-      if (eiCurr != null) {
-        createEdgeEndForPrev(edge, l, eiCurr, eiPrev)
-        createEdgeEndForNext(edge, l, eiCurr, eiNext)
-      }
-    } ; eiCurr != null})()
+    while ({
+      {
+        eiPrev = eiCurr
+        eiCurr = eiNext
+        eiNext = null
+        if (it.hasNext) eiNext = it.next
+        if (eiCurr != null) {
+          createEdgeEndForPrev(edge, l, eiCurr, eiPrev)
+          createEdgeEndForNext(edge, l, eiCurr, eiNext)
+        }
+      }; eiCurr != null
+    }) ()
   }
 
   /**
-   * Create a EdgeStub for the edge before the intersection eiCurr.
-   * The previous intersection is provided
-   * in case it is the endpoint for the stub edge.
-   * Otherwise, the previous point from the parent edge will be the endpoint.
-   * <br>
-   * eiCurr will always be an EdgeIntersection, but eiPrev may be null.
+   * Create a EdgeStub for the edge before the intersection eiCurr. The previous intersection is
+   * provided in case it is the endpoint for the stub edge. Otherwise, the previous point from the
+   * parent edge will be the endpoint. <br> eiCurr will always be an EdgeIntersection, but eiPrev
+   * may be null.
    */
   private[relate] def createEdgeEndForPrev(
     edge:   Edge,
@@ -100,12 +99,9 @@ class EdgeEndBuilder() {
   }
 
   /**
-   * Create a StubEdge for the edge after the intersection eiCurr.
-   * The next intersection is provided
-   * in case it is the endpoint for the stub edge.
-   * Otherwise, the next point from the parent edge will be the endpoint.
-   * <br>
-   * eiCurr will always be an EdgeIntersection, but eiNext may be null.
+   * Create a StubEdge for the edge after the intersection eiCurr. The next intersection is provided
+   * in case it is the endpoint for the stub edge. Otherwise, the next point from the parent edge
+   * will be the endpoint. <br> eiCurr will always be an EdgeIntersection, but eiNext may be null.
    */
   private[relate] def createEdgeEndForNext(
     edge:   Edge,

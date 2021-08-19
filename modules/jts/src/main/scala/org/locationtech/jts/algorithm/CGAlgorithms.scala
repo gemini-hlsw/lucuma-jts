@@ -28,12 +28,12 @@ import org.locationtech.jts.geom.Location
 import org.locationtech.jts.math.MathUtil
 
 /**
- * Specifies and implements various fundamental Computational Geometric
- * algorithms. The algorithms supplied in this class are robust for
- * double-precision floating point.
+ * Specifies and implements various fundamental Computational Geometric algorithms. The algorithms
+ * supplied in this class are robust for double-precision floating point.
  *
  * @version 1.7
- * @deprecated See Length, Area, Distance, Orientation, PointLocation
+ * @deprecated
+ *   See Length, Area, Distance, Orientation, PointLocation
  */
 object CGAlgorithms {
 
@@ -56,37 +56,35 @@ object CGAlgorithms {
   val STRAIGHT: Int = COLLINEAR
 
   /**
-   * Returns the index of the direction of the point <code>q</code> relative to
-   * a vector specified by <code>p1-p2</code>.
+   * Returns the index of the direction of the point <code>q</code> relative to a vector specified
+   * by <code>p1-p2</code>.
    *
-   * @param p1 the origin point of the vector
-   * @param p2 the final point of the vector
-   * @param q  the point to compute the direction to
-   * return 1 if q is counter-clockwise (left) from p1-p2
-   * return -1 if q is clockwise (right) from p1-p2
-   * return 0 if q is collinear with p1-p2
+   * @param p1
+   *   the origin point of the vector
+   * @param p2
+   *   the final point of the vector
+   * @param q
+   *   the point to compute the direction to return 1 if q is counter-clockwise (left) from p1-p2
+   *   return -1 if q is clockwise (right) from p1-p2 return 0 if q is collinear with p1-p2
    */
   def orientationIndex(p1: Coordinate, p2: Coordinate, q: Coordinate): Int =
     /**
-     * MD - 9 Aug 2010 It seems that the basic algorithm is slightly orientation
-     * dependent, when computing the orientation of a point very close to a
-     * line. This is possibly due to the arithmetic in the translation to the
-     * origin.
+     * MD - 9 Aug 2010 It seems that the basic algorithm is slightly orientation dependent, when
+     * computing the orientation of a point very close to a line. This is possibly due to the
+     * arithmetic in the translation to the origin.
      *
-     * For instance, the following situation produces identical results in spite
-     * of the inverse orientation of the line segment:
+     * For instance, the following situation produces identical results in spite of the inverse
+     * orientation of the line segment:
      *
-     * Coordinate p0 = new Coordinate(219.3649559090992, 140.84159161824724);
-     * Coordinate p1 = new Coordinate(168.9018919682399, -5.713787599646864);
+     * Coordinate p0 = new Coordinate(219.3649559090992, 140.84159161824724); Coordinate p1 = new
+     * Coordinate(168.9018919682399, -5.713787599646864);
      *
-     * Coordinate p = new Coordinate(186.80814046338352, 46.28973405831556); int
-     * orient = orientationIndex(p0, p1, p); int orientInv =
-     * orientationIndex(p1, p0, p);
+     * Coordinate p = new Coordinate(186.80814046338352, 46.28973405831556); int orient =
+     * orientationIndex(p0, p1, p); int orientInv = orientationIndex(p1, p0, p);
      *
-     * A way to force consistent results is to normalize the orientation of the
-     * vector using the following code. However, this may make the results of
-     * orientationIndex inconsistent through the triangle of points, so it's not
-     * clear this is an appropriate patch.
+     * A way to force consistent results is to normalize the orientation of the vector using the
+     * following code. However, this may make the results of orientationIndex inconsistent through
+     * the triangle of points, so it's not clear this is an appropriate patch.
      */
     CGAlgorithmsDD.orientationIndex(p1, p2, q)
   // testing only
@@ -95,47 +93,40 @@ object CGAlgorithms {
   //return RobustDeterminant.orientationIndex(p1, p2, q);
 
   /**
-   * Tests whether a point lies inside or on a ring. The ring may be oriented in
-   * either direction. A point lying exactly on the ring boundary is considered
-   * to be inside the ring.
-   * <p>
-   * This method does <i>not</i> first check the point against the envelope of
-   * the ring.
+   * Tests whether a point lies inside or on a ring. The ring may be oriented in either direction. A
+   * point lying exactly on the ring boundary is considered to be inside the ring. <p> This method
+   * does <i>not</i> first check the point against the envelope of the ring.
    *
    * @param p
-   * point to check for ring inclusion
+   *   point to check for ring inclusion
    * @param ring
-   * an array of coordinates representing the ring (which must have
-   * first point identical to last point)
-   * return true if p is inside ring
-   * @see locatePointInRing
+   *   an array of coordinates representing the ring (which must have first point identical to last
+   *   point) return true if p is inside ring
+   * @see
+   *   locatePointInRing
    */
   def isPointInRing(p: Coordinate, ring: Array[Coordinate]): Boolean =
     locatePointInRing(p, ring) != Location.EXTERIOR
 
   /**
-   * Determines whether a point lies in the interior, on the boundary, or in the
-   * exterior of a ring. The ring may be oriented in either direction.
-   * <p>
-   * This method does <i>not</i> first check the point against the envelope of
-   * the ring.
+   * Determines whether a point lies in the interior, on the boundary, or in the exterior of a ring.
+   * The ring may be oriented in either direction. <p> This method does <i>not</i> first check the
+   * point against the envelope of the ring.
    *
    * @param p
-   * point to check for ring inclusion
+   *   point to check for ring inclusion
    * @param ring
-   * an array of coordinates representing the ring (which must have
-   * first point identical to last point)
-   * return the { @link Location} of p relative to the ring
+   *   an array of coordinates representing the ring (which must have first point identical to last
+   *   point) return the { @link Location} of p relative to the ring
    */
   def locatePointInRing(p: Coordinate, ring: Array[Coordinate]): Int =
     RayCrossingCounter.locatePointInRing(p, ring)
 
   /**
-   * Tests whether a point lies on the line segments defined by a list of
-   * coordinates.
+   * Tests whether a point lies on the line segments defined by a list of coordinates.
    *
-   * return true if the point is a vertex of the line or lies in the interior
-   *         of a line segment in the linestring
+   * return true if the point is a vertex of the line or lies in the interior of a line segment in
+   * the linestring
    */
   def isOnLine(p: Coordinate, pt: Array[Coordinate]): Boolean = {
     val lineIntersector = new RobustLineIntersector
@@ -151,21 +142,15 @@ object CGAlgorithms {
   }
 
   /**
-   * Computes whether a ring defined by an array of {link Coordinate}s is
-   * oriented counter-clockwise.
-   * <ul>
-   * <li>The list of points is assumed to have the first and last points equal.
-   * <li>This will handle coordinate lists which contain repeated points.
-   * </ul>
-   * This algorithm is <b>only</b> guaranteed to work with valid rings. If the
-   * ring is invalid (e.g. self-crosses or touches), the computed result may not
-   * be correct.
+   * Computes whether a ring defined by an array of {link Coordinate}s is oriented
+   * counter-clockwise. <ul> <li>The list of points is assumed to have the first and last points
+   * equal. <li>This will handle coordinate lists which contain repeated points. </ul> This
+   * algorithm is <b>only</b> guaranteed to work with valid rings. If the ring is invalid (e.g.
+   * self-crosses or touches), the computed result may not be correct.
    *
    * @param ring
-   * an array of Coordinates forming a ring
-   * return true if the ring is oriented counter-clockwise.
-   * throws IllegalArgumentException
-   * if there are too few points to determine orientation (&lt; 4)
+   *   an array of Coordinates forming a ring return true if the ring is oriented counter-clockwise.
+   *   throws IllegalArgumentException if there are too few points to determine orientation (&lt; 4)
    */
   def isCCW(ring: Array[Coordinate]): Boolean = { // # of points without closing endpoint
     val nPts    = ring.length - 1
@@ -190,33 +175,32 @@ object CGAlgorithms {
     }
     // find distinct point before highest point
     var iPrev   = hiIndex
-    while({ {
-      iPrev = iPrev - 1
-      if (iPrev < 0) iPrev = nPts
-    } ; ring(iPrev).equals2D(hiPt) && iPrev != hiIndex}) ()
+    while ({
+      {
+        iPrev = iPrev - 1
+        if (iPrev < 0) iPrev = nPts
+      }; ring(iPrev).equals2D(hiPt) && iPrev != hiIndex
+    }) ()
     // find distinct point after highest point
     var iNext   = hiIndex
-    while( { { iNext = (iNext + 1) % nPts };  (ring(iNext).equals2D(hiPt) && iNext != hiIndex)}) ()
+    while ({ { iNext = (iNext + 1) % nPts }; (ring(iNext).equals2D(hiPt) && iNext != hiIndex) }) ()
     val prev    = ring(iPrev)
     val next    = ring(iNext)
 
     /**
-     * This check catches cases where the ring contains an A-B-A configuration
-     * of points. This can happen if the ring does not contain 3 distinct points
-     * (including the case where the input array has fewer than 4 elements), or
-     * it contains coincident line segments.
+     * This check catches cases where the ring contains an A-B-A configuration of points. This can
+     * happen if the ring does not contain 3 distinct points (including the case where the input
+     * array has fewer than 4 elements), or it contains coincident line segments.
      */
     if (prev.equals2D(hiPt) || next.equals2D(hiPt) || prev.equals2D(next)) return false
     val disc = computeOrientation(prev, hiPt, next)
 
     /**
-     * If disc is exactly 0, lines are collinear. There are two possible cases:
-     * (1) the lines lie along the x axis in opposite directions (2) the lines
-     * lie on top of one another
+     * If disc is exactly 0, lines are collinear. There are two possible cases: (1) the lines lie
+     * along the x axis in opposite directions (2) the lines lie on top of one another
      *
-     * (1) is handled by checking if next is left of prev ==> CCW (2) will never
-     * happen if the ring is valid, so don't check for it (Might want to assert
-     * this)
+     * (1) is handled by checking if next is left of prev ==> CCW (2) will never happen if the ring
+     * is valid, so don't check for it (Might want to assert this)
      */
     var isCCW = false
     if (disc == 0) { // poly is CCW if prev x is right of next x
@@ -228,16 +212,17 @@ object CGAlgorithms {
   }
 
   /**
-   * Computes the orientation of a point q to the directed line segment p1-p2.
-   * The orientation of a point relative to a directed line segment indicates
-   * which way you turn to get to q after travelling from p1 to p2.
+   * Computes the orientation of a point q to the directed line segment p1-p2. The orientation of a
+   * point relative to a directed line segment indicates which way you turn to get to q after
+   * travelling from p1 to p2.
    *
-   * @param p1 the first vertex of the line segment
-   * @param p2 the second vertex of the line segment
-   * @param q  the point to compute the relative orientation of
-   * return 1 if q is counter-clockwise from p1-p2,
-   *         or -1 if q is clockwise from p1-p2,
-   *         or 0 if q is collinear with p1-p2
+   * @param p1
+   *   the first vertex of the line segment
+   * @param p2
+   *   the second vertex of the line segment
+   * @param q
+   *   the point to compute the relative orientation of return 1 if q is counter-clockwise from
+   *   p1-p2, or -1 if q is clockwise from p1-p2, or 0 if q is collinear with p1-p2
    */
   def computeOrientation(p1: Coordinate, p2: Coordinate, q: Coordinate): Int =
     orientationIndex(p1, p2, q)
@@ -248,12 +233,12 @@ object CGAlgorithms {
    * Note: NON-ROBUST!
    *
    * @param p
-   * the point to compute the distance for
+   *   the point to compute the distance for
    * @param A
-   * one point of the line
+   *   one point of the line
    * @param B
-   * another point of the line (must be different to A)
-   * return the distance from p to line segment AB
+   *   another point of the line (must be different to A) return the distance from p to line segment
+   *   AB
    */
   def distancePointLine(p: Coordinate, A: Coordinate, B: Coordinate): Double = { // if start = end, then just compute distance to one of the endpoints
     if ((A.x == B.x) && (A.y == B.y)) return p.distance(A)
@@ -289,16 +274,15 @@ object CGAlgorithms {
   }
 
   /**
-   * Computes the perpendicular distance from a point p to the (infinite) line
-   * containing the points AB
+   * Computes the perpendicular distance from a point p to the (infinite) line containing the points
+   * AB
    *
    * @param p
-   * the point to compute the distance for
+   *   the point to compute the distance for
    * @param A
-   * one point of the line
+   *   one point of the line
    * @param B
-   * another point of the line (must be different to A)
-   * return the distance from p to line AB
+   *   another point of the line (must be different to A) return the distance from p to line AB
    */
   def distancePointLinePerpendicular(p: Coordinate, A: Coordinate, B: Coordinate): Double = { // use comp.graphics.algorithms Frequently Asked Questions method
     /*
@@ -317,10 +301,10 @@ object CGAlgorithms {
    * Computes the distance from a point to a sequence of line segments.
    *
    * @param p
-   * a point
+   *   a point
    * @param line
-   * a sequence of contiguous line segments defined by their vertices
-   * return the minimum distance between the point and the line segments
+   *   a sequence of contiguous line segments defined by their vertices return the minimum distance
+   *   between the point and the line segments
    */
   def distancePointLine(p: Coordinate, line: Array[Coordinate]): Double = {
     if (line.length == 0)
@@ -342,13 +326,13 @@ object CGAlgorithms {
    * Note: NON-ROBUST!
    *
    * @param A
-   * a point of one line
+   *   a point of one line
    * @param B
-   * the second point of (must be different to A)
+   *   the second point of (must be different to A)
    * @param C
-   * one point of the line
+   *   one point of the line
    * @param D
-   * another point of the line (must be different to A)
+   *   another point of the line (must be different to A)
    */
   def distanceLineLine(A: Coordinate, B: Coordinate, C: Coordinate, D: Coordinate): Double = { // check for zero-length segments
     if (A == B) return distancePointLine(A, C, D)
@@ -403,21 +387,18 @@ object CGAlgorithms {
   }
 
   /**
-   * Computes the signed area for a ring. The signed area is positive if the
-   * ring is oriented CW, negative if the ring is oriented CCW, and zero if the
-   * ring is degenerate or flat.
+   * Computes the signed area for a ring. The signed area is positive if the ring is oriented CW,
+   * negative if the ring is oriented CCW, and zero if the ring is degenerate or flat.
    *
    * @param ring
-   * the coordinates forming the ring
-   * return the signed area of the ring
+   *   the coordinates forming the ring return the signed area of the ring
    */
   def signedArea(ring: Array[Coordinate]): Double = {
     if (ring.length < 3) return 0.0
     var sum = 0.0
 
     /**
-     * Based on the Shoelace formula.
-     * http://en.wikipedia.org/wiki/Shoelace_formula
+     * Based on the Shoelace formula. http://en.wikipedia.org/wiki/Shoelace_formula
      */
     val x0 = ring(0).x
     var i  = 1
@@ -432,16 +413,12 @@ object CGAlgorithms {
   }
 
   /**
-   * Computes the signed area for a ring. The signed area is:
-   * <ul>
-   * <li>positive if the ring is oriented CW
-   * <li>negative if the ring is oriented CCW
-   * <li>zero if the ring is degenerate or flat
+   * Computes the signed area for a ring. The signed area is: <ul> <li>positive if the ring is
+   * oriented CW <li>negative if the ring is oriented CCW <li>zero if the ring is degenerate or flat
    * </ul>
    *
    * @param ring
-   * the coordinates forming the ring
-   * return the signed area of the ring
+   *   the coordinates forming the ring return the signed area of the ring
    */
   def signedArea(ring: CoordinateSequence): Double = {
     val n   = ring.size
@@ -471,8 +448,7 @@ object CGAlgorithms {
    * Computes the length of a linestring specified by a sequence of points.
    *
    * @param pts
-   * the points specifying the linestring
-   * return the length of the linestring
+   *   the points specifying the linestring return the length of the linestring
    */
   def length(pts: CoordinateSequence): Double = { // optimized for processing CoordinateSequences
     val n   = pts.size

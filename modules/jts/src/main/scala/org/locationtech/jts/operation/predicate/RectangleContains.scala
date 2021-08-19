@@ -28,15 +28,10 @@ import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 
 /**
- * Optimized implementation of the <tt>contains</tt> spatial predicate
- * for cases where the first {link Geometry} is a rectangle.
- * This class works for all input geometries, including
- * {link GeometryCollection}s.
- * <p>
- * As a further optimization,
- * this class can be used to test
- * many geometries against a single
- * rectangle in a slightly more efficient way.
+ * Optimized implementation of the <tt>contains</tt> spatial predicate for cases where the first
+ * {link Geometry} is a rectangle. This class works for all input geometries, including {link
+ * GeometryCollection}s. <p> As a further optimization, this class can be used to test many
+ * geometries against a single rectangle in a slightly more efficient way.
  *
  * @version 1.7
  */
@@ -45,9 +40,10 @@ object RectangleContains {
   /**
    * Tests whether a rectangle contains a given geometry.
    *
-   * @param rectangle a rectangular Polygon
-   * @param b         a Geometry of any type
-   * return true if the geometries intersect
+   * @param rectangle
+   *   a rectangular Polygon
+   * @param b
+   *   a Geometry of any type return true if the geometries intersect
    */
   def contains(rectangle: Polygon, b: Geometry): Boolean = {
     val rc = new RectangleContains(rectangle)
@@ -60,7 +56,8 @@ class RectangleContains(val rectangle: Polygon) {
   /**
    * Create a new contains computer for two geometries.
    *
-   * @param rectangle a rectangular geometry
+   * @param rectangle
+   *   a rectangular geometry
    */
   private val rectEnv = rectangle.getEnvelopeInternal
 
@@ -68,9 +65,8 @@ class RectangleContains(val rectangle: Polygon) {
     if (!rectEnv.contains(geom.getEnvelopeInternal)) return false
 
     /**
-     * Check that geom is not contained entirely in the rectangle boundary.
-     * According to the somewhat odd spec of the SFS, if this
-     * is the case the geometry is NOT contained.
+     * Check that geom is not contained entirely in the rectangle boundary. According to the
+     * somewhat odd spec of the SFS, if this is the case the geometry is NOT contained.
      */
     if (isContainedInBoundary(geom)) return false
     true
@@ -97,8 +93,8 @@ class RectangleContains(val rectangle: Polygon) {
   /**
    * Tests if a point is contained in the boundary of the target rectangle.
    *
-   * @param pt the point to test
-   * return true if the point is contained in the boundary
+   * @param pt
+   *   the point to test return true if the point is contained in the boundary
    */
   private def isPointContainedInBoundary(pt: Coordinate): Boolean =
     /**
@@ -111,8 +107,8 @@ class RectangleContains(val rectangle: Polygon) {
   /**
    * Tests if a linestring is completely contained in the boundary of the target rectangle.
    *
-   * @param line the linestring to test
-   * return true if the linestring is contained in the boundary
+   * @param line
+   *   the linestring to test return true if the linestring is contained in the boundary
    */
   private def isLineStringContainedInBoundary(line: LineString): Boolean = {
     val seq = line.getCoordinateSequence
@@ -131,9 +127,10 @@ class RectangleContains(val rectangle: Polygon) {
   /**
    * Tests if a line segment is contained in the boundary of the target rectangle.
    *
-   * @param p0 an endpoint of the segment
-   * @param p1 an endpoint of the segment
-   * return true if the line segment is contained in the boundary
+   * @param p0
+   *   an endpoint of the segment
+   * @param p1
+   *   an endpoint of the segment return true if the line segment is contained in the boundary
    */
   private def isLineSegmentContainedInBoundary(p0: Coordinate, p1: Coordinate): Boolean = {
     if (p0 == p1) return isPointContainedInBoundary(p0)
@@ -143,10 +140,8 @@ class RectangleContains(val rectangle: Polygon) {
       else if (p0.y == p1.y) if ((p0.y == rectEnv.getMinY) || (p0.y == rectEnv.getMaxY)) return true
 
     /**
-     * Either
-     * both x and y values are different
-     * or
-     * one of x and y are the same, but the other ordinate is not the same as a boundary ordinate
+     * Either both x and y values are different or one of x and y are the same, but the other
+     * ordinate is not the same as a boundary ordinate
      *
      * In either case, the segment is not wholely in the boundary
      */

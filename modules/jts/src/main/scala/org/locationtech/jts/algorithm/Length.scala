@@ -27,15 +27,16 @@ import org.locationtech.jts.geom.CoordinateSequence
 /**
  * Functions for computing length.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object Length {
 
   /**
    * Computes the length of a linestring specified by a sequence of points.
    *
-   * @param pts the points specifying the linestring
-   * return the length of the linestring
+   * @param pts
+   *   the points specifying the linestring return the length of the linestring
    */
   def ofLine(pts: CoordinateSequence): Double = { // optimized for processing CoordinateSequences
     val n   = pts.size

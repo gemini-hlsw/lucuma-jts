@@ -18,9 +18,9 @@ import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.util.Assert
 
 /**
- * A DirectedEdgeStar is an ordered list of <b>outgoing</b> DirectedEdges around a node.
- * It supports labelling the edges as well as linking the edges to form both
- * MaximalEdgeRings and MinimalEdgeRings.
+ * A DirectedEdgeStar is an ordered list of <b>outgoing</b> DirectedEdges around a node. It supports
+ * labelling the edges as well as linking the edges to form both MaximalEdgeRings and
+ * MinimalEdgeRings.
  *
  * @version 1.7
  */
@@ -88,8 +88,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
   }
 
   /**
-   * Compute the labelling for all dirEdges in this star, as well
-   * as the overall labelling
+   * Compute the labelling for all dirEdges in this star, as well as the overall labelling
    */
   override def computeLabelling(geom: Array[GeometryGraph]): Unit = { //Debug.print(this);
     super.computeLabelling(geom)
@@ -112,8 +111,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
   }
 
   /**
-   * For each dirEdge in the star,
-   * merge the label from the sym dirEdge into the label
+   * For each dirEdge in the star, merge the label from the sym dirEdge into the label
    */
   def mergeSymLabels(): Unit = {
     val it = iterator
@@ -152,22 +150,13 @@ class DirectedEdgeStar() extends EdgeEndStar {
   final private val LINKING_TO_OUTGOING   = 2
 
   /**
-   * Traverse the star of DirectedEdges, linking the included edges together.
-   * To link two dirEdges, the <code>next</code> pointer for an incoming dirEdge
-   * is set to the next outgoing edge.
-   * <p>
-   * DirEdges are only linked if:
-   * <ul>
-   * <li>they belong to an area (i.e. they have sides)
-   * <li>they are marked as being in the result
-   * </ul>
-   * <p>
-   * Edges are linked in CCW order (the order they are stored).
-   * This means that rings have their face on the Right
-   * (in other words,
-   * the topological location of the face is given by the RHS label of the DirectedEdge)
-   * <p>
-   * PRECONDITION: No pair of dirEdges are both marked as being in the result
+   * Traverse the star of DirectedEdges, linking the included edges together. To link two dirEdges,
+   * the <code>next</code> pointer for an incoming dirEdge is set to the next outgoing edge. <p>
+   * DirEdges are only linked if: <ul> <li>they belong to an area (i.e. they have sides) <li>they
+   * are marked as being in the result </ul> <p> Edges are linked in CCW order (the order they are
+   * stored). This means that rings have their face on the Right (in other words, the topological
+   * location of the face is given by the RHS label of the DirectedEdge) <p> PRECONDITION: No pair
+   * of dirEdges are both marked as being in the result
    */
   def linkResultDirectedEdges(): Unit = { // make sure edges are copied to resultAreaEdges list
     getResultAreaEdges
@@ -257,19 +246,17 @@ class DirectedEdgeStar() extends EdgeEndStar {
   }
 
   /**
-   * Traverse the star of edges, maintaining the current location in the result
-   * area at this node (if any).
-   * If any L edges are found in the interior of the result, mark them as covered.
+   * Traverse the star of edges, maintaining the current location in the result area at this node
+   * (if any). If any L edges are found in the interior of the result, mark them as covered.
    */
   def findCoveredLineEdges(): Unit = { //Debug.print("findCoveredLineEdges");
     // Since edges are stored in CCW order around the node,
     // as we move around the ring we move from the right to the left side of the edge
     /**
-     * Find first DirectedEdge of result area (if any).
-     * The interior of the result is on the RHS of the edge,
-     * so the start location will be:
-     * - INTERIOR if the edge is outgoing
-     * - EXTERIOR if the edge is incoming
+     * Find first DirectedEdge of result area (if any). The interior of the result is on the RHS of
+     * the edge, so the start location will be:
+     *   - INTERIOR if the edge is outgoing
+     *   - EXTERIOR if the edge is incoming
      */
     var startLoc = Location.NONE
     var it       = iterator
@@ -294,9 +281,8 @@ class DirectedEdgeStar() extends EdgeEndStar {
     // no A edges found, so can't determine if L edges are covered or not
     if (startLoc == Location.NONE) return
     /**
-     * move around ring, keeping track of the current location
-     * (Interior or Exterior) for the result area.
-     * If L edges are found, mark them as covered if they are in the interior
+     * move around ring, keeping track of the current location (Interior or Exterior) for the result
+     * area. If L edges are found, mark them as covered if they are in the interior
      */
     var currLoc = startLoc
     it = iterator

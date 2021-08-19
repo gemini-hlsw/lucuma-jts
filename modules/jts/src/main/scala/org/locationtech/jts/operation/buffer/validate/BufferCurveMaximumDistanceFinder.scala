@@ -28,18 +28,14 @@ import org.locationtech.jts.geom.CoordinateSequenceFilter
 import org.locationtech.jts.geom.Geometry
 
 /**
- * Finds the approximate maximum distance from a buffer curve to
- * the originating geometry.
- * This is similar to the Discrete Oriented Hausdorff distance
- * from the buffer curve to the input.
- * <p>
- * The approximate maximum distance is determined by testing
- * all vertices in the buffer curve, as well
- * as midpoints of the curve segments.
- * Due to the way buffer curves are constructed, this
- * should be a very close approximation.
+ * Finds the approximate maximum distance from a buffer curve to the originating geometry. This is
+ * similar to the Discrete Oriented Hausdorff distance from the buffer curve to the input. <p> The
+ * approximate maximum distance is determined by testing all vertices in the buffer curve, as well
+ * as midpoints of the curve segments. Due to the way buffer curves are constructed, this should be
+ * a very close approximation.
  *
- * @author mbdavis
+ * @author
+ *   mbdavis
  */
 object BufferCurveMaximumDistanceFinder {
 

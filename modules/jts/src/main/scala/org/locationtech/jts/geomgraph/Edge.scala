@@ -24,8 +24,7 @@ import org.locationtech.jts.geomgraph.index.MonotoneChainEdge
 object Edge {
 
   /**
-   * Updates an IM from the label for an edge.
-   * Handles edges from both L and A geometries.
+   * Updates an IM from the label for an edge. Handles edges from both L and A geometries.
    */
   def updateIM(label: Label, im: IntersectionMatrix): Unit = {
     im.setAtLeastIfValid(label.getLocation(0, Position.ON), label.getLocation(1, Position.ON), 1)
@@ -102,8 +101,8 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
   def isClosed: Boolean = pts(0) == pts(pts.length - 1)
 
   /**
-   * An Edge is collapsed if it is an Area edge and it consists of
-   * two segments which are equal and opposite (eg a zero-width V).
+   * An Edge is collapsed if it is an Area edge and it consists of two segments which are equal and
+   * opposite (eg a zero-width V).
    */
   def isCollapsed: Boolean = {
     if (!label.isArea) return false
@@ -125,8 +124,8 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
   override def isIsolated: Boolean = visIsolated
 
   /**
-   * Adds EdgeIntersections for one or both
-   * intersections found for a segment of an edge to the edge intersection list.
+   * Adds EdgeIntersections for one or both intersections found for a segment of an edge to the edge
+   * intersection list.
    */
   def addIntersections(li: LineIntersector, segmentIndex: Int, geomIndex: Int): Unit = {
     var i = 0
@@ -137,9 +136,8 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
   }
 
   /**
-   * Add an EdgeIntersection for intersection intIndex.
-   * An intersection that falls exactly on a vertex of the edge is normalized
-   * to use the higher of the two possible segmentIndexes
+   * Add an EdgeIntersection for intersection intIndex. An intersection that falls exactly on a
+   * vertex of the edge is normalized to use the higher of the two possible segmentIndexes
    */
   def addIntersection(
     li:           LineIntersector,
@@ -173,17 +171,14 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
   }
 
   /**
-   * Update the IM with the contribution for this component.
-   * A component only contributes if it has a labelling for both parent geometries
+   * Update the IM with the contribution for this component. A component only contributes if it has
+   * a labelling for both parent geometries
    */
   override def computeIM(im: IntersectionMatrix): Unit = Edge.updateIM(label, im)
 
   /**
-   * equals is defined to be:
-   * <p>
-   * e1 equals e2
-   * <b>iff</b>
-   * the coordinates of e1 are the same or the reverse of the coordinates in e2
+   * equals is defined to be: <p> e1 equals e2 <b>iff</b> the coordinates of e1 are the same or the
+   * reverse of the coordinates in e2
    */
   override def equals(o: Any): Boolean = {
     if (!o.isInstanceOf[Edge]) return false

@@ -25,8 +25,8 @@ class RelateNode(val coordArg: Coordinate, val edgesArg: EdgeEndStar)
     extends Node(coordArg, edgesArg) {
 
   /**
-   * Update the IM with the contribution for this component.
-   * A component only contributes if it has a labelling for both parent geometries
+   * Update the IM with the contribution for this component. A component only contributes if it has
+   * a labelling for both parent geometries
    */
   override protected def computeIM(im: IntersectionMatrix): Unit =
     im.setAtLeastIfValid(label.getLocation(0), label.getLocation(1), 0)

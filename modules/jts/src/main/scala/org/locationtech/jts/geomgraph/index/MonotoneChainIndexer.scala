@@ -17,27 +17,17 @@ import org.locationtech.jts.geomgraph.Quadrant
 import org.locationtech.jts.util.IntArrayList
 
 /**
- * MonotoneChains are a way of partitioning the segments of an edge to
- * allow for fast searching of intersections.
- * Specifically, a sequence of contiguous line segments
- * is a monotone chain iff all the vectors defined by the oriented segments
- * lies in the same quadrant.
- * <p>
- * Monotone Chains have the following useful properties:
- * <ol>
- * <li>the segments within a monotone chain will never intersect each other
- * <li>the envelope of any contiguous subset of the segments in a monotone chain
- * is simply the envelope of the endpoints of the subset.
- * </ol>
- * Property 1 means that there is no need to test pairs of segments from within
- * the same monotone chain for intersection.
- * Property 2 allows
- * binary search to be used to find the intersection points of two monotone chains.
- * For many types of real-world data, these properties eliminate a large number of
- * segment comparisons, producing substantial speed gains.
- * <p>
- * Note that due to the efficient intersection test, there is no need to limit the size
- * of chains to obtain fast performance.
+ * MonotoneChains are a way of partitioning the segments of an edge to allow for fast searching of
+ * intersections. Specifically, a sequence of contiguous line segments is a monotone chain iff all
+ * the vectors defined by the oriented segments lies in the same quadrant. <p> Monotone Chains have
+ * the following useful properties: <ol> <li>the segments within a monotone chain will never
+ * intersect each other <li>the envelope of any contiguous subset of the segments in a monotone
+ * chain is simply the envelope of the endpoints of the subset. </ol> Property 1 means that there is
+ * no need to test pairs of segments from within the same monotone chain for intersection. Property
+ * 2 allows binary search to be used to find the intersection points of two monotone chains. For
+ * many types of real-world data, these properties eliminate a large number of segment comparisons,
+ * producing substantial speed gains. <p> Note that due to the efficient intersection test, there is
+ * no need to limit the size of chains to obtain fast performance.
  *
  * @version 1.7
  */
@@ -60,11 +50,13 @@ class MonotoneChainIndexer() {
     // use heuristic to size initial array
     //startIndexList.ensureCapacity(pts.length / 4);
     startIndexList.add(start)
-    while( { {
-      val last = findChainEnd(pts, start)
-      startIndexList.add(last)
-      start = last
-    } ; start < pts.length - 1 })()
+    while ({
+      {
+        val last = findChainEnd(pts, start)
+        startIndexList.add(last)
+        start = last
+      }; start < pts.length - 1
+    }) ()
     // copy list to an array of ints, for efficiency
     startIndexList.toArray
   }
@@ -73,11 +65,13 @@ class MonotoneChainIndexer() {
     var start          = 0
     val startIndexList = new util.ArrayList[Int]
     startIndexList.add(start)
-    while( { {
-      val last = findChainEnd(pts, start)
-      startIndexList.add(last)
-      start = last
-    } ; start < pts.length - 1 })()
+    while ({
+      {
+        val last = findChainEnd(pts, start)
+        startIndexList.add(last)
+        start = last
+      }; start < pts.length - 1
+    }) ()
     val startIndex     = MonotoneChainIndexer.toIntArray(startIndexList)
     startIndex
   }

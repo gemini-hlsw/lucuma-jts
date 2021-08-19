@@ -27,11 +27,9 @@ package org.locationtech.jts.geom
 import scala.annotation.nowarn
 
 /**
- * Coordinate subclass supporting XY ordinates.
- * <p>
- * This data object is suitable for use with coordinate sequences with <tt>dimension</tt> = 2.
- * <p>
- * The {link Coordinate#z} field is visible, but intended to be ignored.
+ * Coordinate subclass supporting XY ordinates. <p> This data object is suitable for use with
+ * coordinate sequences with <tt>dimension</tt> = 2. <p> The {link Coordinate#z} field is visible,
+ * but intended to be ignored.
  *
  * @since 1.16
  */
@@ -58,7 +56,8 @@ class CoordinateXY(xArg: Double, yArg: Double)
   /**
    * Constructs a CoordinateXY instance with the x and y ordinates of the given Coordinate.
    *
-   * @param coord the Coordinate providing the ordinates
+   * @param coord
+   *   the Coordinate providing the ordinates
    */
   def this(coord: Coordinate) = {
     this(coord.x, coord.y)
@@ -67,7 +66,8 @@ class CoordinateXY(xArg: Double, yArg: Double)
   /**
    * Constructs a CoordinateXY instance with the x and y ordinates of the given CoordinateXY.
    *
-   * @param coord the CoordinateXY providing the ordinates
+   * @param coord
+   *   the CoordinateXY providing the ordinates
    */
   def this(coord: CoordinateXY) = {
     this(coord.x, coord.y)

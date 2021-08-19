@@ -37,8 +37,8 @@ import org.locationtech.jts.util.Assert
 import scala.annotation.nowarn
 
 /**
- * Computes the geometric overlay of two {link Geometry}s.  The overlay
- * can be used to determine any boolean combination of the geometries.
+ * Computes the geometric overlay of two {link Geometry}s. The overlay can be used to determine any
+ * boolean combination of the geometries.
  *
  * @version 1.7
  */
@@ -129,25 +129,23 @@ object OverlayOp {
   }
 
   /**
-   * Creates an empty result geometry of the appropriate dimension,
-   * based on the given overlay operation and the dimensions of the inputs.
-   * The created geometry is always an atomic geometry,
-   * not a collection.
-   * <p>
-   * The empty result is constructed using the following rules:
-   * <ul>
-   * <li>{link #INTERSECTION} - result has the dimension of the lowest input dimension
-   * <li>{link #UNION} - result has the dimension of the highest input dimension
-   * <li>{link #DIFFERENCE} - result has the dimension of the left-hand input
-   * <li>{link #SYMDIFFERENCE} - result has the dimension of the highest input dimension
-   * (since the symmetric Difference is the union of the differences).
-   * </ul>
+   * Creates an empty result geometry of the appropriate dimension, based on the given overlay
+   * operation and the dimensions of the inputs. The created geometry is always an atomic geometry,
+   * not a collection. <p> The empty result is constructed using the following rules: <ul> <li>{link
+   * #INTERSECTION} - result has the dimension of the lowest input dimension <li>{link #UNION} -
+   * result has the dimension of the highest input dimension <li>{link #DIFFERENCE} - result has the
+   * dimension of the left-hand input <li>{link #SYMDIFFERENCE} - result has the dimension of the
+   * highest input dimension (since the symmetric Difference is the union of the differences). </ul>
    *
-   * @param overlayOpCode the code for the overlay operation being performed
-   * @param a             an input geometry
-   * @param b             an input geometry
-   * @param geomFact      the geometry factory being used for the operation
-   * return an empty atomic geometry of the appropriate dimension
+   * @param overlayOpCode
+   *   the code for the overlay operation being performed
+   * @param a
+   *   an input geometry
+   * @param b
+   *   an input geometry
+   * @param geomFact
+   *   the geometry factory being used for the operation return an empty atomic geometry of the
+   *   appropriate dimension
    */
   def createEmptyResult(
     overlayOpCode: Int,
@@ -177,11 +175,8 @@ object OverlayOp {
         resultDimension = dim0
       case SYMDIFFERENCE =>
         /**
-         * This result is chosen because
-         * <pre>
-         * SymDiff = Union(Diff(A, B), Diff(B, A)
-         * </pre>
-         * and Union has the dimension of the highest-dimension argument.
+         * This result is chosen because <pre> SymDiff = Union(Diff(A, B), Diff(B, A) </pre> and
+         * Union has the dimension of the highest-dimension argument.
          */
         resultDimension = Math.max(dim0, dim1)
     }
@@ -193,9 +188,8 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   private val graph = new PlanarGraph(new OverlayNodeFactory)
 
   /**
-   * Use factory of primary geometry.
-   * Note that this does NOT handle mixed-precision arguments
-   * where the second arg has greater precision than the first.
+   * Use factory of primary geometry. Note that this does NOT handle mixed-precision arguments where
+   * the second arg has greater precision than the first.
    */
   private val geomFact             = g0.getFactory
   final private val ptLocator      = new PointLocator
@@ -248,11 +242,9 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
     /**
      * Check that the noding completed correctly.
      *
-     * This test is slow, but necessary in order to catch robustness failure
-     * situations.
-     * If an exception is thrown because of a noding failure,
-     * then snapping will be performed, which will hopefully avoid the problem.
-     * In the future hopefully a faster check can be developed.
+     * This test is slow, but necessary in order to catch robustness failure situations. If an
+     * exception is thrown because of a noding failure, then snapping will be performed, which will
+     * hopefully avoid the problem. In the future hopefully a faster check can be developed.
      */
     EdgeNodingValidator.checkValid(edgeList.getEdges)
     graph.addEdges(edgeList.getEdges)
@@ -261,10 +253,9 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
     labelIncompleteNodes()
     //nodeMap.print(System.out);
     /**
-     * The ordering of building the result Geometries is important.
-     * Areas must be built before lines, which must be built before points.
-     * This is so that lines which are covered by areas are not included
-     * explicitly, and similarly for points.
+     * The ordering of building the result Geometries is important. Areas must be built before
+     * lines, which must be built before points. This is so that lines which are covered by areas
+     * are not included explicitly, and similarly for points.
      */
     findResultAreaEdges(opCode)
     cancelDuplicateResultEdges()
@@ -288,11 +279,9 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * Insert an edge from one of the noded input graphs.
-   * Checks edges that are inserted to see if an
-   * identical edge already exists.
-   * If so, the edge is not inserted, but its label is merged
-   * with the existing edge.
+   * Insert an edge from one of the noded input graphs. Checks edges that are inserted to see if an
+   * identical edge already exists. If so, the edge is not inserted, but its label is merged with
+   * the existing edge.
    */
   protected def insertUniqueEdge(e: Edge): Unit = { //<FIX> MD 8 Oct 03  speed up identical edge lookup
     // fast lookup
@@ -326,14 +315,11 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * Update the labels for edges according to their depths.
-   * For each edge, the depths are first normalized.
-   * Then, if the depths for the edge are equal,
-   * this edge must have collapsed into a line edge.
-   * If the depths are not equal, update the label
-   * with the locations corresponding to the depths
-   * (i.e. a depth of 0 corresponds to a Location of EXTERIOR,
-   * a depth of 1 corresponds to INTERIOR)
+   * Update the labels for edges according to their depths. For each edge, the depths are first
+   * normalized. Then, if the depths for the edge are equal, this edge must have collapsed into a
+   * line edge. If the depths are not equal, update the label with the locations corresponding to
+   * the depths (i.e. a depth of 0 corresponds to a Location of EXTERIOR, a depth of 1 corresponds
+   * to INTERIOR)
    */
   private def computeLabelsFromDepths(): Unit = {
     val it = edgeList.iterator
@@ -343,8 +329,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
       val depth = e.getDepth
 
       /**
-       * Only check edges for which there were duplicates,
-       * since these are the only ones which might
+       * Only check edges for which there were duplicates, since these are the only ones which might
        * be the result of dimensional collapses.
        */
       if (!depth.isNull) {
@@ -354,19 +339,17 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
           if (!lbl.isNull(i) && lbl.isArea && !depth.isNull(i)) {
 
             /**
-             * if the depths are equal, this edge is the result of
-             * the dimensional collapse of two or more edges.
-             * It has the same location on both sides of the edge,
-             * so it has collapsed to a line.
+             * if the depths are equal, this edge is the result of the dimensional collapse of two
+             * or more edges. It has the same location on both sides of the edge, so it has
+             * collapsed to a line.
              */
             if (depth.getDelta(i) == 0) lbl.toLine(i)
             else {
 
               /**
-               * This edge may be the result of a dimensional collapse,
-               * but it still has different locations on both sides.  The
-               * label of the edge must be updated to reflect the resultant
-               * side locations indicated by the depth values.
+               * This edge may be the result of a dimensional collapse, but it still has different
+               * locations on both sides. The label of the edge must be updated to reflect the
+               * resultant side locations indicated by the depth values.
                */
               Assert.isTrue(!depth.isNull(i, Position.LEFT),
                             "depth of LEFT side has not been initialized"
@@ -387,8 +370,8 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * If edges which have undergone dimensional collapse are found,
-   * replace them with a new edge which is a L edge
+   * If edges which have undergone dimensional collapse are found, replace them with a new edge
+   * which is a L edge
    */
   private def replaceCollapsedEdges(): Unit = {
     val newEdges = new util.ArrayList[Edge]
@@ -404,13 +387,10 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * Copy all nodes from an arg geometry into this graph.
-   * The node label in the arg geometry overrides any previously computed
-   * label for that argIndex.
-   * (E.g. a node may be an intersection node with
-   * a previously computed label of BOUNDARY,
-   * but in the original arg Geometry it is actually
-   * in the interior due to the Boundary Determination Rule)
+   * Copy all nodes from an arg geometry into this graph. The node label in the arg geometry
+   * overrides any previously computed label for that argIndex. (E.g. a node may be an intersection
+   * node with a previously computed label of BOUNDARY, but in the original arg Geometry it is
+   * actually in the interior due to the Boundary Determination Rule)
    */
   private def copyPoints(argIndex: Int): Unit = {
     val i = arg(argIndex).getNodeIterator
@@ -422,11 +402,9 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * Compute initial labelling for all DirectedEdges at each node.
-   * In this step, DirectedEdges will acquire a complete labelling
-   * (i.e. one with labels for both Geometries)
-   * only if they
-   * are incident on a node which has edges for both Geometries
+   * Compute initial labelling for all DirectedEdges at each node. In this step, DirectedEdges will
+   * acquire a complete labelling (i.e. one with labels for both Geometries) only if they are
+   * incident on a node which has edges for both Geometries
    */
   private def computeLabelling(): Unit = {
     val nodeit = graph.getNodes.iterator
@@ -440,10 +418,9 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * For nodes which have edges from only one Geometry incident on them,
-   * the previous step will have left their dirEdges with no labelling for the other
-   * Geometry.  However, the sym dirEdge may have a labelling for the other
-   * Geometry, so merge the two labels.
+   * For nodes which have edges from only one Geometry incident on them, the previous step will have
+   * left their dirEdges with no labelling for the other Geometry. However, the sym dirEdge may have
+   * a labelling for the other Geometry, so merge the two labels.
    */
   private def mergeSymLabels(): Unit = {
     val nodeit = graph.getNodes.iterator
@@ -467,19 +444,15 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * Incomplete nodes are nodes whose labels are incomplete.
-   * (e.g. the location for one Geometry is null).
-   * These are either isolated nodes,
-   * or nodes which have edges from only a single Geometry incident on them.
+   * Incomplete nodes are nodes whose labels are incomplete. (e.g. the location for one Geometry is
+   * null). These are either isolated nodes, or nodes which have edges from only a single Geometry
+   * incident on them.
    *
-   * Isolated nodes are found because nodes in one graph which don't intersect
-   * nodes in the other are not completely labelled by the initial process
-   * of adding nodes to the nodeList.
-   * To complete the labelling we need to check for nodes that lie in the
-   * interior of edges, and in the interior of areas.
-   * <p>
-   * When each node labelling is completed, the labelling of the incident
-   * edges is updated, to complete their labelling as well.
+   * Isolated nodes are found because nodes in one graph which don't intersect nodes in the other
+   * are not completely labelled by the initial process of adding nodes to the nodeList. To complete
+   * the labelling we need to check for nodes that lie in the interior of edges, and in the interior
+   * of areas. <p> When each node labelling is completed, the labelling of the incident edges is
+   * updated, to complete their labelling as well.
    */
   private def labelIncompleteNodes(): Unit = { // int nodeCount = 0;
     val ni = graph.getNodes.iterator
@@ -514,12 +487,10 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * Find all edges whose label indicates that they are in the result area(s),
-   * according to the operation being performed.  Since we want polygon shells to be
-   * oriented CW, choose dirEdges with the interior of the result on the RHS.
-   * Mark them as being in the result.
-   * Interior Area edges are the result of dimensional collapses.
-   * They do not form part of the result area boundary.
+   * Find all edges whose label indicates that they are in the result area(s), according to the
+   * operation being performed. Since we want polygon shells to be oriented CW, choose dirEdges with
+   * the interior of the result on the RHS. Mark them as being in the result. Interior Area edges
+   * are the result of dimensional collapses. They do not form part of the result area boundary.
    */
   private def findResultAreaEdges(opCode: Int): Unit = {
     val it = graph.getEdgeEnds.iterator
@@ -541,8 +512,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * If both a dirEdge and its sym are marked as being in the result, cancel
-   * them out.
+   * If both a dirEdge and its sym are marked as being in the result, cancel them out.
    */
   private def cancelDuplicateResultEdges()
     : Unit = { // remove any dirEdges whose sym is also included
@@ -562,8 +532,9 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   /**
    * Tests if a point node should be included in the result or not.
    *
-   * @param coord the point coordinate
-   * return true if the coordinate point is covered by a result Line or Area geometry
+   * @param coord
+   *   the point coordinate return true if the coordinate point is covered by a result Line or Area
+   *   geometry
    */
   def isCoveredByLA(coord: Coordinate): Boolean = {
     if (isCovered(coord, resultLineList)) return true
@@ -574,8 +545,8 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   /**
    * Tests if an L edge should be included in the result or not.
    *
-   * @param coord the point coordinate
-   * return true if the coordinate point is covered by a result Area geometry
+   * @param coord
+   *   the point coordinate return true if the coordinate point is covered by a result Area geometry
    */
   def isCoveredByA(coord: Coordinate): Boolean = {
     if (isCovered(coord, resultPolyList)) return true
@@ -583,8 +554,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   }
 
   /**
-   * return true if the coord is located in the interior or boundary of
-   *         a geometry in the list.
+   * return true if the coord is located in the interior or boundary of a geometry in the list.
    */
   private def isCovered(coord: Coordinate, geomList: util.List[_]): Boolean = {
     val it = geomList.iterator

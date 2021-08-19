@@ -26,14 +26,16 @@ import java.util
 /**
  * An extendable array of primitive <code>int</code> values.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 class IntArrayList(val initialCapacity: Int) {
 
   /**
    * Constructs an empty list with the specified initial capacity
    *
-   * @param initialCapacity the initial capacity of the list
+   * @param initialCapacity
+   *   the initial capacity of the list
    */
   private var data  = new Array[Int](initialCapacity)
   private var vsize = 0
@@ -53,11 +55,11 @@ class IntArrayList(val initialCapacity: Int) {
   def size: Int = vsize
 
   /**
-   * Increases the capacity of this list instance, if necessary,
-   * to ensure that it can hold at least the number of elements
-   * specified by the capacity argument.
+   * Increases the capacity of this list instance, if necessary, to ensure that it can hold at least
+   * the number of elements specified by the capacity argument.
    *
-   * @param capacity the desired capacity
+   * @param capacity
+   *   the desired capacity
    */
   def ensureCapacity(capacity: Int): Unit = {
     if (capacity <= data.length) return
@@ -69,7 +71,8 @@ class IntArrayList(val initialCapacity: Int) {
   /**
    * Adds a value to the end of this list.
    *
-   * @param value the value to add
+   * @param value
+   *   the value to add
    */
   def add(value: Int): Unit = {
     ensureCapacity(vsize + 1)
@@ -80,7 +83,8 @@ class IntArrayList(val initialCapacity: Int) {
   /**
    * Adds all values in an array to the end of this list.
    *
-   * @param values an array of values
+   * @param values
+   *   an array of values
    */
   def addAll(values: Array[Int]): Unit = {
     if (values == null) return
@@ -91,8 +95,7 @@ class IntArrayList(val initialCapacity: Int) {
   }
 
   /**
-   * Returns a int array containing a copy of
-   * the values in this list.
+   * Returns a int array containing a copy of the values in this list.
    *
    * return an array containing the values in this list
    */

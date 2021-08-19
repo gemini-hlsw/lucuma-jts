@@ -17,26 +17,20 @@ import org.locationtech.jts.geom.GeometryCollection
 import org.locationtech.jts.geom.LineString
 
 /**
- * Computes a point in the interior of an linear geometry.
- * <h2>Algorithm</h2>
- * <ul>
- * <li>Find an interior vertex which is closest to
- * the centroid of the linestring.
- * <li>If there is no interior vertex, find the endpoint which is
- * closest to the centroid.
- * </ul>
+ * Computes a point in the interior of an linear geometry. <h2>Algorithm</h2> <ul> <li>Find an
+ * interior vertex which is closest to the centroid of the linestring. <li>If there is no interior
+ * vertex, find the endpoint which is closest to the centroid. </ul>
  *
  * @version 1.7
  */
 object InteriorPointLine {
 
   /**
-   * Computes an interior point for the
-   * linear components of a Geometry.
+   * Computes an interior point for the linear components of a Geometry.
    *
-   * @param geom the geometry to compute
-   * return the computed interior point,
-   *         or <code>null</code> if the geometry has no linear components
+   * @param geom
+   *   the geometry to compute return the computed interior point, or <code>null</code> if the
+   *   geometry has no linear components
    */
   def getInteriorPoint(geom: Geometry): Coordinate = {
     val intPt = new InteriorPointLine(geom)
@@ -54,11 +48,11 @@ class InteriorPointLine(val g: Geometry) {
   def getInteriorPoint: Coordinate = interiorPoint
 
   /**
-   * Tests the interior vertices (if any)
-   * defined by a linear Geometry for the best inside point.
-   * If a Geometry is not of dimension 1 it is not tested.
+   * Tests the interior vertices (if any) defined by a linear Geometry for the best inside point. If
+   * a Geometry is not of dimension 1 it is not tested.
    *
-   * @param geom the geometry to add
+   * @param geom
+   *   the geometry to add
    */
   private def addInterior(geom: Geometry): Unit = if (geom.isInstanceOf[LineString])
     addInterior(geom.getCoordinates)
@@ -80,11 +74,11 @@ class InteriorPointLine(val g: Geometry) {
   }
 
   /**
-   * Tests the endpoint vertices
-   * defined by a linear Geometry for the best inside point.
-   * If a Geometry is not of dimension 1 it is not tested.
+   * Tests the endpoint vertices defined by a linear Geometry for the best inside point. If a
+   * Geometry is not of dimension 1 it is not tested.
    *
-   * @param geom the geometry to add
+   * @param geom
+   *   the geometry to add
    */
   private def addEndpoints(geom: Geometry): Unit = if (geom.isInstanceOf[LineString])
     addEndpoints(geom.getCoordinates)

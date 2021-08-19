@@ -18,8 +18,8 @@ import org.locationtech.jts.geomgraph.Edge
 import org.locationtech.jts.geomgraph.Node
 
 /**
- * Computes the intersection of line segments,
- * and adds the intersection to the edges containing the segments.
+ * Computes the intersection of line segments, and adds the intersection to the edges containing the
+ * segments.
  *
  * @version 1.7
  */
@@ -34,8 +34,8 @@ class SegmentIntersector(
 ) {
 
   /**
-   * These variables keep track of what types of intersections were
-   * found during ALL edges that have been intersected.
+   * These variables keep track of what types of intersections were found during ALL edges that have
+   * been intersected.
    */
   private var vhasIntersection                       = false
   private var hasProper                              = false
@@ -70,25 +70,23 @@ class SegmentIntersector(
   def hasIntersection: Boolean = vhasIntersection
 
   /**
-   * A proper intersection is an intersection which is interior to at least two
-   * line segments.  Note that a proper intersection is not necessarily
-   * in the interior of the entire Geometry, since another edge may have
-   * an endpoint equal to the intersection, which according to SFS semantics
+   * A proper intersection is an intersection which is interior to at least two line segments. Note
+   * that a proper intersection is not necessarily in the interior of the entire Geometry, since
+   * another edge may have an endpoint equal to the intersection, which according to SFS semantics
    * can result in the point being on the Boundary of the Geometry.
    */
   def hasProperIntersection: Boolean = hasProper
 
   /**
-   * A proper interior intersection is a proper intersection which is <b>not</b>
-   * contained in the set of boundary nodes set for this SegmentIntersector.
+   * A proper interior intersection is a proper intersection which is <b>not</b> contained in the
+   * set of boundary nodes set for this SegmentIntersector.
    */
   def hasProperInteriorIntersection: Boolean = hasProperInterior
 
   /**
-   * A trivial intersection is an apparent self-intersection which in fact
-   * is simply the point shared by adjacent line segments.
-   * Note that closed edges require a special check for the point shared by the beginning
-   * and end segments.
+   * A trivial intersection is an apparent self-intersection which in fact is simply the point
+   * shared by adjacent line segments. Note that closed edges require a special check for the point
+   * shared by the beginning and end segments.
    */
   private def isTrivialIntersection(e0: Edge, segIndex0: Int, e1: Edge, segIndex1: Int): Boolean = {
     if (e0 eq e1) if (li.getIntersectionNum == 1) {
@@ -104,10 +102,9 @@ class SegmentIntersector(
   }
 
   /**
-   * This method is called by clients of the EdgeIntersector class to test for and add
-   * intersections for two segments of the edges being intersected.
-   * Note that clients (such as MonotoneChainEdges) may choose not to intersect
-   * certain pairs of segments for efficiency reasons.
+   * This method is called by clients of the EdgeIntersector class to test for and add intersections
+   * for two segments of the edges being intersected. Note that clients (such as MonotoneChainEdges)
+   * may choose not to intersect certain pairs of segments for efficiency reasons.
    */
   def addIntersections(e0: Edge, segIndex0: Int, e1: Edge, segIndex1: Int): Unit = {
     if ((e0 eq e1) && segIndex0 == segIndex1) return
@@ -119,8 +116,8 @@ class SegmentIntersector(
     li.computeIntersection(p00, p01, p10, p11)
     //if (li.hasIntersection() && li.isProper()) Debug.println(li);
     /**
-     * Always record any non-proper intersections.
-     * If includeProper is true, record any proper intersections as well.
+     * Always record any non-proper intersections. If includeProper is true, record any proper
+     * intersections as well.
      */
     if (li.hasIntersection) {
       if (recordIsolated) {

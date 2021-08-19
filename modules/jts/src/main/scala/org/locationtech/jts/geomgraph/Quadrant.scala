@@ -18,12 +18,8 @@ package org.locationtech.jts.geomgraph
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Utility functions for working with quadrants, which are numbered as follows:
- * <pre>
- * 1 | 0
- * --+--
- * 2 | 3
- * </pre>
+ * Utility functions for working with quadrants, which are numbered as follows: <pre> 1 | 0
+ * --+-- 2 | 3 </pre>
  *
  * @version 1.7
  */
@@ -34,8 +30,8 @@ object Quadrant {
   val SE = 3
 
   /**
-   * Returns the quadrant of a directed line segment (specified as x and y
-   * displacements, which cannot both be 0).
+   * Returns the quadrant of a directed line segment (specified as x and y displacements, which
+   * cannot both be 0).
    *
    * throws IllegalArgumentException if the displacements are both 0
    */
@@ -80,8 +76,8 @@ object Quadrant {
   }
 
   /**
-   * Returns the right-hand quadrant of the halfplane defined by the two quadrants,
-   * or -1 if the quadrants are opposite, or the quadrant if they are identical.
+   * Returns the right-hand quadrant of the halfplane defined by the two quadrants, or -1 if the
+   * quadrants are opposite, or the quadrant if they are identical.
    */
   def commonHalfPlane(quad1: Int, quad2: Int): Int = { // if quadrants are the same they do not determine a unique common halfplane.
     // Simply return one of the two possibilities
@@ -103,8 +99,8 @@ object Quadrant {
   }
 
   /**
-   * Returns whether the given quadrant lies within the given halfplane (specified
-   * by its right-hand quadrant).
+   * Returns whether the given quadrant lies within the given halfplane (specified by its right-hand
+   * quadrant).
    */
   def isInHalfPlane(quad: Int, halfPlane: Int): Boolean = {
     if (halfPlane == SE) return quad == SE || quad == SW

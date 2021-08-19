@@ -14,8 +14,7 @@ package org.locationtech.jts.index.chain
 import org.locationtech.jts.geom.LineSegment
 
 /**
- * The action for the internal iterator for performing
- * overlap queries on a MonotoneChain
+ * The action for the internal iterator for performing overlap queries on a MonotoneChain
  *
  * @version 1.7
  */
@@ -26,8 +25,10 @@ class MonotoneChainOverlapAction {
   /**
    * This function can be overridden if the original chains are needed
    *
-   * @param start1 the index of the start of the overlapping segment from mc1
-   * @param start2 the index of the start of the overlapping segment from mc2
+   * @param start1
+   *   the index of the start of the overlapping segment from mc1
+   * @param start2
+   *   the index of the start of the overlapping segment from mc2
    */
   def overlap(mc1: MonotoneChain, start1: Int, mc2: MonotoneChain, start2: Int): Unit = {
     mc1.getLineSegment(start1, overlapSeg1)
@@ -36,8 +37,8 @@ class MonotoneChainOverlapAction {
   }
 
   /**
-   * This is a convenience function which can be overridden to obtain the actual
-   * line segments which overlap
+   * This is a convenience function which can be overridden to obtain the actual line segments which
+   * overlap
    *
    * @param seg1
    * @param seg2

@@ -33,15 +33,10 @@ import org.locationtech.jts.geom.util.LinearComponentExtracter
 import org.locationtech.jts.geom.util.ShortCircuitedGeometryVisitor
 
 /**
- * Implementation of the <tt>intersects</tt> spatial predicate
- * optimized for the case where one {link Geometry} is a rectangle.
- * This class works for all
- * input geometries, including {link GeometryCollection}s.
- * <p>
- * As a further optimization,
- * this class can be used in batch style
- * to test many geometries
- * against a single rectangle.
+ * Implementation of the <tt>intersects</tt> spatial predicate optimized for the case where one
+ * {link Geometry} is a rectangle. This class works for all input geometries, including {link
+ * GeometryCollection}s. <p> As a further optimization, this class can be used in batch style to
+ * test many geometries against a single rectangle.
  *
  * @version 1.7
  */
@@ -51,10 +46,9 @@ object RectangleIntersects {
    * Tests whether a rectangle intersects a given geometry.
    *
    * @param rectangle
-   * a rectangular Polygon
+   *   a rectangular Polygon
    * @param b
-   * a Geometry of any type
-   * return true if the geometries intersect
+   *   a Geometry of any type return true if the geometries intersect
    */
   def intersects(rectangle: Polygon, b: Geometry): Boolean = {
     val rp = new RectangleIntersects(rectangle)
@@ -68,23 +62,23 @@ class RectangleIntersects(var rectangle: Polygon) {
    * Create a new intersects computer for a rectangle.
    *
    * @param rectangle
-   * a rectangular Polygon
+   *   a rectangular Polygon
    */
   private val rectEnv = rectangle.getEnvelopeInternal
 
   /**
-   * Tests whether the given Geometry intersects
-   * the query rectangle.
+   * Tests whether the given Geometry intersects the query rectangle.
    *
-   * @param geom the Geometry to test (may be of any type)
-   * return true if the geometry intersects the query rectangle
+   * @param geom
+   *   the Geometry to test (may be of any type) return true if the geometry intersects the query
+   *   rectangle
    */
   def intersects(geom: Geometry): Boolean = {
     if (!rectEnv.intersects(geom.getEnvelopeInternal)) return false
 
     /**
-     * Test if rectangle envelope intersects any component envelope.
-     * This handles Point components as well
+     * Test if rectangle envelope intersects any component envelope. This handles Point components
+     * as well
      */
     val visitor = new EnvelopeIntersectsVisitor(rectEnv)
     visitor.applyTo(geom)
@@ -108,21 +102,22 @@ class RectangleIntersects(var rectangle: Polygon) {
 }
 
 /**
- * Tests whether it can be concluded that a rectangle intersects a geometry,
- * based on the relationship of the envelope(s) of the geometry.
+ * Tests whether it can be concluded that a rectangle intersects a geometry, based on the
+ * relationship of the envelope(s) of the geometry.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  * @version 1.7
  */
 class EnvelopeIntersectsVisitor(var rectEnv: Envelope) extends ShortCircuitedGeometryVisitor {
   private var vintersects = false
 
   /**
-   * Reports whether it can be concluded that an intersection occurs,
-   * or whether further testing is required.
+   * Reports whether it can be concluded that an intersection occurs, or whether further testing is
+   * required.
    *
-   * return true if an intersection must occur
-   *         or false if no conclusion about intersection can be made
+   * return true if an intersection must occur or false if no conclusion about intersection can be
+   * made
    */
   def intersects: Boolean = vintersects
 
@@ -137,13 +132,12 @@ class EnvelopeIntersectsVisitor(var rectEnv: Envelope) extends ShortCircuitedGeo
     }
 
     /**
-     * Since the envelopes intersect and the test element is connected, if the
-     * test envelope is completely bisected by an edge of the rectangle the
-     * element and the rectangle must touch (This is basically an application of
-     * the Jordan Curve Theorem). The alternative situation is that the test
-     * envelope is "on a corner" of the rectangle envelope, i.e. is not
-     * completely bisected. In this case it is not possible to make a conclusion
-     * about the presence of an intersection.
+     * Since the envelopes intersect and the test element is connected, if the test envelope is
+     * completely bisected by an edge of the rectangle the element and the rectangle must touch
+     * (This is basically an application of the Jordan Curve Theorem). The alternative situation is
+     * that the test envelope is "on a corner" of the rectangle envelope, i.e. is not completely
+     * bisected. In this case it is not possible to make a conclusion about the presence of an
+     * intersection.
      */
     if (elementEnv.getMinX >= rectEnv.getMinX && elementEnv.getMaxX <= rectEnv.getMaxX) {
       vintersects = true
@@ -159,11 +153,11 @@ class EnvelopeIntersectsVisitor(var rectEnv: Envelope) extends ShortCircuitedGeo
 }
 
 /**
- * A visitor which tests whether it can be
- * concluded that a geometry contains a vertex of
- * a query geometry.
+ * A visitor which tests whether it can be concluded that a geometry contains a vertex of a query
+ * geometry.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  * @version 1.7
  */
 class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuitedGeometryVisitor {
@@ -172,11 +166,11 @@ class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuite
   private var vcontainsPoint = false
 
   /**
-   * Reports whether it can be concluded that a corner point of the rectangle is
-   * contained in the geometry, or whether further testing is required.
+   * Reports whether it can be concluded that a corner point of the rectangle is contained in the
+   * geometry, or whether further testing is required.
    *
-   * return true if a corner point is contained
-   *         or false if no conclusion about intersection can be made
+   * return true if a corner point is contained or false if no conclusion about intersection can be
+   * made
    */
   def containsPoint: Boolean = vcontainsPoint
 
@@ -206,10 +200,11 @@ class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuite
 }
 
 /**
- * A visitor to test for intersection between the query
- * rectangle and the line segments of the geometry.
+ * A visitor to test for intersection between the query rectangle and the line segments of the
+ * geometry.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
 
@@ -218,8 +213,7 @@ class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
  * with segments
  *
  * @param rectangle the query rectangle
- */
-    extends ShortCircuitedGeometryVisitor {
+ */ extends ShortCircuitedGeometryVisitor {
   private val rectEnv         = rectangle.getEnvelopeInternal
   private val rectIntersector = new RectangleLineIntersector(rectEnv)
   private var hasIntersection = false
@@ -229,17 +223,15 @@ class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
   /**
    * Reports whether any segment intersection exists.
    *
-   * return true if a segment intersection exists
-   *         or false if no segment intersection exists
+   * return true if a segment intersection exists or false if no segment intersection exists
    */
   def intersects: Boolean = hasIntersection
 
   override protected def visit(geom: Geometry): Unit = {
 
     /**
-     * It may be the case that the rectangle and the
-     * envelope of the geometry component are disjoint,
-     * so it is worth checking this simple condition.
+     * It may be the case that the rectangle and the envelope of the geometry component are
+     * disjoint, so it is worth checking this simple condition.
      */
     val elementEnv = geom.getEnvelopeInternal
     if (!rectEnv.intersects(elementEnv)) return

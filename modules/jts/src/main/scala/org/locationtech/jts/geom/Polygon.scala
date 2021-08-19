@@ -16,28 +16,17 @@ import org.locationtech.jts.algorithm.Area
 import org.locationtech.jts.algorithm.Orientation
 
 /**
- * Represents a polygon with linear edges, which may include holes.
- * The outer boundary (shell)
- * and inner boundaries (holes) of the polygon are represented by {link LinearRing}s.
- * The boundary rings of the polygon may have any orientation.
- * Polygons are closed, simple geometries by definition.
- * <p>
- * The polygon model conforms to the assertions specified in the
- * <A HREF="http://www.opengis.org/techno/specs.htm">OpenGIS Simple Features
- * Specification for SQL</A>.
- * <p>
- * A <code>Polygon</code> is topologically valid if and only if:
- * <ul>
- * <li>the coordinates which define it are valid coordinates
- * <li>the linear rings for the shell and holes are valid
- * (i.e. are closed and do not self-intersect)
- * <li>holes touch the shell or another hole at at most one point
- * (which implies that the rings of the shell and holes must not cross)
- * <li>the interior of the polygon is connected,
- * or equivalently no sequence of touching holes
- * makes the interior of the polygon disconnected
- * (i.e. effectively split the polygon into two pieces).
- * </ul>
+ * Represents a polygon with linear edges, which may include holes. The outer boundary (shell) and
+ * inner boundaries (holes) of the polygon are represented by {link LinearRing}s. The boundary rings
+ * of the polygon may have any orientation. Polygons are closed, simple geometries by definition.
+ * <p> The polygon model conforms to the assertions specified in the <A
+ * HREF="http://www.opengis.org/techno/specs.htm">OpenGIS Simple Features Specification for SQL</A>.
+ * <p> A <code>Polygon</code> is topologically valid if and only if: <ul> <li>the coordinates which
+ * define it are valid coordinates <li>the linear rings for the shell and holes are valid (i.e. are
+ * closed and do not self-intersect) <li>holes touch the shell or another hole at at most one point
+ * (which implies that the rings of the shell and holes must not cross) <li>the interior of the
+ * polygon is connected, or equivalently no sequence of touching holes makes the interior of the
+ * polygon disconnected (i.e. effectively split the polygon into two pieces). </ul>
  *
  * @version 1.7
  */
@@ -74,43 +63,42 @@ class Polygon(
     throw new IllegalArgumentException("shell is empty but holes are not")
 
   /**
-   * The exterior boundary,
-   * or <code>null</code> if this <code>Polygon</code>
-   * is empty.
+   * The exterior boundary, or <code>null</code> if this <code>Polygon</code> is empty.
    */
 //  protected var shell = null
 
   /**
    * Constructs a <code>Polygon</code> with the given exterior boundary.
    *
-   * @param  shell          the outer boundary of the new <code>Polygon</code>,
-   *                        or <code>null</code> or an empty <code>LinearRing</code> if the empty
-   *                        geometry is to be created.
-   * @param  precisionModel the specification of the grid of allowable points
-   *                        for this <code>Polygon</code>
-   * @param  SRID           the ID of the Spatial Reference System used by this
-   *                        <code>Polygon</code>
-   * @deprecated Use GeometryFactory instead
+   * @param shell
+   *   the outer boundary of the new <code>Polygon</code>, or <code>null</code> or an empty
+   *   <code>LinearRing</code> if the empty geometry is to be created.
+   * @param precisionModel
+   *   the specification of the grid of allowable points for this <code>Polygon</code>
+   * @param SRID
+   *   the ID of the Spatial Reference System used by this <code>Polygon</code>
+   * @deprecated
+   *   Use GeometryFactory instead
    */
   def this(shell: LinearRing, precisionModel: PrecisionModel, SRID: Int) = {
     this(shell, Array.empty[LinearRing], new GeometryFactory(precisionModel, SRID))
   }
 
   /**
-   * Constructs a <code>Polygon</code> with the given exterior boundary and
-   * interior boundaries.
+   * Constructs a <code>Polygon</code> with the given exterior boundary and interior boundaries.
    *
-   * @param  shell          the outer boundary of the new <code>Polygon</code>,
-   *                        or <code>null</code> or an empty <code>LinearRing</code> if the empty
-   *                        geometry is to be created.
-   * @param  holes          the inner boundaries of the new <code>Polygon</code>
-   *                        , or <code>null</code> or empty <code>LinearRing</code>s if the empty
-   *                        geometry is to be created.
-   * @param  precisionModel the specification of the grid of allowable points
-   *                        for this <code>Polygon</code>
-   * @param  SRID           the ID of the Spatial Reference System used by this
-   *                        <code>Polygon</code>
-   * @deprecated Use GeometryFactory instead
+   * @param shell
+   *   the outer boundary of the new <code>Polygon</code>, or <code>null</code> or an empty
+   *   <code>LinearRing</code> if the empty geometry is to be created.
+   * @param holes
+   *   the inner boundaries of the new <code>Polygon</code> , or <code>null</code> or empty
+   *   <code>LinearRing</code>s if the empty geometry is to be created.
+   * @param precisionModel
+   *   the specification of the grid of allowable points for this <code>Polygon</code>
+   * @param SRID
+   *   the ID of the Spatial Reference System used by this <code>Polygon</code>
+   * @deprecated
+   *   Use GeometryFactory instead
    */
   def this(
     shell:          LinearRing,
@@ -240,7 +228,8 @@ class Polygon(
    * Computes the boundary of this geometry
    *
    * return a lineal geometry (which may be empty)
-   * @see Geometry#getBoundary
+   * @see
+   *   Geometry#getBoundary
    */
   override def getBoundary: Geometry = {
     if (isEmpty) return getFactory.createMultiLineString
@@ -312,8 +301,8 @@ class Polygon(
   }
 
   /**
-   * Creates and returns a full copy of this {link Polygon} object.
-   * (including all coordinates contained by it).
+   * Creates and returns a full copy of this {link Polygon} object. (including all coordinates
+   * contained by it).
    *
    * return a clone of this instance
    * @deprecated

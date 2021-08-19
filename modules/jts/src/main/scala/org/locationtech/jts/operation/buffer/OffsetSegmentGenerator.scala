@@ -32,21 +32,17 @@ import org.locationtech.jts.geomgraph.Position
 import scala.annotation.nowarn
 
 /**
- * Generates segments which form an offset curve.
- * Supports all end cap and join options
- * provided for buffering.
- * This algorithm implements various heuristics to
- * produce smoother, simpler curves which are
- * still within a reasonable tolerance of the
- * true curve.
+ * Generates segments which form an offset curve. Supports all end cap and join options provided for
+ * buffering. This algorithm implements various heuristics to produce smoother, simpler curves which
+ * are still within a reasonable tolerance of the true curve.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object OffsetSegmentGenerator {
 
   /**
-   * Factor which controls how close offset segments can be to
-   * skip adding a filler or mitre.
+   * Factor which controls how close offset segments can be to skip adding a filler or mitre.
    */
   private val OFFSET_SEGMENT_SEPARATION_FACTOR = 1.0e-3
 
@@ -75,16 +71,15 @@ class OffsetSegmentGenerator(
   private val li = new RobustLineIntersector
 
   /**
-   * The angle quantum with which to approximate a fillet curve
-   * (based on the input # of quadrant segments)
+   * The angle quantum with which to approximate a fillet curve (based on the input # of quadrant
+   * segments)
    */
   private val filletAngleQuantum     = Math.PI / 2.0 / bufParams.getQuadrantSegments
   private var closingSegLengthFactor = 1
 
   /**
-   * Non-round joins cause issues with short closing segments, so don't use
-   * them. In any case, non-round joins only really make sense for relatively
-   * small buffer distances.
+   * Non-round joins cause issues with short closing segments, so don't use them. In any case,
+   * non-round joins only really make sense for relatively small buffer distances.
    */
   if (bufParams.getQuadrantSegments >= 8 && bufParams.getJoinStyle == BufferParameters.JOIN_ROUND)
     closingSegLengthFactor = OffsetSegmentGenerator.MAX_CLOSING_SEG_LEN_FACTOR
@@ -95,19 +90,16 @@ class OffsetSegmentGenerator(
    */
 //  private var maxCurveSegmentError = 0.0
   /**
-   * The Closing Segment Length Factor controls how long
-   * "closing segments" are.  Closing segments are added
-   * at the middle of inside corners to ensure a smoother
-   * boundary for the buffer offset curve.
-   * In some cases (particularly for round joins with default-or-better
-   * quantization) the closing segments can be made quite short.
-   * This substantially improves performance (due to fewer intersections being created).
+   * The Closing Segment Length Factor controls how long "closing segments" are. Closing segments
+   * are added at the middle of inside corners to ensure a smoother boundary for the buffer offset
+   * curve. In some cases (particularly for round joins with default-or-better quantization) the
+   * closing segments can be made quite short. This substantially improves performance (due to fewer
+   * intersections being created).
    *
-   * A closingSegFactor of 0 results in lines to the corner vertex
-   * A closingSegFactor of 1 results in lines halfway to the corner vertex
-   * A closingSegFactor of 80 results in lines 1/81 of the way to the corner vertex
-   * (this option is reasonable for the very common default situation of round joins
-   * and quadrantSegs >= 8)
+   * A closingSegFactor of 0 results in lines to the corner vertex A closingSegFactor of 1 results
+   * in lines halfway to the corner vertex A closingSegFactor of 80 results in lines 1/81 of the way
+   * to the corner vertex (this option is reasonable for the very common default situation of round
+   * joins and quadrantSegs >= 8)
    */
   private var segList: OffsetSegmentString = null
   private var s0: Coordinate               = null
@@ -121,14 +113,10 @@ class OffsetSegmentGenerator(
   private var vhasNarrowConcaveAngle       = false
 
   /**
-   * Tests whether the input has a narrow concave angle
-   * (relative to the offset distance).
-   * In this case the generated offset curve will contain self-intersections
-   * and heuristic closing segments.
-   * This is expected behaviour in the case of Buffer curves.
-   * For pure Offset Curves,
-   * the output needs to be further treated
-   * before it can be used.
+   * Tests whether the input has a narrow concave angle (relative to the offset distance). In this
+   * case the generated offset curve will contain self-intersections and heuristic closing segments.
+   * This is expected behaviour in the case of Buffer curves. For pure Offset Curves, the output
+   * needs to be further treated before it can be used.
    *
    * return true if the input has a narrow concave angle
    */
@@ -196,26 +184,23 @@ class OffsetSegmentGenerator(
   private def addCollinear(addStartPoint: Boolean): Unit = {
 
     /**
-     * This test could probably be done more efficiently,
-     * but the situation of exact collinearity should be fairly rare.
+     * This test could probably be done more efficiently, but the situation of exact collinearity
+     * should be fairly rare.
      */
     li.computeIntersection(s0, s1, s1, s2)
     val numInt = li.getIntersectionNum
 
     /**
-     * if numInt is < 2, the lines are parallel and in the same direction. In
-     * this case the point can be ignored, since the offset lines will also be
-     * parallel.
+     * if numInt is < 2, the lines are parallel and in the same direction. In this case the point
+     * can be ignored, since the offset lines will also be parallel.
      */
     if (numInt >= 2) {
 
       /**
-       * segments are collinear but reversing.
-       * Add an "end-cap" fillet
-       * all the way around to other direction This case should ONLY happen
-       * for LineStrings, so the orientation is always CW. (Polygons can never
-       * have two consecutive segments which are parallel but reversed,
-       * because that would be a self intersection.
+       * segments are collinear but reversing. Add an "end-cap" fillet all the way around to other
+       * direction This case should ONLY happen for LineStrings, so the orientation is always CW.
+       * (Polygons can never have two consecutive segments which are parallel but reversed, because
+       * that would be a self intersection.
        */
       if (
         bufParams.getJoinStyle == BufferParameters.JOIN_BEVEL || bufParams.getJoinStyle == BufferParameters.JOIN_MITRE
@@ -235,11 +220,9 @@ class OffsetSegmentGenerator(
   private def addOutsideTurn(orientation: Int, addStartPoint: Boolean): Unit = {
 
     /**
-     * Heuristic: If offset endpoints are very close together,
-     * just use one of them as the corner vertex.
-     * This avoids problems with computing mitre corners in the case
-     * where the two segments are almost parallel
-     * (which is hard to compute a robust intersection for).
+     * Heuristic: If offset endpoints are very close together, just use one of them as the corner
+     * vertex. This avoids problems with computing mitre corners in the case where the two segments
+     * are almost parallel (which is hard to compute a robust intersection for).
      */
     if (
       offset0.p1.distance(
@@ -276,31 +259,24 @@ class OffsetSegmentGenerator(
     else {
 
       /**
-       * If no intersection is detected,
-       * it means the angle is so small and/or the offset so
-       * large that the offsets segments don't intersect.
-       * In this case we must
-       * add a "closing segment" to make sure the buffer curve is continuous,
-       * fairly smooth (e.g. no sharp reversals in direction)
-       * and tracks the buffer correctly around the corner. The curve connects
-       * the endpoints of the segment offsets to points
-       * which lie toward the centre point of the corner.
-       * The joining curve will not appear in the final buffer outline, since it
-       * is completely internal to the buffer polygon.
+       * If no intersection is detected, it means the angle is so small and/or the offset so large
+       * that the offsets segments don't intersect. In this case we must add a "closing segment" to
+       * make sure the buffer curve is continuous, fairly smooth (e.g. no sharp reversals in
+       * direction) and tracks the buffer correctly around the corner. The curve connects the
+       * endpoints of the segment offsets to points which lie toward the centre point of the corner.
+       * The joining curve will not appear in the final buffer outline, since it is completely
+       * internal to the buffer polygon.
        *
-       * In complex buffer cases the closing segment may cut across many other
-       * segments in the generated offset curve.  In order to improve the
-       * performance of the noding, the closing segment should be kept as short as possible.
-       * (But not too short, since that would defeat its purpose).
-       * This is the purpose of the closingSegFactor heuristic value.
+       * In complex buffer cases the closing segment may cut across many other segments in the
+       * generated offset curve. In order to improve the performance of the noding, the closing
+       * segment should be kept as short as possible. (But not too short, since that would defeat
+       * its purpose). This is the purpose of the closingSegFactor heuristic value.
        */
       /**
-       * The intersection test above is vulnerable to robustness errors; i.e. it
-       * may be that the offsets should intersect very close to their endpoints,
-       * but aren't reported as such due to rounding. To handle this situation
-       * appropriately, we use the following test: If the offset points are very
-       * close, don't add closing segments but simply use one of the offset
-       * points
+       * The intersection test above is vulnerable to robustness errors; i.e. it may be that the
+       * offsets should intersect very close to their endpoints, but aren't reported as such due to
+       * rounding. To handle this situation appropriately, we use the following test: If the offset
+       * points are very close, don't add closing segments but simply use one of the offset points
        */
       vhasNarrowConcaveAngle = true
       //System.out.println("NARROW ANGLE - distance = " + distance);
@@ -329,9 +305,9 @@ class OffsetSegmentGenerator(
         } else {
 
           /**
-           * This branch is not expected to be used except for testing purposes.
-           * It is equivalent to the JTS 1.9 logic for closing segments
-           * (which results in very poor performance for large buffer distances)
+           * This branch is not expected to be used except for testing purposes. It is equivalent to
+           * the JTS 1.9 logic for closing segments (which results in very poor performance for
+           * large buffer distances)
            */
           segList.addPt(s1)
         }
@@ -343,13 +319,17 @@ class OffsetSegmentGenerator(
   }
 
   /**
-   * Compute an offset segment for an input segment on a given side and at a given distance.
-   * The offset points are computed in full double precision, for accuracy.
+   * Compute an offset segment for an input segment on a given side and at a given distance. The
+   * offset points are computed in full double precision, for accuracy.
    *
-   * @param seg  the segment to offset
-   * @param side the side of the segment ({ @link Position}) the offset lies on
-   * @param distance the offset distance
-   * @param offset   the points computed for the offset segment
+   * @param seg
+   *   the segment to offset
+   * @param side
+   *   the side of the segment ({ @link Position}) the offset lies on
+   * @param distance
+   *   the offset distance
+   * @param offset
+   *   the points computed for the offset segment
    */
   private def computeOffsetSegment(
     seg:      LineSegment,
@@ -415,12 +395,15 @@ class OffsetSegmentGenerator(
   }
 
   /**
-   * Adds a mitre join connecting the two reflex offset segments.
-   * The mitre will be beveled if it exceeds the mitre ratio limit.
+   * Adds a mitre join connecting the two reflex offset segments. The mitre will be beveled if it
+   * exceeds the mitre ratio limit.
    *
-   * @param offset0  the first offset segment
-   * @param offset1  the second offset segment
-   * @param distance the offset distance
+   * @param offset0
+   *   the first offset segment
+   * @param offset1
+   *   the second offset segment
+   * @param distance
+   *   the offset distance
    */
   private def addMitreJoin(
     p:        Coordinate,
@@ -430,9 +413,9 @@ class OffsetSegmentGenerator(
   ): Unit = {
 
     /**
-     * This computation is unstable if the offset segments are nearly collinear.
-     * However, this situation should have been eliminated earlier by the check
-     * for whether the offset segment endpoints are almost coincident
+     * This computation is unstable if the offset segments are nearly collinear. However, this
+     * situation should have been eliminated earlier by the check for whether the offset segment
+     * endpoints are almost coincident
      */
     val intPt = Intersection.intersection(offset0.p0, offset0.p1, offset1.p0, offset1.p1)
     if (intPt != null) {
@@ -450,14 +433,17 @@ class OffsetSegmentGenerator(
   }
 
   /**
-   * Adds a limited mitre join connecting the two reflex offset segments.
-   * A limited mitre is a mitre which is beveled at the distance
-   * determined by the mitre ratio limit.
+   * Adds a limited mitre join connecting the two reflex offset segments. A limited mitre is a mitre
+   * which is beveled at the distance determined by the mitre ratio limit.
    *
-   * @param offset0    the first offset segment
-   * @param offset1    the second offset segment
-   * @param distance   the offset distance
-   * @param mitreLimit the mitre limit ratio
+   * @param offset0
+   *   the first offset segment
+   * @param offset1
+   *   the second offset segment
+   * @param distance
+   *   the offset distance
+   * @param mitreLimit
+   *   the mitre limit ratio
    */
   private def addLimitedMitreJoin(
     offset0:    LineSegment,
@@ -501,11 +487,12 @@ class OffsetSegmentGenerator(
   }
 
   /**
-   * Adds a bevel join connecting the two offset segments
-   * around a reflex corner.
+   * Adds a bevel join connecting the two offset segments around a reflex corner.
    *
-   * @param offset0 the first offset segment
-   * @param offset1 the second offset segment
+   * @param offset0
+   *   the first offset segment
+   * @param offset1
+   *   the second offset segment
    */
   private def addBevelJoin(offset0: LineSegment, offset1: LineSegment): Unit = {
     segList.addPt(offset0.p1)
@@ -513,14 +500,18 @@ class OffsetSegmentGenerator(
   }
 
   /**
-   * Add points for a circular fillet around a reflex corner.
-   * Adds the start and end points
+   * Add points for a circular fillet around a reflex corner. Adds the start and end points
    *
-   * @param p         base point of curve
-   * @param p0        start point of fillet curve
-   * @param p1        endpoint of fillet curve
-   * @param direction the orientation of the fillet
-   * @param radius    the radius of the fillet
+   * @param p
+   *   base point of curve
+   * @param p0
+   *   start point of fillet curve
+   * @param p1
+   *   endpoint of fillet curve
+   * @param direction
+   *   the orientation of the fillet
+   * @param radius
+   *   the radius of the fillet
    */
   private def addCornerFillet(
     p:         Coordinate,
@@ -546,13 +537,13 @@ class OffsetSegmentGenerator(
   }
 
   /**
-   * Adds points for a circular fillet arc
-   * between two specified angles.
-   * The start and end point for the fillet are not added -
-   * the caller must add them if required.
+   * Adds points for a circular fillet arc between two specified angles. The start and end point for
+   * the fillet are not added - the caller must add them if required.
    *
-   * @param direction is -1 for a CW angle, 1 for a CCW angle
-   * @param radius    the radius of the fillet
+   * @param direction
+   *   is -1 for a CW angle, 1 for a CCW angle
+   * @param radius
+   *   the radius of the fillet
    */
   private def addDirectedFillet(
     p:          Coordinate,

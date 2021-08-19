@@ -25,9 +25,9 @@ import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Computes the possible intersections between two line segments in {link NodedSegmentString}s
- * and adds them to each string
- * using {link NodedSegmentString#addIntersection(LineIntersector, int, int, int)}.
+ * Computes the possible intersections between two line segments in {link NodedSegmentString}s and
+ * adds them to each string using {link NodedSegmentString#addIntersection(LineIntersector, int,
+ * int, int)}.
  *
  * @version 1.7
  */
@@ -38,8 +38,8 @@ object IntersectionAdder {
 class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
 
   /**
-   * These variables keep track of what types of intersections were
-   * found during ALL edges that have been intersected.
+   * These variables keep track of what types of intersections were found during ALL edges that have
+   * been intersected.
    */
   private var vhasIntersection                    = false
   private var hasProper                           = false
@@ -65,31 +65,28 @@ class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
   def hasIntersection: Boolean = vhasIntersection
 
   /**
-   * A proper intersection is an intersection which is interior to at least two
-   * line segments.  Note that a proper intersection is not necessarily
-   * in the interior of the entire Geometry, since another edge may have
-   * an endpoint equal to the intersection, which according to SFS semantics
+   * A proper intersection is an intersection which is interior to at least two line segments. Note
+   * that a proper intersection is not necessarily in the interior of the entire Geometry, since
+   * another edge may have an endpoint equal to the intersection, which according to SFS semantics
    * can result in the point being on the Boundary of the Geometry.
    */
   def hasProperIntersection: Boolean = hasProper
 
   /**
-   * A proper interior intersection is a proper intersection which is <b>not</b>
-   * contained in the set of boundary nodes set for this SegmentIntersector.
+   * A proper interior intersection is a proper intersection which is <b>not</b> contained in the
+   * set of boundary nodes set for this SegmentIntersector.
    */
   def hasProperInteriorIntersection: Boolean = hasProperInterior
 
   /**
-   * An interior intersection is an intersection which is
-   * in the interior of some segment.
+   * An interior intersection is an intersection which is in the interior of some segment.
    */
   def hasInteriorIntersection: Boolean = hasInterior
 
   /**
-   * A trivial intersection is an apparent self-intersection which in fact
-   * is simply the point shared by adjacent line segments.
-   * Note that closed edges require a special check for the point shared by the beginning
-   * and end segments.
+   * A trivial intersection is an apparent self-intersection which in fact is simply the point
+   * shared by adjacent line segments. Note that closed edges require a special check for the point
+   * shared by the beginning and end segments.
    */
   private def isTrivialIntersection(
     e0:        SegmentString,
@@ -110,12 +107,10 @@ class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
   }
 
   /**
-   * This method is called by clients
-   * of the {link SegmentIntersector} class to process
-   * intersections for two segments of the {link SegmentString}s being intersected.
-   * Note that some clients (such as <code>MonotoneChain</code>s) may optimize away
-   * this call for segment pairs which they have determined do not intersect
-   * (e.g. by an disjoint envelope test).
+   * This method is called by clients of the {link SegmentIntersector} class to process
+   * intersections for two segments of the {link SegmentString}s being intersected. Note that some
+   * clients (such as <code>MonotoneChain</code>s) may optimize away this call for segment pairs
+   * which they have determined do not intersect (e.g. by an disjoint envelope test).
    */
   override def processIntersections(
     e0:        SegmentString,

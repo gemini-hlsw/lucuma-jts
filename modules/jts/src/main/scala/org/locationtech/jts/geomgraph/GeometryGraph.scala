@@ -44,15 +44,10 @@ import org.locationtech.jts.util.Assert
 object GeometryGraph {
 
   /**
-   * This method implements the Boundary Determination Rule
-   * for determining whether
-   * a component (node or edge) that appears multiple times in elements
-   * of a MultiGeometry is in the boundary or the interior of the Geometry
-   * <br>
-   * The SFS uses the "Mod-2 Rule", which this function implements
-   * <br>
-   * An alternative (and possibly more intuitive) rule would be
-   * the "At Most One Rule":
+   * This method implements the Boundary Determination Rule for determining whether a component
+   * (node or edge) that appears multiple times in elements of a MultiGeometry is in the boundary or
+   * the interior of the Geometry <br> The SFS uses the "Mod-2 Rule", which this function implements
+   * <br> An alternative (and possibly more intuitive) rule would be the "At Most One Rule":
    * isInBoundary = (componentCount == 1)
    */
   /*
@@ -80,9 +75,8 @@ class GeometryGraph(
 ) extends PlanarGraph {
 
   /**
-   * The lineEdgeMap is a map of the linestring components of the
-   * parentGeometry to the edges which are derived from them.
-   * This is used to efficiently perform findEdge queries
+   * The lineEdgeMap is a map of the linestring components of the parentGeometry to the edges which
+   * are derived from them. This is used to efficiently perform findEdge queries
    */
   private val lineEdgeMap = new util.HashMap[LineString, Edge]
   if (parentGeom != null) { //      precisionModel = parentGeom.getPrecisionModel();
@@ -91,8 +85,8 @@ class GeometryGraph(
   }
 
   /**
-   * If this flag is true, the Boundary Determination Rule will used when deciding
-   * whether nodes are in the boundary or not
+   * If this flag is true, the Boundary Determination Rule will used when deciding whether nodes are
+   * in the boundary or not
    */
   private var useBoundaryDeterminationRule          = true
   private var boundaryNodes: util.Collection[Node]  = null
@@ -116,8 +110,8 @@ class GeometryGraph(
   }
 
   /**
-   * This constructor is used by clients that wish to add Edges explicitly,
-   * rather than adding a Geometry.  (An example is BufferOp).
+   * This constructor is used by clients that wish to add Edges explicitly, rather than adding a
+   * Geometry. (An example is BufferOp).
    */
   // no longer used
   //  public GeometryGraph(int argIndex, PrecisionModel precisionModel, int SRID) {
@@ -200,12 +194,10 @@ class GeometryGraph(
   }
 
   /**
-   * Adds a polygon ring to the graph.
-   * Empty rings are ignored.
+   * Adds a polygon ring to the graph. Empty rings are ignored.
    *
-   * The left and right topological location arguments assume that the ring is oriented CW.
-   * If the ring is in the opposite orientation,
-   * the left and right locations must be interchanged.
+   * The left and right topological location arguments assume that the ring is oriented CW. If the
+   * ring is in the opposite orientation, the left and right locations must be interchanged.
    */
   private def addPolygonRing(lr: LinearRing, cwLeft: Int, cwRight: Int): Unit = { // don't bother adding empty holes
     if (lr.isEmpty) return
@@ -255,9 +247,9 @@ class GeometryGraph(
     insertEdge(e)
 
     /**
-     * Add the boundary points of the LineString, if any.
-     * Even if the LineString is closed, add both points as if they were endpoints.
-     * This allows for the case that the node already exists and is a boundary point.
+     * Add the boundary points of the LineString, if any. Even if the LineString is closed, add both
+     * points as if they were endpoints. This allows for the case that the node already exists and
+     * is a boundary point.
      */
     Assert.isTrue(coord.length >= 2, "found LineString with single point")
     insertBoundaryPoint(argIndex, coord(0))
@@ -265,8 +257,7 @@ class GeometryGraph(
   }
 
   /**
-   * Add an Edge computed externally.  The label on the Edge is assumed
-   * to be correct.
+   * Add an Edge computed externally. The label on the Edge is assumed to be correct.
    */
   def addEdge(e: Edge): Unit = {
     insertEdge(e)
@@ -276,32 +267,39 @@ class GeometryGraph(
   }
 
   /**
-   * Add a point computed externally.  The point is assumed to be a
-   * Point Geometry part, which has a location of INTERIOR.
+   * Add a point computed externally. The point is assumed to be a Point Geometry part, which has a
+   * location of INTERIOR.
    */
   def addPoint(pt: Coordinate): Unit = insertPoint(argIndex, pt, Location.INTERIOR)
 
   /**
-   * Compute self-nodes, taking advantage of the Geometry type to
-   * minimize the number of intersection tests.  (E.g. rings are
-   * not tested for self-intersection, since they are assumed to be valid).
+   * Compute self-nodes, taking advantage of the Geometry type to minimize the number of
+   * intersection tests. (E.g. rings are not tested for self-intersection, since they are assumed to
+   * be valid).
    *
-   * @param li                   the LineIntersector to use
-   * @param computeRingSelfNodes if <code>false</code>, intersection checks are optimized to not test rings for self-intersection
-   * return the computed SegmentIntersector containing information about the intersections found
+   * @param li
+   *   the LineIntersector to use
+   * @param computeRingSelfNodes
+   *   if <code>false</code>, intersection checks are optimized to not test rings for
+   *   self-intersection return the computed SegmentIntersector containing information about the
+   *   intersections found
    */
   def computeSelfNodes(li: LineIntersector, computeRingSelfNodes: Boolean): SegmentIntersector =
     computeSelfNodes(li, computeRingSelfNodes, false)
 
   /**
-   * Compute self-nodes, taking advantage of the Geometry type to
-   * minimize the number of intersection tests.  (E.g. rings are
-   * not tested for self-intersection, since they are assumed to be valid).
+   * Compute self-nodes, taking advantage of the Geometry type to minimize the number of
+   * intersection tests. (E.g. rings are not tested for self-intersection, since they are assumed to
+   * be valid).
    *
-   * @param li                   the LineIntersector to use
-   * @param computeRingSelfNodes if <code>false</code>, intersection checks are optimized to not test rings for self-intersection
-   * @param isDoneIfProperInt    short-circuit the intersection computation if a proper intersection is found
-   * return the computed SegmentIntersector containing information about the intersections found
+   * @param li
+   *   the LineIntersector to use
+   * @param computeRingSelfNodes
+   *   if <code>false</code>, intersection checks are optimized to not test rings for
+   *   self-intersection
+   * @param isDoneIfProperInt
+   *   short-circuit the intersection computation if a proper intersection is found return the
+   *   computed SegmentIntersector containing information about the intersections found
    */
   def computeSelfNodes(
     li:                   LineIntersector,
@@ -348,9 +346,8 @@ class GeometryGraph(
   }
 
   /**
-   * Adds candidate boundary points using the current {link BoundaryNodeRule}.
-   * This is used to add the boundary
-   * points of dim-1 geometries (Curves/MultiCurves).
+   * Adds candidate boundary points using the current {link BoundaryNodeRule}. This is used to add
+   * the boundary points of dim-1 geometries (Curves/MultiCurves).
    */
   private def insertBoundaryPoint(argIndex: Int, coord: Coordinate): Unit = {
     val n             = nodes.addNode(coord)
@@ -383,10 +380,9 @@ class GeometryGraph(
   }
 
   /**
-   * Add a node for a self-intersection.
-   * If the node is a potential boundary node (e.g. came from an edge which
-   * is a boundary) then insert it as a potential boundary node.
-   * Otherwise, just add it as a regular node.
+   * Add a node for a self-intersection. If the node is a potential boundary node (e.g. came from an
+   * edge which is a boundary) then insert it as a potential boundary node. Otherwise, just add it
+   * as a regular node.
    */
   private def addSelfIntersectionNode(argIndex: Int, coord: Coordinate, loc: Int): Unit = { // if this node is already a boundary node, don't change it
     if (isBoundaryNode(argIndex, coord)) return
@@ -396,11 +392,10 @@ class GeometryGraph(
   }
 
   /**
-   * Determines the {link Location} of the given {link Coordinate}
-   * in this geometry.
+   * Determines the {link Location} of the given {link Coordinate} in this geometry.
    *
-   * @param pt the point to test
-   * return the location of the point in the geometry
+   * @param pt
+   *   the point to test return the location of the point in the geometry
    */
   def locate(pt: Coordinate): Int = {
     if (parentGeom.isInstanceOf[Polygonal] && parentGeom.getNumGeometries > 50) { // lazily init point locator

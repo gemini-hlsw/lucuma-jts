@@ -23,11 +23,8 @@ import org.locationtech.jts.util.Assert
 import org.locationtech.jts.util.UniqueCoordinateArrayFilter
 
 /**
- * Computes the convex hull of a {link Geometry}.
- * The convex hull is the smallest convex Geometry that contains all the
- * points in the input Geometry.
- * <p>
- * Uses the Graham Scan algorithm.
+ * Computes the convex hull of a {link Geometry}. The convex hull is the smallest convex Geometry
+ * that contains all the points in the input Geometry. <p> Uses the Graham Scan algorithm.
  *
  * @version 1.7
  */
@@ -39,31 +36,27 @@ object ConvexHull {
   }
 
   /**
-   * Compares {link Coordinate}s for their angle and distance
-   * relative to an origin.
+   * Compares {link Coordinate}s for their angle and distance relative to an origin.
    *
-   * @author Martin Davis
+   * @author
+   *   Martin Davis
    * @version 1.7
    */
   private object RadialComparator {
 
     /**
-     * Given two points p and q compare them with respect to their radial
-     * ordering about point o.  First checks radial ordering.
-     * If points are collinear, the comparison is based
-     * on their distance to the origin.
-     * <p>
-     * p < q iff
-     * <ul>
-     * <li>ang(o-p) < ang(o-q) (e.g. o-p-q is CCW)
-     * <li>or ang(o-p) == ang(o-q) && dist(o,p) < dist(o,q)
-     * </ul>
+     * Given two points p and q compare them with respect to their radial ordering about point o.
+     * First checks radial ordering. If points are collinear, the comparison is based on their
+     * distance to the origin. <p> p < q iff <ul> <li>ang(o-p) < ang(o-q) (e.g. o-p-q is CCW) <li>or
+     * ang(o-p) == ang(o-q) && dist(o,p) < dist(o,q) </ul>
      *
-     * @param o the origin
-     * @param p a point
-     * @param q another point
-     * return -1, 0 or 1 depending on whether p is less than,
-     *         equal to or greater than q
+     * @param o
+     *   the origin
+     * @param p
+     *   a point
+     * @param q
+     *   another point return -1, 0 or 1 depending on whether p is less than, equal to or greater
+     *   than q
      */
     private def polarCompare(o: Coordinate, p: Coordinate, q: Coordinate): Int = {
       val dxp = p.x - o.x
@@ -129,16 +122,12 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   }
 
   /**
-   * Returns a {link Geometry} that represents the convex hull of the input
-   * geometry.
-   * The returned geometry contains the minimal number of points needed to
-   * represent the convex hull.  In particular, no more than two consecutive
-   * points will be collinear.
+   * Returns a {link Geometry} that represents the convex hull of the input geometry. The returned
+   * geometry contains the minimal number of points needed to represent the convex hull. In
+   * particular, no more than two consecutive points will be collinear.
    *
-   * return if the convex hull contains 3 or more points, a { @link Polygon};
-   *                                                                 2 points, a { @link LineString};
-   *                                                                 1 point, a { @link Point};
-   *                                                                 0 points, an empty { @link GeometryCollection}.
+   * return if the convex hull contains 3 or more points, a { @link Polygon}; 2 points, a { @link
+   * LineString}; 1 point, a { @link Point}; 0 points, an empty { @link GeometryCollection}.
    */
   def getConvexHull: Geometry = {
     if (inputPts.length == 0) {
@@ -166,8 +155,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   }
 
   /**
-   * An alternative to Stack.toArray, which is not present in earlier versions
-   * of Java.
+   * An alternative to Stack.toArray, which is not present in earlier versions of Java.
    */
   protected def toCoordinateArray(stack: util.Stack[_]): Array[Coordinate] = {
     val coordinates: Array[Coordinate] = new Array[Coordinate](stack.size)
@@ -184,23 +172,16 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   }
 
   /**
-   * Uses a heuristic to reduce the number of points scanned
-   * to compute the hull.
-   * The heuristic is to find a polygon guaranteed to
-   * be in (or on) the hull, and eliminate all points inside it.
-   * A quadrilateral defined by the extremal points
-   * in the four orthogonal directions
-   * can be used, but even more inclusive is
-   * to use an octilateral defined by the points in the 8 cardinal directions.
-   * <p>
-   * Note that even if the method used to determine the polygon vertices
-   * is not 100% robust, this does not affect the robustness of the convex hull.
-   * <p>
-   * To satisfy the requirements of the Graham Scan algorithm,
-   * the returned array has at least 3 entries.
+   * Uses a heuristic to reduce the number of points scanned to compute the hull. The heuristic is
+   * to find a polygon guaranteed to be in (or on) the hull, and eliminate all points inside it. A
+   * quadrilateral defined by the extremal points in the four orthogonal directions can be used, but
+   * even more inclusive is to use an octilateral defined by the points in the 8 cardinal
+   * directions. <p> Note that even if the method used to determine the polygon vertices is not 100%
+   * robust, this does not affect the robustness of the convex hull. <p> To satisfy the requirements
+   * of the Graham Scan algorithm, the returned array has at least 3 entries.
    *
-   * @param pts the points to reduce
-   * return the reduced list of points (at least 3)
+   * @param pts
+   *   the points to reduce return the reduced list of points (at least 3)
    */
   private def reduce(inputPts: Array[Coordinate]): Array[Coordinate] = { //Coordinate[] polyPts = computeQuad(inputPts);
     val polyPts: Array[Coordinate]           = computeOctRing(inputPts)
@@ -223,9 +204,8 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     }
 
     /**
-     * Add all unique points not in the interior poly.
-     * CGAlgorithms.isPointInRing is not defined for points actually on the ring,
-     * but this doesn't matter since the points of the interior polygon
+     * Add all unique points not in the interior poly. CGAlgorithms.isPointInRing is not defined for
+     * points actually on the ring, but this doesn't matter since the points of the interior polygon
      * are forced to be in the reduced set.
      */
     i = 0
@@ -280,8 +260,9 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   /**
    * Uses the Graham Scan algorithm to compute the convex hull vertices.
    *
-   * @param c a list of points, with at least 3 entries
-   * return a Stack containing the ordered points of the convex hull ring
+   * @param c
+   *   a list of points, with at least 3 entries return a Stack containing the ordered points of the
+   *   convex hull ring
    */
   private def grahamScan(c: Array[Coordinate]): util.Stack[Coordinate] = {
     var p: Coordinate              = null
@@ -307,8 +288,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   }
 
   /**
-   * return whether the three coordinates are collinear and c2 lies between
-   *         c1 and c3 inclusive
+   * return whether the three coordinates are collinear and c2 lies between c1 and c3 inclusive
    */
   private def isBetween(c1: Coordinate, c2: Coordinate, c3: Coordinate): Boolean = {
     if (Orientation.index(c1, c2, c3) != 0) {
@@ -390,11 +370,10 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   }
 
   /**
-   * @param  vertices the vertices of a linear ring, which may or may not be
-   *                  flattened (i.e. vertices collinear)
-   * return a 2-vertex <code>LineString</code> if the vertices are
-   *         collinear; otherwise, a <code>Polygon</code> with unnecessary
-   *         (collinear) vertices removed
+   * @param vertices
+   *   the vertices of a linear ring, which may or may not be flattened (i.e. vertices collinear)
+   *   return a 2-vertex <code>LineString</code> if the vertices are collinear; otherwise, a
+   *   <code>Polygon</code> with unnecessary (collinear) vertices removed
    */
   private def lineOrPolygon(coordinate: Array[Coordinate]): Geometry = {
     val coordinates            = cleanRing(coordinate)
@@ -408,10 +387,9 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   }
 
   /**
-   * @param  vertices the vertices of a linear ring, which may or may not be
-   *                  flattened (i.e. vertices collinear)
-   * return the coordinates with unnecessary (collinear) vertices
-   *         removed
+   * @param vertices
+   *   the vertices of a linear ring, which may or may not be flattened (i.e. vertices collinear)
+   *   return the coordinates with unnecessary (collinear) vertices removed
    */
   private def cleanRing(original: Array[Coordinate]): Array[Coordinate] = {
     Assert.equals(original(0), original(original.length - 1))

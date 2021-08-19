@@ -14,13 +14,9 @@ package org.locationtech.jts.geom
 import java.util
 
 /**
- * Models a collection of {link Polygon}s.
- * <p>
- * As per the OGC SFS specification,
- * the Polygons in a MultiPolygon may not overlap,
- * and may only touch at single points.
- * This allows the topological point-set semantics
- * to be well-defined.
+ * Models a collection of {link Polygon}s. <p> As per the OGC SFS specification, the Polygons in a
+ * MultiPolygon may not overlap, and may only touch at single points. This allows the topological
+ * point-set semantics to be well-defined.
  *
  * @version 1.7
  */
@@ -43,17 +39,18 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
   /**
    * Constructs a <code>MultiPolygon</code>.
    *
-   * @param  polygons       the <code>Polygon</code>s for this <code>MultiPolygon</code>
-   *                        , or <code>null</code> or an empty array to create the empty geometry.
-   *                        Elements may be empty <code>Polygon</code>s, but not <code>null</code>
-   *      s. The polygons must conform to the assertions specified in the <A
-   *                        HREF="http://www.opengis.org/techno/specs.htm">OpenGIS Simple Features
-   *                        Specification for SQL</A> .
-   * @param  precisionModel the specification of the grid of allowable points
-   *                        for this <code>MultiPolygon</code>
-   * @param  SRID           the ID of the Spatial Reference System used by this
-   *                        <code>MultiPolygon</code>
-   * @deprecated Use GeometryFactory instead
+   * @param polygons
+   *   the <code>Polygon</code>s for this <code>MultiPolygon</code> , or <code>null</code> or an
+   *   empty array to create the empty geometry. Elements may be empty <code>Polygon</code>s, but
+   *   not <code>null</code> s. The polygons must conform to the assertions specified in the <A
+   *   HREF="http://www.opengis.org/techno/specs.htm">OpenGIS Simple Features Specification for
+   *   SQL</A> .
+   * @param precisionModel
+   *   the specification of the grid of allowable points for this <code>MultiPolygon</code>
+   * @param SRID
+   *   the ID of the Spatial Reference System used by this <code>MultiPolygon</code>
+   * @deprecated
+   *   Use GeometryFactory instead
    */
   def this(polygons: Array[Polygon], precisionModel: PrecisionModel, SRID: Int) = {
     this(polygons, new GeometryFactory(precisionModel, SRID))
@@ -69,7 +66,8 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
    * Computes the boundary of this geometry
    *
    * return a lineal geometry (which may be empty)
-   * @see Geometry#getBoundary
+   * @see
+   *   Geometry#getBoundary
    */
   override def getBoundary: Geometry = {
     if (isEmpty) return getFactory.createMultiLineString
@@ -95,9 +93,8 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
   }
 
   /**
-   * Creates a {link MultiPolygon} with
-   * every component reversed.
-   * The order of the components in the collection are not reversed.
+   * Creates a {link MultiPolygon} with every component reversed. The order of the components in the
+   * collection are not reversed.
    *
    * return a MultiPolygon in the reverse order
    * @deprecated

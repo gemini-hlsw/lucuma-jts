@@ -15,18 +15,15 @@ import java.io.PrintStream
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Represents a point on an
- * edge which intersects with another edge.
- * <p>
- * The intersection may either be a single point, or a line segment
- * (in which case this point is the start of the line segment)
+ * Represents a point on an edge which intersects with another edge. <p> The intersection may either
+ * be a single point, or a line segment (in which case this point is the start of the line segment)
  * The intersection point must be precise.
  *
  * @version 1.7
  */
 class EdgeIntersection(
   val coordArg:     Coordinate,
-  var segmentIndex: Int // the index of the containing line segment in the parent edge
+  var segmentIndex: Int    // the index of the containing line segment in the parent edge
   ,
   var dist:         Double // the edge distance of this point along the containing line segment
 ) extends Comparable[EdgeIntersection] {
@@ -41,9 +38,9 @@ class EdgeIntersection(
     compare(other.segmentIndex, other.dist)
 
   /**
-   * return -1 this EdgeIntersection is located before the argument location
-   * return 0 this EdgeIntersection is at the argument location
-   * return 1 this EdgeIntersection is located after the argument location
+   * return -1 this EdgeIntersection is located before the argument location return 0 this
+   * EdgeIntersection is at the argument location return 1 this EdgeIntersection is located after
+   * the argument location
    */
   def compare(segmentIndex: Int, dist: Double): Int = {
     if (this.segmentIndex < segmentIndex) return -1

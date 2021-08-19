@@ -22,45 +22,49 @@ package org.locationtech.jts.util
 object Assert {
 
   /**
-   * Throws an <code>AssertionFailedException</code> if the given assertion is
-   * not true.
+   * Throws an <code>AssertionFailedException</code> if the given assertion is not true.
    *
-   * @param  assertion a condition that is supposed to be true
-   * throws  AssertionFailedException if the condition is false
+   * @param assertion
+   *   a condition that is supposed to be true throws AssertionFailedException if the condition is
+   *   false
    */
   def isTrue(assertion: Boolean): Unit = isTrue(assertion, null)
 
   /**
-   * Throws an <code>AssertionFailedException</code> with the given message if
-   * the given assertion is not true.
+   * Throws an <code>AssertionFailedException</code> with the given message if the given assertion
+   * is not true.
    *
-   * @param  assertion a condition that is supposed to be true
-   * @param  message   a description of the assertion
-   * throws  AssertionFailedException if the condition is false
+   * @param assertion
+   *   a condition that is supposed to be true
+   * @param message
+   *   a description of the assertion throws AssertionFailedException if the condition is false
    */
   def isTrue(assertion: Boolean, message: String): Unit = if (!assertion)
     if (message == null) throw new AssertionFailedException
     else throw new AssertionFailedException(message)
 
   /**
-   * Throws an <code>AssertionFailedException</code> if the given objects are
-   * not equal, according to the <code>equals</code> method.
+   * Throws an <code>AssertionFailedException</code> if the given objects are not equal, according
+   * to the <code>equals</code> method.
    *
-   * @param  expectedValue the correct value
-   * @param  actualValue   the value being checked
-   * throws  AssertionFailedException if the two objects are not equal
+   * @param expectedValue
+   *   the correct value
+   * @param actualValue
+   *   the value being checked throws AssertionFailedException if the two objects are not equal
    */
   def equals(expectedValue: Any, actualValue: Any): Unit = equals(expectedValue, actualValue, null)
 
   /**
-   * Throws an <code>AssertionFailedException</code> with the given message if
-   * the given objects are not equal, according to the <code>equals</code>
-   * method.
+   * Throws an <code>AssertionFailedException</code> with the given message if the given objects are
+   * not equal, according to the <code>equals</code> method.
    *
-   * @param  expectedValue the correct value
-   * @param  actualValue   the value being checked
-   * @param  message       a description of the assertion
-   * throws  AssertionFailedException if the two objects are not equal
+   * @param expectedValue
+   *   the correct value
+   * @param actualValue
+   *   the value being checked
+   * @param message
+   *   a description of the assertion throws AssertionFailedException if the two objects are not
+   *   equal
    */
   def equals(expectedValue: Any, actualValue: Any, message: String): Unit = if (
     !(actualValue == expectedValue)
@@ -74,16 +78,15 @@ object Assert {
   /**
    * Always throws an <code>AssertionFailedException</code>.
    *
-   * throws  AssertionFailedException thrown always
+   * throws AssertionFailedException thrown always
    */
   def shouldNeverReachHere(): Unit = shouldNeverReachHere(null)
 
   /**
-   * Always throws an <code>AssertionFailedException</code> with the given
-   * message.
+   * Always throws an <code>AssertionFailedException</code> with the given message.
    *
-   * @param  message a description of the assertion
-   * throws  AssertionFailedException thrown always
+   * @param message
+   *   a description of the assertion throws AssertionFailedException thrown always
    */
   def shouldNeverReachHere(message: String): Unit = throw new AssertionFailedException(
     "Should never reach here" + (if (message != null) ": " + message

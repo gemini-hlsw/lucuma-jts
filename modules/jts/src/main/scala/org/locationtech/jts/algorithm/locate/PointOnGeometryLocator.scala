@@ -24,18 +24,18 @@ package org.locationtech.jts.algorithm.locate
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * An interface for classes which determine the {link Location} of
- * points in a {link Geometry}.
+ * An interface for classes which determine the {link Location} of points in a {link Geometry}.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 trait PointOnGeometryLocator {
 
   /**
    * Determines the {link Location} of a point in the {link Geometry}.
    *
-   * @param p the point to test
-   * return the location of the point in the geometry
+   * @param p
+   *   the point to test return the location of the point in the geometry
    */
   def locate(p: Coordinate): Int
 }

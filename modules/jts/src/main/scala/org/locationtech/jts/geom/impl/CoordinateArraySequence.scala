@@ -28,15 +28,12 @@ import java.io.Serializable
 import org.locationtech.jts.geom._
 
 /**
- * A {link CoordinateSequence} backed by an array of {link Coordinate}s.
- * This is the implementation that {link Geometry}s use by default.
- * Coordinates returned by #toArray and #getCoordinate are live --
- * modifications to them are actually changing the
- * CoordinateSequence's underlying data.
- * A dimension may be specified for the coordinates in the sequence,
- * which may be 2 or 3.
- * The actual coordinates will always have 3 ordinates,
- * but the dimension is useful as metadata in some situations.
+ * A {link CoordinateSequence} backed by an array of {link Coordinate}s. This is the implementation
+ * that {link Geometry}s use by default. Coordinates returned by #toArray and #getCoordinate are
+ * live -- modifications to them are actually changing the CoordinateSequence's underlying data. A
+ * dimension may be specified for the coordinates in the sequence, which may be 2 or 3. The actual
+ * coordinates will always have 3 ordinates, but the dimension is useful as metadata in some
+ * situations.
  *
  * @version 1.7
  */
@@ -52,23 +49,20 @@ class CoordinateArraySequence(
     else enforceArrayConsistency(coordinatesArg)
 
   /**
-   * The actual dimension of the coordinates in the sequence.
-   * Allowable values are 2, 3 or 4.
+   * The actual dimension of the coordinates in the sequence. Allowable values are 2, 3 or 4.
    */
 //    private var dimension = 3
   /**
-   * The number of measures of the coordinates in the sequence.
-   * Allowable values are 0 or 1.
+   * The number of measures of the coordinates in the sequence. Allowable values are 0 or 1.
    */
 //  private var measures = 0
 
   /**
-   * Constructs a sequence based on the given array
-   * of {link Coordinate}s (the
-   * array is not copied).
+   * Constructs a sequence based on the given array of {link Coordinate}s (the array is not copied).
    * The coordinate dimension defaults to 3.
    *
-   * @param coordinates the coordinate array that will be referenced.
+   * @param coordinates
+   *   the coordinate array that will be referenced.
    */
   def this(coordinates: Array[Coordinate]) = {
     this(coordinates,
@@ -78,22 +72,22 @@ class CoordinateArraySequence(
   }
 
   /**
-   * Constructs a sequence based on the given array
-   * of {link Coordinate}s (the
-   * array is not copied).
+   * Constructs a sequence based on the given array of {link Coordinate}s (the array is not copied).
    *
-   * @param coordinates the coordinate array that will be referenced.
-   * @param dimension   the dimension of the coordinates
+   * @param coordinates
+   *   the coordinate array that will be referenced.
+   * @param dimension
+   *   the dimension of the coordinates
    */
   def this(coordinates: Array[Coordinate], dimension: Int) = {
     this(coordinates, dimension, CoordinateArrays.measures(coordinates))
   }
 
   /**
-   * Constructs a sequence of a given size, populated
-   * with new {link Coordinate}s.
+   * Constructs a sequence of a given size, populated with new {link Coordinate}s.
    *
-   * @param size the size of the sequence to create
+   * @param size
+   *   the size of the sequence to create
    */
   def this(size: Int) = {
     this(new Array[Coordinate](size))
@@ -105,11 +99,12 @@ class CoordinateArraySequence(
   }
 
   /**
-   * Constructs a sequence of a given size, populated
-   * with new {link Coordinate}s.
+   * Constructs a sequence of a given size, populated with new {link Coordinate}s.
    *
-   * @param size      the size of the sequence to create
-   * @param dimension the dimension of the coordinates
+   * @param size
+   *   the size of the sequence to create
+   * @param dimension
+   *   the dimension of the coordinates
    */
   def this(size: Int, dimension: Int) = {
     this(coordinates = new Array[Coordinate](size), dimension = dimension)
@@ -122,10 +117,11 @@ class CoordinateArraySequence(
   }
 
   /**
-   * Creates a new sequence based on a deep copy of the given {link CoordinateSequence}.
-   * The coordinate dimension is set to equal the dimension of the input.
+   * Creates a new sequence based on a deep copy of the given {link CoordinateSequence}. The
+   * coordinate dimension is set to equal the dimension of the input.
    *
-   * @param coordSeq the coordinate sequence that will be copied.
+   * @param coordSeq
+   *   the coordinate sequence that will be copied.
    */
   def this(coordSeq: CoordinateSequence) = {
     this(new Array[Coordinate](coordSeq.size), coordSeq.getDimension, coordSeq.getMeasures)
@@ -142,12 +138,11 @@ class CoordinateArraySequence(
   }
 
   /**
-   * Ensure array contents of the same type, making use of {link #createCoordinate()} as needed.
-   * <p>
-   * A new array will be created if needed to return a consistent result.
-   * </p>
+   * Ensure array contents of the same type, making use of {link #createCoordinate()} as needed. <p>
+   * A new array will be created if needed to return a consistent result. </p>
    *
-   * @param array array containing consistent coordinate instances
+   * @param array
+   *   array containing consistent coordinate instances
    */
   protected def enforceArrayConsistency(array: Array[Coordinate]): Array[Coordinate] = {
     val sample       = createCoordinate
@@ -168,7 +163,8 @@ class CoordinateArraySequence(
   }
 
   /**
-   * @see org.locationtech.jts.geom.CoordinateSequence#getDimension()
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequence#getDimension()
    */
   override def getDimension: Int = dimension
 
@@ -178,16 +174,15 @@ class CoordinateArraySequence(
    * Get the Coordinate with index i.
    *
    * @param i
-   * the index of the coordinate
-   * return the requested Coordinate instance
+   *   the index of the coordinate return the requested Coordinate instance
    */
   override def getCoordinate(i: Int): Coordinate = coordinates(i)
 
   /**
    * Get a copy of the Coordinate with index i.
    *
-   * @param i the index of the coordinate
-   * return a copy of the requested Coordinate
+   * @param i
+   *   the index of the coordinate return a copy of the requested Coordinate
    */
   override def getCoordinateCopy(i: Int): Coordinate = {
     val copy = createCoordinate
@@ -196,7 +191,8 @@ class CoordinateArraySequence(
   }
 
   /**
-   * @see org.locationtech.jts.geom.CoordinateSequence#getX(int)
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequence#getX(int)
    */
   override def getCoordinate(index: Int, coord: Coordinate): Unit =
     coord.setCoordinate(coordinates(index))
@@ -204,24 +200,28 @@ class CoordinateArraySequence(
   override def getX(index: Int): Double = coordinates(index).x
 
   /**
-   * @see org.locationtech.jts.geom.CoordinateSequence#getY(int)
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequence#getY(int)
    */
   override def getY(index: Int): Double = coordinates(index).y
 
   /**
-   * @see org.locationtech.jts.geom.CoordinateSequence#getZ(int)
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequence#getZ(int)
    */
   override def getZ(index: Int): Double = if (hasZ) coordinates(index).getZ
   else Double.NaN
 
   /**
-   * @see org.locationtech.jts.geom.CoordinateSequence#getM(int)
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequence#getM(int)
    */
   override def getM(index: Int): Double = if (hasM) coordinates(index).getM
   else Double.NaN
 
   /**
-   * @see org.locationtech.jts.geom.CoordinateSequence#getOrdinate(int, int)
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequence#getOrdinate(int, int)
    */
   override def getOrdinate(index: Int, ordinateIndex: Int): Double = ordinateIndex match {
     case CoordinateSequence.X =>
@@ -263,7 +263,8 @@ class CoordinateArraySequence(
   override def size: Int = coordinates.length
 
   /**
-   * @see org.locationtech.jts.geom.CoordinateSequence#setOrdinate(int, int, double)
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequence#setOrdinate(int, int, double)
    */
   override def setOrdinate(index: Int, ordinateIndex: Int, value: Double): Unit =
     ordinateIndex match {

@@ -19,8 +19,8 @@ import org.locationtech.jts.noding.OrientedCoordinateArray
 import scala.collection.mutable
 
 /**
- * A EdgeList is a list of Edges.  It supports locating edges
- * that are pointwise equals to a target edge.
+ * A EdgeList is a list of Edges. It supports locating edges that are pointwise equals to a target
+ * edge.
  *
  * @version 1.7
  */
@@ -49,11 +49,9 @@ class EdgeList() {
   def getEdges: util.ArrayList[Edge] = edges
 
   /**
-   * If there is an edge equal to e already in the list, return it.
-   * Otherwise return null.
+   * If there is an edge equal to e already in the list, return it. Otherwise return null.
    *
-   * return equal edge, if there is one already in the list
-   *         null otherwise
+   * return equal edge, if there is one already in the list null otherwise
    */
   def findEqualEdge(e: Edge): Edge = {
     val oca       = new OrientedCoordinateArray(e.getCoordinates)
@@ -70,7 +68,7 @@ class EdgeList() {
    * If the edge e is already in the list, return its index.
    *
    * return index, if e is already in the list
-   *         -1 otherwise
+   * -1 otherwise
    */
   def findEdgeIndex(e: Edge): Int = {
     var i = 0

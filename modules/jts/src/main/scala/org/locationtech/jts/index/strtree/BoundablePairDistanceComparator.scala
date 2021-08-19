@@ -15,8 +15,8 @@ import java.io.Serializable
 import java.util.Comparator
 
 /**
- * The Class BoundablePairDistanceComparator. It implements Java comparator and is used
- * as a parameter to sort the BoundablePair list.
+ * The Class BoundablePairDistanceComparator. It implements Java comparator and is used as a
+ * parameter to sort the BoundablePair list.
  */
 class BoundablePairDistanceComparator(
   /** The normal order. */

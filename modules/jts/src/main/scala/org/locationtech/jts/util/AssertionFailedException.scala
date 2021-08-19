@@ -15,8 +15,7 @@
 package org.locationtech.jts.util
 
 /**
- * Thrown when the application is in an inconsistent state. Indicates a problem
- * with the code.
+ * Thrown when the application is in an inconsistent state. Indicates a problem with the code.
  *
  * @version 1.7
  */

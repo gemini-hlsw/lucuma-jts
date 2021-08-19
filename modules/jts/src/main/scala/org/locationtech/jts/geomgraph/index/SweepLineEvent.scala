@@ -31,9 +31,12 @@ class SweepLineEvent(val label: Any, val x: Double, val obj: Any)
   /**
    * Creates an INSERT event.
    *
-   * @param label the edge set label for this object
-   * @param x     the event location
-   * @param obj   the object being inserted
+   * @param label
+   *   the edge set label for this object
+   * @param x
+   *   the event location
+   * @param obj
+   *   the object being inserted
    */
 //  def this {
 //    this()
@@ -46,8 +49,10 @@ class SweepLineEvent(val label: Any, val x: Double, val obj: Any)
   /**
    * Creates a DELETE event.
    *
-   * @param x           the event location
-   * @param insertEvent the corresponding INSERT event
+   * @param x
+   *   the event location
+   * @param insertEvent
+   *   the corresponding INSERT event
    */
   def this(x: Double, insertEventArg: SweepLineEvent) = {
     this(null, x, null)
@@ -74,10 +79,9 @@ class SweepLineEvent(val label: Any, val x: Double, val obj: Any)
   }
 
   /**
-   * Events are ordered first by their x-value, and then by their eventType.
-   * Insert events are sorted before Delete events, so that
-   * items whose Insert and Delete events occur at the same x-value will be
-   * correctly handled.
+   * Events are ordered first by their x-value, and then by their eventType. Insert events are
+   * sorted before Delete events, so that items whose Insert and Delete events occur at the same
+   * x-value will be correctly handled.
    */
   override def compareTo(pe: SweepLineEvent): Int = {
     if (xValue < pe.xValue) return -1

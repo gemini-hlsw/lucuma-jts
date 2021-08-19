@@ -19,11 +19,10 @@ import org.locationtech.jts.index.strtree.STRtree
 import scala.jdk.CollectionConverters._
 
 /**
- * Nodes a set of {link SegmentString}s using a index based
- * on {link MonotoneChain}s and a {link SpatialIndex}.
- * The {link SpatialIndex} used should be something that supports
- * envelope (range) queries efficiently (such as a <code>Quadtree</code>}
- * or {link STRtree} (which is the default index provided).
+ * Nodes a set of {link SegmentString}s using a index based on {link MonotoneChain}s and a {link
+ * SpatialIndex}. The {link SpatialIndex} used should be something that supports envelope (range)
+ * queries efficiently (such as a <code>Quadtree</code>} or {link STRtree} (which is the default
+ * index provided).
  *
  * @version 1.7
  */
@@ -81,8 +80,8 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
         val testChain = j.next.asInstanceOf[MonotoneChain]
 
         /**
-         * following test makes sure we only compare each pair of chains once
-         * and that we don't compare a chain to itself
+         * following test makes sure we only compare each pair of chains once and that we don't
+         * compare a chain to itself
          */
         if (testChain.getId > queryChain.getId) {
           queryChain.computeOverlaps(testChain, overlapAction)

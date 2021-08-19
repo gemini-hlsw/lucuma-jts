@@ -31,30 +31,19 @@ import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.util.Assert
 
 /**
- * A <code>LineIntersector</code> is an algorithm that can both test whether
- * two line segments intersect and compute the intersection point(s)
- * if they do.
- * <p>
- * There are three possible outcomes when determining whether two line segments intersect:
- * <ul>
- * <li>{link #NO_INTERSECTION} - the segments do not intersect
- * <li>{link #POINT_INTERSECTION} - the segments intersect in a single point
- * <li>{link #COLLINEAR_INTERSECTION} - the segments are collinear and they intersect in a line segment
- * </ul>
- * For segments which intersect in a single point, the point may be either an endpoint
- * or in the interior of each segment.
- * If the point lies in the interior of both segments,
- * this is termed a <i>proper intersection</i>.
- * The method {link #isProper()} test for this situation.
- * <p>
- * The intersection point(s) may be computed in a precise or non-precise manner.
- * Computing an intersection point precisely involves rounding it
- * via a supplied {link PrecisionModel}.
- * <p>
- * LineIntersectors do not perform an initial envelope intersection test
- * to determine if the segments are disjoint.
- * This is because this class is likely to be used in a context where
- * envelope overlap is already known to occur (or be likely).
+ * A <code>LineIntersector</code> is an algorithm that can both test whether two line segments
+ * intersect and compute the intersection point(s) if they do. <p> There are three possible outcomes
+ * when determining whether two line segments intersect: <ul> <li>{link #NO_INTERSECTION} - the
+ * segments do not intersect <li>{link #POINT_INTERSECTION} - the segments intersect in a single
+ * point <li>{link #COLLINEAR_INTERSECTION} - the segments are collinear and they intersect in a
+ * line segment </ul> For segments which intersect in a single point, the point may be either an
+ * endpoint or in the interior of each segment. If the point lies in the interior of both segments,
+ * this is termed a <i>proper intersection</i>. The method {link #isProper()} test for this
+ * situation. <p> The intersection point(s) may be computed in a precise or non-precise manner.
+ * Computing an intersection point precisely involves rounding it via a supplied {link
+ * PrecisionModel}. <p> LineIntersectors do not perform an initial envelope intersection test to
+ * determine if the segments are disjoint. This is because this class is likely to be used in a
+ * context where envelope overlap is already known to occur (or be likely).
  *
  * @version 1.7
  */
@@ -83,21 +72,15 @@ object LineIntersector {
   val COLLINEAR_INTERSECTION = 2
 
   /**
-   * Computes the "edge distance" of an intersection point p along a segment.
-   * The edge distance is a metric of the point along the edge.
-   * The metric used is a robust and easy to compute metric function.
-   * It is <b>not</b> equivalent to the usual Euclidean metric.
-   * It relies on the fact that either the x or the y ordinates of the
-   * points in the edge are unique, depending on whether the edge is longer in
-   * the horizontal or vertical direction.
-   * <p>
-   * NOTE: This function may produce incorrect distances
-   * for inputs where p is not precisely on p1-p2
-   * (E.g. p = (139,9) p1 = (139,10), p2 = (280,1) produces distance 0.0, which is incorrect.
-   * <p>
-   * My hypothesis is that the function is safe to use for points which are the
-   * result of <b>rounding</b> points which lie on the line,
-   * but not safe to use for <b>truncated</b> points.
+   * Computes the "edge distance" of an intersection point p along a segment. The edge distance is a
+   * metric of the point along the edge. The metric used is a robust and easy to compute metric
+   * function. It is <b>not</b> equivalent to the usual Euclidean metric. It relies on the fact that
+   * either the x or the y ordinates of the points in the edge are unique, depending on whether the
+   * edge is longer in the horizontal or vertical direction. <p> NOTE: This function may produce
+   * incorrect distances for inputs where p is not precisely on p1-p2 (E.g. p = (139,9) p1 =
+   * (139,10), p2 = (280,1) produces distance 0.0, which is incorrect. <p> My hypothesis is that the
+   * function is safe to use for points which are the result of <b>rounding</b> points which lie on
+   * the line, but not safe to use for <b>truncated</b> points.
    */
   def computeEdgeDistance(p: Coordinate, p0: Coordinate, p1: Coordinate): Double = {
     val dx   = Math.abs(p1.x - p0.x)
@@ -121,8 +104,8 @@ object LineIntersector {
   }
 
   /**
-   * This function is non-robust, since it may compute the square of large numbers.
-   * Currently not sure how to improve this.
+   * This function is non-robust, since it may compute the square of large numbers. Currently not
+   * sure how to improve this.
    */
   def nonRobustComputeEdgeDistance(p: Coordinate, p1: Coordinate, p2: Coordinate): Double = {
     val dx   = p.x - p1.x
@@ -139,8 +122,7 @@ abstract class LineIntersector() {
   protected var intPt: Array[Coordinate]             = Array[Coordinate](new Coordinate(), new Coordinate())
 
   /**
-   * The indexes of the endpoints of the intersection lines, in order along
-   * the corresponding line
+   * The indexes of the endpoints of the intersection lines, in order along the corresponding line
    */
   protected var intLineIndex: Array[Array[Int]] = null
   protected[jts] var isProperF                  = false
@@ -148,8 +130,8 @@ abstract class LineIntersector() {
   protected var pb: Coordinate                  = intPt(1)
   // alias the intersection points for ease of reference
   /**
-   * If makePrecise is true, computed intersection coordinates will be made precise
-   * using Coordinate#makePrecise
+   * If makePrecise is true, computed intersection coordinates will be made precise using
+   * Coordinate#makePrecise
    */
   protected var precisionModel: PrecisionModel  = null
 
@@ -157,13 +139,14 @@ abstract class LineIntersector() {
    * Force computed intersection to be rounded to a given precision model
    *
    * @param precisionModel
-   * @deprecated use <code>setPrecisionModel</code> instead
+   * @deprecated
+   *   use <code>setPrecisionModel</code> instead
    */
   def setMakePrecise(precisionModel: PrecisionModel): Unit = this.precisionModel = precisionModel
 
   /**
-   * Force computed intersection to be rounded to a given precision model.
-   * No getter is provided, because the precision model is not required to be specified.
+   * Force computed intersection to be rounded to a given precision model. No getter is provided,
+   * because the precision model is not required to be specified.
    *
    * @param precisionModel
    */
@@ -172,26 +155,26 @@ abstract class LineIntersector() {
   /**
    * Gets an endpoint of an input segment.
    *
-   * @param segmentIndex the index of the input segment (0 or 1)
-   * @param ptIndex      the index of the endpoint (0 or 1)
-   * return the specified endpoint
+   * @param segmentIndex
+   *   the index of the input segment (0 or 1)
+   * @param ptIndex
+   *   the index of the endpoint (0 or 1) return the specified endpoint
    */
   def getEndpoint(segmentIndex: Int, ptIndex: Int): Coordinate = inputLines(segmentIndex)(ptIndex)
 
   /**
-   * Compute the intersection of a point p and the line p1-p2.
-   * This function computes the boolean value of the hasIntersection test.
-   * The actual value of the intersection (if there is one)
-   * is equal to the value of <code>p</code>.
+   * Compute the intersection of a point p and the line p1-p2. This function computes the boolean
+   * value of the hasIntersection test. The actual value of the intersection (if there is one) is
+   * equal to the value of <code>p</code>.
    */
   def computeIntersection(p: Coordinate, p1: Coordinate, p2: Coordinate): Unit
 
   protected def isCollinear: Boolean = result == LineIntersector.COLLINEAR_INTERSECTION
 
   /**
-   * Computes the intersection of the lines p1-p2 and p3-p4.
-   * This function computes both the boolean value of the hasIntersection test
-   * and the (approximate) value of the intersection point itself (if there is one).
+   * Computes the intersection of the lines p1-p2 and p3-p4. This function computes both the boolean
+   * value of the hasIntersection test and the (approximate) value of the intersection point itself
+   * (if there is one).
    */
   def computeIntersection(p1: Coordinate, p2: Coordinate, p3: Coordinate, p4: Coordinate): Unit = {
     inputLines(0)(0) = p1
@@ -231,7 +214,7 @@ abstract class LineIntersector() {
   def hasIntersection: Boolean = result != LineIntersector.NO_INTERSECTION
 
   /**
-   * Returns the number of intersection points found.  This will be either 0, 1 or 2.
+   * Returns the number of intersection points found. This will be either 0, 1 or 2.
    *
    * return the number of intersection points found (0, 1, or 2)
    */
@@ -240,8 +223,8 @@ abstract class LineIntersector() {
   /**
    * Returns the intIndex'th intersection point
    *
-   * @param intIndex is 0 or 1
-   * return the intIndex'th intersection point
+   * @param intIndex
+   *   is 0 or 1 return the intIndex'th intersection point
    */
   def getIntersection(intIndex: Int): Coordinate = intPt(intIndex)
 
@@ -252,11 +235,10 @@ abstract class LineIntersector() {
   }
 
   /**
-   * Test whether a point is a intersection point of two line segments.
-   * Note that if the intersection is a line segment, this method only tests for
-   * equality with the endpoints of the intersection segment.
-   * It does <b>not</b> return true if
-   * the input point is internal to the intersection segment.
+   * Test whether a point is a intersection point of two line segments. Note that if the
+   * intersection is a line segment, this method only tests for equality with the endpoints of the
+   * intersection segment. It does <b>not</b> return true if the input point is internal to the
+   * intersection segment.
    *
    * return true if the input point is one of the intersection points.
    */
@@ -272,7 +254,8 @@ abstract class LineIntersector() {
   /**
    * Tests whether either intersection point is an interior point of one of the input segments.
    *
-   * return <code>true</code> if either intersection point is in the interior of one of the input segments
+   * return <code>true</code> if either intersection point is in the interior of one of the input
+   * segments
    */
   def isInteriorIntersection: Boolean = {
     if (isInteriorIntersection(0)) return true
@@ -299,28 +282,24 @@ abstract class LineIntersector() {
   }
 
   /**
-   * Tests whether an intersection is proper.
-   * <br>
-   * The intersection between two line segments is considered proper if
-   * they intersect in a single point in the interior of both segments
-   * (e.g. the intersection is a single point and is not equal to any of the
-   * endpoints).
-   * <p>
-   * The intersection between a point and a line segment is considered proper
-   * if the point lies in the interior of the segment (e.g. is not equal to
-   * either of the endpoints).
+   * Tests whether an intersection is proper. <br> The intersection between two line segments is
+   * considered proper if they intersect in a single point in the interior of both segments (e.g.
+   * the intersection is a single point and is not equal to any of the endpoints). <p> The
+   * intersection between a point and a line segment is considered proper if the point lies in the
+   * interior of the segment (e.g. is not equal to either of the endpoints).
    *
    * return true if the intersection is proper
    */
   def isProper(): Boolean = hasIntersection && isProperF
 
   /**
-   * Computes the intIndex'th intersection point in the direction of
-   * a specified input line segment
+   * Computes the intIndex'th intersection point in the direction of a specified input line segment
    *
-   * @param segmentIndex is 0 or 1
-   * @param intIndex     is 0 or 1
-   * return the intIndex'th intersection point in the direction of the specified input line segment
+   * @param segmentIndex
+   *   is 0 or 1
+   * @param intIndex
+   *   is 0 or 1 return the intIndex'th intersection point in the direction of the specified input
+   *   line segment
    */
   def getIntersectionAlongSegment(segmentIndex: Int, intIndex: Int): Coordinate = { // lazily compute int line array
     computeIntLineIndex()
@@ -328,12 +307,13 @@ abstract class LineIntersector() {
   }
 
   /**
-   * Computes the index (order) of the intIndex'th intersection point in the direction of
-   * a specified input line segment
+   * Computes the index (order) of the intIndex'th intersection point in the direction of a
+   * specified input line segment
    *
-   * @param segmentIndex is 0 or 1
-   * @param intIndex     is 0 or 1
-   * return the index of the intersection point along the input segment (0 or 1)
+   * @param segmentIndex
+   *   is 0 or 1
+   * @param intIndex
+   *   is 0 or 1 return the index of the intersection point along the input segment (0 or 1)
    */
   def getIndexAlongSegment(segmentIndex: Int, intIndex: Int): Int = {
     computeIntLineIndex()
@@ -355,9 +335,10 @@ abstract class LineIntersector() {
   /**
    * Computes the "edge distance" of an intersection point along the specified input line segment.
    *
-   * @param segmentIndex is 0 or 1
-   * @param intIndex     is 0 or 1
-   * return the edge distance of the intersection point
+   * @param segmentIndex
+   *   is 0 or 1
+   * @param intIndex
+   *   is 0 or 1 return the edge distance of the intersection point
    */
   def getEdgeDistance(segmentIndex: Int, intIndex: Int): Double = {
     val dist = LineIntersector.computeEdgeDistance(intPt(intIndex),

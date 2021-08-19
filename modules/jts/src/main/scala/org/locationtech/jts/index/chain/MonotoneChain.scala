@@ -16,50 +16,32 @@ import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.LineSegment
 
 /**
- * Monotone Chains are a way of partitioning the segments of a linestring to
- * allow for fast searching of intersections.
- * They have the following properties:
- * <ol>
- * <li>the segments within a monotone chain never intersect each other
- * <li>the envelope of any contiguous subset of the segments in a monotone chain
- * is equal to the envelope of the endpoints of the subset.
- * </ol>
- * Property 1 means that there is no need to test pairs of segments from within
- * the same monotone chain for intersection.
- * <p>
- * Property 2 allows
- * an efficient binary search to be used to find the intersection points of two monotone chains.
- * For many types of real-world data, these properties eliminate a large number of
- * segment comparisons, producing substantial speed gains.
- * <p>
- * One of the goals of this implementation of MonotoneChains is to be
- * as space and time efficient as possible. One design choice that aids this
- * is that a MonotoneChain is based on a subarray of a list of points.
- * This means that new arrays of points (potentially very large) do not
- * have to be allocated.
- * <p>
+ * Monotone Chains are a way of partitioning the segments of a linestring to allow for fast
+ * searching of intersections. They have the following properties: <ol> <li>the segments within a
+ * monotone chain never intersect each other <li>the envelope of any contiguous subset of the
+ * segments in a monotone chain is equal to the envelope of the endpoints of the subset. </ol>
+ * Property 1 means that there is no need to test pairs of segments from within the same monotone
+ * chain for intersection. <p> Property 2 allows an efficient binary search to be used to find the
+ * intersection points of two monotone chains. For many types of real-world data, these properties
+ * eliminate a large number of segment comparisons, producing substantial speed gains. <p> One of
+ * the goals of this implementation of MonotoneChains is to be as space and time efficient as
+ * possible. One design choice that aids this is that a MonotoneChain is based on a subarray of a
+ * list of points. This means that new arrays of points (potentially very large) do not have to be
+ * allocated. <p>
  *
- * MonotoneChains support the following kinds of queries:
- * <ul>
- * <li>Envelope select: determine all the segments in the chain which
- * intersect a given envelope
- * <li>Overlap: determine all the pairs of segments in two chains whose
- * envelopes overlap
- * </ul>
+ * MonotoneChains support the following kinds of queries: <ul> <li>Envelope select: determine all
+ * the segments in the chain which intersect a given envelope <li>Overlap: determine all the pairs
+ * of segments in two chains whose envelopes overlap </ul>
  *
- * This implementation of MonotoneChains uses the concept of internal iterators
- * ({link MonotoneChainSelectAction} and {link MonotoneChainOverlapAction})
- * to return the results for queries.
- * This has time and space advantages, since it
- * is not necessary to build lists of instantiated objects to represent the segments
- * returned by the query.
- * Queries made in this manner are thread-safe.
+ * This implementation of MonotoneChains uses the concept of internal iterators ({link
+ * MonotoneChainSelectAction} and {link MonotoneChainOverlapAction}) to return the results for
+ * queries. This has time and space advantages, since it is not necessary to build lists of
+ * instantiated objects to represent the segments returned by the query. Queries made in this manner
+ * are thread-safe.
  *
- * MonotoneChains support being assigned an integer id value
- * to provide a total ordering for a set of chains.
- * This can be used during some kinds of processing to
- * avoid redundant comparisons
- * (i.e. by comparing only chains where the first id is less than the second).
+ * MonotoneChains support being assigned an integer id value to provide a total ordering for a set
+ * of chains. This can be used during some kinds of processing to avoid redundant comparisons (i.e.
+ * by comparing only chains where the first id is less than the second).
  *
  * @version 1.7
  */
@@ -68,20 +50,24 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   /**
    * Creates a new MonotoneChain based on the given array of points.
    *
-   * @param pts     the points containing the chain
-   * @param start   the index of the first coordinate in the chain
-   * @param end     the index of the last coordinate in the chain
-   * @param context a user-defined data object
+   * @param pts
+   *   the points containing the chain
+   * @param start
+   *   the index of the first coordinate in the chain
+   * @param end
+   *   the index of the last coordinate in the chain
+   * @param context
+   *   a user-defined data object
    */
   private var env: Envelope = null
 //  private val context = null // user-defined information
   private var id            = 0 // useful for optimizing chain comparisons
   /**
-   * Sets the id of this chain.
-   * Useful for assigning an ordering to a set of
-   * chains, which can be used to avoid redundant processing.
+   * Sets the id of this chain. Useful for assigning an ordering to a set of chains, which can be
+   * used to avoid redundant processing.
    *
-   * @param id an id value
+   * @param id
+   *   an id value
    */
   def setId(id: Int): Unit = this.id = id
 
@@ -118,16 +104,14 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   }
 
   /**
-   * Gets the index of the start of the monotone chain
-   * in the underlying array of points.
+   * Gets the index of the start of the monotone chain in the underlying array of points.
    *
    * return the start index of the chain
    */
   def getStartIndex: Int = start
 
   /**
-   * Gets the index of the end of the monotone chain
-   * in the underlying array of points.
+   * Gets the index of the end of the monotone chain in the underlying array of points.
    *
    * return the end index of the chain
    */
@@ -136,8 +120,10 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   /**
    * Gets the line segment starting at <code>index</code>
    *
-   * @param index index of segment
-   * @param ls    line segment to extract into
+   * @param index
+   *   index of segment
+   * @param ls
+   *   line segment to extract into
    */
   def getLineSegment(index: Int, ls: LineSegment): Unit = {
     ls.p0 = pts(index)
@@ -145,8 +131,8 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   }
 
   /**
-   * Return the subsequence of coordinates forming this chain.
-   * Allocates a new array to hold the Coordinates
+   * Return the subsequence of coordinates forming this chain. Allocates a new array to hold the
+   * Coordinates
    */
   def getCoordinates: Array[Coordinate] = {
     val coord = new Array[Coordinate](end - start + 1)
@@ -162,19 +148,17 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   }
 
   /**
-   * Determine all the line segments in the chain whose envelopes overlap
-   * the searchEnvelope, and process them.
-   * <p>
-   * The monotone chain search algorithm attempts to optimize
-   * performance by not calling the select action on chain segments
-   * which it can determine are not in the search envelope.
-   * However, it *may* call the select action on segments
-   * which do not intersect the search envelope.
-   * This saves on the overhead of checking envelope intersection
-   * each time, since clients may be able to do this more efficiently.
+   * Determine all the line segments in the chain whose envelopes overlap the searchEnvelope, and
+   * process them. <p> The monotone chain search algorithm attempts to optimize performance by not
+   * calling the select action on chain segments which it can determine are not in the search
+   * envelope. However, it *may* call the select action on segments which do not intersect the
+   * search envelope. This saves on the overhead of checking envelope intersection each time, since
+   * clients may be able to do this more efficiently.
    *
-   * @param searchEnv the search envelope
-   * @param mcs       the select action to execute on selected segments
+   * @param searchEnv
+   *   the search envelope
+   * @param mcs
+   *   the select action to execute on selected segments
    */
   def select(searchEnv: Envelope, mcs: MonotoneChainSelectAction): Unit =
     computeSelect(searchEnv, start, end, mcs)
@@ -204,33 +188,36 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   }
 
   /**
-   * Determine all the line segments in two chains which may overlap, and process them.
-   * <p>
-   * The monotone chain search algorithm attempts to optimize
-   * performance by not calling the overlap action on chain segments
-   * which it can determine do not overlap.
-   * However, it *may* call the overlap action on segments
-   * which do not actually interact.
-   * This saves on the overhead of checking intersection
-   * each time, since clients may be able to do this more efficiently.
+   * Determine all the line segments in two chains which may overlap, and process them. <p> The
+   * monotone chain search algorithm attempts to optimize performance by not calling the overlap
+   * action on chain segments which it can determine do not overlap. However, it *may* call the
+   * overlap action on segments which do not actually interact. This saves on the overhead of
+   * checking intersection each time, since clients may be able to do this more efficiently.
    *
-   * @param searchEnv the search envelope
-   * @param mco       the overlap action to execute on selected segments
+   * @param searchEnv
+   *   the search envelope
+   * @param mco
+   *   the overlap action to execute on selected segments
    */
   def computeOverlaps(mc: MonotoneChain, mco: MonotoneChainOverlapAction): Unit =
     computeOverlaps(start, end, mc, mc.start, mc.end, mco)
 
   /**
-   * Uses an efficient mutual binary search strategy
-   * to determine which pairs of chain segments
-   * may overlap, and calls the given overlap action on them.
+   * Uses an efficient mutual binary search strategy to determine which pairs of chain segments may
+   * overlap, and calls the given overlap action on them.
    *
-   * @param start0 the start index of this chain section
-   * @param end0   the end index of this chain section
-   * @param mc     the target monotone chain
-   * @param start1 the start index of the target chain section
-   * @param end1   the end index of the target chain section
-   * @param mco    the overlap action to execute on selected segments
+   * @param start0
+   *   the start index of this chain section
+   * @param end0
+   *   the end index of this chain section
+   * @param mc
+   *   the target monotone chain
+   * @param start1
+   *   the start index of the target chain section
+   * @param end1
+   *   the end index of the target chain section
+   * @param mco
+   *   the overlap action to execute on selected segments
    */
   private def computeOverlaps(
     start0: Int,
@@ -259,19 +246,21 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   }
 
   /**
-   * Tests whether the envelope of a section of the chain
-   * overlaps (intersects) the envelope of a section of another target chain.
-   * This test is efficient due to the monotonicity property
-   * of the sections (i.e. the envelopes can be are determined
-   * from the section endpoints
-   * rather than a full scan).
+   * Tests whether the envelope of a section of the chain overlaps (intersects) the envelope of a
+   * section of another target chain. This test is efficient due to the monotonicity property of the
+   * sections (i.e. the envelopes can be are determined from the section endpoints rather than a
+   * full scan).
    *
-   * @param start0 the start index of this chain section
-   * @param end0   the end index of this chain section
-   * @param mc     the target monotone chain
-   * @param start1 the start index of the target chain section
-   * @param end1   the end index of the target chain section
-   * return true if the section envelopes overlap
+   * @param start0
+   *   the start index of this chain section
+   * @param end0
+   *   the end index of this chain section
+   * @param mc
+   *   the target monotone chain
+   * @param start1
+   *   the start index of the target chain section
+   * @param end1
+   *   the end index of the target chain section return true if the section envelopes overlap
    */
   private def overlaps(start0: Int, end0: Int, mc: MonotoneChain, start1: Int, end1: Int) =
     Envelope.intersects(pts(start0), pts(end0), mc.pts(start1), mc.pts(end1))

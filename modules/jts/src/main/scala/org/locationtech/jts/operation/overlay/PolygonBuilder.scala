@@ -33,27 +33,21 @@ import org.locationtech.jts.geomgraph.{ DirectedEdge, EdgeEnd, EdgeRing, Node, P
 import org.locationtech.jts.util.Assert
 
 /**
- * Forms {link Polygon}s out of a graph of {link DirectedEdge}s.
- * The edges to use are marked as being in the result Area.
- * <p>
+ * Forms {link Polygon}s out of a graph of {link DirectedEdge}s. The edges to use are marked as
+ * being in the result Area. <p>
  *
  * @version 1.7
  */
 object PolygonBuilder {
 
   /**
-   * Find the innermost enclosing shell EdgeRing containing the argument EdgeRing, if any.
-   * The innermost enclosing ring is the <i>smallest</i> enclosing ring.
-   * The algorithm used depends on the fact that:
-   * <br>
-   * ring A contains ring B iff envelope(ring A) contains envelope(ring B)
-   * <br>
-   * This routine is only safe to use if the chosen point of the hole
-   * is known to be properly contained in a shell
-   * (which is guaranteed to be the case if the hole does not touch its shell)
+   * Find the innermost enclosing shell EdgeRing containing the argument EdgeRing, if any. The
+   * innermost enclosing ring is the <i>smallest</i> enclosing ring. The algorithm used depends on
+   * the fact that: <br> ring A contains ring B iff envelope(ring A) contains envelope(ring B) <br>
+   * This routine is only safe to use if the chosen point of the hole is known to be properly
+   * contained in a shell (which is guaranteed to be the case if the hole does not touch its shell)
    *
-   * return containing EdgeRing, if there is one
-   *         or null if no containing EdgeRing is found
+   * return containing EdgeRing, if there is one or null if no containing EdgeRing is found
    */
   private def findEdgeRingContaining(testEr: EdgeRing, shellList: util.List[_]): EdgeRing = {
     val testRing              = testEr.getLinearRing
@@ -91,16 +85,14 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
   private val shellList = new util.ArrayList[EdgeRing]
 
   /**
-   * Add a complete graph.
-   * The graph is assumed to contain one or more polygons,
-   * possibly with holes.
+   * Add a complete graph. The graph is assumed to contain one or more polygons, possibly with
+   * holes.
    */
   def add(graph: PlanarGraph): Unit = add(graph.getEdgeEnds, graph.getNodes)
 
   /**
-   * Add a set of edges and nodes, which form a graph.
-   * The graph is assumed to contain one or more polygons,
-   * possibly with holes.
+   * Add a set of edges and nodes, which form a graph. The graph is assumed to contain one or more
+   * polygons, possibly with holes.
    */
   def add(dirEdges: util.Collection[EdgeEnd], nodes: util.Collection[Node]): Unit = {
     PlanarGraph.linkResultDirectedEdges(nodes)
@@ -163,14 +155,12 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
   }
 
   /**
-   * This method takes a list of MinimalEdgeRings derived from a MaximalEdgeRing,
-   * and tests whether they form a Polygon.  This is the case if there is a single shell
-   * in the list.  In this case the shell is returned.
-   * The other possibility is that they are a series of connected holes, in which case
-   * no shell is returned.
+   * This method takes a list of MinimalEdgeRings derived from a MaximalEdgeRing, and tests whether
+   * they form a Polygon. This is the case if there is a single shell in the list. In this case the
+   * shell is returned. The other possibility is that they are a series of connected holes, in which
+   * case no shell is returned.
    *
-   * return the shell EdgeRing, if there is one
-   *         or null, if all the rings are holes
+   * return the shell EdgeRing, if there is one or null, if all the rings are holes
    */
   private def findShell(minEdgeRings: util.List[MinimalEdgeRing]): MinimalEdgeRing = {
     var shellCount             = 0
@@ -188,15 +178,11 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
   }
 
   /**
-   * This method assigns the holes for a Polygon (formed from a list of
-   * MinimalEdgeRings) to its shell.
-   * Determining the holes for a MinimalEdgeRing polygon serves two purposes:
-   * <ul>
-   * <li>it is faster than using a point-in-polygon check later on.
-   * <li>it ensures correctness, since if the PIP test was used the point
-   * chosen might lie on the shell, which might return an incorrect result from the
-   * PIP test
-   * </ul>
+   * This method assigns the holes for a Polygon (formed from a list of MinimalEdgeRings) to its
+   * shell. Determining the holes for a MinimalEdgeRing polygon serves two purposes: <ul> <li>it is
+   * faster than using a point-in-polygon check later on. <li>it ensures correctness, since if the
+   * PIP test was used the point chosen might lie on the shell, which might return an incorrect
+   * result from the PIP test </ul>
    */
   private def placePolygonHoles(shell: EdgeRing, minEdgeRings: util.List[MinimalEdgeRing]): Unit = {
     val it = minEdgeRings.iterator
@@ -207,11 +193,9 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
   }
 
   /**
-   * For all rings in the input list,
-   * determine whether the ring is a shell or a hole
-   * and add it to the appropriate list.
-   * Due to the way the DirectedEdges were linked,
-   * a ring is a shell if it is oriented CW, a hole otherwise.
+   * For all rings in the input list, determine whether the ring is a shell or a hole and add it to
+   * the appropriate list. Due to the way the DirectedEdges were linked, a ring is a shell if it is
+   * oriented CW, a hole otherwise.
    */
   private def sortShellsAndHoles(
     edgeRings:    util.List[EdgeRing],
@@ -228,15 +212,11 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
   }
 
   /**
-   * This method determines finds a containing shell for all holes
-   * which have not yet been assigned to a shell.
-   * These "free" holes should
-   * all be <b>properly</b> contained in their parent shells, so it is safe to use the
-   * <code>findEdgeRingContaining</code> method.
-   * (This is the case because any holes which are NOT
-   * properly contained (i.e. are connected to their
-   * parent shell) would have formed part of a MaximalEdgeRing
-   * and been handled in a previous step).
+   * This method determines finds a containing shell for all holes which have not yet been assigned
+   * to a shell. These "free" holes should all be <b>properly</b> contained in their parent shells,
+   * so it is safe to use the <code>findEdgeRingContaining</code> method. (This is the case because
+   * any holes which are NOT properly contained (i.e. are connected to their parent shell) would
+   * have formed part of a MaximalEdgeRing and been handled in a previous step).
    *
    * throws TopologyException if a hole cannot be assigned to a shell
    */

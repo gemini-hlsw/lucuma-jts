@@ -27,11 +27,13 @@ object GeometryExtracter {
   //		return o.getClass() == clz;
 
   /**
-   * Extracts the components of type <tt>clz</tt> from a {link Geometry}
-   * and adds them to the provided {link List}.
+   * Extracts the components of type <tt>clz</tt> from a {link Geometry} and adds them to the
+   * provided {link List}.
    *
-   * @param geom the geometry from which to extract
-   * @param list the list to add the extracted elements to
+   * @param geom
+   *   the geometry from which to extract
+   * @param list
+   *   the list to add the extracted elements to
    */
   def extract(geom: Geometry, clz: Class[_], list: util.List[Geometry]): util.List[Geometry] = {
     if (isOfClass(geom, clz)) list.add(geom)
@@ -41,10 +43,11 @@ object GeometryExtracter {
   }
 
   /**
-   * Extracts the components of type <tt>clz</tt> from a {link Geometry}
-   * and returns them in a {link List}.
+   * Extracts the components of type <tt>clz</tt> from a {link Geometry} and returns them in a {link
+   * List}.
    *
-   * @param geom the geometry from which to extract
+   * @param geom
+   *   the geometry from which to extract
    */
   def extract(geom: Geometry, clz: Class[_]): util.List[Geometry] =
     extract(geom, clz, new util.ArrayList[Geometry])
@@ -57,8 +60,7 @@ class GeometryExtracter(var clz: Class[_], var comps: util.List[Geometry])
  *
  * @param clz   the class of the components to extract (null means all types)
  * @param comps the list to extract into
- */
-    extends GeometryFilter {
+ */ extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (clz == null || GeometryExtracter.isOfClass(geom, clz)) comps.add(geom)
     ()

@@ -22,10 +22,10 @@
 package org.locationtech.jts.math
 
 /**
- * Implements some 2D matrix operations
- * (in particular, solving systems of linear equations).
+ * Implements some 2D matrix operations (in particular, solving systems of linear equations).
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object Matrix {
   private def swapRows(m: Array[Array[Double]], i: Int, j: Int): Unit = {
@@ -47,15 +47,14 @@ object Matrix {
   }
 
   /**
-   * Solves a system of equations using Gaussian Elimination.
-   * In order to avoid overhead the algorithm runs in-place
-   * on A - if A should not be modified the client must supply a copy.
+   * Solves a system of equations using Gaussian Elimination. In order to avoid overhead the
+   * algorithm runs in-place on A - if A should not be modified the client must supply a copy.
    *
-   * @param a an nxn matrix in row/column order )modified by this method)
-   * @param b a vector of length n
-   * return a vector containing the solution (if any)
-   *         or null if the system has no or no unique solution
-   * throws IllegalArgumentException if the matrix is the wrong size
+   * @param a
+   *   an nxn matrix in row/column order )modified by this method)
+   * @param b
+   *   a vector of length n return a vector containing the solution (if any) or null if the system
+   *   has no or no unique solution throws IllegalArgumentException if the matrix is the wrong size
    */
   def solve(a: Array[Array[Double]], b: Array[Double]): Array[Double] = {
     val n = b.length
@@ -91,8 +90,8 @@ object Matrix {
     }
 
     /**
-     * A is now (virtually) in upper-triangular form.
-     * The solution vector is determined by back-substitution.
+     * A is now (virtually) in upper-triangular form. The solution vector is determined by
+     * back-substitution.
      */
     val solution = new Array[Double](n)
     var j        = n - 1

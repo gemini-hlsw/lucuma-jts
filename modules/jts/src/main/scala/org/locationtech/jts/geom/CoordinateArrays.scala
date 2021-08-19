@@ -29,8 +29,8 @@ object CoordinateArrays {
   /**
    * Determine dimension based on subclass of {link Coordinate}.
    *
-   * @param pts supplied coordinates
-   * return number of ordinates recorded
+   * @param pts
+   *   supplied coordinates return number of ordinates recorded
    */
   def dimension(pts: Array[Coordinate]): Int = {
     if (pts == null || pts.length == 0) return 3 // unknown, assume default
@@ -43,8 +43,8 @@ object CoordinateArrays {
   /**
    * Determine number of measures based on subclass of {link Coordinate}.
    *
-   * @param pts supplied coordinates
-   * return number of measures recorded
+   * @param pts
+   *   supplied coordinates return number of measures recorded
    */
   def measures(pts: Array[Coordinate]): Int = {
     if (pts == null || pts.length == 0) return 0
@@ -55,12 +55,11 @@ object CoordinateArrays {
   }
 
   /**
-   * Tests whether an array of {link Coordinate}s forms a ring,
-   * by checking length and closure.
+   * Tests whether an array of {link Coordinate}s forms a ring, by checking length and closure.
    * Self-intersection is not checked.
    *
-   * @param pts an array of Coordinates
-   * return true if the coordinate form a ring.
+   * @param pts
+   *   an array of Coordinates return true if the coordinate form a ring.
    */
   def isRing(pts: Array[Coordinate]): Boolean = {
     if (pts.length < 4) return false
@@ -71,22 +70,23 @@ object CoordinateArrays {
   /**
    * Finds a point in a list of points which is not contained in another list of points
    *
-   * @param testPts the { @link Coordinate}s to test
-   * @param pts an array of { @link Coordinate}s to test the input points against
-   * return a { @link Coordinate} from <code>testPts</code> which is not in <code>pts</code>, '
-   *                   or <code>null</code>
+   * @param testPts
+   *   the { @link Coordinate}s to test
+   * @param pts
+   *   an array of { @link Coordinate}s to test the input points against return a { @link
+   *   Coordinate} from <code>testPts</code> which is not in <code>pts</code>, ' or
+   *   <code>null</code>
    */
   def ptNotInList(testPts: Array[Coordinate], pts: Array[Coordinate]): Coordinate =
     testPts.find(CoordinateArrays.indexOf(_, pts) < 0).orNull
 
   /**
-   * Compares two {link Coordinate} arrays
-   * in the forward direction of their coordinates,
-   * using lexicographic ordering.
+   * Compares two {link Coordinate} arrays in the forward direction of their coordinates, using
+   * lexicographic ordering.
    *
    * @param pts1
    * @param pts2
-   * return an integer indicating the order
+   *   return an integer indicating the order
    */
   def compare(pts1: Array[Coordinate], pts2: Array[Coordinate]): Int = {
     var i = 0
@@ -102,8 +102,7 @@ object CoordinateArrays {
   }
 
   /**
-   * A {link Comparator} for {link Coordinate} arrays
-   * in the forward direction of their coordinates,
+   * A {link Comparator} for {link Coordinate} arrays in the forward direction of their coordinates,
    * using lexicographic ordering.
    */
   class ForwardComparator extends Comparator[Array[Coordinate]] {
@@ -112,18 +111,14 @@ object CoordinateArrays {
   }
 
   /**
-   * Determines which orientation of the {link Coordinate} array
-   * is (overall) increasing.
-   * In other words, determines which end of the array is "smaller"
-   * (using the standard ordering on {link Coordinate}).
-   * Returns an integer indicating the increasing direction.
-   * If the sequence is a palindrome, it is defined to be
-   * oriented in a positive direction.
+   * Determines which orientation of the {link Coordinate} array is (overall) increasing. In other
+   * words, determines which end of the array is "smaller" (using the standard ordering on {link
+   * Coordinate}). Returns an integer indicating the increasing direction. If the sequence is a
+   * palindrome, it is defined to be oriented in a positive direction.
    *
-   * @param pts the array of Coordinates to test
-   * return <code>1</code> if the array is smaller at the start
-   *         or is a palindrome,
-   *         <code>-1</code> if smaller at the end
+   * @param pts
+   *   the array of Coordinates to test return <code>1</code> if the array is smaller at the start
+   *   or is a palindrome, <code>-1</code> if smaller at the end
    */
   def increasingDirection(pts: Array[Coordinate]): Int = {
     var i = 0
@@ -139,12 +134,12 @@ object CoordinateArrays {
   }
 
   /**
-   * Determines whether two {link Coordinate} arrays of equal length
-   * are equal in opposite directions.
+   * Determines whether two {link Coordinate} arrays of equal length are equal in opposite
+   * directions.
    *
    * @param pts1
    * @param pts2
-   * return <code>true</code> if the two arrays are equal in opposite directions.
+   *   return <code>true</code> if the two arrays are equal in opposite directions.
    */
   private def isEqualReversed(pts1: Array[Coordinate], pts2: Array[Coordinate]): Boolean = {
     var i = 0
@@ -158,12 +153,9 @@ object CoordinateArrays {
   }
 
   /**
-   * A {link Comparator} for {link Coordinate} arrays
-   * modulo their directionality.
-   * E.g. if two coordinate arrays are identical but reversed
-   * they will compare as equal under this ordering.
-   * If the arrays are not equal, the ordering returned
-   * is the ordering in the forward direction.
+   * A {link Comparator} for {link Coordinate} arrays modulo their directionality. E.g. if two
+   * coordinate arrays are identical but reversed they will compare as equal under this ordering. If
+   * the arrays are not equal, the ordering returned is the ordering in the forward direction.
    */
   class BidirectionalComparator extends Comparator[Array[Coordinate]] {
     override def compare(pts1: Array[Coordinate], pts2: Array[Coordinate]): Int = {
@@ -205,8 +197,8 @@ object CoordinateArrays {
   /**
    * Creates a deep copy of the argument {link Coordinate} array.
    *
-   * @param coordinates an array of Coordinates
-   * return a deep copy of the input
+   * @param coordinates
+   *   an array of Coordinates return a deep copy of the input
    */
   def copyDeep(coordinates: Array[Coordinate]): Array[Coordinate] = {
     val copy = new Array[Coordinate](coordinates.length)
@@ -219,16 +211,20 @@ object CoordinateArrays {
   }
 
   /**
-   * Creates a deep copy of a given section of a source {link Coordinate} array
-   * into a destination Coordinate array.
-   * The destination array must be an appropriate size to receive
-   * the copied coordinates.
+   * Creates a deep copy of a given section of a source {link Coordinate} array into a destination
+   * Coordinate array. The destination array must be an appropriate size to receive the copied
+   * coordinates.
    *
-   * @param src       an array of Coordinates
-   * @param srcStart  the index to start copying from
-   * @param dest      the
-   * @param destStart the destination index to start copying to
-   * @param length    the number of items to copy
+   * @param src
+   *   an array of Coordinates
+   * @param srcStart
+   *   the index to start copying from
+   * @param dest
+   *   the
+   * @param destStart
+   *   the destination index to start copying to
+   * @param length
+   *   the number of items to copy
    */
   def copyDeep(
     src:       Array[Coordinate],
@@ -251,8 +247,7 @@ object CoordinateArrays {
     coordList.toArray(coordArrayType).asInstanceOf[Array[Coordinate]]
 
   /**
-   * Returns whether #equals returns true for any two consecutive Coordinates
-   * in the given array.
+   * Returns whether #equals returns true for any two consecutive Coordinates in the given array.
    */
   def hasRepeatedPoints(coord: Array[Coordinate]): Boolean = {
     var i = 1
@@ -264,8 +259,8 @@ object CoordinateArrays {
   }
 
   /**
-   * Returns either the given coordinate array if its length is greater than the
-   * given amount, or an empty coordinate array.
+   * Returns either the given coordinate array if its length is greater than the given amount, or an
+   * empty coordinate array.
    */
   def atLeastNCoordinatesOrNothing(n: Int, c: Array[Coordinate]): Array[Coordinate] = if (
     c.length >= n
@@ -273,11 +268,11 @@ object CoordinateArrays {
   else Array[Coordinate]()
 
   /**
-   * If the coordinate array argument has repeated points,
-   * constructs a new array containing no repeated points.
-   * Otherwise, returns the argument.
+   * If the coordinate array argument has repeated points, constructs a new array containing no
+   * repeated points. Otherwise, returns the argument.
    *
-   * @see #hasRepeatedPoints(Coordinate[])
+   * @see
+   *   #hasRepeatedPoints(Coordinate[])
    */
   def removeRepeatedPoints(coord: Array[Coordinate]): Array[Coordinate] = {
     if (!hasRepeatedPoints(coord)) return coord
@@ -288,8 +283,8 @@ object CoordinateArrays {
   /**
    * Collapses a coordinate array to remove all null elements.
    *
-   * @param coord the coordinate array to collapse
-   * return an array containing only non-null elements
+   * @param coord
+   *   the coordinate array to collapse return an array containing only non-null elements
    */
   def removeNull(coord: Array[Coordinate]): Array[Coordinate] = {
     var nonNull  = 0
@@ -330,10 +325,11 @@ object CoordinateArrays {
   }
 
   /**
-   * Returns true if the two arrays are identical, both null, or pointwise
-   * equal (as compared using Coordinate#equals)
+   * Returns true if the two arrays are identical, both null, or pointwise equal (as compared using
+   * Coordinate#equals)
    *
-   * @see Coordinate#equals(Object)
+   * @see
+   *   Coordinate#equals(Object)
    */
   def equals(coord1: Array[Coordinate], coord2: Array[Coordinate]): Boolean = {
     if (coord1 eq coord2) return true
@@ -348,12 +344,15 @@ object CoordinateArrays {
   }
 
   /**
-   * Returns true if the two arrays are identical, both null, or pointwise
-   * equal, using a user-defined {link Comparator} for {link Coordinate} s
+   * Returns true if the two arrays are identical, both null, or pointwise equal, using a
+   * user-defined {link Comparator} for {link Coordinate} s
    *
-   * @param coord1               an array of Coordinates
-   * @param coord2               an array of Coordinates
-   * @param coordinateComparator a Comparator for Coordinates
+   * @param coord1
+   *   an array of Coordinates
+   * @param coord2
+   *   an array of Coordinates
+   * @param coordinateComparator
+   *   a Comparator for Coordinates
    */
   def equals(
     coord1:               Array[Coordinate],
@@ -374,9 +373,11 @@ object CoordinateArrays {
   /**
    * Returns the minimum coordinate, using the usual lexicographic comparison.
    *
-   * @param  coordinates the array to search
-   * return the minimum coordinate in the array, found using <code>compareTo</code>
-   * @see Coordinate#compareTo(Object)
+   * @param coordinates
+   *   the array to search return the minimum coordinate in the array, found using
+   *   <code>compareTo</code>
+   * @see
+   *   Coordinate#compareTo(Object)
    */
   def minCoordinate(coordinates: Array[Coordinate]): Coordinate = {
     var minCoord: Coordinate = null
@@ -389,11 +390,12 @@ object CoordinateArrays {
   }
 
   /**
-   * Shifts the positions of the coordinates until <code>firstCoordinate</code>
-   * is first.
+   * Shifts the positions of the coordinates until <code>firstCoordinate</code> is first.
    *
-   * @param  coordinates     the array to rearrange
-   * @param  firstCoordinate the coordinate to make first
+   * @param coordinates
+   *   the array to rearrange
+   * @param firstCoordinate
+   *   the coordinate to make first
    */
   def scroll(coordinates: Array[Coordinate], firstCoordinate: Coordinate): Unit = {
     val i              = indexOf(firstCoordinate, coordinates)
@@ -405,13 +407,13 @@ object CoordinateArrays {
   }
 
   /**
-   * Returns the index of <code>coordinate</code> in <code>coordinates</code>.
-   * The first position is 0; the second, 1; etc.
+   * Returns the index of <code>coordinate</code> in <code>coordinates</code>. The first position is
+   * 0; the second, 1; etc.
    *
-   * @param  coordinate  the <code>Coordinate</code> to search for
-   * @param  coordinates the array to search
-   * return the position of <code>coordinate</code>, or -1 if it is
-   *         not found
+   * @param coordinate
+   *   the <code>Coordinate</code> to search for
+   * @param coordinates
+   *   the array to search return the position of <code>coordinate</code>, or -1 if it is not found
    */
   def indexOf(coordinate: Coordinate, coordinates: Array[Coordinate]): Int = {
     var i = 0
@@ -423,17 +425,16 @@ object CoordinateArrays {
   }
 
   /**
-   * Extracts a subsequence of the input {link Coordinate} array
-   * from indices <code>start</code> to
-   * <code>end</code> (inclusive).
-   * The input indices are clamped to the array size;
-   * If the end index is less than the start index,
-   * the extracted array will be empty.
+   * Extracts a subsequence of the input {link Coordinate} array from indices <code>start</code> to
+   * <code>end</code> (inclusive). The input indices are clamped to the array size; If the end index
+   * is less than the start index, the extracted array will be empty.
    *
-   * @param pts   the input array
-   * @param start the index of the start of the subsequence to extract
-   * @param end   the index of the end of the subsequence to extract
-   * return a subsequence of the input array
+   * @param pts
+   *   the input array
+   * @param start
+   *   the index of the start of the subsequence to extract
+   * @param end
+   *   the index of the end of the subsequence to extract return a subsequence of the input array
    */
   def extract(pts: Array[Coordinate], startArg: Int, endArg: Int): Array[Coordinate] = {
     val start      = MathUtil.clamp(startArg, 0, pts.length)
@@ -458,8 +459,8 @@ object CoordinateArrays {
   /**
    * Computes the envelope of the coordinates.
    *
-   * @param coordinates the coordinates to scan
-   * return the envelope of the coordinates
+   * @param coordinates
+   *   the coordinates to scan return the envelope of the coordinates
    */
   def envelope(coordinates: Array[Coordinate]): Envelope = {
     val env = new Envelope()
@@ -470,9 +471,11 @@ object CoordinateArrays {
   /**
    * Extracts the coordinates which intersect an {link Envelope}
    *
-   * @param coordinates the coordinates to scan
-   * @param env         the envelope to intersect with
-   * return an array of the coordinates which intersect the envelope
+   * @param coordinates
+   *   the coordinates to scan
+   * @param env
+   *   the envelope to intersect with return an array of the coordinates which intersect the
+   *   envelope
    */
   def intersection(coordinates: Array[Coordinate], env: Envelope): Array[Coordinate] = {
 

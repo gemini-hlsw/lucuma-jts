@@ -37,22 +37,14 @@ import org.locationtech.jts.geom.util.PointExtracter
 import org.locationtech.jts.geom.util.PolygonExtracter
 
 /**
- * Find two points on two {link Geometry}s which lie
- * within a given distance, or else are the nearest points
- * on the geometries (in which case this also
- * provides the distance between the geometries).
- * <p>
- * The distance computation also finds a pair of points in the input geometries
- * which have the minimum distance between them.
- * If a point lies in the interior of a line segment,
- * the coordinate computed is a close
- * approximation to the exact point.
- * <p>
- * Empty geometry collection components are ignored.
- * <p>
- * The algorithms used are straightforward O(n^2)
- * comparisons.  This worst-case performance could be improved on
- * by using Voronoi techniques or spatial indexes.
+ * Find two points on two {link Geometry}s which lie within a given distance, or else are the
+ * nearest points on the geometries (in which case this also provides the distance between the
+ * geometries). <p> The distance computation also finds a pair of points in the input geometries
+ * which have the minimum distance between them. If a point lies in the interior of a line segment,
+ * the coordinate computed is a close approximation to the exact point. <p> Empty geometry
+ * collection components are ignored. <p> The algorithms used are straightforward O(n^2)
+ * comparisons. This worst-case performance could be improved on by using Voronoi techniques or
+ * spatial indexes.
  *
  * @version 1.7
  */
@@ -61,9 +53,10 @@ object DistanceOp {
   /**
    * Compute the distance between the nearest points of two geometries.
    *
-   * @param g0 a { @link Geometry}
-   * @param g1 another { @link Geometry}
-   * return the distance between the geometries
+   * @param g0
+   *   a { @link Geometry}
+   * @param g1
+   *   another { @link Geometry} return the distance between the geometries
    */
   def distance(g0: Geometry, g1: Geometry): Double = {
     val distOp = new DistanceOp(g0, g1)
@@ -73,10 +66,12 @@ object DistanceOp {
   /**
    * Test whether two geometries lie within a given distance of each other.
    *
-   * @param g0 a { @link Geometry}
-   * @param g1 another { @link Geometry}
-   * @param distance the distance to test
-   * return true if g0.distance(g1) &lt;= distance
+   * @param g0
+   *   a { @link Geometry}
+   * @param g1
+   *   another { @link Geometry}
+   * @param distance
+   *   the distance to test return true if g0.distance(g1) &lt;= distance
    */
   def isWithinDistance(g0: Geometry, g1: Geometry, distance: Double): Boolean = { // check envelope distance for a short-circuit negative result
     val envDist = g0.getEnvelopeInternal.distance(g1.getEnvelopeInternal)
@@ -87,12 +82,13 @@ object DistanceOp {
   }
 
   /**
-   * Compute the the nearest points of two geometries.
-   * The points are presented in the same order as the input Geometries.
+   * Compute the the nearest points of two geometries. The points are presented in the same order as
+   * the input Geometries.
    *
-   * @param g0 a { @link Geometry}
-   * @param g1 another { @link Geometry}
-   * return the nearest points in the geometries
+   * @param g0
+   *   a { @link Geometry}
+   * @param g1
+   *   another { @link Geometry} return the nearest points in the geometries
    */
   def nearestPoints(g0: Geometry, g1: Geometry): Array[Coordinate] = {
     val distOp = new DistanceOp(g0, g1)
@@ -100,13 +96,15 @@ object DistanceOp {
   }
 
   /**
-   * Compute the the closest points of two geometries.
-   * The points are presented in the same order as the input Geometries.
+   * Compute the the closest points of two geometries. The points are presented in the same order as
+   * the input Geometries.
    *
-   * @param g0 a { @link Geometry}
-   * @param g1 another { @link Geometry}
-   * return the closest points in the geometries
-   * @deprecated renamed to nearestPoints
+   * @param g0
+   *   a { @link Geometry}
+   * @param g1
+   *   another { @link Geometry} return the closest points in the geometries
+   * @deprecated
+   *   renamed to nearestPoints
    */
   def closestPoints(g0: Geometry, g1: Geometry): Array[Coordinate] = {
     val distOp = new DistanceOp(g0, g1)
@@ -117,12 +115,15 @@ object DistanceOp {
 class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Double) {
 
   /**
-   * Constructs a DistanceOp that computes the distance and nearest points between
-   * the two specified geometries.
+   * Constructs a DistanceOp that computes the distance and nearest points between the two specified
+   * geometries.
    *
-   * @param g0                a Geometry
-   * @param g1                a Geometry
-   * @param terminateDistance the distance on which to terminate the search
+   * @param g0
+   *   a Geometry
+   * @param g1
+   *   a Geometry
+   * @param terminateDistance
+   *   the distance on which to terminate the search
    */
   val baseGeometry                                         = new Array[Geometry](2)
   baseGeometry(0) = g0
@@ -135,11 +136,13 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
   private var minDistance                                  = Double.MaxValue
 
   /**
-   * Constructs a DistanceOp that computes the distance and nearest points between
-   * the two specified geometries.
+   * Constructs a DistanceOp that computes the distance and nearest points between the two specified
+   * geometries.
    *
-   * @param g0 a Geometry
-   * @param g1 a Geometry
+   * @param g0
+   *   a Geometry
+   * @param g1
+   *   a Geometry
    */
   def this(g0: Geometry, g1: Geometry) = {
     this(g0, g1, 0.0)
@@ -148,9 +151,8 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
   /**
    * Report the distance between the nearest points on the input geometries.
    *
-   * return the distance between the geometries
-   *         or 0 if either input geometry is empty
-   * throws IllegalArgumentException if either input geometry is null
+   * return the distance between the geometries or 0 if either input geometry is empty throws
+   * IllegalArgumentException if either input geometry is null
    */
   def distance: Double = {
     if (geom(0) == null || geom(1) == null)
@@ -161,8 +163,8 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
   }
 
   /**
-   * Report the coordinates of the nearest points in the input geometries.
-   * The points are presented in the same order as the input Geometries.
+   * Report the coordinates of the nearest points in the input geometries. The points are presented
+   * in the same order as the input Geometries.
    *
    * return a pair of { @link Coordinate}s of the nearest points
    */
@@ -175,13 +177,14 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
 
   /**
    * return a pair of { @link Coordinate}s of the nearest points
-   * @deprecated renamed to nearestPoints
+   * @deprecated
+   *   renamed to nearestPoints
    */
   def closestPoints: Array[Coordinate] = nearestPoints
 
   /**
-   * Report the locations of the nearest points in the input geometries.
-   * The locations are presented in the same order as the input Geometries.
+   * Report the locations of the nearest points in the input geometries. The locations are presented
+   * in the same order as the input Geometries.
    *
    * return a pair of { @link GeometryLocation}s for the nearest points
    */
@@ -192,7 +195,8 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
 
   /**
    * return a pair of { @link GeometryLocation}s for the nearest points
-   * @deprecated renamed to nearestLocations
+   * @deprecated
+   *   renamed to nearestLocations
    */
   def closestLocations: Array[GeometryLocation] = nearestLocations
 
@@ -277,15 +281,14 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
   }
 
   /**
-   * Computes distance between facets (lines and points)
-   * of input geometries.
+   * Computes distance between facets (lines and points) of input geometries.
    */
   private def computeFacetDistance(): Unit = {
     val locGeom = new Array[GeometryLocation](2)
 
     /**
-     * Geometries are not wholely inside, so compute distance from lines and points
-     * of one to lines and points of the other
+     * Geometries are not wholely inside, so compute distance from lines and points of one to lines
+     * and points of the other
      */
     val lines0 = LinearComponentExtracter.getLines(geom(0))
     val lines1 = LinearComponentExtracter.getLines(geom(1))

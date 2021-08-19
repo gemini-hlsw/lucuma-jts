@@ -25,9 +25,8 @@ import org.locationtech.jts.geom.Coordinate
 //import org.locationtech.jts.io.WKTWriter
 
 /**
- * Contains a pair of points and the distance between them.
- * Provides methods to update with a new point pair with
- * either maximum or minimum distance.
+ * Contains a pair of points and the distance between them. Provides methods to update with a new
+ * point pair with either maximum or minimum distance.
  */
 class PointPairDistance() {
   private val pt       = Array(new Coordinate, new Coordinate)
@@ -48,7 +47,8 @@ class PointPairDistance() {
    *
    * @param p0
    * @param p1
-   * @param distance the distance between p0 and p1
+   * @param distance
+   *   the distance between p0 and p1
    */
   private def initialize(p0: Coordinate, p1: Coordinate, distance: Double): Unit = {
     pt(0).setCoordinate(p0)

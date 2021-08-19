@@ -15,10 +15,9 @@ import java.util
 import org.locationtech.jts.geomgraph.Edge
 
 /**
- * Finds all intersections in one or two sets of edges,
- * using the straightforward method of
- * comparing all segments.
- * This algorithm is too slow for production use, but is useful for testing purposes.
+ * Finds all intersections in one or two sets of edges, using the straightforward method of
+ * comparing all segments. This algorithm is too slow for production use, but is useful for testing
+ * purposes.
  *
  * @version 1.7
  */
@@ -61,9 +60,8 @@ class SimpleEdgeSetIntersector() extends EdgeSetIntersector {
   }
 
   /**
-   * Performs a brute-force comparison of every segment in each Edge.
-   * This has n^2 performance, and is about 100 times slower than using
-   * monotone chains.
+   * Performs a brute-force comparison of every segment in each Edge. This has n^2 performance, and
+   * is about 100 times slower than using monotone chains.
    */
   private def computeIntersects(e0: Edge, e1: Edge, si: SegmentIntersector): Unit = {
     val pts0 = e0.getCoordinates

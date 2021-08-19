@@ -49,8 +49,8 @@ object BoundaryOp {
   /**
    * Computes a geometry representing the boundary of a geometry.
    *
-   * @param g the input geometry
-   * return the computed boundary
+   * @param g
+   *   the input geometry return the computed boundary
    */
   def getBoundary(g: Geometry): Geometry = {
     val bop = new BoundaryOp(g)
@@ -76,15 +76,18 @@ class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
   /**
    * Creates a new instance for the given geometry.
    *
-   * @param geom   the input geometry
-   * @param bnRule the Boundary Node Rule to use
+   * @param geom
+   *   the input geometry
+   * @param bnRule
+   *   the Boundary Node Rule to use
    */
   private val geomFact = geom.getFactory
 
   /**
    * Creates a new instance for the given geometry.
    *
-   * @param geom the input geometry
+   * @param geom
+   *   the input geometry
    */
   def this(geom: Geometry) = {
     this(geom, BoundaryNodeRule.MOD2_BOUNDARY_RULE)
@@ -158,7 +161,8 @@ class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
 /**
  * Stores an integer count, for use as a Map entry.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  * @version 1.7
  */
 class Counter {

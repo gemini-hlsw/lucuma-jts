@@ -34,25 +34,21 @@ import org.locationtech.jts.geom.util.PolygonExtracter
 import org.locationtech.jts.operation.distance.DistanceOp
 
 /**
- * Validates that a given buffer curve lies an appropriate distance
- * from the input generating it.
- * Useful only for round buffers (cap and join).
- * Can be used for either positive or negative distances.
- * <p>
- * This is a heuristic test, and may return false positive results
- * (I.e. it may fail to detect an invalid result.)
- * It should never return a false negative result, however
- * (I.e. it should never report a valid result as invalid.)
+ * Validates that a given buffer curve lies an appropriate distance from the input generating it.
+ * Useful only for round buffers (cap and join). Can be used for either positive or negative
+ * distances. <p> This is a heuristic test, and may return false positive results (I.e. it may fail
+ * to detect an invalid result.) It should never return a false negative result, however (I.e. it
+ * should never report a valid result as invalid.)
  *
- * @author mbdavis
+ * @author
+ *   mbdavis
  */
 object BufferDistanceValidator {
   private val VERBOSE = false
 
   /**
-   * Maximum allowable fraction of buffer distance the
-   * actual distance can differ by.
-   * 1% sometimes causes an error - 1.2% should be safe.
+   * Maximum allowable fraction of buffer distance the actual distance can differ by. 1% sometimes
+   * causes an error - 1.2% should be safe.
    */
   private val MAX_DISTANCE_DIFF_FRAC = .012
 }
@@ -88,13 +84,10 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
   def getErrorLocation: Coordinate = errorLocation
 
   /**
-   * Gets a geometry which indicates the location and nature of a validation failure.
-   * <p>
-   * The indicator is a line segment showing the location and size
-   * of the distance discrepancy.
+   * Gets a geometry which indicates the location and nature of a validation failure. <p> The
+   * indicator is a line segment showing the location and size of the distance discrepancy.
    *
-   * return a geometric error indicator
-   *         or null if no error was found
+   * return a geometric error indicator or null if no error was found
    */
   def getErrorIndicator: Geometry = errorIndicator
 
@@ -133,9 +126,12 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
   /**
    * Checks that two geometries are at least a minimum distance apart.
    *
-   * @param g1      a geometry
-   * @param g2      a geometry
-   * @param minDist the minimum distance the geometries should be separated by
+   * @param g1
+   *   a geometry
+   * @param g2
+   *   a geometry
+   * @param minDist
+   *   the minimum distance the geometries should be separated by
    */
   private def checkMinimumDistance(g1: Geometry, g2: Geometry, minDist: Double): Unit = {
     val distOp = new DistanceOp(g1, g2, minDist)
@@ -154,15 +150,16 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
   }
 
   /**
-   * Checks that the furthest distance from the buffer curve to the input
-   * is less than the given maximum distance.
-   * This uses the Oriented Hausdorff distance metric.
-   * It corresponds to finding
+   * Checks that the furthest distance from the buffer curve to the input is less than the given
+   * maximum distance. This uses the Oriented Hausdorff distance metric. It corresponds to finding
    * the point on the buffer curve which is furthest from <i>some</i> point on the input.
    *
-   * @param input    a geometry
-   * @param bufCurve a geometry
-   * @param maxDist  the maximum distance that a buffer result can be from the input
+   * @param input
+   *   a geometry
+   * @param bufCurve
+   *   a geometry
+   * @param maxDist
+   *   the maximum distance that a buffer result can be from the input
    */
   private def checkMaximumDistance(input: Geometry, bufCurve: Geometry, maxDist: Double): Unit = { //    BufferCurveMaximumDistanceFinder maxDistFinder = new BufferCurveMaximumDistanceFinder(input);
     //    maxDistanceFound = maxDistFinder.findDistance(bufCurve);

@@ -28,19 +28,13 @@ import org.locationtech.jts.noding.{
 //import scala.jdk.CollectionConverters._
 
 /**
- * Uses Snap Rounding to compute a rounded,
- * fully noded arrangement from a set of {link SegmentString}s.
- * Implements the Snap Rounding technique described in
- * papers by Hobby, Guibas &amp; Marimont, and Goodrich et al.
- * Snap Rounding assumes that all vertices lie on a uniform grid;
- * hence the precision model of the input must be fixed precision,
- * and all the input vertices must be rounded to that precision.
- * <p>
- * This implementation uses a monotone chains and a spatial index to
- * speed up the intersection tests.
- * <p>
- * This implementation appears to be fully robust using an integer precision model.
- * It will function with non-integer precision models, but the
+ * Uses Snap Rounding to compute a rounded, fully noded arrangement from a set of {link
+ * SegmentString}s. Implements the Snap Rounding technique described in papers by Hobby, Guibas
+ * &amp; Marimont, and Goodrich et al. Snap Rounding assumes that all vertices lie on a uniform
+ * grid; hence the precision model of the input must be fixed precision, and all the input vertices
+ * must be rounded to that precision. <p> This implementation uses a monotone chains and a spatial
+ * index to speed up the intersection tests. <p> This implementation appears to be fully robust
+ * using an integer precision model. It will function with non-integer precision models, but the
  * results are not 100% guaranteed to be correctly noded.
  *
  * @version 1.7
@@ -85,8 +79,8 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
   }
 
   /**
-   * Computes all interior intersections in the collection of {link SegmentString}s,
-   * and returns their {link Coordinate}s.
+   * Computes all interior intersections in the collection of {link SegmentString}s, and returns
+   * their {link Coordinate}s.
    *
    * Does NOT node the segStrings.
    *
@@ -117,7 +111,8 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
   /**
    * Snaps segments to all vertices.
    *
-   * @param edges the list of segment strings to snap together
+   * @param edges
+   *   the list of segment strings to snap together
    */
   def computeVertexSnaps(edges: util.Collection[SegmentString]): Unit = {
     val i0 = edges.iterator

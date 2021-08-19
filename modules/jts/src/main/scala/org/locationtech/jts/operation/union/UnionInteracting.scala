@@ -26,12 +26,13 @@ import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.util.GeometryCombiner
 
 /**
- * Experimental code to union MultiPolygons
- * with processing limited to the elements which actually interact.
+ * Experimental code to union MultiPolygons with processing limited to the elements which actually
+ * interact.
  *
  * Not currently used, since it doesn't seem to offer much of a performance advantage.
  *
- * @author mbdavis
+ * @author
+ *   mbdavis
  */
 object UnionInteracting {
   def union(g0: Geometry, g1: Geometry): Geometry = {

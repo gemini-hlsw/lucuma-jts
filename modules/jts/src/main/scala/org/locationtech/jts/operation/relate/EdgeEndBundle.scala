@@ -23,8 +23,8 @@ import org.locationtech.jts.geomgraph.Label
 import org.locationtech.jts.geomgraph.Position
 
 /**
- * A collection of {link EdgeEnd}s which obey the following invariant:
- * They originate at the same node and have the same direction.
+ * A collection of {link EdgeEnd}s which obey the following invariant: They originate at the same
+ * node and have the same direction.
  *
  * @version 1.7
  */
@@ -53,9 +53,8 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
     edgeEnds.add(e)
 
   /**
-   * This computes the overall edge label for the set of
-   * edges in this EdgeStubBundle.  It essentially merges
-   * the ON and side labels for each edge.  These labels must be compatible
+   * This computes the overall edge label for the set of edges in this EdgeStubBundle. It
+   * essentially merges the ON and side labels for each edge. These labels must be compatible
    */
   override def computeLabel(boundaryNodeRule: BoundaryNodeRule): Unit = { // create the label.  If any of the edges belong to areas,
     // the label must be an area label
@@ -77,24 +76,16 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
   }
 
   /**
-   * Compute the overall ON location for the list of EdgeStubs.
-   * (This is essentially equivalent to computing the self-overlay of a single Geometry)
-   * edgeStubs can be either on the boundary (e.g. Polygon edge)
-   * OR in the interior (e.g. segment of a LineString)
-   * of their parent Geometry.
-   * In addition, GeometryCollections use a {link BoundaryNodeRule} to determine
-   * whether a segment is on the boundary or not.
-   * Finally, in GeometryCollections it can occur that an edge is both
-   * on the boundary and in the interior (e.g. a LineString segment lying on
-   * top of a Polygon edge.) In this case the Boundary is given precedence.
-   * <br>
-   * These observations result in the following rules for computing the ON location:
-   * <ul>
-   * <li> if there are an odd number of Bdy edges, the attribute is Bdy
-   * <li> if there are an even number >= 2 of Bdy edges, the attribute is Int
-   * <li> if there are any Int edges, the attribute is Int
-   * <li> otherwise, the attribute is NULL.
-   * </ul>
+   * Compute the overall ON location for the list of EdgeStubs. (This is essentially equivalent to
+   * computing the self-overlay of a single Geometry) edgeStubs can be either on the boundary (e.g.
+   * Polygon edge) OR in the interior (e.g. segment of a LineString) of their parent Geometry. In
+   * addition, GeometryCollections use a {link BoundaryNodeRule} to determine whether a segment is
+   * on the boundary or not. Finally, in GeometryCollections it can occur that an edge is both on
+   * the boundary and in the interior (e.g. a LineString segment lying on top of a Polygon edge.) In
+   * this case the Boundary is given precedence. <br> These observations result in the following
+   * rules for computing the ON location: <ul> <li> if there are an odd number of Bdy edges, the
+   * attribute is Bdy <li> if there are an even number >= 2 of Bdy edges, the attribute is Int <li>
+   * if there are any Int edges, the attribute is Int <li> otherwise, the attribute is NULL. </ul>
    */
   private def computeLabelOn(geomIndex: Int, boundaryNodeRule: BoundaryNodeRule): Unit = { // compute the ON location value
     var boundaryCount = 0
@@ -123,18 +114,15 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
   }
 
   /**
-   * To compute the summary label for a side, the algorithm is:
-   * FOR all edges
-   * IF any edge's location is INTERIOR for the side, side location = INTERIOR
-   * ELSE IF there is at least one EXTERIOR attribute, side location = EXTERIOR
-   * ELSE  side location = NULL
-   * <br>
-   * Note that it is possible for two sides to have apparently contradictory information
-   *  i.e. one edge side may indicate that it is in the interior of a geometry, while
-   * another edge side may indicate the exterior of the same geometry.  This is
-   * not an incompatibility - GeometryCollections may contain two Polygons that touch
-   * along an edge.  This is the reason for Interior-primacy rule above - it
-   * results in the summary label having the Geometry interior on <b>both</b> sides.
+   * To compute the summary label for a side, the algorithm is: FOR all edges IF any edge's location
+   * is INTERIOR for the side, side location = INTERIOR ELSE IF there is at least one EXTERIOR
+   * attribute, side location = EXTERIOR ELSE side location = NULL <br> Note that it is possible for
+   * two sides to have apparently contradictory information
+   * i.e. one edge side may indicate that it is in the interior of a geometry, while another edge
+   * side may indicate the exterior of the same geometry. This is not an incompatibility -
+   * GeometryCollections may contain two Polygons that touch along an edge. This is the reason for
+   * Interior-primacy rule above - it results in the summary label having the Geometry interior on
+   * <b>both</b> sides.
    */
   private def computeLabelSide(geomIndex: Int, side: Int): Unit = {
     val it = iterator

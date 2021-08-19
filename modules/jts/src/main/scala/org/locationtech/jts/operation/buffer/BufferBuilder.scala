@@ -69,10 +69,10 @@ object BufferBuilder {
 class BufferBuilder(var bufParams: BufferParameters) {
 
   /**
-   * Creates a new BufferBuilder,
-   * using the given parameters.
+   * Creates a new BufferBuilder, using the given parameters.
    *
-   * @param bufParams the buffer parameters to use
+   * @param bufParams
+   *   the buffer parameters to use
    */
   private var workingPrecisionModel: PrecisionModel = null
   private var workingNoder: Noder[SegmentString]    = null
@@ -81,12 +81,12 @@ class BufferBuilder(var bufParams: BufferParameters) {
   private val edgeList                              = new EdgeList
 
   /**
-   * Sets the precision model to use during the curve computation and noding,
-   * if it is different to the precision model of the Geometry.
-   * If the precision model is less than the precision of the Geometry precision model,
-   * the Geometry must have previously been rounded to that precision.
+   * Sets the precision model to use during the curve computation and noding, if it is different to
+   * the precision model of the Geometry. If the precision model is less than the precision of the
+   * Geometry precision model, the Geometry must have previously been rounded to that precision.
    *
-   * @param pm the precision model to use
+   * @param pm
+   *   the precision model to use
    */
   def setWorkingPrecisionModel(pm: PrecisionModel): Unit = workingPrecisionModel = pm
 
@@ -159,8 +159,8 @@ class BufferBuilder(var bufParams: BufferParameters) {
       val segStr = i.next.asInstanceOf[SegmentString]
 
       /**
-       * Discard edges which have zero length,
-       * since they carry no information and cause problems with topology building
+       * Discard edges which have zero length, since they carry no information and cause problems
+       * with topology building
        */
       val pts = segStr.getCoordinates
       if (!(pts.length == 2 && pts(0).equals2D(pts(1)))) {
@@ -173,9 +173,8 @@ class BufferBuilder(var bufParams: BufferParameters) {
   }
 
   /**
-   * Inserted edges are checked to see if an identical edge already exists.
-   * If so, the edge is not inserted, but its label is merged
-   * with the existing edge.
+   * Inserted edges are checked to see if an identical edge already exists. If so, the edge is not
+   * inserted, but its label is merged with the existing edge.
    */
   protected def insertUniqueEdge(e: Edge): Unit = { //<FIX> MD 8 Oct 03  speed up identical edge lookup
     // fast lookup
@@ -217,22 +216,22 @@ class BufferBuilder(var bufParams: BufferParameters) {
     }
 
     /**
-     * Sort the subgraphs in descending order of their rightmost coordinate.
-     * This ensures that when the Polygons for the subgraphs are built,
-     * subgraphs for shells will have been built before the subgraphs for
-     * any holes they contain.
+     * Sort the subgraphs in descending order of their rightmost coordinate. This ensures that when
+     * the Polygons for the subgraphs are built, subgraphs for shells will have been built before
+     * the subgraphs for any holes they contain.
      */
     Collections.sort(subgraphList, Collections.reverseOrder[BufferSubgraph])
     subgraphList
   }
 
   /**
-   * Completes the building of the input subgraphs by depth-labelling them,
-   * and adds them to the PolygonBuilder.
-   * The subgraph list must be sorted in rightmost-coordinate order.
+   * Completes the building of the input subgraphs by depth-labelling them, and adds them to the
+   * PolygonBuilder. The subgraph list must be sorted in rightmost-coordinate order.
    *
-   * @param subgraphList the subgraphs to build
-   * @param polyBuilder  the PolygonBuilder which will build the final polygons
+   * @param subgraphList
+   *   the subgraphs to build
+   * @param polyBuilder
+   *   the PolygonBuilder which will build the final polygons
    */
   private def buildSubgraphs(
     subgraphList: util.List[BufferSubgraph],
@@ -264,8 +263,7 @@ class BufferBuilder(var bufParams: BufferParameters) {
   }
 
   /**
-   * Gets the standard result for an empty buffer.
-   * Since buffer always returns a polygonal result,
+   * Gets the standard result for an empty buffer. Since buffer always returns a polygonal result,
    * this is chosen to be an empty polygon.
    *
    * return the empty result geometry

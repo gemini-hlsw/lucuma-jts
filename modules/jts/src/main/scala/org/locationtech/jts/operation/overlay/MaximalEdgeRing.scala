@@ -18,22 +18,18 @@ import org.locationtech.jts.geomgraph.DirectedEdgeStar
 import org.locationtech.jts.geomgraph.EdgeRing
 
 /**
- * A ring of {link DirectedEdge}s which may contain nodes of degree &gt; 2.
- * A <tt>MaximalEdgeRing</tt> may represent two different spatial entities:
- * <ul>
- * <li>a single polygon possibly containing inversions (if the ring is oriented CW)
- * <li>a single hole possibly containing exversions (if the ring is oriented CCW)
- * </ul>
- * If the MaximalEdgeRing represents a polygon,
- * the interior of the polygon is strongly connected.
- * <p>
- * These are the form of rings used to define polygons under some spatial data models.
- * However, under the OGC SFS model, {link MinimalEdgeRing}s are required.
- * A MaximalEdgeRing can be converted to a list of MinimalEdgeRings using the
- * {link #buildMinimalRings() } method.
+ * A ring of {link DirectedEdge}s which may contain nodes of degree &gt; 2. A
+ * <tt>MaximalEdgeRing</tt> may represent two different spatial entities: <ul> <li>a single polygon
+ * possibly containing inversions (if the ring is oriented CW) <li>a single hole possibly containing
+ * exversions (if the ring is oriented CCW) </ul> If the MaximalEdgeRing represents a polygon, the
+ * interior of the polygon is strongly connected. <p> These are the form of rings used to define
+ * polygons under some spatial data models. However, under the OGC SFS model, {link
+ * MinimalEdgeRing}s are required. A MaximalEdgeRing can be converted to a list of MinimalEdgeRings
+ * using the {link #buildMinimalRings() } method.
  *
  * @version 1.7
- * @see org.locationtech.jts.operation.overlay.MinimalEdgeRing
+ * @see
+ *   org.locationtech.jts.operation.overlay.MinimalEdgeRing
  */
 class MaximalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: GeometryFactory)
     extends EdgeRing(start, geometryFactoryArg) {
@@ -42,28 +38,31 @@ class MaximalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: 
   override def setEdgeRing(de: DirectedEdge, er: EdgeRing): Unit = de.setEdgeRing(er)
 
   /**
-   * For all nodes in this EdgeRing,
-   * link the DirectedEdges at the node to form minimalEdgeRings
+   * For all nodes in this EdgeRing, link the DirectedEdges at the node to form minimalEdgeRings
    */
   def linkDirectedEdgesForMinimalEdgeRings(): Unit = {
     var de = startDe
-    while( { {
-      val node = de.getNode
-      node.getEdges.asInstanceOf[DirectedEdgeStar].linkMinimalDirectedEdges(this)
-      de = de.getNext
-    } ; de != startDe})()
+    while ({
+      {
+        val node = de.getNode
+        node.getEdges.asInstanceOf[DirectedEdgeStar].linkMinimalDirectedEdges(this)
+        de = de.getNext
+      }; de != startDe
+    }) ()
   }
 
   def buildMinimalRings: util.ArrayList[MinimalEdgeRing] = {
     val minEdgeRings = new util.ArrayList[MinimalEdgeRing]
     var de           = startDe
-    while( { {
-      if (de.getMinEdgeRing == null) {
-        val minEr = new MinimalEdgeRing(de, geometryFactory)
-        minEdgeRings.add(minEr)
-      }
-      de = de.getNext
-    } ; de != startDe})()
+    while ({
+      {
+        if (de.getMinEdgeRing == null) {
+          val minEr = new MinimalEdgeRing(de, geometryFactory)
+          minEdgeRings.add(minEr)
+        }
+        de = de.getNext
+      }; de != startDe
+    }) ()
     minEdgeRings
   }
 }

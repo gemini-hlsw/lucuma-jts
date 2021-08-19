@@ -19,22 +19,20 @@ import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 
 /**
- * A ConnectedElementPointFilter extracts a single point
- * from each connected element in a Geometry
- * (e.g. a polygon, linestring or point)
- * and returns them in a list. The elements of the list are
- * {link org.locationtech.jts.operation.distance.GeometryLocation}s.
- * Empty geometries do not provide a location item.
+ * A ConnectedElementPointFilter extracts a single point from each connected element in a Geometry
+ * (e.g. a polygon, linestring or point) and returns them in a list. The elements of the list are
+ * {link org.locationtech.jts.operation.distance.GeometryLocation}s. Empty geometries do not provide
+ * a location item.
  *
  * @version 1.7
  */
 object ConnectedElementLocationFilter {
 
   /**
-   * Returns a list containing a point from each Polygon, LineString, and Point
-   * found inside the specified geometry. Thus, if the specified geometry is
-   * not a GeometryCollection, an empty list will be returned. The elements of the list
-   * are {link org.locationtech.jts.operation.distance.GeometryLocation}s.
+   * Returns a list containing a point from each Polygon, LineString, and Point found inside the
+   * specified geometry. Thus, if the specified geometry is not a GeometryCollection, an empty list
+   * will be returned. The elements of the list are {link
+   * org.locationtech.jts.operation.distance.GeometryLocation}s.
    */
   def getLocations(geom: Geometry): util.ArrayList[GeometryLocation] = {
     val locations = new util.ArrayList[GeometryLocation]

@@ -31,8 +31,7 @@ import org.locationtech.jts.geomgraph.Edge
 import org.locationtech.jts.util.Assert
 
 /**
- * Forms JTS LineStrings out of a the graph of {link DirectedEdge}s
- * created by an {link OverlayOp}.
+ * Forms JTS LineStrings out of a the graph of {link DirectedEdge}s created by an {link OverlayOp}.
  *
  * @version 1.7
  */
@@ -56,11 +55,10 @@ class LineBuilder(
   }
 
   /**
-   * Find and mark L edges which are "covered" by the result area (if any).
-   * L edges at nodes which also have A edges can be checked by checking
-   * their depth at that node.
-   * L edges at nodes which do not have A edges can be checked by doing a
-   * point-in-polygon test with the previously computed result areas.
+   * Find and mark L edges which are "covered" by the result area (if any). L edges at nodes which
+   * also have A edges can be checked by checking their depth at that node. L edges at nodes which
+   * do not have A edges can be checked by doing a point-in-polygon test with the previously
+   * computed result areas.
    */
   private def findCoveredLineEdges()
     : Unit = { // first set covered for all L edges at nodes which have A edges too
@@ -72,8 +70,8 @@ class LineBuilder(
     }
 
     /**
-     * For all L edges which weren't handled by the above,
-     * use a point-in-poly test to determine whether they are covered
+     * For all L edges which weren't handled by the above, use a point-in-poly test to determine
+     * whether they are covered
      */
     val it = op.getGraph.getEdgeEnds.iterator
     while (it.hasNext) {
@@ -96,14 +94,16 @@ class LineBuilder(
   }
 
   /**
-   * Collect line edges which are in the result.
-   * Line edges are in the result if they are not part of
-   * an area boundary, if they are in the result of the overlay operation,
-   * and if they are not covered by a result area.
+   * Collect line edges which are in the result. Line edges are in the result if they are not part
+   * of an area boundary, if they are in the result of the overlay operation, and if they are not
+   * covered by a result area.
    *
-   * @param de     the directed edge to test
-   * @param opCode the overlap operation
-   * @param edges  the list of included line edges
+   * @param de
+   *   the directed edge to test
+   * @param opCode
+   *   the overlap operation
+   * @param edges
+   *   the list of included line edges
    */
   private def collectLineEdge(de: DirectedEdge, opCode: Int, edges: util.List[Edge]): Unit = {
     val label = de.getLabel
@@ -118,14 +118,9 @@ class LineBuilder(
   }
 
   /**
-   * Collect edges from Area inputs which should be in the result but
-   * which have not been included in a result area.
-   * This happens ONLY:
-   * <ul>
-   * <li>during an intersection when the boundaries of two
-   * areas touch in a line segment
-   * <li> OR as a result of a dimensional collapse.
-   * </ul>
+   * Collect edges from Area inputs which should be in the result but which have not been included
+   * in a result area. This happens ONLY: <ul> <li>during an intersection when the boundaries of two
+   * areas touch in a line segment <li> OR as a result of a dimensional collapse. </ul>
    */
   private def collectBoundaryTouchEdge(
     de:     DirectedEdge,

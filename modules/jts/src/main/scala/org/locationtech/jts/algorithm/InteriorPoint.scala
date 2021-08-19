@@ -25,22 +25,19 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Geometry
 
 /**
- * Computes an interior point of a <code>{link Geometry}</code>.
- * An interior point is guaranteed to lie in the interior of the Geometry,
- * if it possible to calculate such a point exactly.
- * Otherwise, the point may lie on the boundary of the geometry.
- * <p>
- * The interior point of an empty geometry is <code>null</code>.
+ * Computes an interior point of a <code>{link Geometry}</code>. An interior point is guaranteed to
+ * lie in the interior of the Geometry, if it possible to calculate such a point exactly. Otherwise,
+ * the point may lie on the boundary of the geometry. <p> The interior point of an empty geometry is
+ * <code>null</code>.
  */
 object InteriorPoint {
 
   /**
-   * Compute a location of an interior point in a {link Geometry}.
-   * Handles all geometry types.
+   * Compute a location of an interior point in a {link Geometry}. Handles all geometry types.
    *
-   * @param geom a geometry in which to find an interior point
-   * return the location of an interior point,
-   *         or <code>null</code> if the input is empty
+   * @param geom
+   *   a geometry in which to find an interior point return the location of an interior point, or
+   *   <code>null</code> if the input is empty
    */
   def getInteriorPoint(geom: Geometry): Coordinate = {
     if (geom.isEmpty) return null

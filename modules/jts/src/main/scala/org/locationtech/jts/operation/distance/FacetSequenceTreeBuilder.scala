@@ -50,7 +50,7 @@ object FacetSequenceTreeBuilder { // 6 seems to be a good facet sequence size
    * Creates facet sequences
    *
    * @param g
-   * return List<GeometryFacetSequence>
+   *   return List<GeometryFacetSequence>
    */
   private def computeFacetSequences(g: Geometry): util.List[FacetSequence] = {
     val sections = new util.ArrayList[FacetSequence]

@@ -15,14 +15,12 @@ import java.util
 import java.util.NoSuchElementException
 
 /**
- * Iterates over all {link Geometry}s in a {link Geometry},
- * (which may be either a collection or an atomic geometry).
- * The iteration sequence follows a pre-order, depth-first traversal of the
- * structure of the <code>GeometryCollection</code>
- * (which may be nested). The original <code>Geometry</code> object is
- * returned as well (as the first object), as are all sub-collections and atomic elements.
- * It is  simple to ignore the intermediate <code>GeometryCollection</code> objects if they are not
- * needed.
+ * Iterates over all {link Geometry}s in a {link Geometry}, (which may be either a collection or an
+ * atomic geometry). The iteration sequence follows a pre-order, depth-first traversal of the
+ * structure of the <code>GeometryCollection</code> (which may be nested). The original
+ * <code>Geometry</code> object is returned as well (as the first object), as are all
+ * sub-collections and atomic elements. It is simple to ignore the intermediate
+ * <code>GeometryCollection</code> objects if they are not needed.
  *
  * @version 1.7
  */
@@ -46,8 +44,8 @@ class GeometryCollectionIterator(
     extends util.Iterator[Geometry] {
 
   /**
-   * Indicates whether or not the first element
-   * (the root <code>GeometryCollection</code>) has been returned.
+   * Indicates whether or not the first element (the root <code>GeometryCollection</code>) has been
+   * returned.
    */
   private var atStart = false
 
@@ -57,15 +55,14 @@ class GeometryCollectionIterator(
   private var max = 0
 
   /**
-   * The index of the <code>Geometry</code> that will be returned when <code>next</code>
-   * is called.
+   * The index of the <code>Geometry</code> that will be returned when <code>next</code> is called.
    */
   private var index = 0
 
   /**
-   * The iterator over a nested <code>Geometry</code>, or <code>null</code>
-   * if this <code>GeometryCollectionIterator</code> is not currently iterating
-   * over a nested <code>GeometryCollection</code>.
+   * The iterator over a nested <code>Geometry</code>, or <code>null</code> if this
+   * <code>GeometryCollectionIterator</code> is not currently iterating over a nested
+   * <code>GeometryCollection</code>.
    */
   private var subcollectionIterator: util.Iterator[Geometry] = null
   atStart = true
@@ -118,7 +115,7 @@ class GeometryCollectionIterator(
   /**
    * Removal is not supported.
    *
-   * throws  UnsupportedOperationException This method is not implemented.
+   * throws UnsupportedOperationException This method is not implemented.
    */
   override def remove(): Unit = throw new UnsupportedOperationException(getClass.getName)
 }

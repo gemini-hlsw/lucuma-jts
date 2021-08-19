@@ -52,19 +52,18 @@ final class CoordinateArraySequenceFactory private ()
     CoordinateArraySequenceFactory.instance
 
   /**
-   * Returns a {link CoordinateArraySequence} based on the given array (the array is
-   * not copied).
+   * Returns a {link CoordinateArraySequence} based on the given array (the array is not copied).
    *
    * @param coordinates
-   * the coordinates, which may not be null nor contain null
-   * elements
+   *   the coordinates, which may not be null nor contain null elements
    */
   def create(coordinates: Array[Coordinate]): CoordinateSequence = new CoordinateArraySequence(
     coordinates
   )
 
   /**
-   * @see org.locationtech.jts.geom.CoordinateSequenceFactory#create(org.locationtech.jts.geom.CoordinateSequence)
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequenceFactory#create(org.locationtech.jts.geom.CoordinateSequence)
    */
   def create(coordSeq: CoordinateSequence): CoordinateSequence = new CoordinateArraySequence(
     coordSeq
@@ -73,7 +72,8 @@ final class CoordinateArraySequenceFactory private ()
   /**
    * The created sequence dimension is clamped to be &lt;= 3.
    *
-   * @see org.locationtech.jts.geom.CoordinateSequenceFactory#create(int, int)
+   * @see
+   *   org.locationtech.jts.geom.CoordinateSequenceFactory#create(int, int)
    */
   def create(size: Int, dimension: Int): CoordinateSequence = {
     val dim =

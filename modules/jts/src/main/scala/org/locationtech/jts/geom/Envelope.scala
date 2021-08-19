@@ -27,16 +27,12 @@ package org.locationtech.jts.geom
 import java.io.Serializable
 
 /**
- * Defines a rectangular region of the 2D coordinate plane.
- * It is often used to represent the bounding box of a {link Geometry},
- *  e.g. the minimum and maximum x and y values of the {link Coordinate}s.
- * <p>
- * Envelopes support infinite or half-infinite regions, by using the values of
- * <code>Double.POSITIVE_INFINITY</code> and <code>Double.NEGATIVE_INFINITY</code>.
- * Envelope objects may have a null value.
- * <p>
- * When Envelope objects are created or initialized,
- * the supplies extent values are automatically sorted into the correct order.
+ * Defines a rectangular region of the 2D coordinate plane. It is often used to represent the
+ * bounding box of a {link Geometry}, e.g. the minimum and maximum x and y values of the {link
+ * Coordinate}s. <p> Envelopes support infinite or half-infinite regions, by using the values of
+ * <code>Double.POSITIVE_INFINITY</code> and <code>Double.NEGATIVE_INFINITY</code>. Envelope objects
+ * may have a null value. <p> When Envelope objects are created or initialized, the supplies extent
+ * values are automatically sorted into the correct order.
  *
  * @version 1.7
  */
@@ -46,10 +42,13 @@ object Envelope {
   /**
    * Test the point q to see whether it intersects the Envelope defined by p1-p2
    *
-   * @param p1 one extremal point of the envelope
-   * @param p2 another extremal point of the envelope
-   * @param q  the point to test for intersection
-   * return <code>true</code> if q intersects the envelope p1-p2
+   * @param p1
+   *   one extremal point of the envelope
+   * @param p2
+   *   another extremal point of the envelope
+   * @param q
+   *   the point to test for intersection return <code>true</code> if q intersects the envelope
+   *   p1-p2
    */
   def intersects(p1: Coordinate, p2: Coordinate, q: Coordinate): Boolean = { //OptimizeIt shows that Math#min and Math#max here are a bottleneck.
     //Replace with direct comparisons. [Jon Aquino]
@@ -67,15 +66,16 @@ object Envelope {
   }
 
   /**
-   * Tests whether the envelope defined by p1-p2
-   * and the envelope defined by q1-q2
-   * intersect.
+   * Tests whether the envelope defined by p1-p2 and the envelope defined by q1-q2 intersect.
    *
-   * @param p1 one extremal point of the envelope P
-   * @param p2 another extremal point of the envelope P
-   * @param q1 one extremal point of the envelope Q
-   * @param q2 another extremal point of the envelope Q
-   * return <code>true</code> if Q intersects P
+   * @param p1
+   *   one extremal point of the envelope P
+   * @param p2
+   *   another extremal point of the envelope P
+   * @param q1
+   *   one extremal point of the envelope Q
+   * @param q2
+   *   another extremal point of the envelope Q return <code>true</code> if Q intersects P
    */
   def intersects(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Boolean = {
     var minq = Math.min(q1.x, q2.x)
@@ -130,10 +130,14 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Creates an <code>Envelope</code> for a region defined by maximum and minimum values.
    *
-   * @param  x1 the first x-value
-   * @param  x2 the second x-value
-   * @param  y1 the first y-value
-   * @param  y2 the second y-value
+   * @param x1
+   *   the first x-value
+   * @param x2
+   *   the second x-value
+   * @param y1
+   *   the first y-value
+   * @param y2
+   *   the second y-value
    */
   def this(x1: Double, x2: Double, y1: Double, y2: Double) = {
     this()
@@ -143,8 +147,10 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Creates an <code>Envelope</code> for a region defined by two Coordinates.
    *
-   * @param  p1 the first Coordinate
-   * @param  p2 the second Coordinate
+   * @param p1
+   *   the first Coordinate
+   * @param p2
+   *   the second Coordinate
    */
   def this(p1: Coordinate, p2: Coordinate) = {
     this()
@@ -154,7 +160,8 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Creates an <code>Envelope</code> for a region defined by a single Coordinate.
    *
-   * @param  p the Coordinate
+   * @param p
+   *   the Coordinate
    */
   def this(p: Coordinate) = {
     this()
@@ -164,7 +171,8 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Create an <code>Envelope</code> from an existing Envelope.
    *
-   * @param  env the Envelope to initialize from
+   * @param env
+   *   the Envelope to initialize from
    */
   def this(env: Envelope) = {
     this()
@@ -179,10 +187,14 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Initialize an <code>Envelope</code> for a region defined by maximum and minimum values.
    *
-   * @param  x1 the first x-value
-   * @param  x2 the second x-value
-   * @param  y1 the first y-value
-   * @param  y2 the second y-value
+   * @param x1
+   *   the first x-value
+   * @param x2
+   *   the second x-value
+   * @param y1
+   *   the first y-value
+   * @param y2
+   *   the second y-value
    */
   def init(x1: Double, x2: Double, y1: Double, y2: Double): Unit = {
     if (x1 < x2) {
@@ -211,22 +223,26 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Initialize an <code>Envelope</code> to a region defined by two Coordinates.
    *
-   * @param  p1 the first Coordinate
-   * @param  p2 the second Coordinate
+   * @param p1
+   *   the first Coordinate
+   * @param p2
+   *   the second Coordinate
    */
   def init(p1: Coordinate, p2: Coordinate): Unit = init(p1.x, p2.x, p1.y, p2.y)
 
   /**
    * Initialize an <code>Envelope</code> to a region defined by a single Coordinate.
    *
-   * @param  p the coordinate
+   * @param p
+   *   the coordinate
    */
   def init(p: Coordinate): Unit = init(p.x, p.x, p.y, p.y)
 
   /**
    * Initialize an <code>Envelope</code> from an existing Envelope.
    *
-   * @param  env the Envelope to initialize from
+   * @param env
+   *   the Envelope to initialize from
    */
   def init(env: Envelope): Unit = {
     this.minx = env.minx
@@ -236,8 +252,8 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Makes this <code>Envelope</code> a "null" envelope, that is, the envelope
-   * of the empty geometry.
+   * Makes this <code>Envelope</code> a "null" envelope, that is, the envelope of the empty
+   * geometry.
    */
   def setToNull(): Unit = {
     minx = 0
@@ -247,11 +263,10 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Returns <code>true</code> if this <code>Envelope</code> is a "null"
-   * envelope.
+   * Returns <code>true</code> if this <code>Envelope</code> is a "null" envelope.
    *
-   * return <code>true</code> if this <code>Envelope</code> is uninitialized
-   *         or is the envelope of the empty geometry.
+   * return <code>true</code> if this <code>Envelope</code> is uninitialized or is the envelope of
+   * the empty geometry.
    */
   def isNull: Boolean = maxx < minx
 
@@ -288,32 +303,32 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Returns the <code>Envelope</code>s minimum x-value. min x &gt; max x
-   * indicates that this is a null <code>Envelope</code>.
+   * Returns the <code>Envelope</code>s minimum x-value. min x &gt; max x indicates that this is a
+   * null <code>Envelope</code>.
    *
    * return the minimum x-coordinate
    */
   def getMinX: Double = minx
 
   /**
-   * Returns the <code>Envelope</code>s maximum x-value. min x &gt; max x
-   * indicates that this is a null <code>Envelope</code>.
+   * Returns the <code>Envelope</code>s maximum x-value. min x &gt; max x indicates that this is a
+   * null <code>Envelope</code>.
    *
    * return the maximum x-coordinate
    */
   def getMaxX: Double = maxx
 
   /**
-   * Returns the <code>Envelope</code>s minimum y-value. min y &gt; max y
-   * indicates that this is a null <code>Envelope</code>.
+   * Returns the <code>Envelope</code>s minimum y-value. min y &gt; max y indicates that this is a
+   * null <code>Envelope</code>.
    *
    * return the minimum y-coordinate
    */
   def getMinY: Double = miny
 
   /**
-   * Returns the <code>Envelope</code>s maximum y-value. min y &gt; max y
-   * indicates that this is a null <code>Envelope</code>.
+   * Returns the <code>Envelope</code>s maximum y-value. min y &gt; max y indicates that this is a
+   * null <code>Envelope</code>.
    *
    * return the maximum y-coordinate
    */
@@ -322,8 +337,7 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Gets the area of this envelope.
    *
-   * return the area of the envelope
-   * return 0.0 if the envelope is null
+   * return the area of the envelope return 0.0 if the envelope is null
    */
   def getArea: Double = getWidth * getHeight
 
@@ -354,28 +368,31 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Enlarges this <code>Envelope</code> so that it contains
-   * the given {link Coordinate}.
-   * Has no effect if the point is already on or within the envelope.
+   * Enlarges this <code>Envelope</code> so that it contains the given {link Coordinate}. Has no
+   * effect if the point is already on or within the envelope.
    *
-   * @param  p the Coordinate to expand to include
+   * @param p
+   *   the Coordinate to expand to include
    */
   def expandToInclude(p: Coordinate): Unit = expandToInclude(p.x, p.y)
 
   /**
-   * Expands this envelope by a given distance in all directions.
-   * Both positive and negative distances are supported.
+   * Expands this envelope by a given distance in all directions. Both positive and negative
+   * distances are supported.
    *
-   * @param distance the distance to expand the envelope
+   * @param distance
+   *   the distance to expand the envelope
    */
   def expandBy(distance: Double): Unit = expandBy(distance, distance)
 
   /**
-   * Expands this envelope by a given distance in all directions.
-   * Both positive and negative distances are supported.
+   * Expands this envelope by a given distance in all directions. Both positive and negative
+   * distances are supported.
    *
-   * @param deltaX the distance to expand the envelope along the the X axis
-   * @param deltaY the distance to expand the envelope along the the Y axis
+   * @param deltaX
+   *   the distance to expand the envelope along the the X axis
+   * @param deltaY
+   *   the distance to expand the envelope along the the Y axis
    */
   def expandBy(deltaX: Double, deltaY: Double): Unit = {
     if (isNull) return
@@ -388,12 +405,13 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Enlarges this <code>Envelope</code> so that it contains
-   * the given point.
-   * Has no effect if the point is already on or within the envelope.
+   * Enlarges this <code>Envelope</code> so that it contains the given point. Has no effect if the
+   * point is already on or within the envelope.
    *
-   * @param  x the value to lower the minimum x to or to raise the maximum x to
-   * @param  y the value to lower the minimum y to or to raise the maximum y to
+   * @param x
+   *   the value to lower the minimum x to or to raise the maximum x to
+   * @param y
+   *   the value to lower the minimum y to or to raise the maximum y to
    */
   def expandToInclude(x: Double, y: Double): Unit = if (isNull) {
     minx = x
@@ -408,12 +426,11 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Enlarges this <code>Envelope</code> so that it contains
-   * the <code>other</code> Envelope.
-   * Has no effect if <code>other</code> is wholly on or
-   * within the envelope.
+   * Enlarges this <code>Envelope</code> so that it contains the <code>other</code> Envelope. Has no
+   * effect if <code>other</code> is wholly on or within the envelope.
    *
-   * @param  other the <code>Envelope</code> to expand to include
+   * @param other
+   *   the <code>Envelope</code> to expand to include
    */
   def expandToInclude(other: Envelope): Unit = {
     if (other.isNull) return
@@ -433,8 +450,10 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Translates this envelope by given amounts in the X and Y direction.
    *
-   * @param transX the amount to translate along the X axis
-   * @param transY the amount to translate along the Y axis
+   * @param transX
+   *   the amount to translate along the X axis
+   * @param transY
+   *   the amount to translate along the Y axis
    */
   def translate(transX: Double, transY: Double): Unit = {
     if (isNull) return
@@ -444,8 +463,7 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Computes the coordinate of the centre of this envelope (as long as it is non-null
    *
-   * return the centre coordinate of this envelope
-   *         <code>null</code> if the envelope is null
+   * return the centre coordinate of this envelope <code>null</code> if the envelope is null
    */
   def centre: Coordinate = {
     if (isNull) return null
@@ -455,9 +473,10 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Computes the intersection of two {link Envelope}s.
    *
-   * @param env the envelope to intersect with
-   * return a new Envelope representing the intersection of the envelopes (this will be
-   *         the null envelope if either argument is null, or they do not intersect
+   * @param env
+   *   the envelope to intersect with return a new Envelope representing the intersection of the
+   *   envelopes (this will be the null envelope if either argument is null, or they do not
+   *   intersect
    */
   def intersection(env: Envelope): Envelope = {
     if (isNull || env.isNull || !intersects(env)) return new Envelope
@@ -477,12 +496,12 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Tests if the region defined by <code>other</code>
-   * intersects the region of this <code>Envelope</code>.
+   * Tests if the region defined by <code>other</code> intersects the region of this
+   * <code>Envelope</code>.
    *
-   * @param  other the <code>Envelope</code> which this <code>Envelope</code> is
-   *               being checked for intersecting
-   * return <code>true</code> if the <code>Envelope</code>s intersect
+   * @param other
+   *   the <code>Envelope</code> which this <code>Envelope</code> is being checked for intersecting
+   *   return <code>true</code> if the <code>Envelope</code>s intersect
    */
   def intersects(other: Envelope): Boolean = {
     if (isNull || other.isNull) return false
@@ -490,12 +509,13 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Tests if the extent defined by two extremal points
-   * intersects the extent of this <code>Envelope</code>.
+   * Tests if the extent defined by two extremal points intersects the extent of this
+   * <code>Envelope</code>.
    *
-   * @param a a point
-   * @param b another point
-   * return <code>true</code> if the extents intersect
+   * @param a
+   *   a point
+   * @param b
+   *   another point return <code>true</code> if the extents intersect
    */
   def intersects(a: Coordinate, b: Coordinate): Boolean = {
     if (isNull) return false
@@ -519,12 +539,14 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Tests if the region defined by <code>other</code>
-   * is disjoint from the region of this <code>Envelope</code>.
+   * Tests if the region defined by <code>other</code> is disjoint from the region of this
+   * <code>Envelope</code>.
    *
-   * @param  other the <code>Envelope</code> being checked for disjointness
-   * return <code>true</code> if the <code>Envelope</code>s are disjoint
-   * @see #intersects(Envelope)
+   * @param other
+   *   the <code>Envelope</code> being checked for disjointness return <code>true</code> if the
+   *   <code>Envelope</code>s are disjoint
+   * @see
+   *   #intersects(Envelope)
    */
   def disjoint(other: Envelope): Boolean = {
     if (isNull || other.isNull) return true
@@ -532,33 +554,37 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * @deprecated Use #intersects instead. In the future, #overlaps may be
-   *             changed to be a true overlap check; that is, whether the intersection is
-   *             two-dimensional.
+   * @deprecated
+   *   Use #intersects instead. In the future, #overlaps may be changed to be a true overlap check;
+   *   that is, whether the intersection is two-dimensional.
    */
   def overlaps(other: Envelope): Boolean = intersects(other)
 
   /**
-   * Tests if the point <code>p</code>
-   * intersects (lies inside) the region of this <code>Envelope</code>.
+   * Tests if the point <code>p</code> intersects (lies inside) the region of this
+   * <code>Envelope</code>.
    *
-   * @param  p the <code>Coordinate</code> to be tested
-   * return <code>true</code> if the point intersects this <code>Envelope</code>
+   * @param p
+   *   the <code>Coordinate</code> to be tested return <code>true</code> if the point intersects
+   *   this <code>Envelope</code>
    */
   def intersects(p: Coordinate): Boolean = intersects(p.x, p.y)
 
   /**
-   * @deprecated Use #intersects instead.
+   * @deprecated
+   *   Use #intersects instead.
    */
   def overlaps(p: Coordinate): Boolean = intersects(p)
 
   /**
-   * Check if the point <code>(x, y)</code>
-   * intersects (lies inside) the region of this <code>Envelope</code>.
+   * Check if the point <code>(x, y)</code> intersects (lies inside) the region of this
+   * <code>Envelope</code>.
    *
-   * @param  x the x-ordinate of the point
-   * @param  y the y-ordinate of the point
-   * return <code>true</code> if the point overlaps this <code>Envelope</code>
+   * @param x
+   *   the x-ordinate of the point
+   * @param y
+   *   the y-ordinate of the point return <code>true</code> if the point overlaps this
+   *   <code>Envelope</code>
    */
   def intersects(x: Double, y: Double): Boolean = {
     if (isNull) return false
@@ -568,57 +594,57 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   def overlaps(x: Double, y: Double): Boolean = intersects(x, y)
 
   /**
-   * Tests if the <code>Envelope other</code>
-   * lies wholely inside this <code>Envelope</code> (inclusive of the boundary).
-   * <p>
-   * Note that this is <b>not</b> the same definition as the SFS <tt>contains</tt>,
-   * which would exclude the envelope boundary.
+   * Tests if the <code>Envelope other</code> lies wholely inside this <code>Envelope</code>
+   * (inclusive of the boundary). <p> Note that this is <b>not</b> the same definition as the SFS
+   * <tt>contains</tt>, which would exclude the envelope boundary.
    *
-   * @param  other the <code>Envelope</code> to check
-   * return true if <code>other</code> is contained in this <code>Envelope</code>
-   * @see #covers(Envelope)
+   * @param other
+   *   the <code>Envelope</code> to check return true if <code>other</code> is contained in this
+   *   <code>Envelope</code>
+   * @see
+   *   #covers(Envelope)
    */
   def contains(other: Envelope): Boolean = covers(other)
 
   /**
-   * Tests if the given point lies in or on the envelope.
-   * <p>
-   * Note that this is <b>not</b> the same definition as the SFS <tt>contains</tt>,
-   * which would exclude the envelope boundary.
+   * Tests if the given point lies in or on the envelope. <p> Note that this is <b>not</b> the same
+   * definition as the SFS <tt>contains</tt>, which would exclude the envelope boundary.
    *
-   * @param  p the point which this <code>Envelope</code> is
-   *           being checked for containing
-   * return <code>true</code> if the point lies in the interior or
-   *         on the boundary of this <code>Envelope</code>.
-   * @see #covers(Coordinate)
+   * @param p
+   *   the point which this <code>Envelope</code> is being checked for containing return
+   *   <code>true</code> if the point lies in the interior or on the boundary of this
+   *   <code>Envelope</code>.
+   * @see
+   *   #covers(Coordinate)
    */
   def contains(p: Coordinate): Boolean = covers(p)
 
   /**
-   * Tests if the given point lies in or on the envelope.
-   * <p>
-   * Note that this is <b>not</b> the same definition as the SFS <tt>contains</tt>,
-   * which would exclude the envelope boundary.
+   * Tests if the given point lies in or on the envelope. <p> Note that this is <b>not</b> the same
+   * definition as the SFS <tt>contains</tt>, which would exclude the envelope boundary.
    *
-   * @param  x the x-coordinate of the point which this <code>Envelope</code> is
-   *           being checked for containing
-   * @param  y the y-coordinate of the point which this <code>Envelope</code> is
-   *           being checked for containing
-   * return <code>true</code> if <code>(x, y)</code> lies in the interior or
-   *         on the boundary of this <code>Envelope</code>.
-   * @see #covers(double, double)
+   * @param x
+   *   the x-coordinate of the point which this <code>Envelope</code> is being checked for
+   *   containing
+   * @param y
+   *   the y-coordinate of the point which this <code>Envelope</code> is being checked for
+   *   containing return <code>true</code> if <code>(x, y)</code> lies in the interior or on the
+   *   boundary of this <code>Envelope</code>.
+   * @see
+   *   #covers(double, double)
    */
   def contains(x: Double, y: Double): Boolean = covers(x, y)
 
   /**
    * Tests if the given point lies in or on the envelope.
    *
-   * @param  x the x-coordinate of the point which this <code>Envelope</code> is
-   *           being checked for containing
-   * @param  y the y-coordinate of the point which this <code>Envelope</code> is
-   *           being checked for containing
-   * return <code>true</code> if <code>(x, y)</code> lies in the interior or
-   *         on the boundary of this <code>Envelope</code>.
+   * @param x
+   *   the x-coordinate of the point which this <code>Envelope</code> is being checked for
+   *   containing
+   * @param y
+   *   the y-coordinate of the point which this <code>Envelope</code> is being checked for
+   *   containing return <code>true</code> if <code>(x, y)</code> lies in the interior or on the
+   *   boundary of this <code>Envelope</code>.
    */
   def covers(x: Double, y: Double): Boolean = {
     if (isNull) return false
@@ -628,19 +654,20 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   /**
    * Tests if the given point lies in or on the envelope.
    *
-   * @param  p the point which this <code>Envelope</code> is
-   *           being checked for containing
-   * return <code>true</code> if the point lies in the interior or
-   *         on the boundary of this <code>Envelope</code>.
+   * @param p
+   *   the point which this <code>Envelope</code> is being checked for containing return
+   *   <code>true</code> if the point lies in the interior or on the boundary of this
+   *   <code>Envelope</code>.
    */
   def covers(p: Coordinate): Boolean = covers(p.x, p.y)
 
   /**
-   * Tests if the <code>Envelope other</code>
-   * lies wholely inside this <code>Envelope</code> (inclusive of the boundary).
+   * Tests if the <code>Envelope other</code> lies wholely inside this <code>Envelope</code>
+   * (inclusive of the boundary).
    *
-   * @param  other the <code>Envelope</code> to check
-   * return true if this <code>Envelope</code> covers the <code>other</code>
+   * @param other
+   *   the <code>Envelope</code> to check return true if this <code>Envelope</code> covers the
+   *   <code>other</code>
    */
   def covers(other: Envelope): Boolean = {
     if (isNull || other.isNull) return false
@@ -648,10 +675,9 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   }
 
   /**
-   * Computes the distance between this and another
-   * <code>Envelope</code>.
-   * The distance between overlapping Envelopes is 0.  Otherwise, the
-   * distance is the Euclidean distance between the closest points.
+   * Computes the distance between this and another <code>Envelope</code>. The distance between
+   * overlapping Envelopes is 0. Otherwise, the distance is the Euclidean distance between the
+   * closest points.
    */
   def distance(env: Envelope): Double = {
     if (intersects(env)) return 0
@@ -677,12 +703,12 @@ class Envelope() extends Comparable[Envelope] with Serializable {
   override def toString: String = "Env[" + minx + " : " + maxx + ", " + miny + " : " + maxy + "]"
 
   /**
-   * Compares two envelopes using lexicographic ordering.
-   * The ordering comparison is based on the usual numerical
-   * comparison between the sequence of ordinates.
-   * Null envelopes are less than all non-null envelopes.
+   * Compares two envelopes using lexicographic ordering. The ordering comparison is based on the
+   * usual numerical comparison between the sequence of ordinates. Null envelopes are less than all
+   * non-null envelopes.
    *
-   * @param o an Envelope object
+   * @param o
+   *   an Envelope object
    */
   override def compareTo(o: Envelope): Int = {
     val env = o

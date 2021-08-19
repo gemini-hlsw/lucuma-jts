@@ -30,20 +30,22 @@ import org.locationtech.jts.math.DD
 /**
  * Implements basic computational geometry algorithms using {link DD} arithmetic.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object CGAlgorithmsDD {
 
   /**
-   * Returns the index of the direction of the point <code>q</code> relative to
-   * a vector specified by <code>p1-p2</code>.
+   * Returns the index of the direction of the point <code>q</code> relative to a vector specified
+   * by <code>p1-p2</code>.
    *
-   * @param p1 the origin point of the vector
-   * @param p2 the final point of the vector
-   * @param q  the point to compute the direction to
-   * return 1 if q is counter-clockwise (left) from p1-p2
-   * return -1 if q is clockwise (right) from p1-p2
-   * return 0 if q is collinear with p1-p2
+   * @param p1
+   *   the origin point of the vector
+   * @param p2
+   *   the final point of the vector
+   * @param q
+   *   the point to compute the direction to return 1 if q is counter-clockwise (left) from p1-p2
+   *   return -1 if q is clockwise (right) from p1-p2 return 0 if q is collinear with p1-p2
    */
   def orientationIndex(p1: Coordinate, p2: Coordinate, q: Coordinate): Int = { // fast filter for orientation index
     // avoids use of slow extended-precision arithmetic in many cases
@@ -59,12 +61,10 @@ object CGAlgorithmsDD {
   }
 
   /**
-   * Computes the sign of the determinant of the 2x2 matrix
-   * with the given entries.
+   * Computes the sign of the determinant of the 2x2 matrix with the given entries.
    *
-   * return -1 if the determinant is negative,
-   * return 1 if the determinant is positive,
-   * return 0 if the determinant is 0.
+   * return -1 if the determinant is negative, return 1 if the determinant is positive, return 0 if
+   * the determinant is 0.
    */
   def signOfDet2x2(x1: DD, y1: DD, x2: DD, y2: DD): Int = {
     val det = x1.multiply(y2).selfSubtract(y1.multiply(x2))
@@ -81,30 +81,25 @@ object CGAlgorithmsDD {
   }
 
   /**
-   * A value which is safely greater than the
-   * relative round-off error in double-precision numbers
+   * A value which is safely greater than the relative round-off error in double-precision numbers
    */
   private val DP_SAFE_EPSILON = 1e-15
 
   /**
-   * A filter for computing the orientation index of three coordinates.
-   * <p>
-   * If the orientation can be computed safely using standard DP
-   * arithmetic, this routine returns the orientation index.
-   * Otherwise, a value i > 1 is returned.
-   * In this case the orientation index must
-   * be computed using some other more robust method.
-   * The filter is fast to compute, so can be used to
-   * avoid the use of slower robust methods except when they are really needed,
-   * thus providing better average performance.
-   * <p>
-   * Uses an approach due to Jonathan Shewchuk, which is in the public domain.
+   * A filter for computing the orientation index of three coordinates. <p> If the orientation can
+   * be computed safely using standard DP arithmetic, this routine returns the orientation index.
+   * Otherwise, a value i > 1 is returned. In this case the orientation index must be computed using
+   * some other more robust method. The filter is fast to compute, so can be used to avoid the use
+   * of slower robust methods except when they are really needed, thus providing better average
+   * performance. <p> Uses an approach due to Jonathan Shewchuk, which is in the public domain.
    *
-   * @param pa a coordinate
-   * @param pb a coordinate
-   * @param pc a coordinate
-   * return the orientation index if it can be computed safely
-   * return i > 1 if the orientation index cannot be computed safely
+   * @param pa
+   *   a coordinate
+   * @param pb
+   *   a coordinate
+   * @param pc
+   *   a coordinate return the orientation index if it can be computed safely return i > 1 if the
+   *   orientation index cannot be computed safely
    */
   private def orientationIndexFilter(pa: Coordinate, pb: Coordinate, pc: Coordinate): Int = {
     var detsum   = .0
@@ -130,16 +125,18 @@ object CGAlgorithmsDD {
   }
 
   /**
-   * Computes an intersection point between two lines
-   * using DD arithmetic.
-   * If the lines are parallel (either identical
-   * or separate) a null value is returned.
+   * Computes an intersection point between two lines using DD arithmetic. If the lines are parallel
+   * (either identical or separate) a null value is returned.
    *
-   * @param p1 an endpoint of line segment 1
-   * @param p2 an endpoint of line segment 1
-   * @param q1 an endpoint of line segment 2
-   * @param q2 an endpoint of line segment 2
-   * return an intersection point if one exists, or null if the lines are parallel
+   * @param p1
+   *   an endpoint of line segment 1
+   * @param p2
+   *   an endpoint of line segment 1
+   * @param q1
+   *   an endpoint of line segment 2
+   * @param q2
+   *   an endpoint of line segment 2 return an intersection point if one exists, or null if the
+   *   lines are parallel
    */
   def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Coordinate = {
     val px   = new DD(p1.y).selfSubtract(p2.y)

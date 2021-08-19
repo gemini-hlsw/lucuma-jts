@@ -16,11 +16,8 @@ import org.locationtech.jts.util.Assert
 /**
  * Represents a single point.
  *
- * A <code>Point</code> is topologically valid if and only if:
- * <ul>
- * <li>the coordinate which defines it (if any) is a valid coordinate
- * (i.e. does not have an <code>NaN</code> X or Y ordinate)
- * </ul>
+ * A <code>Point</code> is topologically valid if and only if: <ul> <li>the coordinate which defines
+ * it (if any) is a valid coordinate (i.e. does not have an <code>NaN</code> X or Y ordinate) </ul>
  *
  * @version 1.7
  */
@@ -35,13 +32,15 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
   /**
    * Constructs a <code>Point</code> with the given coordinate.
    *
-   * @param  coordinate     the coordinate on which to base this <code>Point</code>
-   *                        , or <code>null</code> to create the empty geometry.
-   * @param  precisionModel the specification of the grid of allowable points
-   *                        for this <code>Point</code>
-   * @param  SRID           the ID of the Spatial Reference System used by this
-   *                        <code>Point</code>
-   * @deprecated Use GeometryFactory instead
+   * @param coordinate
+   *   the coordinate on which to base this <code>Point</code> , or <code>null</code> to create the
+   *   empty geometry.
+   * @param precisionModel
+   *   the specification of the grid of allowable points for this <code>Point</code>
+   * @param SRID
+   *   the ID of the Spatial Reference System used by this <code>Point</code>
+   * @deprecated
+   *   Use GeometryFactory instead
    */
   def this(coordinate: Coordinate, precisionModel: PrecisionModel, SRID: Int) = {
     this(new GeometryFactory(precisionModel, SRID))
@@ -54,8 +53,9 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
   }
 
   /**
-   * @param  coordinates contains the single coordinate on which to base this <code>Point</code>
-   *                     , or <code>null</code> to create the empty geometry.
+   * @param coordinates
+   *   contains the single coordinate on which to base this <code>Point</code> , or
+   *   <code>null</code> to create the empty geometry.
    */
   def this(coordinates: CoordinateSequence, factory: GeometryFactory) = {
     this(factory)
@@ -100,12 +100,12 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
   override def getGeometryType = "Point"
 
   /**
-   * Gets the boundary of this geometry.
-   * Zero-dimensional geometries have no boundary by definition,
+   * Gets the boundary of this geometry. Zero-dimensional geometries have no boundary by definition,
    * so an empty GeometryCollection is returned.
    *
    * return an empty GeometryCollection
-   * @see Geometry#getBoundary
+   * @see
+   *   Geometry#getBoundary
    */
   override def getBoundary: GeometryCollection = getFactory.createGeometryCollection
 
@@ -139,8 +139,8 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
   override def applyF(filter: GeometryComponentFilter): Unit = filter.filter(this)
 
   /**
-   * Creates and returns a full copy of this {link Point} object.
-   * (including all coordinates contained by it).
+   * Creates and returns a full copy of this {link Point} object. (including all coordinates
+   * contained by it).
    *
    * return a clone of this instance
    * @deprecated

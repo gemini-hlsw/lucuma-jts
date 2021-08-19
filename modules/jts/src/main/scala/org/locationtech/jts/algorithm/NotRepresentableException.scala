@@ -12,11 +12,12 @@
 package org.locationtech.jts.algorithm
 
 /**
- * Indicates that a {link HCoordinate} has been computed which is
- * not representable on the Cartesian plane.
+ * Indicates that a {link HCoordinate} has been computed which is not representable on the Cartesian
+ * plane.
  *
  * @version 1.7
- * @see HCoordinate
+ * @see
+ *   HCoordinate
  */
 class NotRepresentableException()
     extends Exception("Projective point not representable on the Cartesian plane.") {}

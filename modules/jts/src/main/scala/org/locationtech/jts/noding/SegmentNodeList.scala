@@ -42,8 +42,8 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   def getEdge: NodedSegmentString = edge
 
   /**
-   * Adds an intersection into the list, if it isn't already there.
-   * The input segmentIndex and dist are expected to be normalized.
+   * Adds an intersection into the list, if it isn't already there. The input segmentIndex and dist
+   * are expected to be normalized.
    *
    * return the SegmentIntersection found or added
    */
@@ -76,11 +76,9 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   }
 
   /**
-   * Adds nodes for any collapsed edge pairs.
-   * Collapsed edge pairs can be caused by inserted nodes, or they can be
-   * pre-existing in the edge vertex list.
-   * In order to provide the correct fully noded semantics,
-   * the vertex at the base of a collapsed pair must also be added as a node.
+   * Adds nodes for any collapsed edge pairs. Collapsed edge pairs can be caused by inserted nodes,
+   * or they can be pre-existing in the edge vertex list. In order to provide the correct fully
+   * noded semantics, the vertex at the base of a collapsed pair must also be added as a node.
    */
   private def addCollapsedNodes(): Unit = {
     val collapsedVertexIndexes = new util.ArrayList[Int]
@@ -95,8 +93,7 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   }
 
   /**
-   * Adds nodes for any collapsed edge pairs
-   * which are pre-existing in the vertex list.
+   * Adds nodes for any collapsed edge pairs which are pre-existing in the vertex list.
    */
   private def findCollapsesFromExistingVertices(collapsedVertexIndexes: util.List[Int]): Unit = {
     var i = 0
@@ -112,11 +109,9 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   }
 
   /**
-   * Adds nodes for any collapsed edge pairs caused by inserted nodes
-   * Collapsed edge pairs occur when the same coordinate is inserted as a node
-   * both before and after an existing edge vertex.
-   * To provide the correct fully noded semantics,
-   * the vertex must be added as a node as well.
+   * Adds nodes for any collapsed edge pairs caused by inserted nodes Collapsed edge pairs occur
+   * when the same coordinate is inserted as a node both before and after an existing edge vertex.
+   * To provide the correct fully noded semantics, the vertex must be added as a node as well.
    */
   private def findCollapsesFromInsertedNodes(collapsedVertexIndexes: util.List[Int]): Unit = {
     val collapsedVertexIndex = new Array[Int](1)
@@ -148,11 +143,9 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   }
 
   /**
-   * Creates new edges for all the edges that the intersections in this
-   * list split the parent edge into.
-   * Adds the edges to the provided argument list
-   * (this is so a single list can be used to accumulate all split edges
-   * for a set of {link SegmentString}s).
+   * Creates new edges for all the edges that the intersections in this list split the parent edge
+   * into. Adds the edges to the provided argument list (this is so a single list can be used to
+   * accumulate all split edges for a set of {link SegmentString}s).
    */
   def addSplitEdges(edgeList: util.Collection[NodedSegmentString]): Unit = { // ensure that the list has entries for the first and last point of the edge
     addEndpoints()
@@ -175,7 +168,8 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   /**
    * Checks the correctness of the set of split edges corresponding to this edge.
    *
-   * @param splitEdges the split edges for this edge (in order)
+   * @param splitEdges
+   *   the split edges for this edge (in order)
    */
 //  private def checkSplitEdgesCorrectness(splitEdges: util.List[_]): Unit = {
 //    val edgePts = edge.getCoordinates
@@ -190,9 +184,8 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
 //  }
 
   /**
-   * Create a new "split edge" with the section of points between
-   * (and including) the two intersections.
-   * The label for the new edge is the same as the label for the parent edge.
+   * Create a new "split edge" with the section of points between (and including) the two
+   * intersections. The label for the new edge is the same as the label for the parent edge.
    */
   private def createSplitEdge(ei0: SegmentNode, ei1: SegmentNode) = {
     val pts = createSplitEdgePts(ei0, ei1)
@@ -200,14 +193,14 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   }
 
   /**
-   * Extracts the points for a split edge running between two nodes.
-   * The extracted points should contain no duplicate points.
-   * There should always be at least two points extracted
-   * (which will be the given nodes).
+   * Extracts the points for a split edge running between two nodes. The extracted points should
+   * contain no duplicate points. There should always be at least two points extracted (which will
+   * be the given nodes).
    *
-   * @param ei0 the start node of the split edge
-   * @param ei1 the end node of the split edge
-   * return the points for the split edge
+   * @param ei0
+   *   the start node of the split edge
+   * @param ei1
+   *   the end node of the split edge return the points for the split edge
    */
   private def createSplitEdgePts(ei0: SegmentNode, ei1: SegmentNode): Array[Coordinate] = { //Debug.println("\ncreateSplitEdge"); Debug.print(ei0); Debug.print(ei1);
     var npts           = ei1.segmentIndex - ei0.segmentIndex + 2
@@ -216,9 +209,8 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
     val lastSegStartPt = edge.getCoordinate(ei1.segmentIndex)
 
     /**
-     * If the last intersection point is not equal to the its segment start pt,
-     * add it to the points list as well.
-     * This check is needed because the distance metric is not totally reliable!
+     * If the last intersection point is not equal to the its segment start pt, add it to the points
+     * list as well. This check is needed because the distance metric is not totally reliable!
      *
      * Also ensure that the created edge always has at least 2 points.
      *
@@ -243,10 +235,9 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
   }
 
   /**
-   * Gets the list of coordinates for the fully noded segment string,
-   * including all original segment string vertices and vertices
-   * introduced by nodes in this list.
-   * Repeated coordinates are collapsed.
+   * Gets the list of coordinates for the fully noded segment string, including all original segment
+   * string vertices and vertices introduced by nodes in this list. Repeated coordinates are
+   * collapsed.
    *
    * return an array of Coordinates
    */

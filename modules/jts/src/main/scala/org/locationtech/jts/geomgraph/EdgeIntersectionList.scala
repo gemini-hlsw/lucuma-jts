@@ -30,9 +30,8 @@ import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 /**
- * A list of edge intersections along an {link Edge}.
- * Implements splitting an edge with intersections
- * into multiple resultant edges.
+ * A list of edge intersections along an {link Edge}. Implements splitting an edge with
+ * intersections into multiple resultant edges.
  *
  * @version 1.7
  */
@@ -43,8 +42,8 @@ class EdgeIntersectionList(
   private val nodeMap = mutable.TreeMap.empty[EdgeIntersection, EdgeIntersection]
 
   /**
-   * Adds an intersection into the list, if it isn't already there.
-   * The input segmentIndex and dist are expected to be normalized.
+   * Adds an intersection into the list, if it isn't already there. The input segmentIndex and dist
+   * are expected to be normalized.
    *
    * return the EdgeIntersection found or added
    */
@@ -66,8 +65,8 @@ class EdgeIntersectionList(
   /**
    * Tests if the given point is an edge intersection
    *
-   * @param pt the point to test
-   * return true if the point is an intersection
+   * @param pt
+   *   the point to test return true if the point is an intersection
    */
   def isIntersection(pt: Coordinate): Boolean = {
     val it = iterator
@@ -88,12 +87,12 @@ class EdgeIntersectionList(
   }
 
   /**
-   * Creates new edges for all the edges that the intersections in this
-   * list split the parent edge into.
-   * Adds the edges to the input list (this is so a single list
-   * can be used to accumulate all split edges for a Geometry).
+   * Creates new edges for all the edges that the intersections in this list split the parent edge
+   * into. Adds the edges to the input list (this is so a single list can be used to accumulate all
+   * split edges for a Geometry).
    *
-   * @param edgeList a list of EdgeIntersections
+   * @param edgeList
+   *   a list of EdgeIntersections
    */
   def addSplitEdges(edgeList: util.List[Edge]): Unit = { // ensure that the list has entries for the first and last point of the edge
     addEndpoints()
@@ -109,9 +108,8 @@ class EdgeIntersectionList(
   }
 
   /**
-   * Create a new "split edge" with the section of points between
-   * (and including) the two intersections.
-   * The label for the new edge is the same as the label for the parent edge.
+   * Create a new "split edge" with the section of points between (and including) the two
+   * intersections. The label for the new edge is the same as the label for the parent edge.
    */
   private[geomgraph] def createSplitEdge(ei0: EdgeIntersection, ei1: EdgeIntersection) = { //Debug.print("\ncreateSplitEdge"); Debug.print(ei0); Debug.print(ei1);
     var npts           = ei1.segmentIndex - ei0.segmentIndex + 2

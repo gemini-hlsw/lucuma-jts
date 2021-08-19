@@ -21,8 +21,8 @@ import org.locationtech.jts.geom.TopologyException
 object DirectedEdge {
 
   /**
-   * Computes the factor for the change in depth when moving from one location to another.
-   * E.g. if crossing from the INTERIOR to the EXTERIOR the depth decreases, so the factor is -1
+   * Computes the factor for the change in depth when moving from one location to another. E.g. if
+   * crossing from the INTERIOR to the EXTERIOR the depth decreases, so the factor is -1
    */
   def depthFactor(currLocation: Int, nextLocation: Int): Int = {
     if (currLocation == Location.EXTERIOR && nextLocation == Location.INTERIOR) return 1
@@ -48,8 +48,7 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
   private var edgeRing: EdgeRing    = null // the EdgeRing that this edge is part of
   private var minEdgeRing: EdgeRing = null // the MinimalEdgeRing that this edge is part of
   /**
-   * The depth of each side (position) of this edge.
-   * The 0 element of the array is never used.
+   * The depth of each side (position) of this edge. The 0 element of the array is never used.
    */
   private val depth                 = Array(0, -999, -999)
 
@@ -91,9 +90,8 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
   }
 
   /**
-   * setVisitedEdge marks both DirectedEdges attached to a given Edge.
-   * This is used for edges corresponding to lines, which will only
-   * appear oriented in a single direction in the result.
+   * setVisitedEdge marks both DirectedEdges attached to a given Edge. This is used for edges
+   * corresponding to lines, which will only appear oriented in a single direction in the result.
    */
   def setVisitedEdge(isVisited: Boolean): Unit = {
     setVisited(isVisited)
@@ -101,8 +99,7 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
   }
 
   /**
-   * Each Edge gives rise to a pair of symmetric DirectedEdges, in opposite
-   * directions.
+   * Each Edge gives rise to a pair of symmetric DirectedEdges, in opposite directions.
    *
    * return the DirectedEdge for the same Edge but in the opposite direction
    */
@@ -121,11 +118,8 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
   def setNextMin(nextMin: DirectedEdge): Unit = this.nextMin = nextMin
 
   /**
-   * This edge is a line edge if
-   * <ul>
-   * <li> at least one of the labels is a line label
-   * <li> any labels which are not line labels have all Locations = EXTERIOR
-   * </ul>
+   * This edge is a line edge if <ul> <li> at least one of the labels is a line label <li> any
+   * labels which are not line labels have all Locations = EXTERIOR </ul>
    */
   def isLineEdge: Boolean = {
     val isLine            = label.isLine(0) || label.isLine(1)
@@ -135,11 +129,8 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
   }
 
   /**
-   * This is an interior Area edge if
-   * <ul>
-   * <li> its label is an Area label for both Geometries
-   * <li> and for each Geometry both sides are in the interior.
-   * </ul>
+   * This is an interior Area edge if <ul> <li> its label is an Area label for both Geometries <li>
+   * and for each Geometry both sides are in the interior. </ul>
    *
    * return true if this is an interior Area edge
    */
@@ -165,8 +156,8 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
   }
 
   /**
-   * Set both edge depths.  One depth for a given side is provided.  The other is
-   * computed depending on the Location transition and the depthDelta of the edge.
+   * Set both edge depths. One depth for a given side is provided. The other is computed depending
+   * on the Location transition and the depthDelta of the edge.
    */
   def setEdgeDepths(position: Int, depth: Int): Unit = { // get the depth transition delta from R to L for this directed Edge
     var depthDelta      = getEdge.getDepthDelta

@@ -12,13 +12,11 @@
 package org.locationtech.jts.geom
 
 /**
- * <code>GeometryCollection</code> classes support the concept of
- * applying a <code>GeometryFilter</code> to the <code>Geometry</code>.
- * The filter is applied to every element <code>Geometry</code>.
- * A <code>GeometryFilter</code> can either record information about the <code>Geometry</code>
- * or change the <code>Geometry</code> in some way.
- * <code>GeometryFilter</code>
- * is an example of the Gang-of-Four Visitor pattern.
+ * <code>GeometryCollection</code> classes support the concept of applying a
+ * <code>GeometryFilter</code> to the <code>Geometry</code>. The filter is applied to every element
+ * <code>Geometry</code>. A <code>GeometryFilter</code> can either record information about the
+ * <code>Geometry</code> or change the <code>Geometry</code> in some way.
+ * <code>GeometryFilter</code> is an example of the Gang-of-Four Visitor pattern.
  *
  * @version 1.7
  */
@@ -27,7 +25,8 @@ trait GeometryFilter {
   /**
    * Performs an operation with or on <code>geom</code>.
    *
-   * @param  geom a <code>Geometry</code> to which the filter is applied.
+   * @param geom
+   *   a <code>Geometry</code> to which the filter is applied.
    */
   def filter(geom: Geometry): Unit
 }

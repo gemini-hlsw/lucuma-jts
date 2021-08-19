@@ -14,10 +14,10 @@ package org.locationtech.jts.geom
 import scala.annotation.nowarn
 
 /**
- * Provides constants representing the dimensions of a point, a curve and a surface.
- * Also provides constants representing the dimensions of the empty geometry and
- * non-empty geometries, and the wildcard constant {link #DONTCARE} meaning "any dimension".
- * These constants are used as the entries in {link IntersectionMatrix}s.
+ * Provides constants representing the dimensions of a point, a curve and a surface. Also provides
+ * constants representing the dimensions of the empty geometry and non-empty geometries, and the
+ * wildcard constant {link #DONTCARE} meaning "any dimension". These constants are used as the
+ * entries in {link IntersectionMatrix}s.
  *
  * @version 1.7
  */
@@ -84,14 +84,13 @@ object Dimension {
   val SYM_A = '2'
 
   /**
-   * Converts the dimension value to a dimension symbol, for example, <code>TRUE =&gt; 'T'</code>
-   * .
+   * Converts the dimension value to a dimension symbol, for example, <code>TRUE =&gt; 'T'</code> .
    *
-   * @param  dimensionValue a number that can be stored in the <code>IntersectionMatrix</code>
-   *                        . Possible values are <code>{TRUE, FALSE, DONTCARE, 0, 1, 2}</code>.
-   * return a character for use in the string representation of
-   *         an <code>IntersectionMatrix</code>. Possible values are <code>{T, F, * , 0, 1, 2}</code>
-   *         .
+   * @param dimensionValue
+   *   a number that can be stored in the <code>IntersectionMatrix</code> . Possible values are
+   *   <code>{TRUE, FALSE, DONTCARE, 0, 1, 2}</code>. return a character for use in the string
+   *   representation of an <code>IntersectionMatrix</code>. Possible values are <code>{T, F, * , 0,
+   *   1, 2}</code> .
    */
   @nowarn
   def toDimensionSymbol(dimensionValue: Int): Char = {
@@ -113,14 +112,14 @@ object Dimension {
   }
 
   /**
-   * Converts the dimension symbol to a dimension value, for example, <code>'*' =&gt; DONTCARE</code>
-   * .
+   * Converts the dimension symbol to a dimension value, for example, <code>'*' =&gt;
+   * DONTCARE</code> .
    *
-   * @param  dimensionSymbol a character for use in the string representation of
-   *                         an <code>IntersectionMatrix</code>. Possible values are <code>{T, F, * , 0, 1, 2}</code>
-   *                         .
-   * return a number that can be stored in the <code>IntersectionMatrix</code>
-   *         . Possible values are <code>{TRUE, FALSE, DONTCARE, 0, 1, 2}</code>.
+   * @param dimensionSymbol
+   *   a character for use in the string representation of an <code>IntersectionMatrix</code>.
+   *   Possible values are <code>{T, F, * , 0, 1, 2}</code> . return a number that can be stored in
+   *   the <code>IntersectionMatrix</code> . Possible values are <code>{TRUE, FALSE, DONTCARE, 0, 1,
+   *   2}</code>.
    */
   @nowarn
   def toDimensionValue(dimensionSymbol: Char): Int = {

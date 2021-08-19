@@ -28,40 +28,23 @@ import org.locationtech.jts.geom.CoordinateSequenceFilter
 import org.locationtech.jts.geom.Geometry
 
 /**
- * An algorithm for computing a distance metric
- * which is an approximation to the Hausdorff Distance
- * based on a discretization of the input {link Geometry}.
- * The algorithm computes the Hausdorff distance restricted to discrete points
- * for one of the geometries.
- * The points can be either the vertices of the geometries (the default),
- * or the geometries with line segments densified by a given fraction.
- * Also determines two points of the Geometries which are separated by the computed distance.
- * <p>
- * This algorithm is an approximation to the standard Hausdorff distance.
- * Specifically,
- * <pre>
- * for all geometries a, b:    DHD(a, b) &lt;= HD(a, b)
- * </pre>
- * The approximation can be made as close as needed by densifying the input geometries.
- * In the limit, this value will approach the true Hausdorff distance:
- * <pre>
- * DHD(A, B, densifyFactor) -&gt; HD(A, B) as densifyFactor -&gt; 0.0
- * </pre>
- * The default approximation is exact or close enough for a large subset of useful cases.
- * Examples of these are:
- * <ul>
- * <li>computing distance between Linestrings that are roughly parallel to each other,
- * and roughly equal in length.  This occurs in matching linear networks.
- * <li>Testing similarity of geometries.
- * </ul>
- * An example where the default approximation is not close is:
- * <pre>
- * A = LINESTRING (0 0, 100 0, 10 100, 10 100)
- * B = LINESTRING (0 100, 0 10, 80 10)
+ * An algorithm for computing a distance metric which is an approximation to the Hausdorff Distance
+ * based on a discretization of the input {link Geometry}. The algorithm computes the Hausdorff
+ * distance restricted to discrete points for one of the geometries. The points can be either the
+ * vertices of the geometries (the default), or the geometries with line segments densified by a
+ * given fraction. Also determines two points of the Geometries which are separated by the computed
+ * distance. <p> This algorithm is an approximation to the standard Hausdorff distance.
+ * Specifically, <pre> for all geometries a, b: DHD(a, b) &lt;= HD(a, b) </pre> The approximation
+ * can be made as close as needed by densifying the input geometries. In the limit, this value will
+ * approach the true Hausdorff distance: <pre> DHD(A, B, densifyFactor) -&gt; HD(A, B) as
+ * densifyFactor -&gt; 0.0 </pre> The default approximation is exact or close enough for a large
+ * subset of useful cases. Examples of these are: <ul> <li>computing distance between Linestrings
+ * that are roughly parallel to each other, and roughly equal in length. This occurs in matching
+ * linear networks. <li>Testing similarity of geometries. </ul> An example where the default
+ * approximation is not close is: <pre> A = LINESTRING (0 0, 100 0, 10 100, 10 100) B = LINESTRING
+ * (0 100, 0 10, 80 10)
  *
- * DHD(A, B) = 22.360679774997898
- * HD(A, B) ~= 47.8
- * </pre>
+ * DHD(A, B) = 22.360679774997898 HD(A, B) ~= 47.8 </pre>
  */
 object DiscreteHausdorffDistance {
   def distance(g0: Geometry, g1: Geometry): Double = {
@@ -136,10 +119,9 @@ class DiscreteHausdorffDistance(var g0: Geometry, var g1: Geometry) {
   private var densifyFrac = 0.0
 
   /**
-   * Sets the fraction by which to densify each segment.
-   * Each segment will be (virtually) split into a number of equal-length
-   * subsegments, whose fraction of the total length is closest
-   * to the given fraction.
+   * Sets the fraction by which to densify each segment. Each segment will be (virtually) split into
+   * a number of equal-length subsegments, whose fraction of the total length is closest to the
+   * given fraction.
    *
    * @param densifyFrac
    */

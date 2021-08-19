@@ -20,11 +20,9 @@ import java.util.Collections
 import org.locationtech.jts.geomgraph.Edge
 
 /**
- * Finds all intersections in one or two sets of edges,
- * using an x-axis sweepline algorithm in conjunction with Monotone Chains.
- * While still O(n^2) in the worst case, this algorithm
- * drastically improves the average-case time.
- * The use of MonotoneChains as the items in the index
+ * Finds all intersections in one or two sets of edges, using an x-axis sweepline algorithm in
+ * conjunction with Monotone Chains. While still O(n^2) in the worst case, this algorithm
+ * drastically improves the average-case time. The use of MonotoneChains as the items in the index
  * seems to offer an improvement in performance over a sweep-line alone.
  *
  * @version 1.7
@@ -34,8 +32,7 @@ class SimpleMCSweepLineIntersector()
 /**
  * A SimpleMCSweepLineIntersector creates monotone chains from the edges
  * and compares them using a simple sweep-line along the x-axis.
- */
-    extends EdgeSetIntersector {
+ */ extends EdgeSetIntersector {
   private[index] val events    = new util.ArrayList[SweepLineEvent]
   // statistics information
   private[index] var nOverlaps = 0
@@ -91,9 +88,8 @@ class SimpleMCSweepLineIntersector()
   }
 
   /**
-   * Because Delete Events have a link to their corresponding Insert event,
-   * it is possible to compute exactly the range of events which must be
-   * compared to a given Insert event object.
+   * Because Delete Events have a link to their corresponding Insert event, it is possible to
+   * compute exactly the range of events which must be compared to a given Insert event object.
    */
   private def prepareEvents(): Unit = {
     Collections.sort(events)
@@ -127,9 +123,8 @@ class SimpleMCSweepLineIntersector()
     val mc0 = ev0.getObject.asInstanceOf[MonotoneChain]
 
     /**
-     * Since we might need to test for self-intersections,
-     * include current INSERT event object in list of event objects to test.
-     * Last index can be skipped, because it must be a Delete event.
+     * Since we might need to test for self-intersections, include current INSERT event object in
+     * list of event objects to test. Last index can be skipped, because it must be a Delete event.
      */
     var i = start
     while (i < end) {

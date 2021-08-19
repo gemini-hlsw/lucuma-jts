@@ -14,8 +14,7 @@ package org.locationtech.jts.geomgraph
 import org.locationtech.jts.geom.Location
 
 /**
- * A Depth object records the topological depth of the sides
- * of an Edge for up to two Geometries.
+ * A Depth object records the topological depth of the sides of an Edge for up to two Geometries.
  *
  * @version 1.7
  */
@@ -98,12 +97,9 @@ class Depth() { // initialize depth array to a sentinel value
     depth(geomIndex)(Position.RIGHT) - depth(geomIndex)(Position.LEFT)
 
   /**
-   * Normalize the depths for each geometry, if they are non-null.
-   * A normalized depth
-   * has depth values in the set { 0, 1 }.
-   * Normalizing the depths
-   * involves reducing the depths by the same amount so that at least
-   * one of them is 0.  If the remaining value is &gt; 0, it is set to 1.
+   * Normalize the depths for each geometry, if they are non-null. A normalized depth has depth
+   * values in the set { 0, 1 }. Normalizing the depths involves reducing the depths by the same
+   * amount so that at least one of them is 0. If the remaining value is &gt; 0, it is set to 1.
    */
   def normalize(): Unit = {
     var i = 0

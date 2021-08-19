@@ -29,8 +29,8 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Polygon
 
 /**
- * Computes the Euclidean distance (L2 metric) from a Point to a Geometry.
- * Also computes two points which are separated by the distance.
+ * Computes the Euclidean distance (L2 metric) from a Point to a Geometry. Also computes two points
+ * which are separated by the distance.
  */
 object DistanceToPointFinder {
   def computeDistance(geom: Geometry, pt: Coordinate, ptDist: PointPairDistance): Unit =
