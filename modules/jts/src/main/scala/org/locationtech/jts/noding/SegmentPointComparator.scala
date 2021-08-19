@@ -25,25 +25,20 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.util.Assert
 
 /**
- * Implements a robust method of comparing the relative position of two
- * points along the same segment.
- * The coordinates are assumed to lie "near" the segment.
- * This means that this algorithm will only return correct results
- * if the input coordinates
- * have the same precision and correspond to rounded values
- * of exact coordinates lying on the segment.
+ * Implements a robust method of comparing the relative position of two points along the same
+ * segment. The coordinates are assumed to lie "near" the segment. This means that this algorithm
+ * will only return correct results if the input coordinates have the same precision and correspond
+ * to rounded values of exact coordinates lying on the segment.
  *
  * @version 1.7
  */
 object SegmentPointComparator {
 
   /**
-   * Compares two {link Coordinate}s for their relative position along a segment
-   * lying in the specified {link Octant}.
+   * Compares two {link Coordinate}s for their relative position along a segment lying in the
+   * specified {link Octant}.
    *
-   * return -1 node0 occurs first;
-   *         0 the two nodes are equal;
-   *         1 node1 occurs first
+   * return -1 node0 occurs first; 0 the two nodes are equal; 1 node1 occurs first
    */
   def compare(octant: Int, p0: Coordinate, p1: Coordinate): Int = { // nodes can only be equal if their coordinates are equal
     if (p0.equals2D(p1)) return 0

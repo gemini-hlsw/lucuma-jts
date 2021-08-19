@@ -31,7 +31,8 @@ trait ItemVisitor {
   /**
    * Visits an item in the index.
    *
-   * @param item the index item to be visited
+   * @param item
+   *   the index item to be visited
    */
   def visitItem(item: Any): Unit
 }

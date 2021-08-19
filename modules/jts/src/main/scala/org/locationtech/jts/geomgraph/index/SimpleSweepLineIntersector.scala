@@ -20,10 +20,8 @@ import java.util.Collections
 import org.locationtech.jts.geomgraph.Edge
 
 /**
- * Finds all intersections in one or two sets of edges,
- * using a simple x-axis sweepline algorithm.
- * While still O(n^2) in the worst case, this algorithm
- * drastically improves the average-case time.
+ * Finds all intersections in one or two sets of edges, using a simple x-axis sweepline algorithm.
+ * While still O(n^2) in the worst case, this algorithm drastically improves the average-case time.
  *
  * @version 1.7
  */
@@ -82,9 +80,8 @@ class SimpleSweepLineIntersector() extends EdgeSetIntersector {
   }
 
   /**
-   * Because DELETE events have a link to their corresponding INSERT event,
-   * it is possible to compute exactly the range of events which must be
-   * compared to a given INSERT event object.
+   * Because DELETE events have a link to their corresponding INSERT event, it is possible to
+   * compute exactly the range of events which must be compared to a given INSERT event object.
    */
   private def prepareEvents(): Unit = {
     Collections.sort(events)
@@ -117,9 +114,8 @@ class SimpleSweepLineIntersector() extends EdgeSetIntersector {
     val ss0 = ev0.getObject.asInstanceOf[SweepLineSegment]
 
     /**
-     * Since we might need to test for self-intersections,
-     * include current INSERT event object in list of event objects to test.
-     * Last index can be skipped, because it must be a Delete event.
+     * Since we might need to test for self-intersections, include current INSERT event object in
+     * list of event objects to test. Last index can be skipped, because it must be a Delete event.
      */
     var i = start
     while (i < end) {

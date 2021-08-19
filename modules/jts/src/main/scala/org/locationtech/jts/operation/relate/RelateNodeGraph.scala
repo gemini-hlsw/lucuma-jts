@@ -25,22 +25,16 @@ import org.locationtech.jts.geomgraph.Node
 import org.locationtech.jts.geomgraph.NodeMap
 
 /**
- * Implements the simple graph of Nodes and EdgeEnd which is all that is
- * required to determine topological relationships between Geometries.
- * Also supports building a topological graph of a single Geometry, to
- * allow verification of valid topology.
- * <p>
- * It is <b>not</b> necessary to create a fully linked
- * PlanarGraph to determine relationships, since it is sufficient
- * to know how the Geometries interact locally around the nodes.
- * In fact, this is not even feasible, since it is not possible to compute
- * exact intersection points, and hence the topology around those nodes
- * cannot be computed robustly.
- * The only Nodes that are created are for improper intersections;
- * that is, nodes which occur at existing vertices of the Geometries.
- * Proper intersections (e.g. ones which occur between the interior of line segments)
- * have their topology determined implicitly, without creating a Node object
- * to represent them.
+ * Implements the simple graph of Nodes and EdgeEnd which is all that is required to determine
+ * topological relationships between Geometries. Also supports building a topological graph of a
+ * single Geometry, to allow verification of valid topology. <p> It is <b>not</b> necessary to
+ * create a fully linked PlanarGraph to determine relationships, since it is sufficient to know how
+ * the Geometries interact locally around the nodes. In fact, this is not even feasible, since it is
+ * not possible to compute exact intersection points, and hence the topology around those nodes
+ * cannot be computed robustly. The only Nodes that are created are for improper intersections; that
+ * is, nodes which occur at existing vertices of the Geometries. Proper intersections (e.g. ones
+ * which occur between the interior of line segments) have their topology determined implicitly,
+ * without creating a Node object to represent them.
  *
  * @version 1.7
  */
@@ -53,8 +47,8 @@ class RelateNodeGraph() {
     computeIntersectionNodes(geomGraph, 0)
 
     /**
-     * Copy the labelling for the nodes in the parent Geometry.  These override
-     * any labels determined by intersections.
+     * Copy the labelling for the nodes in the parent Geometry. These override any labels determined
+     * by intersections.
      */
     copyNodesAndLabels(geomGraph, 0)
 
@@ -69,13 +63,10 @@ class RelateNodeGraph() {
   }
 
   /**
-   * Insert nodes for all intersections on the edges of a Geometry.
-   * Label the created nodes the same as the edge label if they do not already have a label.
-   * This allows nodes created by either self-intersections or
-   * mutual intersections to be labelled.
-   * Endpoint nodes will already be labelled from when they were inserted.
-   * <p>
-   * Precondition: edge intersections have been computed.
+   * Insert nodes for all intersections on the edges of a Geometry. Label the created nodes the same
+   * as the edge label if they do not already have a label. This allows nodes created by either
+   * self-intersections or mutual intersections to be labelled. Endpoint nodes will already be
+   * labelled from when they were inserted. <p> Precondition: edge intersections have been computed.
    */
   def computeIntersectionNodes(geomGraph: GeometryGraph, argIndex: Int): Unit = {
     val edgeIt = geomGraph.getEdgeIterator
@@ -94,13 +85,10 @@ class RelateNodeGraph() {
   }
 
   /**
-   * Copy all nodes from an arg geometry into this graph.
-   * The node label in the arg geometry overrides any previously computed
-   * label for that argIndex.
-   * (E.g. a node may be an intersection node with
-   * a computed label of BOUNDARY,
-   * but in the original arg Geometry it is actually
-   * in the interior due to the Boundary Determination Rule)
+   * Copy all nodes from an arg geometry into this graph. The node label in the arg geometry
+   * overrides any previously computed label for that argIndex. (E.g. a node may be an intersection
+   * node with a computed label of BOUNDARY, but in the original arg Geometry it is actually in the
+   * interior due to the Boundary Determination Rule)
    */
   def copyNodesAndLabels(geomGraph: GeometryGraph, argIndex: Int): Unit = {
     val nodeIt = geomGraph.getNodeIterator

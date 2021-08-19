@@ -29,8 +29,8 @@ import org.locationtech.jts.noding.NodedSegmentString
 import org.locationtech.jts.noding.SegmentString
 
 /**
- * "Snaps" all {link SegmentString}s in a {link SpatialIndex} containing
- * {link MonotoneChain}s to a given {link HotPixel}.
+ * "Snaps" all {link SegmentString}s in a {link SpatialIndex} containing {link MonotoneChain}s to a
+ * given {link HotPixel}.
  *
  * @version 1.7
  */
@@ -44,33 +44,28 @@ object MCIndexPointSnapper {
     private var visNodeAdded = false
 
     /**
-     * Reports whether the HotPixel caused a node to be added in any target
-     * segmentString (including its own). If so, the HotPixel must be added as a
-     * node as well.
+     * Reports whether the HotPixel caused a node to be added in any target segmentString (including
+     * its own). If so, the HotPixel must be added as a node as well.
      *
      * return true if a node was added in any target segmentString.
      */
     def isNodeAdded: Boolean = visNodeAdded
 
     /**
-     * Check if a segment of the monotone chain intersects
-     * the hot pixel vertex and introduce a snap node if so.
-     * Optimized to avoid noding segments which
-     * contain the vertex (which otherwise
+     * Check if a segment of the monotone chain intersects the hot pixel vertex and introduce a snap
+     * node if so. Optimized to avoid noding segments which contain the vertex (which otherwise
      * would cause every vertex to be noded).
      */
     override def select(mc: MonotoneChain, startIndex: Int): Unit = {
       val ss = mc.getContext.asInstanceOf[NodedSegmentString]
 
       /**
-       * Check to avoid snapping a hotPixel vertex to the same vertex.
-       * This method is called for segments which intersects the
-       * hot pixel,
-       * so need to check if either end of the segment is equal to the hot pixel
-       * and if so, do not snap.
+       * Check to avoid snapping a hotPixel vertex to the same vertex. This method is called for
+       * segments which intersects the hot pixel, so need to check if either end of the segment is
+       * equal to the hot pixel and if so, do not snap.
        *
-       * Sep 22 2012 - MD - currently do need to snap to every vertex,
-       * since otherwise the testCollapse1 test in SnapRoundingTest fails.
+       * Sep 22 2012 - MD - currently do need to snap to every vertex, since otherwise the
+       * testCollapse1 test in SnapRoundingTest fails.
        */
       if (parentEdge eq ss) { // exit if hotpixel is equal to endpoint of target segment
         if (startIndex == hotPixelVertexIndex || startIndex + 1 == hotPixelVertexIndex) return
@@ -86,15 +81,16 @@ class MCIndexPointSnapper(val vindex: SpatialIndex[Any]) {
   private val index = vindex.asInstanceOf[STRtree]
 
   /**
-   * Snaps (nodes) all interacting segments to this hot pixel.
-   * The hot pixel may represent a vertex of an edge,
-   * in which case this routine uses the optimization
-   * of not noding the vertex itself
+   * Snaps (nodes) all interacting segments to this hot pixel. The hot pixel may represent a vertex
+   * of an edge, in which case this routine uses the optimization of not noding the vertex itself
    *
-   * @param hotPixel            the hot pixel to snap to
-   * @param parentEdge          the edge containing the vertex, if applicable, or <code>null</code>
-   * @param hotPixelVertexIndex the index of the hotPixel vertex, if applicable, or -1
-   * return <code>true</code> if a node was added for this pixel
+   * @param hotPixel
+   *   the hot pixel to snap to
+   * @param parentEdge
+   *   the edge containing the vertex, if applicable, or <code>null</code>
+   * @param hotPixelVertexIndex
+   *   the index of the hotPixel vertex, if applicable, or -1 return <code>true</code> if a node was
+   *   added for this pixel
    */
   def snap(hotPixel: HotPixel, parentEdge: SegmentString, hotPixelVertexIndex: Int): Boolean = {
 

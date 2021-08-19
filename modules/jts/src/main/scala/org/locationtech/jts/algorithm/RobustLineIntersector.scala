@@ -33,23 +33,21 @@ import org.locationtech.jts.geom.Envelope
 object RobustLineIntersector {
 
   /**
-   * Finds the endpoint of the segments P and Q which
-   * is closest to the other segment.
-   * This is a reasonable surrogate for the true
-   * intersection points in ill-conditioned cases
-   * (e.g. where two segments are nearly coincident,
-   * or where the endpoint of one segment lies almost on the other segment).
-   * <p>
-   * This replaces the older CentralEndpoint heuristic,
-   * which chose the wrong endpoint in some cases
-   * where the segments had very distinct slopes
-   * and one endpoint lay almost on the other segment.
+   * Finds the endpoint of the segments P and Q which is closest to the other segment. This is a
+   * reasonable surrogate for the true intersection points in ill-conditioned cases (e.g. where two
+   * segments are nearly coincident, or where the endpoint of one segment lies almost on the other
+   * segment). <p> This replaces the older CentralEndpoint heuristic, which chose the wrong endpoint
+   * in some cases where the segments had very distinct slopes and one endpoint lay almost on the
+   * other segment.
    *
-   * @param p1 an endpoint of segment P
-   * @param p2 an endpoint of segment P
-   * @param q1 an endpoint of segment Q
-   * @param q2 an endpoint of segment Q
-   * return the nearest endpoint to the other segment
+   * @param p1
+   *   an endpoint of segment P
+   * @param p2
+   *   an endpoint of segment P
+   * @param q1
+   *   an endpoint of segment Q
+   * @param q2
+   *   an endpoint of segment Q return the nearest endpoint to the other segment
    */
   private def nearestEndpoint(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) = {
     var nearestPt = p1
@@ -110,32 +108,28 @@ class RobustLineIntersector() extends LineIntersector {
     if (collinear) return computeCollinearIntersection(p1, p2, q1, q2)
 
     /**
-     * At this point we know that there is a single intersection point
-     * (since the lines are not collinear).
+     * At this point we know that there is a single intersection point (since the lines are not
+     * collinear).
      */
     /**
-     * Check if the intersection is an endpoint. If it is, copy the endpoint as
-     * the intersection point. Copying the point rather than computing it
-     * ensures the point has the exact value, which is important for
-     *  robustness. It is sufficient to simply check for an endpoint which is on
-     * the other line, since at this point we know that the inputLines must
-     * intersect.
+     * Check if the intersection is an endpoint. If it is, copy the endpoint as the intersection
+     * point. Copying the point rather than computing it ensures the point has the exact value,
+     * which is important for robustness. It is sufficient to simply check for an endpoint which is
+     * on the other line, since at this point we know that the inputLines must intersect.
      */
     if (Pq1 == 0 || Pq2 == 0 || Qp1 == 0 || Qp2 == 0) {
       isProperF = false
 
       /**
-       * Check for two equal endpoints.
-       * This is done explicitly rather than by the orientation tests
+       * Check for two equal endpoints. This is done explicitly rather than by the orientation tests
        * below in order to improve robustness.
        *
-       * [An example where the orientation tests fail to be consistent is
-       * the following (where the true intersection is at the shared endpoint
-       * POINT (19.850257749638203 46.29709338043669)
+       * [An example where the orientation tests fail to be consistent is the following (where the
+       * true intersection is at the shared endpoint POINT (19.850257749638203 46.29709338043669)
        *
        * LINESTRING ( 19.850257749638203 46.29709338043669, 20.31970698357233 46.76654261437082 )
-       * and
-       * LINESTRING ( -48.51001596420236 -22.063180333403878, 19.850257749638203 46.29709338043669 )
+       * and LINESTRING ( -48.51001596420236 -22.063180333403878, 19.850257749638203
+       * 46.29709338043669 )
        *
        * which used to produce the INCORRECT result: (20.31970698357233, 46.76654261437082, NaN)
        */
@@ -206,12 +200,10 @@ class RobustLineIntersector() extends LineIntersector {
   }
 
   /**
-   * This method computes the actual value of the intersection point.
-   * To obtain the maximum precision from the intersection calculation,
-   * the coordinates are normalized by subtracting the minimum
-   * ordinate values (in absolute value).  This has the effect of
-   * removing common significant digits from the calculation to
-   * maintain more bits of precision.
+   * This method computes the actual value of the intersection point. To obtain the maximum
+   * precision from the intersection calculation, the coordinates are normalized by subtracting the
+   * minimum ordinate values (in absolute value). This has the effect of removing common significant
+   * digits from the calculation to maintain more bits of precision.
    */
   private def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) = {
     var intPt = intersectionSafe(p1, p2, q1, q2)
@@ -223,16 +215,15 @@ class RobustLineIntersector() extends LineIntersector {
         //intPt = intPtDD;
      */
     /**
-     * Due to rounding it can happen that the computed intersection is
-     * outside the envelopes of the input segments.  Clearly this
-     * is inconsistent.
-     * This code checks this condition and forces a more reasonable answer
+     * Due to rounding it can happen that the computed intersection is outside the envelopes of the
+     * input segments. Clearly this is inconsistent. This code checks this condition and forces a
+     * more reasonable answer
      *
-     * MD - May 4 2005 - This is still a problem.  Here is a failure case:
+     * MD - May 4 2005 - This is still a problem. Here is a failure case:
      *
      * LINESTRING (2089426.5233462777 1180182.3877339689, 2085646.6891757075 1195618.7333999649)
-     * LINESTRING (1889281.8148903656 1997547.0560044837, 2259977.3672235999 483675.17050843034)
-     * int point = (2097408.2633752143,1144595.8008114607)
+     * LINESTRING (1889281.8148903656 1997547.0560044837, 2259977.3672235999 483675.17050843034) int
+     * point = (2097408.2633752143,1144595.8008114607)
      *
      * MD - Dec 14 2006 - This does not seem to be a failure case any longer
      */
@@ -258,16 +249,18 @@ class RobustLineIntersector() extends LineIntersector {
   }
 
   /**
-   * Computes a segment intersection using homogeneous coordinates.
-   * Round-off error can cause the raw computation to fail,
-   * (usually due to the segments being approximately parallel).
-   * If this happens, a reasonable approximation is computed instead.
+   * Computes a segment intersection using homogeneous coordinates. Round-off error can cause the
+   * raw computation to fail, (usually due to the segments being approximately parallel). If this
+   * happens, a reasonable approximation is computed instead.
    *
-   * @param p1 a segment endpoint
-   * @param p2 a segment endpoint
-   * @param q1 a segment endpoint
-   * @param q2 a segment endpoint
-   * return the computed intersection point
+   * @param p1
+   *   a segment endpoint
+   * @param p2
+   *   a segment endpoint
+   * @param q1
+   *   a segment endpoint
+   * @param q2
+   *   a segment endpoint return the computed intersection point
    */
   private def intersectionSafe(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) = {
     var intPt = Intersection.intersection(p1, p2, q1, q2)
@@ -277,11 +270,9 @@ class RobustLineIntersector() extends LineIntersector {
   }
 
   /**
-   * Tests whether a point lies in the envelopes of both input segments.
-   * A correctly computed intersection point should return <code>true</code>
-   * for this test.
-   * Since this test is for debugging purposes only, no attempt is
-   * made to optimize the envelope test.
+   * Tests whether a point lies in the envelopes of both input segments. A correctly computed
+   * intersection point should return <code>true</code> for this test. Since this test is for
+   * debugging purposes only, no attempt is made to optimize the envelope test.
    *
    * return <code>true</code> if the input point lies within both input segment envelopes
    */

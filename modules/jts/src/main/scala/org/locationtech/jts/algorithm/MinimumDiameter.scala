@@ -18,27 +18,18 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Polygon
 
 /**
- * Computes the minimum diameter of a {link Geometry}.
- * The minimum diameter is defined to be the
- * width of the smallest band that
- * contains the geometry,
- * where a band is a strip of the plane defined
- * by two parallel lines.
- * This can be thought of as the smallest hole that the geometry can be
- * moved through, with a single rotation.
- * <p>
- * The first step in the algorithm is computing the convex hull of the Geometry.
- * If the input Geometry is known to be convex, a hint can be supplied to
- * avoid this computation.
- * <p>
- * This class can also be used to compute a line segment representing
- * the minimum diameter, the supporting line segment of the minimum diameter,
- * and a minimum rectangle enclosing the input geometry.
- * This rectangle will
- * have width equal to the minimum diameter, and have one side
- * parallel to the supporting segment.
+ * Computes the minimum diameter of a {link Geometry}. The minimum diameter is defined to be the
+ * width of the smallest band that contains the geometry, where a band is a strip of the plane
+ * defined by two parallel lines. This can be thought of as the smallest hole that the geometry can
+ * be moved through, with a single rotation. <p> The first step in the algorithm is computing the
+ * convex hull of the Geometry. If the input Geometry is known to be convex, a hint can be supplied
+ * to avoid this computation. <p> This class can also be used to compute a line segment representing
+ * the minimum diameter, the supporting line segment of the minimum diameter, and a minimum
+ * rectangle enclosing the input geometry. This rectangle will have width equal to the minimum
+ * diameter, and have one side parallel to the supporting segment.
  *
- * @see ConvexHull
+ * @see
+ *   ConvexHull
  * @version 1.7
  */
 object MinimumDiameter {
@@ -46,16 +37,16 @@ object MinimumDiameter {
   /**
    * Gets the minimum rectangle enclosing a geometry.
    *
-   * @param geom the geometry
-   * return the minimum rectangle enclosing the geometry
+   * @param geom
+   *   the geometry return the minimum rectangle enclosing the geometry
    */
   def getMinimumRectangle(geom: Geometry): Geometry = new MinimumDiameter(geom).getMinimumRectangle
 
   /**
    * Gets the length of the minimum diameter enclosing a geometry
    *
-   * @param geom the geometry
-   * return the length of the minimum diameter of the geometry
+   * @param geom
+   *   the geometry return the length of the minimum diameter of the geometry
    */
   def getMinimumDiameter(geom: Geometry): LineString = new MinimumDiameter(geom).getDiameter
 
@@ -90,14 +81,13 @@ object MinimumDiameter {
 class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
 
   /**
-   * Compute a minimum diameter for a giver {link Geometry},
-   * with a hint if
-   * the Geometry is convex
-   * (e.g. a convex Polygon or LinearRing,
-   * or a two-point LineString, or a Point).
+   * Compute a minimum diameter for a giver {link Geometry}, with a hint if the Geometry is convex
+   * (e.g. a convex Polygon or LinearRing, or a two-point LineString, or a Point).
    *
-   * @param inputGeom a Geometry which is convex
-   * @param isConvex  <code>true</code> if the input geometry is convex
+   * @param inputGeom
+   *   a Geometry which is convex
+   * @param isConvex
+   *   <code>true</code> if the input geometry is convex
    */
   private var convexHullPts: Array[Coordinate] = null
   private var minBaseSeg                       = new LineSegment
@@ -108,7 +98,8 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
   /**
    * Compute a minimum diameter for a given {link Geometry}.
    *
-   * @param inputGeom a Geometry
+   * @param inputGeom
+   *   a Geometry
    */
   def this(inputGeom: Geometry) = {
     this(inputGeom, false)
@@ -189,8 +180,8 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
   }
 
   /**
-   * Compute the width information for a ring of {link Coordinate}s.
-   * Leaves the width information in the instance variables.
+   * Compute the width information for a ring of {link Coordinate}s. Leaves the width information in
+   * the instance variables.
    *
    * @param pts
    */
@@ -232,14 +223,11 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
   }
 
   /**
-   * Gets the minimum rectangular {link Polygon} which encloses the input geometry.
-   * The rectangle has width equal to the minimum diameter,
-   * and a longer length.
-   * If the convex hull of the input is degenerate (a line or point)
-   * a {link LineString} or {link Point} is returned.
-   * <p>
-   * The minimum rectangle can be used as an extremely generalized representation
-   * for the given geometry.
+   * Gets the minimum rectangular {link Polygon} which encloses the input geometry. The rectangle
+   * has width equal to the minimum diameter, and a longer length. If the convex hull of the input
+   * is degenerate (a line or point) a {link LineString} or {link Point} is returned. <p> The
+   * minimum rectangle can be used as an extremely generalized representation for the given
+   * geometry.
    *
    * return the minimum rectangle enclosing the input (or a line or point if degenerate)
    */

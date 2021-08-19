@@ -24,26 +24,24 @@ package org.locationtech.jts.algorithm
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Represents a homogeneous coordinate in a 2-D coordinate space.
- * In JTS {link HCoordinate}s are used as a clean way
- * of computing intersections between line segments.
+ * Represents a homogeneous coordinate in a 2-D coordinate space. In JTS {link HCoordinate}s are
+ * used as a clean way of computing intersections between line segments.
  *
- * @author David Skea
+ * @author
+ *   David Skea
  * @version 1.7
  */
 object HCoordinate {
 
   /**
-   * Computes the (approximate) intersection point between two line segments
-   * using homogeneous coordinates.
-   * <p>
-   * Note that this algorithm is
-   * not numerically stable; i.e. it can produce intersection points which
-   * lie outside the envelope of the line segments themselves.  In order
-   * to increase the precision of the calculation input points should be normalized
-   * before passing them to this routine.
+   * Computes the (approximate) intersection point between two line segments using homogeneous
+   * coordinates. <p> Note that this algorithm is not numerically stable; i.e. it can produce
+   * intersection points which lie outside the envelope of the line segments themselves. In order to
+   * increase the precision of the calculation input points should be normalized before passing them
+   * to this routine.
    *
-   * @deprecated use { @link Intersection#intersection(Coordinate, Coordinate, Coordinate, Coordinate)}
+   * @deprecated
+   *   use { @link Intersection#intersection(Coordinate, Coordinate, Coordinate, Coordinate)}
    */
   @throws[NotRepresentableException]
   def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Coordinate = { // unrolled computation
@@ -107,9 +105,8 @@ class HCoordinate(val x: Double = 0.0, val y: Double = 0.0, val w: Double = 1.0)
   }
 
   /**
-   * Constructs a homogeneous coordinate which is the intersection of the lines
-   * define by the homogenous coordinates represented by two
-   * {link Coordinate}s.
+   * Constructs a homogeneous coordinate which is the intersection of the lines define by the
+   * homogenous coordinates represented by two {link Coordinate}s.
    *
    * @param p1
    * @param p2

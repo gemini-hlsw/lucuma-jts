@@ -18,15 +18,11 @@ import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.algorithm.RobustLineIntersector
 
 /**
- * Represents a line segment defined by two {link Coordinate}s.
- * Provides methods to compute various geometric properties
- * and relationships of line segments.
- * <p>
- * This class is designed to be easily mutable (to the extent of
- * having its contained points public).
- * This supports a common pattern of reusing a single LineSegment
- * object as a way of computing segment properties on the
- * segments defined by arrays or lists of {link Coordinate}s.
+ * Represents a line segment defined by two {link Coordinate}s. Provides methods to compute various
+ * geometric properties and relationships of line segments. <p> This class is designed to be easily
+ * mutable (to the extent of having its contained points public). This supports a common pattern of
+ * reusing a single LineSegment object as a way of computing segment properties on the segments
+ * defined by arrays or lists of {link Coordinate}s.
  *
  * @version 1.7
  */
@@ -122,22 +118,17 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   def isVertical: Boolean = p0.x == p1.x
 
   /**
-   * Determines the orientation of a LineSegment relative to this segment.
-   * The concept of orientation is specified as follows:
-   * Given two line segments A and L,
-   * <ul>
-   * <li>A is to the left of a segment L if A lies wholly in the
-   * closed half-plane lying to the left of L
-   * <li>A is to the right of a segment L if A lies wholly in the
-   * closed half-plane lying to the right of L
-   * <li>otherwise, A has indeterminate orientation relative to L. This
-   * happens if A is collinear with L or if A crosses the line determined by L.
-   * </ul>
+   * Determines the orientation of a LineSegment relative to this segment. The concept of
+   * orientation is specified as follows: Given two line segments A and L, <ul> <li>A is to the left
+   * of a segment L if A lies wholly in the closed half-plane lying to the left of L <li>A is to the
+   * right of a segment L if A lies wholly in the closed half-plane lying to the right of L
+   * <li>otherwise, A has indeterminate orientation relative to L. This happens if A is collinear
+   * with L or if A crosses the line determined by L. </ul>
    *
-   * @param seg the LineSegment to compare
-   * return 1 if <code>seg</code> is to the left of this segment
-   * return -1 if <code>seg</code> is to the right of this segment
-   * return 0 if <code>seg</code> is collinear to or crosses this segment
+   * @param seg
+   *   the LineSegment to compare return 1 if <code>seg</code> is to the left of this segment return
+   *   -1 if <code>seg</code> is to the right of this segment return 0 if <code>seg</code> is
+   *   collinear to or crosses this segment
    */
   def orientationIndex(seg: LineSegment): Int = {
     val orient0 = Orientation.index(p0, p1, seg.p0)
@@ -151,14 +142,15 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Determines the orientation index of a {link Coordinate} relative to this segment.
-   * The orientation index is as defined in {link Orientation#computeOrientation}.
+   * Determines the orientation index of a {link Coordinate} relative to this segment. The
+   * orientation index is as defined in {link Orientation#computeOrientation}.
    *
-   * @param p the coordinate to compare
-   * return 1 (LEFT) if <code>p</code> is to the left of this segment
-   * return -1 (RIGHT) if <code>p</code> is to the right of this segment
-   * return 0 (COLLINEAR) if <code>p</code> is collinear with this segment
-   * @see Orientation#computeOrientation(Coordinate, Coordinate, Coordinate)
+   * @param p
+   *   the coordinate to compare return 1 (LEFT) if <code>p</code> is to the left of this segment
+   *   return -1 (RIGHT) if <code>p</code> is to the right of this segment return 0 (COLLINEAR) if
+   *   <code>p</code> is collinear with this segment
+   * @see
+   *   Orientation#computeOrientation(Coordinate, Coordinate, Coordinate)
    */
   def orientationIndex(p: Coordinate): Int = Orientation.index(p0, p1, p)
 
@@ -172,18 +164,16 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Puts the line segment into a normalized form.
-   * This is useful for using line segments in maps and indexes when
-   * topological equality rather than exact equality is desired.
-   * A segment in normalized form has the first point smaller
-   * than the second (according to the standard ordering on {link Coordinate}).
+   * Puts the line segment into a normalized form. This is useful for using line segments in maps
+   * and indexes when topological equality rather than exact equality is desired. A segment in
+   * normalized form has the first point smaller than the second (according to the standard ordering
+   * on {link Coordinate}).
    */
   def normalize(): Unit = if (p1.compareTo(p0) < 0) reverse()
 
   /**
-   * Computes the angle that the vector defined by this segment
-   * makes with the X-axis.
-   * The angle will be in the range [ -PI, PI ] radians.
+   * Computes the angle that the vector defined by this segment makes with the X-axis. The angle
+   * will be in the range [ -PI, PI ] radians.
    *
    * return the angle this segment makes with the X-axis (in radians)
    */
@@ -211,23 +201,21 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   def distance(p: Coordinate): Double = Distance.pointToSegment(p, p0, p1)
 
   /**
-   * Computes the perpendicular distance between the (infinite) line defined
-   * by this line segment and a point.
+   * Computes the perpendicular distance between the (infinite) line defined by this line segment
+   * and a point.
    *
    * return the perpendicular distance between the defined line and the given point
    */
   def distancePerpendicular(p: Coordinate): Double = Distance.pointToLinePerpendicular(p, p0, p1)
 
   /**
-   * Computes the {link Coordinate} that lies a given
-   * fraction along the line defined by this segment.
-   * A fraction of <code>0.0</code> returns the start point of the segment;
-   * a fraction of <code>1.0</code> returns the end point of the segment.
-   * If the fraction is &lt; 0.0 or &gt; 1.0 the point returned
-   * will lie before the start or beyond the end of the segment.
+   * Computes the {link Coordinate} that lies a given fraction along the line defined by this
+   * segment. A fraction of <code>0.0</code> returns the start point of the segment; a fraction of
+   * <code>1.0</code> returns the end point of the segment. If the fraction is &lt; 0.0 or &gt; 1.0
+   * the point returned will lie before the start or beyond the end of the segment.
    *
-   * @param segmentLengthFraction the fraction of the segment length along the line
-   * return the point at that distance
+   * @param segmentLengthFraction
+   *   the fraction of the segment length along the line return the point at that distance
    */
   def pointAlong(segmentLengthFraction: Double): Coordinate = {
     val coord = new Coordinate
@@ -237,19 +225,18 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Computes the {link Coordinate} that lies a given
-   * fraction along the line defined by this segment and offset from
-   * the segment by a given distance.
-   * A fraction of <code>0.0</code> offsets from the start point of the segment;
-   * a fraction of <code>1.0</code> offsets from the end point of the segment.
-   * The computed point is offset to the left of the line if the offset distance is
+   * Computes the {link Coordinate} that lies a given fraction along the line defined by this
+   * segment and offset from the segment by a given distance. A fraction of <code>0.0</code> offsets
+   * from the start point of the segment; a fraction of <code>1.0</code> offsets from the end point
+   * of the segment. The computed point is offset to the left of the line if the offset distance is
    * positive, to the right if negative.
    *
-   * @param segmentLengthFraction the fraction of the segment length along the line
-   * @param offsetDistance        the distance the point is offset from the segment
-   *                              (positive is to the left, negative is to the right)
-   * return the point at that distance and offset
-   * throws IllegalStateException if the segment has zero length
+   * @param segmentLengthFraction
+   *   the fraction of the segment length along the line
+   * @param offsetDistance
+   *   the distance the point is offset from the segment (positive is to the left, negative is to
+   *   the right) return the point at that distance and offset throws IllegalStateException if the
+   *   segment has zero length
    */
   def pointAlongOffset(segmentLengthFraction: Double, offsetDistance: Double): Coordinate = { // the point on the segment line
     val segx    = p0.x + segmentLengthFraction * (p1.x - p0.x)
@@ -274,17 +261,14 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Computes the Projection Factor for the projection of the point p
-   * onto this LineSegment.  The Projection Factor is the constant r
-   * by which the vector for this segment must be multiplied to
-   * equal the vector for the projection of <tt>p</tt> on the line
-   * defined by this segment.
-   * <p>
-   * The projection factor will lie in the range <tt>(-inf, +inf)</tt>,
-   * or be <code>NaN</code> if the line segment has zero length..
+   * Computes the Projection Factor for the projection of the point p onto this LineSegment. The
+   * Projection Factor is the constant r by which the vector for this segment must be multiplied to
+   * equal the vector for the projection of <tt>p</tt> on the line defined by this segment. <p> The
+   * projection factor will lie in the range <tt>(-inf, +inf)</tt>, or be <code>NaN</code> if the
+   * line segment has zero length..
    *
-   * @param p the point to compute the factor for
-   * return the projection factor for the point
+   * @param p
+   *   the point to compute the factor for return the projection factor for the point
    */
   def projectionFactor(p: Coordinate): Double = {
     if (p == p0) return 0.0
@@ -310,17 +294,14 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Computes the fraction of distance (in <tt>[0.0, 1.0]</tt>)
-   * that the projection of a point occurs along this line segment.
-   * If the point is beyond either ends of the line segment,
-   * the closest fractional value (<tt>0.0</tt> or <tt>1.0</tt>) is returned.
-   * <p>
-   * Essentially, this is the {link #projectionFactor} clamped to
-   * the range <tt>[0.0, 1.0]</tt>.
-   * If the segment has zero length, 1.0 is returned.
+   * Computes the fraction of distance (in <tt>[0.0, 1.0]</tt>) that the projection of a point
+   * occurs along this line segment. If the point is beyond either ends of the line segment, the
+   * closest fractional value (<tt>0.0</tt> or <tt>1.0</tt>) is returned. <p> Essentially, this is
+   * the {link #projectionFactor} clamped to the range <tt>[0.0, 1.0]</tt>. If the segment has zero
+   * length, 1.0 is returned.
    *
-   * @param inputPt the point
-   * return the fraction along the line segment the projection of the point occurs
+   * @param inputPt
+   *   the point return the fraction along the line segment the projection of the point occurs
    */
   def segmentFraction(inputPt: Coordinate): Double = {
     var segFrac = projectionFactor(inputPt)
@@ -330,12 +311,9 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Compute the projection of a point onto the line determined
-   * by this line segment.
-   * <p>
-   * Note that the projected point
-   * may lie outside the line segment.  If this is the case,
-   * the projection factor will lie outside the range [0.0, 1.0].
+   * Compute the projection of a point onto the line determined by this line segment. <p> Note that
+   * the projected point may lie outside the line segment. If this is the case, the projection
+   * factor will lie outside the range [0.0, 1.0].
    */
   def project(p: Coordinate): Coordinate = {
     if (p == p0 || p == p1) return new Coordinate(p)
@@ -347,16 +325,15 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Project a line segment onto this line segment and return the resulting
-   * line segment.  The returned line segment will be a subset of
-   * the target line line segment.  This subset may be null, if
-   * the segments are oriented in such a way that there is no projection.
-   * <p>
-   * Note that the returned line may have zero length (i.e. the same endpoints).
-   * This can happen for instance if the lines are perpendicular to one another.
+   * Project a line segment onto this line segment and return the resulting line segment. The
+   * returned line segment will be a subset of the target line line segment. This subset may be
+   * null, if the segments are oriented in such a way that there is no projection. <p> Note that the
+   * returned line may have zero length (i.e. the same endpoints). This can happen for instance if
+   * the lines are perpendicular to one another.
    *
-   * @param seg the line segment to project
-   * return the projected line segment, or <code>null</code> if there is no overlap
+   * @param seg
+   *   the line segment to project return the projected line segment, or <code>null</code> if there
+   *   is no overlap
    */
   def project(seg: LineSegment): LineSegment = {
     val pf0   = projectionFactor(seg.p0)
@@ -374,11 +351,10 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Computes the reflection of a point in the line defined
-   * by this line segment.
+   * Computes the reflection of a point in the line defined by this line segment.
    *
-   * @param p the point to reflect
-   * return the reflected point
+   * @param p
+   *   the point to reflect return the reflected point
    */
   def reflect(p: Coordinate): Coordinate = { // general line equation
     val A        = p1.getY - p0.getY
@@ -397,8 +373,9 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   /**
    * Computes the closest point on this line segment to another point.
    *
-   * @param p the point to find the closest point to
-   * return a Coordinate which is the closest point on the line segment to the point p
+   * @param p
+   *   the point to find the closest point to return a Coordinate which is the closest point on the
+   *   line segment to the point p
    */
   def closestPoint(p: Coordinate): Coordinate = {
     val factor = projectionFactor(p)
@@ -412,16 +389,16 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   /**
    * Computes the closest points on two line segments.
    *
-   * @param line the segment to find the closest point to
-   * return a pair of Coordinates which are the closest points on the line segments
+   * @param line
+   *   the segment to find the closest point to return a pair of Coordinates which are the closest
+   *   points on the line segments
    */
   def closestPoints(line: LineSegment): Array[Coordinate] = { // test for intersection
     val intPt = intersection(line)
     if (intPt != null) return Array[Coordinate](intPt, intPt)
 
     /**
-     * if no intersection closest pair contains at least one endpoint.
-     * Test each endpoint in turn.
+     * if no intersection closest pair contains at least one endpoint. Test each endpoint in turn.
      */
     val closestPt   = new Array[Coordinate](2)
     var minDistance = java.lang.Double.MAX_VALUE
@@ -455,17 +432,16 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Computes an intersection point between two line segments, if there is one.
-   * There may be 0, 1 or many intersection points between two segments.
-   * If there are 0, null is returned. If there is 1 or more,
-   * exactly one of them is returned
-   * (chosen at the discretion of the algorithm).
-   * If more information is required about the details of the intersection,
-   * the {link RobustLineIntersector} class should be used.
+   * Computes an intersection point between two line segments, if there is one. There may be 0, 1 or
+   * many intersection points between two segments. If there are 0, null is returned. If there is 1
+   * or more, exactly one of them is returned (chosen at the discretion of the algorithm). If more
+   * information is required about the details of the intersection, the {link RobustLineIntersector}
+   * class should be used.
    *
-   * @param line a line segment
-   * return an intersection point, or <code>null</code> if there is none
-   * @see RobustLineIntersector
+   * @param line
+   *   a line segment return an intersection point, or <code>null</code> if there is none
+   * @see
+   *   RobustLineIntersector
    */
   def intersection(line: LineSegment): Coordinate = {
     val li = new RobustLineIntersector
@@ -475,20 +451,18 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Computes the intersection point of the lines of infinite extent defined
-   * by two line segments (if there is one).
-   * There may be 0, 1 or an infinite number of intersection points
-   * between two lines.
-   * If there is a unique intersection point, it is returned.
-   * Otherwise, <tt>null</tt> is returned.
-   * If more information is required about the details of the intersection,
-   * the {link RobustLineIntersector} class should be used.
+   * Computes the intersection point of the lines of infinite extent defined by two line segments
+   * (if there is one). There may be 0, 1 or an infinite number of intersection points between two
+   * lines. If there is a unique intersection point, it is returned. Otherwise, <tt>null</tt> is
+   * returned. If more information is required about the details of the intersection, the {link
+   * RobustLineIntersector} class should be used.
    *
-   * @param line a line segment defining an straight line with infinite extent
-   * return an intersection point,
-   *         or <code>null</code> if there is no point of intersection
-   *         or an infinite number of intersection points
-   * @see RobustLineIntersector
+   * @param line
+   *   a line segment defining an straight line with infinite extent return an intersection point,
+   *   or <code>null</code> if there is no point of intersection or an infinite number of
+   *   intersection points
+   * @see
+   *   RobustLineIntersector
    */
   def lineIntersection(line: LineSegment): Coordinate = {
     val intPt = Intersection.intersection(p0, p1, line.p0, line.p1)
@@ -498,19 +472,19 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   /**
    * Creates a LineString with the same coordinates as this segment
    *
-   * @param geomFactory the geometry factory to use
-   * return a LineString with the same geometry as this segment
+   * @param geomFactory
+   *   the geometry factory to use return a LineString with the same geometry as this segment
    */
   def toGeometry(geomFactory: GeometryFactory): LineString =
     geomFactory.createLineString(Array[Coordinate](p0, p1))
 
   /**
-   * Returns <code>true</code> if <code>other</code> has the same values for
-   * its points.
+   * Returns <code>true</code> if <code>other</code> has the same values for its points.
    *
-   * @param  o a <code>LineSegment</code> with which to do the comparison.
-   * return <code>true</code> if <code>other</code> is a <code>LineSegment</code>
-   *         with the same values for the x and y ordinates.
+   * @param o
+   *   a <code>LineSegment</code> with which to do the comparison. return <code>true</code> if
+   *   <code>other</code> is a <code>LineSegment</code> with the same values for the x and y
+   *   ordinates.
    */
   override def equals(o: Any): Boolean = {
     if (!o.isInstanceOf[LineSegment]) return false
@@ -535,13 +509,13 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Compares this object with the specified object for order.
-   * Uses the standard lexicographic ordering for the points in the LineSegment.
+   * Compares this object with the specified object for order. Uses the standard lexicographic
+   * ordering for the points in the LineSegment.
    *
-   * @param  o the <code>LineSegment</code> with which this <code>LineSegment</code>
-   *           is being compared
-   * return a negative integer, zero, or a positive integer as this <code>LineSegment</code>
-   *         is less than, equal to, or greater than the specified <code>LineSegment</code>
+   * @param o
+   *   the <code>LineSegment</code> with which this <code>LineSegment</code> is being compared
+   *   return a negative integer, zero, or a positive integer as this <code>LineSegment</code> is
+   *   less than, equal to, or greater than the specified <code>LineSegment</code>
    */
   override def compareTo(other: LineSegment): Int = {
     val comp0 = p0.compareTo(other.p0)
@@ -550,13 +524,13 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   }
 
   /**
-   * Returns <code>true</code> if <code>other</code> is
-   * topologically equal to this LineSegment (e.g. irrespective
-   * of orientation).
+   * Returns <code>true</code> if <code>other</code> is topologically equal to this LineSegment
+   * (e.g. irrespective of orientation).
    *
-   * @param  other a <code>LineSegment</code> with which to do the comparison.
-   * return <code>true</code> if <code>other</code> is a <code>LineSegment</code>
-   *         with the same values for the x and y ordinates.
+   * @param other
+   *   a <code>LineSegment</code> with which to do the comparison. return <code>true</code> if
+   *   <code>other</code> is a <code>LineSegment</code> with the same values for the x and y
+   *   ordinates.
    */
   def equalsTopo(other: LineSegment): Boolean =
     p0 == other.p0 && p1 == other.p1 || p0 == other.p1 && p1 == other.p0

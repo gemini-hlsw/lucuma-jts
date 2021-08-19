@@ -27,13 +27,12 @@ import org.locationtech.jts.geom.LineSegment
 import org.locationtech.jts.geom.LineString
 
 /**
- * Snaps the vertices and segments of a {link LineString}
- * to a set of target snap vertices.
- * A snap distance tolerance is used to control where snapping is performed.
- * <p>
- * The implementation handles empty geometry and empty snap vertex sets.
+ * Snaps the vertices and segments of a {link LineString} to a set of target snap vertices. A snap
+ * distance tolerance is used to control where snapping is performed. <p> The implementation handles
+ * empty geometry and empty snap vertex sets.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  * @version 1.7
  */
 object LineStringSnapper {
@@ -46,11 +45,12 @@ object LineStringSnapper {
 class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double) {
 
   /**
-   * Creates a new snapper using the given points
-   * as source points to be snapped.
+   * Creates a new snapper using the given points as source points to be snapped.
    *
-   * @param srcPts        the points to snap
-   * @param snapTolerance the snap tolerance to use
+   * @param srcPts
+   *   the points to snap
+   * @param snapTolerance
+   *   the snap tolerance to use
    */
 //  this.snapTolerance = snapTolerance
 //  private var snapTolerance = 0.0
@@ -73,11 +73,10 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
     this.allowSnappingToSourceVertices = allowSnappingToSourceVertices
 
   /**
-   * Snaps the vertices and segments of the source LineString
-   * to the given set of snap vertices.
+   * Snaps the vertices and segments of the source LineString to the given set of snap vertices.
    *
-   * @param snapPts the vertices to snap to
-   * return a list of the snapped points
+   * @param snapPts
+   *   the vertices to snap to return a list of the snapped points
    */
   def snapTo(snapPts: Array[Coordinate]) = {
     val coordList = new CoordinateList(srcPts)
@@ -90,8 +89,10 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
   /**
    * Snap source vertices to vertices in the target.
    *
-   * @param srcCoords the points to snap
-   * @param snapPts   the points to snap to
+   * @param srcCoords
+   *   the points to snap
+   * @param snapPts
+   *   the points to snap to
    */
   private def snapVertices(srcCoords: CoordinateList, snapPts: Array[Coordinate]) = { // try snapping vertices
     // if src is a ring then don't snap final vertex
@@ -124,18 +125,16 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
   }
 
   /**
-   * Snap segments of the source to nearby snap vertices.
-   * Source segments are "cracked" at a snap vertex.
-   * A single input segment may be snapped several times
-   * to different snap vertices.
-   * <p>
-   * For each distinct snap vertex, at most one source segment
-   * is snapped to.  This prevents "cracking" multiple segments
-   * at the same point, which would likely cause
-   * topology collapse when being used on polygonal linework.
+   * Snap segments of the source to nearby snap vertices. Source segments are "cracked" at a snap
+   * vertex. A single input segment may be snapped several times to different snap vertices. <p> For
+   * each distinct snap vertex, at most one source segment is snapped to. This prevents "cracking"
+   * multiple segments at the same point, which would likely cause topology collapse when being used
+   * on polygonal linework.
    *
-   * @param srcCoords the coordinates of the source linestring to be snapped
-   * @param snapPts   the target snap vertices
+   * @param srcCoords
+   *   the coordinates of the source linestring to be snapped
+   * @param snapPts
+   *   the target snap vertices
    */
   private def snapSegments(srcCoords: CoordinateList, snapPts: Array[Coordinate]): Unit = { // guard against empty input
     if (snapPts.length == 0) return
@@ -149,10 +148,9 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
       val index  = findSegmentIndexToSnap(snapPt, srcCoords)
 
       /**
-       * If a segment to snap to was found, "crack" it at the snap pt.
-       * The new pt is inserted immediately into the src segment list,
-       * so that subsequent snapping will take place on the modified segments.
-       * Duplicate points are not added.
+       * If a segment to snap to was found, "crack" it at the snap pt. The new pt is inserted
+       * immediately into the src segment list, so that subsequent snapping will take place on the
+       * modified segments. Duplicate points are not added.
        */
       if (index >= 0) srcCoords.add(index + 1, new Coordinate(snapPt), false)
       i += 1
@@ -160,23 +158,18 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
   }
 
   /**
-   * Finds a src segment which snaps to (is close to) the given snap point.
-   * <p>
-   * Only a single segment is selected for snapping.
-   * This prevents multiple segments snapping to the same snap vertex,
-   * which would almost certainly cause invalid geometry
-   * to be created.
-   * (The heuristic approach to snapping used here
-   * is really only appropriate when
-   * snap pts snap to a unique spot on the src geometry.)
-   * <p>
-   * Also, if the snap vertex occurs as a vertex in the src coordinate list,
-   * no snapping is performed.
+   * Finds a src segment which snaps to (is close to) the given snap point. <p> Only a single
+   * segment is selected for snapping. This prevents multiple segments snapping to the same snap
+   * vertex, which would almost certainly cause invalid geometry to be created. (The heuristic
+   * approach to snapping used here is really only appropriate when snap pts snap to a unique spot
+   * on the src geometry.) <p> Also, if the snap vertex occurs as a vertex in the src coordinate
+   * list, no snapping is performed.
    *
-   * @param snapPt    the point to snap to
-   * @param srcCoords the source segment coordinates
-   * return the index of the snapped segment
-   *         or -1 if no segment snaps to the snap point
+   * @param snapPt
+   *   the point to snap to
+   * @param srcCoords
+   *   the source segment coordinates return the index of the snapped segment or -1 if no segment
+   *   snaps to the snap point
    */
   private def findSegmentIndexToSnap(snapPt: Coordinate, srcCoords: CoordinateList): Int = {
     var minDist   = Double.MaxValue

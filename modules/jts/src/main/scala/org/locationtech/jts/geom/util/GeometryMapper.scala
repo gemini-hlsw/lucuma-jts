@@ -25,25 +25,22 @@ import java.util
 import org.locationtech.jts.geom.Geometry
 
 /**
- * Methods to map various collections
- * of {link Geometry}s
- * via defined mapping functions.
+ * Methods to map various collections of {link Geometry}s via defined mapping functions.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object GeometryMapper {
 
   /**
-   * Maps the members of a {link Geometry}
-   * (which may be atomic or composite)
-   * into another <tt>Geometry</tt> of most specific type.
-   * <tt>null</tt> results are skipped.
-   * In the case of hierarchical {link GeometryCollection}s,
-   * only the first level of members are mapped.
+   * Maps the members of a {link Geometry} (which may be atomic or composite) into another
+   * <tt>Geometry</tt> of most specific type. <tt>null</tt> results are skipped. In the case of
+   * hierarchical {link GeometryCollection}s, only the first level of members are mapped.
    *
-   * @param geom the input atomic or composite geometry
-   * @param op   the mapping operation
-   * return a result collection or geometry of most specific type
+   * @param geom
+   *   the input atomic or composite geometry
+   * @param op
+   *   the mapping operation return a result collection or geometry of most specific type
    */
   def map(geom: Geometry, op: GeometryMapper.MapOp): Geometry = {
     val mapped = new util.ArrayList[Geometry]
@@ -70,15 +67,16 @@ object GeometryMapper {
   /**
    * An interface for geometry functions used for mapping.
    *
-   * @author Martin Davis
+   * @author
+   *   Martin Davis
    */
   trait MapOp {
 
     /**
      * Computes a new geometry value.
      *
-     * @param g the input geometry
-     * return a result geometry
+     * @param g
+     *   the input geometry return a result geometry
      */
     def map(g: Geometry): Geometry
   }

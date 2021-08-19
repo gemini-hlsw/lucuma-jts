@@ -17,7 +17,8 @@ import org.locationtech.jts.math.MathUtil
 /**
  * Functions to compute distance between basic geometric structures.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object Distance {
 
@@ -27,13 +28,13 @@ object Distance {
    * Note: NON-ROBUST!
    *
    * @param A
-   * a point of one line
+   *   a point of one line
    * @param B
-   * the second point of (must be different to A)
+   *   the second point of (must be different to A)
    * @param C
-   * one point of the line
+   *   one point of the line
    * @param D
-   * another point of the line (must be different to A)
+   *   another point of the line (must be different to A)
    */
   def segmentToSegment(A: Coordinate, B: Coordinate, C: Coordinate, D: Coordinate): Double = { // check for zero-length segments
     if (A == B) return Distance.pointToSegment(A, C, D)
@@ -91,10 +92,10 @@ object Distance {
    * Computes the distance from a point to a sequence of line segments.
    *
    * @param p
-   * a point
+   *   a point
    * @param line
-   * a sequence of contiguous line segments defined by their vertices
-   * return the minimum distance between the point and the line segments
+   *   a sequence of contiguous line segments defined by their vertices return the minimum distance
+   *   between the point and the line segments
    */
   def pointToSegmentString(p: Coordinate, line: Array[Coordinate]) = {
     if (line.length == 0)
@@ -116,12 +117,12 @@ object Distance {
    * Note: NON-ROBUST!
    *
    * @param p
-   * the point to compute the distance for
+   *   the point to compute the distance for
    * @param A
-   * one point of the line
+   *   one point of the line
    * @param B
-   * another point of the line (must be different to A)
-   * return the distance from p to line segment AB
+   *   another point of the line (must be different to A) return the distance from p to line segment
+   *   AB
    */
   def pointToSegment(p: Coordinate, A: Coordinate, B: Coordinate): Double = { // if start = end, then just compute distance to one of the endpoints
     if ((A.x == B.x) && (A.y == B.y)) return p.distance(A)
@@ -157,16 +158,15 @@ object Distance {
   }
 
   /**
-   * Computes the perpendicular distance from a point p to the (infinite) line
-   * containing the points AB
+   * Computes the perpendicular distance from a point p to the (infinite) line containing the points
+   * AB
    *
    * @param p
-   * the point to compute the distance for
+   *   the point to compute the distance for
    * @param A
-   * one point of the line
+   *   one point of the line
    * @param B
-   * another point of the line (must be different to A)
-   * return the distance from p to line AB
+   *   another point of the line (must be different to A) return the distance from p to line AB
    */
   def pointToLinePerpendicular(p: Coordinate, A: Coordinate, B: Coordinate) = { // use comp.graphics.algorithms Frequently Asked Questions method
     /*

@@ -16,9 +16,8 @@ import org.locationtech.jts.geom.IntersectionMatrix
 import org.locationtech.jts.util.Assert
 
 /**
- * A GraphComponent is the parent class for the objects'
- * that form a graph.  Each GraphComponent can carry a
- * Label.
+ * A GraphComponent is the parent class for the objects' that form a graph. Each GraphComponent can
+ * carry a Label.
  *
  * @version 1.7
  */
@@ -68,17 +67,16 @@ abstract class GraphComponent(var label: Label) {
   protected def computeIM(im: IntersectionMatrix): Unit
 
   /**
-   * An isolated component is one that does not intersect or touch any other
-   * component.  This is the case if the label has valid locations for
-   * only a single Geometry.
+   * An isolated component is one that does not intersect or touch any other component. This is the
+   * case if the label has valid locations for only a single Geometry.
    *
    * return true if this component is isolated
    */
   def isIsolated: Boolean
 
   /**
-   * Update the IM with the contribution for this component.
-   * A component only contributes if it has a labelling for both parent geometries
+   * Update the IM with the contribution for this component. A component only contributes if it has
+   * a labelling for both parent geometries
    */
   def updateIM(im: IntersectionMatrix): Unit = {
     Assert.isTrue(label.getGeometryCount >= 2, "found partial label")

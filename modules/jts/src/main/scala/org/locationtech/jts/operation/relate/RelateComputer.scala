@@ -30,16 +30,12 @@ import org.locationtech.jts.geomgraph.index.SegmentIntersector
 import org.locationtech.jts.util.Assert
 
 /**
- * Computes the topological relationship between two Geometries.
- * <p>
- * RelateComputer does not need to build a complete graph structure to compute
- * the IntersectionMatrix.  The relationship between the geometries can
- * be computed by simply examining the labelling of edges incident on each node.
- * <p>
- * RelateComputer does not currently support arbitrary GeometryCollections.
- * This is because GeometryCollections can contain overlapping Polygons.
- * In order to correct compute relate on overlapping Polygons, they
- * would first need to be noded and merged (if not explicitly, at least
+ * Computes the topological relationship between two Geometries. <p> RelateComputer does not need to
+ * build a complete graph structure to compute the IntersectionMatrix. The relationship between the
+ * geometries can be computed by simply examining the labelling of edges incident on each node. <p>
+ * RelateComputer does not currently support arbitrary GeometryCollections. This is because
+ * GeometryCollections can contain overlapping Polygons. In order to correct compute relate on
+ * overlapping Polygons, they would first need to be noded and merged (if not explicitly, at least
  * implicitly).
  *
  * @version 1.7
@@ -76,8 +72,8 @@ class RelateComputer(
     computeIntersectionNodes(1)
 
     /**
-     * Copy the labelling for the nodes in the parent Geometries.  These override
-     * any labels determined by intersections between the geometries.
+     * Copy the labelling for the nodes in the parent Geometries. These override any labels
+     * determined by intersections between the geometries.
      */
     copyNodesAndLabels(0)
     copyNodesAndLabels(1)
@@ -89,9 +85,8 @@ class RelateComputer(
     computeProperIntersectionIM(intersector, im)
 
     /**
-     * Now process improper intersections
-     * (eg where one or other of the geometries has a vertex at the intersection point)
-     * We need to compute the edge graph at all nodes to determine the IM.
+     * Now process improper intersections (eg where one or other of the geometries has a vertex at
+     * the intersection point) We need to compute the edge graph at all nodes to determine the IM.
      */
     // build EdgeEnds for all intersections
     val eeBuilder = new EdgeEndBuilder
@@ -104,13 +99,11 @@ class RelateComputer(
     labelNodeEdges()
 
     /**
-     * Compute the labeling for isolated components
-     * <br>
-     * Isolated components are components that do not touch any other components in the graph.
-     * They can be identified by the fact that they will
-     * contain labels containing ONLY a single element, the one for their parent geometry.
-     * We only need to check components contained in the input graphs, since
-     * isolated components will not have been replaced by new components formed by intersections.
+     * Compute the labeling for isolated components <br> Isolated components are components that do
+     * not touch any other components in the graph. They can be identified by the fact that they
+     * will contain labels containing ONLY a single element, the one for their parent geometry. We
+     * only need to check components contained in the input graphs, since isolated components will
+     * not have been replaced by new components formed by intersections.
      */
     //debugPrintln("Graph A isolated edges - ");
     labelIsolatedEdges(0, 1)
@@ -145,12 +138,11 @@ class RelateComputer(
     else {
 
       /**
-       * If an Line segment properly intersects an edge segment of an Area,
-       * it follows that the Interior of the Line intersects the Boundary of the Area.
-       * If the intersection is a proper <i>interior</i> intersection, then
-       * there is an Interior-Interior intersection too.
-       * Note that it does not follow that the Interior of the Line intersects the Exterior
-       * of the Area, since there may be another Area component which contains the rest of the Line.
+       * If an Line segment properly intersects an edge segment of an Area, it follows that the
+       * Interior of the Line intersects the Boundary of the Area. If the intersection is a proper
+       * <i>interior</i> intersection, then there is an Interior-Interior intersection too. Note
+       * that it does not follow that the Interior of the Line intersects the Exterior of the Area,
+       * since there may be another Area component which contains the rest of the Line.
        */
       if (dimA == 2 && dimB == 1) {
         if (hasProper) im.setAtLeast("FFF0FFFF2")
@@ -174,13 +166,10 @@ class RelateComputer(
   }
 
   /**
-   * Copy all nodes from an arg geometry into this graph.
-   * The node label in the arg geometry overrides any previously computed
-   * label for that argIndex.
-   * (E.g. a node may be an intersection node with
-   * a computed label of BOUNDARY,
-   * but in the original arg Geometry it is actually
-   * in the interior due to the Boundary Determination Rule)
+   * Copy all nodes from an arg geometry into this graph. The node label in the arg geometry
+   * overrides any previously computed label for that argIndex. (E.g. a node may be an intersection
+   * node with a computed label of BOUNDARY, but in the original arg Geometry it is actually in the
+   * interior due to the Boundary Determination Rule)
    */
   private def copyNodesAndLabels(argIndex: Int): Unit = {
     val i = arg(argIndex).getNodeIterator
@@ -193,11 +182,10 @@ class RelateComputer(
   }
 
   /**
-   * Insert nodes for all intersections on the edges of a Geometry.
-   * Label the created nodes the same as the edge label if they do not already have a label.
-   * This allows nodes created by either self-intersections or
-   * mutual intersections to be labelled.
-   * Endpoint nodes will already be labelled from when they were inserted.
+   * Insert nodes for all intersections on the edges of a Geometry. Label the created nodes the same
+   * as the edge label if they do not already have a label. This allows nodes created by either
+   * self-intersections or mutual intersections to be labelled. Endpoint nodes will already be
+   * labelled from when they were inserted.
    */
   private def computeIntersectionNodes(argIndex: Int): Unit = {
     val i = arg(argIndex).getEdgeIterator
@@ -216,11 +204,10 @@ class RelateComputer(
   }
 
   /**
-   * For all intersections on the edges of a Geometry,
-   * label the corresponding node IF it doesn't already have a label.
-   * This allows nodes created by either self-intersections or
-   * mutual intersections to be labelled.
-   * Endpoint nodes will already be labelled from when they were inserted.
+   * For all intersections on the edges of a Geometry, label the corresponding node IF it doesn't
+   * already have a label. This allows nodes created by either self-intersections or mutual
+   * intersections to be labelled. Endpoint nodes will already be labelled from when they were
+   * inserted.
    */
 //  private def labelIntersectionNodes(argIndex: Int): Unit = {
 //    val i = arg(argIndex).getEdgeIterator
@@ -243,8 +230,8 @@ class RelateComputer(
 //  }
 
   /**
-   * If the Geometries are disjoint, we need to enter their dimension and
-   * boundary dimension in the Ext rows in the IM
+   * If the Geometries are disjoint, we need to enter their dimension and boundary dimension in the
+   * Ext rows in the IM
    */
   private def computeDisjointIM(im: IntersectionMatrix): Unit = {
     val ga = arg(0).getGeometry
@@ -286,11 +273,9 @@ class RelateComputer(
   }
 
   /**
-   * Processes isolated edges by computing their labelling and adding them
-   * to the isolated edges list.
-   * Isolated edges are guaranteed not to touch the boundary of the target (since if they
-   * did, they would have caused an intersection to be computed and hence would
-   * not be isolated)
+   * Processes isolated edges by computing their labelling and adding them to the isolated edges
+   * list. Isolated edges are guaranteed not to touch the boundary of the target (since if they did,
+   * they would have caused an intersection to be computed and hence would not be isolated)
    */
   private def labelIsolatedEdges(thisIndex: Int, targetIndex: Int): Unit = {
     val ei = arg(thisIndex).getEdgeIterator
@@ -304,9 +289,9 @@ class RelateComputer(
   }
 
   /**
-   * Label an isolated edge of a graph with its relationship to the target geometry.
-   * If the target has dim 2 or 1, the edge can either be in the interior or the exterior.
-   * If the target has dim 0, the edge must be in the exterior
+   * Label an isolated edge of a graph with its relationship to the target geometry. If the target
+   * has dim 2 or 1, the edge can either be in the interior or the exterior. If the target has dim
+   * 0, the edge must be in the exterior
    */
   private def labelIsolatedEdge(
     e:           Edge,
@@ -322,13 +307,11 @@ class RelateComputer(
   //System.out.println(e.getLabel());
 
   /**
-   * Isolated nodes are nodes whose labels are incomplete
-   * (e.g. the location for one Geometry is null).
-   * This is the case because nodes in one graph which don't intersect
-   * nodes in the other are not completely labelled by the initial process
-   * of adding nodes to the nodeList.
-   * To complete the labelling we need to check for nodes that lie in the
-   * interior of edges, and in the interior of areas.
+   * Isolated nodes are nodes whose labels are incomplete (e.g. the location for one Geometry is
+   * null). This is the case because nodes in one graph which don't intersect nodes in the other are
+   * not completely labelled by the initial process of adding nodes to the nodeList. To complete the
+   * labelling we need to check for nodes that lie in the interior of edges, and in the interior of
+   * areas.
    */
   private def labelIsolatedNodes(): Unit = {
     val ni = nodes.iterator

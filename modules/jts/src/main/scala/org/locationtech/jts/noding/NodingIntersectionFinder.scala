@@ -26,42 +26,34 @@ import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Finds non-noded intersections in a set of {link SegmentString}s,
- * if any exist.
- * <p>
- * Non-noded intersections include:
- * <ul>
- * <li><b>Interior intersections</b> which lie in the interior of a segment
- * (with another segment interior or with a vertex or endpoint)
- * <li><b>Vertex intersections</b> which occur at vertices in the interior of {link SegmentString}s
- * (with a segment string endpoint or with another interior vertex)
- * </ul>
- * The finder can be limited to finding only interior intersections
- * by setting {link #setInteriorIntersectionsOnly(boolean).
- * <p>
- * By default only the first intersection is found,
- * but all can be found by setting {link #setFindAllIntersections(boolean)
+ * Finds non-noded intersections in a set of {link SegmentString}s, if any exist. <p> Non-noded
+ * intersections include: <ul> <li><b>Interior intersections</b> which lie in the interior of a
+ * segment (with another segment interior or with a vertex or endpoint) <li><b>Vertex
+ * intersections</b> which occur at vertices in the interior of {link SegmentString}s (with a
+ * segment string endpoint or with another interior vertex) </ul> The finder can be limited to
+ * finding only interior intersections by setting {link #setInteriorIntersectionsOnly(boolean). <p>
+ * By default only the first intersection is found, but all can be found by setting {link
+ * #setFindAllIntersections(boolean)
  *
  * @version 1.7
  */
 object NodingIntersectionFinder {
 
   /**
-   * Creates a finder which tests if there is at least one intersection.
-   * Uses short-circuiting for efficient performance.
-   * The intersection found is recorded.
+   * Creates a finder which tests if there is at least one intersection. Uses short-circuiting for
+   * efficient performance. The intersection found is recorded.
    *
-   * @param li a line intersector
-   * return a finder which tests if there is at least one intersection.
+   * @param li
+   *   a line intersector return a finder which tests if there is at least one intersection.
    */
   def createAnyIntersectionFinder(li: LineIntersector) = new NodingIntersectionFinder(li)
 
   /**
-   * Creates a finder which finds all intersections.
-   * The intersections are recorded for later inspection.
+   * Creates a finder which finds all intersections. The intersections are recorded for later
+   * inspection.
    *
-   * @param li a line intersector
-   * return a finder which finds all intersections.
+   * @param li
+   *   a line intersector return a finder which finds all intersections.
    */
   def createAllIntersectionsFinder(li: LineIntersector): NodingIntersectionFinder = {
     val finder = new NodingIntersectionFinder(li)
@@ -70,11 +62,11 @@ object NodingIntersectionFinder {
   }
 
   /**
-   * Creates a finder which finds all interior intersections.
-   * The intersections are recorded for later inspection.
+   * Creates a finder which finds all interior intersections. The intersections are recorded for
+   * later inspection.
    *
-   * @param li a line intersector
-   * return a finder which finds all interior intersections.
+   * @param li
+   *   a line intersector return a finder which finds all interior intersections.
    */
   def createInteriorIntersectionsFinder(li: LineIntersector): NodingIntersectionFinder = {
     val finder = new NodingIntersectionFinder(li)
@@ -84,11 +76,11 @@ object NodingIntersectionFinder {
   }
 
   /**
-   * Creates an finder which counts all intersections.
-   * The intersections are note recorded to reduce memory usage.
+   * Creates an finder which counts all intersections. The intersections are note recorded to reduce
+   * memory usage.
    *
-   * @param li a line intersector
-   * return a finder which counts all intersections.
+   * @param li
+   *   a line intersector return a finder which counts all intersections.
    */
   def createIntersectionCounter(li: LineIntersector): NodingIntersectionFinder = {
     val finder = new NodingIntersectionFinder(li)
@@ -98,11 +90,11 @@ object NodingIntersectionFinder {
   }
 
   /**
-   * Creates an finder which counts all interior intersections.
-   * The intersections are note recorded to reduce memory usage.
+   * Creates an finder which counts all interior intersections. The intersections are note recorded
+   * to reduce memory usage.
    *
-   * @param li a line intersector
-   * return a finder which counts all interior intersections.
+   * @param li
+   *   a line intersector return a finder which counts all interior intersections.
    */
   def createInteriorIntersectionCounter(li: LineIntersector): NodingIntersectionFinder = {
     val finder = new NodingIntersectionFinder(li)
@@ -114,18 +106,24 @@ object NodingIntersectionFinder {
 
   /**
    * Tests if an intersection occurs between a segmentString interior vertex and another vertex.
-   * Note that intersections between two endpoint vertices are valid noding,
-   * and are not flagged.
+   * Note that intersections between two endpoint vertices are valid noding, and are not flagged.
    *
-   * @param p00     a segment vertex
-   * @param p01     a segment vertex
-   * @param p10     a segment vertex
-   * @param p11     a segment vertex
-   * @param isEnd00 true if vertex is a segmentString endpoint
-   * @param isEnd01 true if vertex is a segmentString endpoint
-   * @param isEnd10 true if vertex is a segmentString endpoint
-   * @param isEnd11 true if vertex is a segmentString endpoint
-   * return true if an intersection is found
+   * @param p00
+   *   a segment vertex
+   * @param p01
+   *   a segment vertex
+   * @param p10
+   *   a segment vertex
+   * @param p11
+   *   a segment vertex
+   * @param isEnd00
+   *   true if vertex is a segmentString endpoint
+   * @param isEnd01
+   *   true if vertex is a segmentString endpoint
+   * @param isEnd10
+   *   true if vertex is a segmentString endpoint
+   * @param isEnd11
+   *   true if vertex is a segmentString endpoint return true if an intersection is found
    */
   private def isInteriorVertexIntersection(
     p00:     Coordinate,
@@ -145,14 +143,16 @@ object NodingIntersectionFinder {
   }
 
   /**
-   * Tests if two vertices with at least one in a segmentString interior
-   * are equal.
+   * Tests if two vertices with at least one in a segmentString interior are equal.
    *
-   * @param p0     a segment vertex
-   * @param p1     a segment vertex
-   * @param isEnd0 true if vertex is a segmentString endpoint
-   * @param isEnd1 true if vertex is a segmentString endpoint
-   * return true if an intersection is found
+   * @param p0
+   *   a segment vertex
+   * @param p1
+   *   a segment vertex
+   * @param isEnd0
+   *   true if vertex is a segmentString endpoint
+   * @param isEnd1
+   *   true if vertex is a segmentString endpoint return true if an intersection is found
    */
   private def isInteriorVertexIntersection(
     p0:     Coordinate,
@@ -166,12 +166,13 @@ object NodingIntersectionFinder {
   }
 
   /**
-   * Tests whether a segment in a {link SegmentString} is an end segment.
-   * (either the first or last).
+   * Tests whether a segment in a {link SegmentString} is an end segment. (either the first or
+   * last).
    *
-   * @param segStr a segment string
-   * @param index  the index of a segment in the segment string
-   * return true if the segment is an end segment
+   * @param segStr
+   *   a segment string
+   * @param index
+   *   the index of a segment in the segment string return true if the segment is an end segment
    */
   private def isEndSegment(segStr: SegmentString, index: Int): Boolean = {
     if (index == 0) return true
@@ -187,8 +188,7 @@ class NodingIntersectionFinder(var li: LineIntersector)
  * if one exists
  *
  * @param li the LineIntersector to use
- */
-    extends SegmentIntersector {
+ */ extends SegmentIntersector {
 //  interiorIntersection = null
   private var findAllIntersections             = false
   private var isCheckEndSegmentsOnly           = false
@@ -200,13 +200,12 @@ class NodingIntersectionFinder(var li: LineIntersector)
   private var intersectionCount                = 0
 
   /**
-   * Sets whether all intersections should be computed.
-   * When this is <code>false</code> (the default value)
-   * the value of {link #isDone()} is <code>true</code> after the first intersection is found.
-   * <p>
-   * Default is <code>false</code>.
+   * Sets whether all intersections should be computed. When this is <code>false</code> (the default
+   * value) the value of {link #isDone()} is <code>true</code> after the first intersection is
+   * found. <p> Default is <code>false</code>.
    *
-   * @param findAllIntersections whether all intersections should be computed
+   * @param findAllIntersections
+   *   whether all intersections should be computed
    */
   def setFindAllIntersections(findAllIntersections: Boolean): Unit = this.findAllIntersections =
     findAllIntersections
@@ -214,30 +213,29 @@ class NodingIntersectionFinder(var li: LineIntersector)
   /**
    * Sets whether only interior (proper) intersections will be found.
    *
-   * @param isInteriorIntersectionsOnly whether to find only interior intersections
+   * @param isInteriorIntersectionsOnly
+   *   whether to find only interior intersections
    */
   def setInteriorIntersectionsOnly(isInteriorIntersectionsOnly: Boolean): Unit =
     this.isInteriorIntersectionsOnly = isInteriorIntersectionsOnly
 
   /**
-   * Sets whether only end segments should be tested for intersection.
-   * This is a performance optimization that may be used if
-   * the segments have been previously noded by an appropriate algorithm.
-   * It may be known that any potential noding failures will occur only in
-   * end segments.
+   * Sets whether only end segments should be tested for intersection. This is a performance
+   * optimization that may be used if the segments have been previously noded by an appropriate
+   * algorithm. It may be known that any potential noding failures will occur only in end segments.
    *
-   * @param isCheckEndSegmentsOnly whether to test only end segments
+   * @param isCheckEndSegmentsOnly
+   *   whether to test only end segments
    */
   def setCheckEndSegmentsOnly(isCheckEndSegmentsOnly: Boolean): Unit = this.isCheckEndSegmentsOnly =
     isCheckEndSegmentsOnly
 
   /**
-   * Sets whether intersection points are recorded.
-   * If the only need is to count intersection points, this can be set to <code>false</code>.
-   * <p>
-   * Default is <code>true</code>.
+   * Sets whether intersection points are recorded. If the only need is to count intersection
+   * points, this can be set to <code>false</code>. <p> Default is <code>true</code>.
    *
-   * @param keepIntersections indicates whether intersections should be recorded
+   * @param keepIntersections
+   *   indicates whether intersections should be recorded
    */
   def setKeepIntersections(keepIntersections: Boolean): Unit = this.keepIntersections =
     keepIntersections
@@ -264,8 +262,8 @@ class NodingIntersectionFinder(var li: LineIntersector)
   def hasIntersection: Boolean = interiorIntersection != null
 
   /**
-   * Gets the computed location of the intersection.
-   * Due to round-off, the location may not be exact.
+   * Gets the computed location of the intersection. Due to round-off, the location may not be
+   * exact.
    *
    * return the coordinate for the intersection location
    */
@@ -279,12 +277,10 @@ class NodingIntersectionFinder(var li: LineIntersector)
   def getIntersectionSegments: Array[Coordinate] = intSegments
 
   /**
-   * This method is called by clients
-   * of the {link SegmentIntersector} class to process
-   * intersections for two segments of the {link SegmentString}s being intersected.
-   * Note that some clients (such as <code>MonotoneChain</code>s) may optimize away
-   * this call for segment pairs which they have determined do not intersect
-   * (e.g. by an disjoint envelope test).
+   * This method is called by clients of the {link SegmentIntersector} class to process
+   * intersections for two segments of the {link SegmentString}s being intersected. Note that some
+   * clients (such as <code>MonotoneChain</code>s) may optimize away this call for segment pairs
+   * which they have determined do not intersect (e.g. by an disjoint envelope test).
    */
   override def processIntersections(
     e0:        SegmentString,

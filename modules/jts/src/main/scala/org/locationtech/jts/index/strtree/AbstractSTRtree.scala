@@ -22,37 +22,36 @@ import org.locationtech.jts.util.Assert
 import scala.jdk.CollectionConverters._
 
 /**
- * Base class for STRtree and SIRtree. STR-packed R-trees are described in:
- * P. Rigaux, Michel Scholl and Agnes Voisard. <i>Spatial Databases With
- * Application To GIS.</i> Morgan Kaufmann, San Francisco, 2002.
- * <p>
- * This implementation is based on {link Boundable}s rather than {link AbstractNode}s,
- * because the STR algorithm operates on both nodes and
- * data, both of which are treated as Boundables.
- * <p>
- * This class is thread-safe.  Building the tree is synchronized,
- * and querying is stateless.
+ * Base class for STRtree and SIRtree. STR-packed R-trees are described in: P. Rigaux, Michel Scholl
+ * and Agnes Voisard. <i>Spatial Databases With Application To GIS.</i> Morgan Kaufmann, San
+ * Francisco, 2002. <p> This implementation is based on {link Boundable}s rather than {link
+ * AbstractNode}s, because the STR algorithm operates on both nodes and data, both of which are
+ * treated as Boundables. <p> This class is thread-safe. Building the tree is synchronized, and
+ * querying is stateless.
  *
- * @see STRtree
- * @see SIRtree
+ * @see
+ *   STRtree
+ * @see
+ *   SIRtree
  * @version 1.7
  */
 @SerialVersionUID(-3886435814360241337L)
 object AbstractSTRtree {
 
   /**
-   * A test for intersection between two bounds, necessary because subclasses
-   * of AbstractSTRtree have different implementations of bounds.
+   * A test for intersection between two bounds, necessary because subclasses of AbstractSTRtree
+   * have different implementations of bounds.
    */
   trait IntersectsOp {
 
     /**
-     * For STRtrees, the bounds will be Envelopes; for SIRtrees, Intervals;
-     * for other subclasses of AbstractSTRtree, some other class.
+     * For STRtrees, the bounds will be Envelopes; for SIRtrees, Intervals; for other subclasses of
+     * AbstractSTRtree, some other class.
      *
-     * @param aBounds the bounds of one spatial object
-     * @param bBounds the bounds of another spatial object
-     * return whether the two bounds intersect
+     * @param aBounds
+     *   the bounds of one spatial object
+     * @param bBounds
+     *   the bounds of another spatial object return whether the two bounds intersect
      */
     def intersects(aBounds: Any, bBounds: Any): Boolean
   }
@@ -72,8 +71,7 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
  * nodes that a node may have
  *
  * @param nodeCapacity the maximum number of child nodes in a node
- */
-    extends Serializable {
+ */ extends Serializable {
   Assert.isTrue(nodeCapacity > 1, "Node capacity must be greater than 1")
   protected var root: AbstractNode = null
   private var built                = false
@@ -84,18 +82,16 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   private var itemBoundables = new util.ArrayList[Boundable]
 
   /**
-   * Constructs an AbstractSTRtree with the
-   * default node capacity.
+   * Constructs an AbstractSTRtree with the default node capacity.
    */
   def this() = {
     this(AbstractSTRtree.DEFAULT_NODE_CAPACITY)
   }
 
   /**
-   * Creates parent nodes, grandparent nodes, and so forth up to the root
-   * node, for the data that has been inserted into the tree. Can only be
-   * called once, and thus can be called only after all of the data has been
-   * inserted into the tree.
+   * Creates parent nodes, grandparent nodes, and so forth up to the root node, for the data that
+   * has been inserted into the tree. Can only be called once, and thus can be called only after all
+   * of the data has been inserted into the tree.
    */
   def build(): Unit = {
     if (built) return
@@ -110,8 +106,8 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   protected def createNode(level: Int): AbstractNode
 
   /**
-   * Sorts the childBoundables then divides them into groups of size M, where
-   * M is the node capacity.
+   * Sorts the childBoundables then divides them into groups of size M, where M is the node
+   * capacity.
    */
   protected def createParentBoundables(
     childBoundables: util.List[Boundable],
@@ -138,11 +134,10 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
    * Creates the levels higher than the given level
    *
    * @param boundablesOfALevel
-   * the level to build on
+   *   the level to build on
    * @param level
-   * the level of the Boundables, or -1 if the boundables are item
-   * boundables (that is, below level 0)
-   * return the root, which may be a ParentNode or a LeafNode
+   *   the level of the Boundables, or -1 if the boundables are item boundables (that is, below
+   *   level 0) return the root, which may be a ParentNode or a LeafNode
    */
   private def createHigherLevels(
     boundablesOfALevel: util.List[Boundable],
@@ -172,9 +167,8 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   def getNodeCapacity: Int = nodeCapacity
 
   /**
-   * Tests whether the index contains any items.
-   * This method does not build the index,
-   * so items can still be inserted after it has been called.
+   * Tests whether the index contains any items. This method does not build the index, so items can
+   * still be inserted after it has been called.
    *
    * return true if the index does not contain any items
    */
@@ -249,9 +243,10 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   }
 
   /**
-   * return a test for intersection between two bounds, necessary because subclasses
-   *         of AbstractSTRtree have different implementations of bounds.
-   * @see IntersectsOp
+   * return a test for intersection between two bounds, necessary because subclasses of
+   * AbstractSTRtree have different implementations of bounds.
+   * @see
+   *   IntersectsOp
    */
   protected def getIntersectsOp: IntersectsOp
 
@@ -292,14 +287,10 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   }
 
   /**
-   * Gets a tree structure (as a nested list)
-   * corresponding to the structure of the items and nodes in this tree.
-   * <p>
-   * The returned {link List}s contain either {link Object} items,
-   * or Lists which correspond to subtrees of the tree
-   * Subtrees which do not contain any items are not included.
-   * <p>
-   * Builds the tree if necessary.
+   * Gets a tree structure (as a nested list) corresponding to the structure of the items and nodes
+   * in this tree. <p> The returned {link List}s contain either {link Object} items, or Lists which
+   * correspond to subtrees of the tree Subtrees which do not contain any items are not included.
+   * <p> Builds the tree if necessary.
    *
    * return a List of items and/or Lists
    */
@@ -328,8 +319,7 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   }
 
   /**
-   * Removes an item from the tree.
-   * (Builds the tree, if necessary.)
+   * Removes an item from the tree. (Builds the tree, if necessary.)
    */
   protected def remove(searchBounds: Any, item: Any): Boolean = {
     build()
@@ -387,7 +377,8 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   }
 
   /**
-   * @param level -1 to get items
+   * @param level
+   *   -1 to get items
    */
   private def boundablesAtLevel(
     level:      Int,

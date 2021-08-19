@@ -52,8 +52,7 @@ class NodeMap(var nodeFact: NodeFactory) {
   }
 
   /**
-   * Adds a node for the start point of this EdgeEnd
-   * (if one does not already exist in this map).
+   * Adds a node for the start point of this EdgeEnd (if one does not already exist in this map).
    * Adds the EdgeEnd to the (possibly new) node.
    */
   def add(e: EdgeEnd): Unit = {

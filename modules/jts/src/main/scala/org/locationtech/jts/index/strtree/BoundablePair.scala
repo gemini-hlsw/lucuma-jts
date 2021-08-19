@@ -25,16 +25,13 @@ import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.util.PriorityQueue
 
 /**
- * A pair of {link Boundable}s, whose leaf items
- * support a distance metric between them.
- * Used to compute the distance between the members,
- * and to expand a member relative to the other
- * in order to produce new branches of the
- * Branch-and-Bound evaluation tree.
- * Provides an ordering based on the distance between the members,
- * which allows building a priority queue by minimum distance.
+ * A pair of {link Boundable}s, whose leaf items support a distance metric between them. Used to
+ * compute the distance between the members, and to expand a member relative to the other in order
+ * to produce new branches of the Branch-and-Bound evaluation tree. Provides an ordering based on
+ * the distance between the members, which allows building a priority queue by minimum distance.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object BoundablePair {
   def isComposite(item: Any): Boolean = item.isInstanceOf[AbstractNode]
@@ -50,11 +47,10 @@ class BoundablePair(
   private val vdistance = distance
 
   /**
-   * Gets one of the member {link Boundable}s in the pair
-   * (indexed by [0, 1]).
+   * Gets one of the member {link Boundable}s in the pair (indexed by [0, 1]).
    *
-   * @param i the index of the member to return (0 or 1)
-   * return the chosen member
+   * @param i
+   *   the index of the member to return (0 or 1) return the chosen member
    */
   def getBoundable(i: Int): Boundable = {
     if (i == 0) return boundable1
@@ -62,8 +58,7 @@ class BoundablePair(
   }
 
   /**
-   * Computes the maximum distance between any
-   * two items in the pair of nodes.
+   * Computes the maximum distance between any two items in the pair of nodes.
    *
    * return the maximum distance between items in the pair
    */
@@ -73,11 +68,10 @@ class BoundablePair(
   )
 
   /**
-   * Computes the distance between the {link Boundable}s in this pair.
-   * The boundables are either composites or leaves.
-   * If either is composite, the distance is computed as the minimum distance
-   * between the bounds.
-   * If both are leaves, the distance is computed by {link #itemDistance(ItemBoundable, ItemBoundable)}.
+   * Computes the distance between the {link Boundable}s in this pair. The boundables are either
+   * composites or leaves. If either is composite, the distance is computed as the minimum distance
+   * between the bounds. If both are leaves, the distance is computed by {link
+   * #itemDistance(ItemBoundable, ItemBoundable)}.
    *
    * return
    */
@@ -93,12 +87,9 @@ class BoundablePair(
   }
 
   /**
-   * Gets the minimum possible distance between the Boundables in
-   * this pair.
-   * If the members are both items, this will be the
-   * exact distance between them.
-   * Otherwise, this distance will be a lower bound on
-   * the distances between the items in the members.
+   * Gets the minimum possible distance between the Boundables in this pair. If the members are both
+   * items, this will be the exact distance between them. Otherwise, this distance will be a lower
+   * bound on the distances between the items in the members.
    *
    * return the exact or lower bound distance for this pair
    */
@@ -122,29 +113,23 @@ class BoundablePair(
     !(BoundablePair.isComposite(boundable1) || BoundablePair.isComposite(boundable2))
 
   /**
-   * For a pair which is not a leaf
-   * (i.e. has at least one composite boundable)
-   * computes a list of new pairs
-   * from the expansion of the larger boundable
-   * with distance less than minDistance
-   * and adds them to a priority queue.
-   * <p>
-   * Note that expanded pairs may contain
-   * the same item/node on both sides.
-   * This must be allowed to support distance
-   * functions which have non-zero distances
+   * For a pair which is not a leaf (i.e. has at least one composite boundable) computes a list of
+   * new pairs from the expansion of the larger boundable with distance less than minDistance and
+   * adds them to a priority queue. <p> Note that expanded pairs may contain the same item/node on
+   * both sides. This must be allowed to support distance functions which have non-zero distances
    * between the item and itself (non-zero reflexive distance).
    *
-   * @param priQ        the priority queue to add the new pairs to
-   * @param minDistance the limit on the distance between added pairs
+   * @param priQ
+   *   the priority queue to add the new pairs to
+   * @param minDistance
+   *   the limit on the distance between added pairs
    */
   def expandToQueue(priQ: PriorityQueue, minDistance: Double): Unit = {
     val isComp1 = BoundablePair.isComposite(boundable1)
     val isComp2 = BoundablePair.isComposite(boundable2)
 
     /**
-     * HEURISTIC: If both boundable are composite,
-     * choose the one with largest area to expand.
+     * HEURISTIC: If both boundable are composite, choose the one with largest area to expand.
      * Otherwise, simply expand whichever is composite.
      */
     if (isComp1 && isComp2) if (BoundablePair.area(boundable1) > BoundablePair.area(boundable2)) {

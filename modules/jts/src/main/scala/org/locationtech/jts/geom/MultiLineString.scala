@@ -24,9 +24,8 @@ package org.locationtech.jts.geom
 import org.locationtech.jts.operation.BoundaryOp
 
 /**
- * Models a collection of {link LineString}s.
- * <p>
- * Any collection of LineStrings is a valid MultiLineString.
+ * Models a collection of {link LineString}s. <p> Any collection of LineStrings is a valid
+ * MultiLineString.
  *
  * @version 1.7
  */
@@ -38,15 +37,16 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
   /**
    * Constructs a <code>MultiLineString</code>.
    *
-   * @param  lineStrings    the <code>LineString</code>s for this <code>MultiLineString</code>
-   *                        , or <code>null</code> or an empty array to create the empty geometry.
-   *                        Elements may be empty <code>LineString</code>s, but not <code>null</code>
-   *                        s.
-   * @param  precisionModel the specification of the grid of allowable points
-   *                        for this <code>MultiLineString</code>
-   * @param  SRID           the ID of the Spatial Reference System used by this
-   *                        <code>MultiLineString</code>
-   * @deprecated Use GeometryFactory instead
+   * @param lineStrings
+   *   the <code>LineString</code>s for this <code>MultiLineString</code> , or <code>null</code> or
+   *   an empty array to create the empty geometry. Elements may be empty <code>LineString</code>s,
+   *   but not <code>null</code> s.
+   * @param precisionModel
+   *   the specification of the grid of allowable points for this <code>MultiLineString</code>
+   * @param SRID
+   *   the ID of the Spatial Reference System used by this <code>MultiLineString</code>
+   * @deprecated
+   *   Use GeometryFactory instead
    */
   def this(lineStrings: Array[LineString], precisionModel: PrecisionModel, SRID: Int) = {
     this(lineStrings, new GeometryFactory(precisionModel, SRID))
@@ -54,10 +54,9 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
 
   /**
    * @param lineStrings
-   *            the <code>LineString</code>s for this <code>MultiLineString</code>,
-   *            or <code>null</code> or an empty array to create the empty
-   *            geometry. Elements may be empty <code>LineString</code>s,
-   *            but not <code>null</code>s.
+   *   the <code>LineString</code>s for this <code>MultiLineString</code>, or <code>null</code> or
+   *   an empty array to create the empty geometry. Elements may be empty <code>LineString</code>s,
+   *   but not <code>null</code>s.
    */
 //  def this(lineStrings: Array[LineString], factory: GeometryFactory) {
 //    this()
@@ -84,20 +83,18 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
   }
 
   /**
-   * Gets the boundary of this geometry.
-   * The boundary of a lineal geometry is always a zero-dimensional geometry (which may be empty).
+   * Gets the boundary of this geometry. The boundary of a lineal geometry is always a
+   * zero-dimensional geometry (which may be empty).
    *
    * return the boundary geometry
-   * @see Geometry#getBoundary
+   * @see
+   *   Geometry#getBoundary
    */
   override def getBoundary: Geometry = new BoundaryOp(this).getBoundary
 
   /**
-   * Creates a {link MultiLineString} in the reverse
-   * order to this object.
-   * Both the order of the component LineStrings
-   * and the order of their coordinate sequences
-   * are reversed.
+   * Creates a {link MultiLineString} in the reverse order to this object. Both the order of the
+   * component LineStrings and the order of their coordinate sequences are reversed.
    *
    * return a { @link MultiLineString} in the reverse order
    * @deprecated

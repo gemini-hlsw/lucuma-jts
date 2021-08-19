@@ -17,21 +17,19 @@ import org.locationtech.jts.geom.GeometryCollection
 import org.locationtech.jts.geom.Point
 
 /**
- * Computes a point in the interior of an point geometry.
- * <h2>Algorithm</h2>
- * Find a point which is closest to the centroid of the geometry.
+ * Computes a point in the interior of an point geometry. <h2>Algorithm</h2> Find a point which is
+ * closest to the centroid of the geometry.
  *
  * @version 1.7
  */
 object InteriorPointPoint {
 
   /**
-   * Computes an interior point for the
-   * puntal components of a Geometry.
+   * Computes an interior point for the puntal components of a Geometry.
    *
-   * @param geom the geometry to compute
-   * return the computed interior point,
-   *         or <code>null</code> if the geometry has no puntal components
+   * @param geom
+   *   the geometry to compute return the computed interior point, or <code>null</code> if the
+   *   geometry has no puntal components
    */
   def getInteriorPoint(geom: Geometry): Coordinate = {
     val intPt = new InteriorPointPoint(geom)
@@ -46,10 +44,11 @@ class InteriorPointPoint(val g: Geometry) {
   private var interiorPoint: Coordinate = null
 
   /**
-   * Tests the point(s) defined by a Geometry for the best inside point.
-   * If a Geometry is not of dimension 0 it is not tested.
+   * Tests the point(s) defined by a Geometry for the best inside point. If a Geometry is not of
+   * dimension 0 it is not tested.
    *
-   * @param geom the geometry to add
+   * @param geom
+   *   the geometry to add
    */
   private def add(geom: Geometry): Unit = if (geom.isInstanceOf[Point]) add(geom.getCoordinate)
   else if (geom.isInstanceOf[GeometryCollection]) {

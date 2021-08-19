@@ -25,19 +25,13 @@ import org.locationtech.jts.algorithm.Length
 import org.locationtech.jts.operation.BoundaryOp
 
 /**
- * Models an OGC-style <code>LineString</code>.
- * A LineString consists of a sequence of two or more vertices,
- * along with all points along the linearly-interpolated curves
- * (line segments) between each
- * pair of consecutive vertices.
- * Consecutive vertices may be equal.
- * The line segments in the line may intersect each other (in other words,
- * the linestring may "curl back" in itself and self-intersect.
- * Linestrings with exactly two identical points are invalid.
- * <p>
- * A linestring must have either 0 or 2 or more points.
- * If these conditions are not met, the constructors throw
- * an {link IllegalArgumentException}
+ * Models an OGC-style <code>LineString</code>. A LineString consists of a sequence of two or more
+ * vertices, along with all points along the linearly-interpolated curves (line segments) between
+ * each pair of consecutive vertices. Consecutive vertices may be equal. The line segments in the
+ * line may intersect each other (in other words, the linestring may "curl back" in itself and
+ * self-intersect. Linestrings with exactly two identical points are invalid. <p> A linestring must
+ * have either 0 or 2 or more points. If these conditions are not met, the constructors throw an
+ * {link IllegalArgumentException}
  *
  * @version 1.7
  */
@@ -58,9 +52,9 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   /**
    * Constructs a <code>LineString</code> with the given points.
    *
-   * @param  points the points of the linestring, or <code>null</code>
-   *                to create the empty geometry.
-   * throws IllegalArgumentException if too few points are provided
+   * @param points
+   *   the points of the linestring, or <code>null</code> to create the empty geometry. throws
+   *   IllegalArgumentException if too few points are provided
    */
   def this(points: CoordinateSequence, factory: GeometryFactory) = {
     this(factory)
@@ -128,17 +122,17 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   override def getLength: Double = Length.ofLine(points)
 
   /**
-   * Gets the boundary of this geometry.
-   * The boundary of a lineal geometry is always a zero-dimensional geometry (which may be empty).
+   * Gets the boundary of this geometry. The boundary of a lineal geometry is always a
+   * zero-dimensional geometry (which may be empty).
    *
    * return the boundary geometry
-   * @see Geometry#getBoundary
+   * @see
+   *   Geometry#getBoundary
    */
   override def getBoundary: Geometry = new BoundaryOp(this).getBoundary
 
   /**
-   * Creates a {link LineString} whose coordinates are in the reverse
-   * order of this objects
+   * Creates a {link LineString} whose coordinates are in the reverse order of this objects
    *
    * return a { @link LineString} with coordinates in the reverse order
    * @deprecated
@@ -154,9 +148,9 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   /**
    * Returns true if the given point is a vertex of this <code>LineString</code>.
    *
-   * @param  pt the <code>Coordinate</code> to check
-   * return <code>true</code> if <code>pt</code> is one of this <code>LineString</code>
-   *         's vertices
+   * @param pt
+   *   the <code>Coordinate</code> to check return <code>true</code> if <code>pt</code> is one of
+   *   this <code>LineString</code> 's vertices
    */
   def isCoordinate(pt: Coordinate): Boolean = {
     var i = 0
@@ -212,8 +206,8 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   def applyF(filter: GeometryComponentFilter): Unit = filter.filter(this)
 
   /**
-   * Creates and returns a full copy of this {link LineString} object.
-   * (including all coordinates contained by it).
+   * Creates and returns a full copy of this {link LineString} object. (including all coordinates
+   * contained by it).
    *
    * return a clone of this instance
    * @deprecated
@@ -223,9 +217,8 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   override protected def copyInternal: Geometry = new LineString(points.copy, factory)
 
   /**
-   * Normalizes a LineString.  A normalized linestring
-   * has the first point which is not equal to it's reflected point
-   * less than the reflected point.
+   * Normalizes a LineString. A normalized linestring has the first point which is not equal to it's
+   * reflected point less than the reflected point.
    */
   override def normalize(): Unit = {
     var i = 0

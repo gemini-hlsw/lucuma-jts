@@ -26,15 +26,14 @@ import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Finds <b>interior</b> intersections between line segments in {link NodedSegmentString}s,
- * and adds them as nodes
- * using {link NodedSegmentString#addIntersection(LineIntersector, int, int, int)}.
- * <p>
- * This class is used primarily for Snap-Rounding.
- * For general-purpose noding, use {link IntersectionAdder}.
+ * Finds <b>interior</b> intersections between line segments in {link NodedSegmentString}s, and adds
+ * them as nodes using {link NodedSegmentString#addIntersection(LineIntersector, int, int, int)}.
+ * <p> This class is used primarily for Snap-Rounding. For general-purpose noding, use {link
+ * IntersectionAdder}.
  *
  * @version 1.7
- * @see IntersectionAdder
+ * @see
+ *   IntersectionAdder
  */
 class InteriorIntersectionFinderAdder(var li: LineIntersector)
 
@@ -42,19 +41,16 @@ class InteriorIntersectionFinderAdder(var li: LineIntersector)
  * Creates an intersection finder which finds all proper intersections
  *
  * @param li the LineIntersector to use
- */
-    extends SegmentIntersector {
+ */ extends SegmentIntersector {
   final private val interiorIntersections = new util.ArrayList[Coordinate]
 
   def getInteriorIntersections: util.ArrayList[Coordinate] = interiorIntersections
 
   /**
-   * This method is called by clients
-   * of the {link SegmentIntersector} class to process
-   * intersections for two segments of the {link SegmentString}s being intersected.
-   * Note that some clients (such as <code>MonotoneChain</code>s) may optimize away
-   * this call for segment pairs which they have determined do not intersect
-   * (e.g. by an disjoint envelope test).
+   * This method is called by clients of the {link SegmentIntersector} class to process
+   * intersections for two segments of the {link SegmentString}s being intersected. Note that some
+   * clients (such as <code>MonotoneChain</code>s) may optimize away this call for segment pairs
+   * which they have determined do not intersect (e.g. by an disjoint envelope test).
    */
   override def processIntersections(
     e0:        SegmentString,

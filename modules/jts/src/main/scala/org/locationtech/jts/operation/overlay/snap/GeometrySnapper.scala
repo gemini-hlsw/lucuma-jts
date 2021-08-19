@@ -30,22 +30,17 @@ import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.geom.util.GeometryTransformer
 
 /**
- * Snaps the vertices and segments of a {link Geometry}
- * to another Geometry's vertices.
- * A snap distance tolerance is used to control where snapping is performed.
- * Snapping one geometry to another can improve
- * robustness for overlay operations by eliminating
- * nearly-coincident edges
- * (which cause problems during noding and intersection calculation).
- * It can also be used to eliminate artifacts such as narrow slivers, spikes and gores.
- * <p>
- * Too much snapping can result in invalid topology
- * being created, so the number and location of snapped vertices
- * is decided using heuristics to determine when it
- * is safe to snap.
- * This can result in some potential snaps being omitted, however.
+ * Snaps the vertices and segments of a {link Geometry} to another Geometry's vertices. A snap
+ * distance tolerance is used to control where snapping is performed. Snapping one geometry to
+ * another can improve robustness for overlay operations by eliminating nearly-coincident edges
+ * (which cause problems during noding and intersection calculation). It can also be used to
+ * eliminate artifacts such as narrow slivers, spikes and gores. <p> Too much snapping can result in
+ * invalid topology being created, so the number and location of snapped vertices is decided using
+ * heuristics to determine when it is safe to snap. This can result in some potential snaps being
+ * omitted, however.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  * @version 1.7
  */
 object GeometrySnapper {
@@ -54,20 +49,17 @@ object GeometrySnapper {
   /**
    * Estimates the snap tolerance for a Geometry, taking into account its precision model.
    *
-   * @param g a Geometry
-   * return the estimated snap tolerance
+   * @param g
+   *   a Geometry return the estimated snap tolerance
    */
   def computeOverlaySnapTolerance(g: Geometry): Double = {
     var snapTolerance = computeSizeBasedSnapTolerance(g)
 
     /**
-     * Overlay is carried out in the precision model
-     * of the two inputs.
-     * If this precision model is of type FIXED, then the snap tolerance
-     * must reflect the precision grid size.
-     * Specifically, the snap tolerance should be at least
-     * the distance from a corner of a precision grid cell
-     * to the centre point of the cell.
+     * Overlay is carried out in the precision model of the two inputs. If this precision model is
+     * of type FIXED, then the snap tolerance must reflect the precision grid size. Specifically,
+     * the snap tolerance should be at least the distance from a corner of a precision grid cell to
+     * the centre point of the cell.
      */
     val pm = g.getPrecisionModel
     if (pm.getType eq PrecisionModel.FIXED) {
@@ -90,10 +82,12 @@ object GeometrySnapper {
   /**
    * Snaps two geometries together with a given tolerance.
    *
-   * @param g0            a geometry to snap
-   * @param g1            a geometry to snap
-   * @param snapTolerance the tolerance to use
-   * return the snapped geometries
+   * @param g0
+   *   a geometry to snap
+   * @param g1
+   *   a geometry to snap
+   * @param snapTolerance
+   *   the tolerance to use return the snapped geometries
    */
   def snap(g0: Geometry, g1: Geometry, snapTolerance: Double): Array[Geometry] = {
     val snapGeom = new Array[Geometry](2)
@@ -101,8 +95,8 @@ object GeometrySnapper {
     snapGeom(0) = snapper0.snapTo(g1, snapTolerance)
 
     /**
-     * Snap the second geometry to the snapped first geometry
-     * (this strategy minimizes the number of possible different points in the result)
+     * Snap the second geometry to the snapped first geometry (this strategy minimizes the number of
+     * possible different points in the result)
      */
     val snapper1 = new GeometrySnapper(g1)
     snapGeom(1) = snapper1.snapTo(snapGeom(0), snapTolerance)
@@ -112,17 +106,16 @@ object GeometrySnapper {
   }
 
   /**
-   * Snaps a geometry to itself.
-   * Allows optionally cleaning the result to ensure it is
-   * topologically valid
-   * (which fixes issues such as topology collapses in polygonal inputs).
-   * <p>
-   * Snapping a geometry to itself can remove artifacts such as very narrow slivers, gores and spikes.
+   * Snaps a geometry to itself. Allows optionally cleaning the result to ensure it is topologically
+   * valid (which fixes issues such as topology collapses in polygonal inputs). <p> Snapping a
+   * geometry to itself can remove artifacts such as very narrow slivers, gores and spikes.
    *
-   * @param geom          the geometry to snap
-   * @param snapTolerance the snapping tolerance
-   * @param cleanResult   whether the result should be made valid
-   * return a new snapped Geometry
+   * @param geom
+   *   the geometry to snap
+   * @param snapTolerance
+   *   the snapping tolerance
+   * @param cleanResult
+   *   whether the result should be made valid return a new snapped Geometry
    */
   def snapToSelf(geom: Geometry, snapTolerance: Double, cleanResult: Boolean): Geometry = {
     val snapper0 = new GeometrySnapper(geom)
@@ -135,7 +128,8 @@ class GeometrySnapper(var srcGeom: Geometry) {
   /**
    * Creates a new snapper acting on the given geometry
    *
-   * @param srcGeom the geometry to snap
+   * @param srcGeom
+   *   the geometry to snap
    */
   // /**
   //  * Snaps the vertices in the component {link LineString}s

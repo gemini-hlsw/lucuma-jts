@@ -14,8 +14,7 @@ package org.locationtech.jts.index.chain
 import org.locationtech.jts.geom.LineSegment
 
 /**
- * The action for the internal iterator for performing
- * envelope select queries on a MonotoneChain
+ * The action for the internal iterator for performing envelope select queries on a MonotoneChain
  *
  * @version 1.7
  */
@@ -23,12 +22,12 @@ class MonotoneChainSelectAction {
   private[chain] val selectedSegment = new LineSegment
 
   /**
-   * This method is overridden
-   * to process a segment
-   * in the context of the parent chain.
+   * This method is overridden to process a segment in the context of the parent chain.
    *
-   * @param mc         the parent chain
-   * @param startIndex the index of the start vertex of the segment being processed
+   * @param mc
+   *   the parent chain
+   * @param startIndex
+   *   the index of the start vertex of the segment being processed
    */
   def select(mc: MonotoneChain, startIndex: Int): Unit = {
     mc.getLineSegment(startIndex, selectedSegment)
@@ -37,8 +36,8 @@ class MonotoneChainSelectAction {
   }
 
   /**
-   * This is a convenience method which can be overridden to obtain the actual
-   * line segment which is selected.
+   * This is a convenience method which can be overridden to obtain the actual line segment which is
+   * selected.
    *
    * @param seg
    */

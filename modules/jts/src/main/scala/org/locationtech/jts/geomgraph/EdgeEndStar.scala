@@ -25,9 +25,8 @@ import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 
 /**
- * A EdgeEndStar is an ordered list of EdgeEnds around a node.
- * They are maintained in CCW order (starting with the positive x-axis) around the node
- * for efficient lookup and topology building.
+ * A EdgeEndStar is an ordered list of EdgeEnds around a node. They are maintained in CCW order
+ * (starting with the positive x-axis) around the node for efficient lookup and topology building.
  *
  * @version 1.7
  */
@@ -54,8 +53,8 @@ abstract class EdgeEndStar() {
   def insert(e: EdgeEnd): Unit
 
   /**
-   * Insert an EdgeEnd into the map, and clear the edgeList cache,
-   * since the list of edges has now changed
+   * Insert an EdgeEnd into the map, and clear the edgeList cache, since the list of edges has now
+   * changed
    */
   protected def insertEdgeEnd(e: EdgeEnd, obj: EdgeEnd): Unit = {
     edgeMap.put(e, obj)
@@ -75,10 +74,9 @@ abstract class EdgeEndStar() {
   def getDegree: Int = edgeMap.size
 
   /**
-   * Iterator access to the ordered list of edges is optimized by
-   * copying the map collection to a list.  (This assumes that
-   * once an iterator is requested, it is likely that insertion into
-   * the map is complete).
+   * Iterator access to the ordered list of edges is optimized by copying the map collection to a
+   * list. (This assumes that once an iterator is requested, it is likely that insertion into the
+   * map is complete).
    */
   def iterator: util.Iterator[EdgeEnd] = getEdges.iterator
 
@@ -105,33 +103,28 @@ abstract class EdgeEndStar() {
     propagateSideLabels(1)
 
     /**
-     * If there are edges that still have null labels for a geometry
-     * this must be because there are no area edges for that geometry incident on this node.
-     * In this case, to label the edge for that geometry we must test whether the
-     * edge is in the interior of the geometry.
-     * To do this it suffices to determine whether the node for the edge is in the interior of an area.
-     * If so, the edge has location INTERIOR for the geometry.
-     * In all other cases (e.g. the node is on a line, on a point, or not on the geometry at all) the edge
-     * has the location EXTERIOR for the geometry.
-     * <p>
-     * Note that the edge cannot be on the BOUNDARY of the geometry, since then
-     * there would have been a parallel edge from the Geometry at this node also labelled BOUNDARY
-     * and this edge would have been labelled in the previous step.
-     * <p>
-     * This code causes a problem when dimensional collapses are present, since it may try and
-     * determine the location of a node where a dimensional collapse has occurred.
-     * The point should be considered to be on the EXTERIOR
-     * of the polygon, but locate() will return INTERIOR, since it is passed
-     * the original Geometry, not the collapsed version.
+     * If there are edges that still have null labels for a geometry this must be because there are
+     * no area edges for that geometry incident on this node. In this case, to label the edge for
+     * that geometry we must test whether the edge is in the interior of the geometry. To do this it
+     * suffices to determine whether the node for the edge is in the interior of an area. If so, the
+     * edge has location INTERIOR for the geometry. In all other cases (e.g. the node is on a line,
+     * on a point, or not on the geometry at all) the edge has the location EXTERIOR for the
+     * geometry. <p> Note that the edge cannot be on the BOUNDARY of the geometry, since then there
+     * would have been a parallel edge from the Geometry at this node also labelled BOUNDARY and
+     * this edge would have been labelled in the previous step. <p> This code causes a problem when
+     * dimensional collapses are present, since it may try and determine the location of a node
+     * where a dimensional collapse has occurred. The point should be considered to be on the
+     * EXTERIOR of the polygon, but locate() will return INTERIOR, since it is passed the original
+     * Geometry, not the collapsed version.
      *
-     * If there are incident edges which are Line edges labelled BOUNDARY,
-     * then they must be edges resulting from dimensional collapses.
-     * In this case the other edges can be labelled EXTERIOR for this Geometry.
+     * If there are incident edges which are Line edges labelled BOUNDARY, then they must be edges
+     * resulting from dimensional collapses. In this case the other edges can be labelled EXTERIOR
+     * for this Geometry.
      *
-     * MD 8/11/01 - NOT TRUE!  The collapsed edges may in fact be in the interior of the Geometry,
-     * which means the other edges should be labelled INTERIOR for this Geometry.
-     * Not sure how solve this...  Possibly labelling needs to be split into several phases:
-     * area label propagation, symLabel merging, then finally null label resolution.
+     * MD 8/11/01 - NOT TRUE! The collapsed edges may in fact be in the interior of the Geometry,
+     * which means the other edges should be labelled INTERIOR for this Geometry. Not sure how solve
+     * this... Possibly labelling needs to be split into several phases: area label propagation,
+     * symLabel merging, then finally null label resolution.
      */
     val hasDimensionalCollapseEdge = Array(false, false)
     var it                         = iterator
@@ -252,11 +245,10 @@ abstract class EdgeEndStar() {
         } else {
 
           /**
-           * RHS is null - LHS must be null too.
-           * This must be an edge from the other geometry, which has no location
-           * labelling for this geometry.  This edge must lie wholly inside or outside
-           * the other geometry (which is determined by the current location).
-           * Assign both sides to be the current location.
+           * RHS is null - LHS must be null too. This must be an edge from the other geometry, which
+           * has no location labelling for this geometry. This edge must lie wholly inside or
+           * outside the other geometry (which is determined by the current location). Assign both
+           * sides to be the current location.
            */
           Assert.isTrue(label.getLocation(geomIndex, Position.LEFT) == Location.NONE,
                         "found single null side"

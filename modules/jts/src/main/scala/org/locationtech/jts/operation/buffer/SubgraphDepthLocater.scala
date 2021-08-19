@@ -22,18 +22,15 @@ import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.operation.buffer.SubgraphDepthLocater.DepthSegment
 
 /**
- * Locates a subgraph inside a set of subgraphs,
- * in order to determine the outside depth of the subgraph.
- * The input subgraphs are assumed to have had depths
- * already calculated for their edges.
+ * Locates a subgraph inside a set of subgraphs, in order to determine the outside depth of the
+ * subgraph. The input subgraphs are assumed to have had depths already calculated for their edges.
  *
  * @version 1.7
  */
 object SubgraphDepthLocater {
 
   /**
-   * A segment from a directed edge which has been assigned a depth value
-   * for its sides.
+   * A segment from a directed edge which has been assigned a depth value for its sides.
    */
   private[buffer] class DepthSegment(
     val seg:       LineSegment,
@@ -43,26 +40,17 @@ object SubgraphDepthLocater {
     val upwardSeg = new LineSegment(seg)
 
     /**
-     * Defines a comparison operation on DepthSegments
-     * which orders them left to right.
-     * Assumes the segments are normalized.
-     * <p>
-     * The definition of the ordering is:
-     * <ul>
-     * <li>-1 : if DS1.seg is left of or below DS2.seg (DS1 < DS2)
-     * <li>1 : if   DS1.seg is right of or above DS2.seg (DS1 > DS2)
-     * <li>0 : if the segments are identical
-     * </ul>
+     * Defines a comparison operation on DepthSegments which orders them left to right. Assumes the
+     * segments are normalized. <p> The definition of the ordering is: <ul> <li>-1 : if DS1.seg is
+     * left of or below DS2.seg (DS1 < DS2) <li>1 : if DS1.seg is right of or above DS2.seg (DS1 >
+     * DS2) <li>0 : if the segments are identical </ul>
      *
-     * KNOWN BUGS:
-     * <ul>
-     * <li>The logic does not obey the {link Comparator.compareTo} contract.
-     * This is acceptable for the intended usage, but may cause problems if used with some
-     * utilities in the Java standard library (e.g. {link Collections.sort()}.
-     * </ul>
+     * KNOWN BUGS: <ul> <li>The logic does not obey the {link Comparator.compareTo} contract. This
+     * is acceptable for the intended usage, but may cause problems if used with some utilities in
+     * the Java standard library (e.g. {link Collections.sort()}. </ul>
      *
-     * @param obj a DepthSegment
-     * return the comparison value
+     * @param obj
+     *   a DepthSegment return the comparison value
      */
     override def compareTo(other: DepthSegment): Int = {
       // fast check if segments are trivially ordered along X
@@ -70,16 +58,15 @@ object SubgraphDepthLocater {
       if (upwardSeg.maxX <= other.upwardSeg.minX) return -1
 
       /**
-       * try and compute a determinate orientation for the segments.
-       * Test returns 1 if other is left of this (i.e. this > other)
+       * try and compute a determinate orientation for the segments. Test returns 1 if other is left
+       * of this (i.e. this > other)
        */
       var orientIndex = upwardSeg.orientationIndex(other.upwardSeg)
       if (orientIndex != 0) return orientIndex
 
       /**
-       * If comparison between this and other is indeterminate,
-       * try the opposite call order.
-       * The sign of the result needs to be flipped.
+       * If comparison between this and other is indeterminate, try the opposite call order. The
+       * sign of the result needs to be flipped.
        */
       orientIndex = -1 * other.upwardSeg.orientationIndex(upwardSeg)
       if (orientIndex != 0) return orientIndex
@@ -88,15 +75,14 @@ object SubgraphDepthLocater {
     }
 
     /**
-     * Compare two collinear segments for left-most ordering.
-     * If segs are vertical, use vertical ordering for comparison.
-     * If segs are equal, return 0.
-     * Segments are assumed to be directed so that the second coordinate is >= to the first
-     * (e.g. up and to the right).
+     * Compare two collinear segments for left-most ordering. If segs are vertical, use vertical
+     * ordering for comparison. If segs are equal, return 0. Segments are assumed to be directed so
+     * that the second coordinate is >= to the first (e.g. up and to the right).
      *
-     * @param seg0 a segment to compare
-     * @param seg1 a segment to compare
-     * return
+     * @param seg0
+     *   a segment to compare
+     * @param seg1
+     *   a segment to compare return
      */
 //    private def compareX(seg0: LineSegment, seg1: LineSegment): Int = {
 //      val compare0 = seg0.p0.compareTo(seg1.p0)
@@ -121,11 +107,12 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
   }
 
   /**
-   * Finds all non-horizontal segments intersecting the stabbing line.
-   * The stabbing line is the ray to the right of stabbingRayLeftPt.
+   * Finds all non-horizontal segments intersecting the stabbing line. The stabbing line is the ray
+   * to the right of stabbingRayLeftPt.
    *
-   * @param stabbingRayLeftPt the left-hand origin of the stabbing line
-   * return a List of { @link DepthSegments} intersecting the stabbing line
+   * @param stabbingRayLeftPt
+   *   the left-hand origin of the stabbing line return a List of { @link DepthSegments}
+   *   intersecting the stabbing line
    */
   private def findStabbedSegments(stabbingRayLeftPt: Coordinate): util.List[DepthSegment] = {
     val stabbedSegments = new util.ArrayList[DepthSegment]
@@ -142,12 +129,13 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
   }
 
   /**
-   * Finds all non-horizontal segments intersecting the stabbing line
-   * in the list of dirEdges.
-   * The stabbing line is the ray to the right of stabbingRayLeftPt.
+   * Finds all non-horizontal segments intersecting the stabbing line in the list of dirEdges. The
+   * stabbing line is the ray to the right of stabbingRayLeftPt.
    *
-   * @param stabbingRayLeftPt the left-hand origin of the stabbing line
-   * @param stabbedSegments   the current list of { @link DepthSegments} intersecting the stabbing line
+   * @param stabbingRayLeftPt
+   *   the left-hand origin of the stabbing line
+   * @param stabbedSegments
+   *   the current list of { @link DepthSegments} intersecting the stabbing line
    */
   private def findStabbedSegments(
     stabbingRayLeftPt: Coordinate,
@@ -156,8 +144,8 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
   ): Unit = {
 
     /**
-     * Check all forward DirectedEdges only.  This is still general,
-     * because each Edge has a forward DirectedEdge.
+     * Check all forward DirectedEdges only. This is still general, because each Edge has a forward
+     * DirectedEdge.
      */
     val i = dirEdges.iterator
     while (i.hasNext) {
@@ -169,12 +157,13 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
   }
 
   /**
-   * Finds all non-horizontal segments intersecting the stabbing line
-   * in the input dirEdge.
-   * The stabbing line is the ray to the right of stabbingRayLeftPt.
+   * Finds all non-horizontal segments intersecting the stabbing line in the input dirEdge. The
+   * stabbing line is the ray to the right of stabbingRayLeftPt.
    *
-   * @param stabbingRayLeftPt the left-hand origin of the stabbing line
-   * @param stabbedSegments   the current list of { @link DepthSegments} intersecting the stabbing line
+   * @param stabbingRayLeftPt
+   *   the left-hand origin of the stabbing line
+   * @param stabbedSegments
+   *   the current list of { @link DepthSegments} intersecting the stabbing line
    */
   private def findStabbedSegments(
     stabbingRayLeftPt: Coordinate,

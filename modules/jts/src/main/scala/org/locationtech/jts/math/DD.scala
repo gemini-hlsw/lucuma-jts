@@ -13,79 +13,45 @@ package org.locationtech.jts.math
 import java.io.Serializable
 
 /**
- * Implements extended-precision floating-point numbers
- * which maintain 106 bits (approximately 30 decimal digits) of precision.
- * <p>
- * A DoubleDouble uses a representation containing two double-precision values.
- * A number x is represented as a pair of doubles, x.hi and x.lo,
- * such that the number represented by x is x.hi + x.lo, where
- * <pre>
- * |x.lo| &lt;= 0.5*ulp(x.hi)
- * </pre>
- * and ulp(y) means "unit in the last place of y".
- * The basic arithmetic operations are implemented using
- * convenient properties of IEEE-754 floating-point arithmetic.
- * <p>
- * The range of values which can be represented is the same as in IEEE-754.
- * The precision of the representable numbers
- * is twice as great as IEEE-754 double precision.
- * <p>
- * The correctness of the arithmetic algorithms relies on operations
- * being performed with standard IEEE-754 double precision and rounding.
- * This is the Java standard arithmetic model, but for performance reasons
- * Java implementations are not
- * constrained to using this standard by default.
- * Some processors (notably the Intel Pentium architecture) perform
- * floating point operations in (non-IEEE-754-standard) extended-precision.
- * A JVM implementation may choose to use the non-standard extended-precision
- * as its default arithmetic mode.
- * To prevent this from happening, this code uses the
- * Java <tt>strictfp</tt> modifier,
- * which forces all operations to take place in the standard IEEE-754 rounding model.
- * <p>
- * The API provides both a set of value-oriented operations
- * and a set of mutating operations.
- * Value-oriented operations treat DoubleDouble values as
- * immutable; operations on them return new objects carrying the result
- * of the operation.  This provides a simple and safe semantics for
- * writing DoubleDouble expressions.  However, there is a performance
- * penalty for the object allocations required.
- * The mutable interface updates object values in-place.
- * It provides optimum memory performance, but requires
- * care to ensure that aliasing errors are not created
- * and constant values are not changed.
- * <p>
- * For example, the following code example constructs three DD instances:
- * two to hold the input values and one to hold the result of the addition.
- * <pre>
- * DD a = new DD(2.0);
- * DD b = new DD(3.0);
- * DD c = a.add(b);
- * </pre>
- * In contrast, the following approach uses only one object:
- * <pre>
- * DD a = new DD(2.0);
- *     a.selfAdd(3.0);
- * </pre>
- * <p>
- * This implementation uses algorithms originally designed variously by
- * Knuth, Kahan, Dekker, and Linnainmaa.
- * Douglas Priest developed the first C implementation of these techniques.
- * Other more recent C++ implementation are due to Keith M. Briggs and David Bailey et al.
+ * Implements extended-precision floating-point numbers which maintain 106 bits (approximately 30
+ * decimal digits) of precision. <p> A DoubleDouble uses a representation containing two
+ * double-precision values. A number x is represented as a pair of doubles, x.hi and x.lo, such that
+ * the number represented by x is x.hi + x.lo, where <pre>
+ * |x.lo| &lt;= 0.5*ulp(x.hi) </pre> and ulp(y) means "unit in the last place of y". The basic
+ * arithmetic operations are implemented using convenient properties of IEEE-754 floating-point
+ * arithmetic. <p> The range of values which can be represented is the same as in IEEE-754. The
+ * precision of the representable numbers is twice as great as IEEE-754 double precision. <p> The
+ * correctness of the arithmetic algorithms relies on operations being performed with standard
+ * IEEE-754 double precision and rounding. This is the Java standard arithmetic model, but for
+ * performance reasons Java implementations are not constrained to using this standard by default.
+ * Some processors (notably the Intel Pentium architecture) perform floating point operations in
+ * (non-IEEE-754-standard) extended-precision. A JVM implementation may choose to use the
+ * non-standard extended-precision as its default arithmetic mode. To prevent this from happening,
+ * this code uses the Java <tt>strictfp</tt> modifier, which forces all operations to take place in
+ * the standard IEEE-754 rounding model. <p> The API provides both a set of value-oriented
+ * operations and a set of mutating operations. Value-oriented operations treat DoubleDouble values
+ * as immutable; operations on them return new objects carrying the result of the operation. This
+ * provides a simple and safe semantics for writing DoubleDouble expressions. However, there is a
+ * performance penalty for the object allocations required. The mutable interface updates object
+ * values in-place. It provides optimum memory performance, but requires care to ensure that
+ * aliasing errors are not created and constant values are not changed. <p> For example, the
+ * following code example constructs three DD instances: two to hold the input values and one to
+ * hold the result of the addition. <pre> DD a = new DD(2.0); DD b = new DD(3.0); DD c = a.add(b);
+ * </pre> In contrast, the following approach uses only one object: <pre> DD a = new DD(2.0);
+ * a.selfAdd(3.0); </pre> <p> This implementation uses algorithms originally designed variously by
+ * Knuth, Kahan, Dekker, and Linnainmaa. Douglas Priest developed the first C implementation of
+ * these techniques. Other more recent C++ implementation are due to Keith M. Briggs and David
+ * Bailey et al.
  *
- * <h3>References</h3>
- * <ul>
- * <li>Priest, D., <i>Algorithms for Arbitrary Precision Floating Point Arithmetic</i>,
- * in P. Kornerup and D. Matula, Eds., Proc. 10th Symposium on Computer Arithmetic,
- * IEEE Computer Society Press, Los Alamitos, Calif., 1991.
- * <li>Yozo Hida, Xiaoye S. Li and David H. Bailey,
- * <i>Quad-Double Arithmetic: Algorithms, Implementation, and Application</i>,
- * manuscript, Oct 2000; Lawrence Berkeley National Laboratory Report BNL-46996.
- * <li>David Bailey, <i>High Precision Software Directory</i>;
- * <tt>http://crd.lbl.gov/~dhbailey/mpdist/index.html</tt>
- * </ul>
+ * <h3>References</h3> <ul> <li>Priest, D., <i>Algorithms for Arbitrary Precision Floating Point
+ * Arithmetic</i>, in P. Kornerup and D. Matula, Eds., Proc. 10th Symposium on Computer Arithmetic,
+ * IEEE Computer Society Press, Los Alamitos, Calif., 1991. <li>Yozo Hida, Xiaoye S. Li and David H.
+ * Bailey, <i>Quad-Double Arithmetic: Algorithms, Implementation, and Application</i>, manuscript,
+ * Oct 2000; Lawrence Berkeley National Laboratory Report BNL-46996. <li>David Bailey, <i>High
+ * Precision Software Directory</i>; <tt>http://crd.lbl.gov/~dhbailey/mpdist/index.html</tt> </ul>
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 
 /**
@@ -110,7 +76,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Creates a new DoubleDouble with value x.
    *
-   * @param x the value to initialize
+   * @param x
+   *   the value to initialize
    */
   def this(x: Double) = {
     this()
@@ -120,8 +87,10 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Creates a new DoubleDouble with value (hi, lo).
    *
-   * @param hi the high-order component
-   * @param lo the high-order component
+   * @param hi
+   *   the high-order component
+   * @param lo
+   *   the high-order component
    */
 //    def this(hi: Double, lo: Double) = {
 //      this(hi, lo)
@@ -131,7 +100,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Creates a new DoubleDouble with value equal to the argument.
    *
-   * @param dd the value to initialize
+   * @param dd
+   *   the value to initialize
    */
   def this(dd: DD) = {
     this()
@@ -141,8 +111,9 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Creates a new DoubleDouble with value equal to the argument.
    *
-   * @param str the value to initialize by
-   * throws NumberFormatException if <tt>str</tt> is not a valid representation of a number
+   * @param str
+   *   the value to initialize by throws NumberFormatException if <tt>str</tt> is not a valid
+   *   representation of a number
    */
 //    def this(str: String) = {
 //      this(DD.parse(str))
@@ -176,11 +147,12 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Set the value for the DD object. This method supports the mutating
-   * operations concept described in the class documentation (see above).
+   * Set the value for the DD object. This method supports the mutating operations concept described
+   * in the class documentation (see above).
    *
-   * @param value a DD instance supplying an extended-precision value.
-   * return a self-reference to the DD instance.
+   * @param value
+   *   a DD instance supplying an extended-precision value. return a self-reference to the DD
+   *   instance.
    */
   def setValue(value: DD): DD = {
     init(value)
@@ -188,11 +160,12 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Set the value for the DD object. This method supports the mutating
-   * operations concept described in the class documentation (see above).
+   * Set the value for the DD object. This method supports the mutating operations concept described
+   * in the class documentation (see above).
    *
-   * @param value a floating point value to be stored in the instance.
-   * return a self-reference to the DD instance.
+   * @param value
+   *   a floating point value to be stored in the instance. return a self-reference to the DD
+   *   instance.
    */
   def setValue(value: Double): DD = {
     init(value)
@@ -202,21 +175,19 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Returns a new DoubleDouble whose value is <tt>(this + y)</tt>.
    *
-   * @param y the addend
-   * return <tt>(this + y)</tt>
+   * @param y
+   *   the addend return <tt>(this + y)</tt>
    */
   final def add(y: DD): DD = DD.copy(this).selfAdd(y)
 
   final def add(y: Double): DD = DD.copy(this).selfAdd(y)
 
   /**
-   * Adds the argument to the value of <tt>this</tt>.
-   * To prevent altering constants,
-   * this method <b>must only</b> be used on values known to
-   * be newly created.
+   * Adds the argument to the value of <tt>this</tt>. To prevent altering constants, this method
+   * <b>must only</b> be used on values known to be newly created.
    *
-   * @param y the addend
-   * return this object, increased by y
+   * @param y
+   *   the addend return this object, increased by y
    */
   final def selfAdd(y: DD): DD = selfAdd(y.hi, y.lo)
 
@@ -271,21 +242,19 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Computes a new DoubleDouble object whose value is <tt>(this - y)</tt>.
    *
-   * @param y the subtrahend
-   * return <tt>(this - y)</tt>
+   * @param y
+   *   the subtrahend return <tt>(this - y)</tt>
    */
   final def subtract(y: DD): DD = add(y.negate)
 
   final def subtract(y: Double): DD = add(-y)
 
   /**
-   * Subtracts the argument from the value of <tt>this</tt>.
-   * To prevent altering constants,
-   * this method <b>must only</b> be used on values known to
-   * be newly created.
+   * Subtracts the argument from the value of <tt>this</tt>. To prevent altering constants, this
+   * method <b>must only</b> be used on values known to be newly created.
    *
-   * @param y the addend
-   * return this object, decreased by y
+   * @param y
+   *   the addend return this object, decreased by y
    */
   final def selfSubtract(y: DD): DD = {
     if (isNaN) return this
@@ -310,8 +279,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Returns a new DoubleDouble whose value is <tt>(this * y)</tt>.
    *
-   * @param y the multiplicand
-   * return <tt>(this * y)</tt>
+   * @param y
+   *   the multiplicand return <tt>(this * y)</tt>
    */
   final def multiply(y: DD): DD = {
     if (y.isNaN) return DD.createNaN
@@ -324,13 +293,11 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Multiplies this object by the argument, returning <tt>this</tt>.
-   * To prevent altering constants,
-   * this method <b>must only</b> be used on values known to
-   * be newly created.
+   * Multiplies this object by the argument, returning <tt>this</tt>. To prevent altering constants,
+   * this method <b>must only</b> be used on values known to be newly created.
    *
-   * @param y the value to multiply by
-   * return this object, multiplied by y
+   * @param y
+   *   the value to multiply by return this object, multiplied by y
    */
   final def selfMultiply(y: DD): DD = selfMultiply(y.hi, y.lo)
 
@@ -364,8 +331,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Computes a new DoubleDouble whose value is <tt>(this / y)</tt>.
    *
-   * @param y the divisor
-   * return a new object with the value <tt>(this / y)</tt>
+   * @param y
+   *   the divisor return a new object with the value <tt>(this / y)</tt>
    */
   final def divide(y: DD): DD = {
     var hc  = .0
@@ -400,13 +367,11 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Divides this object by the argument, returning <tt>this</tt>.
-   * To prevent altering constants,
-   * this method <b>must only</b> be used on values known to
-   * be newly created.
+   * Divides this object by the argument, returning <tt>this</tt>. To prevent altering constants,
+   * this method <b>must only</b> be used on values known to be newly created.
    *
-   * @param y the value to divide by
-   * return this object, divided by y
+   * @param y
+   *   the value to divide by return this object, divided by y
    */
   final def selfDivide(y: DD): DD = selfDivide(y.hi, y.lo)
 
@@ -440,7 +405,7 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Returns a DoubleDouble whose value is  <tt>1 / this</tt>.
+   * Returns a DoubleDouble whose value is <tt>1 / this</tt>.
    *
    * return the reciprocal of this value
    */
@@ -471,17 +436,12 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Returns the largest (closest to positive infinity)
-   * value that is not greater than the argument
-   * and is equal to a mathematical integer.
-   * Special cases:
-   * <ul>
-   * <li>If this value is NaN, returns NaN.
-   * </ul>
+   * Returns the largest (closest to positive infinity) value that is not greater than the argument
+   * and is equal to a mathematical integer. Special cases: <ul> <li>If this value is NaN, returns
+   * NaN. </ul>
    *
-   * return the largest (closest to positive infinity)
-   *         value that is not greater than the argument
-   *         and is equal to a mathematical integer.
+   * return the largest (closest to positive infinity) value that is not greater than the argument
+   * and is equal to a mathematical integer.
    */
   def floor: DD = {
     if (isNaN) return DD.NaN
@@ -494,15 +454,12 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Returns the smallest (closest to negative infinity) value
-   * that is not less than the argument and is equal to a mathematical integer.
-   * Special cases:
-   * <ul>
-   * <li>If this value is NaN, returns NaN.
-   * </ul>
+   * Returns the smallest (closest to negative infinity) value that is not less than the argument
+   * and is equal to a mathematical integer. Special cases: <ul> <li>If this value is NaN, returns
+   * NaN. </ul>
    *
-   * return the smallest (closest to negative infinity) value
-   *         that is not less than the argument and is equal to a mathematical integer.
+   * return the smallest (closest to negative infinity) value that is not less than the argument and
+   * is equal to a mathematical integer.
    */
   def ceil: DD = {
     if (isNaN) return DD.NaN
@@ -517,13 +474,9 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Returns an integer indicating the sign of this value.
-   * <ul>
-   * <li>if this value is &gt; 0, returns 1
-   * <li>if this value is &lt; 0, returns -1
-   * <li>if this value is = 0, returns 0
-   * <li>if this value is NaN, returns 0
-   * </ul>
+   * Returns an integer indicating the sign of this value. <ul> <li>if this value is &gt; 0, returns
+   * 1 <li>if this value is &lt; 0, returns -1 <li>if this value is = 0, returns 0 <li>if this value
+   * is NaN, returns 0 </ul>
    *
    * return an integer indicating the sign of this value
    */
@@ -536,11 +489,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Rounds this value to the nearest integer.
-   * The value is rounded to an integer by adding 1/2 and taking the floor of the result.
-   * Special cases:
-   * <ul>
-   * <li>If this value is NaN, returns NaN.
+   * Rounds this value to the nearest integer. The value is rounded to an integer by adding 1/2 and
+   * taking the floor of the result. Special cases: <ul> <li>If this value is NaN, returns NaN.
    * </ul>
    *
    * return this value rounded to the nearest integer
@@ -553,12 +503,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Returns the integer which is largest in absolute value and not further
-   * from zero than this value.
-   * Special cases:
-   * <ul>
-   * <li>If this value is NaN, returns NaN.
-   * </ul>
+   * Returns the integer which is largest in absolute value and not further from zero than this
+   * value. Special cases: <ul> <li>If this value is NaN, returns NaN. </ul>
    *
    * return the integer which is largest in absolute value and not further from zero than this value
    */
@@ -569,11 +515,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Returns the absolute value of this value.
-   * Special cases:
-   * <ul>
-   * <li>If this value is NaN, it is returned.
-   * </ul>
+   * Returns the absolute value of this value. Special cases: <ul> <li>If this value is NaN, it is
+   * returned. </ul>
    *
    * return the absolute value of this value
    */
@@ -586,21 +529,19 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   def sqr: DD = this.multiply(this)
 
   /**
-   * Squares this object.
-   * To prevent altering constants,
-   * this method <b>must only</b> be used on values known to
-   * be newly created.
+   * Squares this object. To prevent altering constants, this method <b>must only</b> be used on
+   * values known to be newly created.
    *
    * return the square of this value.
    */
   def selfSqr: DD = this.selfMultiply(this)
 
   /**
-   * Computes the positive square root of this value.
-   * If the number is NaN or negative, NaN is returned.
+   * Computes the positive square root of this value. If the number is NaN or negative, NaN is
+   * returned.
    *
-   * return the positive square root of this number.
-   *         If the argument is NaN or less than zero, the result is NaN.
+   * return the positive square root of this number. If the argument is NaN or less than zero, the
+   * result is NaN.
    */
   def sqrt: DD = {
     /* Strategy:  Use Karp's trick:  if x is an approximation
@@ -623,11 +564,11 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   }
 
   /**
-   * Computes the value of this number raised to an integral power.
-   * Follows semantics of Java Math.pow as closely as possible.
+   * Computes the value of this number raised to an integral power. Follows semantics of Java
+   * Math.pow as closely as possible.
    *
-   * @param exp the integer exponent
-   * return x raised to the integral power exp
+   * @param exp
+   *   the integer exponent return x raised to the integral power exp
    */
   def pow(exp: Int): DD = {
     if (exp == 0.0) return DD.valueOf(1.0)
@@ -648,8 +589,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Computes the minimum of this and another DD number.
    *
-   * @param x a DD number
-   * return the minimum of the two numbers
+   * @param x
+   *   a DD number return the minimum of the two numbers
    */
   def min(x: DD): DD = if (this.le(x)) this
   else x
@@ -657,8 +598,8 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Computes the maximum of this and another DD number.
    *
-   * @param x a DD number
-   * return the maximum of the two numbers
+   * @param x
+   *   a DD number return the maximum of the two numbers
    */
   def max(x: DD): DD = if (this.ge(x)) this
   else x
@@ -708,48 +649,48 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
   /**
    * Tests whether this value is equal to another <tt>DoubleDouble</tt> value.
    *
-   * @param y a DoubleDouble value
-   * return true if this value = y
+   * @param y
+   *   a DoubleDouble value return true if this value = y
    */
   def equals(y: DD): Boolean = hi == y.hi && lo == y.lo
 
   /**
    * Tests whether this value is greater than another <tt>DoubleDouble</tt> value.
    *
-   * @param y a DoubleDouble value
-   * return true if this value &gt; y
+   * @param y
+   *   a DoubleDouble value return true if this value &gt; y
    */
   def gt(y: DD): Boolean = (hi > y.hi) || (hi == y.hi && lo > y.lo)
 
   /**
    * Tests whether this value is greater than or equals to another <tt>DoubleDouble</tt> value.
    *
-   * @param y a DoubleDouble value
-   * return true if this value &gt;= y
+   * @param y
+   *   a DoubleDouble value return true if this value &gt;= y
    */
   def ge(y: DD): Boolean = (hi > y.hi) || (hi == y.hi && lo >= y.lo)
 
   /**
    * Tests whether this value is less than another <tt>DoubleDouble</tt> value.
    *
-   * @param y a DoubleDouble value
-   * return true if this value &lt; y
+   * @param y
+   *   a DoubleDouble value return true if this value &lt; y
    */
   def lt(y: DD): Boolean = (hi < y.hi) || (hi == y.hi && lo < y.lo)
 
   /**
    * Tests whether this value is less than or equal to another <tt>DoubleDouble</tt> value.
    *
-   * @param y a DoubleDouble value
-   * return true if this value &lt;= y
+   * @param y
+   *   a DoubleDouble value return true if this value &lt;= y
    */
   def le(y: DD): Boolean = (hi < y.hi) || (hi == y.hi && lo <= y.lo)
 
   /**
    * Compares two DoubleDouble objects numerically.
    *
-   * return -1,0 or 1 depending on whether this value is less than, equal to
-   *         or greater than the value of <tt>o</tt>
+   * return -1,0 or 1 depending on whether this value is less than, equal to or greater than the
+   * value of <tt>o</tt>
    */
   override def compareTo(other: DD): Int = {
     if (hi < other.hi) return -1
@@ -950,9 +891,10 @@ object DD {
   /**
    * Converts the string argument to a DoubleDouble number.
    *
-   * @param str a string containing a representation of a numeric value
-   * return the extended precision version of the value
-   * throws NumberFormatException if <tt>s</tt> is not a valid representation of a number
+   * @param str
+   *   a string containing a representation of a numeric value return the extended precision version
+   *   of the value throws NumberFormatException if <tt>s</tt> is not a valid representation of a
+   *   number
    */
 //  throws[NumberFormatException]
 //  def valueOf(str: String): DD = parse(str)
@@ -960,8 +902,8 @@ object DD {
   /**
    * Converts the <tt>double</tt> argument to a DoubleDouble number.
    *
-   * @param x a numeric value
-   * return the extended precision version of the value
+   * @param x
+   *   a numeric value return the extended precision version of the value
    */
   def valueOf(x: Double): DD = new DD(x)
 
@@ -972,8 +914,8 @@ object DD {
   /**
    * Creates a new DoubleDouble with the value of the argument.
    *
-   * @param dd the DoubleDouble value to copy
-   * return a copy of the input value
+   * @param dd
+   *   the DoubleDouble value to copy return a copy of the input value
    */
   def copy(dd: DD): DD = new DD(dd)
 
@@ -989,11 +931,14 @@ object DD {
   /**
    * Computes the determinant of the 2x2 matrix with the given entries.
    *
-   * @param x1 a double value
-   * @param y1 a double value
-   * @param x2 a double value
-   * @param y2 a double value
-   * return the determinant of the values
+   * @param x1
+   *   a double value
+   * @param y1
+   *   a double value
+   * @param x2
+   *   a double value
+   * @param y2
+   *   a double value return the determinant of the values
    */
   def determinant(x1: Double, y1: Double, x2: Double, y2: Double): DD =
     determinant(valueOf(x1), valueOf(y1), valueOf(x2), valueOf(y2))
@@ -1001,11 +946,14 @@ object DD {
   /**
    * Computes the determinant of the 2x2 matrix with the given entries.
    *
-   * @param x1 a matrix entry
-   * @param y1 a matrix entry
-   * @param x2 a matrix entry
-   * @param y2 a matrix entry
-   * return the determinant of the matrix of values
+   * @param x1
+   *   a matrix entry
+   * @param y1
+   *   a matrix entry
+   * @param x2
+   *   a matrix entry
+   * @param y2
+   *   a matrix entry return the determinant of the matrix of values
    */
   def determinant(x1: DD, y1: DD, x2: DD, y2: DD): DD = {
     val det = x1.multiply(y2).selfSubtract(y1.multiply(x2))

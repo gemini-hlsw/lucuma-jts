@@ -37,8 +37,7 @@ package org.locationtech.jts.noding
 trait SegmentIntersector {
 
   /**
-   * This method is called by clients
-   * of the {link SegmentIntersector} interface to process
+   * This method is called by clients of the {link SegmentIntersector} interface to process
    * intersections for two segments of the {link SegmentString}s being intersected.
    */
   def processIntersections(
@@ -49,8 +48,8 @@ trait SegmentIntersector {
   ): Unit
 
   /**
-   * Reports whether the client of this class
-   * needs to continue testing all intersections in an arrangement.
+   * Reports whether the client of this class needs to continue testing all intersections in an
+   * arrangement.
    *
    * return true if there is no need to continue testing segments
    */

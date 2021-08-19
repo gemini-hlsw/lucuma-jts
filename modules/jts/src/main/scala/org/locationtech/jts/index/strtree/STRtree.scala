@@ -24,25 +24,15 @@ import org.locationtech.jts.util.Assert
 import org.locationtech.jts.util.PriorityQueue
 
 /**
- * A query-only R-tree created using the Sort-Tile-Recursive (STR) algorithm.
- * For two-dimensional spatial data.
- * <P>
- * The STR packed R-tree is simple to implement and maximizes space
- * utilization; that is, as many leaves as possible are filled to capacity.
- * Overlap between nodes is far less than in a basic R-tree. However, once the
- * tree has been built (explicitly or on the first call to #query), items may
- * not be added or removed.
- * <P>
- * Described in: P. Rigaux, Michel Scholl and Agnes Voisard.
- * <i>Spatial Databases With Application To GIS</i>.
- * Morgan Kaufmann, San Francisco, 2002.
- * <p>
- * <b>Note that inserting items into a tree is not thread-safe.</b>
- * Inserting performed on more than one thread must be synchronized externally.
- * <p>
- * Querying a tree is thread-safe.
- * The building phase is done synchronously,
- * and querying is stateless.
+ * A query-only R-tree created using the Sort-Tile-Recursive (STR) algorithm. For two-dimensional
+ * spatial data. <P> The STR packed R-tree is simple to implement and maximizes space utilization;
+ * that is, as many leaves as possible are filled to capacity. Overlap between nodes is far less
+ * than in a basic R-tree. However, once the tree has been built (explicitly or on the first call to
+ * #query), items may not be added or removed. <P> Described in: P. Rigaux, Michel Scholl and Agnes
+ * Voisard. <i>Spatial Databases With Application To GIS</i>. Morgan Kaufmann, San Francisco, 2002.
+ * <p> <b>Note that inserting items into a tree is not thread-safe.</b> Inserting performed on more
+ * than one thread must be synchronized externally. <p> Querying a tree is thread-safe. The building
+ * phase is done synchronously, and querying is stateless.
  *
  * @version 1.7
  */
@@ -90,8 +80,8 @@ object STRtree {
   private def getItems(kNearestNeighbors: PriorityQueue) = {
 
     /**
-     * Iterate the K Nearest Neighbour Queue and retrieve the item from each BoundablePair
-     * in this queue
+     * Iterate the K Nearest Neighbour Queue and retrieve the item from each BoundablePair in this
+     * queue
      */
     val items = new Array[Any](kNearestNeighbors.size())
     var count = 0
@@ -112,17 +102,13 @@ class STRtree(val nodeCapacityArg: Int)
  * a node may have.
  * <p>
  * The minimum recommended capacity setting is 4.
- */
-    extends AbstractSTRtree(nodeCapacityArg)
-    with SpatialIndex[Any]
-    with Serializable {
+ */ extends AbstractSTRtree(nodeCapacityArg) with SpatialIndex[Any] with Serializable {
 
   /**
-   * Creates the parent level for the given child level. First, orders the items
-   * by the x-values of the midpoints, and groups them into vertical slices.
-   * For each slice, orders the items by the y-values of the midpoints, and
-   * group them into runs of size M (the node capacity). For each run, creates
-   * a new (parent) node.
+   * Creates the parent level for the given child level. First, orders the items by the x-values of
+   * the midpoints, and groups them into vertical slices. For each slice, orders the items by the
+   * y-values of the midpoints, and group them into runs of size M (the node capacity). For each
+   * run, creates a new (parent) node.
    */
   override protected def createParentBoundables(
     childBoundables: util.List[Boundable],
@@ -158,7 +144,8 @@ class STRtree(val nodeCapacityArg: Int)
     super.createParentBoundables(childBoundables, newLevel)
 
   /**
-   * @param childBoundables Must be sorted by the x-value of the envelope midpoints
+   * @param childBoundables
+   *   Must be sorted by the x-value of the envelope midpoints
    */
   protected def verticalSlices(
     childBoundables: util.List[Boundable],
@@ -216,9 +203,10 @@ class STRtree(val nodeCapacityArg: Int)
   /**
    * Removes a single item from the tree.
    *
-   * @param itemEnv the Envelope of the item to remove
-   * @param item    the item to remove
-   * return <code>true</code> if the item was found
+   * @param itemEnv
+   *   the Envelope of the item to remove
+   * @param item
+   *   the item to remove return <code>true</code> if the item was found
    */
   override def remove(itemEnv: Envelope, item: Any): Unit = {
     super[AbstractSTRtree].remove(itemEnv, item)
@@ -237,21 +225,15 @@ class STRtree(val nodeCapacityArg: Int)
   override protected def getComparator: Comparator[Boundable] = STRtree.yComparator
 
   /**
-   * Finds the two nearest items in the tree,
-   * using {link ItemDistance} as the distance metric.
-   * A Branch-and-Bound tree traversal algorithm is used
-   * to provide an efficient search.
-   * <p>
-   * If the tree is empty, the return value is <code>null</code.
-   * If the tree contains only one item,
-   * the return value is a pair containing that item.
-   * <b>
-   * If it is required to find only pairs of distinct items,
-   * the {link ItemDistance} function must be <b>anti-reflexive</b>.
+   * Finds the two nearest items in the tree, using {link ItemDistance} as the distance metric. A
+   * Branch-and-Bound tree traversal algorithm is used to provide an efficient search. <p> If the
+   * tree is empty, the return value is <code>null</code. If the tree contains only one item, the
+   * return value is a pair containing that item. <b> If it is required to find only pairs of
+   * distinct items, the {link ItemDistance} function must be <b>anti-reflexive</b>.
    *
-   * @param itemDist a distance metric applicable to the items in this tree
-   * return the pair of the nearest items
-   *         or <code>null</code> if the tree is empty
+   * @param itemDist
+   *   a distance metric applicable to the items in this tree return the pair of the nearest items
+   *   or <code>null</code> if the tree is empty
    */
   def nearestNeighbour(itemDist: ItemDistance): Array[Any] = {
     if (isEmpty) return null
@@ -261,21 +243,18 @@ class STRtree(val nodeCapacityArg: Int)
   }
 
   /**
-   * Finds the item in this tree which is nearest to the given {link Object},
-   * using {link ItemDistance} as the distance metric.
-   * A Branch-and-Bound tree traversal algorithm is used
-   * to provide an efficient search.
-   * <p>
-   * The query <tt>object</tt> does <b>not</b> have to be
-   * contained in the tree, but it does
-   * have to be compatible with the <tt>itemDist</tt>
-   * distance metric.
+   * Finds the item in this tree which is nearest to the given {link Object}, using {link
+   * ItemDistance} as the distance metric. A Branch-and-Bound tree traversal algorithm is used to
+   * provide an efficient search. <p> The query <tt>object</tt> does <b>not</b> have to be contained
+   * in the tree, but it does have to be compatible with the <tt>itemDist</tt> distance metric.
    *
-   * @param env      the envelope of the query item
-   * @param item     the item to find the nearest neighbour of
-   * @param itemDist a distance metric applicable to the items in this tree and the query item
-   * return the nearest item in this tree
-   *         or <code>null</code> if the tree is empty
+   * @param env
+   *   the envelope of the query item
+   * @param item
+   *   the item to find the nearest neighbour of
+   * @param itemDist
+   *   a distance metric applicable to the items in this tree and the query item return the nearest
+   *   item in this tree or <code>null</code> if the tree is empty
    */
   def nearestNeighbour(env: Envelope, item: Any, itemDist: ItemDistance): Any = {
     val bnd = new ItemBoundable(env, item)
@@ -284,19 +263,16 @@ class STRtree(val nodeCapacityArg: Int)
   }
 
   /**
-   * Finds the two nearest items from this tree
-   * and another tree,
-   * using {link ItemDistance} as the distance metric.
-   * A Branch-and-Bound tree traversal algorithm is used
-   * to provide an efficient search.
-   * The result value is a pair of items,
-   * the first from this tree and the second
-   * from the argument tree.
+   * Finds the two nearest items from this tree and another tree, using {link ItemDistance} as the
+   * distance metric. A Branch-and-Bound tree traversal algorithm is used to provide an efficient
+   * search. The result value is a pair of items, the first from this tree and the second from the
+   * argument tree.
    *
-   * @param tree     another tree
-   * @param itemDist a distance metric applicable to the items in the trees
-   * return the pair of the nearest items, one from each tree
-   *         or <code>null</code> if no pair of distinct items can be found
+   * @param tree
+   *   another tree
+   * @param itemDist
+   *   a distance metric applicable to the items in the trees return the pair of the nearest items,
+   *   one from each tree or <code>null</code> if no pair of distinct items can be found
    */
   def nearestNeighbour(tree: STRtree, itemDist: ItemDistance): Array[Any] = {
     if (isEmpty || tree.isEmpty) return null
@@ -315,22 +291,18 @@ class STRtree(val nodeCapacityArg: Int)
       val pairDistance = bndPair.getDistance
 
       /**
-       * If the distance for the first pair in the queue
-       * is >= current minimum distance, other nodes
-       * in the queue must also have a greater distance.
-       * So the current minDistance must be the true minimum,
-       * and we are done.
+       * If the distance for the first pair in the queue is >= current minimum distance, other nodes
+       * in the queue must also have a greater distance. So the current minDistance must be the true
+       * minimum, and we are done.
        */
       if (pairDistance >= distanceLowerBound) {
         distanceLowerBound = 1 //break //todo: break is not supported
       } else {
 
         /**
-         * If the pair members are leaves
-         * then their distance is the exact lower bound.
-         * Update the distanceLowerBound to reflect this
-         * (which must be smaller, due to the test
-         * immediately prior to this).
+         * If the pair members are leaves then their distance is the exact lower bound. Update the
+         * distanceLowerBound to reflect this (which must be smaller, due to the test immediately
+         * prior to this).
          */
         if (bndPair.isLeaves) { // assert: currentDistance < minimumDistanceFound
           distanceLowerBound = pairDistance
@@ -338,8 +310,7 @@ class STRtree(val nodeCapacityArg: Int)
         } else {
 
           /**
-           * Otherwise, expand one side of the pair,
-           * and insert the expanded pairs into the queue.
+           * Otherwise, expand one side of the pair, and insert the expanded pairs into the queue.
            * The choice of which side to expand is determined heuristically.
            */
           bndPair.expandToQueue(priQ, distanceLowerBound)
@@ -354,16 +325,16 @@ class STRtree(val nodeCapacityArg: Int)
   }
 
   /**
-   * Tests whether some two items from this tree and another tree
-   * lie within a given distance.
-   * {link ItemDistance} is used as the distance metric.
-   * A Branch-and-Bound tree traversal algorithm is used
-   * to provide an efficient search.
+   * Tests whether some two items from this tree and another tree lie within a given distance. {link
+   * ItemDistance} is used as the distance metric. A Branch-and-Bound tree traversal algorithm is
+   * used to provide an efficient search.
    *
-   * @param tree        another tree
-   * @param itemDist    a distance metric applicable to the items in the trees
-   * @param maxDistance the distance limit for the search
-   * return true if there are items within the distance
+   * @param tree
+   *   another tree
+   * @param itemDist
+   *   a distance metric applicable to the items in the trees
+   * @param maxDistance
+   *   the distance limit for the search return true if there are items within the distance
    */
   def isWithinDistance(tree: STRtree, itemDist: ItemDistance, maxDistance: Double): Boolean = {
     val bp = new BoundablePair(this.getRoot, tree.getRoot, itemDist)
@@ -371,16 +342,15 @@ class STRtree(val nodeCapacityArg: Int)
   }
 
   /**
-   * Performs a withinDistance search on the tree node pairs.
-   * This is a different search algorithm to nearest neighbour.
-   * It can utilize the {link BoundablePair#maximumDistance()} between
-   * tree nodes to confirm if two internal nodes must
-   * have items closer than the maxDistance,
-   * and short-circuit the search.
+   * Performs a withinDistance search on the tree node pairs. This is a different search algorithm
+   * to nearest neighbour. It can utilize the {link BoundablePair#maximumDistance()} between tree
+   * nodes to confirm if two internal nodes must have items closer than the maxDistance, and
+   * short-circuit the search.
    *
-   * @param initBndPair the initial pair containing the tree root nodes
-   * @param maxDistance the maximum distance to search for
-   * return true if two items lie within the given distance
+   * @param initBndPair
+   *   the initial pair containing the tree root nodes
+   * @param maxDistance
+   *   the maximum distance to search for return true if two items lie within the given distance
    */
   private def isWithinDistance(initBndPair: BoundablePair, maxDistance: Double): Boolean = {
     var distanceUpperBound = java.lang.Double.POSITIVE_INFINITY
@@ -391,38 +361,30 @@ class STRtree(val nodeCapacityArg: Int)
       val pairDistance = bndPair.getDistance
 
       /**
-       * If the distance for the first pair in the queue
-       * is > maxDistance, all other pairs
-       * in the queue must have a greater distance as well.
-       * So can conclude no items are within the distance
-       * and terminate with result = false
+       * If the distance for the first pair in the queue is > maxDistance, all other pairs in the
+       * queue must have a greater distance as well. So can conclude no items are within the
+       * distance and terminate with result = false
        */
       if (pairDistance > maxDistance) return false
 
       /**
-       * If the maximum distance between the nodes
-       * is less than the maxDistance,
-       * than all items in the nodes must be
-       * closer than the max distance.
-       * Then can terminate with result = true.
+       * If the maximum distance between the nodes is less than the maxDistance, than all items in
+       * the nodes must be closer than the max distance. Then can terminate with result = true.
        *
-       * NOTE: using Envelope MinMaxDistance
-       * would provide a tighter bound,
-       * but not much performance improvement has been observed
+       * NOTE: using Envelope MinMaxDistance would provide a tighter bound, but not much performance
+       * improvement has been observed
        */
       if (bndPair.maximumDistance <= maxDistance) return true
 
       /**
-       * If the pair items are leaves
-       * then their actual distance is an upper bound.
-       * Update the distanceUpperBound to reflect this
+       * If the pair items are leaves then their actual distance is an upper bound. Update the
+       * distanceUpperBound to reflect this
        */
       if (bndPair.isLeaves) {
         distanceUpperBound = pairDistance
 
         /**
-         * If the items are closer than maxDistance
-         * can terminate with result = true.
+         * If the items are closer than maxDistance can terminate with result = true.
          */
         if (distanceUpperBound <= maxDistance) return true
       } else bndPair.expandToQueue(priQ, distanceUpperBound)
@@ -432,24 +394,21 @@ class STRtree(val nodeCapacityArg: Int)
 
   /**
    * Finds k items in this tree which are the top k nearest neighbors to the given {@code item},
-   * using {@code itemDist} as the distance metric.
-   * A Branch-and-Bound tree traversal algorithm is used
-   * to provide an efficient search.
-   * This method implements the KNN algorithm described in the following paper:
-   * <p>
-   * Roussopoulos, Nick, Stephen Kelley, and Frédéric Vincent. "Nearest neighbor queries."
-   * ACM sigmod record. Vol. 24. No. 2. ACM, 1995.
-   * <p>
-   * The query {@code item} does <b>not</b> have to be
-   * contained in the tree, but it does
-   * have to be compatible with the {@code itemDist}
-   * distance metric.
+   * using {@code itemDist} as the distance metric. A Branch-and-Bound tree traversal algorithm is
+   * used to provide an efficient search. This method implements the KNN algorithm described in the
+   * following paper: <p> Roussopoulos, Nick, Stephen Kelley, and Frédéric Vincent. "Nearest
+   * neighbor queries." ACM sigmod record. Vol. 24. No. 2. ACM, 1995. <p> The query {@code item}
+   * does <b>not</b> have to be contained in the tree, but it does have to be compatible with the
+   * {@code itemDist} distance metric.
    *
-   * @param env      the envelope of the query item
-   * @param item     the item to find the nearest neighbour of
-   * @param itemDist a distance metric applicable to the items in this tree and the query item
-   * @param k        the K nearest items in kNearestNeighbour
-   * return the K nearest items in this tree
+   * @param env
+   *   the envelope of the query item
+   * @param item
+   *   the item to find the nearest neighbour of
+   * @param itemDist
+   *   a distance metric applicable to the items in this tree and the query item
+   * @param k
+   *   the K nearest items in kNearestNeighbour return the K nearest items in this tree
    */
   def nearestNeighbour(env: Envelope, item: Any, itemDist: ItemDistance, k: Int): Array[Any] = {
     val bnd = new ItemBoundable(env, item)
@@ -476,11 +435,9 @@ class STRtree(val nodeCapacityArg: Int)
       val pairDistance = bndPair.getDistance
 
       /**
-       * If the distance for the first node in the queue
-       * is >= the current maximum distance in the k queue , all other nodes
-       * in the queue must also have a greater distance.
-       * So the current minDistance must be the true minimum,
-       * and we are done.
+       * If the distance for the first node in the queue is >= the current maximum distance in the k
+       * queue , all other nodes in the queue must also have a greater distance. So the current
+       * minDistance must be the true minimum, and we are done.
        */
       if (pairDistance >= distanceLowerBound) {
         distanceLowerBound = 11 // break
@@ -502,9 +459,8 @@ class STRtree(val nodeCapacityArg: Int)
         else {
 
           /**
-           * Otherwise, expand one side of the pair,
-           * (the choice of which side to expand is heuristically determined)
-           * and insert the new expanded pairs into the queue
+           * Otherwise, expand one side of the pair, (the choice of which side to expand is
+           * heuristically determined) and insert the new expanded pairs into the queue
            */
           bndPair.expandToQueue(priQ, distanceLowerBound)
         }

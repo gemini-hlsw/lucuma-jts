@@ -19,31 +19,22 @@ import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 
 /**
- * Computes the centroid of a {link Geometry} of any dimension.
- * If the geometry is nominally of higher dimension,
- * but has lower <i>effective</i> dimension
- * (i.e. contains only components
- * having zero length or area),
- * the centroid will be computed as for the equivalent lower-dimension geometry.
- * If the input geometry is empty, a
- * <code>null</code> Coordinate is returned.
+ * Computes the centroid of a {link Geometry} of any dimension. If the geometry is nominally of
+ * higher dimension, but has lower <i>effective</i> dimension (i.e. contains only components having
+ * zero length or area), the centroid will be computed as for the equivalent lower-dimension
+ * geometry. If the input geometry is empty, a <code>null</code> Coordinate is returned.
  *
- * <h2>Algorithm</h2>
- * <ul>
- * <li><b>Dimension 2</b> - the centroid is computed
- * as the weighted sum of the centroids
- * of a decomposition of the area into (possibly overlapping) triangles.
- * Holes and multipolygons are handled correctly.
- * See <code>http://www.faqs.org/faqs/graphics/algorithms-faq/</code>
- * for further details of the basic approach.
+ * <h2>Algorithm</h2> <ul> <li><b>Dimension 2</b> - the centroid is computed as the weighted sum of
+ * the centroids of a decomposition of the area into (possibly overlapping) triangles. Holes and
+ * multipolygons are handled correctly. See
+ * <code>http://www.faqs.org/faqs/graphics/algorithms-faq/</code> for further details of the basic
+ * approach.
  *
- * <li><b>Dimension 1</b> - Computes the average of the midpoints
- * of all line segments weighted by the segment length.
- * Zero-length lines are treated as points.
+ * <li><b>Dimension 1</b> - Computes the average of the midpoints of all line segments weighted by
+ * the segment length. Zero-length lines are treated as points.
  *
- * <li><b>Dimension 0</b> - Compute the average coordinate for all points.
- * Repeated points are all included in the average.
- * </ul>
+ * <li><b>Dimension 0</b> - Compute the average coordinate for all points. Repeated points are all
+ * included in the average. </ul>
  *
  * @version 1.7
  */
@@ -52,8 +43,8 @@ object Centroid {
   /**
    * Computes the centroid point of a geometry.
    *
-   * @param geom the geometry to use
-   * return the centroid point, or null if the geometry is empty
+   * @param geom
+   *   the geometry to use return the centroid point, or null if the geometry is empty
    */
   def getCentroid(geom: Geometry): Coordinate = {
     val cent = new Centroid(geom)
@@ -61,9 +52,8 @@ object Centroid {
   }
 
   /**
-   * Computes three times the centroid of the triangle p1-p2-p3.
-   * The factor of 3 is
-   * left in to permit division to be avoided until later.
+   * Computes three times the centroid of the triangle p1-p2-p3. The factor of 3 is left in to
+   * permit division to be avoided until later.
    */
   private def centroid3(p1: Coordinate, p2: Coordinate, p3: Coordinate, c: Coordinate): Unit = {
     c.x = p1.x + p2.x + p3.x
@@ -71,8 +61,8 @@ object Centroid {
   }
 
   /**
-   * Returns twice the signed area of the triangle p1-p2-p3.
-   * The area is positive if the triangle is oriented CCW, and negative if CW.
+   * Returns twice the signed area of the triangle p1-p2-p3. The area is positive if the triangle is
+   * oriented CCW, and negative if CW.
    */
   private def area2(p1: Coordinate, p2: Coordinate, p3: Coordinate): Double =
     (p2.x - p1.x) * (p3.y - p1.y) - (p3.x - p1.x) * (p2.y - p1.y)
@@ -98,7 +88,8 @@ class Centroid(val geom: Geometry) {
   /**
    * Adds a Geometry to the centroid total.
    *
-   * @param geom the geometry to add
+   * @param geom
+   *   the geometry to add
    */
   private def add(geom: Geometry): Unit = {
     if (geom.isEmpty) return
@@ -126,9 +117,8 @@ class Centroid(val geom: Geometry) {
 
     /**
      * The centroid is computed from the highest dimension components present in the input.
-     * I.e. areas dominate lineal geometry, which dominates points.
-     * Degenerate geometry are computed using their effective dimension
-     * (e.g. areas may degenerate to lines or points)
+     * I.e. areas dominate lineal geometry, which dominates points. Degenerate geometry are computed
+     * using their effective dimension (e.g. areas may degenerate to lines or points)
      */
     val cent = new Coordinate
     if (Math.abs(areasum2) > 0.0) {
@@ -203,10 +193,10 @@ class Centroid(val geom: Geometry) {
   }
 
   /**
-   * Adds the line segments defined by an array of coordinates
-   * to the linear centroid accumulators.
+   * Adds the line segments defined by an array of coordinates to the linear centroid accumulators.
    *
-   * @param pts an array of { @link Coordinate}s
+   * @param pts
+   *   an array of { @link Coordinate}s
    */
   private def addLineSegments(pts: Array[Coordinate]): Unit = {
     var lineLen = 0.0
@@ -230,7 +220,8 @@ class Centroid(val geom: Geometry) {
   /**
    * Adds a point to the point centroid accumulator.
    *
-   * @param pt a { @link Coordinate}
+   * @param pt
+   *   a { @link Coordinate}
    */
   private def addPoint(pt: Coordinate): Unit = {
     ptCount += 1

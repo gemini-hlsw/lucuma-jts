@@ -41,8 +41,8 @@ class PointBuilder(
   private val resultPointList = new util.ArrayList[Point]
 
   /**
-   * Computes the Point geometries which will appear in the result,
-   * given the specified overlay operation.
+   * Computes the Point geometries which will appear in the result, given the specified overlay
+   * operation.
    *
    * return a list of the Points objects in the result
    */
@@ -50,9 +50,8 @@ class PointBuilder(
     extractNonCoveredResultNodes(opCode)
 
     /**
-     * It can happen that connected result nodes are still covered by
-     * result geometries, so must perform this filter.
-     * (For instance, this can happen during topology collapse).
+     * It can happen that connected result nodes are still covered by result geometries, so must
+     * perform this filter. (For instance, this can happen during topology collapse).
      */
     resultPointList
   }
@@ -60,10 +59,11 @@ class PointBuilder(
   /**
    * Determines nodes which are in the result, and creates {link Point}s for them.
    *
-   * This method determines nodes which are candidates for the result via their
-   * labelling and their graph topology.
+   * This method determines nodes which are candidates for the result via their labelling and their
+   * graph topology.
    *
-   * @param opCode the overlay operation
+   * @param opCode
+   *   the overlay operation
    */
   private def extractNonCoveredResultNodes(opCode: Int): Unit = { // testing only
     //if (true) return resultNodeList;
@@ -77,8 +77,8 @@ class PointBuilder(
           if (n.getEdges.getDegree == 0 || opCode == OverlayOp.INTERSECTION) {
 
             /**
-             * For nodes on edges, only INTERSECTION can result in edge nodes being included even
-             * if none of their incident edges are included
+             * For nodes on edges, only INTERSECTION can result in edge nodes being included even if
+             * none of their incident edges are included
              */
             val label = n.getLabel
             if (OverlayOp.isResultOfOp(label, opCode)) filterCoveredNodeToPoint(n)
@@ -92,11 +92,12 @@ class PointBuilder(
   /**
    * Converts non-covered nodes to Point objects and adds them to the result.
    *
-   * A node is covered if it is contained in another element Geometry
-   * with higher dimension (e.g. a node point might be contained in a polygon,
-   * in which case the point can be eliminated from the result).
+   * A node is covered if it is contained in another element Geometry with higher dimension (e.g. a
+   * node point might be contained in a polygon, in which case the point can be eliminated from the
+   * result).
    *
-   * @param n the node to test
+   * @param n
+   *   the node to test
    */
   private def filterCoveredNodeToPoint(n: Node): Unit = {
     val coord = n.getCoordinate

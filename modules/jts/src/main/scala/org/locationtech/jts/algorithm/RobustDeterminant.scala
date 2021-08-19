@@ -17,40 +17,31 @@ import org.locationtech.jts.geom.Coordinate
  * @version 1.7
  */
 /**
- * Implements an algorithm to compute the
- * sign of a 2x2 determinant for double precision values robustly.
- * It is a direct translation of code developed by Olivier Devillers.
- * <p>
- * The original code carries the following copyright notice:
+ * Implements an algorithm to compute the sign of a 2x2 determinant for double precision values
+ * robustly. It is a direct translation of code developed by Olivier Devillers. <p> The original
+ * code carries the following copyright notice:
  *
- * <pre>
- * ************************************************************************
- * Author : Olivier Devillers
- * Olivier.Devillers@sophia.inria.fr
+ * <pre> ************************************************************************ Author : Olivier
+ * Devillers Olivier.Devillers@sophia.inria.fr
  * http:/www.inria.fr:/prisme/personnel/devillers/anglais/determinant.html
  *
  * Relicensed under EDL and EPL with Permission from Olivier Devillers
  *
  * *************************************************************************
  *
- * *************************************************************************
- * Copyright (c) 1995  by  INRIA Prisme Project
- * BP 93 06902 Sophia Antipolis Cedex, France.
- * All rights reserved
- * *************************************************************************
- * </pre>
+ * ************************************************************************* Copyright (c) 1995 by
+ * INRIA Prisme Project BP 93 06902 Sophia Antipolis Cedex, France. All rights reserved
+ * ************************************************************************* </pre>
  *
  * @version 1.7
  */
 object RobustDeterminant {
 
   /**
-   * Computes the sign of the determinant of the 2x2 matrix
-   * with the given entries, in a robust way.
+   * Computes the sign of the determinant of the 2x2 matrix with the given entries, in a robust way.
    *
-   * return -1 if the determinant is negative,
-   * return 1 if the determinant is positive,
-   * return 0 if the determinant is 0.
+   * return -1 if the determinant is negative, return 1 if the determinant is positive, return 0 if
+   * the determinant is 0.
    */
   //private static int originalSignOfDet2x2(double x1, double y1, double x2, double y2) {
   def signOfDet2x2(x1a: Double, y1a: Double, x2a: Double, y2a: Double): Int = { // returns -1 if the determinant is negative,
@@ -207,33 +198,32 @@ object RobustDeterminant {
   }
 
   /**
-   * Returns the index of the direction of the point <code>q</code> relative to
-   * a vector specified by <code>p1-p2</code>.
+   * Returns the index of the direction of the point <code>q</code> relative to a vector specified
+   * by <code>p1-p2</code>.
    *
-   * @param p1 the origin point of the vector
-   * @param p2 the final point of the vector
-   * @param q  the point to compute the direction to
-   * return 1 if q is counter-clockwise (left) from p1-p2
-   * return -1 if q is clockwise (right) from p1-p2
-   * return 0 if q is collinear with p1-p2
+   * @param p1
+   *   the origin point of the vector
+   * @param p2
+   *   the final point of the vector
+   * @param q
+   *   the point to compute the direction to return 1 if q is counter-clockwise (left) from p1-p2
+   *   return -1 if q is clockwise (right) from p1-p2 return 0 if q is collinear with p1-p2
    */
   def orientationIndex(p1: Coordinate, p2: Coordinate, q: Coordinate): Int = {
 
     /**
-     * MD - 9 Aug 2010 It seems that the basic algorithm is slightly orientation
-     * dependent, when computing the orientation of a point very close to a
-     * line. This is possibly due to the arithmetic in the translation to the
-     * origin.
+     * MD - 9 Aug 2010 It seems that the basic algorithm is slightly orientation dependent, when
+     * computing the orientation of a point very close to a line. This is possibly due to the
+     * arithmetic in the translation to the origin.
      *
-     * For instance, the following situation produces identical results in spite
-     * of the inverse orientation of the line segment:
+     * For instance, the following situation produces identical results in spite of the inverse
+     * orientation of the line segment:
      *
-     * Coordinate p0 = new Coordinate(219.3649559090992, 140.84159161824724);
-     * Coordinate p1 = new Coordinate(168.9018919682399, -5.713787599646864);
+     * Coordinate p0 = new Coordinate(219.3649559090992, 140.84159161824724); Coordinate p1 = new
+     * Coordinate(168.9018919682399, -5.713787599646864);
      *
-     * Coordinate p = new Coordinate(186.80814046338352, 46.28973405831556); int
-     * orient = orientationIndex(p0, p1, p); int orientInv =
-     * orientationIndex(p1, p0, p);
+     * Coordinate p = new Coordinate(186.80814046338352, 46.28973405831556); int orient =
+     * orientationIndex(p0, p1, p); int orientInv = orientationIndex(p1, p0, p);
      */
     val dx1 = p2.x - p1.x
     val dy1 = p2.y - p1.y

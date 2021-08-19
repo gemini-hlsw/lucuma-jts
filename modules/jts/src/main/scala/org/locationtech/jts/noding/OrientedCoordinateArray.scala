@@ -25,10 +25,10 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateArrays
 
 /**
- * Allows comparing {link Coordinate} arrays
- * in an orientation-independent way.
+ * Allows comparing {link Coordinate} arrays in an orientation-independent way.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  * @version 1.7
  */
 object OrientedCoordinateArray {
@@ -36,9 +36,9 @@ object OrientedCoordinateArray {
   /**
    * Computes the canonical orientation for a coordinate array.
    *
-   * @param pts the array to test
-   * return <code>true</code> if the points are oriented forwards
-   *         or <code>false</code if the points are oriented in reverse
+   * @param pts
+   *   the array to test return <code>true</code> if the points are oriented forwards or
+   *   <code>false</code if the points are oriented in reverse
    */
   private def orientation(pts: Array[Coordinate]) = CoordinateArrays.increasingDirection(pts) == 1
 
@@ -88,9 +88,7 @@ class OrientedCoordinateArray(var pts: Array[Coordinate])
   /**
    * Compares two {link OrientedCoordinateArray}s for their relative order
    *
-   * return -1 this one is smaller;
-   *         0 the two objects are equal;
-   *         1 this one is greater
+   * return -1 this one is smaller; 0 the two objects are equal; 1 this one is greater
    */
   override def compareTo(oca: OrientedCoordinateArray): Int = {
     val comp = OrientedCoordinateArray.compareOriented(pts, orientation, oca.pts, oca.orientation)

@@ -22,16 +22,19 @@ import org.locationtech.jts.geom.Point
  * Extracts all the 0-dimensional ({link Point}) components from a {link Geometry}.
  *
  * @version 1.7
- * @see GeometryExtracter
+ * @see
+ *   GeometryExtracter
  */
 object PointExtracter {
 
   /**
-   * Extracts the {link Point} elements from a single {link Geometry}
-   * and adds them to the provided {link List}.
+   * Extracts the {link Point} elements from a single {link Geometry} and adds them to the provided
+   * {link List}.
    *
-   * @param geom the geometry from which to extract
-   * @param list the list to add the extracted elements to
+   * @param geom
+   *   the geometry from which to extract
+   * @param list
+   *   the list to add the extracted elements to
    */
   def getPoints(geom: Geometry, list: util.List[Geometry]): util.List[Geometry] = {
     geom match {
@@ -44,10 +47,11 @@ object PointExtracter {
   }
 
   /**
-   * Extracts the {link Point} elements from a single {link Geometry}
-   * and returns them in a {link List}.
+   * Extracts the {link Point} elements from a single {link Geometry} and returns them in a {link
+   * List}.
    *
-   * @param geom the geometry from which to extract
+   * @param geom
+   *   the geometry from which to extract
    */
   def getPoints(geom: Geometry): util.List[Geometry] = {
     if (geom.isInstanceOf[Point]) return Collections.singletonList(geom)
@@ -59,8 +63,7 @@ class PointExtracter(var pts: util.List[Geometry])
 
 /**
  * Constructs a PointExtracterFilter with a list in which to store Points found.
- */
-    extends GeometryFilter {
+ */ extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (geom.isInstanceOf[Point]) pts.add(geom)
     ()

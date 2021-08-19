@@ -32,24 +32,25 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Polygon
 
 /**
- * Creates a buffer polygon with a varying buffer distance
- * at each vertex along a line.
- * <p>
- * Only single lines are supported as input, since buffer widths
- * are typically specified individually for each line.
+ * Creates a buffer polygon with a varying buffer distance at each vertex along a line. <p> Only
+ * single lines are supported as input, since buffer widths are typically specified individually for
+ * each line.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object VariableBuffer {
 
   /**
-   * Creates a buffer polygon along a line with the buffer distance interpolated
-   * between a start distance and an end distance.
+   * Creates a buffer polygon along a line with the buffer distance interpolated between a start
+   * distance and an end distance.
    *
-   * @param line          the line to buffer
-   * @param startDistance the buffer width at the start of the line
-   * @param endDistance   the buffer width at the end of the line
-   * return the variable-distance buffer polygon
+   * @param line
+   *   the line to buffer
+   * @param startDistance
+   *   the buffer width at the start of the line
+   * @param endDistance
+   *   the buffer width at the end of the line return the variable-distance buffer polygon
    */
   def buffer(line: Geometry, startDistance: Double, endDistance: Double) = {
     val distance = interpolate(line.asInstanceOf[LineString], startDistance, endDistance)
@@ -79,12 +80,12 @@ object VariableBuffer {
   }
 
   /**
-   * Creates a buffer polygon along a line with the distance specified
-   * at each vertex.
+   * Creates a buffer polygon along a line with the distance specified at each vertex.
    *
-   * @param line     the line to buffer
-   * @param distance the buffer distance for each vertex of the line
-   * return the variable-distance buffer polygon
+   * @param line
+   *   the line to buffer
+   * @param distance
+   *   the buffer distance for each vertex of the line return the variable-distance buffer polygon
    */
   def buffer(line: Geometry, distance: Array[Double]) = {
     val vb = new VariableBuffer(line, distance)
@@ -92,16 +93,16 @@ object VariableBuffer {
   }
 
   /**
-   * Computes a list of values for the points along a line by
-   * interpolating between values for the start and end point.
-   * The interpolation is
-   * based on the distance of each point along the line
+   * Computes a list of values for the points along a line by interpolating between values for the
+   * start and end point. The interpolation is based on the distance of each point along the line
    * relative to the total line length.
    *
-   * @param line       the line to interpolate along
-   * @param startValue the start value
-   * @param endValue   the end value
-   * return the array of interpolated values
+   * @param line
+   *   the line to interpolate along
+   * @param startValue
+   *   the start value
+   * @param endValue
+   *   the end value return the array of interpolated values
    */
   private def interpolate(line: LineString, startValueArg: Double, endValueArg: Double) = {
     val startValue      = Math.abs(startValueArg)
@@ -125,19 +126,19 @@ object VariableBuffer {
   }
 
   /**
-   * Computes a list of values for the points along a line by
-   * interpolating between values for the start, middle and end points.
-   * The interpolation is
-   * based on the distance of each point along the line
-   * relative to the total line length.
-   * The middle distance is attained at
-   * the vertex at or just past the half-length of the line.
+   * Computes a list of values for the points along a line by interpolating between values for the
+   * start, middle and end points. The interpolation is based on the distance of each point along
+   * the line relative to the total line length. The middle distance is attained at the vertex at or
+   * just past the half-length of the line.
    *
-   * @param line       the line to interpolate along
-   * @param startValue the start value
-   * @param midValue   the start value
-   * @param endValue   the end value
-   * return the array of interpolated values
+   * @param line
+   *   the line to interpolate along
+   * @param startValue
+   *   the start value
+   * @param midValue
+   *   the start value
+   * @param endValue
+   *   the end value return the array of interpolated values
    */
   private def interpolate(
     line:          LineString,
@@ -203,16 +204,18 @@ object VariableBuffer {
   }
 
   /**
-   * Computes the two circumference points defining the outer tangent line
-   * between two circles.
-   * <p>
-   * For the algorithm see <a href='https://en.wikipedia.org/wiki/Tangent_lines_to_circles#Outer_tangent'>Wikipedia</a>.
+   * Computes the two circumference points defining the outer tangent line between two circles. <p>
+   * For the algorithm see <a
+   * href='https://en.wikipedia.org/wiki/Tangent_lines_to_circles#Outer_tangent'>Wikipedia</a>.
    *
-   * @param c1 the centre of circle 1
-   * @param r1 the radius of circle 1
-   * @param c2 the centre of circle 2
-   * @param r2 the center of circle 2
-   * return the outer tangent line segment, or null if none exists
+   * @param c1
+   *   the centre of circle 1
+   * @param r1
+   *   the radius of circle 1
+   * @param c2
+   *   the centre of circle 2
+   * @param r2
+   *   the center of circle 2 return the outer tangent line segment, or null if none exists
    */
   private def outerTangent(c1: Coordinate, r1: Double, c2: Coordinate, r2: Double): LineSegment = {
 
@@ -254,8 +257,8 @@ object VariableBuffer {
   /**
    * Snap trig values to integer values for better consistency.
    *
-   * @param x the result of a trigonometric function
-   * return x snapped to the integer interval
+   * @param x
+   *   the result of a trigonometric function return x snapped to the integer interval
    */
   private def snapTrig(x: Double): Double = {
     if (x > (1 - SNAP_TRIG_TOL)) return 1
@@ -270,8 +273,10 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
   /**
    * Creates a generator for a variable-distance line buffer.
    *
-   * @param line     the linestring to buffer
-   * @param distance the buffer distance for each vertex of the line
+   * @param line
+   *   the linestring to buffer
+   * @param distance
+   *   the buffer distance for each vertex of the line
    */
   if (distance.length != lineArg.getNumPoints)
     throw new IllegalArgumentException("Number of distances is not equal to number of vertices")
@@ -308,16 +313,17 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
   }
 
   /**
-   * Computes a variable buffer polygon for a single segment,
-   * with the given endpoints and buffer distances.
-   * The individual segment buffers are unioned
-   * to form the final buffer.
+   * Computes a variable buffer polygon for a single segment, with the given endpoints and buffer
+   * distances. The individual segment buffers are unioned to form the final buffer.
    *
-   * @param p0    the segment start point
-   * @param p1    the segment end point
-   * @param dist0 the buffer distance at the start point
-   * @param dist1 the buffer distance at the end point
-   * return the segment buffer.
+   * @param p0
+   *   the segment start point
+   * @param p1
+   *   the segment end point
+   * @param dist0
+   *   the buffer distance at the start point
+   * @param dist1
+   *   the buffer distance at the end point return the segment buffer.
    */
   private def segmentBuffer(
     p0:    Coordinate,
@@ -367,9 +373,10 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
   /**
    * Returns a circular polygon.
    *
-   * @param center the circle center point
-   * @param radius the radius
-   * return a polygon, or null if the radius is 0
+   * @param center
+   *   the circle center point
+   * @param radius
+   *   the radius return a polygon, or null if the radius is 0
    */
   private def circle(center: Coordinate, radius: Double): Polygon = {
     if (radius <= 0) return null
@@ -388,11 +395,16 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
   /**
    * Adds a semi-circular cap CCW around the point p.
    *
-   * @param p      the centre point of the cap
-   * @param r      the cap radius
-   * @param t1     the starting point of the cap
-   * @param t2     the ending point of the cap
-   * @param coords the coordinate list to add to
+   * @param p
+   *   the centre point of the cap
+   * @param r
+   *   the cap radius
+   * @param t1
+   *   the starting point of the cap
+   * @param t2
+   *   the ending point of the cap
+   * @param coords
+   *   the coordinate list to add to
    */
   private def addCap(
     p:      Coordinate,
@@ -417,8 +429,8 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
   /**
    * Computes the angle for the given cap point index.
    *
-   * @param index the fillet angle index
-   * return
+   * @param index
+   *   the fillet angle index return
    */
   private def capAngle(index: Int) = {
     val capSegAng = Math.PI / 2 / quadrantSegs
@@ -426,19 +438,14 @@ class VariableBuffer(val lineArg: Geometry, var distance: Array[Double]) {
   }
 
   /**
-   * Computes the canonical cap point index for a given angle.
-   * The angle is rounded down to the next lower
-   * index.
-   * <p>
-   * In order to reduce the number of points created by overlapping end caps,
-   * cap points are generated at the same locations around a circle.
-   * The index is the index of the points around the circle,
-   * with 0 being the point at (1,0).
-   * The total number of points around the circle is
-   * <code>4 * quadrantSegs</code>.
+   * Computes the canonical cap point index for a given angle. The angle is rounded down to the next
+   * lower index. <p> In order to reduce the number of points created by overlapping end caps, cap
+   * points are generated at the same locations around a circle. The index is the index of the
+   * points around the circle, with 0 being the point at (1,0). The total number of points around
+   * the circle is <code>4 * quadrantSegs</code>.
    *
-   * @param ang the angle
-   * return the index for the angle.
+   * @param ang
+   *   the angle return the index for the angle.
    */
   private def capAngleIndex(ang: Double) = {
     val capSegAng = Math.PI / 2 / quadrantSegs

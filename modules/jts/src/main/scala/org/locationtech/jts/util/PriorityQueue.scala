@@ -28,7 +28,8 @@ import org.locationtech.jts.index.strtree.BoundablePair
 /**
  * A priority queue over a set of {link Comparable} objects.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 class PriorityQueue() {
 
@@ -41,10 +42,10 @@ class PriorityQueue() {
   private var vsize = 0 // Number of elements in queue
 //  private var items = null // The queue binary heap array
   /**
-   * Insert into the priority queue.
-   * Duplicates are allowed.
+   * Insert into the priority queue. Duplicates are allowed.
    *
-   * @param x the item to insert.
+   * @param x
+   *   the item to insert.
    */
   def add(x: BoundablePair): Any = { // increase the size of the items heap to create a hole for the new item
     items.add(null)
@@ -108,7 +109,8 @@ class PriorityQueue() {
   /**
    * Internal method to percolate down in the heap.
    *
-   * @param hole the index at which the percolate begins.
+   * @param hole
+   *   the index at which the percolate begins.
    */
   private def reorder(holeArg: Int): Unit = {
     var hole  = holeArg

@@ -14,8 +14,7 @@ package org.locationtech.jts.operation.valid
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Contains information about the nature and location of a {link Geometry}
- * validation error
+ * Contains information about the nature and location of a {link Geometry} validation error
  *
  * @version 1.7
  */
@@ -46,8 +45,8 @@ object TopologyValidationError {
   val NESTED_HOLES = 3
 
   /**
-   * Indicates that the interior of a polygon is disjoint
-   * (often caused by set of contiguous holes splitting the polygon into two parts)
+   * Indicates that the interior of a polygon is disjoint (often caused by set of contiguous holes
+   * splitting the polygon into two parts)
    */
   val DISCONNECTED_INTERIOR = 4
 
@@ -72,11 +71,8 @@ object TopologyValidationError {
   val DUPLICATE_RINGS = 8
 
   /**
-   * Indicates that either
-   * <ul>
-   * <li>a LineString contains a single point
-   * <li>a LinearRing contains 2 or 3 points
-   * </ul>
+   * Indicates that either <ul> <li>a LineString contains a single point <li>a LinearRing contains 2
+   * or 3 points </ul>
    */
   val TOO_FEW_POINTS     = 9
   // /**
@@ -86,8 +82,7 @@ object TopologyValidationError {
   val INVALID_COORDINATE = 10
 
   /**
-   * Indicates that a ring is not correctly closed
-   * (the first and the last coordinate are different)
+   * Indicates that a ring is not correctly closed (the first and the last coordinate are different)
    */
   val RING_NOT_CLOSED = 11
 
@@ -115,15 +110,18 @@ class TopologyValidationError(var errorType: Int, var pt: Coordinate) {
   /**
    * Creates a validation error with the given type and location
    *
-   * @param errorType the type of the error
-   * @param pt        the location of the error
+   * @param errorType
+   *   the type of the error
+   * @param pt
+   *   the location of the error
    */
   if (pt != null) this.pt = pt.copy
 
   /**
    * Creates a validation error of the given type with a null location
    *
-   * @param errorType the type of the error
+   * @param errorType
+   *   the type of the error
    */
   def this(errorType: Int) = {
     this(errorType, null)
@@ -144,8 +142,8 @@ class TopologyValidationError(var errorType: Int, var pt: Coordinate) {
   def getErrorType: Int = errorType
 
   /**
-   * Gets an error message describing this error.
-   * The error message does not describe the location of the error.
+   * Gets an error message describing this error. The error message does not describe the location
+   * of the error.
    *
    * return the error message
    */

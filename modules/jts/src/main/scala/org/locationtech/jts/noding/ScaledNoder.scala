@@ -26,16 +26,12 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateArrays
 
 /**
- * Wraps a {link Noder} and transforms its input
- * into the integer domain.
- * This is intended for use with Snap-Rounding noders,
- * which typically are only intended to work in the integer domain.
- * Offsets can be provided to increase the number of digits of available precision.
- * <p>
- * Clients should be aware that rescaling can involve loss of precision,
- * which can cause zero-length line segments to be created.
- * These in turn can cause problems when used to build a planar graph.
- * This situation should be checked for and collapsed segments removed if necessary.
+ * Wraps a {link Noder} and transforms its input into the integer domain. This is intended for use
+ * with Snap-Rounding noders, which typically are only intended to work in the integer domain.
+ * Offsets can be provided to increase the number of digits of available precision. <p> Clients
+ * should be aware that rescaling can involve loss of precision, which can cause zero-length line
+ * segments to be created. These in turn can cause problems when used to build a planar graph. This
+ * situation should be checked for and collapsed segments removed if necessary.
  *
  * @version 1.7
  */

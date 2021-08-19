@@ -16,20 +16,14 @@ import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geomgraph.Edge
 
 /**
- * MonotoneChains are a way of partitioning the segments of an edge to
- * allow for fast searching of intersections.
- * They have the following properties:
- * <ol>
- * <li>the segments within a monotone chain will never intersect each other
- * <li>the envelope of any contiguous subset of the segments in a monotone chain
- * is simply the envelope of the endpoints of the subset.
- * </ol>
- * Property 1 means that there is no need to test pairs of segments from within
- * the same monotone chain for intersection.
- * Property 2 allows
- * binary search to be used to find the intersection points of two monotone chains.
- * For many types of real-world data, these properties eliminate a large number of
- * segment comparisons, producing substantial speed gains.
+ * MonotoneChains are a way of partitioning the segments of an edge to allow for fast searching of
+ * intersections. They have the following properties: <ol> <li>the segments within a monotone chain
+ * will never intersect each other <li>the envelope of any contiguous subset of the segments in a
+ * monotone chain is simply the envelope of the endpoints of the subset. </ol> Property 1 means that
+ * there is no need to test pairs of segments from within the same monotone chain for intersection.
+ * Property 2 allows binary search to be used to find the intersection points of two monotone
+ * chains. For many types of real-world data, these properties eliminate a large number of segment
+ * comparisons, producing substantial speed gains.
  *
  * @version 1.7
  */
@@ -122,7 +116,7 @@ class MonotoneChainEdge(var e: Edge) {
    * @param mce
    * @param start1
    * @param end1
-   * return true if the section envelopes overlap
+   *   return true if the section envelopes overlap
    */
   private def overlaps(
     start0: Int,

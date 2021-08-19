@@ -24,25 +24,18 @@ package org.locationtech.jts.noding
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Methods for computing and working with octants of the Cartesian plane
- * Octants are numbered as follows:
- * <pre>
- * \2|1/
- * 3 \|/ 0
- * ---+--
- * 4 /|\ 7
- * /5|6\
- * </pre>
- * If line segments lie along a coordinate axis, the octant is the lower of the two
- * possible values.
+ * Methods for computing and working with octants of the Cartesian plane Octants are numbered as
+ * follows: <pre> \2|1/ 3 \|/ 0
+ * ---+-- 4 /|\ 7 /5|6\ </pre> If line segments lie along a coordinate axis, the octant is the lower
+ * of the two possible values.
  *
  * @version 1.7
  */
 object Octant {
 
   /**
-   * Returns the octant of a directed line segment (specified as x and y
-   * displacements, which cannot both be 0).
+   * Returns the octant of a directed line segment (specified as x and y displacements, which cannot
+   * both be 0).
    */
   def octant(dx: Double, dy: Double): Int = {
     if (dx == 0.0 && dy == 0.0)

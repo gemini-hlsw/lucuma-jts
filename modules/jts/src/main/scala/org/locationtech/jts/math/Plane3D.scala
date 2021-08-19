@@ -26,7 +26,8 @@ import org.locationtech.jts.geom.Coordinate
 /**
  * Models a plane in 3-dimensional Cartesian space.
  *
- * @author mdavis
+ * @author
+ *   mdavis
  */
 object Plane3D {
 
@@ -41,16 +42,13 @@ object Plane3D {
 class Plane3D(var normal: Vector3D, var basePt: Coordinate) {
 
   /**
-   * Computes the oriented distance from a point to the plane.
-   * The distance is:
-   * <ul>
+   * Computes the oriented distance from a point to the plane. The distance is: <ul>
    * <li><b>positive</b> if the point lies above the plane (relative to the plane normal)
-   * <li><b>zero</b> if the point is on the plane
-   * <li><b>negative</b> if the point lies below the plane (relative to the plane normal)
-   * </ul>
+   * <li><b>zero</b> if the point is on the plane <li><b>negative</b> if the point lies below the
+   * plane (relative to the plane normal) </ul>
    *
-   * @param p the point to compute the distance for
-   * return the oriented distance to the plane
+   * @param p
+   *   the point to compute the distance for return the oriented distance to the plane
    */
   def orientedDistance(p: Coordinate): Double = {
     val pb           = new Vector3D(p, basePt)
@@ -62,13 +60,9 @@ class Plane3D(var normal: Vector3D, var basePt: Coordinate) {
   }
 
   /**
-   * Computes the axis plane that this plane lies closest to.
-   * <p>
-   * Geometries lying in this plane undergo least distortion
-   * (and have maximum area)
-   * when projected to the closest axis plane.
-   * This provides optimal conditioning for
-   * computing a Point-in-Polygon test.
+   * Computes the axis plane that this plane lies closest to. <p> Geometries lying in this plane
+   * undergo least distortion (and have maximum area) when projected to the closest axis plane. This
+   * provides optimal conditioning for computing a Point-in-Polygon test.
    *
    * return the index of the closest axis plane.
    */

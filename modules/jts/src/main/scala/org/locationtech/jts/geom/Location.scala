@@ -24,33 +24,28 @@ package org.locationtech.jts.geom
 import scala.annotation.nowarn
 
 /**
- * Constants representing the different topological locations
- * which can occur in a {link Geometry}.
- * The constants are also used as the row and column indices
- * of DE-9IM {link IntersectionMatrix}es.
+ * Constants representing the different topological locations which can occur in a {link Geometry}.
+ * The constants are also used as the row and column indices of DE-9IM {link IntersectionMatrix}es.
  *
  * @version 1.7
  */
 object Location {
 
   /**
-   * The location value for the interior of a geometry.
-   * Also, DE-9IM row index of the interior of the first geometry and column index of
-   * the interior of the second geometry.
+   * The location value for the interior of a geometry. Also, DE-9IM row index of the interior of
+   * the first geometry and column index of the interior of the second geometry.
    */
   val INTERIOR = 0
 
   /**
-   * The location value for the boundary of a geometry.
-   * Also, DE-9IM row index of the boundary of the first geometry and column index of
-   * the boundary of the second geometry.
+   * The location value for the boundary of a geometry. Also, DE-9IM row index of the boundary of
+   * the first geometry and column index of the boundary of the second geometry.
    */
   val BOUNDARY = 1
 
   /**
-   * The location value for the exterior of a geometry.
-   * Also, DE-9IM row index of the exterior of the first geometry and column index of
-   * the exterior of the second geometry.
+   * The location value for the exterior of a geometry. Also, DE-9IM row index of the exterior of
+   * the first geometry and column index of the exterior of the second geometry.
    */
   val EXTERIOR = 2
 
@@ -63,8 +58,8 @@ object Location {
    * Converts the location value to a location symbol, for example, <code>EXTERIOR =&gt; 'e'</code>
    * .
    *
-   * @param  locationValue either EXTERIOR, BOUNDARY, INTERIOR or NONE
-   * return either 'e', 'b', 'i' or '-'
+   * @param locationValue
+   *   either EXTERIOR, BOUNDARY, INTERIOR or NONE return either 'e', 'b', 'i' or '-'
    */
   @nowarn
   def toLocationSymbol(locationValue: Int): Char = {

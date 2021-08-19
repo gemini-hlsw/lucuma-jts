@@ -32,14 +32,14 @@ class ArrayListVisitor()
 
 /**
  * Creates a new instance.
- */
-    extends ItemVisitor {
+ */ extends ItemVisitor {
   private val items = new util.ArrayList[Any]
 
   /**
    * Visits an item.
    *
-   * @param item the item to visit
+   * @param item
+   *   the item to visit
    */
   override def visitItem(item: Any): Unit = {
     items.add(item)

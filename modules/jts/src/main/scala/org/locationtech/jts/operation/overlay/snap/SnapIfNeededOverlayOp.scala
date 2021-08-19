@@ -25,15 +25,13 @@ import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.operation.overlay.OverlayOp
 
 /**
- * Performs an overlay operation using snapping and enhanced precision
- * to improve the robustness of the result.
- * This class only uses snapping
- * if an error is detected when running the standard JTS overlay code.
- * Errors detected include thrown exceptions
- * (in particular, {link TopologyException})
+ * Performs an overlay operation using snapping and enhanced precision to improve the robustness of
+ * the result. This class only uses snapping if an error is detected when running the standard JTS
+ * overlay code. Errors detected include thrown exceptions (in particular, {link TopologyException})
  * and invalid overlay computations.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  * @version 1.7
  */
 object SnapIfNeededOverlayOp {

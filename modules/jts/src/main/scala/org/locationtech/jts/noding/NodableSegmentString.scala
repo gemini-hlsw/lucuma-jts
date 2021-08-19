@@ -24,18 +24,20 @@ package org.locationtech.jts.noding
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * An interface for classes which support adding nodes to
- * a segment string.
+ * An interface for classes which support adding nodes to a segment string.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 trait NodableSegmentString extends SegmentString {
 
   /**
    * Adds an intersection node for a given point and segment to this segment string.
    *
-   * @param intPt        the location of the intersection
-   * @param segmentIndex the index of the segment containing the intersection
+   * @param intPt
+   *   the location of the intersection
+   * @param segmentIndex
+   *   the index of the segment containing the intersection
    */
   def addIntersection(intPt: Coordinate, segmentIndex: Int): Unit
 }

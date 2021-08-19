@@ -81,14 +81,16 @@ object BufferOp {
   /**
    * Specifies a round line buffer end cap style.
    *
-   * @deprecated use BufferParameters
+   * @deprecated
+   *   use BufferParameters
    */
   val CAP_ROUND: Int = BufferParameters.CAP_ROUND
 
   /**
    * Specifies a butt (or flat) line buffer end cap style.
    *
-   * @deprecated use BufferParameters
+   * @deprecated
+   *   use BufferParameters
    */
   val CAP_BUTT: Int = BufferParameters.CAP_FLAT
   val CAP_FLAT: Int = BufferParameters.CAP_FLAT
@@ -96,33 +98,33 @@ object BufferOp {
   /**
    * Specifies a square line buffer end cap style.
    *
-   * @deprecated use BufferParameters
+   * @deprecated
+   *   use BufferParameters
    */
   val CAP_SQUARE: Int = BufferParameters.CAP_SQUARE
 
   /**
-   * A number of digits of precision which leaves some computational "headroom"
-   * for floating point operations.
+   * A number of digits of precision which leaves some computational "headroom" for floating point
+   * operations.
    *
    * This value should be less than the decimal precision of double-precision values (16).
    */
   private val MAX_PRECISION_DIGITS = 12
 
   /**
-   * Compute a scale factor to limit the precision of
-   * a given combination of Geometry and buffer distance.
-   * The scale factor is determined by
-   * the number of digits of precision in the (geometry + buffer distance),
-   * limited by the supplied <code>maxPrecisionDigits</code> value.
-   * <p>
-   * The scale factor is based on the absolute magnitude of the (geometry + buffer distance).
-   * since this determines the number of digits of precision which must be handled.
+   * Compute a scale factor to limit the precision of a given combination of Geometry and buffer
+   * distance. The scale factor is determined by the number of digits of precision in the (geometry
+   * + buffer distance), limited by the supplied <code>maxPrecisionDigits</code> value. <p> The
+   * scale factor is based on the absolute magnitude of the (geometry + buffer distance). since this
+   * determines the number of digits of precision which must be handled.
    *
-   * @param g                  the Geometry being buffered
-   * @param distance           the buffer distance
-   * @param maxPrecisionDigits the max # of digits that should be allowed by
-   *                           the precision determined by the computed scale factor
-   * return a scale factor for the buffer computation
+   * @param g
+   *   the Geometry being buffered
+   * @param distance
+   *   the buffer distance
+   * @param maxPrecisionDigits
+   *   the max # of digits that should be allowed by the precision determined by the computed scale
+   *   factor return a scale factor for the buffer computation
    */
   private def precisionScaleFactor(g: Geometry, distance: Double, maxPrecisionDigits: Int) = {
     val env                   = g.getEnvelopeInternal
@@ -145,9 +147,10 @@ object BufferOp {
   /**
    * Computes the buffer of a geometry for a given buffer distance.
    *
-   * @param g        the geometry to buffer
-   * @param distance the buffer distance
-   * return the buffer of the input geometry
+   * @param g
+   *   the geometry to buffer
+   * @param distance
+   *   the buffer distance return the buffer of the input geometry
    */
   def bufferOp(g: Geometry, distance: Double): Geometry = {
     val gBuf    = new BufferOp(g)
@@ -158,13 +161,14 @@ object BufferOp {
   }
 
   /**
-   * Computes the buffer for a geometry for a given buffer distance
-   * and accuracy of approximation.
+   * Computes the buffer for a geometry for a given buffer distance and accuracy of approximation.
    *
-   * @param g        the geometry to buffer
-   * @param distance the buffer distance
-   * @param params   the buffer parameters to use
-   * return the buffer of the input geometry
+   * @param g
+   *   the geometry to buffer
+   * @param distance
+   *   the buffer distance
+   * @param params
+   *   the buffer parameters to use return the buffer of the input geometry
    */
   def bufferOp(g: Geometry, distance: Double, params: BufferParameters): Geometry = {
     val bufOp   = new BufferOp(g, params)
@@ -173,13 +177,15 @@ object BufferOp {
   }
 
   /**
-   * Computes the buffer for a geometry for a given buffer distance
-   * and accuracy of approximation.
+   * Computes the buffer for a geometry for a given buffer distance and accuracy of approximation.
    *
-   * @param g                the geometry to buffer
-   * @param distance         the buffer distance
-   * @param quadrantSegments the number of segments used to approximate a quarter circle
-   * return the buffer of the input geometry
+   * @param g
+   *   the geometry to buffer
+   * @param distance
+   *   the buffer distance
+   * @param quadrantSegments
+   *   the number of segments used to approximate a quarter circle return the buffer of the input
+   *   geometry
    */
   def bufferOp(g: Geometry, distance: Double, quadrantSegments: Int): Geometry = {
     val bufOp   = new BufferOp(g)
@@ -189,14 +195,16 @@ object BufferOp {
   }
 
   /**
-   * Computes the buffer for a geometry for a given buffer distance
-   * and accuracy of approximation.
+   * Computes the buffer for a geometry for a given buffer distance and accuracy of approximation.
    *
-   * @param g                the geometry to buffer
-   * @param distance         the buffer distance
-   * @param quadrantSegments the number of segments used to approximate a quarter circle
-   * @param endCapStyle      the end cap style to use
-   * return the buffer of the input geometry
+   * @param g
+   *   the geometry to buffer
+   * @param distance
+   *   the buffer distance
+   * @param quadrantSegments
+   *   the number of segments used to approximate a quarter circle
+   * @param endCapStyle
+   *   the end cap style to use return the buffer of the input geometry
    */
   def bufferOp(g: Geometry, distance: Double, quadrantSegments: Int, endCapStyle: Int): Geometry = {
     val bufOp   = new BufferOp(g)
@@ -215,7 +223,8 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
   /**
    * Initializes a buffer computation for the given geometry
    *
-   * @param g the geometry to buffer
+   * @param g
+   *   the geometry to buffer
    */
 //  def this(g: Geometry) {
 //    this()
@@ -223,11 +232,12 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
 //  }
 
   /**
-   * Initializes a buffer computation for the given geometry
-   * with the given set of parameters
+   * Initializes a buffer computation for the given geometry with the given set of parameters
    *
-   * @param g         the geometry to buffer
-   * @param bufParams the buffer parameters to use
+   * @param g
+   *   the geometry to buffer
+   * @param bufParams
+   *   the buffer parameters to use
    */
 //  def this {
 //    this()
@@ -236,18 +246,20 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
 //  }
 
   /**
-   * Specifies the end cap style of the generated buffer.
-   * The styles supported are {link BufferParameters#CAP_ROUND}, {link BufferParameters#CAP_FLAT}, and {link BufferParameters#CAP_SQUARE}.
-   * The default is CAP_ROUND.
+   * Specifies the end cap style of the generated buffer. The styles supported are {link
+   * BufferParameters#CAP_ROUND}, {link BufferParameters#CAP_FLAT}, and {link
+   * BufferParameters#CAP_SQUARE}. The default is CAP_ROUND.
    *
-   * @param endCapStyle the end cap style to specify
+   * @param endCapStyle
+   *   the end cap style to specify
    */
   def setEndCapStyle(endCapStyle: Int): Unit = bufParams.setEndCapStyle(endCapStyle)
 
   /**
    * Sets the number of segments used to approximate a angle fillet
    *
-   * @param quadrantSegments the number of segments in a fillet for a quadrant
+   * @param quadrantSegments
+   *   the number of segments in a fillet for a quadrant
    */
   def setQuadrantSegments(quadrantSegments: Int): Unit =
     bufParams.setQuadrantSegments(quadrantSegments)
@@ -255,8 +267,8 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
   /**
    * Returns the buffer computed for a geometry for a given buffer distance.
    *
-   * @param distance the buffer distance
-   * return the buffer of the input geometry
+   * @param distance
+   *   the buffer distance return the buffer of the input geometry
    */
   def getResultGeometry(distance: Double): Geometry = {
     this.distance = distance

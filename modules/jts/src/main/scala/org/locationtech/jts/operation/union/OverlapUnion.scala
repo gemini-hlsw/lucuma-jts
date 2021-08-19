@@ -32,60 +32,45 @@ import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.geom.util.GeometryCombiner
 
 /**
- * Unions MultiPolygons efficiently by
- * using full topological union only for polygons which may overlap
- * by virtue of intersecting the common area of the inputs.
- * Other polygons are simply combined with the union result,
- * which is much more performant.
- * <p>
- * This situation is likely to occur during cascaded polygon union,
- * since the partitioning of polygons is done heuristically
- * and thus may group disjoint polygons which can lie far apart.
- * It may also occur in real world data which contains many disjoint polygons
- * (e.g. polygons representing parcels on different street blocks).
- * <h2>Algorithm</h2>
- * The overlap region is determined as the common envelope of intersection.
- * The input polygons are partitioned into two sets:
- * <ul>
- * <li>Overlapping: Polygons which intersect the overlap region, and thus potentially overlap each other
- * <li>Disjoint: Polygons which are disjoint from (lie wholly outside) the overlap region
- * </ul>
- * The Overlapping set is fully unioned, and then combined with the Disjoint set.
- * Performing a simple combine works because
- * the disjoint polygons do not interact with each
- * other (since the inputs are valid MultiPolygons).
- * They also do not interact with the Overlapping polygons,
- * since they are outside their envelope.
+ * Unions MultiPolygons efficiently by using full topological union only for polygons which may
+ * overlap by virtue of intersecting the common area of the inputs. Other polygons are simply
+ * combined with the union result, which is much more performant. <p> This situation is likely to
+ * occur during cascaded polygon union, since the partitioning of polygons is done heuristically and
+ * thus may group disjoint polygons which can lie far apart. It may also occur in real world data
+ * which contains many disjoint polygons (e.g. polygons representing parcels on different street
+ * blocks). <h2>Algorithm</h2> The overlap region is determined as the common envelope of
+ * intersection. The input polygons are partitioned into two sets: <ul> <li>Overlapping: Polygons
+ * which intersect the overlap region, and thus potentially overlap each other <li>Disjoint:
+ * Polygons which are disjoint from (lie wholly outside) the overlap region </ul> The Overlapping
+ * set is fully unioned, and then combined with the Disjoint set. Performing a simple combine works
+ * because the disjoint polygons do not interact with each other (since the inputs are valid
+ * MultiPolygons). They also do not interact with the Overlapping polygons, since they are outside
+ * their envelope.
  *
- * <h2>Verification</h2>
- * In the general case the Overlapping set of polygons will
- * extend beyond the overlap envelope.  This means that the union result
- * will extend beyond the overlap region.
- * There is a small chance that the topological
- * union of the overlap region will shift the result linework enough
- * that the result geometry intersects one of the Disjoint geometries.
- * This case is detected and if it occurs
- * is remedied by falling back to performing a full union of the original inputs.
- * Detection is done by a fairly efficient comparison of edge segments which
- * extend beyond the overlap region.  If any segments have changed
- * then there is a risk of introduced intersections, and full union is performed.
- * <p>
- * This situation has not been observed in JTS using floating precision,
- * but it could happen due to snapping.  It has been observed
- * in other APIs (e.g. GEOS) due to more aggressive snapping.
- * And it will be more likely to happen if a snap-rounding overlay is used.
+ * <h2>Verification</h2> In the general case the Overlapping set of polygons will extend beyond the
+ * overlap envelope. This means that the union result will extend beyond the overlap region. There
+ * is a small chance that the topological union of the overlap region will shift the result linework
+ * enough that the result geometry intersects one of the Disjoint geometries. This case is detected
+ * and if it occurs is remedied by falling back to performing a full union of the original inputs.
+ * Detection is done by a fairly efficient comparison of edge segments which extend beyond the
+ * overlap region. If any segments have changed then there is a risk of introduced intersections,
+ * and full union is performed. <p> This situation has not been observed in JTS using floating
+ * precision, but it could happen due to snapping. It has been observed in other APIs (e.g. GEOS)
+ * due to more aggressive snapping. And it will be more likely to happen if a snap-rounding overlay
+ * is used.
  *
- * @author mbdavis
+ * @author
+ *   mbdavis
  */
 object OverlapUnion {
 
   /**
-   * Union a pair of geometries,
-   * using the more performant overlap union algorithm if possible.
+   * Union a pair of geometries, using the more performant overlap union algorithm if possible.
    *
-   * @param g0 a geometry to union
-   * @param g1 a geometry to union
-   * return the union of the inputs
+   * @param g0
+   *   a geometry to union
+   * @param g1
+   *   a geometry to union return the union of the inputs
    */
   def union(g0: Geometry, g1: Geometry): Geometry = {
     val union = new OverlapUnion(g0, g1)
@@ -100,13 +85,13 @@ object OverlapUnion {
   }
 
   /**
-   * Implements union using the buffer-by-zero trick.
-   * This seems to be more robust than overlay union,
-   * for reasons somewhat unknown.
+   * Implements union using the buffer-by-zero trick. This seems to be more robust than overlay
+   * union, for reasons somewhat unknown.
    *
-   * @param g0 a geometry
-   * @param g1 a geometry
-   * return the union of the geometries
+   * @param g0
+   *   a geometry
+   * @param g1
+   *   a geometry return the union of the geometries
    */
   private def unionBuffer(g0: Geometry, g1: Geometry): Geometry = {
     val factory = g0.getFactory
@@ -155,15 +140,16 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
   /**
    * Creates a new instance for unioning the given geometries.
    *
-   * @param g0 a geometry to union
-   * @param g1 a geometry to union
+   * @param g0
+   *   a geometry to union
+   * @param g1
+   *   a geometry to union
    */
   private val geomFactory = g0.getFactory
   private var isUnionSafe = false
 
   /**
-   * Unions the input geometries,
-   * using the more performant overlap union algorithm if possible.
+   * Unions the input geometries, using the more performant overlap union algorithm if possible.
    *
    * return the union of the inputs
    */
@@ -195,9 +181,7 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
   }
 
   /**
-   * Allows checking whether the optimized
-   * or full union was performed.
-   * Used for unit testing.
+   * Allows checking whether the optimized or full union was performed. Used for unit testing.
    *
    * return true if the optimized union was performed
    */
@@ -233,8 +217,7 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
   catch {
     case _: TopologyException =>
       /**
-       * If the overlay union fails,
-       * try a buffer union, which often succeeds
+       * If the overlay union fails, try a buffer union, which often succeeds
        */
       OverlapUnion.unionBuffer(geom0, geom1)
   }

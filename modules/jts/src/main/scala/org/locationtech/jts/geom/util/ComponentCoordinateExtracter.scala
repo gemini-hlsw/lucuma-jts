@@ -19,23 +19,19 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Point
 
 /**
- * Extracts a representative {link Coordinate}
- * from each connected component of a {link Geometry}.
+ * Extracts a representative {link Coordinate} from each connected component of a {link Geometry}.
  *
  * @version 1.9
  */
 object ComponentCoordinateExtracter {
 
   /**
-   * Extracts a representative {link Coordinate}
-   * from each connected component in a geometry.
-   * <p>
-   * If more than one geometry is to be processed, it is more
-   * efficient to create a single {link ComponentCoordinateExtracter} instance
-   * and pass it to each geometry.
+   * Extracts a representative {link Coordinate} from each connected component in a geometry. <p> If
+   * more than one geometry is to be processed, it is more efficient to create a single {link
+   * ComponentCoordinateExtracter} instance and pass it to each geometry.
    *
-   * @param geom the Geometry from which to extract
-   * return a list of representative Coordinates
+   * @param geom
+   *   the Geometry from which to extract return a list of representative Coordinates
    */
   def getCoordinates(geom: Geometry): util.ArrayList[Coordinate] = {
     val coords = new util.ArrayList[Coordinate]
@@ -48,8 +44,7 @@ class ComponentCoordinateExtracter(coords: util.List[Coordinate])
 
 /**
  * Constructs a LineExtracterFilter with a list in which to store LineStrings found.
- */
-    extends GeometryComponentFilter {
+ */ extends GeometryComponentFilter {
   override def filter(geom: Geometry): Unit = { // add coordinates from connected components
     if (geom.isInstanceOf[LineString] || geom.isInstanceOf[Point]) coords.add(geom.getCoordinate)
     ()

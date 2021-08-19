@@ -22,9 +22,9 @@
 package org.locationtech.jts.geom.util
 
 /**
- * Indicates that an {link AffineTransformation}
- * is non-invertible.
+ * Indicates that an {link AffineTransformation} is non-invertible.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 class NoninvertibleTransformationException(msg: String) extends Exception(msg)

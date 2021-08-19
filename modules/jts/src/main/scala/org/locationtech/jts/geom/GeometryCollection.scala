@@ -15,8 +15,7 @@ import java.util
 import org.locationtech.jts.util.Assert
 
 /**
- * Models a collection of {link Geometry}s of
- * arbitrary type and dimension.
+ * Models a collection of {link Geometry}s of arbitrary type and dimension.
  *
  * @version 1.7
  */
@@ -54,9 +53,8 @@ class GeometryCollection(
   /**
    * Collects all coordinates of all subgeometries into an Array.
    *
-   * Note that while changes to the coordinate objects themselves
-   * may modify the Geometries in place, the returned Array as such
-   * is only a temporary container which is not synchronized back.
+   * Note that while changes to the coordinate objects themselves may modify the Geometries in
+   * place, the returned Array as such is only a temporary container which is not synchronized back.
    *
    * return the collected coordinates
    */
@@ -204,8 +202,8 @@ class GeometryCollection(
   }
 
   /**
-   * Creates and returns a full copy of this {link GeometryCollection} object.
-   * (including all coordinates contained by it).
+   * Creates and returns a full copy of this {link GeometryCollection} object. (including all
+   * coordinates contained by it).
    *
    * return a clone of this instance
    * @deprecated
@@ -269,9 +267,8 @@ class GeometryCollection(
   override protected def getSortIndex: Int = Geometry.SORTINDEX_GEOMETRYCOLLECTION
 
   /**
-   * Creates a {link GeometryCollection} with
-   * every component reversed.
-   * The order of the components in the collection are not reversed.
+   * Creates a {link GeometryCollection} with every component reversed. The order of the components
+   * in the collection are not reversed.
    *
    * return a { @link GeometryCollection} in the reverse order
    * @deprecated

@@ -25,62 +25,59 @@
 package org.locationtech.jts.geom
 
 /**
- * A factory to create concrete instances of {link CoordinateSequence}s.
- * Used to configure {link GeometryFactory}s
- * to provide specific kinds of CoordinateSequences.
+ * A factory to create concrete instances of {link CoordinateSequence}s. Used to configure {link
+ * GeometryFactory}s to provide specific kinds of CoordinateSequences.
  *
  * @version 1.7
  */
 trait CoordinateSequenceFactory {
 
   /**
-   * Returns a {link CoordinateSequence} based on the given array.
-   * Whether the array is copied or simply referenced
-   * is implementation-dependent.
-   * This method must handle null arguments by creating an empty sequence.
+   * Returns a {link CoordinateSequence} based on the given array. Whether the array is copied or
+   * simply referenced is implementation-dependent. This method must handle null arguments by
+   * creating an empty sequence.
    *
-   * @param coordinates the coordinates
+   * @param coordinates
+   *   the coordinates
    */
   def create(coordinates: Array[Coordinate]): CoordinateSequence
 
   /**
-   * Creates a {link CoordinateSequence} which is a copy
-   * of the given {link CoordinateSequence}.
+   * Creates a {link CoordinateSequence} which is a copy of the given {link CoordinateSequence}.
    * This method must handle null arguments by creating an empty sequence.
    *
-   * @param coordSeq the coordinate sequence to copy
+   * @param coordSeq
+   *   the coordinate sequence to copy
    */
   def create(coordSeq: CoordinateSequence): CoordinateSequence
 
   /**
-   * Creates a {link CoordinateSequence} of the specified size and dimension.
-   * For this to be useful, the {link CoordinateSequence} implementation must
-   * be mutable.
-   * <p>
-   * If the requested dimension is larger than the CoordinateSequence implementation
-   * can provide, then a sequence of maximum possible dimension should be created.
-   * An error should not be thrown.
+   * Creates a {link CoordinateSequence} of the specified size and dimension. For this to be useful,
+   * the {link CoordinateSequence} implementation must be mutable. <p> If the requested dimension is
+   * larger than the CoordinateSequence implementation can provide, then a sequence of maximum
+   * possible dimension should be created. An error should not be thrown.
    *
-   * @param size      the number of coordinates in the sequence
-   * @param dimension the dimension of the coordinates in the sequence (if user-specifiable,
-   *                  otherwise ignored)
+   * @param size
+   *   the number of coordinates in the sequence
+   * @param dimension
+   *   the dimension of the coordinates in the sequence (if user-specifiable, otherwise ignored)
    */
   def create(size: Int, dimension: Int): CoordinateSequence
 
   /**
    * Creates a {link CoordinateSequence} of the specified size and dimension with measure support.
-   * For this to be useful, the {link CoordinateSequence} implementation must
-   * be mutable.
-   * <p>
-   * If the requested dimension or measures are larger than the CoordinateSequence implementation
-   * can provide, then a sequence of maximum possible dimension should be created.
-   * An error should not be thrown.
+   * For this to be useful, the {link CoordinateSequence} implementation must be mutable. <p> If the
+   * requested dimension or measures are larger than the CoordinateSequence implementation can
+   * provide, then a sequence of maximum possible dimension should be created. An error should not
+   * be thrown.
    *
-   * @param size      the number of coordinates in the sequence
-   * @param dimension the dimension of the coordinates in the sequence (if user-specifiable,
-   *                  otherwise ignored)
-   * @param measures  the number of measures of the coordinates in the sequence (if user-specifiable,
-   *                  otherwise ignored)
+   * @param size
+   *   the number of coordinates in the sequence
+   * @param dimension
+   *   the dimension of the coordinates in the sequence (if user-specifiable, otherwise ignored)
+   * @param measures
+   *   the number of measures of the coordinates in the sequence (if user-specifiable, otherwise
+   *   ignored)
    */
   def create(size: Int, dimension: Int, measures: Int): CoordinateSequence
 }

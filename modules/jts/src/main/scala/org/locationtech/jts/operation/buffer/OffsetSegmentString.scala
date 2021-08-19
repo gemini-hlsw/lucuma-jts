@@ -27,11 +27,11 @@ import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.PrecisionModel
 
 /**
- * A dynamic list of the vertices in a constructed offset curve.
- * Automatically removes adjacent vertices
- * which are closer than a given tolerance.
+ * A dynamic list of the vertices in a constructed offset curve. Automatically removes adjacent
+ * vertices which are closer than a given tolerance.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object OffsetSegmentString {
   private val COORDINATE_ARRAY_TYPE = new Array[Coordinate](0)
@@ -42,9 +42,8 @@ class OffsetSegmentString() {
   private var precisionModel: PrecisionModel = null
 
   /**
-   * The distance below which two adjacent points on the curve
-   * are considered to be coincident.
-   * This is chosen to be a small fraction of the offset distance.
+   * The distance below which two adjacent points on the curve are considered to be coincident. This
+   * is chosen to be a small fraction of the offset distance.
    */
   private var minimimVertexDistance = 0.0
 
@@ -78,12 +77,11 @@ class OffsetSegmentString() {
   }
 
   /**
-   * Tests whether the given point is redundant
-   * relative to the previous
-   * point in the list (up to tolerance).
+   * Tests whether the given point is redundant relative to the previous point in the list (up to
+   * tolerance).
    *
    * @param pt
-   * return true if the point is redundant
+   *   return true if the point is redundant
    */
   private def isRedundant(pt: Coordinate): Boolean = {
     if (ptList.size < 1) return false

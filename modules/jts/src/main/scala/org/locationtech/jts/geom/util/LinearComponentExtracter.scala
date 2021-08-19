@@ -18,21 +18,23 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.LinearRing
 
 /**
- * Extracts all the 1-dimensional ({link LineString}) components from a {link Geometry}.
- * For polygonal geometries, this will extract all the component {link LinearRing}s.
- * If desired, <code>LinearRing</code>s can be forced to be returned as <code>LineString</code>s.
+ * Extracts all the 1-dimensional ({link LineString}) components from a {link Geometry}. For
+ * polygonal geometries, this will extract all the component {link LinearRing}s. If desired,
+ * <code>LinearRing</code>s can be forced to be returned as <code>LineString</code>s.
  *
  * @version 1.7
  */
 object LinearComponentExtracter {
 
   /**
-   * Extracts the linear components from a single {link Geometry}
-   * and adds them to the provided {link Collection}.
+   * Extracts the linear components from a single {link Geometry} and adds them to the provided
+   * {link Collection}.
    *
-   * @param geoms the collection of geometries from which to extract linear components
-   * @param lines the collection to add the extracted linear components to
-   * return the collection of linear components (LineStrings or LinearRings)
+   * @param geoms
+   *   the collection of geometries from which to extract linear components
+   * @param lines
+   *   the collection to add the extracted linear components to return the collection of linear
+   *   components (LineStrings or LinearRings)
    */
   def getLines(
     geoms: util.Collection[Geometry],
@@ -47,13 +49,16 @@ object LinearComponentExtracter {
   }
 
   /**
-   * Extracts the linear components from a single {link Geometry}
-   * and adds them to the provided {link Collection}.
+   * Extracts the linear components from a single {link Geometry} and adds them to the provided
+   * {link Collection}.
    *
-   * @param geoms             the Collection of geometries from which to extract linear components
-   * @param lines             the collection to add the extracted linear components to
-   * @param forceToLineString true if LinearRings should be converted to LineStrings
-   * return the collection of linear components (LineStrings or LinearRings)
+   * @param geoms
+   *   the Collection of geometries from which to extract linear components
+   * @param lines
+   *   the collection to add the extracted linear components to
+   * @param forceToLineString
+   *   true if LinearRings should be converted to LineStrings return the collection of linear
+   *   components (LineStrings or LinearRings)
    */
   def getLines(
     geoms:             util.Collection[Geometry],
@@ -69,12 +74,14 @@ object LinearComponentExtracter {
   }
 
   /**
-   * Extracts the linear components from a single {link Geometry}
-   * and adds them to the provided {link Collection}.
+   * Extracts the linear components from a single {link Geometry} and adds them to the provided
+   * {link Collection}.
    *
-   * @param geom  the geometry from which to extract linear components
-   * @param lines the Collection to add the extracted linear components to
-   * return the Collection of linear components (LineStrings or LinearRings)
+   * @param geom
+   *   the geometry from which to extract linear components
+   * @param lines
+   *   the Collection to add the extracted linear components to return the Collection of linear
+   *   components (LineStrings or LinearRings)
    */
   def getLines(geom: Geometry, lines: util.Collection[Geometry]): util.Collection[Geometry] = {
     if (geom.isInstanceOf[LineString]) lines.add(geom)
@@ -83,13 +90,16 @@ object LinearComponentExtracter {
   }
 
   /**
-   * Extracts the linear components from a single {link Geometry}
-   * and adds them to the provided {link Collection}.
+   * Extracts the linear components from a single {link Geometry} and adds them to the provided
+   * {link Collection}.
    *
-   * @param geom              the geometry from which to extract linear components
-   * @param lines             the Collection to add the extracted linear components to
-   * @param forceToLineString true if LinearRings should be converted to LineStrings
-   * return the Collection of linear components (LineStrings or LinearRings)
+   * @param geom
+   *   the geometry from which to extract linear components
+   * @param lines
+   *   the Collection to add the extracted linear components to
+   * @param forceToLineString
+   *   true if LinearRings should be converted to LineStrings return the Collection of linear
+   *   components (LineStrings or LinearRings)
    */
   def getLines(
     geom:              Geometry,
@@ -101,25 +111,24 @@ object LinearComponentExtracter {
   }
 
   /**
-   * Extracts the linear components from a single geometry.
-   * If more than one geometry is to be processed, it is more
-   * efficient to create a single {link LinearComponentExtracter} instance
-   * and pass it to multiple geometries.
+   * Extracts the linear components from a single geometry. If more than one geometry is to be
+   * processed, it is more efficient to create a single {link LinearComponentExtracter} instance and
+   * pass it to multiple geometries.
    *
-   * @param geom the geometry from which to extract linear components
-   * return the list of linear components
+   * @param geom
+   *   the geometry from which to extract linear components return the list of linear components
    */
   def getLines(geom: Geometry): util.ArrayList[Geometry] = getLines(geom, false)
 
   /**
-   * Extracts the linear components from a single geometry.
-   * If more than one geometry is to be processed, it is more
-   * efficient to create a single {link LinearComponentExtracter} instance
-   * and pass it to multiple geometries.
+   * Extracts the linear components from a single geometry. If more than one geometry is to be
+   * processed, it is more efficient to create a single {link LinearComponentExtracter} instance and
+   * pass it to multiple geometries.
    *
-   * @param geom              the geometry from which to extract linear components
-   * @param forceToLineString true if LinearRings should be converted to LineStrings
-   * return the list of linear components
+   * @param geom
+   *   the geometry from which to extract linear components
+   * @param forceToLineString
+   *   true if LinearRings should be converted to LineStrings return the list of linear components
    */
   def getLines(geom: Geometry, forceToLineString: Boolean): util.ArrayList[Geometry] = {
     val lines = new util.ArrayList[Geometry]
@@ -128,21 +137,22 @@ object LinearComponentExtracter {
   }
 
   /**
-   * Extracts the linear components from a single {link Geometry}
-   * and returns them as either a {link LineString} or {link MultiLineString}.
+   * Extracts the linear components from a single {link Geometry} and returns them as either a {link
+   * LineString} or {link MultiLineString}.
    *
-   * @param geom the geometry from which to extract
-   * return a linear geometry
+   * @param geom
+   *   the geometry from which to extract return a linear geometry
    */
   def getGeometry(geom: Geometry): Geometry = geom.getFactory.buildGeometry(getLines(geom))
 
   /**
-   * Extracts the linear components from a single {link Geometry}
-   * and returns them as either a {link LineString} or {link MultiLineString}.
+   * Extracts the linear components from a single {link Geometry} and returns them as either a {link
+   * LineString} or {link MultiLineString}.
    *
-   * @param geom              the geometry from which to extract
-   * @param forceToLineString true if LinearRings should be converted to LineStrings
-   * return a linear geometry
+   * @param geom
+   *   the geometry from which to extract
+   * @param forceToLineString
+   *   true if LinearRings should be converted to LineStrings return a linear geometry
    */
   def getGeometry(geom: Geometry, forceToLineString: Boolean): Geometry =
     geom.getFactory.buildGeometry(getLines(geom, forceToLineString))
@@ -159,10 +169,10 @@ class LinearComponentExtracter(lines: util.Collection[Geometry], var isForcedToL
   }
 
   /**
-   * Indicates that LinearRing components should be
-   * converted to pure LineStrings.
+   * Indicates that LinearRing components should be converted to pure LineStrings.
    *
-   * @param isForcedToLineString true if LinearRings should be converted to LineStrings
+   * @param isForcedToLineString
+   *   true if LinearRings should be converted to LineStrings
    */
   def setForceToLineString(isForcedToLineString: Boolean): Unit = this.isForcedToLineString =
     isForcedToLineString

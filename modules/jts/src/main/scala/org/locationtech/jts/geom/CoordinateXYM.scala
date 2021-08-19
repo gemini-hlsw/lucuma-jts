@@ -27,11 +27,9 @@ package org.locationtech.jts.geom
 import scala.annotation.nowarn
 
 /**
- * Coordinate subclass supporting XYM ordinates.
- * <p>
- * This data object is suitable for use with coordinate sequences with <tt>dimension</tt> = 3 and <tt>measures</tt> = 1.
- * <p>
- * The {link Coordinate#z} field is visible, but intended to be ignored.
+ * Coordinate subclass supporting XYM ordinates. <p> This data object is suitable for use with
+ * coordinate sequences with <tt>dimension</tt> = 3 and <tt>measures</tt> = 1. <p> The {link
+ * Coordinate#z} field is visible, but intended to be ignored.
  *
  * @since 1.16
  */
@@ -50,8 +48,8 @@ object CoordinateXYM {
   /**
    * Standard ordinate index value for M in XYM sequences.
    *
-   * <p>This constant assumes XYM coordinate sequence definition.  Check this assumption using
-   * {link #getDimension()} and {link #getMeasures()} before use.
+   * <p>This constant assumes XYM coordinate sequence definition. Check this assumption using {link
+   * #getDimension()} and {link #getMeasures()} before use.
    */
   val M = 2
 }
@@ -63,7 +61,8 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
   /**
    * Constructs a CoordinateXYM instance with the x and y ordinates of the given Coordinate.
    *
-   * @param coord the coordinate providing the ordinates
+   * @param coord
+   *   the coordinate providing the ordinates
    */
   def this(coord: Coordinate) = {
     this(coord.x, coord.y, coord.getM)
@@ -72,7 +71,8 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
   /**
    * Constructs a CoordinateXY instance with the x and y ordinates of the given CoordinateXYM.
    *
-   * @param coord the coordinate providing the ordinates
+   * @param coord
+   *   the coordinate providing the ordinates
    */
   def this(coord: CoordinateXYM) = {
     this(coord.x, coord.y, coord.m)

@@ -36,45 +36,34 @@ import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.operation.distance.IndexedFacetDistance
 
 /**
- * Constructs the Maximum Inscribed Circle for a
- * polygonal {link Geometry}, up to a specified tolerance.
- * The Maximum Inscribed Circle is determined by a point in the interior of the area
- * which has the farthest distance from the area boundary,
- * along with a boundary point at that distance.
- * <p>
- * In the context of geography the center of the Maximum Inscribed Circle
- * is known as the <b>Pole of Inaccessibility</b>.
- * A cartographic use case is to determine a suitable point
- * to place a map label within a polygon.
- * <p>
- * The radius length of the Maximum Inscribed Circle is a
- * measure of how "narrow" a polygon is. It is the
- * distance at which the negative buffer becomes empty.
- * <p>
- * The class supports polygons with holes and multipolygons.
- * <p>
- * The implementation uses a successive-approximation technique
- * over a grid of square cells covering the area geometry.
- * The grid is refined using a branch-and-bound algorithm.
- * Point containment and distance are computed in a performant
- * way by using spatial indexes.
+ * Constructs the Maximum Inscribed Circle for a polygonal {link Geometry}, up to a specified
+ * tolerance. The Maximum Inscribed Circle is determined by a point in the interior of the area
+ * which has the farthest distance from the area boundary, along with a boundary point at that
+ * distance. <p> In the context of geography the center of the Maximum Inscribed Circle is known as
+ * the <b>Pole of Inaccessibility</b>. A cartographic use case is to determine a suitable point to
+ * place a map label within a polygon. <p> The radius length of the Maximum Inscribed Circle is a
+ * measure of how "narrow" a polygon is. It is the distance at which the negative buffer becomes
+ * empty. <p> The class supports polygons with holes and multipolygons. <p> The implementation uses
+ * a successive-approximation technique over a grid of square cells covering the area geometry. The
+ * grid is refined using a branch-and-bound algorithm. Point containment and distance are computed
+ * in a performant way by using spatial indexes.
  *
- * <h3>Future Enhancements</h3>
- * <ul>
- * <li>Support a polygonal constraint on placement of center
- * </ul>
+ * <h3>Future Enhancements</h3> <ul> <li>Support a polygonal constraint on placement of center </ul>
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object MaximumInscribedCircle {
 
   /**
-   * Computes the center point of the Maximum Inscribed Circle
-   * of a polygonal geometry, up to a given tolerance distance.
+   * Computes the center point of the Maximum Inscribed Circle of a polygonal geometry, up to a
+   * given tolerance distance.
    *
-   * @param polygonal a polygonal geometry
-   * @param tolerance the distance tolerance for computing the center point
-   * return the center point of the maximum inscribed circle
+   * @param polygonal
+   *   a polygonal geometry
+   * @param tolerance
+   *   the distance tolerance for computing the center point return the center point of the maximum
+   *   inscribed circle
    */
   def getCenter(polygonal: Geometry, tolerance: Double) = {
     val mic = new MaximumInscribedCircle(polygonal, tolerance)
@@ -82,12 +71,14 @@ object MaximumInscribedCircle {
   }
 
   /**
-   * Computes a radius line of the Maximum Inscribed Circle
-   * of a polygonal geometry, up to a given tolerance distance.
+   * Computes a radius line of the Maximum Inscribed Circle of a polygonal geometry, up to a given
+   * tolerance distance.
    *
-   * @param polygonal a polygonal geometry
-   * @param tolerance the distance tolerance for computing the center point
-   * return a line from the center to a point on the circle
+   * @param polygonal
+   *   a polygonal geometry
+   * @param tolerance
+   *   the distance tolerance for computing the center point return a line from the center to a
+   *   point on the circle
    */
   def getRadiusLine(polygonal: Geometry, tolerance: Double) = {
     val mic = new MaximumInscribedCircle(polygonal, tolerance)
@@ -95,13 +86,10 @@ object MaximumInscribedCircle {
   }
 
   /**
-   * A square grid cell centered on a given point,
-   * with a given half-side size, and having a given distance
-   * to the area boundary.
-   * The maximum possible distance from any point in the cell to the
-   * boundary can be computed, and is used
-   * as the ordering and upper-bound function in
-   * the branch-and-bound algorithm.
+   * A square grid cell centered on a given point, with a given half-side size, and having a given
+   * distance to the area boundary. The maximum possible distance from any point in the cell to the
+   * boundary can be computed, and is used as the ordering and upper-bound function in the
+   * branch-and-bound algorithm.
    */
   private object Cell {
     private val SQRT2 = 1.4142135623730951
@@ -145,8 +133,10 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
   /**
    * Creates a new instance of a Maximum Inscribed Circle computation.
    *
-   * @param polygonal an areal geometry
-   * @param tolerance the distance tolerance for computing the centre point
+   * @param polygonal
+   *   an areal geometry
+   * @param tolerance
+   *   the distance tolerance for computing the centre point
    */
   if (!(inputGeom.isInstanceOf[Polygon] || inputGeom.isInstanceOf[MultiPolygon]))
     throw new IllegalArgumentException("Input geometry must be a Polygon or MultiPolygon")
@@ -164,8 +154,7 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
   this.factory = inputGeom.getFactory
 
   /**
-   * Gets the center point of the maximum inscribed circle
-   * (up to the tolerance distance).
+   * Gets the center point of the maximum inscribed circle (up to the tolerance distance).
    *
    * return the center point of the maximum inscribed circle
    */
@@ -175,11 +164,9 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
   }
 
   /**
-   * Gets a point defining the radius of the Maximum Inscribed Circle.
-   * This is a point on the boundary which is
-   * nearest to the computed center of the Maximum Inscribed Circle.
-   * The line segment from the center to this point
-   * is a radius of the constructed circle, and this point
+   * Gets a point defining the radius of the Maximum Inscribed Circle. This is a point on the
+   * boundary which is nearest to the computed center of the Maximum Inscribed Circle. The line
+   * segment from the center to this point is a radius of the constructed circle, and this point
    * lies on the boundary of the circle.
    *
    * return a point defining the radius of the Maximum Inscribed Circle
@@ -201,13 +188,13 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
   }
 
   /**
-   * Computes the signed distance from a point to the area boundary.
-   * Points outside the polygon are assigned a negative distance.
-   * Their containing cells will be last in the priority queue
-   * (but may still end up being tested since they may need to be refined).
+   * Computes the signed distance from a point to the area boundary. Points outside the polygon are
+   * assigned a negative distance. Their containing cells will be last in the priority queue (but
+   * may still end up being tested since they may need to be refined).
    *
-   * @param p the point to compute the distance for
-   * return the signed distance to the area boundary (negative indicates outside the area)
+   * @param p
+   *   the point to compute the distance for return the signed distance to the area boundary
+   *   (negative indicates outside the area)
    */
   private def distanceToBoundary(p: Point): Double = {
     val dist     = indexedDistance.distance(p)
@@ -231,8 +218,7 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
     var farthestCell = createCentroidCell(inputGeom)
     //int totalCells = cellQueue.size();
     /**
-     * Carry out the branch-and-bound search
-     * of the cell space
+     * Carry out the branch-and-bound search of the cell space
      */
     while (!cellQueue.isEmpty) { // pick the most promising cell from the queue
       val cell = cellQueue.remove()
@@ -241,11 +227,9 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
       if (cell.getDistance > farthestCell.getDistance) farthestCell = cell
 
       /**
-       * Refine this cell if the potential distance improvement
-       * is greater than the required tolerance.
-       * Otherwise the cell is pruned (not investigated further),
-       * since no point in it is further than
-       * the current farthest distance.
+       * Refine this cell if the potential distance improvement is greater than the required
+       * tolerance. Otherwise the cell is pruned (not investigated further), since no point in it is
+       * further than the current farthest distance.
        */
       val potentialIncrease = cell.getMaxDistance - farthestCell.getDistance
       if (potentialIncrease > tolerance) { // split the cell into four sub-cells
@@ -268,11 +252,12 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
   }
 
   /**
-   * Initializes the queue with a grid of cells covering
-   * the extent of the area.
+   * Initializes the queue with a grid of cells covering the extent of the area.
    *
-   * @param env       the area extent to cover
-   * @param cellQueue the queue to initialize
+   * @param env
+   *   the area extent to cover
+   * @param cellQueue
+   *   the queue to initialize
    */
   private def createInitialGrid(
     env:       Envelope,

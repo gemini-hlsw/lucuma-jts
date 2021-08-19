@@ -37,8 +37,8 @@ import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.noding.{ NodedSegmentString, SegmentString }
 
 /**
- * Creates all the raw offset curves for a buffer of a {link Geometry}.
- * Raw curves need to be noded together and polygonized to form the final buffer area.
+ * Creates all the raw offset curves for a buffer of a {link Geometry}. Raw curves need to be noded
+ * together and polygonized to form the final buffer area.
  *
  * @version 1.7
  */
@@ -62,13 +62,10 @@ class OffsetCurveSetBuilder(
   }
 
   /**
-   * Creates a {link SegmentString} for a coordinate list which is a raw offset curve,
-   * and adds it to the list of buffer curves.
-   * The SegmentString is tagged with a Label giving the topology of the curve.
-   * The curve may be oriented in either direction.
-   * If the curve is oriented CW, the locations will be:
-   * <br>Left: Location.EXTERIOR
-   * <br>Right: Location.INTERIOR
+   * Creates a {link SegmentString} for a coordinate list which is a raw offset curve, and adds it
+   * to the list of buffer curves. The SegmentString is tagged with a Label giving the topology of
+   * the curve. The curve may be oriented in either direction. If the curve is oriented CW, the
+   * locations will be: <br>Left: Location.EXTERIOR <br>Right: Location.INTERIOR
    */
   private def addCurve(coord: Array[Coordinate], leftLoc: Int, rightLoc: Int): Unit = { // don't add null or trivial curves
     if (coord == null || coord.length < 2) return
@@ -121,10 +118,9 @@ class OffsetCurveSetBuilder(
     val coord = CoordinateArrays.removeRepeatedPoints(line.getCoordinates)
 
     /**
-     * Rings (closed lines) are generated with a continuous curve,
-     * with no end arcs. This produces better quality linework,
-     * and avoids noding issues with arcs around almost-parallel end segments.
-     * See JTS #523 and #518.
+     * Rings (closed lines) are generated with a continuous curve, with no end arcs. This produces
+     * better quality linework, and avoids noding issues with arcs around almost-parallel end
+     * segments. See JTS #523 and #518.
      *
      * Singled-sided buffers currently treat rings as if they are lines.
      */
@@ -183,18 +179,21 @@ class OffsetCurveSetBuilder(
   }
 
   /**
-   * Adds an offset curve for one side of a ring.
-   * The side and left and right topological location arguments
-   * are provided as if the ring is oriented CW.
-   * (If the ring is in the opposite orientation,
-   * this is detected and
-   * the left and right locations are interchanged and the side is flipped.)
+   * Adds an offset curve for one side of a ring. The side and left and right topological location
+   * arguments are provided as if the ring is oriented CW. (If the ring is in the opposite
+   * orientation, this is detected and the left and right locations are interchanged and the side is
+   * flipped.)
    *
-   * @param coord          the coordinates of the ring (must not contain repeated points)
-   * @param offsetDistance the positive distance at which to create the buffer
-   * @param side           the side { @link Position} of the ring on which to construct the buffer line
-   * @param cwLeftLoc  the location on the L side of the ring (if it is CW)
-   * @param cwRightLoc the location on the R side of the ring (if it is CW)
+   * @param coord
+   *   the coordinates of the ring (must not contain repeated points)
+   * @param offsetDistance
+   *   the positive distance at which to create the buffer
+   * @param side
+   *   the side { @link Position} of the ring on which to construct the buffer line
+   * @param cwLeftLoc
+   *   the location on the L side of the ring (if it is CW)
+   * @param cwRightLoc
+   *   the location on the R side of the ring (if it is CW)
    */
   private def addRingSide(
     coord:          Array[Coordinate],
@@ -218,13 +217,12 @@ class OffsetCurveSetBuilder(
   }
 
   /**
-   * The ringCoord is assumed to contain no repeated points.
-   * It may be degenerate (i.e. contain only 1, 2, or 3 points).
-   * In this case it has no area, and hence has a minimum diameter of 0.
+   * The ringCoord is assumed to contain no repeated points. It may be degenerate (i.e. contain only
+   * 1, 2, or 3 points). In this case it has no area, and hence has a minimum diameter of 0.
    *
    * @param ringCoord
    * @param offsetDistance
-   * return
+   *   return
    */
   private def isErodedCompletely(ring: LinearRing, bufferDistance: Double): Boolean = {
     val ringCoord       = ring.getCoordinates
@@ -240,13 +238,10 @@ class OffsetCurveSetBuilder(
     false
 
     /**
-     * The following is a heuristic test to determine whether an
-     * inside buffer will be eroded completely.
-     * It is based on the fact that the minimum diameter of the ring pointset
-     * provides an upper bound on the buffer distance which would erode the
-     * ring.
-     * If the buffer distance is less than the minimum diameter, the ring
-     * may still be eroded, but this will be determined by
+     * The following is a heuristic test to determine whether an inside buffer will be eroded
+     * completely. It is based on the fact that the minimum diameter of the ring pointset provides
+     * an upper bound on the buffer distance which would erode the ring. If the buffer distance is
+     * less than the minimum diameter, the ring may still be eroded, but this will be determined by
      * a full topological computation.
      */
     //System.out.println(ring);
@@ -259,21 +254,18 @@ class OffsetCurveSetBuilder(
   }
 
   /**
-   * Tests whether a triangular ring would be eroded completely by the given
-   * buffer distance.
-   * This is a precise test.  It uses the fact that the inner buffer of a
-   * triangle converges on the inCentre of the triangle (the point
-   * equidistant from all sides).  If the buffer distance is greater than the
-   * distance of the inCentre from a side, the triangle will be eroded completely.
+   * Tests whether a triangular ring would be eroded completely by the given buffer distance. This
+   * is a precise test. It uses the fact that the inner buffer of a triangle converges on the
+   * inCentre of the triangle (the point equidistant from all sides). If the buffer distance is
+   * greater than the distance of the inCentre from a side, the triangle will be eroded completely.
    *
-   * This test is important, since it removes a problematic case where
-   * the buffer distance is slightly larger than the inCentre distance.
-   * In this case the triangle buffer curve "inverts" with incorrect topology,
-   * producing an incorrect hole in the buffer.
+   * This test is important, since it removes a problematic case where the buffer distance is
+   * slightly larger than the inCentre distance. In this case the triangle buffer curve "inverts"
+   * with incorrect topology, producing an incorrect hole in the buffer.
    *
    * @param triangleCoord
    * @param bufferDistance
-   * return
+   *   return
    */
   private def isTriangleErodedCompletely(
     triangleCoord:  Array[Coordinate],

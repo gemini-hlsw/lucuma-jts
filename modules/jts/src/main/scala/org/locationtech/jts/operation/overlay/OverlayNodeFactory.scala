@@ -21,8 +21,7 @@ import org.locationtech.jts.geomgraph.Node
 import org.locationtech.jts.geomgraph.NodeFactory
 
 /**
- * Creates nodes for use in the {link PlanarGraph}s constructed during
- * overlay operations.
+ * Creates nodes for use in the {link PlanarGraph}s constructed during overlay operations.
  *
  * @version 1.7
  */

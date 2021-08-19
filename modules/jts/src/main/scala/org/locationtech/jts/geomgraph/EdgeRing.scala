@@ -78,9 +78,8 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
   }
 
   /**
-   * Compute a LinearRing from the point list previously collected.
-   * Test if the ring is a hole (i.e. if it is CCW) and set the hole flag
-   * accordingly.
+   * Compute a LinearRing from the point list previously collected. Test if the ring is a hole (i.e.
+   * if it is CCW) and set the hole flag accordingly.
    */
   def computeRing(): Unit = {
     if (ring != null) return // don't compute more than once
@@ -111,23 +110,25 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
     startDe = start
     var de          = start
     var isFirstEdge = true
-    while( { { //      Assert.isTrue(de != null, "found null Directed Edge");
-      if (de == null) throw new TopologyException("Found null DirectedEdge")
-      if (de.getEdgeRing eq this)
-        throw new TopologyException(
-          "Directed Edge visited twice during ring-building at " + de.getCoordinate
-        )
-      edges.add(de)
-      //Debug.println(de);
-      //Debug.println(de.getEdge());
-      val label = de.getLabel
-      Assert.isTrue(label.isArea)
-      mergeLabel(label)
-      addPoints(de.getEdge, de.isForward, isFirstEdge)
-      isFirstEdge = false
-      setEdgeRing(de, this)
-      de = getNext(de)
-    } ; de != startDe}) ()
+    while ({
+      { //      Assert.isTrue(de != null, "found null Directed Edge");
+        if (de == null) throw new TopologyException("Found null DirectedEdge")
+        if (de.getEdgeRing eq this)
+          throw new TopologyException(
+            "Directed Edge visited twice during ring-building at " + de.getCoordinate
+          )
+        edges.add(de)
+        //Debug.println(de);
+        //Debug.println(de.getEdge());
+        val label = de.getLabel
+        Assert.isTrue(label.isArea)
+        mergeLabel(label)
+        addPoints(de.getEdge, de.isForward, isFirstEdge)
+        isFirstEdge = false
+        setEdgeRing(de, this)
+        de = getNext(de)
+      }; de != startDe
+    }) ()
   }
 
   def getMaxNodeDegree: Int = {
@@ -138,21 +139,25 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
   private def computeMaxNodeDegree(): Unit = {
     maxNodeDegree = 0
     var de = startDe
-    while( { {
-      val node   = de.getNode
-      val degree = node.getEdges.asInstanceOf[DirectedEdgeStar].getOutgoingDegree(this)
-      if (degree > maxNodeDegree) maxNodeDegree = degree
-      de = getNext(de)
-    } ; de != startDe})()
+    while ({
+      {
+        val node   = de.getNode
+        val degree = node.getEdges.asInstanceOf[DirectedEdgeStar].getOutgoingDegree(this)
+        if (degree > maxNodeDegree) maxNodeDegree = degree
+        de = getNext(de)
+      }; de != startDe
+    }) ()
     maxNodeDegree *= 2
   }
 
   def setInResult(): Unit = {
     var de = startDe
-    while( { {
-      de.getEdge.setInResult(true)
-      de = de.getNext
-    } ; de ne startDe }) ()
+    while ({
+      {
+        de.getEdge.setInResult(true)
+        de = de.getNext
+      }; de ne startDe
+    }) ()
   }
 
   protected def mergeLabel(deLabel: Label): Unit = {
@@ -161,11 +166,10 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
   }
 
   /**
-   * Merge the RHS label from a DirectedEdge into the label for this EdgeRing.
-   * The DirectedEdge label may be null.  This is acceptable - it results
-   * from a node which is NOT an intersection node between the Geometries
-   * (e.g. the end node of a LinearRing).  In this case the DirectedEdge label
-   * does not contribute any information to the overall labelling, and is simply skipped.
+   * Merge the RHS label from a DirectedEdge into the label for this EdgeRing. The DirectedEdge
+   * label may be null. This is acceptable - it results from a node which is NOT an intersection
+   * node between the Geometries (e.g. the end node of a LinearRing). In this case the DirectedEdge
+   * label does not contribute any information to the overall labelling, and is simply skipped.
    */
   protected def mergeLabel(deLabel: Label, geomIndex: Int): Unit = {
     val loc = deLabel.getLocation(geomIndex, Position.RIGHT)
@@ -200,8 +204,8 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
   }
 
   /**
-   * This method will cause the ring to be computed.
-   * It will also check any holes, if they have been assigned.
+   * This method will cause the ring to be computed. It will also check any holes, if they have been
+   * assigned.
    */
   def containsPoint(p: Coordinate): Boolean = {
     val shell = getLinearRing

@@ -25,10 +25,11 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.math.Vector3D
 
 /**
- * Basic computational geometry algorithms
- * for geometry and coordinates defined in 3-dimensional Cartesian space.
+ * Basic computational geometry algorithms for geometry and coordinates defined in 3-dimensional
+ * Cartesian space.
  *
- * @author mdavis
+ * @author
+ *   mdavis
  */
 object CGAlgorithms3D {
   def distance(p0: Coordinate, p1: Coordinate): Double = { // default to 2D distance if either Z is not set
@@ -76,18 +77,20 @@ object CGAlgorithms3D {
   /**
    * Computes the distance between two 3D segments.
    *
-   * @param A the start point of the first segment
-   * @param B the end point of the first segment
-   * @param C the start point of the second segment
-   * @param D the end point of the second segment
-   * return the distance between the segments
+   * @param A
+   *   the start point of the first segment
+   * @param B
+   *   the end point of the first segment
+   * @param C
+   *   the start point of the second segment
+   * @param D
+   *   the end point of the second segment return the distance between the segments
    */
   def distanceSegmentSegment(A: Coordinate, B: Coordinate, C: Coordinate, D: Coordinate): Double = {
 
     /**
-     * This calculation is susceptible to roundoff errors when
-     * passed large ordinate values.
-     * It may be possible to improve this by using {link DD} arithmetic.
+     * This calculation is susceptible to roundoff errors when passed large ordinate values. It may
+     * be possible to improve this by using {link DD} arithmetic.
      */
     if (A.equals3D(B)) return distancePointSegment(A, C, D)
     if (C.equals3D(B)) return distancePointSegment(C, A, B)
@@ -108,8 +111,7 @@ object CGAlgorithms3D {
     if (denom <= 0.0) {
 
       /**
-       * The lines are parallel.
-       * In this case solve for the parameters s and t by assuming s is 0.
+       * The lines are parallel. In this case solve for the parameters s and t by assuming s is 0.
        */
       s = 0
       // choose largest denominator for optimal numeric conditioning
@@ -125,8 +127,7 @@ object CGAlgorithms3D {
     else if (t > 1) return distancePointSegment(D, A, B)
 
     /**
-     * The closest points are in interiors of segments,
-     * so compute them directly
+     * The closest points are in interiors of segments, so compute them directly
      */
     val x1 = A.x + s * (B.x - A.x)
     val y1 = A.y + s * (B.y - A.y)

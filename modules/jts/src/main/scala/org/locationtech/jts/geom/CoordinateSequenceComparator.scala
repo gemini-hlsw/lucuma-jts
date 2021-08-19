@@ -24,24 +24,23 @@ package org.locationtech.jts.geom
 import java.util.Comparator
 
 /**
- * Compares two {link CoordinateSequence}s.
- * For sequences of the same dimension, the ordering is lexicographic.
- * Otherwise, lower dimensions are sorted before higher.
- * The dimensions compared can be limited; if this is done
- * ordinate dimensions above the limit will not be compared.
- * <p>
- * If different behaviour is required for comparing size, dimension, or
- * coordinate values, any or all methods can be overridden.
+ * Compares two {link CoordinateSequence}s. For sequences of the same dimension, the ordering is
+ * lexicographic. Otherwise, lower dimensions are sorted before higher. The dimensions compared can
+ * be limited; if this is done ordinate dimensions above the limit will not be compared. <p> If
+ * different behaviour is required for comparing size, dimension, or coordinate values, any or all
+ * methods can be overridden.
  */
 object CoordinateSequenceComparator {
 
   /**
-   * Compare two <code>double</code>s, allowing for NaN values.
-   * NaN is treated as being less than any valid number.
+   * Compare two <code>double</code>s, allowing for NaN values. NaN is treated as being less than
+   * any valid number.
    *
-   * @param a a <code>double</code>
-   * @param b a <code>double</code>
-   * return -1, 0, or 1 depending on whether a is less than, equal to or greater than b
+   * @param a
+   *   a <code>double</code>
+   * @param b
+   *   a <code>double</code> return -1, 0, or 1 depending on whether a is less than, equal to or
+   *   greater than b
    */
   def compare(a: Double, b: Double): Int = {
     if (a < b) return -1
@@ -59,8 +58,7 @@ class CoordinateSequenceComparator(dimensionLimit: Int = Int.MaxValue)
 
 /**
  * Creates a comparator which will test all dimensions.
- */
-    extends Comparator[CoordinateSequence] {
+ */ extends Comparator[CoordinateSequence] {
 
   /**
    * The number of dimensions to test
@@ -70,7 +68,8 @@ class CoordinateSequenceComparator(dimensionLimit: Int = Int.MaxValue)
   /**
    * Creates a comparator which will test only the specified number of dimensions.
    *
-   * @param dimensionLimit the number of dimensions to test
+   * @param dimensionLimit
+   *   the number of dimensions to test
    */
 //  def this(dimensionLimit: Int) {
 //    this()
@@ -80,9 +79,11 @@ class CoordinateSequenceComparator(dimensionLimit: Int = Int.MaxValue)
   /**
    * Compares two {link CoordinateSequence}s for relative order.
    *
-   * @param o1 a { @link CoordinateSequence}
-   * @param o2 a { @link CoordinateSequence}
-   * return -1, 0, or 1 depending on whether o1 is less than, equal to, or greater than o2
+   * @param o1
+   *   a { @link CoordinateSequence}
+   * @param o2
+   *   a { @link CoordinateSequence} return -1, 0, or 1 depending on whether o1 is less than, equal
+   *   to, or greater than o2
    */
   override def compare(s1: CoordinateSequence, s2: CoordinateSequence): Int = {
     val size1      = s1.size
@@ -114,14 +115,18 @@ class CoordinateSequenceComparator(dimensionLimit: Int = Int.MaxValue)
   }
 
   /**
-   * Compares the same coordinate of two {link CoordinateSequence}s
-   * along the given number of dimensions.
+   * Compares the same coordinate of two {link CoordinateSequence}s along the given number of
+   * dimensions.
    *
-   * @param s1 a { @link CoordinateSequence}
-   * @param s2 a { @link CoordinateSequence}
-   * @param i         the index of the coordinate to test
-   * @param dimension the number of dimensions to test
-   * return -1, 0, or 1 depending on whether s1[i] is less than, equal to, or greater than s2[i]
+   * @param s1
+   *   a { @link CoordinateSequence}
+   * @param s2
+   *   a { @link CoordinateSequence}
+   * @param i
+   *   the index of the coordinate to test
+   * @param dimension
+   *   the number of dimensions to test return -1, 0, or 1 depending on whether s1[i] is less than,
+   *   equal to, or greater than s2[i]
    */
   protected def compareCoordinate(
     s1:        CoordinateSequence,

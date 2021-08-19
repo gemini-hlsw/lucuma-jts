@@ -28,13 +28,9 @@ import org.locationtech.jts.noding.NodedSegmentString
 import org.locationtech.jts.util.Assert
 
 /**
- * Implements a "hot pixel" as used in the Snap Rounding algorithm.
- * A hot pixel contains the interior of the tolerance square and
- * the boundary
- * <b>minus</b> the top and right segments.
- * <p>
- * The hot pixel operations are all computed in the integer domain
- * to avoid rounding problems.
+ * Implements a "hot pixel" as used in the Snap Rounding algorithm. A hot pixel contains the
+ * interior of the tolerance square and the boundary <b>minus</b> the top and right segments. <p>
+ * The hot pixel operations are all computed in the integer domain to avoid rounding problems.
  *
  * @version 1.7
  */
@@ -45,12 +41,15 @@ object HotPixel {
 class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: LineIntersector) {
 
   /**
-   * Creates a new hot pixel, using a given scale factor.
-   * The scale factor must be strictly positive (non-zero).
+   * Creates a new hot pixel, using a given scale factor. The scale factor must be strictly positive
+   * (non-zero).
    *
-   * @param pt          the coordinate at the centre of the pixel
-   * @param scaleFactor the scaleFactor determining the pixel size.  Must be &gt; 0
-   * @param li          the intersector to use for testing intersection with line segments
+   * @param pt
+   *   the coordinate at the centre of the pixel
+   * @param scaleFactor
+   *   the scaleFactor determining the pixel size. Must be &gt; 0
+   * @param li
+   *   the intersector to use for testing intersection with line segments
    */
   //tolerance = 0.5;
   private var p0Scaled: Coordinate = null
@@ -70,9 +69,7 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   private var maxy                 = .0
 
   /**
-   * The corners of the hot pixel, in the order:
-   * 10
-   * 23
+   * The corners of the hot pixel, in the order: 10 23
    */
   private val corner            = new Array[Coordinate](4)
   private var safeEnv: Envelope = null
@@ -85,9 +82,8 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   def getCoordinate = originalPt
 
   /**
-   * Returns a "safe" envelope that is guaranteed to contain the hot pixel.
-   * The envelope returned will be larger than the exact envelope of the
-   * pixel.
+   * Returns a "safe" envelope that is guaranteed to contain the hot pixel. The envelope returned
+   * will be larger than the exact envelope of the pixel.
    *
    * return an envelope which contains the hot pixel
    */
@@ -118,12 +114,13 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   private def scale(`val`: Double) = `val` * scaleFactor.round.toDouble
 
   /**
-   * Tests whether the line segment (p0-p1)
-   * intersects this hot pixel.
+   * Tests whether the line segment (p0-p1) intersects this hot pixel.
    *
-   * @param p0 the first coordinate of the line segment to test
-   * @param p1 the second coordinate of the line segment to test
-   * return true if the line segment intersects this hot pixel
+   * @param p0
+   *   the first coordinate of the line segment to test
+   * @param p1
+   *   the second coordinate of the line segment to test return true if the line segment intersects
+   *   this hot pixel
    */
   def intersects(p0: Coordinate, p1: Coordinate): Boolean = {
     if (scaleFactor == 1.0) return intersectsScaled(p0, p1)
@@ -169,23 +166,18 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   }
 
   /**
-   * Tests whether the segment p0-p1 intersects the hot pixel tolerance square.
-   * Because the tolerance square point set is partially open (along the
-   * top and right) the test needs to be more sophisticated than
-   * simply checking for any intersection.
-   * However, it can take advantage of the fact that the hot pixel edges
-   * do not lie on the coordinate grid.
-   * It is sufficient to check if any of the following occur:
-   * <ul>
-   * <li>a proper intersection between the segment and any hot pixel edge
-   * <li>an intersection between the segment and <b>both</b> the left and bottom hot pixel edges
-   * (which detects the case where the segment intersects the bottom left hot pixel corner)
-   * <li>an intersection between a segment endpoint and the hot pixel coordinate
-   * </ul>
+   * Tests whether the segment p0-p1 intersects the hot pixel tolerance square. Because the
+   * tolerance square point set is partially open (along the top and right) the test needs to be
+   * more sophisticated than simply checking for any intersection. However, it can take advantage of
+   * the fact that the hot pixel edges do not lie on the coordinate grid. It is sufficient to check
+   * if any of the following occur: <ul> <li>a proper intersection between the segment and any hot
+   * pixel edge <li>an intersection between the segment and <b>both</b> the left and bottom hot
+   * pixel edges (which detects the case where the segment intersects the bottom left hot pixel
+   * corner) <li>an intersection between a segment endpoint and the hot pixel coordinate </ul>
    *
    * @param p0
    * @param p1
-   * return
+   *   return
    */
   private def intersectsToleranceSquare(p0: Coordinate, p1: Coordinate): Boolean = {
     var intersectsLeft   = false
@@ -209,16 +201,15 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   }
 
   /**
-   * Test whether the given segment intersects
-   * the closure of this hot pixel.
-   * This is NOT the test used in the standard snap-rounding
-   * algorithm, which uses the partially closed tolerance square
-   * instead.
-   * This routine is provided for testing purposes only.
+   * Test whether the given segment intersects the closure of this hot pixel. This is NOT the test
+   * used in the standard snap-rounding algorithm, which uses the partially closed tolerance square
+   * instead. This routine is provided for testing purposes only.
    *
-   * @param p0 the start point of a line segment
-   * @param p1 the end point of a line segment
-   * return <code>true</code> if the segment intersects the closure of the pixel's tolerance square
+   * @param p0
+   *   the start point of a line segment
+   * @param p1
+   *   the end point of a line segment return <code>true</code> if the segment intersects the
+   *   closure of the pixel's tolerance square
    */
 //  private def intersectsPixelClosure(p0: Coordinate, p1: Coordinate): Boolean = {
 //    li.computeIntersection(p0, p1, corner(0), corner(1))
@@ -233,12 +224,12 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
 //  }
 
   /**
-   * Adds a new node (equal to the snap pt) to the specified segment
-   * if the segment passes through the hot pixel
+   * Adds a new node (equal to the snap pt) to the specified segment if the segment passes through
+   * the hot pixel
    *
    * @param segStr
    * @param segIndex
-   * return true if a node was added to the segment
+   *   return true if a node was added to the segment
    */
   def addSnappedNode(segStr: NodedSegmentString, segIndex: Int): Boolean = {
     val p0 = segStr.getCoordinate(segIndex)

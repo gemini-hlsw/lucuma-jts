@@ -34,14 +34,10 @@ import org.locationtech.jts.geom.CoordinateXYZM
 import org.locationtech.jts.geom.Envelope
 
 /**
- * A {link CoordinateSequence} implementation based on a packed arrays.
- * In this implementation, {link Coordinate}s returned by #toArray and #get are copies
- * of the internal values.
- * To change the actual values, use the provided setters.
- * <p>
- * For efficiency, created Coordinate arrays
- * are cached using a soft reference.
- * The cache is cleared each time the coordinate sequence contents are
+ * A {link CoordinateSequence} implementation based on a packed arrays. In this implementation,
+ * {link Coordinate}s returned by #toArray and #get are copies of the internal values. To change the
+ * actual values, use the provided setters. <p> For efficiency, created Coordinate arrays are cached
+ * using a soft reference. The cache is cleared each time the coordinate sequence contents are
  * modified through a setter method.
  *
  * @version 1.7
@@ -64,9 +60,12 @@ object PackedCoordinateSequence {
     /**
      * Builds a new packed coordinate sequence
      *
-     * @param coords    an array of <c>double</c> values that contains the ordinate values of the sequence
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
-     * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+     * @param coords
+     *   an array of <c>double</c> values that contains the ordinate values of the sequence
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param measures
+     *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
     if (coords.length % dimension != 0)
       throw new IllegalArgumentException(
@@ -76,9 +75,12 @@ object PackedCoordinateSequence {
     /**
      * Builds a new packed coordinate sequence out of a float coordinate array
      *
-     * @param coords    an array of <c>float</c> values that contains the ordinate values of the sequence
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
-     * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+     * @param coords
+     *   an array of <c>float</c> values that contains the ordinate values of the sequence
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param measures
+     *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
     def this(coords: Array[scala.Float], dimension: Int, measures: Int) = {
       this(coords.map(_.toDouble), dimension, measures)
@@ -87,9 +89,12 @@ object PackedCoordinateSequence {
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
      *
-     * @param coordinates an array of { @link Coordinate}s
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
-     * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+     * @param coordinates
+     *   an array of { @link Coordinate}s
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param measures
+     *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
     def this(coordinates: Array[Coordinate], dimension: Int, measures: Int) = {
       this(toDoubleArray(coordinates, dimension), dimension, measures)
@@ -98,8 +103,10 @@ object PackedCoordinateSequence {
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
      *
-     * @param coordinates an array of { @link Coordinate}s
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param coordinates
+     *   an array of { @link Coordinate}s
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
      */
     def this(coordinates: Array[Coordinate], dimension: Int) = {
       this(coordinates, dimension, 0)
@@ -108,7 +115,8 @@ object PackedCoordinateSequence {
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
      *
-     * @param coordinates an array of { @link Coordinate}s
+     * @param coordinates
+     *   an array of { @link Coordinate}s
      */
     def this(coordinates: Array[Coordinate]) = {
       this(coordinates, 3, 0)
@@ -117,16 +125,20 @@ object PackedCoordinateSequence {
     /**
      * Builds a new empty packed coordinate sequence of a given size and dimension
      *
-     * @param size      the number of coordinates in this sequence
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
-     * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+     * @param size
+     *   the number of coordinates in this sequence
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param measures
+     *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
     def this(size: Int, dimension: Int, measures: Int) = {
       this(new Array[scala.Double](size * dimension), dimension, measures)
     }
 
     /**
-     * @see PackedCoordinateSequence#getCoordinate(int)
+     * @see
+     *   PackedCoordinateSequence#getCoordinate(int)
      */
     override def getCoordinateInternal(i: Int): Coordinate = {
       val x = coords(i * dimension)
@@ -154,19 +166,23 @@ object PackedCoordinateSequence {
     def getRawCoordinates: Array[scala.Double] = coords
 
     /**
-     * @see CoordinateSequence#size()
+     * @see
+     *   CoordinateSequence#size()
      */
     override def size: Int = coords.length / dimension
 
     /**
-     * @see java.lang.Object#clone()
-     * @see PackedCoordinateSequence#clone()
+     * @see
+     *   java.lang.Object#clone()
+     * @see
+     *   PackedCoordinateSequence#clone()
      * @deprecated
      */
     override def clone: Object = copy
 
     /**
-     * @see PackedCoordinateSequence#size()
+     * @see
+     *   PackedCoordinateSequence#size()
      */
     override def copy: CoordinateSequence = {
       val clone = util.Arrays.copyOf(coords, coords.length)
@@ -174,17 +190,18 @@ object PackedCoordinateSequence {
     }
 
     /**
-     * @see PackedCoordinateSequence#getOrdinate(int, int)
-     *      Beware, for performance reasons the ordinate index is not checked, if
-     *      it's over dimensions you may not get an exception but a meaningless
-     *      value.
+     * @see
+     *   PackedCoordinateSequence#getOrdinate(int, int) Beware, for performance reasons the ordinate
+     *   index is not checked, if it's over dimensions you may not get an exception but a
+     *   meaningless value.
      */
     override def getOrdinate(index: Int, ordinate: Int): scala.Double = coords(
       index * dimension + ordinate
     )
 
     /**
-     * @see PackedCoordinateSequence#setOrdinate(int, int, double)
+     * @see
+     *   PackedCoordinateSequence#setOrdinate(int, int, double)
      */
     override def setOrdinate(index: Int, ordinate: Int, value: scala.Double): Unit = {
       coordRef = null
@@ -192,7 +209,8 @@ object PackedCoordinateSequence {
     }
 
     /**
-     * @see CoordinateSequence#expandEnvelope(Envelope)
+     * @see
+     *   CoordinateSequence#expandEnvelope(Envelope)
      */
     override def expandEnvelope(env: Envelope): Envelope = {
       var i = 0
@@ -241,9 +259,12 @@ object PackedCoordinateSequence {
     /**
      * Constructs a packed coordinate sequence from an array of <code>float</code>s
      *
-     * @param coords    an array of <c>float</c> values that contains the ordinate values of the sequence
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
-     * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+     * @param coords
+     *   an array of <c>float</c> values that contains the ordinate values of the sequence
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param measures
+     *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
 
     if (coords.length % dimension != 0)
@@ -254,9 +275,12 @@ object PackedCoordinateSequence {
     /**
      * Constructs a packed coordinate sequence from an array of <code>double</code>s
      *
-     * @param coords    an array of <c>double</c> values that contains the ordinate values of the sequence
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
-     * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+     * @param coords
+     *   an array of <c>double</c> values that contains the ordinate values of the sequence
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param measures
+     *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
     def this(coords: Array[scala.Double], dimension: Int, measures: Int) = {
       this(coords.map(_.toFloat), dimension, measures)
@@ -265,9 +289,12 @@ object PackedCoordinateSequence {
     /**
      * Constructs a packed coordinate sequence out of a coordinate array
      *
-     * @param coordinates an array of { @link Coordinate}s
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
-     * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+     * @param coordinates
+     *   an array of { @link Coordinate}s
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param measures
+     *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
     def this(coordinates: Array[Coordinate], dimension: Int, measures: Int) = {
       this(toFloatArray(coordinates, dimension), dimension, measures)
@@ -276,8 +303,10 @@ object PackedCoordinateSequence {
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
      *
-     * @param coordinates an array of { @link Coordinate}s
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param coordinates
+     *   an array of { @link Coordinate}s
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
      */
     def this(coordinates: Array[Coordinate], dimension: Int) = {
       this(coordinates, dimension, 0)
@@ -286,9 +315,12 @@ object PackedCoordinateSequence {
     /**
      * Constructs an empty packed coordinate sequence of a given size and dimension
      *
-     * @param size      the number of coordinates in this sequence
-     * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
-     * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+     * @param size
+     *   the number of coordinates in this sequence
+     * @param dimension
+     *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+     * @param measures
+     *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
     def this(size: Int, dimension: Int, measures: Int) = {
       this(new Array[scala.Float](size * dimension), dimension, measures)
@@ -319,7 +351,8 @@ object PackedCoordinateSequence {
     override def clone: Float = copy
 
     /**
-     * @see PackedCoordinateSequence#copy()
+     * @see
+     *   PackedCoordinateSequence#copy()
      */
     override def copy: Float = {
       val clone = util.Arrays.copyOf(coords, coords.length)
@@ -327,10 +360,9 @@ object PackedCoordinateSequence {
     }
 
     /**
-     * @see PackedCoordinateSequence#getOrdinate(int, int)
-     *      For performance reasons the ordinate index is not checked.
-     *      If it is larger than the dimension a meaningless
-     *      value may be returned.
+     * @see
+     *   PackedCoordinateSequence#getOrdinate(int, int) For performance reasons the ordinate index
+     *   is not checked. If it is larger than the dimension a meaningless value may be returned.
      */
     override def getOrdinate(index: Int, ordinate: Int): scala.Double = coords(
       index * dimension + ordinate
@@ -368,8 +400,10 @@ abstract class PackedCoordinateSequence protected (
 /**
  * Creates an instance of this class
  *
- * @param dimension the total number of ordinates that make up a { @link Coordinate} in this sequence.
- * @param measures the number of measure-ordinates each { @link Coordinate} in this sequence has.
+ * @param dimension
+ *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
+ * @param measures
+ *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
  */
     extends CoordinateSequence
     with Serializable {
@@ -377,23 +411,26 @@ abstract class PackedCoordinateSequence protected (
     throw new IllegalArgumentException("Must have at least 2 spatial dimensions")
 
   /**
-   * A soft reference to the Coordinate[] representation of this sequence.
-   * Makes repeated coordinate array accesses more efficient.
+   * A soft reference to the Coordinate[] representation of this sequence. Makes repeated coordinate
+   * array accesses more efficient.
    */
   protected var coordRef: SoftReference[Array[Coordinate]] = null
 
   /**
-   * @see CoordinateSequence#getDimension()
+   * @see
+   *   CoordinateSequence#getDimension()
    */
   override def getDimension: Int = this.dimension
 
   /**
-   * @see CoordinateSequence#getMeasures()
+   * @see
+   *   CoordinateSequence#getMeasures()
    */
   override def getMeasures: Int = this.measures
 
   /**
-   * @see CoordinateSequence#getCoordinate(int)
+   * @see
+   *   CoordinateSequence#getCoordinate(int)
    */
   override def getCoordinate(i: Int): Coordinate = {
     val coords = getCachedCoords
@@ -411,7 +448,8 @@ abstract class PackedCoordinateSequence protected (
   }
 
   /**
-   * @see CoordinateSequence#toCoordinateArray()
+   * @see
+   *   CoordinateSequence#toCoordinateArray()
    */
   override def toCoordinateArray: Array[Coordinate] = {
     var coords = getCachedCoords
@@ -437,25 +475,30 @@ abstract class PackedCoordinateSequence protected (
   } else null
 
   /**
-   * @see CoordinateSequence#getX(int)
+   * @see
+   *   CoordinateSequence#getX(int)
    */
   override def getX(index: Int): scala.Double = getOrdinate(index, 0)
 
   /**
-   * @see CoordinateSequence#getY(int)
+   * @see
+   *   CoordinateSequence#getY(int)
    */
   override def getY(index: Int): scala.Double = getOrdinate(index, 1)
 
   /**
-   * @see CoordinateSequence#getOrdinate(int, int)
+   * @see
+   *   CoordinateSequence#getOrdinate(int, int)
    */
   override def getOrdinate(index: Int, ordinateIndex: Int): scala.Double
 
   /**
    * Sets the first ordinate of a coordinate in this sequence.
    *
-   * @param index the coordinate index
-   * @param value the new ordinate value
+   * @param index
+   *   the coordinate index
+   * @param value
+   *   the new ordinate value
    */
   def setX(index: Int, value: Double): Unit = {
     coordRef = null
@@ -465,8 +508,10 @@ abstract class PackedCoordinateSequence protected (
   /**
    * Sets the second ordinate of a coordinate in this sequence.
    *
-   * @param index the coordinate index
-   * @param value the new ordinate value
+   * @param index
+   *   the coordinate index
+   * @param value
+   *   the new ordinate value
    */
   def setY(index: Int, value: Double): Unit = {
     coordRef = null
@@ -482,17 +527,19 @@ abstract class PackedCoordinateSequence protected (
   }
 
   /**
-   * Returns a Coordinate representation of the specified coordinate, by always
-   * building a new Coordinate object
+   * Returns a Coordinate representation of the specified coordinate, by always building a new
+   * Coordinate object
    *
-   * @param index the coordinate index
-   * return the { @link Coordinate} at the given index
+   * @param index
+   *   the coordinate index return the { @link Coordinate} at the given index
    */
   protected def getCoordinateInternal(index: Int): Coordinate
 
   /**
-   * @see java.lang.Object#clone()
-   * @see CoordinateSequence#clone()
+   * @see
+   *   java.lang.Object#clone()
+   * @see
+   *   CoordinateSequence#clone()
    * @deprecated
    */
   override protected def clone: Object
@@ -500,18 +547,16 @@ abstract class PackedCoordinateSequence protected (
   override def copy: CoordinateSequence
 
   /**
-   * Sets the ordinate of a coordinate in this sequence.
-   * <br>
-   * Warning: for performance reasons the ordinate index is not checked
-   * - if it is over dimensions you may not get an exception but a meaningless value.
+   * Sets the ordinate of a coordinate in this sequence. <br> Warning: for performance reasons the
+   * ordinate index is not checked
+   *   - if it is over dimensions you may not get an exception but a meaningless value.
    *
    * @param index
-   * the coordinate index
+   *   the coordinate index
    * @param ordinate
-   * the ordinate index in the coordinate, 0 based, smaller than the
-   * number of dimensions
+   *   the ordinate index in the coordinate, 0 based, smaller than the number of dimensions
    * @param value
-   * the new ordinate value
+   *   the new ordinate value
    */
   override def setOrdinate(index: Int, ordinate: Int, value: Double): Unit
 }

@@ -16,14 +16,11 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequence
 //import org.locationtech.jts.io.WKTWriter
 
 /**
- * Represents a list of contiguous line segments,
- * and supports noding the segments.
- * The line segments are represented by an array of {link Coordinate}s.
- * Intended to optimize the noding of contiguous segments by
- * reducing the number of allocated objects.
- * SegmentStrings can carry a context object, which is useful
- * for preserving topological or parentage information.
- * All noded substrings are initialized with the same context object.
+ * Represents a list of contiguous line segments, and supports noding the segments. The line
+ * segments are represented by an array of {link Coordinate}s. Intended to optimize the noding of
+ * contiguous segments by reducing the number of allocated objects. SegmentStrings can carry a
+ * context object, which is useful for preserving topological or parentage information. All noded
+ * substrings are initialized with the same context object.
  *
  * @version 1.7
  */
@@ -34,8 +31,7 @@ class BasicSegmentString(var pts: Array[Coordinate], var data: Any)
  *
  * @param pts  the vertices of the segment string
  * @param data the user-defined data of this segment string (may be null)
- */
-    extends SegmentString {
+ */ extends SegmentString {
 
   /**
    * Gets the user-defined data for this segment string.
@@ -47,7 +43,8 @@ class BasicSegmentString(var pts: Array[Coordinate], var data: Any)
   /**
    * Sets the user-defined data for this segment string.
    *
-   * @param data an Object containing user-defined data
+   * @param data
+   *   an Object containing user-defined data
    */
   override def setData(data: Any): Unit = this.data = data
 
@@ -62,9 +59,9 @@ class BasicSegmentString(var pts: Array[Coordinate], var data: Any)
   /**
    * Gets the octant of the segment starting at vertex <code>index</code>.
    *
-   * @param index the index of the vertex starting the segment.  Must not be
-   *              the last index in the vertex list
-   * return the octant of the segment at the vertex
+   * @param index
+   *   the index of the vertex starting the segment. Must not be the last index in the vertex list
+   *   return the octant of the segment at the vertex
    */
   def getSegmentOctant(index: Int): Int = {
     if (index == pts.length - 1) return -1

@@ -32,30 +32,24 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Location
 
 /**
- * The computation of the <code>IntersectionMatrix</code> relies on the use of a structure
- * called a "topology graph".  The topology graph contains nodes and edges
- * corresponding to the nodes and line segments of a <code>Geometry</code>. Each
- * node and edge in the graph is labeled with its topological location relative to
- * the source geometry.
- * <P>
- * Note that there is no requirement that points of self-intersection be a vertex.
- * Thus to obtain a correct topology graph, <code>Geometry</code>s must be
- * self-noded before constructing their graphs.
- * <P>
- * Two fundamental operations are supported by topology graphs:
- * <UL>
- * <LI>Computing the intersections between all the edges and nodes of a single graph
- * <LI>Computing the intersections between the edges and nodes of two different graphs
- * </UL>
+ * The computation of the <code>IntersectionMatrix</code> relies on the use of a structure called a
+ * "topology graph". The topology graph contains nodes and edges corresponding to the nodes and line
+ * segments of a <code>Geometry</code>. Each node and edge in the graph is labeled with its
+ * topological location relative to the source geometry. <P> Note that there is no requirement that
+ * points of self-intersection be a vertex. Thus to obtain a correct topology graph,
+ * <code>Geometry</code>s must be self-noded before constructing their graphs. <P> Two fundamental
+ * operations are supported by topology graphs: <UL> <LI>Computing the intersections between all the
+ * edges and nodes of a single graph <LI>Computing the intersections between the edges and nodes of
+ * two different graphs </UL>
  *
  * @version 1.7
  */
 object PlanarGraph {
 
   /**
-   * For nodes in the Collection, link the DirectedEdges at the node that are in the result.
-   * This allows clients to link only a subset of nodes in the graph, for
-   * efficiency (because they know that only a subset is of interest).
+   * For nodes in the Collection, link the DirectedEdges at the node that are in the result. This
+   * allows clients to link only a subset of nodes in the graph, for efficiency (because they know
+   * that only a subset is of interest).
    */
   def linkResultDirectedEdges(nodes: util.Collection[Node]): Unit = {
     val nodeit = nodes.iterator
@@ -108,8 +102,8 @@ class PlanarGraph(nodeFact: NodeFactory) {
   def find(coord: Coordinate): Node = nodes.find(coord)
 
   /**
-   * Add a set of edges to the graph.  For each edge two DirectedEdges
-   * will be created.  DirectedEdges are NOT linked by this method.
+   * Add a set of edges to the graph. For each edge two DirectedEdges will be created. DirectedEdges
+   * are NOT linked by this method.
    */
   def addEdges(edgesToAdd: util.List[Edge]): Unit = { // create all the nodes for the edges
     val it = edgesToAdd.iterator
@@ -126,9 +120,8 @@ class PlanarGraph(nodeFact: NodeFactory) {
   }
 
   /**
-   * Link the DirectedEdges at the nodes of the graph.
-   * This allows clients to link only a subset of nodes in the graph, for
-   * efficiency (because they know that only a subset is of interest).
+   * Link the DirectedEdges at the nodes of the graph. This allows clients to link only a subset of
+   * nodes in the graph, for efficiency (because they know that only a subset is of interest).
    */
   def linkResultDirectedEdges(): Unit = {
     val nodeit = nodes.iterator
@@ -147,11 +140,10 @@ class PlanarGraph(nodeFact: NodeFactory) {
   }
 
   /**
-   * Returns the EdgeEnd which has edge e as its base edge
-   * (MD 18 Feb 2002 - this should return a pair of edges)
+   * Returns the EdgeEnd which has edge e as its base edge (MD 18 Feb 2002 - this should return a
+   * pair of edges)
    *
-   * return the edge, if found
-   *         <code>null</code> if the edge was not found
+   * return the edge, if found <code>null</code> if the edge was not found
    */
   def findEdgeEnd(e: Edge): EdgeEnd = {
     val i = getEdgeEnds.iterator
@@ -165,8 +157,7 @@ class PlanarGraph(nodeFact: NodeFactory) {
   /**
    * Returns the edge whose first two coordinates are p0 and p1
    *
-   * return the edge, if found
-   *         <code>null</code> if the edge was not found
+   * return the edge, if found <code>null</code> if the edge was not found
    */
   def findEdge(p0: Coordinate, p1: Coordinate): Edge = {
     var i = 0
@@ -180,11 +171,9 @@ class PlanarGraph(nodeFact: NodeFactory) {
   }
 
   /**
-   * Returns the edge which starts at p0 and whose first segment is
-   * parallel to p1
+   * Returns the edge which starts at p0 and whose first segment is parallel to p1
    *
-   * return the edge, if found
-   *         <code>null</code> if the edge was not found
+   * return the edge, if found <code>null</code> if the edge was not found
    */
   def findEdgeInSameDirection(p0: Coordinate, p1: Coordinate): Edge = {
     var i = 0
@@ -200,9 +189,8 @@ class PlanarGraph(nodeFact: NodeFactory) {
   }
 
   /**
-   * The coordinate pairs match if they define line segments lying in the same direction.
-   * E.g. the segments are parallel and in the same quadrant
-   * (as opposed to parallel and opposite!).
+   * The coordinate pairs match if they define line segments lying in the same direction. E.g. the
+   * segments are parallel and in the same quadrant (as opposed to parallel and opposite!).
    */
   private def matchInSameDirection(
     p0:  Coordinate,

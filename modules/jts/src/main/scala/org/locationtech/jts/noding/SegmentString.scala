@@ -14,9 +14,8 @@ package org.locationtech.jts.noding
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * An interface for classes which represent a sequence of contiguous line segments.
- * SegmentStrings can carry a context object, which is useful
- * for preserving topological or parentage information.
+ * An interface for classes which represent a sequence of contiguous line segments. SegmentStrings
+ * can carry a context object, which is useful for preserving topological or parentage information.
  *
  * @version 1.7
  */
@@ -32,7 +31,8 @@ trait SegmentString {
   /**
    * Sets the user-defined data for this segment string.
    *
-   * @param data an Object containing user-defined data
+   * @param data
+   *   an Object containing user-defined data
    */
   def setData(data: Any): Unit
 

@@ -16,13 +16,10 @@ import java.util
 import org.locationtech.jts.util.Assert
 
 /**
- * A node of an {link AbstractSTRtree}. A node is one of:
- * <ul>
- * <li>empty
- * <li>an <i>interior node</i> containing child {link AbstractNode}s
- * <li>a <i>leaf node</i> containing data items ({link ItemBoundable}s).
- * </ul>
- * A node stores the bounds of its children, and its level within the index tree.
+ * A node of an {link AbstractSTRtree}. A node is one of: <ul> <li>empty <li>an <i>interior node</i>
+ * containing child {link AbstractNode}s <li>a <i>leaf node</i> containing data items ({link
+ * ItemBoundable}s). </ul> A node stores the bounds of its children, and its level within the index
+ * tree.
  *
  * @version 1.7
  */
@@ -31,9 +28,7 @@ abstract class AbstractNode(level: Int = 0)
 
 /**
  * Default constructor required for serialization.
- */
-    extends Boundable
-    with Serializable {
+ */ extends Boundable with Serializable {
   private val childBoundables = new util.ArrayList[Boundable]
   private var bounds: AnyRef  = null
 //  private var level = 0
@@ -41,8 +36,9 @@ abstract class AbstractNode(level: Int = 0)
   /**
    * Constructs an AbstractNode at the given level in the tree
    *
-   * @param level 0 if this node is a leaf, 1 if a parent of a leaf, and so on; the
-   *              root node will have the highest level
+   * @param level
+   *   0 if this node is a leaf, 1 if a parent of a leaf, and so on; the root node will have the
+   *   highest level
    */
 //  def this {
 //    this()
@@ -50,22 +46,22 @@ abstract class AbstractNode(level: Int = 0)
 //  }
 
   /**
-   * Returns either child {link AbstractNode}s, or if this is a leaf node, real data (wrapped
-   * in {link ItemBoundable}s).
+   * Returns either child {link AbstractNode}s, or if this is a leaf node, real data (wrapped in
+   * {link ItemBoundable}s).
    *
    * return a list of the children
    */
   def getChildBoundables: util.ArrayList[Boundable] = childBoundables
 
   /**
-   * Returns a representation of space that encloses this Boundable,
-   * preferably not much bigger than this Boundable's boundary yet fast to
-   * test for intersection with the bounds of other Boundables. The class of
-   * object returned depends on the subclass of AbstractSTRtree.
+   * Returns a representation of space that encloses this Boundable, preferably not much bigger than
+   * this Boundable's boundary yet fast to test for intersection with the bounds of other
+   * Boundables. The class of object returned depends on the subclass of AbstractSTRtree.
    *
-   * return an Envelope (for STRtrees), an Interval (for SIRtrees), or other
-   *         object (for other subclasses of AbstractSTRtree)
-   * @see AbstractSTRtree.IntersectsOp
+   * return an Envelope (for STRtrees), an Interval (for SIRtrees), or other object (for other
+   * subclasses of AbstractSTRtree)
+   * @see
+   *   AbstractSTRtree.IntersectsOp
    */
   protected def computeBounds: AnyRef
 
@@ -80,8 +76,8 @@ abstract class AbstractNode(level: Int = 0)
   }
 
   /**
-   * Returns 0 if this node is a leaf, 1 if a parent of a leaf, and so on; the
-   * root node will have the highest level
+   * Returns 0 if this node is a leaf, 1 if a parent of a leaf, and so on; the root node will have
+   * the highest level
    *
    * return the node level
    */
@@ -102,10 +98,11 @@ abstract class AbstractNode(level: Int = 0)
   def isEmpty: Boolean = childBoundables.isEmpty
 
   /**
-   * Adds either an AbstractNode, or if this is a leaf node, a data object
-   * (wrapped in an ItemBoundable)
+   * Adds either an AbstractNode, or if this is a leaf node, a data object (wrapped in an
+   * ItemBoundable)
    *
-   * @param childBoundable the child to add
+   * @param childBoundable
+   *   the child to add
    */
   def addChildBoundable(childBoundable: Boundable): Boolean = {
     Assert.isTrue(bounds == null)

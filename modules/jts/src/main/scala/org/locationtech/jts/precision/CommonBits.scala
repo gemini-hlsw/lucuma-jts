@@ -12,35 +12,32 @@
 package org.locationtech.jts.precision
 
 /**
- * Determines the maximum number of common most-significant
- * bits in the mantissa of one or numbers.
- * Can be used to compute the double-precision number which
- * is represented by the common bits.
- * If there are no common bits, the number computed is 0.0.
+ * Determines the maximum number of common most-significant bits in the mantissa of one or numbers.
+ * Can be used to compute the double-precision number which is represented by the common bits. If
+ * there are no common bits, the number computed is 0.0.
  *
  * @version 1.7
  */
 object CommonBits {
 
   /**
-   * Computes the bit pattern for the sign and exponent of a
-   * double-precision number.
+   * Computes the bit pattern for the sign and exponent of a double-precision number.
    *
    * @param num
-   * return the bit pattern for the sign and exponent
+   *   return the bit pattern for the sign and exponent
    */
   def signExpBits(num: Long): Long = num >> 52
 
   /**
-   * This computes the number of common most-significant bits in the mantissas
-   * of two double-precision numbers.
-   * It does not count the hidden bit, which is always 1.
-   * It does not determine whether the numbers have the same exponent - if they do
-   * not, the value computed by this function is meaningless.
+   * This computes the number of common most-significant bits in the mantissas of two
+   * double-precision numbers. It does not count the hidden bit, which is always 1. It does not
+   * determine whether the numbers have the same exponent - if they do not, the value computed by
+   * this function is meaningless.
    *
-   * @param num1 the first number
-   * @param num2 the second number
-   * return the number of common most-significant mantissa bits
+   * @param num1
+   *   the first number
+   * @param num2
+   *   the second number return the number of common most-significant mantissa bits
    */
   def numCommonMostSigMantissaBits(num1: Long, num2: Long): Int = {
     var count = 0
@@ -56,8 +53,8 @@ object CommonBits {
   /**
    * Zeroes the lower n bits of a bitstring.
    *
-   * @param bits the bitstring to alter
-   * return the zeroed bitstring
+   * @param bits
+   *   the bitstring to alter return the zeroed bitstring
    */
   def zeroLowerBits(bits: Long, nBits: Int): Long = {
     val invMask = (1L << nBits) - 1L
@@ -69,9 +66,10 @@ object CommonBits {
   /**
    * Extracts the i'th bit of a bitstring.
    *
-   * @param bits the bitstring to extract from
-   * @param i    the bit to extract
-   * return the value of the extracted bit
+   * @param bits
+   *   the bitstring to extract from
+   * @param i
+   *   the bit to extract return the value of the extracted bit
    */
   def getBit(bits: Long, i: Int): Int = {
     val mask = 1L << i

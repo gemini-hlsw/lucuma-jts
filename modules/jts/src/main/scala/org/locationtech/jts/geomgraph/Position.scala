@@ -12,8 +12,8 @@
 package org.locationtech.jts.geomgraph
 
 /**
- * A Position indicates the position of a Location relative to a graph component
- * (Node, Edge, or Area).
+ * A Position indicates the position of a Location relative to a graph component (Node, Edge, or
+ * Area).
  *
  * @version 1.7
  */

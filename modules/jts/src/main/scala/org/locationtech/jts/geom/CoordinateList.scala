@@ -17,8 +17,8 @@ package org.locationtech.jts.geom
 import java.util
 
 /**
- * A list of {link Coordinate}s, which may
- * be set to prevent repeated coordinates from occurring in the list.
+ * A list of {link Coordinate}s, which may be set to prevent repeated coordinates from occurring in
+ * the list.
  *
  * @version 1.7
  */
@@ -34,11 +34,12 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   add(coord, allowRepeated)
 
   /**
-   * Constructs a new list from an array of Coordinates, allowing repeated points.
-   * (I.e. this constructor produces a {link CoordinateList} with exactly the same set of points
-   * as the input array.)
+   * Constructs a new list from an array of Coordinates, allowing repeated points. (I.e. this
+   * constructor produces a {link CoordinateList} with exactly the same set of points as the input
+   * array.)
    *
-   * @param coord the initial coordinates
+   * @param coord
+   *   the initial coordinates
    */
   def this(coord: Array[Coordinate]) = {
     this(coord, true)
@@ -52,11 +53,14 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   /**
    * Adds a section of an array of coordinates to the list.
    *
-   * @param coord         The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
-   * @param start         the index to start from
-   * @param end           the index to add up to but not including
-   * return true (as by general collection contract)
+   * @param coord
+   *   The coordinates
+   * @param allowRepeated
+   *   if set to false, repeated coordinates are collapsed
+   * @param start
+   *   the index to start from
+   * @param end
+   *   the index to add up to but not including return true (as by general collection contract)
    */
   def add(coord: Array[Coordinate], allowRepeated: Boolean, start: Int, end: Int): Boolean = {
     var inc = 1
@@ -72,10 +76,12 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   /**
    * Adds an array of coordinates to the list.
    *
-   * @param coord         The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
-   * @param direction     if false, the array is added in reverse order
-   * return true (as by general collection contract)
+   * @param coord
+   *   The coordinates
+   * @param allowRepeated
+   *   if set to false, repeated coordinates are collapsed
+   * @param direction
+   *   if false, the array is added in reverse order return true (as by general collection contract)
    */
   def add(coord: Array[Coordinate], allowRepeated: Boolean, direction: Boolean): Boolean = {
     if (direction) {
@@ -98,9 +104,11 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   /**
    * Adds an array of coordinates to the list.
    *
-   * @param coord         The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
-   * return true (as by general collection contract)
+   * @param coord
+   *   The coordinates
+   * @param allowRepeated
+   *   if set to false, repeated coordinates are collapsed return true (as by general collection
+   *   contract)
    */
   def add(coord: Array[Coordinate], allowRepeated: Boolean): Boolean = {
     add(coord, allowRepeated, true)
@@ -110,9 +118,11 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   /**
    * Adds a coordinate to the list.
    *
-   * @param obj           The coordinate to add
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
-   * return true (as by general collection contract)
+   * @param obj
+   *   The coordinate to add
+   * @param allowRepeated
+   *   if set to false, repeated coordinates are collapsed return true (as by general collection
+   *   contract)
    */
   def add(obj: Any, allowRepeated: Boolean): Boolean = {
     add(obj.asInstanceOf[Coordinate], allowRepeated)
@@ -122,8 +132,10 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   /**
    * Adds a coordinate to the end of the list.
    *
-   * @param coord         The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
+   * @param coord
+   *   The coordinates
+   * @param allowRepeated
+   *   if set to false, repeated coordinates are collapsed
    */
   def add(coord: Coordinate, allowRepeated: Boolean): Unit = { // don't add duplicate coordinates
     if (!allowRepeated) if (size >= 1) {
@@ -137,9 +149,12 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   /**
    * Inserts the specified coordinate at the specified position in this list.
    *
-   * @param i             the position at which to insert
-   * @param coord         the coordinate to insert
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
+   * @param i
+   *   the position at which to insert
+   * @param coord
+   *   the coordinate to insert
+   * @param allowRepeated
+   *   if set to false, repeated coordinates are collapsed
    */
   def add(i: Int, coord: Coordinate, allowRepeated: Boolean): Unit = {
     if (!allowRepeated) {
@@ -161,9 +176,11 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   /**
    * Add an array of coordinates
    *
-   * @param coll          The coordinates
-   * @param allowRepeated if set to false, repeated coordinates are collapsed
-   * return true (as by general collection contract)
+   * @param coll
+   *   The coordinates
+   * @param allowRepeated
+   *   if set to false, repeated coordinates are collapsed return true (as by general collection
+   *   contract)
    */
   def addAll(coll: util.Collection[_ <: Coordinate], allowRepeated: Boolean): Boolean = {
     var isChanged = false
@@ -191,11 +208,12 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   def toCoordinateArray: Array[Coordinate] = toArray(CoordinateList.coordArrayType)
 
   /**
-   * Creates an array containing the coordinates in this list,
-   * oriented in the given direction (forward or reverse).
+   * Creates an array containing the coordinates in this list, oriented in the given direction
+   * (forward or reverse).
    *
-   * @param direction the direction value: true for forward, false for reverse
-   * return an oriented array of coordinates
+   * @param direction
+   *   the direction value: true for forward, false for reverse return an oriented array of
+   *   coordinates
    */
   def toCoordinateArray(isForward: Boolean): Array[Coordinate] =
     if (isForward) toArray(CoordinateList.coordArrayType)

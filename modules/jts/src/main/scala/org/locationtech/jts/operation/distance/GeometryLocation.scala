@@ -16,23 +16,19 @@ import org.locationtech.jts.geom.Geometry
 //import org.locationtech.jts.io.WKTWriter
 
 /**
- * Represents the location of a point on a Geometry.
- * Maintains both the actual point location
- * (which may not be exact, if the point is not a vertex)
- * as well as information about the component
- * and segment index where the point occurs.
- * Locations inside area Geometrys will not have an associated segment index,
- * so in this case the segment index will have the sentinel value of
- * {link #INSIDE_AREA}.
+ * Represents the location of a point on a Geometry. Maintains both the actual point location (which
+ * may not be exact, if the point is not a vertex) as well as information about the component and
+ * segment index where the point occurs. Locations inside area Geometrys will not have an associated
+ * segment index, so in this case the segment index will have the sentinel value of {link
+ * #INSIDE_AREA}.
  *
  * @version 1.7
  */
 object GeometryLocation {
 
   /**
-   * A special value of segmentIndex used for locations inside area geometries.
-   * These locations are not located on a segment,
-   * and thus do not have an associated segment index.
+   * A special value of segmentIndex used for locations inside area geometries. These locations are
+   * not located on a segment, and thus do not have an associated segment index.
    */
   val INSIDE_AREA: Int = -1
 }
@@ -40,13 +36,15 @@ object GeometryLocation {
 class GeometryLocation(val component: Geometry, var segIndex: Int, val pt: Coordinate) {
 
   /**
-   * Constructs a GeometryLocation specifying a point on a geometry, as well as the
-   * segment that the point is on
-   * (or {link #INSIDE_AREA} if the point is not on a segment).
+   * Constructs a GeometryLocation specifying a point on a geometry, as well as the segment that the
+   * point is on (or {link #INSIDE_AREA} if the point is not on a segment).
    *
-   * @param component the component of the geometry containing the point
-   * @param segIndex  the segment index of the location, or INSIDE_AREA
-   * @param pt        the coordinate of the location
+   * @param component
+   *   the component of the geometry containing the point
+   * @param segIndex
+   *   the segment index of the location, or INSIDE_AREA
+   * @param pt
+   *   the coordinate of the location
    */
 //  this.component = component
 //  this.pt = pt
@@ -56,8 +54,10 @@ class GeometryLocation(val component: Geometry, var segIndex: Int, val pt: Coord
   /**
    * Constructs a GeometryLocation specifying a point inside an area geometry.
    *
-   * @param component the component of the geometry containing the point
-   * @param pt        the coordinate of the location
+   * @param component
+   *   the component of the geometry containing the point
+   * @param pt
+   *   the coordinate of the location
    */
   def this(component: Geometry, pt: Coordinate) = {
     this(component, GeometryLocation.INSIDE_AREA, pt)
@@ -69,8 +69,8 @@ class GeometryLocation(val component: Geometry, var segIndex: Int, val pt: Coord
   def getGeometryComponent: Geometry = component
 
   /**
-   * Returns the segment index for this location. If the location is inside an
-   * area, the index will have the value {link #INSIDE_AREA};
+   * Returns the segment index for this location. If the location is inside an area, the index will
+   * have the value {link #INSIDE_AREA};
    *
    * return the segment index for the location, or INSIDE_AREA
    */
@@ -87,5 +87,5 @@ class GeometryLocation(val component: Geometry, var segIndex: Int, val pt: Coord
   def isInsideArea: Boolean = segIndex == GeometryLocation.INSIDE_AREA
 
 //  override def toString: String = s"${component.getGeometryType} [$segIndex]-${WKTWriter.toPoint(pt)}"
-  override def toString: String = s"${component.getGeometryType} [$segIndex]-${pt}"
+  override def toString: String = s"${component.getGeometryType} [$segIndex]-$pt"
 }

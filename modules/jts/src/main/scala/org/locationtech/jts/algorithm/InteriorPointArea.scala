@@ -22,59 +22,36 @@ import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.util.Assert
 
 /**
- * Computes a point in the interior of an areal geometry.
- * The point will lie in the geometry interior
- * in all except certain pathological cases.
+ * Computes a point in the interior of an areal geometry. The point will lie in the geometry
+ * interior in all except certain pathological cases.
  *
- * <h2>Algorithm</h2>
- * For each input polygon:
- * <ul>
- * <li>Determine a horizontal scan line on which the interior
- * point will be located.
- * To increase the chance of the scan line
- * having non-zero-width intersection with the polygon
- * the scan line Y ordinate is chosen to be near the centre of the polygon's
- * Y extent but distinct from all of vertex Y ordinates.
- * <li>Compute the sections of the scan line
- * which lie in the interior of the polygon.
- * <li>Choose the widest interior section
- * and take its midpoint as the interior point.
- * </ul>
- * The final interior point is chosen as
- * the one occurring in the widest interior section.
- * <p>
- * This algorithm is a tradeoff between performance
- * and point quality (where points further from the geometry
- * boundary are considered to be higher quality)
- * Priority is given to performance.
- * This means that the computed interior point
- * may not be suitable for some uses
- * (such as label positioning).
- * <p>
- * The algorithm handles some kinds of invalid/degenerate geometry,
- * including zero-area and self-intersecting polygons.
- * <p>
- * Empty geometry is handled by returning a <code>null</code> point.
+ * <h2>Algorithm</h2> For each input polygon: <ul> <li>Determine a horizontal scan line on which the
+ * interior point will be located. To increase the chance of the scan line having non-zero-width
+ * intersection with the polygon the scan line Y ordinate is chosen to be near the centre of the
+ * polygon's Y extent but distinct from all of vertex Y ordinates. <li>Compute the sections of the
+ * scan line which lie in the interior of the polygon. <li>Choose the widest interior section and
+ * take its midpoint as the interior point. </ul> The final interior point is chosen as the one
+ * occurring in the widest interior section. <p> This algorithm is a tradeoff between performance
+ * and point quality (where points further from the geometry boundary are considered to be higher
+ * quality) Priority is given to performance. This means that the computed interior point may not be
+ * suitable for some uses (such as label positioning). <p> The algorithm handles some kinds of
+ * invalid/degenerate geometry, including zero-area and self-intersecting polygons. <p> Empty
+ * geometry is handled by returning a <code>null</code> point.
  *
- * <h3>KNOWN BUGS</h3>
- * <ul>
- * <li>If a fixed precision model is used, in some cases this method may return
- * a point which does not lie in the interior.
- * <li>If the input polygon is <i>extremely</i> narrow the computed point
- * may not lie in the interior of the polygon.
- * </ul>
+ * <h3>KNOWN BUGS</h3> <ul> <li>If a fixed precision model is used, in some cases this method may
+ * return a point which does not lie in the interior. <li>If the input polygon is <i>extremely</i>
+ * narrow the computed point may not lie in the interior of the polygon. </ul>
  *
  * @version 1.17
  */
 object InteriorPointArea {
 
   /**
-   * Computes an interior point for the
-   * polygonal components of a Geometry.
+   * Computes an interior point for the polygonal components of a Geometry.
    *
-   * @param geom the geometry to compute
-   * return the computed interior point,
-   *         or <code>null</code> if the geometry has no polygonal components
+   * @param geom
+   *   the geometry to compute return the computed interior point, or <code>null</code> if the
+   *   geometry has no polygonal components
    */
   def getInteriorPoint(geom: Geometry): Coordinate = {
     val intPt = new InteriorPointArea(geom)
@@ -84,24 +61,24 @@ object InteriorPointArea {
   private def avg(a: Double, b: Double) = (a + b) / 2.0
 
   /**
-   * Computes an interior point in a single {link Polygon},
-   * as well as the width of the scan-line section it occurs in
-   * to allow choosing the widest section occurrence.
+   * Computes an interior point in a single {link Polygon}, as well as the width of the scan-line
+   * section it occurs in to allow choosing the widest section occurrence.
    *
-   * @author mdavis
+   * @author
+   *   mdavis
    */
   private object InteriorPointPolygon {
 
     /**
-     * Tests if an edge intersection contributes to the crossing count.
-     * Some crossing situations are not counted,
-     * to ensure that the list of crossings
-     * captures strict inside/outside topology.
+     * Tests if an edge intersection contributes to the crossing count. Some crossing situations are
+     * not counted, to ensure that the list of crossings captures strict inside/outside topology.
      *
-     * @param p0    an endpoint of the segment
-     * @param p1    an endpoint of the segment
-     * @param scanY the Y-ordinate of the horizontal line
-     * return true if the edge crossing is counted
+     * @param p0
+     *   an endpoint of the segment
+     * @param p1
+     *   an endpoint of the segment
+     * @param scanY
+     *   the Y-ordinate of the horizontal line return true if the edge crossing is counted
      */
     private def isEdgeCrossingCounted(p0: Coordinate, p1: Coordinate, scanY: Double): Boolean = {
       val y0 = p0.getY
@@ -117,16 +94,17 @@ object InteriorPointArea {
     }
 
     /**
-     * Computes the intersection of a segment with a horizontal line.
-     * The segment is expected to cross the horizontal line
-     * - this condition is not checked.
-     * Computation uses regular double-precision arithmetic.
-     * Test seems to indicate this is as good as using DD arithmetic.
+     * Computes the intersection of a segment with a horizontal line. The segment is expected to
+     * cross the horizontal line
+     *   - this condition is not checked. Computation uses regular double-precision arithmetic. Test
+     *     seems to indicate this is as good as using DD arithmetic.
      *
-     * @param p0 an endpoint of the segment
-     * @param p1 an endpoint of the segment
-     * @param Y  the Y-ordinate of the horizontal line
-     * return
+     * @param p0
+     *   an endpoint of the segment
+     * @param p1
+     *   an endpoint of the segment
+     * @param Y
+     *   the Y-ordinate of the horizontal line return
      */
     private def intersection(p0: Coordinate, p1: Coordinate, Y: Double): Double = {
       val x0    = p0.getX
@@ -143,9 +121,10 @@ object InteriorPointArea {
     /**
      * Tests if an envelope intersects a horizontal line.
      *
-     * @param env the envelope to test
-     * @param y   the Y-ordinate of the horizontal line
-     * return true if the envelope and line intersect
+     * @param env
+     *   the envelope to test
+     * @param y
+     *   the Y-ordinate of the horizontal line return true if the envelope and line intersect
      */
     private def intersectsHorizontalLine(env: Envelope, y: Double): Boolean = {
       if (y < env.getMinY) return false
@@ -156,10 +135,12 @@ object InteriorPointArea {
     /**
      * Tests if a line segment intersects a horizontal line.
      *
-     * @param p0 a segment endpoint
-     * @param p1 a segment endpoint
-     * @param y  the Y-ordinate of the horizontal line
-     * return true if the segment and line intersect
+     * @param p0
+     *   a segment endpoint
+     * @param p1
+     *   a segment endpoint
+     * @param y
+     *   the Y-ordinate of the horizontal line return true if the segment and line intersect
      */
     private def intersectsHorizontalLine(p0: Coordinate, p1: Coordinate, y: Double): Boolean = { // both ends above?
       if (p0.getY > y && p1.getY > y) return false
@@ -175,7 +156,8 @@ object InteriorPointArea {
     /**
      * Creates a new InteriorPointPolygon instance.
      *
-     * @param polygon the polygon to test
+     * @param polygon
+     *   the polygon to test
      */
     private val interiorPointY            = ScanLineYOrdinateFinder.getScanLineY(polygon)
     private var interiorSectionWidth      = 0.0
@@ -184,14 +166,13 @@ object InteriorPointArea {
     /**
      * Gets the computed interior point.
      *
-     * return the interior point coordinate,
-     *         or <code>null</code> if the input geometry is empty
+     * return the interior point coordinate, or <code>null</code> if the input geometry is empty
      */
     def getInteriorPoint: Coordinate = interiorPoint
 
     /**
-     * Gets the width of the scanline section containing the interior point.
-     * Used to determine the best point to use.
+     * Gets the width of the scanline section containing the interior point. Used to determine the
+     * best point to use.
      *
      * return the width
      */
@@ -250,11 +231,11 @@ object InteriorPointArea {
     }
 
     /**
-     * Finds the midpoint of the widest interior section.
-     * Sets the {link #interiorPoint} location
+     * Finds the midpoint of the widest interior section. Sets the {link #interiorPoint} location
      * and the {link #interiorSectionWidth}
      *
-     * @param crossings the list of scan-line crossing X ordinates
+     * @param crossings
+     *   the list of scan-line crossing X ordinates
      */
     private def findBestMidpoint(crossings: util.List[Double]): Unit = { // zero-area polygons will have no crossings
       if (crossings.size == 0) return
@@ -268,7 +249,7 @@ object InteriorPointArea {
        * Entries in crossings list are expected to occur in pairs representing a
        * section of the scan line interior to the polygon (which may be zero-length)
        */
-      var i = 0
+      var i                                   = 0
       while (i < crossings.size) {
         val x1    = crossings.get(i)
         // crossings count must be even so this should be safe
@@ -313,18 +294,13 @@ object InteriorPointArea {
   }
 
   /**
-   * Finds a safe scan line Y ordinate by projecting
-   * the polygon segments
-   * to the Y axis and finding the
-   * Y-axis interval which contains the centre of the Y extent.
-   * The centre of
-   * this interval is returned as the scan line Y-ordinate.
-   * <p>
-   * Note that in the case of (degenerate, invalid)
-   * zero-area polygons the computed Y value
-   * may be equal to a vertex Y-ordinate.
+   * Finds a safe scan line Y ordinate by projecting the polygon segments to the Y axis and finding
+   * the Y-axis interval which contains the centre of the Y extent. The centre of this interval is
+   * returned as the scan line Y-ordinate. <p> Note that in the case of (degenerate, invalid)
+   * zero-area polygons the computed Y value may be equal to a vertex Y-ordinate.
    *
-   * @author mdavis
+   * @author
+   *   mdavis
    */
   private object ScanLineYOrdinateFinder {
     def getScanLineY(poly: Polygon): Double = {
@@ -374,7 +350,8 @@ class InteriorPointArea(val g: Geometry) {
   /**
    * Creates a new interior point finder for an areal geometry.
    *
-   * @param g an areal geometry
+   * @param g
+   *   an areal geometry
    */
   process(g)
   private var interiorPoint: Coordinate = null
@@ -383,17 +360,15 @@ class InteriorPointArea(val g: Geometry) {
   /**
    * Gets the computed interior point.
    *
-   * return the coordinate of an interior point
-   *         or <code>null</code> if the input geometry is empty
+   * return the coordinate of an interior point or <code>null</code> if the input geometry is empty
    */
   def getInteriorPoint: Coordinate = interiorPoint
 
   /**
-   * Processes a geometry to determine
-   * the best interior point for
-   * all component polygons.
+   * Processes a geometry to determine the best interior point for all component polygons.
    *
-   * @param geom the geometry to process
+   * @param geom
+   *   the geometry to process
    */
   private def process(geom: Geometry): Unit = {
     if (geom.isEmpty) return
@@ -409,11 +384,11 @@ class InteriorPointArea(val g: Geometry) {
   }
 
   /**
-   * Computes an interior point of a component Polygon
-   * and updates current best interior point
-   * if appropriate.
+   * Computes an interior point of a component Polygon and updates current best interior point if
+   * appropriate.
    *
-   * @param polygon the polygon to process
+   * @param polygon
+   *   the polygon to process
    */
   private def processPolygon(polygon: Polygon): Unit = {
     val intPtPoly = new InteriorPointArea.InteriorPointPolygon(polygon)

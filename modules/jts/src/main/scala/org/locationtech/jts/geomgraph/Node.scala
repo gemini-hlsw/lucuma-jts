@@ -30,10 +30,9 @@ class Node(
   def getEdges: EdgeEndStar = edges
 
   /**
-   * Tests whether any incident edge is flagged as
-   * being in the result.
-   * This test can be used to determine if the node is in the result,
-   * since if any incident edge is in the result, the node must be in the result as well.
+   * Tests whether any incident edge is flagged as being in the result. This test can be used to
+   * determine if the node is in the result, since if any incident edge is in the result, the node
+   * must be in the result as well.
    *
    * return <code>true</code> if any incident edge in the in the result
    */
@@ -64,10 +63,9 @@ class Node(
   def mergeLabel(n: Node): Unit = mergeLabel(n.label)
 
   /**
-   * To merge labels for two nodes,
-   * the merged location for each LabelElement is computed.
-   * The location for the corresponding node LabelElement is set to the result,
-   * as long as the location is non-null.
+   * To merge labels for two nodes, the merged location for each LabelElement is computed. The
+   * location for the corresponding node LabelElement is set to the result, as long as the location
+   * is non-null.
    */
   def mergeLabel(label2: Label): Unit = {
     var i = 0
@@ -84,8 +82,7 @@ class Node(
   else label.setLocation(argIndex, onLocation)
 
   /**
-   * Updates the label of a node to BOUNDARY,
-   * obeying the mod-2 boundaryDetermination rule.
+   * Updates the label of a node to BOUNDARY, obeying the mod-2 boundaryDetermination rule.
    */
   def setLabelBoundary(argIndex: Int): Unit = {
     if (label == null) return
@@ -106,11 +103,10 @@ class Node(
   }
 
   /**
-   * The location for a given eltIndex for a node will be one
-   * of { null, INTERIOR, BOUNDARY }.
-   * A node may be on both the boundary and the interior of a geometry;
-   * in this case, the rule is that the node is considered to be in the boundary.
-   * The merged location is the maximum of the two input values.
+   * The location for a given eltIndex for a node will be one of { null, INTERIOR, BOUNDARY }. A
+   * node may be on both the boundary and the interior of a geometry; in this case, the rule is that
+   * the node is considered to be in the boundary. The merged location is the maximum of the two
+   * input values.
    */
   private[geomgraph] def computeMergedLocation(label2: Label, eltIndex: Int): Int = {
     var loc = Location.NONE

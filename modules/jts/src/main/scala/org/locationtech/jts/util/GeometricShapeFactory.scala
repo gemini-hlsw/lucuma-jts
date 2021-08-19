@@ -31,20 +31,11 @@ import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.geom.util.AffineTransformation
 
 /**
- * Computes various kinds of common geometric shapes.
- * Provides various ways of specifying the location and extent
- * and rotations of the generated shapes,
- * as well as number of line segments used to form them.
- * <p>
- * <b>Example of usage:</b>
- * <pre>
- * GeometricShapeFactory gsf = new GeometricShapeFactory();
- *  gsf.setSize(100);
- *  gsf.setNumPoints(100);
- *  gsf.setBase(new Coordinate(100, 100));
- *  gsf.setRotation(0.5);
- * Polygon rect = gsf.createRectangle();
- * </pre>
+ * Computes various kinds of common geometric shapes. Provides various ways of specifying the
+ * location and extent and rotations of the generated shapes, as well as number of line segments
+ * used to form them. <p> <b>Example of usage:</b> <pre> GeometricShapeFactory gsf = new
+ * GeometricShapeFactory(); gsf.setSize(100); gsf.setNumPoints(100); gsf.setBase(new Coordinate(100,
+ * 100)); gsf.setRotation(0.5); Polygon rect = gsf.createRectangle(); </pre>
  *
  * @version 1.7
  */
@@ -121,8 +112,7 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   protected var rotationAngle = 0.0
 
   /**
-   * Create a shape factory which will create shapes using the default
-   * {link GeometryFactory}.
+   * Create a shape factory which will create shapes using the default {link GeometryFactory}.
    */
   def this() = {
     this(new GeometryFactory)
@@ -131,19 +121,19 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   def setEnvelope(env: Envelope): Unit = dim.setEnvelope(env)
 
   /**
-   * Sets the location of the shape by specifying the base coordinate
-   * (which in most cases is the
+   * Sets the location of the shape by specifying the base coordinate (which in most cases is the
    * lower left point of the envelope containing the shape).
    *
-   * @param base the base coordinate of the shape
+   * @param base
+   *   the base coordinate of the shape
    */
   def setBase(base: Coordinate): Unit = dim.setBase(base)
 
   /**
-   * Sets the location of the shape by specifying the centre of
-   * the shape's bounding box
+   * Sets the location of the shape by specifying the centre of the shape's bounding box
    *
-   * @param centre the centre coordinate of the shape
+   * @param centre
+   *   the centre coordinate of the shape
    */
   def setCentre(centre: Coordinate): Unit = dim.setCentre(centre)
 
@@ -157,29 +147,33 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   /**
    * Sets the size of the extent of the shape in both x and y directions.
    *
-   * @param size the size of the shape's extent
+   * @param size
+   *   the size of the shape's extent
    */
   def setSize(size: Double): Unit = dim.setSize(size)
 
   /**
    * Sets the width of the shape.
    *
-   * @param width the width of the shape
+   * @param width
+   *   the width of the shape
    */
   def setWidth(width: Double): Unit = dim.setWidth(width)
 
   /**
    * Sets the height of the shape.
    *
-   * @param height the height of the shape
+   * @param height
+   *   the height of the shape
    */
   def setHeight(height: Double): Unit = dim.setHeight(height)
 
   /**
-   * Sets the rotation angle to use for the shape.
-   * The rotation is applied relative to the centre of the shape.
+   * Sets the rotation angle to use for the shape. The rotation is applied relative to the centre of
+   * the shape.
    *
-   * @param radians the rotation angle in radians.
+   * @param radians
+   *   the rotation angle in radians.
    */
   def setRotation(radians: Double): Unit = rotationAngle = radians
 
@@ -341,14 +335,14 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   }
 
   /**
-   * Creates an elliptical arc, as a {link LineString}.
-   * The arc is always created in a counter-clockwise direction.
-   * This can easily be reversed if required by using
-   * {#link LineString.reverse()}
+   * Creates an elliptical arc, as a {link LineString}. The arc is always created in a
+   * counter-clockwise direction. This can easily be reversed if required by using {#link
+   * LineString.reverse()}
    *
-   * @param startAng  start angle in radians
-   * @param angExtent size of angle in radians
-   * return an elliptical arc
+   * @param startAng
+   *   start angle in radians
+   * @param angExtent
+   *   size of angle in radians return an elliptical arc
    */
   def createArc(startAng: Double, angExtent: Double): LineString = {
     val env     = dim.getEnvelope
@@ -376,13 +370,13 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   }
 
   /**
-   * Creates an elliptical arc polygon.
-   * The polygon is formed from the specified arc of an ellipse
+   * Creates an elliptical arc polygon. The polygon is formed from the specified arc of an ellipse
    * and the two radii connecting the endpoints to the centre of the ellipse.
    *
-   * @param startAng  start angle in radians
-   * @param angExtent size of angle in radians
-   * return an elliptical arc polygon
+   * @param startAng
+   *   start angle in radians
+   * @param angExtent
+   *   size of angle in radians return an elliptical arc polygon
    */
   def createArcPolygon(startAng: Double, angExtent: Double): Polygon = {
     val env     = dim.getEnvelope

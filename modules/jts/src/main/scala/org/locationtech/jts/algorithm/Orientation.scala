@@ -28,17 +28,14 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateSequence
 
 /**
- * Functions to compute the orientation of basic geometric structures
- * including point triplets (triangles) and rings.
- * Orientation is a fundamental property of planar geometries
- * (and more generally geometry on two-dimensional manifolds).
- * <p>
- * Orientation is notoriously subject to numerical precision errors
- * in the case of collinear or nearly collinear points.
- * JTS uses extended-precision arithmetic to increase
- * the robustness of the computation.
+ * Functions to compute the orientation of basic geometric structures including point triplets
+ * (triangles) and rings. Orientation is a fundamental property of planar geometries (and more
+ * generally geometry on two-dimensional manifolds). <p> Orientation is notoriously subject to
+ * numerical precision errors in the case of collinear or nearly collinear points. JTS uses
+ * extended-precision arithmetic to increase the robustness of the computation.
  *
- * @author Martin Davis
+ * @author
+ *   Martin Davis
  */
 object Orientation {
 
@@ -61,19 +58,21 @@ object Orientation {
   val STRAIGHT: Int = COLLINEAR
 
   /**
-   * Returns the orientation index of the direction of the point <code>q</code> relative to
-   * a directed infinite line specified by <code>p1-p2</code>.
-   * The index indicates whether the point lies to the {link #LEFT} or {link #RIGHT}
-   * of the line, or lies on it {link #COLLINEAR}.
-   * The index also indicates the orientation of the triangle formed by the three points
-   * ( {link #COUNTERCLOCKWISE}, {link #CLOCKWISE}, or {link #STRAIGHT} )
+   * Returns the orientation index of the direction of the point <code>q</code> relative to a
+   * directed infinite line specified by <code>p1-p2</code>. The index indicates whether the point
+   * lies to the {link #LEFT} or {link #RIGHT} of the line, or lies on it {link #COLLINEAR}. The
+   * index also indicates the orientation of the triangle formed by the three points ( {link
+   * #COUNTERCLOCKWISE}, {link #CLOCKWISE}, or {link #STRAIGHT} )
    *
-   * @param p1 the origin point of the line vector
-   * @param p2 the final point of the line vector
-   * @param q  the point to compute the direction to
-   * return -1 ( { @link #CLOCKWISE} or { @link #RIGHT} ) if q is clockwise (right) from p1-p2;
-   *                      1 ( { @link #COUNTERCLOCKWISE} or { @link #LEFT} ) if q is counter-clockwise (left) from p1-p2;
-   *                      0 ( { @link #COLLINEAR} or { @link #STRAIGHT} ) if q is collinear with p1-p2
+   * @param p1
+   *   the origin point of the line vector
+   * @param p2
+   *   the final point of the line vector
+   * @param q
+   *   the point to compute the direction to return -1 ( { @link #CLOCKWISE} or { @link #RIGHT} ) if
+   *   q is clockwise (right) from p1-p2; 1 ( { @link #COUNTERCLOCKWISE} or { @link #LEFT} ) if q is
+   *   counter-clockwise (left) from p1-p2; 0 ( { @link #COLLINEAR} or { @link #STRAIGHT} ) if q is
+   *   collinear with p1-p2
    */
   def index(p1: Coordinate, p2: Coordinate, q: Coordinate): Int =
     /*
@@ -104,21 +103,15 @@ object Orientation {
   //return RobustDeterminant.orientationIndex(p1, p2, q);
 
   /**
-   * Computes whether a ring defined by an array of {link Coordinate}s is
-   * oriented counter-clockwise.
-   * <ul>
-   * <li>The list of points is assumed to have the first and last points equal.
-   * <li>This will handle coordinate lists which contain repeated points.
-   * </ul>
-   * This algorithm is <b>only</b> guaranteed to work with valid rings. If the
-   * ring is invalid (e.g. self-crosses or touches), the computed result may not
-   * be correct.
+   * Computes whether a ring defined by an array of {link Coordinate}s is oriented
+   * counter-clockwise. <ul> <li>The list of points is assumed to have the first and last points
+   * equal. <li>This will handle coordinate lists which contain repeated points. </ul> This
+   * algorithm is <b>only</b> guaranteed to work with valid rings. If the ring is invalid (e.g.
+   * self-crosses or touches), the computed result may not be correct.
    *
    * @param ring
-   * an array of Coordinates forming a ring
-   * return true if the ring is oriented counter-clockwise.
-   * throws IllegalArgumentException
-   * if there are too few points to determine orientation (&lt; 4)
+   *   an array of Coordinates forming a ring return true if the ring is oriented counter-clockwise.
+   *   throws IllegalArgumentException if there are too few points to determine orientation (&lt; 4)
    */
   def isCCW(ring: Array[Coordinate]): Boolean = { // # of points without closing endpoint
     val nPts    = ring.length - 1
@@ -143,13 +136,15 @@ object Orientation {
     }
     // find distinct point before highest point
     var iPrev   = hiIndex
-    while( { {
-      iPrev = iPrev - 1
-      if (iPrev < 0) iPrev = nPts
-    } ; ring(iPrev).equals2D(hiPt) && iPrev != hiIndex} )()
+    while ({
+      {
+        iPrev = iPrev - 1
+        if (iPrev < 0) iPrev = nPts
+      }; ring(iPrev).equals2D(hiPt) && iPrev != hiIndex
+    }) ()
     // find distinct point after highest point
     var iNext   = hiIndex
-    while( { { iNext = (iNext + 1) % nPts }; (ring(iNext).equals2D(hiPt) && iNext != hiIndex) }) ()
+    while ({ { iNext = (iNext + 1) % nPts }; (ring(iNext).equals2D(hiPt) && iNext != hiIndex) }) ()
     val prev    = ring(iPrev)
     val next    = ring(iNext)
     /*
@@ -179,21 +174,15 @@ object Orientation {
   }
 
   /**
-   * Computes whether a ring defined by an {link CoordinateSequence} is
-   * oriented counter-clockwise.
-   * <ul>
-   * <li>The list of points is assumed to have the first and last points equal.
-   * <li>This will handle coordinate lists which contain repeated points.
-   * </ul>
-   * This algorithm is <b>only</b> guaranteed to work with valid rings. If the
-   * ring is invalid (e.g. self-crosses or touches), the computed result may not
-   * be correct.
+   * Computes whether a ring defined by an {link CoordinateSequence} is oriented counter-clockwise.
+   * <ul> <li>The list of points is assumed to have the first and last points equal. <li>This will
+   * handle coordinate lists which contain repeated points. </ul> This algorithm is <b>only</b>
+   * guaranteed to work with valid rings. If the ring is invalid (e.g. self-crosses or touches), the
+   * computed result may not be correct.
    *
    * @param ring
-   * a CoordinateSequence forming a ring
-   * return true if the ring is oriented counter-clockwise.
-   * throws IllegalArgumentException
-   * if there are too few points to determine orientation (&lt; 4)
+   *   a CoordinateSequence forming a ring return true if the ring is oriented counter-clockwise.
+   *   throws IllegalArgumentException if there are too few points to determine orientation (&lt; 4)
    */
   def isCCW(ring: CoordinateSequence): Boolean = {
     val nPts             = ring.size - 1
@@ -216,17 +205,21 @@ object Orientation {
     }
     var prev: Coordinate = null
     var iPrev            = hiIndex
-    while( { {
-      iPrev = iPrev - 1
-      if (iPrev < 0) iPrev = nPts
-      prev = ring.getCoordinate(iPrev)
-    } ; prev.equals2D(hiPt) && iPrev != hiIndex }) ()
+    while ({
+      {
+        iPrev = iPrev - 1
+        if (iPrev < 0) iPrev = nPts
+        prev = ring.getCoordinate(iPrev)
+      }; prev.equals2D(hiPt) && iPrev != hiIndex
+    }) ()
     var next: Coordinate = null
     var iNext            = hiIndex
-    while( { {
-      iNext = (iNext + 1) % nPts
-      next = ring.getCoordinate(iNext)
-    } ; next.equals2D(hiPt) && iNext != hiIndex }) ()
+    while ({
+      {
+        iNext = (iNext + 1) % nPts
+        next = ring.getCoordinate(iNext)
+      }; next.equals2D(hiPt) && iNext != hiIndex
+    }) ()
     if (prev.equals2D(hiPt) || next.equals2D(hiPt) || prev.equals2D(next)) return false
     val disc             = Orientation.index(prev, hiPt, next)
     /*

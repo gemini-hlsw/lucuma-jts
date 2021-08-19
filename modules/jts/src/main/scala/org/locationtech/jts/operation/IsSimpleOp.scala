@@ -92,7 +92,8 @@ class IsSimpleOp(inputGeom: Geometry) {
   /**
    * Creates a simplicity checker using the default SFS Mod-2 Boundary Node Rule
    *
-   * @deprecated use IsSimpleOp(Geometry)
+   * @deprecated
+   *   use IsSimpleOp(Geometry)
    */
   private var isClosedEndpointsInInterior   = true
   private var nonSimpleLocation: Coordinate = null
@@ -100,7 +101,8 @@ class IsSimpleOp(inputGeom: Geometry) {
   /**
    * Creates a simplicity checker using the default SFS Mod-2 Boundary Node Rule
    *
-   * @param geom the geometry to test
+   * @param geom
+   *   the geometry to test
    */
 //  def this {
 //    this()
@@ -172,7 +174,8 @@ class IsSimpleOp(inputGeom: Geometry) {
   /**
    * A MultiPoint is simple iff it has no repeated points
    *
-   * @deprecated use isSimple()
+   * @deprecated
+   *   use isSimple()
    */
   def isSimple(mp: MultiPoint): Boolean = isSimpleMultiPoint(mp)
 
@@ -194,12 +197,11 @@ class IsSimpleOp(inputGeom: Geometry) {
   }
 
   /**
-   * Computes simplicity for polygonal geometries.
-   * Polygonal geometries are simple if and only if
+   * Computes simplicity for polygonal geometries. Polygonal geometries are simple if and only if
    * all of their component rings are simple.
    *
-   * @param geom a Polygonal geometry
-   * return true if the geometry is simple
+   * @param geom
+   *   a Polygonal geometry return true if the geometry is simple
    */
   private def isSimplePolygonal(geom: Geometry): Boolean = {
     val rings = LinearComponentExtracter.getLines(geom)
@@ -212,11 +214,10 @@ class IsSimpleOp(inputGeom: Geometry) {
   }
 
   /**
-   * Semantics for GeometryCollection is
-   * simple iff all components are simple.
+   * Semantics for GeometryCollection is simple iff all components are simple.
    *
    * @param geom
-   * return true if the geometry is simple
+   *   return true if the geometry is simple
    */
   private def isSimpleGeometryCollection(geom: Geometry): Boolean = {
     var i = 0
@@ -245,8 +246,8 @@ class IsSimpleOp(inputGeom: Geometry) {
   }
 
   /**
-   * For all edges, check if there are any intersections which are NOT at an endpoint.
-   * The Geometry is not simple if there are intersections not at endpoints.
+   * For all edges, check if there are any intersections which are NOT at an endpoint. The Geometry
+   * is not simple if there are intersections not at endpoints.
    */
   private def hasNonEndpointIntersection(graph: GeometryGraph): Boolean = {
     val i = graph.getEdgeIterator
@@ -266,11 +267,9 @@ class IsSimpleOp(inputGeom: Geometry) {
   }
 
   /**
-   * Tests that no edge intersection is the endpoint of a closed line.
-   * This ensures that closed lines are not touched at their endpoint,
-   * which is an interior point according to the Mod-2 rule
-   * To check this we compute the degree of each endpoint.
-   * The degree of endpoints of closed lines
+   * Tests that no edge intersection is the endpoint of a closed line. This ensures that closed
+   * lines are not touched at their endpoint, which is an interior point according to the Mod-2 rule
+   * To check this we compute the degree of each endpoint. The degree of endpoints of closed lines
    * must be exactly 2.
    */
   private def hasClosedEndpointIntersection(graph: GeometryGraph): Boolean = {
