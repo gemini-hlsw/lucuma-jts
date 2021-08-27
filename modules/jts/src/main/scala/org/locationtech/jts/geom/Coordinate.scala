@@ -378,8 +378,8 @@ class Coordinate(var x: Double, var y: Double, var z: Double)
    *
    * @param o
    *   the <code>Coordinate</code> with which this <code>Coordinate</code> is being compared return
-   *   -1, zero, or 1 as this <code>Coordinate</code> is less than, equal to, or greater than the
-   *   specified <code>Coordinate</code>
+   * -1, zero, or 1 as this <code>Coordinate</code> is less than, equal to, or greater than the
+   * specified <code>Coordinate</code>
    */
   override def compareTo(o: Coordinate): Int = {
     val other = o.asInstanceOf[Coordinate]
