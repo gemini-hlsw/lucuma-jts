@@ -378,7 +378,7 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
 
   /**
    * @param level
-   *   -1 to get items
+   * -1 to get items
    */
   private def boundablesAtLevel(
     level:      Int,
