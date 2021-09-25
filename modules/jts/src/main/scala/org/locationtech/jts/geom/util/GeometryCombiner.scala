@@ -84,7 +84,7 @@ object GeometryCombiner {
    * @param obj1
    *   return a List containing the two items
    */
-  private def createList(obj0: Geometry, obj1: Geometry) = {
+  private def createList(obj0: Geometry, obj1: Geometry)                 = {
     val list = new util.ArrayList[Geometry]
     list.add(obj0)
     list.add(obj1)
@@ -128,7 +128,7 @@ class GeometryCombiner(var inputGeoms: util.Collection[Geometry]) {
    *
    * return a Geometry which is the combination of the inputs
    */
-  def combine: Geometry = {
+  def combine: Geometry                                                         = {
     val elems = new util.ArrayList[Geometry]
     val i     = inputGeoms.iterator
     while (i.hasNext) {

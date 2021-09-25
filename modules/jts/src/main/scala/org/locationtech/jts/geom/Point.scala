@@ -70,13 +70,13 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
     this.coordinates = coord
   }
 
-  override def getCoordinates: Array[Coordinate] = if (isEmpty) Array.empty[Coordinate]
+  override def getCoordinates: Array[Coordinate]          = if (isEmpty) Array.empty[Coordinate]
   else Array[Coordinate](getCoordinate)
 
-  override def getNumPoints: Int = if (isEmpty) 0
+  override def getNumPoints: Int                          = if (isEmpty) 0
   else 1
 
-  override def isEmpty: Boolean = coordinates.size == 0
+  override def isEmpty: Boolean                           = coordinates.size == 0
 
   override def isSimple = true
 
@@ -89,7 +89,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
     getCoordinate.x
   }
 
-  def getY: Double = {
+  def getY: Double                       = {
     if (getCoordinate == null) throw new IllegalStateException("getY called on empty Point")
     getCoordinate.y
   }
@@ -97,7 +97,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
   override def getCoordinate: Coordinate = if (coordinates.size != 0) coordinates.getCoordinate(0)
   else null
 
-  override def getGeometryType = "Point"
+  override def getGeometryType           = "Point"
 
   /**
    * Gets the boundary of this geometry. Zero-dimensional geometries have no boundary by definition,
@@ -109,7 +109,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
    */
   override def getBoundary: GeometryCollection = getFactory.createGeometryCollection
 
-  override protected def computeEnvelopeInternal: Envelope = {
+  override protected def computeEnvelopeInternal: Envelope              = {
     if (isEmpty) return new Envelope
     val env = new Envelope
     env.expandToInclude(coordinates.getX(0), coordinates.getY(0))
@@ -123,18 +123,18 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
     equal(other.asInstanceOf[Point].getCoordinate, this.getCoordinate, tolerance)
   }
 
-  override def applyF(filter: CoordinateFilter): Unit = {
+  override def applyF(filter: CoordinateFilter): Unit                   = {
     if (isEmpty) return
     filter.filter(getCoordinate)
   }
 
-  override def applyF(filter: CoordinateSequenceFilter): Unit = {
+  override def applyF(filter: CoordinateSequenceFilter): Unit           = {
     if (isEmpty) return
     filter.filter(coordinates, 0)
     if (filter.isGeometryChanged) geometryChanged()
   }
 
-  override def applyF(filter: GeometryFilter): Unit = filter.filter(this)
+  override def applyF(filter: GeometryFilter): Unit                     = filter.filter(this)
 
   override def applyF(filter: GeometryComponentFilter): Unit = filter.filter(this)
 
@@ -154,7 +154,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
 
   override protected def reverseInternal: Point = getFactory.createPoint(coordinates.copy)
 
-  override def normalize(): Unit = {
+  override def normalize(): Unit                                  = {
     // a Point is always in normalized form
   }
 
@@ -168,7 +168,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
     comp.compare(this.coordinates, point.coordinates)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_POINT
+  override protected def getSortIndex: Int                                         = Geometry.SORTINDEX_POINT
 
   def getCoordinateSequence: CoordinateSequence = coordinates
 }

@@ -68,5 +68,5 @@ class BasicSegmentString(var pts: Array[Coordinate], var data: Any)
     Octant.octant(getCoordinate(index), getCoordinate(index + 1))
   }
 
-  override def toString: String = (new CoordinateArraySequence(pts)).toString
+  override def toString: String         = (new CoordinateArraySequence(pts)).toString
 }

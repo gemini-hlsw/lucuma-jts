@@ -118,7 +118,7 @@ object CGAlgorithmsDD {
     2
   }
 
-  private def signum(x: Double): Int = {
+  private def signum(x: Double): Int                                                      = {
     if (x > 0) return 1
     if (x < 0) return -1
     0

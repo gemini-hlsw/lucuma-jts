@@ -149,7 +149,7 @@ class EnvelopeIntersectsVisitor(var rectEnv: Envelope) extends ShortCircuitedGeo
     }
   }
 
-  override protected def isDone: Boolean = vintersects == true
+  override protected def isDone: Boolean                = vintersects == true
 }
 
 /**
@@ -196,7 +196,7 @@ class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuite
     }
   }
 
-  override protected def isDone: Boolean = vcontainsPoint
+  override protected def isDone: Boolean             = vcontainsPoint
 }
 
 /**
@@ -251,7 +251,7 @@ class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
     }
   }
 
-  private def checkIntersectionWithSegments(testLine: LineString): Unit = {
+  private def checkIntersectionWithSegments(testLine: LineString): Unit   = {
     val seq1 = testLine.getCoordinateSequence
     var j    = 1
     while (j < seq1.size) {
@@ -267,5 +267,5 @@ class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
     }
   }
 
-  override protected def isDone: Boolean = hasIntersection
+  override protected def isDone: Boolean                                  = hasIntersection
 }

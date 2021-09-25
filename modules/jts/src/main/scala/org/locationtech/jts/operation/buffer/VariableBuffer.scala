@@ -193,7 +193,7 @@ object VariableBuffer {
     pts.length - 1
   }
 
-  private def length(pts: Array[Coordinate], i1: Int, i2: Int) = {
+  private def length(pts: Array[Coordinate], i1: Int, i2: Int)              = {
     var len: Double = 0
     var i           = i1 + 1
     while (i <= i2) {
@@ -252,7 +252,7 @@ object VariableBuffer {
     new Coordinate(x, y)
   }
 
-  private val SNAP_TRIG_TOL = 1e-6
+  private val SNAP_TRIG_TOL                                       = 1e-6
 
   /**
    * Snap trig values to integer values for better consistency.

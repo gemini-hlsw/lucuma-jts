@@ -98,7 +98,7 @@ class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
    *
    * return the boundary geometry
    */
-  def getBoundary: Geometry =
+  def getBoundary: Geometry      =
     geom match {
       case string: LineString  => boundaryLineString(string)
       case ml: MultiLineString => boundaryMultiLineString(ml)
@@ -138,7 +138,7 @@ class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
     CoordinateArrays.toCoordinateArray(bdyPts)
   }
 
-  private def addEndpoint(pt: Coordinate): Unit = {
+  private def addEndpoint(pt: Coordinate): Unit                                     = {
     var counter = endpointMap.get(pt).orNull
     if (counter == null) {
       counter = new Counter
@@ -147,7 +147,7 @@ class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
     counter.count += 1
   }
 
-  private def boundaryLineString(line: LineString): Geometry = {
+  private def boundaryLineString(line: LineString): Geometry                        = {
     if (geom.isEmpty) return getEmptyMultiPoint
     if (line.isClosed) { // check whether endpoints of valence 2 are on the boundary or not
       val closedEndpointOnBoundary = bnRule.isInBoundary(2)

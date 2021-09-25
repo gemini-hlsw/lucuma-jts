@@ -69,14 +69,14 @@ class UnionInteracting(var g0: Geometry, var g1: Geometry) {
     overallUnion
   }
 
-  def bufferUnion(g0: Geometry, g1: Geometry) = {
+  def bufferUnion(g0: Geometry, g1: Geometry)                                                    = {
     val factory  = g0.getFactory
     val gColl    = factory.createGeometryCollection(Array[Geometry](g0, g1))
     val unionAll = gColl.buffer(0.0)
     unionAll
   }
 
-  private def computeInteracting(): Unit = {
+  private def computeInteracting(): Unit                                                         = {
     var i = 0
     while (i < g0.getNumGeometries) {
       val elem = g0.getGeometryN(i)
@@ -85,7 +85,7 @@ class UnionInteracting(var g0: Geometry, var g1: Geometry) {
     }
   }
 
-  private def computeInteracting(elem0: Geometry) = {
+  private def computeInteracting(elem0: Geometry)                                                = {
     var interactsWithAny = false
     var i                = 0
     while (i < g1.getNumGeometries) {

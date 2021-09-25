@@ -241,7 +241,7 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
    *
    * return an array of Coordinates
    */
-  def getSplitCoordinates: Array[Coordinate] = {
+  def getSplitCoordinates: Array[Coordinate]                                                    = {
     val coordList = new CoordinateList(Array.empty)
     addEndpoints()
     val it        = iterator

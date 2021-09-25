@@ -66,7 +66,7 @@ object SegmentPointComparator {
     0
   }
 
-  def relativeSign(x0: Double, x1: Double): Int = {
+  def relativeSign(x0: Double, x1: Double): Int                       = {
     if (x0 < x1) return -1
     if (x0 > x1) return 1
     0

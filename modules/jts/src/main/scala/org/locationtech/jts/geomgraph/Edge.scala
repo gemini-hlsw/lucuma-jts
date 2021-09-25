@@ -214,7 +214,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
     true
   }
 
-  override def toString: String = {
+  override def toString: String          = {
     val builder = new StringBuilder
     builder.append("edge " + name + ": ")
     builder.append("LINESTRING (")

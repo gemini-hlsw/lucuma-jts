@@ -235,7 +235,7 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
     }
   }
 
-  private def computePolygons(shellList: util.List[EdgeRing]): util.ArrayList[Polygon] = {
+  private def computePolygons(shellList: util.List[EdgeRing]): util.ArrayList[Polygon]         = {
     val resultPolyList = new util.ArrayList[Polygon]
     // add Polygons for all shells
     val it             = shellList.iterator

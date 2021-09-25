@@ -121,7 +121,7 @@ class CascadedPolygonUnion(var inputPolysArg: util.Collection[Geometry]) {
   //  *         or null if no input geometries were provided
   //  * throws IllegalStateException if this method is called more than once
   //  */
-  def union: Geometry = {
+  def union: Geometry                                            = {
     if (inputPolys == null) throw new IllegalStateException("union() method cannot be called twice")
     if (inputPolys.isEmpty) return null
 //    geomFactory = inputPolys.iterator.next.getFactory

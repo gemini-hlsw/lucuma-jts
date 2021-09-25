@@ -129,7 +129,7 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
    *   return the next non-deleted index, if any or inputLine.length if there are no more
    *   non-deleted indices
    */
-  private def findNextNonDeletedIndex(index: Int) = {
+  private def findNextNonDeletedIndex(index: Int)                                  = {
     var next = index + 1
     while (next < inputLine.length && isDeleted(next) == BufferInputLineSimplifier.DELETE) {
       next += 1; next - 1
@@ -137,7 +137,7 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
     next
   }
 
-  private def collapseLine = {
+  private def collapseLine                                                         = {
     val coordList = new CoordinateList(Array.empty)
     var i         = 0
     while (i < inputLine.length) {
@@ -204,7 +204,7 @@ class BufferInputLineSimplifier(var inputLine: Array[Coordinate]) {
     dist < distanceTol
   }
 
-  private def isConcave(p0: Coordinate, p1: Coordinate, p2: Coordinate) = {
+  private def isConcave(p0: Coordinate, p1: Coordinate, p2: Coordinate)                      = {
     val orientation = Orientation.index(p0, p1, p2)
     val isConcave   = orientation == angleOrientation
     isConcave

@@ -63,7 +63,7 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
 
   def getCoordinate: Coordinate = disconnectedRingcoord
 
-  def isInteriorsConnected: Boolean = { // node the edges, in case holes touch the shell
+  def isInteriorsConnected: Boolean                              = { // node the edges, in case holes touch the shell
     val splitEdges = new util.ArrayList[Edge]
     geomGraph.computeSplitEdges(splitEdges)
     // form the edges into rings
@@ -122,7 +122,7 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
    * ONE ring gets marked for each shell - if there are others which remain unmarked this indicates
    * a disconnected interior.
    */
-  private def visitShellInteriors(g: Geometry, graph: PlanarGraph): Unit = {
+  private def visitShellInteriors(g: Geometry, graph: PlanarGraph): Unit    = {
     if (g.isInstanceOf[Polygon]) {
       val p = g.asInstanceOf[Polygon]
       visitInteriorRing(p.getExteriorRing, graph)
@@ -158,7 +158,7 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
     visitLinkedDirectedEdges(intDe)
   }
 
-  protected def visitLinkedDirectedEdges(start: DirectedEdge) = {
+  protected def visitLinkedDirectedEdges(start: DirectedEdge)               = {
     val startDe = start
     var de      = start
     while ({

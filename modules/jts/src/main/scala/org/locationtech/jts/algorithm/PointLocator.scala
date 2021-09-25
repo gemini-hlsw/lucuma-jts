@@ -65,7 +65,7 @@ class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOU
    *
    * return the { @link Location} of the point relative to the input Geometry
    */
-  def locate(p: Coordinate, geom: Geometry): Int = {
+  def locate(p: Coordinate, geom: Geometry): Int                        = {
     if (geom.isEmpty) return Location.EXTERIOR
     if (geom.isInstanceOf[LineString]) return locateOnLineString(p, geom.asInstanceOf[LineString])
     else if (geom.isInstanceOf[Polygon]) return locateInPolygon(p, geom.asInstanceOf[Polygon])
@@ -77,7 +77,7 @@ class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOU
     Location.EXTERIOR
   }
 
-  private def computeLocation(p: Coordinate, geom: Geometry): Unit = {
+  private def computeLocation(p: Coordinate, geom: Geometry): Unit      = {
     if (geom.isInstanceOf[Point]) updateLocationInfo(locateOnPoint(p, geom.asInstanceOf[Point]))
     if (geom.isInstanceOf[LineString])
       updateLocationInfo(locateOnLineString(p, geom.asInstanceOf[LineString]))
@@ -108,20 +108,20 @@ class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOU
     }
   }
 
-  private def updateLocationInfo(loc: Int): Unit = {
+  private def updateLocationInfo(loc: Int): Unit                        = {
     if (loc == Location.INTERIOR) isIn = true
     if (loc == Location.BOUNDARY) {
       numBoundaries += 1
     }
   }
 
-  private def locateOnPoint(p: Coordinate, pt: Point): Int = { // no point in doing envelope test, since equality test is just as fast
+  private def locateOnPoint(p: Coordinate, pt: Point): Int              = { // no point in doing envelope test, since equality test is just as fast
     val ptCoord = pt.getCoordinate
     if (ptCoord.equals2D(p)) return Location.INTERIOR
     Location.EXTERIOR
   }
 
-  private def locateOnLineString(p: Coordinate, l: LineString): Int = { // bounding-box check
+  private def locateOnLineString(p: Coordinate, l: LineString): Int     = { // bounding-box check
     if (!l.getEnvelopeInternal.intersects(p)) return Location.EXTERIOR
     val seq = l.getCoordinateSequence
     if (!l.isClosed)
@@ -136,7 +136,7 @@ class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOU
     PointLocation.locateInRing(p, ring.getCoordinates)
   }
 
-  private def locateInPolygon(p: Coordinate, poly: Polygon): Int = {
+  private def locateInPolygon(p: Coordinate, poly: Polygon): Int        = {
     if (poly.isEmpty) return Location.EXTERIOR
     val shell    = poly.getExteriorRing
     val shellLoc = locateInPolygonRing(p, shell)

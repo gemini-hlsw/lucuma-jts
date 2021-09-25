@@ -137,7 +137,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     validErr
   }
 
-  private def checkValid(g: Geometry): Unit = {
+  private def checkValid(g: Geometry): Unit       = {
     validErr = null
     // empty geometries are always valid!
     if (g.isEmpty) return
@@ -192,7 +192,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   /**
    * Checks the validity of a polygon. Sets the validErr flag.
    */
-  private def checkValid(g: Polygon): Unit = {
+  private def checkValid(g: Polygon): Unit                             = {
     checkInvalidCoordinates(g)
     if (validErr != null) return
     checkClosedRings(g)
@@ -214,7 +214,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     checkConnectedInteriors(graph)
   }
 
-  private def checkValid(g: MultiPolygon): Unit = {
+  private def checkValid(g: MultiPolygon): Unit                        = {
     var i     = 0
     while (i < g.getNumGeometries) {
       val p = g.getGeometryN(i).asInstanceOf[Polygon]
@@ -252,7 +252,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     checkConnectedInteriors(graph)
   }
 
-  private def checkValid(gc: GeometryCollection): Unit = {
+  private def checkValid(gc: GeometryCollection): Unit                 = {
     var i = 0
     while (i < gc.getNumGeometries) {
       val g = gc.getGeometryN(i)
@@ -274,7 +274,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     }
   }
 
-  private def checkInvalidCoordinates(poly: Polygon): Unit = {
+  private def checkInvalidCoordinates(poly: Polygon): Unit             = {
     checkInvalidCoordinates(poly.getExteriorRing.getCoordinates)
     if (validErr != null) return ()
     var i = 0
@@ -285,7 +285,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     }
   }
 
-  private def checkClosedRings(poly: Polygon): Unit = {
+  private def checkClosedRings(poly: Polygon): Unit                    = {
     checkClosedRing(poly.getExteriorRing)
     if (validErr != null) return ()
     var i = 0
@@ -296,7 +296,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     }
   }
 
-  private def checkClosedRing(ring: LinearRing): Unit = {
+  private def checkClosedRing(ring: LinearRing): Unit                  = {
     if (ring.isEmpty) return ()
     if (!ring.isClosed) {
       var pt: Coordinate = null
@@ -305,7 +305,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     }
   }
 
-  private def checkTooFewPoints(graph: GeometryGraph): Unit = if (graph.hasTooFewPoints) {
+  private def checkTooFewPoints(graph: GeometryGraph): Unit            = if (graph.hasTooFewPoints) {
     validErr =
       new TopologyValidationError(TopologyValidationError.TOO_FEW_POINTS, graph.getInvalidPoint)
   }

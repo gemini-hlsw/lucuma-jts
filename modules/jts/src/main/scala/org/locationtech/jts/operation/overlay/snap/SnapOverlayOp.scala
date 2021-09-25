@@ -77,7 +77,7 @@ class SnapOverlayOp(val g1: Geometry, val g2: Geometry) {
 //    snapGeom
 //  }
 
-  private def snap(geom: Array[Geometry]) = {
+  private def snap(geom: Array[Geometry])   = {
     val remGeom  = removeCommonBits(geom)
     // MD - testing only
     //  	Geometry[] remGeom = geom;

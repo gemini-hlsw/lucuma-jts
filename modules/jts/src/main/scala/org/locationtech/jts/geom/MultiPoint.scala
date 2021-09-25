@@ -92,5 +92,5 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory)
     new MultiPoint(points, factory)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTIPOINT
+  override protected def getSortIndex: Int        = Geometry.SORTINDEX_MULTIPOINT
 }

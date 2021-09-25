@@ -36,10 +36,10 @@ class PriorityQueue() {
   /**
    * Creates a new empty priority queue
    */
-  private val items = new util.ArrayList[BoundablePair]
+  private val items              = new util.ArrayList[BoundablePair]
   // create space for sentinel
   items.add(null)
-  private var vsize = 0 // Number of elements in queue
+  private var vsize              = 0 // Number of elements in queue
 //  private var items = null // The queue binary heap array
   /**
    * Insert into the priority queue. Duplicates are allowed.

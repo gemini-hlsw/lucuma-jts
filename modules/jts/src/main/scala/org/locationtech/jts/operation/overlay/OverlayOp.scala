@@ -220,7 +220,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
    */
   def getGraph: PlanarGraph = graph
 
-  private def computeOverlay(opCode: Int): Unit = { // copy points from input Geometries.
+  private def computeOverlay(opCode: Int): Unit               = { // copy points from input Geometries.
     // This ensures that any Point geometries
     // in the input are considered for inclusion in the result set
     copyPoints(0)
@@ -422,7 +422,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
    * left their dirEdges with no labelling for the other Geometry. However, the sym dirEdge may have
    * a labelling for the other Geometry, so merge the two labels.
    */
-  private def mergeSymLabels(): Unit = {
+  private def mergeSymLabels(): Unit      = {
     val nodeit = graph.getNodes.iterator
     while (nodeit.hasNext) {
       val node = nodeit.next

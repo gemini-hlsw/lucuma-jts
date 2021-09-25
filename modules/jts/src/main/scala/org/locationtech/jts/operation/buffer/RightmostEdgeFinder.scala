@@ -77,7 +77,7 @@ class RightmostEdgeFinder() {
     if (rightmostSide == Position.LEFT) orientedDe = minDe.getSym
   }
 
-  private def findRightmostEdgeAtNode(): Unit = {
+  private def findRightmostEdgeAtNode(): Unit   = {
     val node = minDe.getNode
     val star = node.getEdges.asInstanceOf[DirectedEdgeStar]
     minDe = star.getRightmostEdge
@@ -114,7 +114,7 @@ class RightmostEdgeFinder() {
     if (usePrev) minIndex = minIndex - 1
   }
 
-  private def checkForRightmostCoordinate(de: DirectedEdge): Unit = {
+  private def checkForRightmostCoordinate(de: DirectedEdge): Unit      = {
     val coord = de.getEdge.getCoordinates
     var i     = 0
     while (i < coord.length - 1) { // only check vertices which are the start or end point of a non-horizontal segment
@@ -129,7 +129,7 @@ class RightmostEdgeFinder() {
     }
   }
 
-  private def getRightmostSide(de: DirectedEdge, index: Int) = {
+  private def getRightmostSide(de: DirectedEdge, index: Int)           = {
     var side = getRightmostSideOfSegment(de, index)
     if (side < 0) side = getRightmostSideOfSegment(de, index - 1)
     if (side < 0) { // reaching here can indicate that segment is horizontal

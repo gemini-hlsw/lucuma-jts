@@ -50,7 +50,7 @@ object MinimumDiameter {
    */
   def getMinimumDiameter(geom: Geometry): LineString = new MinimumDiameter(geom).getDiameter
 
-  private def nextIndex(pts: Array[Coordinate], inde: Int) = {
+  private def nextIndex(pts: Array[Coordinate], inde: Int)  = {
     var index = inde
     index += 1
     if (index >= pts.length) index = 0
@@ -140,7 +140,7 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
    *
    * return a { @link LineString} which is a minimum diameter
    */
-  def getDiameter: LineString = {
+  def getDiameter: LineString                                = {
     computeMinimumDiameter()
     // return empty linestring if no minimum width calculated
     if (minWidthPt == null) return inputGeom.getFactory.createLineString
@@ -148,7 +148,7 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
     inputGeom.getFactory.createLineString(Array[Coordinate](basePt, minWidthPt))
   }
 
-  private def computeMinimumDiameter(): Unit = { // check if computation is cached
+  private def computeMinimumDiameter(): Unit                 = { // check if computation is cached
     if (minWidthPt != null) return
     if (isConvex) computeWidthConvex(inputGeom)
     else {
@@ -185,7 +185,7 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
    *
    * @param pts
    */
-  private def computeConvexRingMinDiameter(pts: Array[Coordinate]): Unit = { // for each segment in the ring
+  private def computeConvexRingMinDiameter(pts: Array[Coordinate]): Unit                     = { // for each segment in the ring
     minWidth = Double.MaxValue
     var currMaxIndex = 1
     val seg          = new LineSegment

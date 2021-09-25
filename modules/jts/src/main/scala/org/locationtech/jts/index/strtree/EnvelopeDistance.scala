@@ -41,7 +41,7 @@ object EnvelopeDistance {
    * @param env2
    *   an envelope return the maximum distance between the points defining the envelopes
    */
-  def maximumDistance(env1: Envelope, env2: Envelope): Double = {
+  def maximumDistance(env1: Envelope, env2: Envelope): Double          = {
     val minx = Math.min(env1.getMinX, env2.getMinX)
     val miny = Math.min(env1.getMinY, env2.getMinY)
     val maxx = Math.max(env1.getMaxX, env2.getMaxX)

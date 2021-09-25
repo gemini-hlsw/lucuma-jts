@@ -71,7 +71,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
     this.points = point
   }
 
-  override def getCoordinates: Array[Coordinate] = points.toCoordinateArray
+  override def getCoordinates: Array[Coordinate]    = points.toCoordinateArray
 
   def getCoordinateSequence: CoordinateSequence = points
 
@@ -82,14 +82,14 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
     points.getCoordinate(0)
   }
 
-  override def getDimension = 1
+  override def getDimension              = 1
 
   override def getBoundaryDimension: Int = {
     if (isClosed) return Dimension.FALSE
     0
   }
 
-  override def isEmpty: Boolean = points.size == 0
+  override def isEmpty: Boolean          = points.size == 0
 
   override def getNumPoints: Int = points.size
 
@@ -152,7 +152,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
    *   the <code>Coordinate</code> to check return <code>true</code> if <code>pt</code> is one of
    *   this <code>LineString</code> 's vertices
    */
-  def isCoordinate(pt: Coordinate): Boolean = {
+  def isCoordinate(pt: Coordinate): Boolean                             = {
     var i = 0
     while (i < points.size) {
       if (points.getCoordinate(i) == pt) return true
@@ -161,7 +161,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
     false
   }
 
-  override protected def computeEnvelopeInternal: Envelope = {
+  override protected def computeEnvelopeInternal: Envelope              = {
     if (isEmpty) return new Envelope
     points.expandEnvelope(new Envelope)
   }
@@ -220,7 +220,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
    * Normalizes a LineString. A normalized linestring has the first point which is not equal to it's
    * reflected point less than the reflected point.
    */
-  override def normalize(): Unit = {
+  override def normalize(): Unit                                     = {
     var i = 0
     while (i < points.size / 2) {
       val j = points.size - 1 - i
@@ -240,7 +240,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   override protected def isEquivalentClass(other: Geometry): Boolean =
     other.isInstanceOf[LineString]
 
-  protected def compareToSameClass(o: Geometry): Int = {
+  protected def compareToSameClass(o: Geometry): Int                 = {
     val line = o.asInstanceOf[LineString]
     // MD - optimized implementation
     var i    = 0
@@ -261,5 +261,5 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
     comp.compare(this.points, line.points)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_LINESTRING
+  override protected def getSortIndex: Int                                     = Geometry.SORTINDEX_LINESTRING
 }
