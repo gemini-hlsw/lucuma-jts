@@ -223,7 +223,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     reducedPts
   }
 
-  private def padArray3(pts: Array[Coordinate]): Array[Coordinate] = {
+  private def padArray3(pts: Array[Coordinate]): Array[Coordinate]   = {
     val pad: Array[Coordinate] = new Array[Coordinate](3)
     var i: Int                 = 0
     while (i < pad.length) {
@@ -237,7 +237,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     pad
   }
 
-  private def preSort(pts: Array[Coordinate]): Array[Coordinate] = {
+  private def preSort(pts: Array[Coordinate]): Array[Coordinate]     = {
     var t: Coordinate = null
     // find the lowest point in the set. If two or more points have
     // the same minimum y coordinate choose the one with the minimu x.
@@ -313,7 +313,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     return false
   }
 
-  private def computeOctRing(inputPts: Array[Coordinate]): Array[Coordinate] = {
+  private def computeOctRing(inputPts: Array[Coordinate]): Array[Coordinate]     = {
     val octPts: Array[Coordinate] = computeOctPts(inputPts)
     val coordList: CoordinateList = new CoordinateList(Array.empty[Coordinate])
     coordList.add(octPts, false)
@@ -325,7 +325,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     coordList.toCoordinateArray
   }
 
-  private def computeOctPts(inputPts: Array[Coordinate]): Array[Coordinate] = {
+  private def computeOctPts(inputPts: Array[Coordinate]): Array[Coordinate]      = {
     val pts: Array[Coordinate] = new Array[Coordinate](8)
     var j: Int                 = 0
     while (j < pts.length) {

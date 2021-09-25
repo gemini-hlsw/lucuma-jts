@@ -177,7 +177,7 @@ class LinearComponentExtracter(lines: util.Collection[Geometry], var isForcedToL
   def setForceToLineString(isForcedToLineString: Boolean): Unit = this.isForcedToLineString =
     isForcedToLineString
 
-  override def filter(geom: Geometry): Unit = {
+  override def filter(geom: Geometry): Unit                     = {
     if (isForcedToLineString && geom.isInstanceOf[LinearRing]) {
       val line =
         geom.getFactory.createLineString(geom.asInstanceOf[LinearRing].getCoordinateSequence)

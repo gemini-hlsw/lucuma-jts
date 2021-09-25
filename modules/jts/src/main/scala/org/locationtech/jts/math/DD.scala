@@ -124,14 +124,14 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
    *
    * return a copy of this value
    */
-  override def clone: AnyRef = try super.clone
+  override def clone: AnyRef                           = try super.clone
   catch {
     case _: CloneNotSupportedException =>
       // should never reach here
       null
   }
 
-  final private def init(x: Double): Unit = {
+  final private def init(x: Double): Unit              = {
     this.hi = x
     this.lo = 0.0
   }
@@ -141,7 +141,7 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
     this.lo = lo
   }
 
-  final private def init(dd: DD): Unit = {
+  final private def init(dd: DD): Unit                 = {
     hi = dd.hi
     lo = dd.lo
   }
@@ -191,7 +191,7 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
    */
   final def selfAdd(y: DD): DD = selfAdd(y.hi, y.lo)
 
-  final def selfAdd(y: Double): DD = {
+  final def selfAdd(y: Double): DD                    = {
     var H = .0
     var h = .0
     var S = .0
@@ -256,7 +256,7 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
    * @param y
    *   the addend return this object, decreased by y
    */
-  final def selfSubtract(y: DD): DD = {
+  final def selfSubtract(y: DD): DD     = {
     if (isNaN) return this
     selfAdd(-y.hi, -y.lo)
   }
@@ -282,7 +282,7 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
    * @param y
    *   the multiplicand return <tt>(this * y)</tt>
    */
-  final def multiply(y: DD): DD = {
+  final def multiply(y: DD): DD     = {
     if (y.isNaN) return DD.createNaN
     DD.copy(this).selfMultiply(y)
   }
@@ -334,7 +334,7 @@ final class DD(private var hi: Double = 0.0, private var lo: Double = 0.0)
    * @param y
    *   the divisor return a new object with the value <tt>(this / y)</tt>
    */
-  final def divide(y: DD): DD = {
+  final def divide(y: DD): DD     = {
     var hc  = .0
     var tc  = .0
     var hy  = .0
@@ -910,7 +910,7 @@ object DD {
   /**
    * The value to split a double-precision value on during multiplication
    */
-  private val SPLIT = 134217729.0d // 2^27+1, for IEEE double
+  private val SPLIT    = 134217729.0d // 2^27+1, for IEEE double
   /**
    * Creates a new DoubleDouble with the value of the argument.
    *

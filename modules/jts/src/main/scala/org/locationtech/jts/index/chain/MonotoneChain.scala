@@ -69,7 +69,7 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    * @param id
    *   an id value
    */
-  def setId(id: Int): Unit = this.id = id
+  def setId(id: Int): Unit  = this.id = id
 
   /**
    * Gets the id of this chain.

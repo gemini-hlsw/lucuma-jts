@@ -32,7 +32,7 @@ object GeometryFactory {
     exemplar.getFactory.createPoint(coord)
   }
 
-  private def getDefaultCoordinateSequenceFactory = CoordinateArraySequenceFactory.instance
+  private def getDefaultCoordinateSequenceFactory                                = CoordinateArraySequenceFactory.instance
 
   /**
    * Converts the <code>List</code> to an array.

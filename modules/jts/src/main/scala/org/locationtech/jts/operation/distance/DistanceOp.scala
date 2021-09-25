@@ -211,7 +211,7 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
     }
   }
 
-  private def computeMinDistance(): Unit = { // only compute once!
+  private def computeMinDistance(): Unit                                               = { // only compute once!
     if (minDistanceLocation != null) return
     minDistanceLocation = new Array[GeometryLocation](2)
     computeContainmentDistance()
@@ -219,7 +219,7 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
     computeFacetDistance()
   }
 
-  private def computeContainmentDistance(): Unit = {
+  private def computeContainmentDistance(): Unit                                       = {
     val locPtPoly = new Array[GeometryLocation](2)
     // test if either geometry has a vertex inside the other
     computeContainmentDistance(0, locPtPoly)

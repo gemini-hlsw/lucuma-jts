@@ -164,7 +164,7 @@ class TopologyLocation(var location: Array[Int] = Array.empty[Int]) {
     }
   }
 
-  override def toString: String = {
+  override def toString: String         = {
     val buf = new StringBuffer
     if (location.length > 1) buf.append(Location.toLocationSymbol(location(Position.LEFT)))
     buf.append(Location.toLocationSymbol(location(Position.ON)))

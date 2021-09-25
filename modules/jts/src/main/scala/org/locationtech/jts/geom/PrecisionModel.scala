@@ -347,7 +347,7 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
     //MD says it's OK that we're not makePrecise'ing the z [Jon Aquino]
   }
 
-  override def toString: String = {
+  override def toString: String            = {
     var description = "UNKNOWN"
     if (modelType eq PrecisionModel.FLOATING) description = "Floating"
     else if (modelType eq PrecisionModel.FLOATING_SINGLE) description = "Floating-Single"

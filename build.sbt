@@ -7,7 +7,7 @@ inThisBuild(
 
 publish / skip := true
 
-lazy val jts = crossProject(JVMPlatform, JSPlatform)
+lazy val jts     = crossProject(JVMPlatform, JSPlatform)
   .crossType(CrossType.Pure)
   .in(file("modules/jts"))
   .settings(
@@ -56,7 +56,7 @@ lazy val jts_awt = project
   )
   .dependsOn(jts.jvm)
 
-lazy val tests = project
+lazy val tests   = project
   .in(file("modules/tests"))
   .settings(
     name                                 := "lucuma-jts-tests",

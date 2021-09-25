@@ -27,7 +27,7 @@ class IntervalRTreeBranchNode(var node1: IntervalRTreeNode, var node2: IntervalR
     extends IntervalRTreeNode {
   buildExtent(node1, node2)
 
-  private def buildExtent(n1: IntervalRTreeNode, n2: IntervalRTreeNode): Unit = {
+  private def buildExtent(n1: IntervalRTreeNode, n2: IntervalRTreeNode): Unit        = {
     min = Math.min(n1.min, n2.min)
     max = Math.max(n1.max, n2.max)
   }

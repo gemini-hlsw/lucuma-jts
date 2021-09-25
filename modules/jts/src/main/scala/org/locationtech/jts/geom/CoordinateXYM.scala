@@ -96,11 +96,11 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
   /** The z-ordinate is not supported */
   override def getZ: Double = Coordinate.NULL_ORDINATE
 
-  override def setZ(z: Double): Unit = throw new IllegalArgumentException(
+  override def setZ(z: Double): Unit                                = throw new IllegalArgumentException(
     "CoordinateXY dimension 2 does not support z-ordinate"
   )
 
-  override def setCoordinate(other: Coordinate): Unit = {
+  override def setCoordinate(other: Coordinate): Unit               = {
     x = other.x
     y = other.y
     z = other.getZ
@@ -131,5 +131,5 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
       throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 
-  override def toString: String = "(" + x + ", " + y + " m=" + getM + ")"
+  override def toString: String                                     = "(" + x + ", " + y + " m=" + getM + ")"
 }

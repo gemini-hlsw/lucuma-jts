@@ -679,7 +679,7 @@ class Envelope() extends Comparable[Envelope] with Serializable {
    * overlapping Envelopes is 0. Otherwise, the distance is the Euclidean distance between the
    * closest points.
    */
-  def distance(env: Envelope): Double = {
+  def distance(env: Envelope): Double      = {
     if (intersects(env)) return 0
     var dx = 0.0
     if (maxx < env.minx) dx = env.minx - maxx
@@ -700,7 +700,7 @@ class Envelope() extends Comparable[Envelope] with Serializable {
     maxx == otherEnvelope.getMaxX && maxy == otherEnvelope.getMaxY && minx == otherEnvelope.getMinX && miny == otherEnvelope.getMinY
   }
 
-  override def toString: String = "Env[" + minx + " : " + maxx + ", " + miny + " : " + maxy + "]"
+  override def toString: String            = "Env[" + minx + " : " + maxx + ", " + miny + " : " + maxy + "]"
 
   /**
    * Compares two envelopes using lexicographic ordering. The ordering comparison is based on the

@@ -107,14 +107,14 @@ class BufferResultValidator(var input: Geometry, var distance: Double, var resul
     )
   }
 
-  private def checkPolygonal(): Unit = {
+  private def checkPolygonal(): Unit          = {
     if (!(result.isInstanceOf[Polygon] || result.isInstanceOf[MultiPolygon])) visValid = false
     errorMsg = "Result is not polygonal"
     errorIndicator = result
     report("Polygonal")
   }
 
-  private def checkExpectedEmpty(): Unit = { // can't check areal features
+  private def checkExpectedEmpty(): Unit      = { // can't check areal features
     if (input.getDimension >= 2) return
     // can't check positive distances
     if (distance > 0.0) return
@@ -127,7 +127,7 @@ class BufferResultValidator(var input: Geometry, var distance: Double, var resul
     report("ExpectedEmpty")
   }
 
-  private def checkEnvelope(): Unit = {
+  private def checkEnvelope(): Unit           = {
     if (distance < 0.0) return
     var padding     = distance * BufferResultValidator.MAX_ENV_DIFF_FRAC
     if (padding == 0.0) padding = 0.001
@@ -143,7 +143,7 @@ class BufferResultValidator(var input: Geometry, var distance: Double, var resul
     report("Envelope")
   }
 
-  private def checkArea(): Unit = {
+  private def checkArea(): Unit               = {
     val inputArea  = input.getArea
     val resultArea = result.getArea
     if (distance > 0.0 && inputArea > resultArea) {
@@ -159,7 +159,7 @@ class BufferResultValidator(var input: Geometry, var distance: Double, var resul
     report("Area")
   }
 
-  private def checkDistance(): Unit = {
+  private def checkDistance(): Unit           = {
     val distValid = new BufferDistanceValidator(input, distance, result)
     if (!distValid.isValid) {
       visValid = false

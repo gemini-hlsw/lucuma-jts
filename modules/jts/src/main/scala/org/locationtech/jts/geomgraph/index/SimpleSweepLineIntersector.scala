@@ -50,7 +50,7 @@ class SimpleSweepLineIntersector() extends EdgeSetIntersector {
     computeIntersections(si)
   }
 
-  private def add(edges: util.List[Edge]): Unit = {
+  private def add(edges: util.List[Edge]): Unit               = {
     val i = edges.iterator
     while (i.hasNext) {
       val edge = i.next
@@ -67,7 +67,7 @@ class SimpleSweepLineIntersector() extends EdgeSetIntersector {
     }
   }
 
-  private def add(edge: Edge, edgeSet: Any): Unit = {
+  private def add(edge: Edge, edgeSet: Any): Unit             = {
     val pts = edge.getCoordinates
     var i   = 0
     while (i < pts.length - 1) {
@@ -83,7 +83,7 @@ class SimpleSweepLineIntersector() extends EdgeSetIntersector {
    * Because DELETE events have a link to their corresponding INSERT event, it is possible to
    * compute exactly the range of events which must be compared to a given INSERT event object.
    */
-  private def prepareEvents(): Unit = {
+  private def prepareEvents(): Unit                              = {
     Collections.sort(events)
     // set DELETE event indexes
     var i = 0

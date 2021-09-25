@@ -107,7 +107,7 @@ class EdgeEnd protected (
     out.print("  " + name + ": " + p0 + " - " + p1 + " " + quadrant + ":" + angle + "   " + label)
   }
 
-  override def toString: String = {
+  override def toString: String     = {
     val angle      = Math.atan2(dy, dx)
     val className  = getClass.getName
     val lastDotPos = className.lastIndexOf('.')

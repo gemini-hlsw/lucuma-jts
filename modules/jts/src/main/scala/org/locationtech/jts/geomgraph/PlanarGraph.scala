@@ -81,7 +81,7 @@ class PlanarGraph(nodeFact: NodeFactory) {
     false
   }
 
-  protected def insertEdge(e: Edge): Boolean = edges.add(e)
+  protected def insertEdge(e: Edge): Boolean                     = edges.add(e)
 
   def add(e: EdgeEnd): Boolean = {
     nodes.add(e)
@@ -207,7 +207,7 @@ class PlanarGraph(nodeFact: NodeFactory) {
     false
   }
 
-  def printEdges(out: PrintStream): Unit = {
+  def printEdges(out: PrintStream): Unit          = {
     out.println("Edges:")
     var i = 0
     while (i < edges.size) {

@@ -57,7 +57,7 @@ class SimpleMCSweepLineIntersector()
     computeIntersections(si)
   }
 
-  private def addEdges(edges: util.List[Edge]): Unit = {
+  private def addEdges(edges: util.List[Edge]): Unit               = {
     val i = edges.iterator
     while (i.hasNext) {
       val edge = i.next
@@ -74,7 +74,7 @@ class SimpleMCSweepLineIntersector()
     }
   }
 
-  private def addEdge(edge: Edge, edgeSet: Any): Unit = {
+  private def addEdge(edge: Edge, edgeSet: Any): Unit              = {
     val mce        = edge.getMonotoneChainEdge
     val startIndex = mce.getStartIndexes
     var i          = 0
@@ -91,7 +91,7 @@ class SimpleMCSweepLineIntersector()
    * Because Delete Events have a link to their corresponding Insert event, it is possible to
    * compute exactly the range of events which must be compared to a given Insert event object.
    */
-  private def prepareEvents(): Unit = {
+  private def prepareEvents(): Unit                              = {
     Collections.sort(events)
     // set DELETE event indexes
     var i = 0

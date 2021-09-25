@@ -34,7 +34,7 @@ import org.locationtech.jts.geom.Geometry
  */
 object CommonBitsRemover {
 
-  private[precision] class CommonCoordinateFilter extends CoordinateFilter {
+  private[precision] class CommonCoordinateFilter            extends CoordinateFilter         {
     private val commonBitsX = new CommonBits
     private val commonBitsY = new CommonBits
 
@@ -57,7 +57,7 @@ object CommonBitsRemover {
       seq.setOrdinate(i, 1, yp)
     }
 
-    override def isDone = false
+    override def isDone                                        = false
 
     override def isGeometryChanged = true
   }

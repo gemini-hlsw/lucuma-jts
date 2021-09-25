@@ -107,12 +107,12 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
    *
    * throws TopologyException if an intersection is found
    */
-  def checkValid(): Unit = {
+  def checkValid(): Unit                         = {
     execute()
     if (!visValid) throw new TopologyException(getErrorMessage, segInt.getIntersection)
   }
 
-  private def execute(): Unit = {
+  private def execute(): Unit                    = {
     if (segInt != null) return
     checkInteriorIntersections()
   }

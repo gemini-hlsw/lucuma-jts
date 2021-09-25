@@ -93,7 +93,7 @@ abstract class EdgeEndStar() {
     edgeList.get(iNextCW)
   }
 
-  def computeLabelling(geomGraph: Array[GeometryGraph]): Unit = {
+  def computeLabelling(geomGraph: Array[GeometryGraph]): Unit                        = {
     computeEdgeEndLabels(geomGraph(0).getBoundaryNodeRule)
     // Propagate side labels  around the edges in the star
     // for each parent Geometry
@@ -161,7 +161,7 @@ abstract class EdgeEndStar() {
     }
   }
 
-  private def computeEdgeEndLabels(boundaryNodeRule: BoundaryNodeRule): Unit = { // Compute edge label for each EdgeEnd
+  private def computeEdgeEndLabels(boundaryNodeRule: BoundaryNodeRule): Unit         = { // Compute edge label for each EdgeEnd
     val it = iterator
     while (it.hasNext) {
       val ee = it.next
@@ -175,12 +175,12 @@ abstract class EdgeEndStar() {
     ptInAreaLocation(geomIndex)
   }
 
-  def isAreaLabelsConsistent(geomGraph: GeometryGraph): Boolean = {
+  def isAreaLabelsConsistent(geomGraph: GeometryGraph): Boolean    = {
     computeEdgeEndLabels(geomGraph.getBoundaryNodeRule)
     checkAreaLabelsConsistent(0)
   }
 
-  private def checkAreaLabelsConsistent(geomIndex: Int): Boolean = { // Since edges are stored in CCW order around the node,
+  private def checkAreaLabelsConsistent(geomIndex: Int): Boolean   = { // Since edges are stored in CCW order around the node,
     // As we move around the ring we move from the right to the left side of the edge
     val edges         = getEdges
     // if no edges, trivially consistent
@@ -280,7 +280,7 @@ abstract class EdgeEndStar() {
     }
   }
 
-  override def toString: String = {
+  override def toString: String     = {
     val buf = new StringBuffer
     buf.append("EdgeEndStar:   " + getCoordinate)
     buf.append("\n")

@@ -75,7 +75,7 @@ class GeometryCollection(
     coordinates
   }
 
-  override def isEmpty: Boolean = {
+  override def isEmpty: Boolean                  = {
     var i = 0
     while (i < geometries.length) {
       if (!geometries(i).isEmpty) return false
@@ -84,7 +84,7 @@ class GeometryCollection(
     true
   }
 
-  override def getDimension: Int = {
+  override def getDimension: Int                 = {
     var dimension = Dimension.FALSE
     var i         = 0
     while (i < geometries.length) {
@@ -94,7 +94,7 @@ class GeometryCollection(
     dimension
   }
 
-  override def getBoundaryDimension: Int = {
+  override def getBoundaryDimension: Int         = {
     var dimension = Dimension.FALSE
     var i         = 0
     while (i < geometries.length) {
@@ -104,7 +104,7 @@ class GeometryCollection(
     dimension
   }
 
-  override def getNumGeometries: Int = geometries.length
+  override def getNumGeometries: Int             = geometries.length
 
   override def getGeometryN(n: Int): Geometry = geometries(n)
 
@@ -118,7 +118,7 @@ class GeometryCollection(
     numPoints
   }
 
-  override def getGeometryType = "GeometryCollection"
+  override def getGeometryType   = "GeometryCollection"
 
   override def getBoundary: Geometry = {
     Geometry.checkNotGeometryCollection(this)
@@ -131,7 +131,7 @@ class GeometryCollection(
    *
    * return the area of the polygon
    */
-  override def getArea: Double = {
+  override def getArea: Double                                          = {
     var area = 0.0
     var i    = 0
     while (i < geometries.length) {
@@ -141,7 +141,7 @@ class GeometryCollection(
     area
   }
 
-  override def getLength: Double = {
+  override def getLength: Double                                        = {
     var sum = 0.0
     var i   = 0
     while (i < geometries.length) {
@@ -210,7 +210,7 @@ class GeometryCollection(
    */
   override def clone: AnyRef = copy
 
-  override protected def copyInternal: GeometryCollection = {
+  override protected def copyInternal: GeometryCollection  = {
     val geometries = new Array[Geometry](this.geometries.length)
     var i          = 0
     while (i < geometries.length) {
@@ -220,7 +220,7 @@ class GeometryCollection(
     new GeometryCollection(geometries, factory)
   }
 
-  override def normalize(): Unit = {
+  override def normalize(): Unit                           = {
     var i = 0
     while (i < geometries.length) {
       geometries(i).normalize()
@@ -239,7 +239,7 @@ class GeometryCollection(
     envelope
   }
 
-  protected def compareToSameClass(o: Geometry): Int = {
+  protected def compareToSameClass(o: Geometry): Int       = {
     val theseElements = new util.TreeSet(util.Arrays.asList(geometries))
     val otherElements =
       new util.TreeSet(util.Arrays.asList(o.asInstanceOf[GeometryCollection].geometries))
@@ -264,7 +264,7 @@ class GeometryCollection(
     0
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_GEOMETRYCOLLECTION
+  override protected def getSortIndex: Int                                     = Geometry.SORTINDEX_GEOMETRYCOLLECTION
 
   /**
    * Creates a {link GeometryCollection} with every component reversed. The order of the components
