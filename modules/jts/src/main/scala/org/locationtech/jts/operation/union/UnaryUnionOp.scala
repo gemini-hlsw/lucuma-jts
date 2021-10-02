@@ -143,7 +143,7 @@ class UnaryUnionOp(geoms: util.Collection[Geometry], var geomFact: GeometryFacto
   private def extract(geoms: util.Collection[Geometry]): Unit = extracter =
     InputExtracter.extract(geoms)
 
-  private def extract(geom: Geometry): Unit                   = extracter = InputExtracter.extract(geom)
+  private def extract(geom: Geometry): Unit = extracter = InputExtracter.extract(geom)
 
   // /**
   //  * Gets the union of the input geometries.

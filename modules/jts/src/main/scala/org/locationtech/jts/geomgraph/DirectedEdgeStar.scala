@@ -125,7 +125,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
   /**
    * Update incomplete dirEdge labels from the labelling for the node
    */
-  def updateLabelling(nodeLabel: Label): Unit             = {
+  def updateLabelling(nodeLabel: Label): Unit = {
     val it = iterator
     while (it.hasNext) {
       val de    = it.next.asInstanceOf[DirectedEdge]
@@ -146,8 +146,8 @@ class DirectedEdgeStar() extends EdgeEndStar {
     resultAreaEdgeList
   }
 
-  final private val SCANNING_FOR_INCOMING                 = 1
-  final private val LINKING_TO_OUTGOING                   = 2
+  final private val SCANNING_FOR_INCOMING = 1
+  final private val LINKING_TO_OUTGOING   = 2
 
   /**
    * Traverse the star of DirectedEdges, linking the included edges together. To link two dirEdges,
@@ -331,7 +331,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
     currDepth
   }
 
-  override def print(out: PrintStream): Unit                                      = {
+  override def print(out: PrintStream): Unit = {
     System.out.println("DirectedEdgeStar: " + getCoordinate)
     val it = iterator
     while (it.hasNext) {

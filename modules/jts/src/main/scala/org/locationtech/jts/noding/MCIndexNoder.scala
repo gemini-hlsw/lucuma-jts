@@ -52,7 +52,7 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
 
   def getIndex: STRtree = index
 
-  override def getNodedSubstrings: util.List[SegmentString]                        =
+  override def getNodedSubstrings: util.List[SegmentString] =
     NodedSegmentString
       .getNodedSubstrings(nodedSegStrings)
       .asScala
@@ -69,7 +69,7 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
     //System.out.println("MCIndexNoder: # chain overlaps = " + nOverlaps);
   }
 
-  private def intersectChains(): Unit                                              = {
+  private def intersectChains(): Unit = {
     val overlapAction = new MCIndexNoder.SegmentOverlapAction(segInt)
     val i             = monoChains.iterator
     while (i.hasNext) {
@@ -93,7 +93,7 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
     }
   }
 
-  private def add(segStr: SegmentString): Unit                                     = {
+  private def add(segStr: SegmentString): Unit = {
     val segChains = MonotoneChainBuilder.getChains(segStr.getCoordinates, segStr)
     val i         = segChains.iterator
     while (i.hasNext) {

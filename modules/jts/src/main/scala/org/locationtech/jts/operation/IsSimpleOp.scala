@@ -125,7 +125,7 @@ class IsSimpleOp(inputGeom: Geometry) {
    *
    * return true if the geometry is simple
    */
-  def isSimple: Boolean                              = {
+  def isSimple: Boolean = {
     nonSimpleLocation = null
     computeSimple(inputGeom)
   }
@@ -229,7 +229,7 @@ class IsSimpleOp(inputGeom: Geometry) {
     true
   }
 
-  private def isSimpleLinearGeometry(geom: Geometry): Boolean     = {
+  private def isSimpleLinearGeometry(geom: Geometry): Boolean = {
     if (geom.isEmpty) return true
     val graph = new GeometryGraph(0, geom)
     val li    = new RobustLineIntersector

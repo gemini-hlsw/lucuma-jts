@@ -39,7 +39,7 @@ object Matrix {
     }
   }
 
-  private def swapRows(m: Array[Double], i: Int, j: Int): Unit        = {
+  private def swapRows(m: Array[Double], i: Int, j: Int): Unit = {
     if (i == j) return
     val temp = m(i)
     m(i) = m(j)

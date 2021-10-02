@@ -83,7 +83,7 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
     throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 
-  override def setCoordinate(other: Coordinate): Unit               = {
+  override def setCoordinate(other: Coordinate): Unit = {
     x = other.x
     y = other.y
     z = other.getZ
@@ -103,5 +103,5 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
       throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 
-  override def toString: String                                     = "(" + x + ", " + y + ", " + getZ + " m=" + getM + ")"
+  override def toString: String = "(" + x + ", " + y + ", " + getZ + " m=" + getM + ")"
 }

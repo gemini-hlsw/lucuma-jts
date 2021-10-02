@@ -280,7 +280,7 @@ class STRtree(val nodeCapacityArg: Int)
     nearestNeighbour(bp)
   }
 
-  private def nearestNeighbour(initBndPair: BoundablePair): Array[Any]    = {
+  private def nearestNeighbour(initBndPair: BoundablePair): Array[Any] = {
     var distanceLowerBound     = java.lang.Double.POSITIVE_INFINITY
     var minPair: BoundablePair = null
     // initialize search queue
@@ -416,7 +416,7 @@ class STRtree(val nodeCapacityArg: Int)
     nearestNeighbourK(bp, k)
   }
 
-  private def nearestNeighbourK(initBndPair: BoundablePair, k: Int): Array[Any]              =
+  private def nearestNeighbourK(initBndPair: BoundablePair, k: Int): Array[Any] =
     nearestNeighbourK(initBndPair, java.lang.Double.POSITIVE_INFINITY, k)
 
   private def nearestNeighbourK(

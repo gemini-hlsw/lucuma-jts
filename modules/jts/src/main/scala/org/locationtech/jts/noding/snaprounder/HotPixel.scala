@@ -87,7 +87,7 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
    *
    * return an envelope which contains the hot pixel
    */
-  def getSafeEnvelope                     = {
+  def getSafeEnvelope = {
     if (safeEnv == null) {
       val safeTolerance = HotPixel.SAFE_ENV_EXPANSION_FACTOR / scaleFactor
       safeEnv = new Envelope(originalPt.x - safeTolerance,
@@ -111,7 +111,7 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
     corner(3) = new Coordinate(maxx, miny)
   }
 
-  private def scale(`val`: Double)        = `val` * scaleFactor.round.toDouble
+  private def scale(`val`: Double) = `val` * scaleFactor.round.toDouble
 
   /**
    * Tests whether the line segment (p0-p1) intersects this hot pixel.
@@ -122,14 +122,14 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
    *   the second coordinate of the line segment to test return true if the line segment intersects
    *   this hot pixel
    */
-  def intersects(p0: Coordinate, p1: Coordinate): Boolean               = {
+  def intersects(p0: Coordinate, p1: Coordinate): Boolean = {
     if (scaleFactor == 1.0) return intersectsScaled(p0, p1)
     copyScaled(p0, p0Scaled)
     copyScaled(p1, p1Scaled)
     intersectsScaled(p0Scaled, p1Scaled)
   }
 
-  private def copyScaled(p: Coordinate, pScaled: Coordinate): Unit      = {
+  private def copyScaled(p: Coordinate, pScaled: Coordinate): Unit = {
     pScaled.x = scale(p.x)
     pScaled.y = scale(p.y)
   }

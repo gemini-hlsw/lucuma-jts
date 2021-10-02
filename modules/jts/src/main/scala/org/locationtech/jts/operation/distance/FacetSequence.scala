@@ -241,7 +241,7 @@ class FacetSequence(val geom: Geometry, val pts: CoordinateSequence, val start: 
     locs(1) = new GeometryLocation(facetSeq.geom, i, new Coordinate(segClosestPoint))
   }
 
-  override def toString: String                                          = {
+  override def toString: String = {
     val buf = new StringBuffer
     buf.append("LINESTRING ( ")
     val p   = new Coordinate

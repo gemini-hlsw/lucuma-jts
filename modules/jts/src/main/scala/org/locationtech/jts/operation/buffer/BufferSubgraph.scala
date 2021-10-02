@@ -126,7 +126,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
     }
   }
 
-  private def clearVisitedEdges(): Unit                          = {
+  private def clearVisitedEdges(): Unit = {
     val it = dirEdgeList.iterator
     while (it.hasNext) {
       val de = it.next
@@ -183,7 +183,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
     }
   }
 
-  private def computeNodeDepth(n: Node): Unit              = { // find a visited dirEdge to start at
+  private def computeNodeDepth(n: Node): Unit = { // find a visited dirEdge to start at
     var startEdge: DirectedEdge = null
     var i                       = n.getEdges.asInstanceOf[DirectedEdgeStar].iterator
     var loopBreak               = false
@@ -209,7 +209,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
     }
   }
 
-  private def copySymDepths(de: DirectedEdge): Unit        = {
+  private def copySymDepths(de: DirectedEdge): Unit = {
     val sym = de.getSym
     sym.setDepth(Position.LEFT, de.getDepth(Position.RIGHT))
     sym.setDepth(Position.RIGHT, de.getDepth(Position.LEFT))

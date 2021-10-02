@@ -153,7 +153,7 @@ class GeometryTransformer() {
     parent: Geometry
   ): CoordinateSequence = copy(coords)
 
-  protected def transformPoint(geom: Point, parent: Geometry): Point              =
+  protected def transformPoint(geom: Point, parent: Geometry): Point =
     factory.createPoint(transformCoordinates(geom.getCoordinateSequence, geom))
 
   protected def transformMultiPoint(geom: MultiPoint, parent: Geometry): Geometry = {
@@ -221,7 +221,7 @@ class GeometryTransformer() {
     factory.buildGeometry(transGeomList)
   }
 
-  protected def transformPolygon(geom: Polygon, parent: Geometry): Geometry                 = {
+  protected def transformPolygon(geom: Polygon, parent: Geometry): Geometry = {
     var isAllValidLinearRings = true
     val shell                 = transformLinearRing(geom.getExteriorRing, geom)
     if (shell == null || !shell.isInstanceOf[LinearRing] || shell.isEmpty)
@@ -249,7 +249,7 @@ class GeometryTransformer() {
     }
   }
 
-  protected def transformMultiPolygon(geom: MultiPolygon, parent: Geometry): Geometry       = {
+  protected def transformMultiPolygon(geom: MultiPolygon, parent: Geometry): Geometry = {
     val transGeomList = new util.ArrayList[Geometry]
     var i             = 0
     while (i < geom.getNumGeometries) {

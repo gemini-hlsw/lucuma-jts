@@ -101,7 +101,7 @@ class Depth() { // initialize depth array to a sentinel value
    * values in the set { 0, 1 }. Normalizing the depths involves reducing the depths by the same
    * amount so that at least one of them is 0. If the remaining value is &gt; 0, it is set to 1.
    */
-  def normalize(): Unit         = {
+  def normalize(): Unit = {
     var i = 0
     while (i < 2) {
       if (!isNull(i)) {

@@ -70,7 +70,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
     0
   }
 
-  override def getGeometryType           = "MultiLineString"
+  override def getGeometryType = "MultiLineString"
 
   def isClosed: Boolean = {
     if (isEmpty) return false
@@ -101,7 +101,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
    */
   override def reverse: Geometry = super.reverse
 
-  override protected def copyInternal: MultiLineString                  = {
+  override protected def copyInternal: MultiLineString = {
     val lineStrings = new Array[LineString](this.geometries.length)
     var i           = 0
     while (i < lineStrings.length) {
@@ -116,5 +116,5 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
     super.equalsExact(other, tolerance)
   }
 
-  override protected def getSortIndex: Int                              = Geometry.SORTINDEX_MULTILINESTRING
+  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTILINESTRING
 }

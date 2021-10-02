@@ -50,7 +50,7 @@ class InteriorPointPoint(val g: Geometry) {
    * @param geom
    *   the geometry to add
    */
-  private def add(geom: Geometry): Unit    = if (geom.isInstanceOf[Point]) add(geom.getCoordinate)
+  private def add(geom: Geometry): Unit = if (geom.isInstanceOf[Point]) add(geom.getCoordinate)
   else if (geom.isInstanceOf[GeometryCollection]) {
     val gc = geom.asInstanceOf[GeometryCollection]
     var i  = 0

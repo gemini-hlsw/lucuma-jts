@@ -535,6 +535,6 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
   def equalsTopo(other: LineSegment): Boolean =
     p0 == other.p0 && p1 == other.p1 || p0 == other.p1 && p1 == other.p0
 
-  override def toString: String               =
+  override def toString: String =
     "LINESTRING( " + p0.x + " " + p0.y + ", " + p1.x + " " + p1.y + ")"
 }

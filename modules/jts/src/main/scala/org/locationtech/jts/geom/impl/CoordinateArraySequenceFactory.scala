@@ -75,7 +75,7 @@ final class CoordinateArraySequenceFactory private ()
    * @see
    *   org.locationtech.jts.geom.CoordinateSequenceFactory#create(int, int)
    */
-  def create(size: Int, dimension: Int): CoordinateSequence                         = {
+  def create(size: Int, dimension: Int): CoordinateSequence = {
     val dim =
       if (dimension > 3) 3
       //throw new IllegalArgumentException("dimension must be <= 3");

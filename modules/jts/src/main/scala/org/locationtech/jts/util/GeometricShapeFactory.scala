@@ -378,7 +378,7 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
    * @param angExtent
    *   size of angle in radians return an elliptical arc polygon
    */
-  def createArcPolygon(startAng: Double, angExtent: Double): Polygon            = {
+  def createArcPolygon(startAng: Double, angExtent: Double): Polygon = {
     val env     = dim.getEnvelope
     val xRadius = env.getWidth / 2.0
     val yRadius = env.getHeight / 2.0
@@ -412,7 +412,7 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
     rotate(poly).asInstanceOf[Polygon]
   }
 
-  protected def coord(x: Double, y: Double): Coordinate                         = {
+  protected def coord(x: Double, y: Double): Coordinate = {
     val pt = new Coordinate(x, y)
     precModel.makePrecise(pt)
     pt

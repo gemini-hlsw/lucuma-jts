@@ -364,7 +364,7 @@ object PackedCoordinateSequence {
      *   PackedCoordinateSequence#getOrdinate(int, int) For performance reasons the ordinate index
      *   is not checked. If it is larger than the dimension a meaningless value may be returned.
      */
-    override def getOrdinate(index: Int, ordinate: Int): scala.Double              = coords(
+    override def getOrdinate(index: Int, ordinate: Int): scala.Double = coords(
       index * dimension + ordinate
     ).toDouble
 
@@ -373,7 +373,7 @@ object PackedCoordinateSequence {
       coords(index * dimension + ordinate) = value.toFloat
     }
 
-    override def expandEnvelope(env: Envelope): Envelope                           = {
+    override def expandEnvelope(env: Envelope): Envelope = {
       var i = 0
       while (i < coords.length) {
         env.expandToInclude(coords(i).toDouble, coords(i + 1).toDouble)
@@ -432,7 +432,7 @@ abstract class PackedCoordinateSequence protected (
    * @see
    *   CoordinateSequence#getCoordinate(int)
    */
-  override def getCoordinate(i: Int): Coordinate     = {
+  override def getCoordinate(i: Int): Coordinate = {
     val coords = getCachedCoords
     if (coords != null) coords(i)
     else getCoordinateInternal(i)
@@ -465,7 +465,7 @@ abstract class PackedCoordinateSequence protected (
     coords
   }
 
-  private def getCachedCoords: Array[Coordinate]    = if (coordRef != null) {
+  private def getCachedCoords: Array[Coordinate] = if (coordRef != null) {
     val coords = coordRef.get
     if (coords != null) coords
     else { // System.out.print("-");
@@ -518,7 +518,7 @@ abstract class PackedCoordinateSequence protected (
     setOrdinate(index, 1, value)
   }
 
-  override def toString: String             = CoordinateSequences.toString(this)
+  override def toString: String = CoordinateSequences.toString(this)
 
   @throws[ObjectStreamException]
   protected def readResolve: PackedCoordinateSequence = {

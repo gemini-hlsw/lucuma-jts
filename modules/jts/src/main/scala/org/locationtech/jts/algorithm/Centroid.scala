@@ -148,7 +148,7 @@ class Centroid(val geom: Geometry) {
 
   private def setAreaBasePoint(basePt: Coordinate): Unit = this.areaBasePt = basePt
 
-  private def add(poly: Polygon): Unit               = {
+  private def add(poly: Polygon): Unit = {
     addShell(poly.getExteriorRing.getCoordinates)
     var i = 0
     while (i < poly.getNumInteriorRing) {
@@ -168,7 +168,7 @@ class Centroid(val geom: Geometry) {
     addLineSegments(pts)
   }
 
-  private def addHole(pts: Array[Coordinate]): Unit  = {
+  private def addHole(pts: Array[Coordinate]): Unit = {
     val isPositiveArea = Orientation.isCCW(pts)
     var i              = 0
     while (i < pts.length - 1) {

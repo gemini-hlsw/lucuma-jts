@@ -51,13 +51,13 @@ class ScaledNoder(
 
   def isIntegerPrecision: Boolean = scaleFactor == 1.0
 
-  override def getNodedSubstrings: util.Collection[SegmentString]                         = {
+  override def getNodedSubstrings: util.Collection[SegmentString] = {
     val splitSS = noder.getNodedSubstrings
     if (isScaled) rescale(splitSS)
     splitSS
   }
 
-  override def computeNodes(inputSegStrings: util.Collection[SegmentString]): Unit        = {
+  override def computeNodes(inputSegStrings: util.Collection[SegmentString]): Unit = {
     var intSegStrings = inputSegStrings
     if (isScaled) intSegStrings = scale(inputSegStrings)
     noder.computeNodes(intSegStrings)
@@ -74,7 +74,7 @@ class ScaledNoder(
     nodedSegmentStrings
   }
 
-  private def scale(pts: Array[Coordinate]): Array[Coordinate]                            = {
+  private def scale(pts: Array[Coordinate]): Array[Coordinate] = {
     val roundPts      = new Array[Coordinate](pts.length)
     var i             = 0
     while (i < pts.length) {
@@ -88,7 +88,7 @@ class ScaledNoder(
     roundPtsNoDup
   }
 
-  private def rescale(segStrings: util.Collection[SegmentString]): Unit                   = {
+  private def rescale(segStrings: util.Collection[SegmentString]): Unit = {
     val i = segStrings.iterator
     while (i.hasNext) {
       val ss = i.next
@@ -96,7 +96,7 @@ class ScaledNoder(
     }
   }
 
-  private def rescale(pts: Array[Coordinate]): Unit                                       = {
+  private def rescale(pts: Array[Coordinate]): Unit = {
     var i = 0
     while (i < pts.length) {
       pts(i).x = pts(i).x / scaleFactor + offsetX

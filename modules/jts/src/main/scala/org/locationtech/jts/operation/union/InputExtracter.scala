@@ -107,7 +107,7 @@ class InputExtracter() extends GeometryFilter {
    *   the dimension of geometry to return return a list of the extracted geometries of dimension
    *   dim.
    */
-  def getExtract(dim: Int): util.List[Geometry]           = {
+  def getExtract(dim: Int): util.List[Geometry] = {
     dim match {
       case 0 =>
         return points.asScala.map(x => x: Geometry).asJava
@@ -123,12 +123,12 @@ class InputExtracter() extends GeometryFilter {
   private def add(geoms: util.Collection[Geometry]): Unit =
     geoms.asScala.foreach(add)
 
-  private def add(geom: Geometry): Unit                   = {
+  private def add(geom: Geometry): Unit = {
     if (geomFactory == null) geomFactory = geom.getFactory
     geom.applyF(this)
   }
 
-  override def filter(geom: Geometry): Unit               = {
+  override def filter(geom: Geometry): Unit = {
     recordDimension(geom.getDimension)
     if (geom.isInstanceOf[GeometryCollection]) return
 
@@ -149,5 +149,5 @@ class InputExtracter() extends GeometryFilter {
     Assert.shouldNeverReachHere("Unhandled geometry type: " + geom.getGeometryType)
   }
 
-  private def recordDimension(dim: Int): Unit             = if (dim > dimension) dimension = dim
+  private def recordDimension(dim: Int): Unit = if (dim > dimension) dimension = dim
 }

@@ -75,7 +75,7 @@ class OffsetCurveSetBuilder(
     ()
   }
 
-  private def add(g: Geometry): Unit                                                = {
+  private def add(g: Geometry): Unit = {
     if (g.isEmpty) return
     if (g.isInstanceOf[Polygon]) addPolygon(g.asInstanceOf[Polygon])
     else { // LineString also handles LinearRings
@@ -94,7 +94,7 @@ class OffsetCurveSetBuilder(
     }
   }
 
-  private def addCollection(gc: GeometryCollection): Unit                           = {
+  private def addCollection(gc: GeometryCollection): Unit = {
     var i = 0
     while (i < gc.getNumGeometries) {
       val g = gc.getGeometryN(i)
@@ -106,14 +106,14 @@ class OffsetCurveSetBuilder(
   /**
    * Add a Point to the graph.
    */
-  private def addPoint(p: Point): Unit                                           = { // a zero or negative width buffer of a point is empty
+  private def addPoint(p: Point): Unit = { // a zero or negative width buffer of a point is empty
     if (distance <= 0.0) return
     val coord = p.getCoordinates
     val curve = curveBuilder.getLineCurve(coord, distance)
     addCurve(curve, Location.EXTERIOR, Location.INTERIOR)
   }
 
-  private def addLineString(line: LineString): Unit                              = {
+  private def addLineString(line: LineString): Unit = {
     if (curveBuilder.isLineOffsetEmpty(distance)) return
     val coord = CoordinateArrays.removeRepeatedPoints(line.getCoordinates)
 
@@ -135,7 +135,7 @@ class OffsetCurveSetBuilder(
     //addCurve(curveTrim, Location.EXTERIOR, Location.INTERIOR);
   }
 
-  private def addPolygon(p: Polygon): Unit                                       = {
+  private def addPolygon(p: Polygon): Unit = {
     var offsetDistance = distance
     var offsetSide     = Position.LEFT
     if (distance < 0.0) {

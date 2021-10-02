@@ -196,7 +196,7 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
    *   the point to compute the distance for return the signed distance to the area boundary
    *   (negative indicates outside the area)
    */
-  private def distanceToBoundary(p: Point): Double             = {
+  private def distanceToBoundary(p: Point): Double = {
     val dist     = indexedDistance.distance(p)
     val isOutide = Location.EXTERIOR == ptLocater.locate(p.getCoordinate)
     if (isOutide) return -dist
@@ -209,7 +209,7 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
     distanceToBoundary(pt)
   }
 
-  private def compute(): Unit                                  = { // check if already computed
+  private def compute(): Unit = { // check if already computed
     if (centerCell != null) return
     // Priority queue of cells, ordered by maximum distance from boundary
     val cellQueue    = new PriorityQueue[MaximumInscribedCircle.Cell]

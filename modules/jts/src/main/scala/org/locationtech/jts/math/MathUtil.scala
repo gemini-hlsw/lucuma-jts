@@ -64,7 +64,7 @@ object MathUtil {
     x
   }
 
-  private val LOG_10                         = Math.log(10)
+  private val LOG_10 = Math.log(10)
 
   /**
    * Computes the base-10 logarithm of a <tt>double</tt> value. <ul> <li>If the argument is NaN or

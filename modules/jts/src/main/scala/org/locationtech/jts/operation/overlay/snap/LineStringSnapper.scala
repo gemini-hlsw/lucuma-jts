@@ -94,7 +94,7 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
    * @param snapPts
    *   the points to snap to
    */
-  private def snapVertices(srcCoords: CoordinateList, snapPts: Array[Coordinate])       = { // try snapping vertices
+  private def snapVertices(srcCoords: CoordinateList, snapPts: Array[Coordinate]) = { // try snapping vertices
     // if src is a ring then don't snap final vertex
     val end =
       if (visClosed) srcCoords.size - 1

@@ -54,7 +54,7 @@ class InteriorPointLine(val g: Geometry) {
    * @param geom
    *   the geometry to add
    */
-  private def addInterior(geom: Geometry): Unit         = if (geom.isInstanceOf[LineString])
+  private def addInterior(geom: Geometry): Unit = if (geom.isInstanceOf[LineString])
     addInterior(geom.getCoordinates)
   else if (geom.isInstanceOf[GeometryCollection]) {
     val gc = geom.asInstanceOf[GeometryCollection]
@@ -80,7 +80,7 @@ class InteriorPointLine(val g: Geometry) {
    * @param geom
    *   the geometry to add
    */
-  private def addEndpoints(geom: Geometry): Unit         = if (geom.isInstanceOf[LineString])
+  private def addEndpoints(geom: Geometry): Unit = if (geom.isInstanceOf[LineString])
     addEndpoints(geom.getCoordinates)
   else if (geom.isInstanceOf[GeometryCollection]) {
     val gc = geom.asInstanceOf[GeometryCollection]
@@ -96,7 +96,7 @@ class InteriorPointLine(val g: Geometry) {
     add(pts(pts.length - 1))
   }
 
-  private def add(point: Coordinate): Unit               = {
+  private def add(point: Coordinate): Unit = {
     val dist = point.distance(centroid)
     if (dist < minDistance) {
       interiorPoint = new Coordinate(point)

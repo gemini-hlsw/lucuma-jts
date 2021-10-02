@@ -134,7 +134,7 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     curvePts
   }
 
-  private def getSegGen(distance: Double)                                              =
+  private def getSegGen(distance: Double) =
     new OffsetSegmentGenerator(precisionModel, bufParams, distance)
 
   /**
