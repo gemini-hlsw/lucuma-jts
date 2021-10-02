@@ -65,7 +65,7 @@ class SortedPackedIntervalRTree() {
     leaves.add(new IntervalRTreeLeafNode(min, max, item))
   }
 
-  private def init(): Unit                        = { // already built
+  private def init(): Unit = { // already built
     if (root != null) return
 
     /**
@@ -76,12 +76,12 @@ class SortedPackedIntervalRTree() {
     buildRoot()
   }
 
-  private def buildRoot(): Unit                   = {
+  private def buildRoot(): Unit = {
     if (root != null) return
     root = buildTree
   }
 
-  private def buildTree: IntervalRTreeNode        = { // sort the leaf nodes
+  private def buildTree: IntervalRTreeNode = { // sort the leaf nodes
     Collections.sort(leaves, new IntervalRTreeNode.NodeComparator)
     // now group nodes into blocks of two and build tree up recursively
     var src                                     = leaves

@@ -52,7 +52,7 @@ class RelateComputer(
   // the intersection point found (if any)
 //  private val invalidPoint = null
 
-  def computeIM: IntersectionMatrix                        = {
+  def computeIM: IntersectionMatrix = {
     val im          = new IntersectionMatrix
     // since Geometries are finite and embedded in a 2-D space, the EE element must always be 2
     im.set(Location.EXTERIOR, Location.EXTERIOR, 2)
@@ -246,7 +246,7 @@ class RelateComputer(
     }
   }
 
-  private def labelNodeEdges(): Unit                          = {
+  private def labelNodeEdges(): Unit = {
     val ni = nodes.iterator
     while (ni.hasNext) {
       val node = ni.next.asInstanceOf[RelateNode]

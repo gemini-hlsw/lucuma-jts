@@ -172,7 +172,7 @@ class Label() {
   def toLine(geomIndex: Int): Unit =
     if (elt(geomIndex).isArea) elt(geomIndex) = new TopologyLocation(elt(geomIndex).location(0))
 
-  override def toString: String    = {
+  override def toString: String = {
     val buf = new StringBuffer
     if (elt(0) != null) {
       buf.append("A:")

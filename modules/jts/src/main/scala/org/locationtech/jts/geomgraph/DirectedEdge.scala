@@ -173,7 +173,7 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
     setDepth(oppositePos, oppositeDepth)
   }
 
-  override def print(out: PrintStream): Unit         = {
+  override def print(out: PrintStream): Unit = {
     super.print(out)
     out.print(" " + depth(Position.LEFT) + "/" + depth(Position.RIGHT))
     out.print(" (" + getDepthDelta + ")")

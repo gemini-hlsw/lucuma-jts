@@ -151,7 +151,7 @@ class GeometryGraph(
 
   def findEdge(line: LineString): Edge = lineEdgeMap.get(line)
 
-  def computeSplitEdges(edgelist: util.List[Edge]): Unit  = {
+  def computeSplitEdges(edgelist: util.List[Edge]): Unit = {
     val i = edges.iterator
     while (i.hasNext) {
       val e = i.next
@@ -159,7 +159,7 @@ class GeometryGraph(
     }
   }
 
-  private def add(g: Geometry): Unit                      = {
+  private def add(g: Geometry): Unit = {
     if (g.isEmpty) return
     // check if this Geometry should obey the Boundary Determination Rule
     // all collections except MultiPolygons obey the rule
@@ -220,7 +220,7 @@ class GeometryGraph(
     insertPoint(argIndex, coord(0), Location.BOUNDARY)
   }
 
-  private def addPolygon(p: Polygon): Unit                                    = {
+  private def addPolygon(p: Polygon): Unit = {
     addPolygonRing(p.getExteriorRing, Location.EXTERIOR, Location.INTERIOR)
     var i = 0
     while (i < p.getNumInteriorRing) {
@@ -233,7 +233,7 @@ class GeometryGraph(
     }
   }
 
-  private def addLineString(line: LineString): Unit                           = {
+  private def addLineString(line: LineString): Unit = {
     val coord = CoordinateArrays.removeRepeatedPoints(line.getCoordinates)
     if (coord.length < 2) {
       hasTooFewPoints = true
@@ -366,7 +366,7 @@ class GeometryGraph(
     lbl.setLocation(argIndex, newLoc)
   }
 
-  private def addSelfIntersectionNodes(argIndex: Int): Unit               = {
+  private def addSelfIntersectionNodes(argIndex: Int): Unit = {
     val i = edges.iterator
     while (i.hasNext) {
       val e    = i.next

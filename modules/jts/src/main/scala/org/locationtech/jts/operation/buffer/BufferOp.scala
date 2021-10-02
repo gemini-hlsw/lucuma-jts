@@ -270,13 +270,13 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
    * @param distance
    *   the buffer distance return the buffer of the input geometry
    */
-  def getResultGeometry(distance: Double): Geometry               = {
+  def getResultGeometry(distance: Double): Geometry = {
     this.distance = distance
     computeGeometry()
     resultGeometry
   }
 
-  private def computeGeometry(): Unit                             = {
+  private def computeGeometry(): Unit = {
     bufferOriginalPrecision()
     if (resultGeometry != null) return
     val argPM = argGeom.getFactory.getPrecisionModel
@@ -284,7 +284,7 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
     else bufferReducedPrecision()
   }
 
-  private def bufferReducedPrecision(): Unit                      = { // try and compute with decreasing precision
+  private def bufferReducedPrecision(): Unit = { // try and compute with decreasing precision
     var precDigits = BufferOp.MAX_PRECISION_DIGITS
     while (precDigits >= 0) {
       try bufferReducedPrecision(precDigits)
@@ -303,7 +303,7 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
     throw saveException
   }
 
-  private def bufferOriginalPrecision(): Unit                     = try { // use fast noding by default
+  private def bufferOriginalPrecision(): Unit = try { // use fast noding by default
     val bufBuilder = new BufferBuilder(bufParams)
     resultGeometry = bufBuilder.buffer(argGeom, distance)
   } catch {
@@ -313,7 +313,7 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
     //throw ex;
   }
 
-  private def bufferReducedPrecision(precisionDigits: Int): Unit  = {
+  private def bufferReducedPrecision(precisionDigits: Int): Unit = {
     val sizeBasedScaleFactor = BufferOp.precisionScaleFactor(argGeom, distance, precisionDigits)
     //    System.out.println("recomputing with precision scale factor = " + sizeBasedScaleFactor);
     val fixedPM              = new PrecisionModel(sizeBasedScaleFactor)

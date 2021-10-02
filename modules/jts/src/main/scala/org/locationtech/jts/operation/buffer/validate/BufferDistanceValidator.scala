@@ -91,7 +91,7 @@ class BufferDistanceValidator(var input: Geometry, var bufDistance: Double, var 
    */
   def getErrorIndicator: Geometry = errorIndicator
 
-  private def checkPositiveValid(): Unit   = {
+  private def checkPositiveValid(): Unit = {
     val bufCurve = result.getBoundary
     checkMinimumDistance(input, bufCurve, minValidDistance)
     if (!visValid) return

@@ -99,7 +99,7 @@ class BufferBuilder(var bufParams: BufferParameters) {
   //  */
   def setNoder(noder: Noder[SegmentString]): Unit = workingNoder = noder
 
-  def buffer(g: Geometry, distance: Double): Geometry                        = {
+  def buffer(g: Geometry, distance: Double): Geometry = {
     var precisionModel   = workingPrecisionModel
     if (precisionModel == null) precisionModel = g.getPrecisionModel
     // factory must be the same as the one used by the input
@@ -176,7 +176,7 @@ class BufferBuilder(var bufParams: BufferParameters) {
    * Inserted edges are checked to see if an identical edge already exists. If so, the edge is not
    * inserted, but its label is merged with the existing edge.
    */
-  protected def insertUniqueEdge(e: Edge): Unit   = { //<FIX> MD 8 Oct 03  speed up identical edge lookup
+  protected def insertUniqueEdge(e: Edge): Unit = { //<FIX> MD 8 Oct 03  speed up identical edge lookup
     // fast lookup
     val existingEdge = edgeList.findEqualEdge(e)
     // If an identical edge already exists, simply update its label

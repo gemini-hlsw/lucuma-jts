@@ -45,7 +45,7 @@ class Node(
     false
   }
 
-  override def isIsolated: Boolean    = label.getGeometryCount == 1
+  override def isIsolated: Boolean = label.getGeometryCount == 1
 
   /**
    * Basic nodes do not compute IMs

@@ -66,7 +66,7 @@ object BufferCurveMaximumDistanceFinder {
       maxPtDist.setMaximum(minPtDist)
     }
 
-    override def isGeometryChanged                                 = false
+    override def isGeometryChanged = false
 
     override def isDone = false
 
@@ -86,7 +86,7 @@ class BufferCurveMaximumDistanceFinder(var inputGeom: Geometry) {
 
   def getDistancePoints: PointPairDistance = maxPtDist
 
-  private def computeMaxVertexDistance(curve: Geometry): Unit   = {
+  private def computeMaxVertexDistance(curve: Geometry): Unit = {
     val distFilter = new BufferCurveMaximumDistanceFinder.MaxPointDistanceFilter(inputGeom)
     curve.applyF(distFilter)
     maxPtDist.setMaximum(distFilter.getMaxPointDistance)

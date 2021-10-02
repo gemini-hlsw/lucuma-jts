@@ -320,7 +320,7 @@ abstract class LineIntersector() {
     intLineIndex(segmentIndex)(intIndex)
   }
 
-  protected def computeIntLineIndex(segmentIndex: Int): Unit      = {
+  protected def computeIntLineIndex(segmentIndex: Int): Unit = {
     val dist0 = getEdgeDistance(segmentIndex, 0)
     val dist1 = getEdgeDistance(segmentIndex, 1)
     if (dist0 > dist1) {

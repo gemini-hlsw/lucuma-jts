@@ -59,8 +59,8 @@ object DiscreteHausdorffDistance {
   }
 
   class MaxPointDistanceFilter(var geom: Geometry) extends CoordinateFilter {
-    private val maxPtDist                     = new PointPairDistance
-    private val minPtDist                     = new PointPairDistance
+    private val maxPtDist = new PointPairDistance
+    private val minPtDist = new PointPairDistance
 //    private val euclideanDist = new DistanceToPoint
 
     override def filter(pt: Coordinate): Unit = {
@@ -74,9 +74,9 @@ object DiscreteHausdorffDistance {
 
   class MaxDensifiedByFractionDistanceFilter(var geom: Geometry, val fraction: Double)
       extends CoordinateSequenceFilter {
-    private val maxPtDist                                          = new PointPairDistance
-    private val minPtDist                                          = new PointPairDistance
-    private var numSubSegs                                         = 0
+    private val maxPtDist  = new PointPairDistance
+    private val minPtDist  = new PointPairDistance
+    private var numSubSegs = 0
     numSubSegs = Math.rint(1.0 / fraction).toInt
 
     override def filter(seq: CoordinateSequence, index: Int): Unit = {

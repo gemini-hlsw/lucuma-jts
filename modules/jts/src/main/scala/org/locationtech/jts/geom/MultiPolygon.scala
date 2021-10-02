@@ -69,7 +69,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
    * @see
    *   Geometry#getBoundary
    */
-  override def getBoundary: Geometry                                    = {
+  override def getBoundary: Geometry = {
     if (isEmpty) return getFactory.createMultiLineString
     val allRings      = new util.ArrayList[Geometry]
     var i             = 0
@@ -111,5 +111,5 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
     new MultiPolygon(polygons, factory)
   }
 
-  override protected def getSortIndex: Int          = Geometry.SORTINDEX_MULTIPOLYGON
+  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTIPOLYGON
 }

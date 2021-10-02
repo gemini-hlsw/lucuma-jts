@@ -80,7 +80,7 @@ object IndexedFacetDistance {
    * @param g2
    *   a geometry return the nearest points on the facets of the geometries
    */
-  def nearestPoints(g1: Geometry, g2: Geometry): Array[Coordinate]            = {
+  def nearestPoints(g1: Geometry, g2: Geometry): Array[Coordinate] = {
     val dist = new IndexedFacetDistance(g1)
     dist.nearestPoints(g2)
   }

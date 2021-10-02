@@ -62,7 +62,7 @@ object IndexedPointInAreaLocator {
     else init(geom)
     private val index   = new SortedPackedIntervalRTree
 
-    private def init(geom: Geometry): Unit            = {
+    private def init(geom: Geometry): Unit = {
       val lines = LinearComponentExtracter.getLines(geom)
       val i     = lines.iterator
       while (i.hasNext) {

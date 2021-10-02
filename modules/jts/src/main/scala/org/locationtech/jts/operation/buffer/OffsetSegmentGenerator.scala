@@ -181,7 +181,7 @@ class OffsetSegmentGenerator(
     }
   }
 
-  private def addCollinear(addStartPoint: Boolean): Unit          = {
+  private def addCollinear(addStartPoint: Boolean): Unit = {
 
     /**
      * This test could probably be done more efficiently, but the situation of exact collinearity

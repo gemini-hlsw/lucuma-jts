@@ -115,7 +115,7 @@ class OffsetSegmentString() {
     coord
   }
 
-  override def toString: String         = {
+  override def toString: String = {
     val fact = new GeometryFactory
     val line = fact.createLineString(getCoordinates)
     line.toString

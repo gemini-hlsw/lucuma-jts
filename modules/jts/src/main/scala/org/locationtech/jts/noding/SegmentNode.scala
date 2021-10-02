@@ -75,5 +75,5 @@ class SegmentNode(
     out.print(" seg # = " + segmentIndex)
   }
 
-  override def toString: String     = s"$segmentIndex:${coord.toString}"
+  override def toString: String = s"$segmentIndex:${coord.toString}"
 }

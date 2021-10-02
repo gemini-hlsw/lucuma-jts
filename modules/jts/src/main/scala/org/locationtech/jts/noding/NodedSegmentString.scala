@@ -104,7 +104,7 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
    *   the index of the vertex starting the segment. Must not be the last index in the vertex list
    *   return the octant of the segment at the vertex
    */
-  def getSegmentOctant(index: Int): Int                       = {
+  def getSegmentOctant(index: Int): Int = {
     if (index == pts.length - 1) return -1
     safeOctant(getCoordinate(index), getCoordinate(index + 1))
     //    return Octant.octant(getCoordinate(index), getCoordinate(index + 1));

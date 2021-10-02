@@ -172,18 +172,18 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
    *
    * return true if the index does not contain any items
    */
-  def isEmpty: Boolean                            = {
+  def isEmpty: Boolean = {
     if (!built) return itemBoundables.isEmpty
     root.isEmpty
   }
 
-  protected def size: Int                         = {
+  protected def size: Int = {
     if (isEmpty) return 0
     build()
     size(root)
   }
 
-  protected def size(node: AbstractNode): Int     = {
+  protected def size(node: AbstractNode): Int = {
     var vsize = 0
     val i     = node.getChildBoundables.iterator
     while (i.hasNext) {
@@ -195,13 +195,13 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
     vsize
   }
 
-  protected def depth: Int                        = {
+  protected def depth: Int = {
     if (isEmpty) return 0
     build()
     depth(root)
   }
 
-  protected def depth(node: AbstractNode): Int    = {
+  protected def depth(node: AbstractNode): Int = {
     var maxChildDepth = 0
     val i             = node.getChildBoundables.iterator
     while (i.hasNext) {
@@ -222,7 +222,7 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   /**
    * Also builds the tree, if necessary.
    */
-  protected def query(searchBounds: Any): util.List[Any]             = {
+  protected def query(searchBounds: Any): util.List[Any] = {
     build()
     val matches = new util.ArrayList[Any]
     if (isEmpty) { //Assert.isTrue(root.getBounds() == null);
@@ -294,7 +294,7 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
    *
    * return a List of items and/or Lists
    */
-  def itemsTree: util.List[Any]                             = {
+  def itemsTree: util.List[Any] = {
     build()
     val valuesTree = itemsTree(root)
     if (valuesTree == null) return new util.ArrayList[Any]
@@ -321,14 +321,14 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   /**
    * Removes an item from the tree. (Builds the tree, if necessary.)
    */
-  protected def remove(searchBounds: Any, item: Any): Boolean                   = {
+  protected def remove(searchBounds: Any, item: Any): Boolean = {
     build()
     if (getIntersectsOp.intersects(root.getBounds, searchBounds))
       return remove(searchBounds, root, item)
     false
   }
 
-  private def removeItem(node: AbstractNode, item: Any): Boolean                = {
+  private def removeItem(node: AbstractNode, item: Any): Boolean = {
     var childToRemove: Boundable = null
     val i                        = node.getChildBoundables.iterator
     while (i.hasNext) {
@@ -370,7 +370,7 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
     found
   }
 
-  protected def boundablesAtLevel(level: Int): util.ArrayList[Boundable]        = {
+  protected def boundablesAtLevel(level: Int): util.ArrayList[Boundable] = {
     val boundables = new util.ArrayList[Boundable]
     boundablesAtLevel(level, root, boundables)
     boundables

@@ -136,7 +136,7 @@ class Polygon(
     coordinates
   }
 
-  override def getNumPoints: Int                 = {
+  override def getNumPoints: Int = {
     var numPoints = shell.getNumPoints
     var i         = 0
     while (i < holes.length) {
@@ -146,7 +146,7 @@ class Polygon(
     numPoints
   }
 
-  override def getDimension                      = 2
+  override def getDimension = 2
 
   override def getBoundaryDimension = 1
 
@@ -231,7 +231,7 @@ class Polygon(
    * @see
    *   Geometry#getBoundary
    */
-  override def getBoundary: Geometry                       = {
+  override def getBoundary: Geometry = {
     if (isEmpty) return getFactory.createMultiLineString
     val rings = new Array[LinearRing](holes.length + 1)
     rings(0) = shell
@@ -320,9 +320,9 @@ class Polygon(
     new Polygon(shellCopy, holeCopies, factory)
   }
 
-  override def convexHull: Geometry             = getExteriorRing.convexHull
+  override def convexHull: Geometry = getExteriorRing.convexHull
 
-  override def normalize(): Unit                     = {
+  override def normalize(): Unit = {
     shell = normalized(shell, true)
     var i = 0
     while (i < holes.length) {
@@ -360,7 +360,7 @@ class Polygon(
     return 0
   }
 
-  override protected def getSortIndex: Int                                     = Geometry.SORTINDEX_POLYGON
+  override protected def getSortIndex: Int = Geometry.SORTINDEX_POLYGON
 
   private def normalized(ring: LinearRing, clockwise: Boolean): LinearRing = {
     val res = ring.copy.asInstanceOf[LinearRing]
@@ -368,7 +368,7 @@ class Polygon(
     res
   }
 
-  private def normalize(ring: LinearRing, clockwise: Boolean): Unit        = {
+  private def normalize(ring: LinearRing, clockwise: Boolean): Unit = {
     if (ring.isEmpty) return
     val seq                = ring.getCoordinateSequence
     val minCoordinateIndex = CoordinateSequences.minCoordinateIndex(seq, 0, seq.size - 2)

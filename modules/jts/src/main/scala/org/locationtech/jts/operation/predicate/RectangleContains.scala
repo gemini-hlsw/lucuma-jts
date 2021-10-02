@@ -61,7 +61,7 @@ class RectangleContains(val rectangle: Polygon) {
    */
   private val rectEnv = rectangle.getEnvelopeInternal
 
-  def contains(geom: Geometry): Boolean                         = { // the test geometry must be wholly contained in the rectangle envelope
+  def contains(geom: Geometry): Boolean = { // the test geometry must be wholly contained in the rectangle envelope
     if (!rectEnv.contains(geom.getEnvelopeInternal)) return false
 
     /**
@@ -72,7 +72,7 @@ class RectangleContains(val rectangle: Polygon) {
     true
   }
 
-  private def isContainedInBoundary(geom: Geometry): Boolean    = { // polygons can never be wholely contained in the boundary
+  private def isContainedInBoundary(geom: Geometry): Boolean = { // polygons can never be wholely contained in the boundary
     if (geom.isInstanceOf[Polygon]) return false
     if (geom.isInstanceOf[Point]) return isPointContainedInBoundary(geom.asInstanceOf[Point])
     if (geom.isInstanceOf[LineString])

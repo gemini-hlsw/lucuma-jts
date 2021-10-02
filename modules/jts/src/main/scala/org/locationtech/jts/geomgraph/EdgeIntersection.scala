@@ -62,5 +62,5 @@ class EdgeIntersection(
     out.println(" dist = " + dist)
   }
 
-  override def toString: String     = s"$coord seg # = $segmentIndex dist = $dist"
+  override def toString: String = s"$coord seg # = $segmentIndex dist = $dist"
 }

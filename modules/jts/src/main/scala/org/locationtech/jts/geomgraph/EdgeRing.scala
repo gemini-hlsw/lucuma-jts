@@ -131,7 +131,7 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
     }) ()
   }
 
-  def getMaxNodeDegree: Int                = {
+  def getMaxNodeDegree: Int = {
     if (maxNodeDegree < 0) computeMaxNodeDegree()
     maxNodeDegree
   }
@@ -150,7 +150,7 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
     maxNodeDegree *= 2
   }
 
-  def setInResult(): Unit                        = {
+  def setInResult(): Unit = {
     var de = startDe
     while ({
       {
@@ -171,7 +171,7 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
    * node between the Geometries (e.g. the end node of a LinearRing). In this case the DirectedEdge
    * label does not contribute any information to the overall labelling, and is simply skipped.
    */
-  protected def mergeLabel(deLabel: Label, geomIndex: Int): Unit                      = {
+  protected def mergeLabel(deLabel: Label, geomIndex: Int): Unit = {
     val loc = deLabel.getLocation(geomIndex, Position.RIGHT)
     // no information to be had from this label
     if (loc == Location.NONE) return

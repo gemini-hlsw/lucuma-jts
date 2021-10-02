@@ -197,7 +197,7 @@ class CoordinateArraySequence(
   override def getCoordinate(index: Int, coord: Coordinate): Unit =
     coord.setCoordinate(coordinates(index))
 
-  override def getX(index: Int): Double                           = coordinates(index).x
+  override def getX(index: Int): Double = coordinates(index).x
 
   /**
    * @see

@@ -58,7 +58,7 @@ object InteriorPointArea {
     intPt.getInteriorPoint
   }
 
-  private def avg(a: Double, b: Double)            = (a + b) / 2.0
+  private def avg(a: Double, b: Double) = (a + b) / 2.0
 
   /**
    * Computes an interior point in a single {link Polygon}, as well as the width of the scan-line
@@ -302,7 +302,7 @@ object InteriorPointArea {
    * @author
    *   mdavis
    */
-  private object ScanLineYOrdinateFinder                   {
+  private object ScanLineYOrdinateFinder {
     def getScanLineY(poly: Polygon): Double = {
       val finder = new InteriorPointArea.ScanLineYOrdinateFinder(poly)
       finder.getScanLineY
@@ -317,7 +317,7 @@ object InteriorPointArea {
     loY = poly.getEnvelopeInternal.getMinY
     centreY = avg(loY, hiY)
 
-    def getScanLineY: Double                    = {
+    def getScanLineY: Double = {
       process(poly.getExteriorRing)
       var i         = 0
       while (i < poly.getNumInteriorRing) {

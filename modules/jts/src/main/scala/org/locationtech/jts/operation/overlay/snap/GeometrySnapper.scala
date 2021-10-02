@@ -168,7 +168,7 @@ class GeometrySnapper(var srcGeom: Geometry) {
     result
   }
 
-  private def extractTargetCoordinates(g: Geometry)                     = { // TODO: should do this more efficiently.  Use CoordSeq filter to get points, KDTree for uniqueness & queries
+  private def extractTargetCoordinates(g: Geometry) = { // TODO: should do this more efficiently.  Use CoordSeq filter to get points, KDTree for uniqueness & queries
     val ptSet = new util.TreeSet[Coordinate]
     val pts   = g.getCoordinates
     var i     = 0
