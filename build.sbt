@@ -12,7 +12,7 @@ lazy val jts = crossProject(JVMPlatform, JSPlatform)
   .in(file("modules/jts"))
   .settings(
     name               := "lucuma-jts",
-    crossScalaVersions := Seq(scalaVersion.value, "3.0.2"),
+    crossScalaVersions := Seq(scalaVersion.value, "3.1.0"),
     Compile / packageDoc / scalacOptions ~= (_.filterNot(
       Set(
         "-Werror",
