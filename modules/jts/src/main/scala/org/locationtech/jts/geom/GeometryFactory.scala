@@ -150,9 +150,8 @@ class GeometryFactory(
    * Constructs a GeometryFactory that generates Geometries having the given CoordinateSequence
    * implementation, a double-precision floating PrecisionModel and a spatial-reference ID of 0.
    */
-  def this(coordinateSequenceFactory: CoordinateSequenceFactory) = {
+  def this(coordinateSequenceFactory: CoordinateSequenceFactory) =
     this(new PrecisionModel, 0, coordinateSequenceFactory)
-  }
 
   /**
    * Constructs a GeometryFactory that generates Geometries having the given {link PrecisionModel}
@@ -161,9 +160,8 @@ class GeometryFactory(
    * @param precisionModel
    *   the PrecisionModel to use
    */
-  def this(precisionModel: PrecisionModel) = {
+  def this(precisionModel: PrecisionModel) =
     this(precisionModel, 0, GeometryFactory.getDefaultCoordinateSequenceFactory)
-  }
 
   /**
    * Constructs a GeometryFactory that generates Geometries having the given {link PrecisionModel}
@@ -174,17 +172,15 @@ class GeometryFactory(
    * @param SRID
    *   the SRID to use
    */
-  def this(precisionModel: PrecisionModel, SRID: Int) = {
+  def this(precisionModel: PrecisionModel, SRID: Int) =
     this(precisionModel, SRID, GeometryFactory.getDefaultCoordinateSequenceFactory)
-  }
 
   /**
    * Constructs a GeometryFactory that generates Geometries having a floating PrecisionModel and a
    * spatial-reference ID of 0.
    */
-  def this() = {
+  def this() =
     this(new PrecisionModel, 0)
-  }
 
   /**
    * Creates a {link Geometry} with the same extent as the given envelope. The Geometry returned is

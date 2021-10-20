@@ -42,17 +42,14 @@ object LineSegment {
 class LineSegment(var p0: Coordinate, var p1: Coordinate)
     extends Comparable[LineSegment]
     with Serializable {
-  def this(x0: Double, y0: Double, x1: Double, y1: Double) = {
+  def this(x0: Double, y0: Double, x1: Double, y1: Double) =
     this(new Coordinate(x0, y0), new Coordinate(x1, y1))
-  }
 
-  def this(ls: LineSegment) = {
+  def this(ls: LineSegment) =
     this(ls.p0, ls.p1)
-  }
 
-  def this() = {
+  def this() =
     this(new Coordinate, new Coordinate)
-  }
 
   def getCoordinate(i: Int): Coordinate = {
     if (i == 0) return p0

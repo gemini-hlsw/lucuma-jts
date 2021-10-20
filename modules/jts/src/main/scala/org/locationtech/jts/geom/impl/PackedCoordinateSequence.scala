@@ -82,9 +82,8 @@ object PackedCoordinateSequence {
      * @param measures
      *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
-    def this(coords: Array[scala.Float], dimension: Int, measures: Int) = {
+    def this(coords: Array[scala.Float], dimension: Int, measures: Int) =
       this(coords.map(_.toDouble), dimension, measures)
-    }
 
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
@@ -96,9 +95,8 @@ object PackedCoordinateSequence {
      * @param measures
      *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
-    def this(coordinates: Array[Coordinate], dimension: Int, measures: Int) = {
+    def this(coordinates: Array[Coordinate], dimension: Int, measures: Int) =
       this(toDoubleArray(coordinates, dimension), dimension, measures)
-    }
 
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
@@ -108,9 +106,8 @@ object PackedCoordinateSequence {
      * @param dimension
      *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
      */
-    def this(coordinates: Array[Coordinate], dimension: Int) = {
+    def this(coordinates: Array[Coordinate], dimension: Int) =
       this(coordinates, dimension, 0)
-    }
 
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
@@ -118,9 +115,8 @@ object PackedCoordinateSequence {
      * @param coordinates
      *   an array of { @link Coordinate}s
      */
-    def this(coordinates: Array[Coordinate]) = {
+    def this(coordinates: Array[Coordinate]) =
       this(coordinates, 3, 0)
-    }
 
     /**
      * Builds a new empty packed coordinate sequence of a given size and dimension
@@ -132,9 +128,8 @@ object PackedCoordinateSequence {
      * @param measures
      *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
-    def this(size: Int, dimension: Int, measures: Int) = {
+    def this(size: Int, dimension: Int, measures: Int) =
       this(new Array[scala.Double](size * dimension), dimension, measures)
-    }
 
     /**
      * @see
@@ -282,9 +277,8 @@ object PackedCoordinateSequence {
      * @param measures
      *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
-    def this(coords: Array[scala.Double], dimension: Int, measures: Int) = {
+    def this(coords: Array[scala.Double], dimension: Int, measures: Int) =
       this(coords.map(_.toFloat), dimension, measures)
-    }
 
     /**
      * Constructs a packed coordinate sequence out of a coordinate array
@@ -296,9 +290,8 @@ object PackedCoordinateSequence {
      * @param measures
      *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
-    def this(coordinates: Array[Coordinate], dimension: Int, measures: Int) = {
+    def this(coordinates: Array[Coordinate], dimension: Int, measures: Int) =
       this(toFloatArray(coordinates, dimension), dimension, measures)
-    }
 
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
@@ -308,9 +301,8 @@ object PackedCoordinateSequence {
      * @param dimension
      *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
      */
-    def this(coordinates: Array[Coordinate], dimension: Int) = {
+    def this(coordinates: Array[Coordinate], dimension: Int) =
       this(coordinates, dimension, 0)
-    }
 
     /**
      * Constructs an empty packed coordinate sequence of a given size and dimension
@@ -322,9 +314,8 @@ object PackedCoordinateSequence {
      * @param measures
      *   the number of measure-ordinates each { @link Coordinate} in this sequence has.
      */
-    def this(size: Int, dimension: Int, measures: Int) = {
+    def this(size: Int, dimension: Int, measures: Int) =
       this(new Array[scala.Float](size * dimension), dimension, measures)
-    }
 
     override def getCoordinateInternal(i: Int): Coordinate = {
       val x = coords(i * dimension)

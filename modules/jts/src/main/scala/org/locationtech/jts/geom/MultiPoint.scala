@@ -35,9 +35,8 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory)
    * @deprecated
    *   Use GeometryFactory instead
    */
-  def this(points: Array[Point], precisionModel: PrecisionModel, SRID: Int) = {
+  def this(points: Array[Point], precisionModel: PrecisionModel, SRID: Int) =
     this(points, new GeometryFactory(precisionModel, SRID))
-  }
 
   /**
    * @param points

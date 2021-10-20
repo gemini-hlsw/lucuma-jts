@@ -64,9 +64,8 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
    * @param coord
    *   the coordinate providing the ordinates
    */
-  def this(coord: Coordinate) = {
+  def this(coord: Coordinate) =
     this(coord.x, coord.y, coord.getM)
-  }
 
   /**
    * Constructs a CoordinateXY instance with the x and y ordinates of the given CoordinateXYM.
@@ -74,9 +73,8 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
    * @param coord
    *   the coordinate providing the ordinates
    */
-  def this(coord: CoordinateXYM) = {
+  def this(coord: CoordinateXYM) =
     this(coord.x, coord.y, coord.m)
-  }
 
   /**
    * Creates a copy of this CoordinateXYM.

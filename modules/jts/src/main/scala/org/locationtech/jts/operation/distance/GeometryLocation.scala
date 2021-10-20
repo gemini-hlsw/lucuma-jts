@@ -59,9 +59,8 @@ class GeometryLocation(val component: Geometry, var segIndex: Int, val pt: Coord
    * @param pt
    *   the coordinate of the location
    */
-  def this(component: Geometry, pt: Coordinate) = {
+  def this(component: Geometry, pt: Coordinate) =
     this(component, GeometryLocation.INSIDE_AREA, pt)
-  }
 
   /**
    * Returns the geometry component on (or in) which this location occurs.

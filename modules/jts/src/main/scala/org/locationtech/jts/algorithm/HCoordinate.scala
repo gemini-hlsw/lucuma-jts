@@ -92,17 +92,14 @@ object HCoordinate {
 
 class HCoordinate(val x: Double = 0.0, val y: Double = 0.0, val w: Double = 1.0) {
 
-  def this(_x: Double, _y: Double) = {
+  def this(_x: Double, _y: Double) =
     this(_x, _y, 1.0)
-  }
 
-  def this(p: Coordinate) = {
+  def this(p: Coordinate) =
     this(p.x, p.y, 1.0)
-  }
 
-  def this(p1: HCoordinate, p2: HCoordinate) = {
+  def this(p1: HCoordinate, p2: HCoordinate) =
     this(p1.y * p2.w - p2.y * p1.w, p2.x * p1.w - p1.x * p2.w, p1.x * p2.y - p2.x * p1.y)
-  }
 
   /**
    * Constructs a homogeneous coordinate which is the intersection of the lines define by the
@@ -111,17 +108,15 @@ class HCoordinate(val x: Double = 0.0, val y: Double = 0.0, val w: Double = 1.0)
    * @param p1
    * @param p2
    */
-  def this(p1: Coordinate, p2: Coordinate) = {
+  def this(p1: Coordinate, p2: Coordinate) =
     // optimization when it is known that w = 1
     this(p1.y - p2.y, p2.x - p1.x, p1.x * p2.y - p2.x * p1.y)
-  }
 
-  def this(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) = {
+  def this(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate) =
     this(HCoordinate.xArg(p1, p2, q1, q2),
          HCoordinate.yArg(p1, p2, q1, q2),
          HCoordinate.zArg(p1, p2, q1, q2)
     )
-  }
 
   @throws[NotRepresentableException]
   def getX: Double = {

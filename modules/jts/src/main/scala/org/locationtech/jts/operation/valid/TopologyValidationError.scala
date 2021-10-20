@@ -123,9 +123,8 @@ class TopologyValidationError(var errorType: Int, var pt: Coordinate) {
    * @param errorType
    *   the type of the error
    */
-  def this(errorType: Int) = {
+  def this(errorType: Int) =
     this(errorType, null)
-  }
 
   // /**
   //  * Returns the location of this error (on the {link Geometry} containing the error).

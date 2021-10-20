@@ -144,9 +144,8 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
    * @param g1
    *   a Geometry
    */
-  def this(g0: Geometry, g1: Geometry) = {
+  def this(g0: Geometry, g1: Geometry) =
     this(g0, g1, 0.0)
-  }
 
   /**
    * Report the distance between the nearest points on the input geometries.

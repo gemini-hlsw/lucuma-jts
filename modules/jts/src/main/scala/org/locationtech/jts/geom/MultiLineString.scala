@@ -48,9 +48,8 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
    * @deprecated
    *   Use GeometryFactory instead
    */
-  def this(lineStrings: Array[LineString], precisionModel: PrecisionModel, SRID: Int) = {
+  def this(lineStrings: Array[LineString], precisionModel: PrecisionModel, SRID: Int) =
     this(lineStrings, new GeometryFactory(precisionModel, SRID))
-  }
 
   /**
    * @param lineStrings

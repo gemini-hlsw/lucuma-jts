@@ -80,9 +80,8 @@ class Polygon(
    * @deprecated
    *   Use GeometryFactory instead
    */
-  def this(shell: LinearRing, precisionModel: PrecisionModel, SRID: Int) = {
+  def this(shell: LinearRing, precisionModel: PrecisionModel, SRID: Int) =
     this(shell, Array.empty[LinearRing], new GeometryFactory(precisionModel, SRID))
-  }
 
   /**
    * Constructs a <code>Polygon</code> with the given exterior boundary and interior boundaries.
@@ -105,9 +104,8 @@ class Polygon(
     holes:          Array[LinearRing],
     precisionModel: PrecisionModel,
     SRID:           Int
-  ) = {
+  ) =
     this(shell, holes, new GeometryFactory(precisionModel, SRID))
-  }
 
   override def getCoordinate: Coordinate = shell.getCoordinate
 

@@ -45,9 +45,8 @@ class ScaledNoder(
 //  private val offsetY = .0
   private val isScaled = !isIntegerPrecision
 
-  def this(noder: Noder[SegmentString], scaleFactor: Double) = {
+  def this(noder: Noder[SegmentString], scaleFactor: Double) =
     this(noder, scaleFactor, 0, 0)
-  }
 
   def isIntegerPrecision: Boolean = scaleFactor == 1.0
 

@@ -64,12 +64,11 @@ class CoordinateArraySequence(
    * @param coordinates
    *   the coordinate array that will be referenced.
    */
-  def this(coordinates: Array[Coordinate]) = {
+  def this(coordinates: Array[Coordinate]) =
     this(coordinates,
          CoordinateArrays.dimension(coordinates),
          CoordinateArrays.measures(coordinates)
     )
-  }
 
   /**
    * Constructs a sequence based on the given array of {link Coordinate}s (the array is not copied).
@@ -79,9 +78,8 @@ class CoordinateArraySequence(
    * @param dimension
    *   the dimension of the coordinates
    */
-  def this(coordinates: Array[Coordinate], dimension: Int) = {
+  def this(coordinates: Array[Coordinate], dimension: Int) =
     this(coordinates, dimension, CoordinateArrays.measures(coordinates))
-  }
 
   /**
    * Constructs a sequence of a given size, populated with new {link Coordinate}s.

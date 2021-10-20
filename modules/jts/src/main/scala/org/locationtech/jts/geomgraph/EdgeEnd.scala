@@ -42,9 +42,8 @@ class EdgeEnd protected (
     this.label = label
   }
 
-  def this(edge: Edge, p0: Coordinate, p1: Coordinate) = {
+  def this(edge: Edge, p0: Coordinate, p1: Coordinate) =
     this(edge, p0, p1, null)
-  }
 
   protected def init(p0: Coordinate, p1: Coordinate): Unit = {
     this.p0 = p0

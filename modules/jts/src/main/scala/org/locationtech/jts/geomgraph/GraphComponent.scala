@@ -31,9 +31,8 @@ abstract class GraphComponent(var label: Label) {
   private var visCoveredSet = false
   private var visVisited    = false
 
-  def this() = {
+  def this() =
     this(null)
-  }
 
   def getLabel: Label = label
 

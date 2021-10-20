@@ -59,9 +59,8 @@ class CoordinateXY(xArg: Double, yArg: Double)
    * @param coord
    *   the Coordinate providing the ordinates
    */
-  def this(coord: Coordinate) = {
+  def this(coord: Coordinate) =
     this(coord.x, coord.y)
-  }
 
   /**
    * Constructs a CoordinateXY instance with the x and y ordinates of the given CoordinateXY.
@@ -69,9 +68,8 @@ class CoordinateXY(xArg: Double, yArg: Double)
    * @param coord
    *   the CoordinateXY providing the ordinates
    */
-  def this(coord: CoordinateXY) = {
+  def this(coord: CoordinateXY) =
     this(coord.x, coord.y)
-  }
 
   /**
    * Creates a copy of this CoordinateXY.
