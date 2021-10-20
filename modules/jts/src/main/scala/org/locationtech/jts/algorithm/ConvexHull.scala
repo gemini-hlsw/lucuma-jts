@@ -117,9 +117,8 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   /**
    * Create a new convex hull construction for the input {link Geometry}.
    */
-  def this(geometry: Geometry) = {
+  def this(geometry: Geometry) =
     this(ConvexHull.extractCoordinates(geometry), geometry.getFactory)
-  }
 
   /**
    * Returns a {link Geometry} that represents the convex hull of the input geometry. The returned

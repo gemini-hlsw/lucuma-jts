@@ -72,12 +72,11 @@ class FacetSequence(val geom: Geometry, val pts: CoordinateSequence, val start: 
    * @param end
    *   the index of the end point + 1
    */
-  def this(pts: CoordinateSequence, start: Int, end: Int) = {
+  def this(pts: CoordinateSequence, start: Int, end: Int) =
     this(null, pts, start, end)
 //    this.pts = pts
 //    this.start = start
 //    this.end = end
-  }
 
   /**
    * Creates a new sequence for a single point from a {link CoordinateSequence}.
@@ -87,12 +86,11 @@ class FacetSequence(val geom: Geometry, val pts: CoordinateSequence, val start: 
    * @param start
    *   the index of the point
    */
-  def this(pts: CoordinateSequence, start: Int) = {
+  def this(pts: CoordinateSequence, start: Int) =
     this(null, pts, start, start + 1)
 //    this.pts = pts
 //    this.start = start
 //    this.end = start + 1
-  }
 
   def getEnvelope: Envelope = {
     val env = new Envelope

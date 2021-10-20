@@ -49,9 +49,8 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
   private var visIsolated            = true
   private val depth                  = new Depth
   private var depthDelta             = 0 // the change in area depth from the R to L side of this edge
-  def this(pts: Array[Coordinate]) = {
+  def this(pts: Array[Coordinate]) =
     this(pts, null)
-  }
 
   def getNumPoints: Int = pts.length
 

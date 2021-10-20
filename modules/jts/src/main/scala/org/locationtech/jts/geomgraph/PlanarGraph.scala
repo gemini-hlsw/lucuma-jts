@@ -65,9 +65,8 @@ class PlanarGraph(nodeFact: NodeFactory) {
   protected var nodes       = new NodeMap(nodeFact)
   protected var edgeEndList = new util.ArrayList[EdgeEnd]
 
-  def this() = {
+  def this() =
     this(new NodeFactory())
-  }
 
   def getEdgeIterator: util.Iterator[Edge] = edges.iterator
 

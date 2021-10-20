@@ -114,9 +114,8 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
   /**
    * Create a shape factory which will create shapes using the default {link GeometryFactory}.
    */
-  def this() = {
+  def this() =
     this(new GeometryFactory)
-  }
 
   def setEnvelope(env: Envelope): Unit = dim.setEnvelope(env)
 

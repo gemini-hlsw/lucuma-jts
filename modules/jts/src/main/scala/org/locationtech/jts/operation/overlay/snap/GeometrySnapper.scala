@@ -212,11 +212,10 @@ class SnapTransformer(snapTolerance: Double, snapPts: Array[Coordinate], isSelfS
 //  private var snapPts: Array[Coordinate] = null
 //  private var isSelfSnap = false
 
-  def this(snapTolerance: Double, snapPts: Array[Coordinate]) = {
+  def this(snapTolerance: Double, snapPts: Array[Coordinate]) =
     this(snapTolerance, snapPts, false)
 //    this.snapTolerance = snapTolerance
 //    this.snapPts = snapPts
-  }
 
 //  def this {
 //    this()

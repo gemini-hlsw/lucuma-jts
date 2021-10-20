@@ -89,9 +89,8 @@ class BoundaryOp(var geom: Geometry, var bnRule: BoundaryNodeRule) {
    * @param geom
    *   the input geometry
    */
-  def this(geom: Geometry) = {
+  def this(geom: Geometry) =
     this(geom, BoundaryNodeRule.MOD2_BOUNDARY_RULE)
-  }
 
   /**
    * Gets the computed boundary.

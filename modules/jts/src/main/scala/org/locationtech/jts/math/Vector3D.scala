@@ -120,9 +120,8 @@ class Vector3D(
    * @param coord
    *   the Coordinate to copy return a new vector
    */
-  def this(v: Coordinate) = {
+  def this(v: Coordinate) =
     this(x = v.x, y = v.y, z = v.getZ)
-  }
 
   /**
    * Creates a vector with the direction and magnitude of the difference between the <tt>to</tt> and
@@ -133,9 +132,8 @@ class Vector3D(
    * @param to
    *   the destination Coordinate return a new vector
    */
-  def this(from: Coordinate, to: Coordinate) = {
+  def this(from: Coordinate, to: Coordinate) =
     this(x = to.x - from.x, y = to.y - from.y, z = to.getZ - from.getZ)
-  }
 
   /**
    * Creates a vector with the givne components.

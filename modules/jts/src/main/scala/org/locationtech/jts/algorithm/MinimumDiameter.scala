@@ -101,9 +101,8 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
    * @param inputGeom
    *   a Geometry
    */
-  def this(inputGeom: Geometry) = {
+  def this(inputGeom: Geometry) =
     this(inputGeom, false)
-  }
 
   /**
    * Gets the length of the minimum diameter of the input Geometry

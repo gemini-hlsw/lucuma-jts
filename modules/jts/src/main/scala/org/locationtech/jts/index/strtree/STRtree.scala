@@ -171,9 +171,8 @@ class STRtree(val nodeCapacityArg: Int)
   /**
    * Constructs an STRtree with the default node capacity.
    */
-  def this() = {
+  def this() =
     this(STRtree.DEFAULT_NODE_CAPACITY)
-  }
 
   override protected def createNode(level: Int) = new STRtree.STRtreeNode(level)
 

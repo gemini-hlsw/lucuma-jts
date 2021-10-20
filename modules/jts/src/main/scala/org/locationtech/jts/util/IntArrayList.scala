@@ -43,9 +43,8 @@ class IntArrayList(val initialCapacity: Int) {
   /**
    * Constructs an empty list.
    */
-  def this() = {
+  def this() =
     this(10)
-  }
 
   /**
    * Returns the number of values in this list.

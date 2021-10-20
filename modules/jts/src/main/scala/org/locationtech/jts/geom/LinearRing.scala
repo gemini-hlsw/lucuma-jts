@@ -53,9 +53,8 @@ class LinearRing(val point: CoordinateSequence, val factor: GeometryFactory)
    * @param factory
    *   throws IllegalArgumentException if the ring is not closed, or has too few points
    */
-  def this(points: Array[Coordinate], factory: GeometryFactory) = {
+  def this(points: Array[Coordinate], factory: GeometryFactory) =
     this(factory.getCoordinateSequenceFactory.create(points), factory)
-  }
 
   /**
    * Constructs a <code>LinearRing</code> with the given points.

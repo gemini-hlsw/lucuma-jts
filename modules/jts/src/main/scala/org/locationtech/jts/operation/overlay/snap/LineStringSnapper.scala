@@ -65,9 +65,8 @@ class LineStringSnapper(var srcPts: Array[Coordinate], val snapTolerance: Double
   //  * @param srcLine       a LineString to snap (may be empty)
   //  * @param snapTolerance the snap tolerance to use
   //  */
-  def this(srcLine: LineString, snapTolerance: Double) = {
+  def this(srcLine: LineString, snapTolerance: Double) =
     this(srcLine.getCoordinates, snapTolerance)
-  }
 
   def setAllowSnappingToSourceVertices(allowSnappingToSourceVertices: Boolean) =
     this.allowSnappingToSourceVertices = allowSnappingToSourceVertices

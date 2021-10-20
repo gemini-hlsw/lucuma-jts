@@ -38,9 +38,8 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
   private val edgeEnds = new util.ArrayList[EdgeEnd]
   insert(e)
 
-  def this(e: EdgeEnd) = {
+  def this(e: EdgeEnd) =
     this(null, e)
-  }
 
   override def getLabel: Label = label
 

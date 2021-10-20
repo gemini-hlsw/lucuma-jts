@@ -89,21 +89,18 @@ class Vector2D(protected val x: Double = 0.0, protected val y: Double = 0.0) {
 //    this.y = y
 //  }
 
-  def this(v: Vector2D) = {
+  def this(v: Vector2D) =
     this(v.x, v.y)
 ////    x = v.x
 //    y = v.y
-  }
 
-  def this(from: Coordinate, to: Coordinate) = {
+  def this(from: Coordinate, to: Coordinate) =
     this(to.x - from.x, to.y - from.y)
-  }
 
-  def this(v: Coordinate) = {
+  def this(v: Coordinate) =
     this(v.x, v.y)
 //    x = v.x
 //    y = v.y
-  }
 
   def getX: Double = x
 

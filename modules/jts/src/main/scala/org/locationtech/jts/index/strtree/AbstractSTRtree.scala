@@ -84,9 +84,8 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   /**
    * Constructs an AbstractSTRtree with the default node capacity.
    */
-  def this() = {
+  def this() =
     this(AbstractSTRtree.DEFAULT_NODE_CAPACITY)
-  }
 
   /**
    * Creates parent nodes, grandparent nodes, and so forth up to the root node, for the data that

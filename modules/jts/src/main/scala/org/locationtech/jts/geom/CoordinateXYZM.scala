@@ -42,9 +42,8 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
    * @param coord
    *   the coordinate providing the ordinates
    */
-  def this(coord: Coordinate) = {
+  def this(coord: Coordinate) =
     this(coord.x, coord.y, coord.z, coord.getM)
-  }
 
   /**
    * Constructs a CoordinateXYZM instance with the ordinates of the given CoordinateXYZM.
@@ -52,9 +51,8 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
    * @param coord
    *   the coordinate providing the ordinates
    */
-  def this(coord: CoordinateXYZM) = {
+  def this(coord: CoordinateXYZM) =
     this(coord.x, coord.y, coord.z, coord.m)
-  }
 
   /**
    * Creates a copy of this CoordinateXYZM.

@@ -52,9 +52,8 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
    * @deprecated
    *   Use GeometryFactory instead
    */
-  def this(polygons: Array[Polygon], precisionModel: PrecisionModel, SRID: Int) = {
+  def this(polygons: Array[Polygon], precisionModel: PrecisionModel, SRID: Int) =
     this(polygons, new GeometryFactory(precisionModel, SRID))
-  }
 
   override def getDimension = 2
 

@@ -164,9 +164,8 @@ class LinearComponentExtracter(lines: util.Collection[Geometry], var isForcedToL
   /**
    * Constructs a LineExtracterFilter with a list in which to store LineStrings found.
    */
-  def this(lines: util.Collection[Geometry]) = {
+  def this(lines: util.Collection[Geometry]) =
     this(lines, false)
-  }
 
   /**
    * Indicates that LinearRing components should be converted to pure LineStrings.

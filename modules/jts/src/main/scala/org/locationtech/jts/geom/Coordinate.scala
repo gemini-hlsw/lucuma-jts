@@ -124,9 +124,8 @@ object Coordinate {
     /**
      * Creates a comparator for 2 dimensional coordinates.
      */
-    def this() = {
+    def this() =
       this(2)
-    }
 
     /**
      * Compares two {link Coordinate}s along to the number of dimensions specified.
@@ -162,9 +161,8 @@ class Coordinate(var x: Double, var y: Double, var z: Double)
    * @param c
    *   the <code>Coordinate</code> to copy.
    */
-  def this(c: Coordinate) = {
+  def this(c: Coordinate) =
     this(c.x, c.y, c.getZ)
-  }
 
   /**
    * Constructs a <code>Coordinate</code> at (x,y,NaN).
@@ -174,16 +172,14 @@ class Coordinate(var x: Double, var y: Double, var z: Double)
    * @param y
    *   the y-value
    */
-  def this(x: Double, y: Double) = {
+  def this(x: Double, y: Double) =
     this(x, y, Coordinate.NULL_ORDINATE)
-  }
 
   /**
    * Constructs a <code>Coordinate</code> at (0,0,NaN).
    */
-  def this() = {
+  def this() =
     this(0.0, 0.0)
-  }
 
   /**
    * Sets this <code>Coordinate</code>s (x,y,z) values to that of <code>other</code>.

@@ -23,9 +23,8 @@ import org.locationtech.jts.util.Assert
 class Interval(var min: Double, var max: Double) {
   Assert.isTrue(min <= max)
 
-  def this(other: Interval) = {
+  def this(other: Interval) =
     this(other.min, other.max)
-  }
 
   def getCentre: Double = (min + max) / 2
 

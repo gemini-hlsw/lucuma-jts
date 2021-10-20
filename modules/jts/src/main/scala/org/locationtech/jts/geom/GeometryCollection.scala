@@ -41,9 +41,8 @@ class GeometryCollection(
     throw new IllegalArgumentException("geometries must not contain null elements")
 
   /** @deprecated Use GeometryFactory instead */
-  def this(geometries: Array[Geometry], precisionModel: PrecisionModel, SRID: Int) = {
+  def this(geometries: Array[Geometry], precisionModel: PrecisionModel, SRID: Int) =
     this(geometries, new GeometryFactory(precisionModel, SRID))
-  }
 
   override def getCoordinate: Coordinate = {
     if (isEmpty) return null

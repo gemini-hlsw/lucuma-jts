@@ -105,9 +105,8 @@ class GeometryGraph(
     //return new SimpleEdgeSetIntersector();
     new SimpleMCSweepLineIntersector
 
-  def this(argIndex: Int, parentGeom: Geometry) = {
+  def this(argIndex: Int, parentGeom: Geometry) =
     this(argIndex, parentGeom, BoundaryNodeRule.OGC_SFS_BOUNDARY_RULE)
-  }
 
   /**
    * This constructor is used by clients that wish to add Edges explicitly, rather than adding a
