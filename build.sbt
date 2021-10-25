@@ -1,6 +1,7 @@
 inThisBuild(
   Seq(
     homepage                      := Some(url("https://github.com/gemini-hlsw/lucuma-jts")),
+    crossScalaVersions            := Seq(scalaVersion.value, "3.1.0"),
     Global / onChangedBuildSource := ReloadOnSourceChanges
   ) ++ lucumaPublishSettings
 )
@@ -11,8 +12,7 @@ lazy val jts = crossProject(JVMPlatform, JSPlatform)
   .crossType(CrossType.Pure)
   .in(file("modules/jts"))
   .settings(
-    name               := "lucuma-jts",
-    crossScalaVersions := Seq(scalaVersion.value, "3.1.0"),
+    name := "lucuma-jts",
     Compile / packageDoc / scalacOptions ~= (_.filterNot(
       Set(
         "-Werror",
