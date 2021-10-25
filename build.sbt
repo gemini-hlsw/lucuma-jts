@@ -2,7 +2,8 @@ inThisBuild(
   Seq(
     homepage                      := Some(url("https://github.com/gemini-hlsw/lucuma-jts")),
     crossScalaVersions            := Seq(scalaVersion.value, "3.1.0"),
-    Global / onChangedBuildSource := ReloadOnSourceChanges
+    Global / onChangedBuildSource := ReloadOnSourceChanges,
+    Compile / doc / sources       := Seq()
   ) ++ lucumaPublishSettings
 )
 
@@ -12,7 +13,8 @@ lazy val jts = crossProject(JVMPlatform, JSPlatform)
   .crossType(CrossType.Pure)
   .in(file("modules/jts"))
   .settings(
-    name := "lucuma-jts",
+    name                    := "lucuma-jts",
+    Compile / doc / sources := Seq(),
     Compile / packageDoc / scalacOptions ~= (_.filterNot(
       Set(
         "-Werror",
@@ -37,7 +39,8 @@ lazy val jts = crossProject(JVMPlatform, JSPlatform)
 lazy val jts_awt = project
   .in(file("modules/jts-awt"))
   .settings(
-    name := "lucuma-jts-awt",
+    name                    := "lucuma-jts-awt",
+    Compile / doc / sources := Seq(),
     Compile / packageDoc / scalacOptions ~= (_.filterNot(
       Set(
         "-Werror"
@@ -60,6 +63,7 @@ lazy val tests = project
   .in(file("modules/tests"))
   .settings(
     name                                 := "lucuma-jts-tests",
+    Compile / doc / sources              := Seq(),
     publish / skip                       := true,
     libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
   )
