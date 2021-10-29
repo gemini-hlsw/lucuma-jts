@@ -49,7 +49,7 @@ class LineBuilder(
   def build(opCode: Int): util.ArrayList[LineString] = {
     findCoveredLineEdges()
     collectLines(opCode)
-    //labelIsolatedLines(lineEdgesList);
+    // labelIsolatedLines(lineEdgesList);
     buildLines(opCode)
     resultLineList
   }
@@ -65,7 +65,7 @@ class LineBuilder(
     val nodeit = op.getGraph.getNodes.iterator
     while (nodeit.hasNext) {
       val node = nodeit.next
-      //node.print(System.out);
+      // node.print(System.out);
       node.getEdges.asInstanceOf[DirectedEdgeStar].findCoveredLineEdges()
     }
 
@@ -110,8 +110,8 @@ class LineBuilder(
     val e     = de.getEdge
     // include L edges which are in the result
     if (de.isLineEdge)
-      if (!de.isVisited && OverlayOp.isResultOfOp(label, opCode) && !e.isCovered) { //Debug.println("de: " + de.getLabel());
-        //Debug.println("edge: " + e.getLabel());
+      if (!de.isVisited && OverlayOp.isResultOfOp(label, opCode) && !e.isCovered) { // Debug.println("de: " + de.getLabel());
+        // Debug.println("edge: " + e.getLabel());
         edges.add(e)
         de.setVisitedEdge(true)
       }

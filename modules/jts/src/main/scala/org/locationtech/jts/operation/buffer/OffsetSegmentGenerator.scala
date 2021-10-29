@@ -279,7 +279,7 @@ class OffsetSegmentGenerator(
        * points are very close, don't add closing segments but simply use one of the offset points
        */
       vhasNarrowConcaveAngle = true
-      //System.out.println("NARROW ANGLE - distance = " + distance);
+      // System.out.println("NARROW ANGLE - distance = " + distance);
       if (
         offset0.p1.distance(
           offset1.p0
@@ -311,7 +311,7 @@ class OffsetSegmentGenerator(
            */
           segList.addPt(s1)
         }
-        //*/
+        // */
         // add start point of next segment offset
         segList.addPt(offset1.p0)
       }

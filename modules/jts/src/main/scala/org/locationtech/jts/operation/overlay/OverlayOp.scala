@@ -238,7 +238,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
     insertUniqueEdges(baseSplitEdges)
     computeLabelsFromDepths()
     replaceCollapsedEdges()
-    //Debug.println(edgeList);
+    // Debug.println(edgeList);
     /**
      * Check that the noding completed correctly.
      *
@@ -249,9 +249,9 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
     EdgeNodingValidator.checkValid(edgeList.getEdges)
     graph.addEdges(edgeList.getEdges)
     computeLabelling()
-    //Debug.printWatch();
+    // Debug.printWatch();
     labelIncompleteNodes()
-    //nodeMap.print(System.out);
+    // nodeMap.print(System.out);
     /**
      * The ordering of building the result Geometries is important. Areas must be built before
      * lines, which must be built before points. This is so that lines which are covered by areas
@@ -283,7 +283,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
    * identical edge already exists. If so, the edge is not inserted, but its label is merged with
    * the existing edge.
    */
-  protected def insertUniqueEdge(e: Edge): Unit = { //<FIX> MD 8 Oct 03  speed up identical edge lookup
+  protected def insertUniqueEdge(e: Edge): Unit = { // <FIX> MD 8 Oct 03  speed up identical edge lookup
     // fast lookup
     val existingEdge = edgeList.findEqualEdge(e)
     // If an identical edge already exists, simply update its label
@@ -298,17 +298,17 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
       }
       val depth         = existingEdge.getDepth
       // if this is the first duplicate found for this edge, initialize the depths
-      ///*
+      // /*
       if (depth.isNull) depth.add(existingLabel)
-      //*/
+      // */
       depth.add(labelToMerge)
       existingLabel.merge(labelToMerge)
-      //Debug.print("inserted edge: "); Debug.println(e);
-      //Debug.print("existing edge: "); Debug.println(existingEdge);
+      // Debug.print("inserted edge: "); Debug.println(e);
+      // Debug.print("existing edge: "); Debug.println(existingEdge);
     } else { // no matching existing edge was found
       // add this new edge to the list of edges in this graph
-      //e.setName(name + edges.size());
-      //e.getDepth().add(e.getLabel());
+      // e.setName(name + edges.size());
+      // e.getDepth().add(e.getLabel());
       edgeList.add(e)
       ()
     }
@@ -378,7 +378,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
     val it       = edgeList.iterator
     while (it.hasNext) {
       val e = it.next
-      if (e.isCollapsed) { //Debug.print(e);
+      if (e.isCollapsed) { // Debug.print(e);
         it.remove()
         newEdges.add(e.getCollapsedEdge)
       }
@@ -410,7 +410,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
     val nodeit = graph.getNodes.iterator
     while (nodeit.hasNext) {
       val node = nodeit.next.asInstanceOf[Node]
-      //if (node.getCoordinate().equals(new Coordinate(222, 100)) ) Debug.addWatch(node.getEdges());
+      // if (node.getCoordinate().equals(new Coordinate(222, 100)) ) Debug.addWatch(node.getEdges());
       node.getEdges.computeLabelling(arg)
     }
     mergeSymLabels()
@@ -427,7 +427,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
     while (nodeit.hasNext) {
       val node = nodeit.next
       node.getEdges.asInstanceOf[DirectedEdgeStar].mergeSymLabels()
-      //node.print(System.out);
+      // node.print(System.out);
     }
   }
 
@@ -465,7 +465,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
       }
       // now update the labelling for the DirectedEdges incident on this node
       n.getEdges.asInstanceOf[DirectedEdgeStar].updateLabelling(label)
-      //n.print(System.out);
+      // n.print(System.out);
     }
     /*
         int nPoly0 = arg[0].getGeometry().getNumGeometries();
@@ -506,7 +506,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
         )
       ) {
         de.setInResult(true)
-        //Debug.print("in result "); Debug.println(de);
+        // Debug.print("in result "); Debug.println(de);
       }
     }
   }
@@ -524,7 +524,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
       if (de.isInResult && sym.isInResult) {
         de.setInResult(false)
         sym.setInResult(false)
-        //Debug.print("cancelled "); Debug.println(de); Debug.println(sym);
+        // Debug.print("cancelled "); Debug.println(de); Debug.println(sym);
       }
     }
   }
@@ -581,7 +581,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
 //    geomList.addAll(resultPointList.asScala.map(x => x:Geometry).asJava)
 //    geomList.addAll(resultLineList.asScala.map(x => x: Geometry).asJava)
 //    geomList.addAll(resultPolyList.asScala.map(x => x:Geometry).asJava)
-    //*
+    // *
     if (geomList.isEmpty)
       return OverlayOp.createEmptyResult(opcode, arg(0).getGeometry, arg(1).getGeometry, geomFact)
     // build the most specific geometry possible

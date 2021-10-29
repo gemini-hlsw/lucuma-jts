@@ -197,8 +197,8 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
           var j = 0
           while (j < edges.size) {
             de = edges.get(j).asInstanceOf[DirectedEdge]
-            //Debug.print("visted? "); Debug.println(de);
-            if (!de.isVisited) { //Debug.print("not visited "); Debug.println(de);
+            // Debug.print("visted? "); Debug.println(de);
+            if (!de.isVisited) { // Debug.print("not visited "); Debug.println(de);
               disconnectedRingcoord = de.getCoordinate
               return true
             }

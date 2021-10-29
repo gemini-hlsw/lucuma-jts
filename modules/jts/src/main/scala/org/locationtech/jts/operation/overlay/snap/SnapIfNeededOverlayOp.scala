@@ -69,9 +69,9 @@ class SnapIfNeededOverlayOp(val g1: Geometry, val g2: Geometry) {
       // ignore this exception, since the operation will be rerun
       //    	System.out.println(ex.getMessage());
       //    	ex.printStackTrace();
-      //System.out.println(ex.getMessage());
-      //System.out.println("Geom 0: " + geom[0]);
-      //System.out.println("Geom 1: " + geom[1]);
+      // System.out.println(ex.getMessage());
+      // System.out.println("Geom 0: " + geom[0]);
+      // System.out.println("Geom 1: " + geom[1]);
     }
     if (!isSuccess) { // this may still throw an exception
       // if so, throw the original exception since it has the input coordinates

@@ -78,7 +78,7 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
       //      }
       if (depth(position) != depthVal)
         throw new TopologyException("assigned depths do not match", getCoordinate)
-      //Assert.isTrue(depth[position] == depthVal, "assigned depths do not match at " + getCoordinate());
+      // Assert.isTrue(depth[position] == depthVal, "assigned depths do not match at " + getCoordinate());
     }
     depth(position) = depthVal
   }
@@ -167,7 +167,7 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
     if (position == Position.LEFT) directionFactor = -1
     val oppositePos     = Position.opposite(position)
     val delta           = depthDelta * directionFactor
-    //TESTINGint delta = depthDelta * DirectedEdge.depthFactor(loc, oppositeLoc);
+    // TESTINGint delta = depthDelta * DirectedEdge.depthFactor(loc, oppositeLoc);
     val oppositeDepth   = depth + delta
     setDepth(position, depth)
     setDepth(oppositePos, oppositeDepth)
@@ -177,8 +177,8 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
     super.print(out)
     out.print(" " + depth(Position.LEFT) + "/" + depth(Position.RIGHT))
     out.print(" (" + getDepthDelta + ")")
-    //out.print(" " + this.hashCode());
-    //if (next != null) out.print(" next:" + next.hashCode());
+    // out.print(" " + this.hashCode());
+    // if (next != null) out.print(" next:" + next.hashCode());
     if (isInResult) out.print(" inResult")
   }
 

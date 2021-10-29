@@ -64,7 +64,7 @@ class InteriorIntersectionFinderAdder(var li: LineIntersector)
     val p10 = e1.getCoordinates(segIndex1)
     val p11 = e1.getCoordinates(segIndex1 + 1)
     li.computeIntersection(p00, p01, p10, p11)
-    //if (li.hasIntersection() && li.isProper()) Debug.println(li);
+    // if (li.hasIntersection() && li.isProper()) Debug.println(li);
     if (li.hasIntersection) if (li.isInteriorIntersection) {
       var intIndex = 0
       while (intIndex < li.getIntersectionNum) {

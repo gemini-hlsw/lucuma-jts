@@ -97,9 +97,9 @@ abstract class EdgeEndStar() {
     computeEdgeEndLabels(geomGraph(0).getBoundaryNodeRule)
     // Propagate side labels  around the edges in the star
     // for each parent Geometry
-    //Debug.print(this);
+    // Debug.print(this);
     propagateSideLabels(0)
-    //Debug.printIfWatch(this);
+    // Debug.printIfWatch(this);
     propagateSideLabels(1)
 
     /**
@@ -142,7 +142,7 @@ abstract class EdgeEndStar() {
     while (it.hasNext) {
       val e     = it.next
       val label = e.getLabel
-      //Debug.println(e);
+      // Debug.println(e);
       var geomi = 0
       while (geomi < 2) {
         if (label.isAnyNull(geomi)) {
@@ -199,11 +199,11 @@ abstract class EdgeEndStar() {
       Assert.isTrue(label.isArea(geomIndex), "Found non-area edge")
       val leftLoc  = label.getLocation(geomIndex, Position.LEFT)
       val rightLoc = label.getLocation(geomIndex, Position.RIGHT)
-      //System.out.println(leftLoc + " " + rightLoc);
+      // System.out.println(leftLoc + " " + rightLoc);
       // check that edge is really a boundary between inside and outside!
       if (leftLoc == rightLoc) return false
       // check side location conflict
-      //Assert.isTrue(rightLoc == currLoc, "side location conflict " + locStr);
+      // Assert.isTrue(rightLoc == currLoc, "side location conflict " + locStr);
       if (rightLoc != currLoc) return false
       currLoc = leftLoc
     }
@@ -213,7 +213,7 @@ abstract class EdgeEndStar() {
   private[geomgraph] def propagateSideLabels(geomIndex: Int): Unit = {
     var startLoc = Location.NONE
     // initialize loc to location of last L side (if any)
-    //System.out.println("finding start location");
+    // System.out.println("finding start location");
     var it       = iterator
     while (it.hasNext) {
       val e     = it.next
@@ -236,7 +236,7 @@ abstract class EdgeEndStar() {
         val leftLoc  = label.getLocation(geomIndex, Position.LEFT)
         val rightLoc = label.getLocation(geomIndex, Position.RIGHT)
         // if there is a right location, that is the next location to propagate
-        if (rightLoc != Location.NONE) { //Debug.print(rightLoc != currLoc, this);
+        if (rightLoc != Location.NONE) { // Debug.print(rightLoc != currLoc, this);
           if (rightLoc != currLoc)
             throw new TopologyException("side location conflict", e.getCoordinate)
           if (leftLoc == Location.NONE)

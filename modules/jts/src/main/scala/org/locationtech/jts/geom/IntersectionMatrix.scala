@@ -315,7 +315,7 @@ class IntersectionMatrix()
    *   if both <code>Geometry</code>s are points.
    */
   def isTouches(dimensionOfGeometryA: Int, dimensionOfGeometryB: Int): Boolean = {
-    if (dimensionOfGeometryA > dimensionOfGeometryB) { //no need to get transpose because pattern matrix is symmetrical
+    if (dimensionOfGeometryA > dimensionOfGeometryB) { // no need to get transpose because pattern matrix is symmetrical
       return isTouches(dimensionOfGeometryB, dimensionOfGeometryA)
     }
     if (

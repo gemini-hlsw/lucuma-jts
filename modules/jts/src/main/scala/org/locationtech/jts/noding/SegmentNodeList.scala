@@ -162,7 +162,7 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
       edgeList.add(newEdge)
       eiPrev = ei
     }
-    //checkSplitEdgesCorrectness(testingSplitEdges);
+    // checkSplitEdgesCorrectness(testingSplitEdges);
   }
 
   /**
@@ -202,7 +202,7 @@ class SegmentNodeList(var edge: NodedSegmentString) { // the parent edge
    * @param ei1
    *   the end node of the split edge return the points for the split edge
    */
-  private def createSplitEdgePts(ei0: SegmentNode, ei1: SegmentNode): Array[Coordinate] = { //Debug.println("\ncreateSplitEdge"); Debug.print(ei0); Debug.print(ei1);
+  private def createSplitEdgePts(ei0: SegmentNode, ei1: SegmentNode): Array[Coordinate] = { // Debug.println("\ncreateSplitEdge"); Debug.print(ei0); Debug.print(ei1);
     var npts           = ei1.segmentIndex - ei0.segmentIndex + 2
     // if only two points in split edge they must be the node points
     if (npts == 2) return Array[Coordinate](new Coordinate(ei0.coord), new Coordinate(ei1.coord))

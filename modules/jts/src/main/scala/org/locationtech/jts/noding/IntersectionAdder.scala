@@ -47,8 +47,8 @@ class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
   private var hasInterior                         = false
   // the proper intersection point found
   private val properIntersectionPoint: Coordinate = null
-  //private val isSelfIntersection = false
-  //private boolean intersectionFound;
+  // private val isSelfIntersection = false
+  // private boolean intersectionFound;
   var numIntersections                            = 0
   var numInteriorIntersections                    = 0
   var numProperIntersections                      = 0
@@ -125,13 +125,13 @@ class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
     val p10 = e1.getCoordinates(segIndex1)
     val p11 = e1.getCoordinates(segIndex1 + 1)
     li.computeIntersection(p00, p01, p10, p11)
-    //if (li.hasIntersection() && li.isProper()) Debug.println(li);
-    if (li.hasIntersection) { //intersectionFound = true;
+    // if (li.hasIntersection() && li.isProper()) Debug.println(li);
+    if (li.hasIntersection) { // intersectionFound = true;
       numIntersections += 1
       if (li.isInteriorIntersection) {
         numInteriorIntersections += 1
         hasInterior = true
-        //System.out.println(li);
+        // System.out.println(li);
       }
       // if the segments are adjacent they have at least one trivial intersection,
       // the shared endpoint.  Don't bother adding it if it is the
@@ -142,8 +142,8 @@ class IntersectionAdder(var li: LineIntersector) extends SegmentIntersector {
         e1.asInstanceOf[NodedSegmentString].addIntersections(li, segIndex1, 1)
         if (li.isProperF) {
           numProperIntersections += 1
-          //Debug.println(li.toString());  Debug.println(li.getIntersection(0));
-          //properIntersectionPoint = (Coordinate) li.getIntersection(0).clone();
+          // Debug.println(li.toString());  Debug.println(li.getIntersection(0));
+          // properIntersectionPoint = (Coordinate) li.getIntersection(0).clone();
           hasProper = true
           hasProperInterior = true
         }

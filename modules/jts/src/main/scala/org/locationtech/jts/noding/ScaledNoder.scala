@@ -105,5 +105,5 @@ class ScaledNoder(
     if (pts.length == 2 && pts(0).equals2D(pts(1))) System.out.println(pts)
   }
 
-  //private double rescale(double val) { return val / scaleFactor; }
+  // private double rescale(double val) { return val / scaleFactor; }
 }

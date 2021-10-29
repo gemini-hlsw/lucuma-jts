@@ -224,7 +224,7 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
   protected def query(searchBounds: Any): util.List[Any] = {
     build()
     val matches = new util.ArrayList[Any]
-    if (isEmpty) { //Assert.isTrue(root.getBounds() == null);
+    if (isEmpty) { // Assert.isTrue(root.getBounds() == null);
       return matches
     }
     if (getIntersectsOp.intersects(root.getBounds, searchBounds))

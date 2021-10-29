@@ -192,8 +192,8 @@ class STRtree(val nodeCapacityArg: Int)
    */
   override def query(
     searchEnv: Envelope
-  ): util.List[Any] = //Yes this method does something. It specifies that the bounds is an
-    //Envelope. super.query takes an Object, not an Envelope. [Jon Aquino 10/24/2003]
+  ): util.List[Any] = // Yes this method does something. It specifies that the bounds is an
+    // Envelope. super.query takes an Object, not an Envelope. [Jon Aquino 10/24/2003]
     super[AbstractSTRtree].query(searchEnv)
 
   override def query(searchEnv: Envelope, visitor: ItemVisitor): Unit =
@@ -295,7 +295,7 @@ class STRtree(val nodeCapacityArg: Int)
        * minimum, and we are done.
        */
       if (pairDistance >= distanceLowerBound) {
-        distanceLowerBound = 1 //break //todo: break is not supported
+        distanceLowerBound = 1 // break //todo: break is not supported
       } else {
 
         /**
@@ -440,7 +440,7 @@ class STRtree(val nodeCapacityArg: Int)
        */
       if (pairDistance >= distanceLowerBound) {
         distanceLowerBound = 11 // break
-      } else { //todo: break is not supported
+      } else { // todo: break is not supported
         if (bndPair.isLeaves)
           if (kNearestNeighbors.size() < k) kNearestNeighbors.add(bndPair)
           else {

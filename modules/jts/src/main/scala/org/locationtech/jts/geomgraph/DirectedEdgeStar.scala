@@ -78,7 +78,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
     if (Quadrant.isNorthern(quad0) && Quadrant.isNorthern(quad1)) return de0
     else if (!Quadrant.isNorthern(quad0) && !Quadrant.isNorthern(quad1)) return deLast
     else { // edges are in different hemispheres - make sure we return one that is non-horizontal
-      //Assert.isTrue(de0.getDy() != 0, "should never return horizontal edge!");
+      // Assert.isTrue(de0.getDy() != 0, "should never return horizontal edge!");
 //      val nonHorizontalEdge = null
       if (de0.getDy != 0) return de0
       else if (deLast.getDy != 0) return deLast
@@ -90,7 +90,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
   /**
    * Compute the labelling for all dirEdges in this star, as well as the overall labelling
    */
-  override def computeLabelling(geom: Array[GeometryGraph]): Unit = { //Debug.print(this);
+  override def computeLabelling(geom: Array[GeometryGraph]): Unit = { // Debug.print(this);
     super.computeLabelling(geom)
     // determine the overall labelling for this DirectedEdgeStar
     // (i.e. for the node it is based at)
@@ -135,7 +135,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
     }
   }
 
-  private def getResultAreaEdges: util.List[DirectedEdge] = { //print(System.out);
+  private def getResultAreaEdges: util.List[DirectedEdge] = { // print(System.out);
     if (resultAreaEdgeList != null) return resultAreaEdgeList
     resultAreaEdgeList = new util.ArrayList[DirectedEdge]
     val it = iterator
@@ -189,9 +189,9 @@ class DirectedEdgeStar() extends EdgeEndStar {
       }
       i += 1
     }
-    if (state == LINKING_TO_OUTGOING) { //Debug.print(firstOut == null, this);
+    if (state == LINKING_TO_OUTGOING) { // Debug.print(firstOut == null, this);
       if (firstOut == null) throw new TopologyException("no outgoing dirEdge found", getCoordinate)
-      //Assert.isTrue(firstOut != null, "no outgoing dirEdge found (at " + getCoordinate() );
+      // Assert.isTrue(firstOut != null, "no outgoing dirEdge found (at " + getCoordinate() );
       Assert.isTrue(firstOut.isInResult, "unable to link last incoming dirEdge")
       incoming.setNext(firstOut)
     }
@@ -249,7 +249,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
    * Traverse the star of edges, maintaining the current location in the result area at this node
    * (if any). If any L edges are found in the interior of the result, mark them as covered.
    */
-  def findCoveredLineEdges(): Unit = { //Debug.print("findCoveredLineEdges");
+  def findCoveredLineEdges(): Unit = { // Debug.print("findCoveredLineEdges");
     // Since edges are stored in CCW order around the node,
     // as we move around the ring we move from the right to the left side of the edge
     /**
@@ -269,11 +269,11 @@ class DirectedEdgeStar() extends EdgeEndStar {
         if (!nextOut.isLineEdge) {
           if (nextOut.isInResult) {
             startLoc = Location.INTERIOR
-            break() //todo: break is not supported
+            break() // todo: break is not supported
           }
           if (nextIn.isInResult) {
             startLoc = Location.EXTERIOR
-            break() //todo: break is not supported
+            break() // todo: break is not supported
           }
         }
       }
@@ -291,7 +291,7 @@ class DirectedEdgeStar() extends EdgeEndStar {
       val nextIn  = nextOut.getSym
       if (nextOut.isLineEdge) {
         nextOut.getEdge.setCovered(currLoc == Location.INTERIOR)
-        //Debug.println(nextOut);
+        // Debug.println(nextOut);
       } else { // edge is an Area edge
         if (nextOut.isInResult) currLoc = Location.EXTERIOR
         if (nextIn.isInResult) currLoc = Location.INTERIOR
@@ -307,11 +307,11 @@ class DirectedEdgeStar() extends EdgeEndStar {
     val nextDepth: Int  = computeDepths(edgeIndex + 1, edgeList.size, startDepth)
     // compute the depths for the initial part of the array
     val lastDepth       = computeDepths(0, edgeIndex, nextDepth)
-    //Debug.print(lastDepth != targetLastDepth, this);
-    //Debug.print(lastDepth != targetLastDepth, "mismatch: " + lastDepth + " / " + targetLastDepth);
+    // Debug.print(lastDepth != targetLastDepth, this);
+    // Debug.print(lastDepth != targetLastDepth, "mismatch: " + lastDepth + " / " + targetLastDepth);
     if (lastDepth != targetLastDepth)
       throw new TopologyException("depth mismatch at " + de.getCoordinate)
-    //Assert.isTrue(lastDepth == targetLastDepth, "depth mismatch at " + de.getCoordinate());
+    // Assert.isTrue(lastDepth == targetLastDepth, "depth mismatch at " + de.getCoordinate());
   }
 
   /**

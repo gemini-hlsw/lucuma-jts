@@ -160,7 +160,7 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     segGen:   OffsetSegmentGenerator
   ): Unit = {
     val distTol = simplifyTolerance(distance)
-    //--------- compute points for left side of line
+    // --------- compute points for left side of line
     // Simplify the appropriate side of the line before generating
     val simp1   = BufferInputLineSimplifier.simplify(inputPts, distTol)
     // MD - used for testing only (to eliminate simplification)
@@ -175,7 +175,7 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
     segGen.addLastSegment()
     // add line cap for end of line
     segGen.addLineEndCap(simp1(n1 - 1), simp1(n1))
-    //---------- compute points for right side of line
+    // ---------- compute points for right side of line
     val simp2   = BufferInputLineSimplifier.simplify(inputPts, -distTol)
     //    Coordinate[] simp2 = inputPts;
     val n2      = simp2.length - 1

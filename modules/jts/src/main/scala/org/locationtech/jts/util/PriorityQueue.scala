@@ -129,7 +129,7 @@ class PriorityQueue() {
       if (items.get(child).asInstanceOf[Comparable[Any]].compareTo(tmp) < 0)
         items.set(hole, items.get(child))
       else {
-        //break //todo: break is not supported
+        // break //todo: break is not supported
         hole = vsize // break the loop
       }
       hole = child

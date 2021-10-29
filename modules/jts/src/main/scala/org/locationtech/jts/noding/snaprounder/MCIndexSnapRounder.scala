@@ -50,16 +50,16 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
   override def getNodedSubstrings: util.List[SegmentString] =
     NodedSegmentString.getNodedSubstrings(
       nodedSegStrings
-    ) //.asScala.map(x => x:SegmentString).toList.asJava
+    ) // .asScala.map(x => x:SegmentString).toList.asJava
 
   override def computeNodes(inputSegmentStrings: util.Collection[SegmentString]): Unit = {
     this.nodedSegStrings =
-      inputSegmentStrings //.asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
+      inputSegmentStrings // .asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
     noder = new MCIndexNoder
     pointSnapper = new MCIndexPointSnapper(noder.getIndex)
     snapRound(inputSegmentStrings, li)
     // testing purposes only - remove in final version
-    //checkCorrectness(inputSegmentStrings);
+    // checkCorrectness(inputSegmentStrings);
   }
 
 //  private def checkCorrectness(inputSegmentStrings: util.Collection[NodedSegmentString]): Unit = {

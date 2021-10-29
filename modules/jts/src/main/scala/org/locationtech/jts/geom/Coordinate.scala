@@ -439,7 +439,7 @@ class Coordinate(var x: Double, var y: Double, var z: Double)
    *
    * return a hashcode for this coordinate
    */
-  override def hashCode: Int = { //Algorithm from Effective Java by Joshua Bloch [Jon Aquino]
+  override def hashCode: Int = { // Algorithm from Effective Java by Joshua Bloch [Jon Aquino]
     var result = 17
     result = 37 * result + Coordinate.hashCode(x)
     result = 37 * result + Coordinate.hashCode(y)

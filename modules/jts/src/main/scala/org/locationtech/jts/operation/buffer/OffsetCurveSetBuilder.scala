@@ -131,8 +131,8 @@ class OffsetCurveSetBuilder(
       addCurve(curve, Location.EXTERIOR, Location.INTERIOR)
     }
     // TESTING
-    //Coordinate[] curveTrim = BufferCurveLoopPruner.prune(curve);
-    //addCurve(curveTrim, Location.EXTERIOR, Location.INTERIOR);
+    // Coordinate[] curveTrim = BufferCurveLoopPruner.prune(curve);
+    // addCurve(curveTrim, Location.EXTERIOR, Location.INTERIOR);
   }
 
   private def addPolygon(p: Polygon): Unit = {
@@ -244,7 +244,7 @@ class OffsetCurveSetBuilder(
      * less than the minimum diameter, the ring may still be eroded, but this will be determined by
      * a full topological computation.
      */
-    //System.out.println(ring);
+    // System.out.println(ring);
     /* MD  7 Feb 2005 - there's an unknown bug in the MD code, so disable this for now
           MinimumDiameter md = new MinimumDiameter(ring);
           minDiam = md.getLength();

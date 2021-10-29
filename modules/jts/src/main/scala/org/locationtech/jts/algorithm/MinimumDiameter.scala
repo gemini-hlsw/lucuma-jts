@@ -156,7 +156,7 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
     }
   }
 
-  private def computeWidthConvex(convexGeom: Geometry): Unit = { //System.out.println("Input = " + geom);
+  private def computeWidthConvex(convexGeom: Geometry): Unit = { // System.out.println("Input = " + geom);
     if (convexGeom.isInstanceOf[Polygon])
       convexHullPts = convexGeom.asInstanceOf[Polygon].getExteriorRing.getCoordinates
     else convexHullPts = convexGeom.getCoordinates

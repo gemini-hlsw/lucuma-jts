@@ -147,15 +147,15 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
     val intPt                  = new Coordinate(li.getIntersection(intIndex))
     var normalizedSegmentIndex = segmentIndex
     var dist                   = li.getEdgeDistance(geomIndex, intIndex)
-    //Debug.println("edge intpt: " + intPt + " dist: " + dist);
+    // Debug.println("edge intpt: " + intPt + " dist: " + dist);
     // normalize the intersection point location
     val nextSegIndex           = normalizedSegmentIndex + 1
     if (nextSegIndex < pts.length) {
       val nextPt = pts(nextSegIndex)
-      //Debug.println("next pt: " + nextPt);
+      // Debug.println("next pt: " + nextPt);
       // Normalize segment index if intPt falls on vertex
       // The check for point equality is 2D only - Z values are ignored
-      if (intPt.equals2D(nextPt)) { //Debug.println("normalized distance");
+      if (intPt.equals2D(nextPt)) { // Debug.println("normalized distance");
         normalizedSegmentIndex = nextSegIndex
         dist = 0.0
       }
@@ -166,7 +166,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
      */
     eiList.add(intPt, normalizedSegmentIndex, dist)
     ()
-    //ei.print(System.out);
+    // ei.print(System.out);
   }
 
   /**

@@ -312,7 +312,7 @@ class NodingIntersectionFinder(var li: LineIntersector)
     val isEnd10       = segIndex1 == 0
     val isEnd11       = segIndex1 + 2 == e1.size
     li.computeIntersection(p00, p01, p10, p11)
-    //if (li.hasIntersection() && li.isProper()) Debug.println(li);
+    // if (li.hasIntersection() && li.isProper()) Debug.println(li);
     /**
      * Check for an intersection in the interior of a segment
      */
@@ -341,7 +341,7 @@ class NodingIntersectionFinder(var li: LineIntersector)
       intSegments(1) = p01
       intSegments(2) = p10
       intSegments(3) = p11
-      //TODO: record endpoint intersection(s)
+      // TODO: record endpoint intersection(s)
       interiorIntersection = li.getIntersection(0)
       if (keepIntersections) intersections.add(interiorIntersection)
       intersectionCount += 1

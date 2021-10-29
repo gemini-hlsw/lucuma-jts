@@ -46,7 +46,7 @@ class EdgeEndBuilder() {
    */
   def computeEdgeEnds(edge: Edge, l: util.List[EdgeEnd]): Unit = {
     val eiList                   = edge.getEdgeIntersectionList
-    //Debug.print(eiList);
+    // Debug.print(eiList);
     // ensure that the list has entries for the first and last point of the edge
     eiList.addEndpoints()
     val it                       = eiList.iterator
@@ -93,7 +93,7 @@ class EdgeEndBuilder() {
     // since edgeStub is oriented opposite to it's parent edge, have to flip sides for edge label
     label.flip()
     val e     = new EdgeEnd(edge, eiCurr.coord, pPrev, label)
-    //e.print(System.out);  System.out.println();
+    // e.print(System.out);  System.out.println();
     l.add(e)
     ()
   }
@@ -116,7 +116,7 @@ class EdgeEndBuilder() {
     // if the next intersection is in the same segment as the current, use it as the endpoint
     if (eiNext != null && (eiNext.segmentIndex == eiCurr.segmentIndex)) pNext = eiNext.coord
     val e     = new EdgeEnd(edge, eiCurr.coord, pNext, new Label(edge.getLabel))
-    //Debug.println(e);
+    // Debug.println(e);
     l.add(e)
     ()
   }

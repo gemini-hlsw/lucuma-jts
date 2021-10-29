@@ -182,9 +182,9 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
    * @param pts
    *   the points to reduce return the reduced list of points (at least 3)
    */
-  private def reduce(inputPts: Array[Coordinate]): Array[Coordinate] = { //Coordinate[] polyPts = computeQuad(inputPts);
+  private def reduce(inputPts: Array[Coordinate]): Array[Coordinate] = { // Coordinate[] polyPts = computeQuad(inputPts);
     val polyPts: Array[Coordinate]           = computeOctRing(inputPts)
-    //Coordinate[] polyPts = null;
+    // Coordinate[] polyPts = null;
     // unable to compute interior polygon for some reason
     if (polyPts == null) {
       return inputPts
@@ -252,7 +252,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     }
     // sort the points radially around the focal point.
     util.Arrays.sort(pts, 1, pts.length, new ConvexHull.RadialComparator(pts(0)))
-    //radialSort(pts);
+    // radialSort(pts);
     return pts
   }
 

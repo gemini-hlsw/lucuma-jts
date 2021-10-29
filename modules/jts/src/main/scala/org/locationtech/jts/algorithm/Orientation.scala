@@ -98,9 +98,9 @@ object Orientation {
      *
      */ CGAlgorithmsDD.orientationIndex(p1, p2, q)
   // testing only
-  //return ShewchuksDeterminant.orientationIndex(p1, p2, q);
+  // return ShewchuksDeterminant.orientationIndex(p1, p2, q);
   // previous implementation - not quite fully robust
-  //return RobustDeterminant.orientationIndex(p1, p2, q);
+  // return RobustDeterminant.orientationIndex(p1, p2, q);
 
   /**
    * Computes whether a ring defined by an array of {link Coordinate}s is oriented

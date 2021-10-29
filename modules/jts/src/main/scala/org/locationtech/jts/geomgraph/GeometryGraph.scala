@@ -97,12 +97,12 @@ class GeometryGraph(
   final private val ptLocator: PointLocator         = new PointLocator
 
   private def createEdgeSetIntersector = // various options for computing intersections, from slowest to fastest
-    //private EdgeSetIntersector esi = new SimpleEdgeSetIntersector();
-    //private EdgeSetIntersector esi = new MonotoneChainIntersector();
-    //private EdgeSetIntersector esi = new NonReversingChainIntersector();
-    //private EdgeSetIntersector esi = new SimpleSweepLineIntersector();
-    //private EdgeSetIntersector esi = new MCSweepLineIntersector();
-    //return new SimpleEdgeSetIntersector();
+    // private EdgeSetIntersector esi = new SimpleEdgeSetIntersector();
+    // private EdgeSetIntersector esi = new MonotoneChainIntersector();
+    // private EdgeSetIntersector esi = new NonReversingChainIntersector();
+    // private EdgeSetIntersector esi = new SimpleSweepLineIntersector();
+    // private EdgeSetIntersector esi = new MCSweepLineIntersector();
+    // return new SimpleEdgeSetIntersector();
     new SimpleMCSweepLineIntersector
 
   def this(argIndex: Int, parentGeom: Geometry) =
@@ -314,7 +314,7 @@ class GeometryGraph(
         .isInstanceOf[MultiPolygon]
     val computeAllSegments = computeRingSelfNodes || !isRings
     esi.computeIntersections(edges, si, computeAllSegments)
-    //System.out.println("SegmentIntersector # tests = " + si.numTests);
+    // System.out.println("SegmentIntersector # tests = " + si.numTests);
     addSelfIntersectionNodes(argIndex)
     si
   }

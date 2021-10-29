@@ -63,7 +63,7 @@ class IntArrayList(val initialCapacity: Int) {
   def ensureCapacity(capacity: Int): Unit = {
     if (capacity <= data.length) return
     val newLength = Math.max(capacity, data.length * 2)
-    //System.out.println("IntArrayList: copying " + size + " ints to new array of length " + capacity);
+    // System.out.println("IntArrayList: copying " + size + " ints to new array of length " + capacity);
     data = util.Arrays.copyOf(data, newLength)
   }
 

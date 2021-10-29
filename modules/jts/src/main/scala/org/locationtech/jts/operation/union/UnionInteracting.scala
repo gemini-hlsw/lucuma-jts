@@ -58,11 +58,11 @@ class UnionInteracting(var g0: Geometry, var g1: Geometry) {
       //			computeInteracting();
     }
     //		if (! int0.isValid()) {
-    //System.out.println(int0);
-    //throw new RuntimeException("invalid geom!");
+    // System.out.println(int0);
+    // throw new RuntimeException("invalid geom!");
     //		}
     val union        = int0.union(int1)
-    //Geometry union = bufferUnion(int0, int1);
+    // Geometry union = bufferUnion(int0, int1);
     val disjoint0    = extractElements(g0, interacts0, false)
     val disjoint1    = extractElements(g1, interacts1, false)
     val overallUnion = GeometryCombiner.combine(union, disjoint0, disjoint1)

@@ -208,7 +208,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     }
     checkHolesInShell(g, graph)
     if (validErr != null) return
-    //SLOWcheckHolesNotNested(g);
+    // SLOWcheckHolesNotNested(g);
     checkHolesNotNested(g, graph)
     if (validErr != null) return
     checkConnectedInteriors(graph)
@@ -387,7 +387,7 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
     if (p.getNumInteriorRing <= 0) return
     val shell        = p.getExteriorRing
     val isShellEmpty = shell.isEmpty
-    //PointInRing pir = new SimplePointInRing(shell); // testing only
+    // PointInRing pir = new SimplePointInRing(shell); // testing only
     val pir          = new IndexedPointInAreaLocator(shell)
     var i            = 0
     while (i < p.getNumInteriorRing) {
@@ -420,8 +420,8 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
   private def checkHolesNotNested(p: Polygon, graph: GeometryGraph): Unit = {
     if (p.getNumInteriorRing <= 0) return ()
     val nestedTester = new IndexedNestedRingTester(graph)
-    //SimpleNestedRingTester nestedTester = new SimpleNestedRingTester(arg[0]);
-    //SweeplineNestedRingTester nestedTester = new SweeplineNestedRingTester(arg[0]);
+    // SimpleNestedRingTester nestedTester = new SimpleNestedRingTester(arg[0]);
+    // SweeplineNestedRingTester nestedTester = new SweeplineNestedRingTester(arg[0]);
     var i            = 0
     while (i < p.getNumInteriorRing) {
       val innerHole = p.getInteriorRingN(i)
