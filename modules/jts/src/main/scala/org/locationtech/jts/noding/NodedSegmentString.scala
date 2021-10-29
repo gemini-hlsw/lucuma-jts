@@ -166,15 +166,15 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
    */
   def addIntersectionNode(intPt: Coordinate, segmentIndex: Int): SegmentNode = {
     var normalizedSegmentIndex = segmentIndex
-    //Debug.println("edge intpt: " + intPt + " dist: " + dist);
+    // Debug.println("edge intpt: " + intPt + " dist: " + dist);
     // normalize the intersection point location
     val nextSegIndex           = normalizedSegmentIndex + 1
     if (nextSegIndex < pts.length) {
       val nextPt = pts(nextSegIndex)
-      //Debug.println("next pt: " + nextPt);
+      // Debug.println("next pt: " + nextPt);
       // Normalize segment index if intPt falls on vertex
       // The check for point equality is 2D only - Z values are ignored
-      if (intPt.equals2D(nextPt)) { //Debug.println("normalized distance");
+      if (intPt.equals2D(nextPt)) { // Debug.println("normalized distance");
         normalizedSegmentIndex = nextSegIndex
       }
     }

@@ -78,7 +78,7 @@ final class CoordinateArraySequenceFactory private ()
   def create(size: Int, dimension: Int): CoordinateSequence = {
     val dim =
       if (dimension > 3) 3
-      //throw new IllegalArgumentException("dimension must be <= 3");
+      // throw new IllegalArgumentException("dimension must be <= 3");
       // handle bogus dimension
       else if (dimension < 2) 2
       else dimension
@@ -89,11 +89,11 @@ final class CoordinateArraySequenceFactory private ()
     var spatial = dimension - measures
     val meas    = if (measures > 1) {
       1 // clip measures
-      //throw new IllegalArgumentException("measures must be <= 1");
+      // throw new IllegalArgumentException("measures must be <= 1");
     } else measures
     if (spatial > 3) {
       spatial = 3 // clip spatial dimension
-      //throw new IllegalArgumentException("spatial dimension must be <= 3");
+      // throw new IllegalArgumentException("spatial dimension must be <= 3");
     }
     if (spatial < 2) spatial = 2 // handle bogus spatial dimension
     new CoordinateArraySequence(size, spatial + meas, meas)

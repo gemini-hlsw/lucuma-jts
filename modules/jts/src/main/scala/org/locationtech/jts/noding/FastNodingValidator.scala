@@ -98,7 +98,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
   def getErrorMessage: String = {
     if (visValid) return "no intersections found"
 //    val intSegs = segInt.getIntersectionSegments
-    //"found non-noded intersection between " + WKTWriter.toLineString(intSegs(0), intSegs(1)) + " and " + WKTWriter.toLineString(intSegs(2), intSegs(3))
+    // "found non-noded intersection between " + WKTWriter.toLineString(intSegs(0), intSegs(1)) + " and " + WKTWriter.toLineString(intSegs(2), intSegs(3))
     "found non-noded intersection between "
   }
 

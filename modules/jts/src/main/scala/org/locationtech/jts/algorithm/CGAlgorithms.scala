@@ -88,9 +88,9 @@ object CGAlgorithms {
      */
     CGAlgorithmsDD.orientationIndex(p1, p2, q)
   // testing only
-  //return ShewchuksDeterminant.orientationIndex(p1, p2, q);
+  // return ShewchuksDeterminant.orientationIndex(p1, p2, q);
   // previous implementation - not quite fully robust
-  //return RobustDeterminant.orientationIndex(p1, p2, q);
+  // return RobustDeterminant.orientationIndex(p1, p2, q);
 
   /**
    * Tests whether a point lies inside or on a ring. The ring may be oriented in either direction. A

@@ -200,8 +200,8 @@ class GeometricShapeFactory(var geomFact: GeometryFactory) {
     val YsegLen = dim.getEnvelope.getHeight / nSide
     val pts     = new Array[Coordinate](4 * nSide + 1)
     val env     = dim.getEnvelope
-    //double maxx = env.getMinX() + nSide * XsegLen;
-    //double maxy = env.getMinY() + nSide * XsegLen;
+    // double maxx = env.getMinX() + nSide * XsegLen;
+    // double maxy = env.getMinY() + nSide * XsegLen;
     i = 0
     while (i < nSide) {
       val x = env.getMinX + i * XsegLen

@@ -216,13 +216,13 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
     createInitialGrid(inputGeom.getEnvelopeInternal, cellQueue)
     // use the area centroid as the initial candidate center point
     var farthestCell = createCentroidCell(inputGeom)
-    //int totalCells = cellQueue.size();
+    // int totalCells = cellQueue.size();
     /**
      * Carry out the branch-and-bound search of the cell space
      */
     while (!cellQueue.isEmpty) { // pick the most promising cell from the queue
       val cell = cellQueue.remove()
-      //System.out.println(factory.toGeometry(cell.getEnvelope()));
+      // System.out.println(factory.toGeometry(cell.getEnvelope()));
       // update the center cell if the candidate is further from the boundary
       if (cell.getDistance > farthestCell.getDistance) farthestCell = cell
 
@@ -238,7 +238,7 @@ class MaximumInscribedCircle(var inputGeom: Geometry, var tolerance: Double) {
         cellQueue.add(createCell(cell.getX + h2, cell.getY - h2, h2))
         cellQueue.add(createCell(cell.getX - h2, cell.getY + h2, h2))
         cellQueue.add(createCell(cell.getX + h2, cell.getY + h2, h2))
-        //totalCells += 4;
+        // totalCells += 4;
       }
     }
     // the farthest cell is the best approximation to the MIC center

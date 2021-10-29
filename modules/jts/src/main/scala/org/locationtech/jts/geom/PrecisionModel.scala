@@ -238,7 +238,7 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
    * @deprecated
    *   Offsets are no longer used
    */
-  def getOffsetX: Int = //We actually don't use offsetX and offsetY anymore ... [Jon Aquino]
+  def getOffsetX: Int = // We actually don't use offsetX and offsetY anymore ... [Jon Aquino]
     0
 
   /**
@@ -344,7 +344,7 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
     if (modelType eq PrecisionModel.FLOATING) return
     coord.x = makePrecise(coord.x)
     coord.y = makePrecise(coord.y)
-    //MD says it's OK that we're not makePrecise'ing the z [Jon Aquino]
+    // MD says it's OK that we're not makePrecise'ing the z [Jon Aquino]
   }
 
   override def toString: String = {

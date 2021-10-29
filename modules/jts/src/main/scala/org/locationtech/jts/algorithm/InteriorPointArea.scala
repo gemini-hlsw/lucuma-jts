@@ -227,7 +227,7 @@ object InteriorPointArea {
       val xInt = InteriorPointPolygon.intersection(p0, p1, scanY)
       crossings.add(xInt)
       ()
-      //checkIntersectionDD(p0, p1, scanY, xInt);
+      // checkIntersectionDD(p0, p1, scanY, xInt);
     }
 
     /**

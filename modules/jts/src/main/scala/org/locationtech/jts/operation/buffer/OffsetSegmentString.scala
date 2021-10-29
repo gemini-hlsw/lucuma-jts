@@ -59,7 +59,7 @@ class OffsetSegmentString() {
     if (isRedundant(bufPt)) return
     ptList.add(bufPt)
     ()
-    //System.out.println(bufPt);
+    // System.out.println(bufPt);
   }
 
   def addPts(pt: Array[Coordinate], isForward: Boolean): Unit = if (isForward) {

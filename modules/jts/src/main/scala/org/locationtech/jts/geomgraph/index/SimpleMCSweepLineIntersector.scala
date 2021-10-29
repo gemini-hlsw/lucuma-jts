@@ -109,7 +109,7 @@ class SimpleMCSweepLineIntersector()
     while (i < events.size) {
       val ev = events.get(i)
       if (ev.isInsert) processOverlaps(i, ev.getDeleteEventIndex, ev, si)
-      if (si.isDone) return () //todo: break is not supported
+      if (si.isDone) return () // todo: break is not supported
       i += 1
     }
   }

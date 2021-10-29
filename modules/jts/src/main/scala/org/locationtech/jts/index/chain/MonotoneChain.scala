@@ -171,9 +171,9 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
   ): Unit = {
     val p0  = pts(start0)
     val p1  = pts(end0)
-    //Debug.println("trying:" + p0 + p1 + " [ " + start0 + ", " + end0 + " ]");
+    // Debug.println("trying:" + p0 + p1 + " [ " + start0 + ", " + end0 + " ]");
     // terminating condition for the recursion
-    if (end0 - start0 == 1) { //Debug.println("computeSelect:" + p0 + p1);
+    if (end0 - start0 == 1) { // Debug.println("computeSelect:" + p0 + p1);
       mcs.select(this, start0)
       return
     }
@@ -226,7 +226,7 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
     start1: Int,
     end1:   Int,
     mco:    MonotoneChainOverlapAction
-  ): Unit = { //Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
+  ): Unit = { // Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
     if (end0 - start0 == 1 && end1 - start1 == 1) {
       mco.overlap(this, start0, mc, start1)
       return

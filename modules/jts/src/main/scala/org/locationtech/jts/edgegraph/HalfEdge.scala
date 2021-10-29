@@ -286,7 +286,7 @@ class HalfEdge(var origI: Coordinate) {
         val eNext = e.oNext
         if (eNext != lowest) {
           val isSorted = eNext.compareTo(e) > 0
-          if (!isSorted) { //int comp = eNext.compareTo(e);
+          if (!isSorted) { // int comp = eNext.compareTo(e);
             return false
           }
           e = eNext
@@ -354,7 +354,7 @@ class HalfEdge(var origI: Coordinate) {
      */
     if (quadrant > quadrant2) return 1
     if (quadrant < quadrant2) return -1
-    //--- vectors are in the same quadrant
+    // --- vectors are in the same quadrant
     // Check relative orientation of direction vectors
     // this is > e if it is CCW of e
     val dir1 = directionPt

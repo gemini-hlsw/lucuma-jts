@@ -1016,8 +1016,8 @@ abstract class Geometry(
       )
     }
     // No longer needed since GCs are handled by previous code
-    //checkNotGeometryCollection(this);
-    //checkNotGeometryCollection(other);
+    // checkNotGeometryCollection(this);
+    // checkNotGeometryCollection(other);
     SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.INTERSECTION)
   }
 

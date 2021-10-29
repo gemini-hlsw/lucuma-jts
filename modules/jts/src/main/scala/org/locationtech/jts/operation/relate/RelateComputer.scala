@@ -67,7 +67,7 @@ class RelateComputer(
     arg(1).computeSelfNodes(li, false)
     // compute intersections between edges of the two input geometries
     val intersector = arg(0).computeEdgeIntersections(arg(1), li, false)
-    //System.out.println("computeIM: # segment intersection tests: " + intersector.numTests);
+    // System.out.println("computeIM: # segment intersection tests: " + intersector.numTests);
     computeIntersectionNodes(0)
     computeIntersectionNodes(1)
 
@@ -78,8 +78,8 @@ class RelateComputer(
     copyNodesAndLabels(0)
     copyNodesAndLabels(1)
     // complete the labelling for any nodes which only have a label for a single geometry
-    //Debug.addWatch(nodes.find(new Coordinate(110, 200)));
-    //Debug.printWatch();
+    // Debug.addWatch(nodes.find(new Coordinate(110, 200)));
+    // Debug.printWatch();
     labelIsolatedNodes()
     // If a proper intersection was found, we can set a lower bound on the IM.
     computeProperIntersectionIM(intersector, im)
@@ -94,8 +94,8 @@ class RelateComputer(
     insertEdgeEnds(ee0)
     val ee1       = eeBuilder.computeEdgeEnds(arg(1).getEdgeIterator)
     insertEdgeEnds(ee1)
-    //Debug.println("==== NodeList ===");
-    //Debug.print(nodes);
+    // Debug.println("==== NodeList ===");
+    // Debug.print(nodes);
     labelNodeEdges()
 
     /**
@@ -105,9 +105,9 @@ class RelateComputer(
      * only need to check components contained in the input graphs, since isolated components will
      * not have been replaced by new components formed by intersections.
      */
-    //debugPrintln("Graph A isolated edges - ");
+    // debugPrintln("Graph A isolated edges - ");
     labelIsolatedEdges(0, 1)
-    //debugPrintln("Graph B isolated edges - ");
+    // debugPrintln("Graph B isolated edges - ");
     labelIsolatedEdges(1, 0)
     // update the IM from all components
     updateIM(im)
@@ -177,7 +177,7 @@ class RelateComputer(
       val graphNode = i.next
       val newNode   = nodes.addNode(graphNode.getCoordinate)
       newNode.setLabel(argIndex, graphNode.getLabel.getLocation(argIndex))
-      //node.print(System.out);
+      // node.print(System.out);
     }
   }
 
@@ -198,7 +198,7 @@ class RelateComputer(
         val n  = nodes.addNode(ei.coord).asInstanceOf[RelateNode]
         if (eLoc == Location.BOUNDARY) n.setLabelBoundary(argIndex)
         else if (n.getLabel.isNull(argIndex)) n.setLabel(argIndex, Location.INTERIOR)
-        //Debug.println(n);
+        // Debug.println(n);
       }
     }
   }
@@ -251,14 +251,14 @@ class RelateComputer(
     while (ni.hasNext) {
       val node = ni.next.asInstanceOf[RelateNode]
       node.getEdges.computeLabelling(arg)
-      //Debug.print(node.getEdges());
+      // Debug.print(node.getEdges());
     }
   }
 
   /**
    * update the IM with the sum of the IMs for each component
    */
-  private def updateIM(im: IntersectionMatrix): Unit = { //Debug.println(im);
+  private def updateIM(im: IntersectionMatrix): Unit = { // Debug.println(im);
     val ei = isolatedEdges.iterator
     while (ei.hasNext) {
       val e = ei.next
@@ -304,7 +304,7 @@ class RelateComputer(
       val loc = ptLocator.locate(e.getCoordinate, target)
       e.getLabel.setAllLocations(targetIndex, loc)
     } else e.getLabel.setAllLocations(targetIndex, Location.EXTERIOR)
-  //System.out.println(e.getLabel());
+  // System.out.println(e.getLabel());
 
   /**
    * Isolated nodes are nodes whose labels are incomplete (e.g. the location for one Geometry is
@@ -332,6 +332,6 @@ class RelateComputer(
   private def labelIsolatedNode(n: Node, targetIndex: Int): Unit = {
     val loc = ptLocator.locate(n.getCoordinate, arg(targetIndex).getGeometry)
     n.getLabel.setAllLocations(targetIndex, loc)
-    //debugPrintln(n.getLabel());
+    // debugPrintln(n.getLabel());
   }
 }

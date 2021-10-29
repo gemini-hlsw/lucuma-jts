@@ -109,15 +109,15 @@ class BufferBuilder(var bufParams: BufferParameters) {
     val bufferSegStrList = curveSetBuilder.getCurves
     // short-circuit test
     if (bufferSegStrList.size <= 0) return createEmptyResultGeometry
-    //BufferDebug.runCount++;
-    //String filename = "run" + BufferDebug.runCount + "_curves";
-    //System.out.println("saving " + filename);
-    //BufferDebug.saveEdges(bufferEdgeList, filename);
+    // BufferDebug.runCount++;
+    // String filename = "run" + BufferDebug.runCount + "_curves";
+    // System.out.println("saving " + filename);
+    // BufferDebug.saveEdges(bufferEdgeList, filename);
     // DEBUGGING ONLY
-    //WKTWriter wktWriter = new WKTWriter();
-    //Debug.println("Rings: " + wktWriter.write(convertSegStrings(bufferSegStrList.iterator())));
-    //wktWriter.setMaxCoordinatesPerLine(10);
-    //System.out.println(wktWriter.writeFormatted(convertSegStrings(bufferSegStrList.iterator())));
+    // WKTWriter wktWriter = new WKTWriter();
+    // Debug.println("Rings: " + wktWriter.write(convertSegStrings(bufferSegStrList.iterator())));
+    // wktWriter.setMaxCoordinatesPerLine(10);
+    // System.out.println(wktWriter.writeFormatted(convertSegStrings(bufferSegStrList.iterator())));
     computeNodedEdges(bufferSegStrList, precisionModel)
     graph = new PlanarGraph(new OverlayNodeFactory)
     graph.addEdges(edgeList.getEdges)
@@ -153,7 +153,7 @@ class BufferBuilder(var bufParams: BufferParameters) {
     val noder           = getNoder(precisionModel)
     noder.computeNodes(bufferSegStrList)
     val nodedSegStrings = noder.getNodedSubstrings
-    //BufferDebug.saveEdges(nodedEdges, "run" + BufferDebug.runCount + "_nodedEdges");
+    // BufferDebug.saveEdges(nodedEdges, "run" + BufferDebug.runCount + "_nodedEdges");
     val i               = nodedSegStrings.iterator
     while (i.hasNext) {
       val segStr = i.next.asInstanceOf[SegmentString]
@@ -169,14 +169,14 @@ class BufferBuilder(var bufParams: BufferParameters) {
         insertUniqueEdge(edge)
       }
     }
-    //saveEdges(edgeList.getEdges(), "run" + runCount + "_collapsedEdges");
+    // saveEdges(edgeList.getEdges(), "run" + runCount + "_collapsedEdges");
   }
 
   /**
    * Inserted edges are checked to see if an identical edge already exists. If so, the edge is not
    * inserted, but its label is merged with the existing edge.
    */
-  protected def insertUniqueEdge(e: Edge): Unit = { //<FIX> MD 8 Oct 03  speed up identical edge lookup
+  protected def insertUniqueEdge(e: Edge): Unit = { // <FIX> MD 8 Oct 03  speed up identical edge lookup
     // fast lookup
     val existingEdge = edgeList.findEqualEdge(e)
     // If an identical edge already exists, simply update its label
@@ -197,7 +197,7 @@ class BufferBuilder(var bufParams: BufferParameters) {
       existingEdge.setDepthDelta(newDelta)
     } else { // no matching existing edge was found
       // add this new edge to the list of edges in this graph
-      //e.setName(name + edges.size());
+      // e.setName(name + edges.size());
       edgeList.add(e)
       e.setDepthDelta(BufferBuilder.depthDelta(e.getLabel))
     }

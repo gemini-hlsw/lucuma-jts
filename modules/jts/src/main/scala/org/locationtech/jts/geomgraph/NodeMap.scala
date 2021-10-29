@@ -26,7 +26,7 @@ import scala.jdk.CollectionConverters._
  * @version 1.7
  */
 class NodeMap(var nodeFact: NodeFactory) {
-  //Map nodeMap = new HashMap();
+  // Map nodeMap = new HashMap();
   private[geomgraph] val nodeMap = mutable.TreeMap.empty[Coordinate, Node]
 
   /**

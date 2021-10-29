@@ -35,7 +35,7 @@ object SubgraphDepthLocater {
   private[buffer] class DepthSegment(
     val seg:       LineSegment,
     var leftDepth: Int
-  ) //upwardSeg.normalize();
+  ) // upwardSeg.normalize();
       extends Comparable[DepthSegment] { // input seg is assumed to be normalized
     val upwardSeg = new LineSegment(seg)
 

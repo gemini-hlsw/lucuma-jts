@@ -41,10 +41,7 @@ class GeometryGraphOperation(g0: Geometry, g1: Geometry, boundaryNodeRule: Bound
   arg(1) = new GeometryGraph(1, g1, boundaryNodeRule)
 
   def this(g0: Geometry, g1: Geometry) =
-    this(g0,
-         g1,
-         BoundaryNodeRule.OGC_SFS_BOUNDARY_RULE
-    ) //         BoundaryNodeRule.ENDPOINT_BOUNDARY_RULE
+    this(g0, g1, BoundaryNodeRule.OGC_SFS_BOUNDARY_RULE) //         BoundaryNodeRule.ENDPOINT_BOUNDARY_RULE
 
   def this(g0: Geometry) = {
     this(g0, null, null)

@@ -62,9 +62,9 @@ lazy val jts_awt = project
 lazy val tests = project
   .in(file("modules/tests"))
   .settings(
-    name                                 := "lucuma-jts-tests",
-    Compile / doc / sources              := Seq(),
-    publish / skip                       := true,
+    name                                   := "lucuma-jts-tests",
+    Compile / doc / sources                := Seq(),
+    publish / skip                         := true,
     libraryDependencies += "com.github.sbt" % "junit-interface" % "0.13.2" % "test"
   )
   .dependsOn(jts.jvm)

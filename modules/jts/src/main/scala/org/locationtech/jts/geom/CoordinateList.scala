@@ -24,7 +24,7 @@ import java.util
  */
 @SerialVersionUID(-1626110935756089896L)
 object CoordinateList { //With contributions from Markus Schaber [schabios@logi-track.com]
-  //[Jon Aquino 2004-03-25]
+  // [Jon Aquino 2004-03-25]
   private val coordArrayType = new Array[Coordinate](0)
 }
 

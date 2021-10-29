@@ -231,7 +231,7 @@ class GeometryEditor(var factory: GeometryFactory) {
     var newPolygon = operation.edit(polygon, factory).asInstanceOf[Polygon]
     // create one if needed
     if (newPolygon == null) newPolygon = factory.createPolygon
-    if (newPolygon.isEmpty) { //RemoveSelectedPlugIn relies on this behaviour. [Jon Aquino]
+    if (newPolygon.isEmpty) { // RemoveSelectedPlugIn relies on this behaviour. [Jon Aquino]
       return newPolygon
     }
     val shell      = edit(newPolygon.getExteriorRing, operation).asInstanceOf[LinearRing]

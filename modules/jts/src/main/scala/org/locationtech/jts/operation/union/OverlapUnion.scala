@@ -172,9 +172,9 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
     var result: Geometry = null
     isUnionSafe = isBorderSegmentsSame(unionGeom, overlapEnv)
     if (!isUnionSafe) { // overlap union changed border segments... need to do full union
-      //System.out.println("OverlapUnion: Falling back to full union");
+      // System.out.println("OverlapUnion: Falling back to full union");
       result = unionFull(g0, g1)
-    } else { //System.out.println("OverlapUnion: fast path");
+    } else { // System.out.println("OverlapUnion: fast path");
       result = combine(unionGeom, disjointPolys)
     }
     result
@@ -226,7 +226,7 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
     val segsBefore = extractBorderSegments(g0, g1, env)
     val segsAfter  = new util.ArrayList[LineSegment]
     OverlapUnion.extractBorderSegments(result, env, segsAfter)
-    //System.out.println("# seg before: " + segsBefore.size() + " - # seg after: " + segsAfter.size());
+    // System.out.println("# seg before: " + segsBefore.size() + " - # seg after: " + segsAfter.size());
     isEqual(segsBefore, segsAfter)
   }
 

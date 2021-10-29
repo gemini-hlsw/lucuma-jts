@@ -48,7 +48,7 @@ class MonotoneChainIndexer() {
     var start          = 0
     val startIndexList = new IntArrayList(pts.length / 2)
     // use heuristic to size initial array
-    //startIndexList.ensureCapacity(pts.length / 4);
+    // startIndexList.ensureCapacity(pts.length / 4);
     startIndexList.add(start)
     while ({
       {
@@ -82,7 +82,7 @@ class MonotoneChainIndexer() {
   private def findChainEnd(pts: Array[Coordinate], start: Int): Int = { // determine quadrant for chain
     val chainQuad = Quadrant.quadrant(pts(start), pts(start + 1))
     var last      = start + 1
-    while (last < pts.length) { //if (last - start > 100) break;
+    while (last < pts.length) { // if (last - start > 100) break;
       // compute quadrant for next possible segment in chain
       val quad = Quadrant.quadrant(pts(last - 1), pts(last))
       if (quad != chainQuad) {

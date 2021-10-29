@@ -43,7 +43,7 @@ class SegmentIntersector(
   // the proper intersection point found
   private var properIntersectionPoint: Coordinate    = null
 //  private val isSelfIntersection = false
-  //private boolean intersectionFound;
+  // private boolean intersectionFound;
   private var numIntersections                       = 0
   // testing only
   var numTests                                       = 0
@@ -114,7 +114,7 @@ class SegmentIntersector(
     val p10 = e1.getCoordinates(segIndex1)
     val p11 = e1.getCoordinates(segIndex1 + 1)
     li.computeIntersection(p00, p01, p10, p11)
-    //if (li.hasIntersection() && li.isProper()) Debug.println(li);
+    // if (li.hasIntersection() && li.isProper()) Debug.println(li);
     /**
      * Always record any non-proper intersections. If includeProper is true, record any proper
      * intersections as well.
@@ -124,14 +124,14 @@ class SegmentIntersector(
         e0.setIsolated(false)
         e1.setIsolated(false)
       }
-      //intersectionFound = true;
+      // intersectionFound = true;
       numIntersections += 1
       // if the segments are adjacent they have at least one trivial intersection,
       // the shared endpoint.  Don't bother adding it if it is the
       // only intersection.
       if (!isTrivialIntersection(e0, segIndex0, e1, segIndex1)) {
         vhasIntersection = true
-        if (includeProper || !li.isProperF) { //Debug.println(li);
+        if (includeProper || !li.isProperF) { // Debug.println(li);
           e0.addIntersections(li, segIndex0, 0)
           e1.addIntersections(li, segIndex1, 1)
         }
@@ -141,8 +141,8 @@ class SegmentIntersector(
           if (isDoneWhenProperInt) isDone = true
           if (!isBoundaryPoint(li, bdyNodes)) hasProperInterior = true
         }
-        //if (li.isCollinear())
-        //hasCollinear = true;
+        // if (li.isCollinear())
+        // hasCollinear = true;
       }
     }
   }

@@ -66,7 +66,7 @@ class PointBuilder(
    *   the overlay operation
    */
   private def extractNonCoveredResultNodes(opCode: Int): Unit = { // testing only
-    //if (true) return resultNodeList;
+    // if (true) return resultNodeList;
     val nodeit = op.getGraph.getNodes.iterator
     while (nodeit.hasNext) {
       val n = nodeit.next.asInstanceOf[Node]
@@ -84,7 +84,7 @@ class PointBuilder(
             if (OverlayOp.isResultOfOp(label, opCode)) filterCoveredNodeToPoint(n)
           }
         }
-        //System.out.println("connectedResultNodes collected = " + connectedResultNodes.size());
+        // System.out.println("connectedResultNodes collected = " + connectedResultNodes.size());
       }
     }
   }

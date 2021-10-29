@@ -85,7 +85,7 @@ class MonotoneChainEdge(var e: Edge) {
     start1: Int,
     end1:   Int,
     ei:     SegmentIntersector
-  ): Unit = { //Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
+  ): Unit = { // Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
     // terminating condition for the recursion
     if (end0 - start0 == 1 && end1 - start1 == 1) {
       ei.addIntersections(e, start0, mce.e, start1)

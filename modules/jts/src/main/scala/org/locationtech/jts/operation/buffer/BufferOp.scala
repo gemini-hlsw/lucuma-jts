@@ -155,8 +155,8 @@ object BufferOp {
   def bufferOp(g: Geometry, distance: Double): Geometry = {
     val gBuf    = new BufferOp(g)
     val geomBuf = gBuf.getResultGeometry(distance)
-    //BufferDebug.saveBuffer(geomBuf);
-    //BufferDebug.runCount++;
+    // BufferDebug.saveBuffer(geomBuf);
+    // BufferDebug.runCount++;
     geomBuf
   }
 
@@ -310,7 +310,7 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
     case ex: RuntimeException =>
       saveException = ex
     // testing ONLY - propagate exception
-    //throw ex;
+    // throw ex;
   }
 
   private def bufferReducedPrecision(precisionDigits: Int): Unit = {

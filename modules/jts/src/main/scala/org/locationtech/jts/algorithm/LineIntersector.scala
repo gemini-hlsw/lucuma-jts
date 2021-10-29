@@ -182,7 +182,7 @@ abstract class LineIntersector() {
     inputLines(1)(0) = p3
     inputLines(1)(1) = p4
     result = computeIntersect(p1, p2, p3, p4)
-    //numIntersects++;
+    // numIntersects++;
   }
 
   protected def computeIntersect(

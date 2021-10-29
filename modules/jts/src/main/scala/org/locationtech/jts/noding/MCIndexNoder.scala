@@ -62,11 +62,11 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
 
   override def computeNodes(inputSegStrings: util.Collection[SegmentString]): Unit = {
     this.nodedSegStrings =
-      inputSegStrings //.asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
+      inputSegStrings // .asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
     val i = inputSegStrings.iterator
     while (i.hasNext) add(i.next)
     intersectChains()
-    //System.out.println("MCIndexNoder: # chain overlaps = " + nOverlaps);
+    // System.out.println("MCIndexNoder: # chain overlaps = " + nOverlaps);
   }
 
   private def intersectChains(): Unit = {

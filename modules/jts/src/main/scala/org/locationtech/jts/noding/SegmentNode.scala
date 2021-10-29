@@ -67,7 +67,7 @@ class SegmentNode(
     if (!visInterior) return -1
     if (!other.visInterior) return 1
     SegmentPointComparator.compare(segmentOctant, coord, other.coord)
-    //return segment.compareNodePosition(this, other);
+    // return segment.compareNodePosition(this, other);
   }
 
   def print(out: PrintStream): Unit = {

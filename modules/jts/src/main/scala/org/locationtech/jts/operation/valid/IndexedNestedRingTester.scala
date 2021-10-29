@@ -58,7 +58,7 @@ class IndexedNestedRingTester(
       val innerRing    = rings.get(i).asInstanceOf[LinearRing]
       val innerRingPts = innerRing.getCoordinates
       val results      = index.query(innerRing.getEnvelopeInternal)
-      //System.out.println(results.size());
+      // System.out.println(results.size());
       var j            = 0
       while (j < results.size) {
         val searchRing    = results.get(j).asInstanceOf[LinearRing]

@@ -45,7 +45,7 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
   computePoints(start)
   computeRing()
 
-  def isHole: Boolean = //computePoints();
+  def isHole: Boolean = // computePoints();
     visHole
 
   def getCoordinate(i: Int): Coordinate = pts.get(i)
@@ -91,7 +91,7 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
     }
     ring = geometryFactory.createLinearRing(coord)
     visHole = Orientation.isCCW(ring.getCoordinates)
-    //Debug.println( (isHole ? "hole - " : "shell - ") + WKTWriter.toLineString(new CoordinateArraySequence(ring.getCoordinates())));
+    // Debug.println( (isHole ? "hole - " : "shell - ") + WKTWriter.toLineString(new CoordinateArraySequence(ring.getCoordinates())));
   }
 
   def getNext(de: DirectedEdge): DirectedEdge
@@ -106,7 +106,7 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
   /**
    * Collect all the points from the DirectedEdges of this ring into a contiguous list
    */
-  protected def computePoints(start: DirectedEdge): Unit = { //System.out.println("buildRing");
+  protected def computePoints(start: DirectedEdge): Unit = { // System.out.println("buildRing");
     startDe = start
     var de          = start
     var isFirstEdge = true
@@ -118,8 +118,8 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
             "Directed Edge visited twice during ring-building at " + de.getCoordinate
           )
         edges.add(de)
-        //Debug.println(de);
-        //Debug.println(de.getEdge());
+        // Debug.println(de);
+        // Debug.println(de.getEdge());
         val label = de.getLabel
         Assert.isTrue(label.isArea)
         mergeLabel(label)

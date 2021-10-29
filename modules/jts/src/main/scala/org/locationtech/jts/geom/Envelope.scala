@@ -50,8 +50,8 @@ object Envelope {
    *   the point to test for intersection return <code>true</code> if q intersects the envelope
    *   p1-p2
    */
-  def intersects(p1: Coordinate, p2: Coordinate, q: Coordinate): Boolean = { //OptimizeIt shows that Math#min and Math#max here are a bottleneck.
-    //Replace with direct comparisons. [Jon Aquino]
+  def intersects(p1: Coordinate, p2: Coordinate, q: Coordinate): Boolean = { // OptimizeIt shows that Math#min and Math#max here are a bottleneck.
+    // Replace with direct comparisons. [Jon Aquino]
     if (
       ((q.x >= (if (p1.x < p2.x) p1.x
                 else p2.x)) && (q.x <= (if (p1.x > p2.x) p1.x
@@ -97,7 +97,7 @@ object Envelope {
 @SerialVersionUID(5873921885273102420L)
 class Envelope() extends Comparable[Envelope] with Serializable {
 
-  override def hashCode: Int = { //Algorithm from Effective Java by Joshua Bloch [Jon Aquino]
+  override def hashCode: Int = { // Algorithm from Effective Java by Joshua Bloch [Jon Aquino]
     var result = 17
     result = 37 * result + Coordinate.hashCode(minx)
     result = 37 * result + Coordinate.hashCode(maxx)

@@ -176,7 +176,7 @@ class GeometryCollection(
     while (i < geometries.length) {
       geometries(i).applyF(filter)
       if (filter.isDone) { i = geometries.length }
-      else //todo: break is not supported
+      else // todo: break is not supported
         i += 1
     }
     if (filter.isGeometryChanged) geometryChanged()

@@ -51,7 +51,7 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
    * @param li
    *   the intersector to use for testing intersection with line segments
    */
-  //tolerance = 0.5;
+  // tolerance = 0.5;
   private var p0Scaled: Coordinate = null
   private var p1Scaled: Coordinate = null
   if (scaleFactor <= 0) throw new IllegalArgumentException("Scale factor must be non-zero")
@@ -162,7 +162,7 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
     //    if (isOutsideEnv && intersects) {
     //      Debug.println("Found bad envelope test");
     intersects
-    //return intersectsPixelClosure;
+    // return intersectsPixelClosure;
   }
 
   /**
@@ -182,8 +182,8 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   private def intersectsToleranceSquare(p0: Coordinate, p1: Coordinate): Boolean = {
     var intersectsLeft   = false
     var intersectsBottom = false
-    //System.out.println("Hot Pixel: " + WKTWriter.toLineString(corner));
-    //System.out.println("Line: " + WKTWriter.toLineString(p0, p1));
+    // System.out.println("Hot Pixel: " + WKTWriter.toLineString(corner));
+    // System.out.println("Line: " + WKTWriter.toLineString(p0, p1));
     li.computeIntersection(p0, p1, corner(0), corner(1))
     if (li.isProperF) return true
     li.computeIntersection(p0, p1, corner(1), corner(2))
@@ -234,8 +234,8 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double, var li: Line
   def addSnappedNode(segStr: NodedSegmentString, segIndex: Int): Boolean = {
     val p0 = segStr.getCoordinate(segIndex)
     val p1 = segStr.getCoordinate(segIndex + 1)
-    if (intersects(p0, p1)) { //System.out.println("snapped: " + snapPt);
-      //System.out.println("POINT (" + snapPt.x + " " + snapPt.y + ")");
+    if (intersects(p0, p1)) { // System.out.println("snapped: " + snapPt);
+      // System.out.println("POINT (" + snapPt.x + " " + snapPt.y + ")");
       segStr.addIntersection(getCoordinate, segIndex)
       return true
     }

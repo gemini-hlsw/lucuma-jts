@@ -35,7 +35,7 @@ class RightmostEdgeFinder() {
    * A RightmostEdgeFinder finds the DirectedEdge with the rightmost coordinate. Te DirectedEdge
    * returned is guaranteed to have the R of the world on its RHS.
    */
-  //private Coordinate extremeCoord;
+  // private Coordinate extremeCoord;
   private var minIndex                 = -1
   private var minCoord: Coordinate     = null
   private var minDe: DirectedEdge      = null
@@ -124,7 +124,7 @@ class RightmostEdgeFinder() {
         minIndex = i
         minCoord = coord(i)
       }
-      //}
+      // }
       i += 1
     }
   }
@@ -133,7 +133,7 @@ class RightmostEdgeFinder() {
     var side = getRightmostSideOfSegment(de, index)
     if (side < 0) side = getRightmostSideOfSegment(de, index - 1)
     if (side < 0) { // reaching here can indicate that segment is horizontal
-      //Assert.shouldNeverReachHere("problem with finding rightmost side of segment at " + de.getCoordinate());
+      // Assert.shouldNeverReachHere("problem with finding rightmost side of segment at " + de.getCoordinate());
       // testing only
       minCoord = null
       checkForRightmostCoordinate(de)

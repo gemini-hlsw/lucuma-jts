@@ -101,7 +101,7 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
     val edgeRings    = buildMinimalEdgeRings(maxEdgeRings, shellList, freeHoleList)
     sortShellsAndHoles(edgeRings, shellList, freeHoleList)
     placeFreeHoles(shellList, freeHoleList)
-    //Assert: every hole on freeHoleList has a shell assigned to it
+    // Assert: every hole on freeHoleList has a shell assigned to it
   }
 
   def getPolygons: util.ArrayList[Polygon] = {
@@ -124,7 +124,7 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
           val er = new MaximalEdgeRing(de, geometryFactory)
           maxEdgeRings.add(er)
           er.setInResult()
-          //System.out.println("max node degree = " + er.getMaxDegree());
+          // System.out.println("max node degree = " + er.getMaxDegree());
         }
       }
     }

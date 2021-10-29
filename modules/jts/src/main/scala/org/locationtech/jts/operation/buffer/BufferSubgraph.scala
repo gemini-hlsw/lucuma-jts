@@ -143,7 +143,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
     // right side of line returned by finder is on the outside
     de.setEdgeDepths(Position.RIGHT, outsideDepth)
     copySymDepths(de)
-    //computeNodeDepth(n, de);
+    // computeNodeDepth(n, de);
     computeDepths(de)
   }
 
@@ -161,7 +161,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
     nodeQueue.addLast(startNode)
     nodesVisited.add(startNode)
     startEdge.setVisited(true)
-    while (!nodeQueue.isEmpty) { //System.out.println(nodes.size() + " queue: " + nodeQueue.size());
+    while (!nodeQueue.isEmpty) { // System.out.println(nodes.size() + " queue: " + nodeQueue.size());
       val n = nodeQueue.removeFirst
       nodesVisited.add(n)
       // compute depths around node, starting at this edge since it has depths assigned
@@ -195,7 +195,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
       }
     }
     // MD - testing  Result: breaks algorithm
-    //if (startEdge == null) return;
+    // if (startEdge == null) return;
     // only compute string append if assertion would fail
     if (startEdge == null)
       throw new TopologyException("unable to find edge to compute depths at " + n.getCoordinate)
@@ -238,7 +238,7 @@ class BufferSubgraph() extends Comparable[BufferSubgraph] {
         ) <= 0 && !de.isInteriorAreaEdge
       ) {
         de.setInResult(true)
-        //Debug.print("in result "); Debug.println(de);
+        // Debug.print("in result "); Debug.println(de);
       }
     }
   }

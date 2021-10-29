@@ -58,8 +58,8 @@ class RelateNodeGraph() {
     val eeBuilder = new EdgeEndBuilder
     val eeList    = eeBuilder.computeEdgeEnds(geomGraph.getEdgeIterator)
     insertEdgeEnds(eeList)
-    //Debug.println("==== NodeList ===");
-    //Debug.print(nodes);
+    // Debug.println("==== NodeList ===");
+    // Debug.print(nodes);
   }
 
   /**
@@ -79,7 +79,7 @@ class RelateNodeGraph() {
         val n  = nodes.addNode(ei.coord).asInstanceOf[RelateNode]
         if (eLoc == Location.BOUNDARY) n.setLabelBoundary(argIndex)
         else if (n.getLabel.isNull(argIndex)) n.setLabel(argIndex, Location.INTERIOR)
-        //Debug.println(n);
+        // Debug.println(n);
       }
     }
   }
@@ -96,7 +96,7 @@ class RelateNodeGraph() {
       val graphNode = nodeIt.next.asInstanceOf[Node]
       val newNode   = nodes.addNode(graphNode.getCoordinate)
       newNode.setLabel(argIndex, graphNode.getLabel.getLocation(argIndex))
-      //node.print(System.out);
+      // node.print(System.out);
     }
   }
 

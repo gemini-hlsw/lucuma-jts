@@ -43,7 +43,7 @@ object RobustDeterminant {
    * return -1 if the determinant is negative, return 1 if the determinant is positive, return 0 if
    * the determinant is 0.
    */
-  //private static int originalSignOfDet2x2(double x1, double y1, double x2, double y2) {
+  // private static int originalSignOfDet2x2(double x1, double y1, double x2, double y2) {
   def signOfDet2x2(x1a: Double, y1a: Double, x2a: Double, y2a: Double): Int = { // returns -1 if the determinant is negative,
     var x1    = x1a
     var x2    = x2a
@@ -55,7 +55,7 @@ object RobustDeterminant {
     var swap  = .0
     var k     = .0
     var count = 0
-    //callCount++; // debugging only
+    // callCount++; // debugging only
     sign = 1
     /*
      *  testing null entries
