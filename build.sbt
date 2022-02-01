@@ -1,7 +1,7 @@
 inThisBuild(
   Seq(
     homepage                      := Some(url("https://github.com/gemini-hlsw/lucuma-jts")),
-    crossScalaVersions            := Seq(scalaVersion.value, "3.1.0"),
+    crossScalaVersions            := Seq(scalaVersion.value, "3.1.1"),
     Global / onChangedBuildSource := ReloadOnSourceChanges,
     Compile / doc / sources       := Seq()
   ) ++ lucumaPublishSettings
