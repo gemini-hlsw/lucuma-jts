@@ -36,6 +36,7 @@ lazy val jts_awt = project
       )
     )),
     tlFatalWarnings         := false,
+    tlVersionIntroduced     := Map("3" -> "0.2.2"),
     mimaPreviousArtifacts ~= { _.filterNot(_.revision == "0.2.1") } // not released
   )
   .dependsOn(jts.jvm)
