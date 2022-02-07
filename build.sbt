@@ -35,16 +35,7 @@ lazy val jts_awt = project
         "-Werror"
       )
     )),
-    scalacOptions ~= (_.filterNot(
-      Set(
-        // By necessity facades will have unused params
-        "-Wdead-code",
-        "-Wunused:params",
-        "-Ywarn-dead-code",
-        "-Ywarn-unused:params",
-        "-Xlint:doc-detached"
-      )
-    ))
+    tlFatalWarnings         := false
   )
   .dependsOn(jts.jvm)
 
