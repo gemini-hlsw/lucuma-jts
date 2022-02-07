@@ -395,10 +395,9 @@ class AffineTransformation()
    * | m00 m01 m02 |
    * |:------------|
    * | m10 m11 m12 |
-   * \= m00 * m11 - m01 * m10
-   * \| 0 0 1 | </pre></blockquote> If the determinant is zero, the transform is singular (not
-   * invertible), and operations which attempt to compute an inverse will throw a
-   * <tt>NoninvertibleTransformException</tt>.
+   * \= m00 * m11 - m01 * m10 \| 0 0 1 | </pre></blockquote> If the determinant is zero, the
+   * transform is singular (not invertible), and operations which attempt to compute an inverse will
+   * throw a <tt>NoninvertibleTransformException</tt>.
    *
    * return the determinant of the transformation
    * @see

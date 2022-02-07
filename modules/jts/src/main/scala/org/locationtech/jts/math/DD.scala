@@ -16,28 +16,28 @@ import java.io.Serializable
  * Implements extended-precision floating-point numbers which maintain 106 bits (approximately 30
  * decimal digits) of precision. <p> A DoubleDouble uses a representation containing two
  * double-precision values. A number x is represented as a pair of doubles, x.hi and x.lo, such that
- * the number represented by x is x.hi + x.lo, where <pre>
- * \|x.lo| &lt;= 0.5*ulp(x.hi) </pre> and ulp(y) means "unit in the last place of y". The basic
- * arithmetic operations are implemented using convenient properties of IEEE-754 floating-point
- * arithmetic. <p> The range of values which can be represented is the same as in IEEE-754. The
- * precision of the representable numbers is twice as great as IEEE-754 double precision. <p> The
- * correctness of the arithmetic algorithms relies on operations being performed with standard
- * IEEE-754 double precision and rounding. This is the Java standard arithmetic model, but for
- * performance reasons Java implementations are not constrained to using this standard by default.
- * Some processors (notably the Intel Pentium architecture) perform floating point operations in
- * (non-IEEE-754-standard) extended-precision. A JVM implementation may choose to use the
- * non-standard extended-precision as its default arithmetic mode. To prevent this from happening,
- * this code uses the Java <tt>strictfp</tt> modifier, which forces all operations to take place in
- * the standard IEEE-754 rounding model. <p> The API provides both a set of value-oriented
- * operations and a set of mutating operations. Value-oriented operations treat DoubleDouble values
- * as immutable; operations on them return new objects carrying the result of the operation. This
- * provides a simple and safe semantics for writing DoubleDouble expressions. However, there is a
- * performance penalty for the object allocations required. The mutable interface updates object
- * values in-place. It provides optimum memory performance, but requires care to ensure that
- * aliasing errors are not created and constant values are not changed. <p> For example, the
- * following code example constructs three DD instances: two to hold the input values and one to
- * hold the result of the addition. <pre> DD a = new DD(2.0); DD b = new DD(3.0); DD c = a.add(b);
- * </pre> In contrast, the following approach uses only one object: <pre> DD a = new DD(2.0);
+ * the number represented by x is x.hi + x.lo, where <pre> \|x.lo| &lt;= 0.5*ulp(x.hi) </pre> and
+ * ulp(y) means "unit in the last place of y". The basic arithmetic operations are implemented using
+ * convenient properties of IEEE-754 floating-point arithmetic. <p> The range of values which can be
+ * represented is the same as in IEEE-754. The precision of the representable numbers is twice as
+ * great as IEEE-754 double precision. <p> The correctness of the arithmetic algorithms relies on
+ * operations being performed with standard IEEE-754 double precision and rounding. This is the Java
+ * standard arithmetic model, but for performance reasons Java implementations are not constrained
+ * to using this standard by default. Some processors (notably the Intel Pentium architecture)
+ * perform floating point operations in (non-IEEE-754-standard) extended-precision. A JVM
+ * implementation may choose to use the non-standard extended-precision as its default arithmetic
+ * mode. To prevent this from happening, this code uses the Java <tt>strictfp</tt> modifier, which
+ * forces all operations to take place in the standard IEEE-754 rounding model. <p> The API provides
+ * both a set of value-oriented operations and a set of mutating operations. Value-oriented
+ * operations treat DoubleDouble values as immutable; operations on them return new objects carrying
+ * the result of the operation. This provides a simple and safe semantics for writing DoubleDouble
+ * expressions. However, there is a performance penalty for the object allocations required. The
+ * mutable interface updates object values in-place. It provides optimum memory performance, but
+ * requires care to ensure that aliasing errors are not created and constant values are not changed.
+ * <p> For example, the following code example constructs three DD instances: two to hold the input
+ * values and one to hold the result of the addition. <pre> DD a = new DD(2.0); DD b = new DD(3.0);
+ * DD c = a.add(b); </pre> In contrast, the following approach uses only one object: <pre> DD a =
+ * new DD(2.0);
  * a.selfAdd(3.0); </pre> <p> This implementation uses algorithms originally designed variously by
  * Knuth, Kahan, Dekker, and Linnainmaa. Douglas Priest developed the first C implementation of
  * these techniques. Other more recent C++ implementation are due to Keith M. Briggs and David
