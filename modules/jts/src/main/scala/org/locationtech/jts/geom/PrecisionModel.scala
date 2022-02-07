@@ -15,7 +15,6 @@
 package org.locationtech.jts.geom
 
 import java.io.Serializable
-import java.util
 
 /**
  * Specifies the precision model of the {link Coordinate}s in a {link Geometry}. In other words,
@@ -65,7 +64,7 @@ object PrecisionModel {
    */
   @SerialVersionUID(-5528602631731589822L)
   object Type {
-    private val nameToTypeMap = new util.HashMap[String, Type]
+    private val nameToTypeMap = new java.util.HashMap[String, Type]
   }
 
   @SerialVersionUID(-5528602631731589822L)

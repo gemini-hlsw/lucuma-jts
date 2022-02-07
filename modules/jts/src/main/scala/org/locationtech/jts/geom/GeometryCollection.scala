@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.geom
 
-import java.util
 import org.locationtech.jts.util.Assert
 
 /**
@@ -228,7 +227,7 @@ class GeometryCollection(
       geometries(i).normalize()
       i += 1
     }
-    util.Arrays.sort(geometries.map(x => x: AnyRef))
+    java.util.Arrays.sort(geometries.map(x => x: AnyRef))
   }
 
   override protected def computeEnvelopeInternal: Envelope = {
@@ -242,9 +241,9 @@ class GeometryCollection(
   }
 
   protected def compareToSameClass(o: Geometry): Int = {
-    val theseElements = new util.TreeSet(util.Arrays.asList(geometries))
+    val theseElements = new java.util.TreeSet(java.util.Arrays.asList(geometries))
     val otherElements =
-      new util.TreeSet(util.Arrays.asList(o.asInstanceOf[GeometryCollection].geometries))
+      new java.util.TreeSet(java.util.Arrays.asList(o.asInstanceOf[GeometryCollection].geometries))
     // TODO this is a bug
     compare(theseElements, otherElements, null)
   }
@@ -279,7 +278,7 @@ class GeometryCollection(
 
   override protected def reverseInternal: Geometry = {
     val numGeometries = geometries.length
-    val reversed      = new util.ArrayList[Geometry](numGeometries)
+    val reversed      = new java.util.ArrayList[Geometry](numGeometries)
     var i             = 0
     while (i < numGeometries) {
       reversed.add(geometries(i).reverse)

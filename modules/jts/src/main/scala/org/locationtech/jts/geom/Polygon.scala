@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.geom
 
-import java.util
 import org.locationtech.jts.algorithm.Area
 import org.locationtech.jts.algorithm.Orientation
 
@@ -330,7 +329,7 @@ class Polygon(
       holes(i) = normalized(holes(i), false)
       i += 1
     }
-    util.Arrays.sort(holes.map(x => x: AnyRef))
+    java.util.Arrays.sort(holes.map(x => x: AnyRef))
   }
 
   protected def compareToSameClass(o: Geometry): Int = {

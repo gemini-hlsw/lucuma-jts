@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.geom
 
-import java.util
-
 /**
  * Models a collection of {link Polygon}s. <p> As per the OGC SFS specification, the Polygons in a
  * MultiPolygon may not overlap, and may only touch at single points. This allows the topological
@@ -73,7 +71,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
    */
   override def getBoundary: Geometry = {
     if (isEmpty) return getFactory.createMultiLineString
-    val allRings      = new util.ArrayList[Geometry]
+    val allRings      = new java.util.ArrayList[Geometry]
     var i             = 0
     while (i < geometries.length) {
       val polygon = geometries(i).asInstanceOf[Polygon]

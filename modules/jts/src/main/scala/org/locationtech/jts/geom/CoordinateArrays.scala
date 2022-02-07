@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.geom
 
-import java.util
 import java.util.Comparator
 import org.locationtech.jts.math.MathUtil
 
@@ -243,7 +242,7 @@ object CoordinateArrays {
   /**
    * Converts the given Collection of Coordinates into a Coordinate array.
    */
-  def toCoordinateArray(coordList: util.Collection[_]): Array[Coordinate] =
+  def toCoordinateArray(coordList: java.util.Collection[_]): Array[Coordinate] =
     coordList.toArray(coordArrayType).asInstanceOf[Array[Coordinate]]
 
   /**
