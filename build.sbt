@@ -1,13 +1,10 @@
-inThisBuild(
-  Seq(
-    homepage                      := Some(url("https://github.com/gemini-hlsw/lucuma-jts")),
-    crossScalaVersions            := Seq(scalaVersion.value, "3.1.1"),
-    Global / onChangedBuildSource := ReloadOnSourceChanges,
-    Compile / doc / sources       := Seq()
-  ) ++ lucumaPublishSettings
-)
+ThisBuild / tlBaseVersion       := "0.2"
+ThisBuild / tlCiReleaseBranches := Seq("master")
 
-publish / skip := true
+Global / onChangedBuildSource  := ReloadOnSourceChanges
+ThisBuild / crossScalaVersions := Seq("3.1.1", "2.13.8")
+
+lazy val root = tlCrossRootProject.aggregate(jts, jts_awt, tests)
 
 lazy val jts = crossProject(JVMPlatform, JSPlatform)
   .crossType(CrossType.Pure)
@@ -61,10 +58,10 @@ lazy val jts_awt = project
 
 lazy val tests = project
   .in(file("modules/tests"))
+  .enablePlugins(NoPublishPlugin)
   .settings(
     name                                   := "lucuma-jts-tests",
     Compile / doc / sources                := Seq(),
-    publish / skip                         := true,
     libraryDependencies += "com.github.sbt" % "junit-interface" % "0.13.3" % "test"
   )
   .dependsOn(jts.jvm)
