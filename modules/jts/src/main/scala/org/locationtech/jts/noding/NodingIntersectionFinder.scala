@@ -177,11 +177,12 @@ object NodingIntersectionFinder {
 class NodingIntersectionFinder(var li: LineIntersector)
 
 /**
- * Creates an intersection finder which finds an intersection
- * if one exists
+ * Creates an intersection finder which finds an intersection if one exists
  *
- * @param li the LineIntersector to use
- */ extends SegmentIntersector {
+ * @param li
+ *   the LineIntersector to use
+ */
+    extends SegmentIntersector {
 //  interiorIntersection = null
   private var findAllIntersections             = false
   private var isCheckEndSegmentsOnly           = false

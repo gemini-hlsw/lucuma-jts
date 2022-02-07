@@ -202,11 +202,12 @@ class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuite
 class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
 
 /**
- * Creates a visitor for checking rectangle intersection
- * with segments
+ * Creates a visitor for checking rectangle intersection with segments
  *
- * @param rectangle the query rectangle
- */ extends ShortCircuitedGeometryVisitor {
+ * @param rectangle
+ *   the query rectangle
+ */
+    extends ShortCircuitedGeometryVisitor {
   private val rectEnv         = rectangle.getEnvelopeInternal
   private val rectIntersector = new RectangleLineIntersector(rectEnv)
   private var hasIntersection = false

@@ -63,7 +63,8 @@ class PolygonExtracter(var comps: util.List[Geometry])
 
 /**
  * Constructs a PolygonExtracterFilter with a list in which to store Polygons found.
- */ extends GeometryFilter {
+ */
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (geom.isInstanceOf[Polygon]) comps.add(geom)
     ()

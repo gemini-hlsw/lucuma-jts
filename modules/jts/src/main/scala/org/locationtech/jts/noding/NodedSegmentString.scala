@@ -70,9 +70,12 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
 /**
  * Creates a new segment string from a list of vertices.
  *
- * @param pts  the vertices of the segment string
- * @param data the user-defined data of this segment string (may be null)
- */ extends NodableSegmentString {
+ * @param pts
+ *   the vertices of the segment string
+ * @param data
+ *   the user-defined data of this segment string (may be null)
+ */
+    extends NodableSegmentString {
   private val nodeList = new SegmentNodeList(this)
 
   /**

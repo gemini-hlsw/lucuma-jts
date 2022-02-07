@@ -101,11 +101,12 @@ object STRtree {
 class STRtree(val nodeCapacityArg: Int)
 
 /**
- * Constructs an STRtree with the given maximum number of child nodes that
- * a node may have.
- * <p>
- * The minimum recommended capacity setting is 4.
- */ extends AbstractSTRtree(nodeCapacityArg) with SpatialIndex[Any] with Serializable {
+ * Constructs an STRtree with the given maximum number of child nodes that a node may have. <p> The
+ * minimum recommended capacity setting is 4.
+ */
+    extends AbstractSTRtree(nodeCapacityArg)
+    with SpatialIndex[Any]
+    with Serializable {
 
   /**
    * Creates the parent level for the given child level. First, orders the items by the x-values of

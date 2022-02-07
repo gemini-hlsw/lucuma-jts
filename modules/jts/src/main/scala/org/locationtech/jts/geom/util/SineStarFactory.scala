@@ -63,9 +63,9 @@ object SineStarFactory {
 class SineStarFactory(geomFac: GeometryFactory)
 
 /**
- * Creates a factory which will create sine stars using the default
- * {link GeometryFactory}.
- */ extends GeometricShapeFactory(geomFac) {
+ * Creates a factory which will create sine stars using the default {link GeometryFactory}.
+ */
+    extends GeometricShapeFactory(geomFac) {
   protected var numArms        = 8
   protected var armLengthRatio = 0.5
 

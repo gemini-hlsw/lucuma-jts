@@ -17,7 +17,7 @@ import java.io.Serializable
  * decimal digits) of precision. <p> A DoubleDouble uses a representation containing two
  * double-precision values. A number x is represented as a pair of doubles, x.hi and x.lo, such that
  * the number represented by x is x.hi + x.lo, where <pre>
- * |x.lo| &lt;= 0.5*ulp(x.hi) </pre> and ulp(y) means "unit in the last place of y". The basic
+ * \|x.lo| &lt;= 0.5*ulp(x.hi) </pre> and ulp(y) means "unit in the last place of y". The basic
  * arithmetic operations are implemented using convenient properties of IEEE-754 floating-point
  * arithmetic. <p> The range of values which can be represented is the same as in IEEE-754. The
  * precision of the representable numbers is twice as great as IEEE-754 double precision. <p> The

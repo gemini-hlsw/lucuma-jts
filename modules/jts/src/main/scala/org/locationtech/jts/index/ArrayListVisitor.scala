@@ -25,7 +25,8 @@ class ArrayListVisitor()
 
 /**
  * Creates a new instance.
- */ extends ItemVisitor {
+ */
+    extends ItemVisitor {
   private val items = new util.ArrayList[Any]
 
   /**

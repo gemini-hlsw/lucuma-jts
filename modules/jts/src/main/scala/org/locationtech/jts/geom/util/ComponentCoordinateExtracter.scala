@@ -47,7 +47,8 @@ class ComponentCoordinateExtracter(coords: util.List[Coordinate])
 
 /**
  * Constructs a LineExtracterFilter with a list in which to store LineStrings found.
- */ extends GeometryComponentFilter {
+ */
+    extends GeometryComponentFilter {
   override def filter(geom: Geometry): Unit = { // add coordinates from connected components
     if (geom.isInstanceOf[LineString] || geom.isInstanceOf[Point]) coords.add(geom.getCoordinate)
     ()

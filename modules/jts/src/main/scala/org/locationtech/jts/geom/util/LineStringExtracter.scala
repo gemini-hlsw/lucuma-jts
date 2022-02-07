@@ -71,7 +71,8 @@ class LineStringExtracter(var comps: util.List[Geometry])
 
 /**
  * Constructs a filter with a list in which to store the elements found.
- */ extends GeometryFilter {
+ */
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (geom.isInstanceOf[LineString]) comps.add(geom)
     ()

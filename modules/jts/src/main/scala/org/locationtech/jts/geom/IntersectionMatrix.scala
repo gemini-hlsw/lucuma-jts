@@ -97,9 +97,9 @@ object IntersectionMatrix {
 class IntersectionMatrix()
 
 /**
- * Creates an <code>IntersectionMatrix</code> with <code>FALSE</code>
- * dimension values.
- */ extends Cloneable {
+ * Creates an <code>IntersectionMatrix</code> with <code>FALSE</code> dimension values.
+ */
+    extends Cloneable {
 
   /**
    * Internal representation of this <code>IntersectionMatrix</code>.

@@ -29,7 +29,8 @@ class EdgeEndBundleStar()
 
 /**
  * Creates a new empty EdgeEndBundleStar
- */ extends EdgeEndStar {
+ */
+    extends EdgeEndStar {
 
   /**
    * Insert a EdgeEnd in order in the list. If there is an existing EdgeStubBundle which is

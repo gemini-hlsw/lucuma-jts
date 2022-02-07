@@ -222,7 +222,9 @@ class AffineTransformation()
 
 /**
  * Constructs a new identity transformation
- */ extends Cloneable with CoordinateSequenceFilter {
+ */
+    extends Cloneable
+    with CoordinateSequenceFilter {
   setToIdentity
   // affine matrix entries
   // (bottom row is always [ 0 0 1 ])
@@ -393,8 +395,8 @@ class AffineTransformation()
    * | m00 m01 m02 |
    * |:------------|
    * | m10 m11 m12 |
-   * = m00 * m11 - m01 * m10
-   * | 0 0 1 | </pre></blockquote> If the determinant is zero, the transform is singular (not
+   * \= m00 * m11 - m01 * m10
+   * \| 0 0 1 | </pre></blockquote> If the determinant is zero, the transform is singular (not
    * invertible), and operations which attempt to compute an inverse will throw a
    * <tt>NoninvertibleTransformException</tt>.
    *
@@ -413,10 +415,10 @@ class AffineTransformation()
    * of the inverse is equal to the inverse of the matrix for the transformation. It is computed as
    * follows: <blockquote><pre> 1 inverse(A) = --- x adjoint(A) det
    *
-   * = 1 | m11 -m01 m01*m12-m02*m11 |
+   * \= 1 | m11 -m01 m01*m12-m02*m11 |
    * --- x | -m10 m00 -m00*m12+m10*m02 | det | 0 0 m00*m11-m10*m01 |
    *
-   * = | m11/det -m01/det m01*m12-m02*m11/det |
+   * \= | m11/det -m01/det m01*m12-m02*m11/det |
    * | -m10/det   m00/det  -m00*m12+m10*m02/det |
    * |:-----------------------------------------|
    * | 0           0          1                 |

@@ -51,7 +51,8 @@ class CoordinateSequenceComparator(dimensionLimit: Int = Int.MaxValue)
 
 /**
  * Creates a comparator which will test all dimensions.
- */ extends Comparator[CoordinateSequence] {
+ */
+    extends Comparator[CoordinateSequence] {
 
   /**
    * The number of dimensions to test

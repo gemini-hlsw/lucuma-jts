@@ -33,8 +33,10 @@ class InteriorIntersectionFinderAdder(var li: LineIntersector)
 /**
  * Creates an intersection finder which finds all proper intersections
  *
- * @param li the LineIntersector to use
- */ extends SegmentIntersector {
+ * @param li
+ *   the LineIntersector to use
+ */
+    extends SegmentIntersector {
   final private val interiorIntersections = new util.ArrayList[Coordinate]
 
   def getInteriorIntersections: util.ArrayList[Coordinate] = interiorIntersections

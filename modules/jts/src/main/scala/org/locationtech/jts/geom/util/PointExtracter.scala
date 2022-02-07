@@ -66,7 +66,8 @@ class PointExtracter(var pts: util.List[Geometry])
 
 /**
  * Constructs a PointExtracterFilter with a list in which to store Points found.
- */ extends GeometryFilter {
+ */
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (geom.isInstanceOf[Point]) pts.add(geom)
     ()

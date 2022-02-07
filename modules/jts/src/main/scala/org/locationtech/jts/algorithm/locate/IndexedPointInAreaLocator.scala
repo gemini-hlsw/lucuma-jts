@@ -94,12 +94,13 @@ object IndexedPointInAreaLocator {
 class IndexedPointInAreaLocator(var geom: Geometry)
 
 /**
- * Creates a new locator for a given {link Geometry}.
- * {link Polygonal} and {link LinearRing} geometries
- * are supported.
+ * Creates a new locator for a given {link Geometry}. {link Polygonal} and {link LinearRing}
+ * geometries are supported.
  *
- * @param g the Geometry to locate in
- */ extends PointOnGeometryLocator {
+ * @param g
+ *   the Geometry to locate in
+ */
+    extends PointOnGeometryLocator {
   if (!(geom.isInstanceOf[Polygonal] || geom.isInstanceOf[LinearRing]))
     throw new IllegalArgumentException("Argument must be Polygonal or LinearRing")
   private var index: IntervalIndexedGeometry = null

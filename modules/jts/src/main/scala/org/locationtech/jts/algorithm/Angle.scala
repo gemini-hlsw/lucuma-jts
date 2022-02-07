@@ -221,8 +221,8 @@ object Angle {
    * Computes the normalized positive value of an angle, which is the equivalent angle in the range
    * [ 0, 2*Pi ). E.g.: <ul> <li>normalizePositive(0.0) = 0.0 <li>normalizePositive(-PI) = PI
    * <li>normalizePositive(-2PI) = 0.0 <li>normalizePositive(-3PI) = PI <li>normalizePositive(-4PI)
-   * = 0 <li>normalizePositive(PI) = PI <li>normalizePositive(2PI) = 0.0 <li>normalizePositive(3PI)
-   * = PI <li>normalizePositive(4PI) = 0.0 </ul>
+   * \= 0 <li>normalizePositive(PI) = PI <li>normalizePositive(2PI) = 0.0 <li>normalizePositive(3PI)
+   * \= PI <li>normalizePositive(4PI) = 0.0 </ul>
    *
    * @param angle
    *   the angle to normalize, in radians return an equivalent positive angle

@@ -146,11 +146,12 @@ object SimplePointInAreaLocator {
 class SimplePointInAreaLocator(var geom: Geometry)
 
 /**
- * Create an instance of a point-in-area locator,
- * using the provided areal geometry.
+ * Create an instance of a point-in-area locator, using the provided areal geometry.
  *
- * @param geom the areal geometry to locate in
- */ extends PointOnGeometryLocator {
+ * @param geom
+ *   the areal geometry to locate in
+ */
+    extends PointOnGeometryLocator {
 
   /**
    * Determines the {link Location} of a point in an areal {link Geometry}. The return value is one

@@ -292,7 +292,7 @@ class Coordinate(var x: Double, var y: Double, var z: Double)
       y = value
     case Coordinate.Z =>
       setZ(value) // delegate to subclass rather than offer direct field access
-    case _ =>
+    case _            =>
       throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 

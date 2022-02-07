@@ -61,9 +61,12 @@ class GeometryExtracter(var clz: Class[_], var comps: util.List[Geometry])
 /**
  * Constructs a filter with a list in which to store the elements found.
  *
- * @param clz   the class of the components to extract (null means all types)
- * @param comps the list to extract into
- */ extends GeometryFilter {
+ * @param clz
+ *   the class of the components to extract (null means all types)
+ * @param comps
+ *   the list to extract into
+ */
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (clz == null || GeometryExtracter.isOfClass(geom, clz)) comps.add(geom)
     ()

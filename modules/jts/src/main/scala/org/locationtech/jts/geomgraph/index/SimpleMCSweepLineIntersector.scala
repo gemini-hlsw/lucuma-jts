@@ -33,9 +33,10 @@ import org.locationtech.jts.geomgraph.Edge
 class SimpleMCSweepLineIntersector()
 
 /**
- * A SimpleMCSweepLineIntersector creates monotone chains from the edges
- * and compares them using a simple sweep-line along the x-axis.
- */ extends EdgeSetIntersector {
+ * A SimpleMCSweepLineIntersector creates monotone chains from the edges and compares them using a
+ * simple sweep-line along the x-axis.
+ */
+    extends EdgeSetIntersector {
   private[index] val events    = new util.ArrayList[SweepLineEvent]
   // statistics information
   private[index] var nOverlaps = 0
