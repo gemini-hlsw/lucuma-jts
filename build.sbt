@@ -1,9 +1,8 @@
 ThisBuild / tlBaseVersion       := "0.2"
 ThisBuild / tlCiReleaseBranches := Seq("master")
 
-Global / onChangedBuildSource   := ReloadOnSourceChanges
-ThisBuild / crossScalaVersions  := Seq("3.1.1", "2.13.8")
-ThisBuild / tlVersionIntroduced := Map("3" -> "0.2.2")
+Global / onChangedBuildSource  := ReloadOnSourceChanges
+ThisBuild / crossScalaVersions := Seq("3.1.1", "2.13.8")
 ThisBuild / githubWorkflowBuildPreamble += WorkflowStep.Sbt(List("show coverageEnabled"))
 
 lazy val root = tlCrossRootProject.aggregate(jts, jts_awt, tests)
@@ -22,7 +21,8 @@ lazy val jts = crossProject(JVMPlatform, JSPlatform)
         "-Xfatal-warnings"
       )
     )),
-    tlFatalWarnings         := false // Legacy code needs to disable these
+    tlFatalWarnings         := false, // Legacy code needs to disable these
+    mimaPreviousArtifacts ~= { _.filterNot(_.revision == "0.2.1") } // not released
   )
 
 lazy val jts_awt = project
@@ -35,7 +35,8 @@ lazy val jts_awt = project
         "-Werror"
       )
     )),
-    tlFatalWarnings         := false
+    tlFatalWarnings         := false,
+    mimaPreviousArtifacts ~= { _.filterNot(_.revision == "0.2.1") } // not released
   )
   .dependsOn(jts.jvm)
 
