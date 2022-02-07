@@ -45,6 +45,7 @@ lazy val tests = project
   .settings(
     name                                   := "lucuma-jts-tests",
     Compile / doc / sources                := Seq(),
-    libraryDependencies += "com.github.sbt" % "junit-interface" % "0.13.3" % "test"
+    libraryDependencies += "com.github.sbt" % "junit-interface" % "0.13.3" % "test",
+    tlFatalWarnings                        := false
   )
   .dependsOn(jts.jvm)
