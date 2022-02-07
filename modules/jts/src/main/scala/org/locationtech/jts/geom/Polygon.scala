@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -11,7 +14,6 @@
  */
 package org.locationtech.jts.geom
 
-import java.util
 import org.locationtech.jts.algorithm.Area
 import org.locationtech.jts.algorithm.Orientation
 
@@ -327,7 +329,7 @@ class Polygon(
       holes(i) = normalized(holes(i), false)
       i += 1
     }
-    util.Arrays.sort(holes.map(x => x: AnyRef))
+    java.util.Arrays.sort(holes.map(x => x: AnyRef))
   }
 
   protected def compareToSameClass(o: Geometry): Int = {

@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -58,9 +61,12 @@ class GeometryExtracter(var clz: Class[_], var comps: util.List[Geometry])
 /**
  * Constructs a filter with a list in which to store the elements found.
  *
- * @param clz   the class of the components to extract (null means all types)
- * @param comps the list to extract into
- */ extends GeometryFilter {
+ * @param clz
+ *   the class of the components to extract (null means all types)
+ * @param comps
+ *   the list to extract into
+ */
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (clz == null || GeometryExtracter.isOfClass(geom, clz)) comps.add(geom)
     ()

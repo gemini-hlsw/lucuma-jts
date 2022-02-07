@@ -1,14 +1,7 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
- * Copyright (c) 2016 Vivid Solutions.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at
- *
- * http://www.eclipse.org/org/documents/edl-v10.php.
- */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -229,7 +222,9 @@ class AffineTransformation()
 
 /**
  * Constructs a new identity transformation
- */ extends Cloneable with CoordinateSequenceFilter {
+ */
+    extends Cloneable
+    with CoordinateSequenceFilter {
   setToIdentity
   // affine matrix entries
   // (bottom row is always [ 0 0 1 ])
@@ -400,10 +395,9 @@ class AffineTransformation()
    * | m00 m01 m02 |
    * |:------------|
    * | m10 m11 m12 |
-   * = m00 * m11 - m01 * m10
-   * | 0 0 1 | </pre></blockquote> If the determinant is zero, the transform is singular (not
-   * invertible), and operations which attempt to compute an inverse will throw a
-   * <tt>NoninvertibleTransformException</tt>.
+   * \= m00 * m11 - m01 * m10 \| 0 0 1 | </pre></blockquote> If the determinant is zero, the
+   * transform is singular (not invertible), and operations which attempt to compute an inverse will
+   * throw a <tt>NoninvertibleTransformException</tt>.
    *
    * return the determinant of the transformation
    * @see
@@ -420,10 +414,10 @@ class AffineTransformation()
    * of the inverse is equal to the inverse of the matrix for the transformation. It is computed as
    * follows: <blockquote><pre> 1 inverse(A) = --- x adjoint(A) det
    *
-   * = 1 | m11 -m01 m01*m12-m02*m11 |
+   * \= 1 | m11 -m01 m01*m12-m02*m11 |
    * --- x | -m10 m00 -m00*m12+m10*m02 | det | 0 0 m00*m11-m10*m01 |
    *
-   * = | m11/det -m01/det m01*m12-m02*m11/det |
+   * \= | m11/det -m01/det m01*m12-m02*m11/det |
    * | -m10/det   m00/det  -m00*m12+m10*m02/det |
    * |:-----------------------------------------|
    * | 0           0          1                 |

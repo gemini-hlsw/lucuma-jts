@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -60,7 +63,8 @@ class PolygonExtracter(var comps: util.List[Geometry])
 
 /**
  * Constructs a PolygonExtracterFilter with a list in which to store Polygons found.
- */ extends GeometryFilter {
+ */
+    extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
     if (geom.isInstanceOf[Polygon]) comps.add(geom)
     ()

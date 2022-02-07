@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -11,7 +14,6 @@
  */
 package org.locationtech.jts.geom
 
-import java.util
 import java.util.NoSuchElementException
 
 /**
@@ -41,7 +43,7 @@ class GeometryCollectionIterator(
 //  * @param  parent the geometry over which to iterate; also, the first
 //  *                element returned by the iterator.
 //  */
-    extends util.Iterator[Geometry] {
+    extends java.util.Iterator[Geometry] {
 
   /**
    * Indicates whether or not the first element (the root <code>GeometryCollection</code>) has been
@@ -64,7 +66,7 @@ class GeometryCollectionIterator(
    * <code>GeometryCollectionIterator</code> is not currently iterating over a nested
    * <code>GeometryCollection</code>.
    */
-  private var subcollectionIterator: util.Iterator[Geometry] = null
+  private var subcollectionIterator: java.util.Iterator[Geometry] = null
   atStart = true
   index = 0
   max = parent.getNumGeometries

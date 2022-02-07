@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -26,7 +29,8 @@ class EdgeEndBundleStar()
 
 /**
  * Creates a new empty EdgeEndBundleStar
- */ extends EdgeEndStar {
+ */
+    extends EdgeEndStar {
 
   /**
    * Insert a EdgeEnd in order in the list. If there is an existing EdgeStubBundle which is

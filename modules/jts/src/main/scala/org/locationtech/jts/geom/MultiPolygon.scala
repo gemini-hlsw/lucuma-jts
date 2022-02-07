@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -10,8 +13,6 @@
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
 package org.locationtech.jts.geom
-
-import java.util
 
 /**
  * Models a collection of {link Polygon}s. <p> As per the OGC SFS specification, the Polygons in a
@@ -70,7 +71,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
    */
   override def getBoundary: Geometry = {
     if (isEmpty) return getFactory.createMultiLineString
-    val allRings      = new util.ArrayList[Geometry]
+    val allRings      = new java.util.ArrayList[Geometry]
     var i             = 0
     while (i < geometries.length) {
       val polygon = geometries(i).asInstanceOf[Polygon]

@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -28,7 +31,9 @@ abstract class AbstractNode(level: Int = 0)
 
 /**
  * Default constructor required for serialization.
- */ extends Boundable with Serializable {
+ */
+    extends Boundable
+    with Serializable {
   private val childBoundables = new util.ArrayList[Boundable]
   private var bounds: AnyRef  = null
 //  private var level = 0

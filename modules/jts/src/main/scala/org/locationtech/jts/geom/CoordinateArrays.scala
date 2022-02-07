@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.geom
 
-import java.util
 import java.util.Comparator
 import org.locationtech.jts.math.MathUtil
 
@@ -243,7 +242,7 @@ object CoordinateArrays {
   /**
    * Converts the given Collection of Coordinates into a Coordinate array.
    */
-  def toCoordinateArray(coordList: util.Collection[_]): Array[Coordinate] =
+  def toCoordinateArray(coordList: java.util.Collection[_]): Array[Coordinate] =
     coordList.toArray(coordArrayType).asInstanceOf[Array[Coordinate]]
 
   /**

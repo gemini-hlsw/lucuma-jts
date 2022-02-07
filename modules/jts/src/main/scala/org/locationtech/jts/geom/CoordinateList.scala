@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.geom
 
-import java.util
-
 /**
  * A list of {link Coordinate}s, which may be set to prevent repeated coordinates from occurring in
  * the list.
@@ -23,14 +21,14 @@ import java.util
  * @version 1.7
  */
 @SerialVersionUID(-1626110935756089896L)
-object CoordinateList { //With contributions from Markus Schaber [schabios@logi-track.com]
+object CoordinateList { // With contributions from Markus Schaber [schabios@logi-track.com]
   // [Jon Aquino 2004-03-25]
   private val coordArrayType = new Array[Coordinate](0)
 }
 
 @SerialVersionUID(-1626110935756089896L)
 class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
-    extends util.ArrayList[Coordinate] {
+    extends java.util.ArrayList[Coordinate] {
   add(coord, allowRepeated)
 
   /**
@@ -182,7 +180,7 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
    *   if set to false, repeated coordinates are collapsed return true (as by general collection
    *   contract)
    */
-  def addAll(coll: util.Collection[_ <: Coordinate], allowRepeated: Boolean): Boolean = {
+  def addAll(coll: java.util.Collection[_ <: Coordinate], allowRepeated: Boolean): Boolean = {
     var isChanged = false
     val i         = coll.iterator
     while (i.hasNext) {

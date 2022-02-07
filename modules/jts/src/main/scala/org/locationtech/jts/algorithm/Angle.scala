@@ -1,14 +1,7 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
- * Copyright (c) 2016 Vivid Solutions.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at
- *
- * http://www.eclipse.org/org/documents/edl-v10.php.
- */ /*
  * Copyright (c) 2016 Vivid Solutions.
  *
  * All rights reserved. This program and the accompanying materials
@@ -228,8 +221,8 @@ object Angle {
    * Computes the normalized positive value of an angle, which is the equivalent angle in the range
    * [ 0, 2*Pi ). E.g.: <ul> <li>normalizePositive(0.0) = 0.0 <li>normalizePositive(-PI) = PI
    * <li>normalizePositive(-2PI) = 0.0 <li>normalizePositive(-3PI) = PI <li>normalizePositive(-4PI)
-   * = 0 <li>normalizePositive(PI) = PI <li>normalizePositive(2PI) = 0.0 <li>normalizePositive(3PI)
-   * = PI <li>normalizePositive(4PI) = 0.0 </ul>
+   * \= 0 <li>normalizePositive(PI) = PI <li>normalizePositive(2PI) = 0.0 <li>normalizePositive(3PI)
+   * \= PI <li>normalizePositive(4PI) = 0.0 </ul>
    *
    * @param angle
    *   the angle to normalize, in radians return an equivalent positive angle

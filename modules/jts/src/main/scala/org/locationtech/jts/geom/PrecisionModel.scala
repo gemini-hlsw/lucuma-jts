@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2020 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -15,7 +15,6 @@
 package org.locationtech.jts.geom
 
 import java.io.Serializable
-import java.util
 
 /**
  * Specifies the precision model of the {link Coordinate}s in a {link Geometry}. In other words,
@@ -65,7 +64,7 @@ object PrecisionModel {
    */
   @SerialVersionUID(-5528602631731589822L)
   object Type {
-    private val nameToTypeMap = new util.HashMap[String, Type]
+    private val nameToTypeMap = new java.util.HashMap[String, Type]
   }
 
   @SerialVersionUID(-5528602631731589822L)

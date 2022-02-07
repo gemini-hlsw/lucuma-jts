@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -94,9 +97,9 @@ object IntersectionMatrix {
 class IntersectionMatrix()
 
 /**
- * Creates an <code>IntersectionMatrix</code> with <code>FALSE</code>
- * dimension values.
- */ extends Cloneable {
+ * Creates an <code>IntersectionMatrix</code> with <code>FALSE</code> dimension values.
+ */
+    extends Cloneable {
 
   /**
    * Internal representation of this <code>IntersectionMatrix</code>.

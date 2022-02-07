@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -30,9 +33,10 @@ import org.locationtech.jts.geomgraph.Edge
 class SimpleMCSweepLineIntersector()
 
 /**
- * A SimpleMCSweepLineIntersector creates monotone chains from the edges
- * and compares them using a simple sweep-line along the x-axis.
- */ extends EdgeSetIntersector {
+ * A SimpleMCSweepLineIntersector creates monotone chains from the edges and compares them using a
+ * simple sweep-line along the x-axis.
+ */
+    extends EdgeSetIntersector {
   private[index] val events    = new util.ArrayList[SweepLineEvent]
   // statistics information
   private[index] var nOverlaps = 0

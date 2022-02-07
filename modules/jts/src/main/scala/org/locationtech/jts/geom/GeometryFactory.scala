@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -12,7 +15,6 @@
 package org.locationtech.jts.geom
 
 import java.io.Serializable
-import java.util
 import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory
 import org.locationtech.jts.geom.util.GeometryEditor
 import org.locationtech.jts.util.Assert
@@ -40,7 +42,7 @@ object GeometryFactory {
    * @param points
    *   the <code>List</code> of Points to convert return the <code>List</code> in array format
    */
-  def toPointArray(points: util.Collection[_]): Array[Point] = {
+  def toPointArray(points: java.util.Collection[_]): Array[Point] = {
     val pointArray = new Array[Point](points.size)
     points.toArray(pointArray)
   }
@@ -51,7 +53,7 @@ object GeometryFactory {
    * @param geometries
    *   the list of <code>Geometry's</code> to convert return the <code>List</code> in array format
    */
-  def toGeometryArray(geometries: util.Collection[_]): Array[Geometry] = {
+  def toGeometryArray(geometries: java.util.Collection[_]): Array[Geometry] = {
     if (geometries == null) return null
     val geometryArray = new Array[Geometry](geometries.size)
     geometries.toArray(geometryArray)
@@ -63,7 +65,7 @@ object GeometryFactory {
    * @param linearRings
    *   the <code>List</code> of LinearRings to convert return the <code>List</code> in array format
    */
-  def toLinearRingArray(linearRings: util.Collection[_]): Array[LinearRing] = {
+  def toLinearRingArray(linearRings: java.util.Collection[_]): Array[LinearRing] = {
     val linearRingArray = new Array[LinearRing](linearRings.size)
     linearRings.toArray(linearRingArray)
   }
@@ -74,7 +76,7 @@ object GeometryFactory {
    * @param lineStrings
    *   the <code>List</code> of LineStrings to convert return the <code>List</code> in array format
    */
-  def toLineStringArray(lineStrings: util.Collection[_]): Array[LineString] = {
+  def toLineStringArray(lineStrings: java.util.Collection[_]): Array[LineString] = {
     val lineStringArray = new Array[LineString](lineStrings.size)
     lineStrings.toArray(lineStringArray)
   }
@@ -85,7 +87,7 @@ object GeometryFactory {
    * @param polygons
    *   the <code>List</code> of Polygons to convert return the <code>List</code> in array format
    */
-  def toPolygonArray(polygons: util.Collection[_]): Array[Polygon] = {
+  def toPolygonArray(polygons: java.util.Collection[_]): Array[Polygon] = {
     val polygonArray = new Array[Polygon](polygons.size)
     polygons.toArray(polygonArray)
   }
@@ -97,7 +99,7 @@ object GeometryFactory {
    *   the <code>List</code> of MultiPolygons to convert return the <code>List</code> in array
    *   format
    */
-  def toMultiPolygonArray(multiPolygons: util.Collection[_]): Array[MultiPolygon] = {
+  def toMultiPolygonArray(multiPolygons: java.util.Collection[_]): Array[MultiPolygon] = {
     val multiPolygonArray = new Array[MultiPolygon](multiPolygons.size)
     multiPolygons.toArray(multiPolygonArray)
   }
@@ -109,7 +111,7 @@ object GeometryFactory {
    *   the <code>List</code> of MultiLineStrings to convert return the <code>List</code> in array
    *   format
    */
-  def toMultiLineStringArray(multiLineStrings: util.Collection[_]): Array[MultiLineString] = {
+  def toMultiLineStringArray(multiLineStrings: java.util.Collection[_]): Array[MultiLineString] = {
     val multiLineStringArray = new Array[MultiLineString](multiLineStrings.size)
     multiLineStrings.toArray(multiLineStringArray)
   }
@@ -120,7 +122,7 @@ object GeometryFactory {
    * @param multiPoints
    *   the <code>List</code> of MultiPoints to convert return the <code>List</code> in array format
    */
-  def toMultiPointArray(multiPoints: util.Collection[_]): Array[MultiPoint] = {
+  def toMultiPointArray(multiPoints: java.util.Collection[_]): Array[MultiPoint] = {
     val multiPointArray = new Array[MultiPoint](multiPoints.size)
     multiPoints.toArray(multiPointArray)
   }
@@ -459,7 +461,7 @@ class GeometryFactory(
    *   the <code>Geometry</code>s to combine return a <code>Geometry</code> of the "smallest", "most
    *   type-specific" class that can contain the elements of <code>geomList</code> .
    */
-  def buildGeometry(geomList: util.Collection[Geometry]): Geometry = {
+  def buildGeometry(geomList: java.util.Collection[Geometry]): Geometry = {
 
     /**
      * Determine some facts about the geometries in the list

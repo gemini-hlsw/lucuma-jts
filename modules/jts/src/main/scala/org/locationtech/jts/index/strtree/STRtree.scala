@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -98,11 +101,12 @@ object STRtree {
 class STRtree(val nodeCapacityArg: Int)
 
 /**
- * Constructs an STRtree with the given maximum number of child nodes that
- * a node may have.
- * <p>
- * The minimum recommended capacity setting is 4.
- */ extends AbstractSTRtree(nodeCapacityArg) with SpatialIndex[Any] with Serializable {
+ * Constructs an STRtree with the given maximum number of child nodes that a node may have. <p> The
+ * minimum recommended capacity setting is 4.
+ */
+    extends AbstractSTRtree(nodeCapacityArg)
+    with SpatialIndex[Any]
+    with Serializable {
 
   /**
    * Creates the parent level for the given child level. First, orders the items by the x-values of

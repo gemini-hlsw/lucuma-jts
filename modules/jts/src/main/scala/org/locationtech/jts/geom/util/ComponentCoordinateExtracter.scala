@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -44,7 +47,8 @@ class ComponentCoordinateExtracter(coords: util.List[Coordinate])
 
 /**
  * Constructs a LineExtracterFilter with a list in which to store LineStrings found.
- */ extends GeometryComponentFilter {
+ */
+    extends GeometryComponentFilter {
   override def filter(geom: Geometry): Unit = { // add coordinates from connected components
     if (geom.isInstanceOf[LineString] || geom.isInstanceOf[Point]) coords.add(geom.getCoordinate)
     ()

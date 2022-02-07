@@ -9,6 +9,7 @@
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
+
 package org.locationtech.jts.awt;
 
 import java.awt.Rectangle;

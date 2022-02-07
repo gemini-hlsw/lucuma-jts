@@ -1,13 +1,11 @@
-inThisBuild(
-  Seq(
-    homepage                      := Some(url("https://github.com/gemini-hlsw/lucuma-jts")),
-    crossScalaVersions            := Seq(scalaVersion.value, "3.1.1"),
-    Global / onChangedBuildSource := ReloadOnSourceChanges,
-    Compile / doc / sources       := Seq()
-  ) ++ lucumaPublishSettings
-)
+ThisBuild / tlBaseVersion       := "0.2"
+ThisBuild / tlCiReleaseBranches := Seq("master")
 
-publish / skip := true
+Global / onChangedBuildSource  := ReloadOnSourceChanges
+ThisBuild / crossScalaVersions := Seq("3.1.1", "2.13.8")
+ThisBuild / githubWorkflowBuildPreamble += WorkflowStep.Sbt(List("show coverageEnabled"))
+
+lazy val root = tlCrossRootProject.aggregate(jts, jts_awt, tests)
 
 lazy val jts = crossProject(JVMPlatform, JSPlatform)
   .crossType(CrossType.Pure)
@@ -23,17 +21,8 @@ lazy val jts = crossProject(JVMPlatform, JSPlatform)
         "-Xfatal-warnings"
       )
     )),
-    scalacOptions ~= (_.filterNot(
-      Set(
-        // Legacy code needs to disable these
-        "-Wdead-code",
-        "-Wunused:params",
-        "-Wunused:explicits",
-        "-Ywarn-dead-code",
-        "-Ywarn-unused:params",
-        "-Xlint:doc-detached"
-      )
-    ))
+    tlFatalWarnings         := false, // Legacy code needs to disable these
+    mimaPreviousArtifacts ~= { _.filterNot(_.revision == "0.2.1") } // not released
   )
 
 lazy val jts_awt = project
@@ -46,25 +35,32 @@ lazy val jts_awt = project
         "-Werror"
       )
     )),
-    scalacOptions ~= (_.filterNot(
-      Set(
-        // By necessity facades will have unused params
-        "-Wdead-code",
-        "-Wunused:params",
-        "-Ywarn-dead-code",
-        "-Ywarn-unused:params",
-        "-Xlint:doc-detached"
+    tlFatalWarnings         := false,
+    tlVersionIntroduced     := Map("3" -> "0.2.2"),
+    mimaPreviousArtifacts ~= { _.filterNot(_.revision == "0.2.1") }, // not released
+    headerLicense := Some(
+      HeaderLicense.Custom(
+        """|Copyright (c) 2016 Vivid Solutions.
+           |
+           |All rights reserved. This program and the accompanying materials
+           |are made available under the terms of the Eclipse Public License v1.0
+           |and Eclipse Distribution License v. 1.0 which accompanies this distribution.
+           |The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
+           |and the Eclipse Distribution License is available at
+           |
+           |http://www.eclipse.org/org/documents/edl-v10.php.""".stripMargin
       )
-    ))
+    )
   )
   .dependsOn(jts.jvm)
 
 lazy val tests = project
   .in(file("modules/tests"))
+  .enablePlugins(NoPublishPlugin)
   .settings(
     name                                   := "lucuma-jts-tests",
     Compile / doc / sources                := Seq(),
-    publish / skip                         := true,
-    libraryDependencies += "com.github.sbt" % "junit-interface" % "0.13.3" % "test"
+    libraryDependencies += "com.github.sbt" % "junit-interface" % "0.13.3" % "test",
+    tlFatalWarnings                        := false
   )
   .dependsOn(jts.jvm)

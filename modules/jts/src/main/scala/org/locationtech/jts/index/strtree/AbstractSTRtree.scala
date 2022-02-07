@@ -1,3 +1,6 @@
+// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -67,11 +70,13 @@ object AbstractSTRtree {
 abstract class AbstractSTRtree(var nodeCapacity: Int)
 
 /**
- * Constructs an AbstractSTRtree with the specified maximum number of child
- * nodes that a node may have
+ * Constructs an AbstractSTRtree with the specified maximum number of child nodes that a node may
+ * have
  *
- * @param nodeCapacity the maximum number of child nodes in a node
- */ extends Serializable {
+ * @param nodeCapacity
+ *   the maximum number of child nodes in a node
+ */
+    extends Serializable {
   Assert.isTrue(nodeCapacity > 1, "Node capacity must be greater than 1")
   protected var root: AbstractNode = null
   private var built                = false
