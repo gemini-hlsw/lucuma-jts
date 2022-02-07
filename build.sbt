@@ -21,17 +21,7 @@ lazy val jts = crossProject(JVMPlatform, JSPlatform)
         "-Xfatal-warnings"
       )
     )),
-    scalacOptions ~= (_.filterNot(
-      Set(
-        // Legacy code needs to disable these
-        "-Wdead-code",
-        "-Wunused:params",
-        "-Wunused:explicits",
-        "-Ywarn-dead-code",
-        "-Ywarn-unused:params",
-        "-Xlint:doc-detached"
-      )
-    ))
+    tlFatalWarnings         := false // Legacy code needs to disable these
   )
 
 lazy val jts_awt = project
