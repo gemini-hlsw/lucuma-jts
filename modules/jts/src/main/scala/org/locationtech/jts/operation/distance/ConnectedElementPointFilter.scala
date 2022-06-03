@@ -16,14 +16,7 @@ package org.locationtech.jts.operation.distance
 
 import java.util
 
-import org.locationtech.jts.geom.{
-  Coordinate,
-  Geometry,
-  GeometryFilter,
-  LineString,
-  Point,
-  Polygon
-}
+import org.locationtech.jts.geom.{Coordinate, Geometry, GeometryFilter, LineString, Point, Polygon}
 
 /**
  * Extracts a single point from each connected element in a Geometry (e.g. a polygon, linestring or

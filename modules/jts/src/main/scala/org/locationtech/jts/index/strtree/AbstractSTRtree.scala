@@ -16,7 +16,7 @@ package org.locationtech.jts.index.strtree
 
 import java.io.Serializable
 import java.util
-import java.util.{ Collections, Comparator }
+import java.util.{Collections, Comparator}
 
 import org.locationtech.jts.index.ItemVisitor
 import org.locationtech.jts.index.strtree.AbstractSTRtree.IntersectsOp
