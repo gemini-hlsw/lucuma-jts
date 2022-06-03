@@ -37,7 +37,7 @@ import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.Triangle
 import org.locationtech.jts.geomgraph.Label
 import org.locationtech.jts.geomgraph.Position
-import org.locationtech.jts.noding.{ NodedSegmentString, SegmentString }
+import org.locationtech.jts.noding.{NodedSegmentString, SegmentString}
 
 /**
  * Creates all the raw offset curves for a buffer of a {link Geometry}. Raw curves need to be noded
