@@ -14,19 +14,17 @@
  */
 package org.locationtech.jts.noding.snaprounder
 
-import java.util
-
 import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.noding.{
-  InteriorIntersectionFinderAdder,
-  MCIndexNoder,
-  NodedSegmentString,
-  Noder,
-  SegmentString
-}
+import org.locationtech.jts.noding.InteriorIntersectionFinderAdder
+import org.locationtech.jts.noding.MCIndexNoder
+import org.locationtech.jts.noding.NodedSegmentString
+import org.locationtech.jts.noding.Noder
+import org.locationtech.jts.noding.SegmentString
+
+import java.util
 
 //import scala.jdk.CollectionConverters._
 

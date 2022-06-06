@@ -14,8 +14,9 @@
  */
 package org.locationtech.jts.geomgraph.index
 
-import java.util
 import org.locationtech.jts.geomgraph.Edge
+
+import java.util
 
 /**
  * Finds all intersections in one or two sets of edges, using the straightforward method of

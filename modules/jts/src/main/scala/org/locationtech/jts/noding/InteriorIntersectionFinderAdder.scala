@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.noding
 
-import java.util
 import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
+
+import java.util
 
 /**
  * Finds <b>interior</b> intersections between line segments in {link NodedSegmentString}s, and adds

@@ -24,7 +24,6 @@
  */
 package org.locationtech.jts.operation.union
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateSequence
 import org.locationtech.jts.geom.CoordinateSequenceFilter
@@ -33,6 +32,8 @@ import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.LineSegment
 import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.geom.util.GeometryCombiner
+
+import java.util
 
 /**
  * Unions MultiPolygons efficiently by using full topological union only for polygons which may

@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.io.PrintStream
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.TopologyException
+
+import java.io.PrintStream
 
 /**
  * @version 1.7

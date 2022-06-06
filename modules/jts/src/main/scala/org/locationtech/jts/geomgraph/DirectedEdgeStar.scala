@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.io.PrintStream
-import java.util
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.util.Assert
+
+import java.io.PrintStream
+import java.util
 
 /**
  * A DirectedEdgeStar is an ordered list of <b>outgoing</b> DirectedEdges around a node. It supports

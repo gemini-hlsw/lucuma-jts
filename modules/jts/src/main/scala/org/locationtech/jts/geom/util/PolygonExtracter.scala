@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.geom.util
 
-import java.util
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryCollection
 import org.locationtech.jts.geom.GeometryFilter
 import org.locationtech.jts.geom.Polygon
+
+import java.util
 
 /**
  * Extracts all the {link Polygon} elements from a {link Geometry}.

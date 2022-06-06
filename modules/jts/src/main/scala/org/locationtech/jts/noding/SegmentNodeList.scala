@@ -14,13 +14,12 @@
  */
 package org.locationtech.jts.noding
 
-import java.io.PrintStream
-import java.util
-
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateList
 import org.locationtech.jts.util.Assert
 
+import java.io.PrintStream
+import java.util
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 

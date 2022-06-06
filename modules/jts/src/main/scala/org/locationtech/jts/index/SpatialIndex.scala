@@ -14,8 +14,9 @@
  */
 package org.locationtech.jts.index
 
-import java.util
 import org.locationtech.jts.geom.Envelope
+
+import java.util
 
 /**
  * The basic operations supported by classes implementing spatial index algorithms. <p> A spatial

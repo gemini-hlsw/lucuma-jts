@@ -14,13 +14,14 @@
  */
 package org.locationtech.jts.operation.union
 
-import java.util
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.Polygonal
 import org.locationtech.jts.geom.util.PolygonExtracter
 import org.locationtech.jts.index.strtree.STRtree
+
+import java.util
 import scala.jdk.CollectionConverters._
 
 /**

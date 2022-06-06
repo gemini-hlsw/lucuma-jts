@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.algorithm.locate
 
-import java.util
-
 import org.locationtech.jts.algorithm.RayCrossingCounter
 import org.locationtech.jts.algorithm.locate.IndexedPointInAreaLocator.IntervalIndexedGeometry
 import org.locationtech.jts.geom.Coordinate
@@ -28,6 +26,8 @@ import org.locationtech.jts.geom.util.LinearComponentExtracter
 import org.locationtech.jts.index.ArrayListVisitor
 import org.locationtech.jts.index.ItemVisitor
 import org.locationtech.jts.index.intervaltree.SortedPackedIntervalRTree
+
+import java.util
 
 /**
  * Determines the {link Location} of {link Coordinate}s relative to an areal geometry, using

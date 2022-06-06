@@ -14,12 +14,13 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.io.PrintStream
 import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.IntersectionMatrix
 import org.locationtech.jts.geomgraph.index.MonotoneChainEdge
+
+import java.io.PrintStream
 
 /**
  * @version 1.7

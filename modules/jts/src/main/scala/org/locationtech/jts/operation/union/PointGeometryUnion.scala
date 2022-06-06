@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.operation.union
 
-import java.util
 import org.locationtech.jts.algorithm.PointLocator
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateArrays
@@ -23,6 +22,8 @@ import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Puntal
 import org.locationtech.jts.geom.util.GeometryCombiner
+
+import java.util
 
 /**
  * Computes the union of a {link Puntal} geometry with another arbitrary {link Geometry}. Does not

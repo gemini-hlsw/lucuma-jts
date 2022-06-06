@@ -18,7 +18,9 @@ package org.locationtech.jts.operation.buffer
  * @version 1.7
  */
 
-import org.locationtech.jts.geom.{ Geometry, PrecisionModel, TopologyException }
+import org.locationtech.jts.geom.Geometry
+import org.locationtech.jts.geom.PrecisionModel
+import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.math.MathUtil
 import org.locationtech.jts.noding.ScaledNoder
 import org.locationtech.jts.noding.snaprounder.MCIndexSnapRounder

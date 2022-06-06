@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.operation.valid
 
-import java.util
 import org.locationtech.jts.algorithm.PointLocation
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.algorithm.locate.IndexedPointInAreaLocator
@@ -33,6 +32,8 @@ import org.locationtech.jts.geomgraph.EdgeIntersection
 import org.locationtech.jts.geomgraph.EdgeIntersectionList
 import org.locationtech.jts.geomgraph.GeometryGraph
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 // /**
 //  * Implements the algorithms required to compute the <code>isValid()</code> method

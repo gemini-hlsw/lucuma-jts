@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.operation.overlay
 
-import java.util
 import org.locationtech.jts.algorithm.PointLocator
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geomgraph.Node
+
+import java.util
 
 /**
  * Constructs {link Point}s from the nodes of an overlay graph.

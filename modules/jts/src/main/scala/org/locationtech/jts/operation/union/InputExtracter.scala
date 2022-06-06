@@ -24,7 +24,6 @@
  */
 package org.locationtech.jts.operation.union
 
-import java.util
 import org.locationtech.jts.geom.Dimension
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryCollection
@@ -34,6 +33,8 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.util.Assert
+
+import java.util
 import scala.jdk.CollectionConverters._
 
 /**

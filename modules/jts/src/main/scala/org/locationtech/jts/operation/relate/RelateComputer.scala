@@ -18,7 +18,6 @@ package org.locationtech.jts.operation.relate
  * @version 1.7
  */
 
-import java.util
 import org.locationtech.jts.algorithm.PointLocator
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.Geometry
@@ -31,6 +30,8 @@ import org.locationtech.jts.geomgraph.Node
 import org.locationtech.jts.geomgraph.NodeMap
 import org.locationtech.jts.geomgraph.index.SegmentIntersector
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 /**
  * Computes the topological relationship between two Geometries. <p> RelateComputer does not need to

@@ -14,11 +14,10 @@
  */
 package org.locationtech.jts.index.intervaltree
 
+import org.locationtech.jts.index.ItemVisitor
+
 import java.util
 import java.util.Collections
-
-//import org.locationtech.jts.geom.Coordinate
-import org.locationtech.jts.index.ItemVisitor
 //import org.locationtech.jts.io.WKTWriter
 
 /**
