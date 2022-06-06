@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.operation
 
-import java.util
-
 import org.locationtech.jts.algorithm.BoundaryNodeRule
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.Coordinate
@@ -32,6 +30,7 @@ import org.locationtech.jts.geomgraph.Edge
 import org.locationtech.jts.geomgraph.EdgeIntersection
 import org.locationtech.jts.geomgraph.GeometryGraph
 
+import java.util
 import scala.collection.mutable
 
 // /**

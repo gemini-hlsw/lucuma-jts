@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.util
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateFilter
+
+import java.util
 
 /**
  * A {link CoordinateFilter} that extracts a unique array of <code>Coordinate</code>s. The array of

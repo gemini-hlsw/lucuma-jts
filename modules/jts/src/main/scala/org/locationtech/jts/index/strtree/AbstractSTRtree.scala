@@ -14,14 +14,14 @@
  */
 package org.locationtech.jts.index.strtree
 
-import java.io.Serializable
-import java.util
-import java.util.{ Collections, Comparator }
-
 import org.locationtech.jts.index.ItemVisitor
 import org.locationtech.jts.index.strtree.AbstractSTRtree.IntersectsOp
 import org.locationtech.jts.util.Assert
 
+import java.io.Serializable
+import java.util
+import java.util.Collections
+import java.util.Comparator
 import scala.jdk.CollectionConverters._
 
 /**

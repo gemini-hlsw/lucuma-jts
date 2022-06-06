@@ -14,8 +14,9 @@
  */
 package org.locationtech.jts.noding
 
-import java.io.PrintStream
 import org.locationtech.jts.geom.Coordinate
+
+import java.io.PrintStream
 
 /**
  * Represents an intersection point between two {link SegmentString}s.

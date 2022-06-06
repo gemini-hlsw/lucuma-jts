@@ -18,15 +18,22 @@ package org.locationtech.jts.operation.buffer
  * @version 1.7
  */
 
+import org.locationtech.jts.algorithm.RobustLineIntersector
+import org.locationtech.jts.geom.Geometry
+import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.geom.Location
+import org.locationtech.jts.geom.Polygon
+import org.locationtech.jts.geom.PrecisionModel
+import org.locationtech.jts.geomgraph._
+import org.locationtech.jts.noding.IntersectionAdder
+import org.locationtech.jts.noding.MCIndexNoder
+import org.locationtech.jts.noding.Noder
+import org.locationtech.jts.noding.SegmentString
+import org.locationtech.jts.operation.overlay.OverlayNodeFactory
+import org.locationtech.jts.operation.overlay.PolygonBuilder
+
 import java.util
 import java.util.Collections
-
-import org.locationtech.jts.algorithm.RobustLineIntersector
-import org.locationtech.jts.geom.{ Geometry, GeometryFactory, Location, Polygon, PrecisionModel }
-import org.locationtech.jts.geomgraph._
-import org.locationtech.jts.noding.{ IntersectionAdder, MCIndexNoder, Noder, SegmentString }
-import org.locationtech.jts.operation.overlay.{ OverlayNodeFactory, PolygonBuilder }
-
 import scala.jdk.CollectionConverters._
 
 // /**

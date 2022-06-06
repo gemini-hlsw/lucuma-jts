@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.index.chain
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geomgraph.Quadrant
+
+import java.util
 
 /**
  * Constructs {link MonotoneChain}s for sequences of {link Coordinate}s.

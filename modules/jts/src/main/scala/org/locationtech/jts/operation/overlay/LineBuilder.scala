@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.operation.overlay
 
-import java.util
 import org.locationtech.jts.algorithm.PointLocator
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.LineString
@@ -22,6 +21,8 @@ import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.DirectedEdgeStar
 import org.locationtech.jts.geomgraph.Edge
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 /**
  * Forms JTS LineStrings out of a the graph of {link DirectedEdge}s created by an {link OverlayOp}.

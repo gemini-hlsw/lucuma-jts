@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.operation.union
 
-import java.util
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.util.GeometryCombiner
+
+import java.util
 
 /**
  * Experimental code to union MultiPolygons with processing limited to the elements which actually

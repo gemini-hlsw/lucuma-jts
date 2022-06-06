@@ -14,15 +14,15 @@
  */
 package org.locationtech.jts.operation.buffer
 
-import java.util
-import java.util.Collections
-
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.LineSegment
 import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.operation.buffer.SubgraphDepthLocater.DepthSegment
+
+import java.util
+import java.util.Collections
 
 /**
  * Locates a subgraph inside a set of subgraphs, in order to determine the outside depth of the

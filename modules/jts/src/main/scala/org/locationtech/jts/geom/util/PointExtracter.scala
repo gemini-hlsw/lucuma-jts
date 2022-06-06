@@ -14,12 +14,13 @@
  */
 package org.locationtech.jts.geom.util
 
-import java.util
-import java.util.Collections
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryCollection
 import org.locationtech.jts.geom.GeometryFilter
 import org.locationtech.jts.geom.Point
+
+import java.util
+import java.util.Collections
 
 /**
  * Extracts all the 0-dimensional ({link Point}) components from a {link Geometry}.

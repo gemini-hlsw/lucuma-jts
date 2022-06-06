@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.operation.distance
 
-import java.util
 import org.locationtech.jts.algorithm.Distance
 import org.locationtech.jts.algorithm.PointLocator
 import org.locationtech.jts.geom.Coordinate
@@ -28,6 +27,8 @@ import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.util.LinearComponentExtracter
 import org.locationtech.jts.geom.util.PointExtracter
 import org.locationtech.jts.geom.util.PolygonExtracter
+
+import java.util
 
 /**
  * Find two points on two {link Geometry}s which lie within a given distance, or else are the

@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.algorithm
 
-import java.util
-import java.util.Comparator
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateArrays
 import org.locationtech.jts.geom.CoordinateList
@@ -24,6 +22,9 @@ import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.LinearRing
 import org.locationtech.jts.util.Assert
 import org.locationtech.jts.util.UniqueCoordinateArrayFilter
+
+import java.util
+import java.util.Comparator
 
 /**
  * Computes the convex hull of a {link Geometry}. The convex hull is the smallest convex Geometry

@@ -18,9 +18,10 @@ package org.locationtech.jts.geomgraph.index
  * @version 1.7
  */
 
+import org.locationtech.jts.geomgraph.Edge
+
 import java.util
 import java.util.Collections
-import org.locationtech.jts.geomgraph.Edge
 
 /**
  * Finds all intersections in one or two sets of edges, using a simple x-axis sweepline algorithm.

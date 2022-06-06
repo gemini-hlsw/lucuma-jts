@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.util
-
 import org.locationtech.jts.algorithm.BoundaryNodeRule
 import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.algorithm.Orientation
@@ -38,6 +36,8 @@ import org.locationtech.jts.geom.Polygonal
 import org.locationtech.jts.geomgraph.index.SegmentIntersector
 import org.locationtech.jts.geomgraph.index.SimpleMCSweepLineIntersector
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 /**
  * A GeometryGraph is a graph that models a given Geometry

@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.noding
 
-import java.util
 import org.locationtech.jts.index.chain.MonotoneChain
 import org.locationtech.jts.index.chain.MonotoneChainBuilder
 import org.locationtech.jts.index.chain.MonotoneChainOverlapAction
 import org.locationtech.jts.index.strtree.STRtree
+
+import java.util
 import scala.jdk.CollectionConverters._
 
 /**

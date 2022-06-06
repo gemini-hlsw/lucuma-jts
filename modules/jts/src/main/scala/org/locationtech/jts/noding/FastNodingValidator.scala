@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.noding
 
-import java.util
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.TopologyException
+
+import java.util
 //import org.locationtech.jts.io.WKTWriter
 
 // /**

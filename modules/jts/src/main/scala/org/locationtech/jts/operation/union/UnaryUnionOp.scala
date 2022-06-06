@@ -14,12 +14,13 @@
  */
 package org.locationtech.jts.operation.union
 
-import java.util
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Puntal
 import org.locationtech.jts.operation.overlay.OverlayOp
 import org.locationtech.jts.operation.overlay.snap.SnapIfNeededOverlayOp
+
+import java.util
 
 /**
  * Unions a <code>Collection</code> of {link Geometry}s or a single Geometry (which may be a {link

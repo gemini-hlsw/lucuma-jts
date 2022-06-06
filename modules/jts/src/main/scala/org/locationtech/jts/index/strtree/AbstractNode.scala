@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.index.strtree
 
+import org.locationtech.jts.util.Assert
+
 import java.io.Serializable
 import java.util
-import org.locationtech.jts.util.Assert
 
 /**
  * A node of an {link AbstractSTRtree}. A node is one of: <ul> <li>empty <li>an <i>interior node</i>

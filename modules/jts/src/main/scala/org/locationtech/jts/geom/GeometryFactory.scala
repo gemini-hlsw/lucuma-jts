@@ -14,10 +14,11 @@
  */
 package org.locationtech.jts.geom
 
-import java.io.Serializable
 import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory
 import org.locationtech.jts.geom.util.GeometryEditor
 import org.locationtech.jts.util.Assert
+
+import java.io.Serializable
 
 /**
  * Supplies a set of utility methods for building Geometry objects from lists of Coordinates. <p>

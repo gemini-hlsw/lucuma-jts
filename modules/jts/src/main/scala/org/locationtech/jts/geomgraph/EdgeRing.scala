@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.util
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.algorithm.PointLocation
 import org.locationtech.jts.geom.Coordinate
@@ -24,6 +23,8 @@ import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 /**
  * @version 1.7

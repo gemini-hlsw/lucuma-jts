@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.algorithm.construct
 
-import java.util.PriorityQueue
-
 import org.locationtech.jts.algorithm.construct.MaximumInscribedCircle.Cell
 import org.locationtech.jts.algorithm.locate.IndexedPointInAreaLocator
 import org.locationtech.jts.geom.Coordinate
@@ -27,6 +25,8 @@ import org.locationtech.jts.geom.MultiPolygon
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.operation.distance.IndexedFacetDistance
+
+import java.util.PriorityQueue
 
 /**
  * Constructs the Maximum Inscribed Circle for a polygonal {link Geometry}, up to a specified

@@ -14,9 +14,6 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.io.PrintStream
-import java.util
-
 import org.locationtech.jts.algorithm.BoundaryNodeRule
 import org.locationtech.jts.algorithm.locate.SimplePointInAreaLocator
 import org.locationtech.jts.geom.Coordinate
@@ -24,6 +21,8 @@ import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.util.Assert
 
+import java.io.PrintStream
+import java.util
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 

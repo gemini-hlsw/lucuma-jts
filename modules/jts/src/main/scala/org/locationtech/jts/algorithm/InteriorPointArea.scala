@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.algorithm
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.Geometry
@@ -23,6 +22,8 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.LinearRing
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 /**
  * Computes a point in the interior of an areal geometry. The point will lie in the geometry

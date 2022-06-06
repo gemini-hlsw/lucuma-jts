@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.geom
 
-import java.io.Serializable
 import org.locationtech.jts.algorithm.Distance
 import org.locationtech.jts.algorithm.Intersection
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.algorithm.RobustLineIntersector
+
+import java.io.Serializable
 
 /**
  * Represents a line segment defined by two {link Coordinate}s. Provides methods to compute various

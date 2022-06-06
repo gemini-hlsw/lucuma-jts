@@ -18,8 +18,6 @@ package org.locationtech.jts.operation.buffer
  * @version 1.7
  */
 
-import java.util
-
 import org.locationtech.jts.algorithm.Distance
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.geom.Coordinate
@@ -37,7 +35,10 @@ import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.Triangle
 import org.locationtech.jts.geomgraph.Label
 import org.locationtech.jts.geomgraph.Position
-import org.locationtech.jts.noding.{ NodedSegmentString, SegmentString }
+import org.locationtech.jts.noding.NodedSegmentString
+import org.locationtech.jts.noding.SegmentString
+
+import java.util
 
 /**
  * Creates all the raw offset curves for a buffer of a {link Geometry}. Raw curves need to be noded

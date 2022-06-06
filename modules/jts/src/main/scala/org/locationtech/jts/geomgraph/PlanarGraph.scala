@@ -18,11 +18,12 @@ package org.locationtech.jts.geomgraph
  * @version 1.7
  */
 
-import java.io.PrintStream
-import java.util
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Location
+
+import java.io.PrintStream
+import java.util
 
 /**
  * The computation of the <code>IntersectionMatrix</code> relies on the use of a structure called a

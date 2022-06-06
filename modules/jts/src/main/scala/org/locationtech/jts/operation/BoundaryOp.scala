@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.operation
 
-import java.util
-
 import org.locationtech.jts.algorithm.BoundaryNodeRule
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateArrays
@@ -24,6 +22,7 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.MultiLineString
 import org.locationtech.jts.geom.Point
 
+import java.util
 import scala.collection.mutable.TreeMap
 
 // /**

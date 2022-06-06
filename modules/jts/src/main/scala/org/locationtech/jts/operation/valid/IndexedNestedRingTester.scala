@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.operation.valid
 
-import java.util
 import org.locationtech.jts.algorithm.PointLocation
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
@@ -22,6 +21,8 @@ import org.locationtech.jts.geom.LinearRing
 import org.locationtech.jts.geomgraph.GeometryGraph
 import org.locationtech.jts.index.SpatialIndex
 import org.locationtech.jts.index.strtree.STRtree
+
+import java.util
 
 /**
  * Tests whether any of a set of {link LinearRing}s are nested inside another ring in the set, using

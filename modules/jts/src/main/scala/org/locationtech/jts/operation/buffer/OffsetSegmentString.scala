@@ -24,10 +24,11 @@
  */
 package org.locationtech.jts.operation.buffer
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.PrecisionModel
+
+import java.util
 
 /**
  * A dynamic list of the vertices in a constructed offset curve. Automatically removes adjacent

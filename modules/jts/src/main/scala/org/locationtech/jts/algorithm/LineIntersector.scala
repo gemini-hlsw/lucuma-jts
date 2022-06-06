@@ -20,7 +20,6 @@ package org.locationtech.jts.algorithm
 
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.PrecisionModel
-//import org.locationtech.jts.io.WKTWriter
 import org.locationtech.jts.util.Assert
 
 /**

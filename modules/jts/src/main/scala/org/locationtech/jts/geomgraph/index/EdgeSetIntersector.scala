@@ -18,9 +18,9 @@ package org.locationtech.jts.geomgraph.index
  * @version 1.7
  */
 
-import java.util
-
 import org.locationtech.jts.geomgraph.Edge
+
+import java.util
 
 /**
  * An EdgeSetIntersector computes all the intersections between the edges in the set. It adds the

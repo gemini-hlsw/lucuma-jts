@@ -18,7 +18,6 @@ package org.locationtech.jts.operation.buffer
  * @version 1.7
  */
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.TopologyException
@@ -26,6 +25,8 @@ import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.DirectedEdgeStar
 import org.locationtech.jts.geomgraph.Node
 import org.locationtech.jts.geomgraph.Position
+
+import java.util
 
 /**
  * A connected subset of the graph of {link DirectedEdge}s and {link Node}s. Its edges will generate

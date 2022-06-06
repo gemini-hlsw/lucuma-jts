@@ -14,10 +14,6 @@
  */
 package org.locationtech.jts.geom.impl
 
-import java.io.ObjectStreamException
-import java.io.Serializable
-import java.lang.ref.SoftReference
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateSequence
 import org.locationtech.jts.geom.CoordinateSequences
@@ -25,6 +21,11 @@ import org.locationtech.jts.geom.CoordinateXY
 import org.locationtech.jts.geom.CoordinateXYM
 import org.locationtech.jts.geom.CoordinateXYZM
 import org.locationtech.jts.geom.Envelope
+
+import java.io.ObjectStreamException
+import java.io.Serializable
+import java.lang.ref.SoftReference
+import java.util
 
 /**
  * A {link CoordinateSequence} implementation based on a packed arrays. In this implementation,
