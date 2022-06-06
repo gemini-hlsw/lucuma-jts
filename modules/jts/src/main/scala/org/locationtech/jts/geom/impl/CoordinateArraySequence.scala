@@ -14,8 +14,9 @@
  */
 package org.locationtech.jts.geom.impl
 
-import java.io.Serializable
 import org.locationtech.jts.geom._
+
+import java.io.Serializable
 
 /**
  * A {link CoordinateSequence} backed by an array of {link Coordinate}s. This is the implementation

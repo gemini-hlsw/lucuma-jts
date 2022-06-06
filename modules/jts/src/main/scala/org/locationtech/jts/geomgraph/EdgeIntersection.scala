@@ -14,8 +14,9 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.io.PrintStream
 import org.locationtech.jts.geom.Coordinate
+
+import java.io.PrintStream
 
 /**
  * Represents a point on an edge which intersects with another edge. <p> The intersection may either

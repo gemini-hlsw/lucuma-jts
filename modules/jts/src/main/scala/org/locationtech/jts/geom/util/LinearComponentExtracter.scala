@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.geom.util
 
-import java.util
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryComponentFilter
 import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.LinearRing
+
+import java.util
 
 /**
  * Extracts all the 1-dimensional ({link LineString}) components from a {link Geometry}. For

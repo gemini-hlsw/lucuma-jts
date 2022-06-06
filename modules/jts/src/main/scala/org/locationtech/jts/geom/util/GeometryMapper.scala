@@ -24,8 +24,9 @@
  */
 package org.locationtech.jts.geom.util
 
-import java.util
 import org.locationtech.jts.geom.Geometry
+
+import java.util
 
 /**
  * Methods to map various collections of {link Geometry}s via defined mapping functions.

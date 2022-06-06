@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.noding
 
-import java.util
 import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
+
+import java.util
 
 /**
  * Finds non-noded intersections in a set of {link SegmentString}s, if any exist. <p> Non-noded

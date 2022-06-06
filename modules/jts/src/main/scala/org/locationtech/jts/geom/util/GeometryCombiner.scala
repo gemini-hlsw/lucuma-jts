@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.geom.util
 
-import java.util
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryFactory
+
+import java.util
 
 /**
  * Combines {link Geometry}s to produce a {link GeometryCollection} of the most appropriate type.

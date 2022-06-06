@@ -14,12 +14,13 @@
  */
 package org.locationtech.jts.geom.util
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryComponentFilter
 import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Point
+
+import java.util
 
 /**
  * Extracts a representative {link Coordinate} from each connected component of a {link Geometry}.

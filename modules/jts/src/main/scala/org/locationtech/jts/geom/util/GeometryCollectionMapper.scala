@@ -14,10 +14,11 @@
  */
 package org.locationtech.jts.geom.util
 
-import java.util
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryCollection
 import org.locationtech.jts.geom.GeometryFactory
+
+import java.util
 
 /**
  * Maps the members of a {link GeometryCollection} into another <tt>GeometryCollection</tt> via a

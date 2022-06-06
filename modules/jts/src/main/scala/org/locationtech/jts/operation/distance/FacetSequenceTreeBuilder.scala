@@ -24,13 +24,14 @@
  */
 package org.locationtech.jts.operation.distance
 
-import java.util
 import org.locationtech.jts.geom.CoordinateSequence
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryComponentFilter
 import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.index.strtree.STRtree
+
+import java.util
 
 object FacetSequenceTreeBuilder { // 6 seems to be a good facet sequence size
   private val FACET_SEQUENCE_SIZE    = 6

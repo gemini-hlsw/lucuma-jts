@@ -14,9 +14,10 @@
  */
 package org.locationtech.jts.index.intervaltree
 
-import java.util.Comparator
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.index.ItemVisitor
+
+import java.util.Comparator
 //import org.locationtech.jts.io.WKTWriter
 
 object IntervalRTreeNode {

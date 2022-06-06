@@ -14,10 +14,11 @@
  */
 package org.locationtech.jts.geomgraph.index
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geomgraph.Quadrant
 import org.locationtech.jts.util.IntArrayList
+
+import java.util
 
 /**
  * MonotoneChains are a way of partitioning the segments of an edge to allow for fast searching of

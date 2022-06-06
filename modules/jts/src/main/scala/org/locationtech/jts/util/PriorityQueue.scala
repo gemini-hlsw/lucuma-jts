@@ -14,9 +14,9 @@
  */
 package org.locationtech.jts.util
 
-import java.util
-
 import org.locationtech.jts.index.strtree.BoundablePair
+
+import java.util
 
 /**
  * A priority queue over a set of {link Comparable} objects.

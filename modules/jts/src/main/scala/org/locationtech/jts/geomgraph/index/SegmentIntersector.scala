@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.geomgraph.index
 
-import java.util
 import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geomgraph.Edge
 import org.locationtech.jts.geomgraph.Node
+
+import java.util
 
 /**
  * Computes the intersection of line segments, and adds the intersection to the edges containing the

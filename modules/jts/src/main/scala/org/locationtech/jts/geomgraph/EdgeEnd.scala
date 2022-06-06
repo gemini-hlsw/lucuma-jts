@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.io.PrintStream
 import org.locationtech.jts.algorithm.BoundaryNodeRule
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.util.Assert
+
+import java.io.PrintStream
 
 /**
  * Models the end of an edge incident on a node. EdgeEnds have a direction determined by the

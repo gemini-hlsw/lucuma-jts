@@ -14,13 +14,14 @@
  */
 package org.locationtech.jts.operation.overlay.snap
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateSequence
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.Polygonal
 import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.geom.util.GeometryTransformer
+
+import java.util
 
 /**
  * Snaps the vertices and segments of a {link Geometry} to another Geometry's vertices. A snap

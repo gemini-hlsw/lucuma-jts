@@ -14,16 +14,20 @@
  */
 package org.locationtech.jts.operation.overlay
 
-import java.util
-
 import org.locationtech.jts.algorithm.PointLocation
 import org.locationtech.jts.geom.CoordinateArrays
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.TopologyException
-import org.locationtech.jts.geomgraph.{DirectedEdge, EdgeEnd, EdgeRing, Node, PlanarGraph}
+import org.locationtech.jts.geomgraph.DirectedEdge
+import org.locationtech.jts.geomgraph.EdgeEnd
+import org.locationtech.jts.geomgraph.EdgeRing
+import org.locationtech.jts.geomgraph.Node
+import org.locationtech.jts.geomgraph.PlanarGraph
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 /**
  * Forms {link Polygon}s out of a graph of {link DirectedEdge}s. The edges to use are marked as

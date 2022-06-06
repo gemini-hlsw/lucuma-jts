@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.geom.util
 
-import java.util
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateSequence
 import org.locationtech.jts.geom.Geometry
@@ -28,6 +27,8 @@ import org.locationtech.jts.geom.MultiPolygon
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 /**
  * A class which supports creating new {link Geometry}s which are modifications of existing ones,

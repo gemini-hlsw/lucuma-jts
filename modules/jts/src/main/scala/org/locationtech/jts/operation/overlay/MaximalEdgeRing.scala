@@ -14,11 +14,12 @@
  */
 package org.locationtech.jts.operation.overlay
 
-import java.util
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.DirectedEdgeStar
 import org.locationtech.jts.geomgraph.EdgeRing
+
+import java.util
 
 /**
  * A ring of {link DirectedEdge}s which may contain nodes of degree &gt; 2. A

@@ -14,8 +14,9 @@
  */
 package org.locationtech.jts.geom
 
-import java.util.Comparator
 import org.locationtech.jts.math.MathUtil
+
+import java.util.Comparator
 
 /**
  * Useful utility functions for handling Coordinate arrays

@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.operation.buffer.validate
 
-import java.util
 import org.locationtech.jts.algorithm.distance.DiscreteHausdorffDistance
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Geometry
@@ -23,8 +22,9 @@ import org.locationtech.jts.geom.MultiPolygon
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.util.LinearComponentExtracter
 import org.locationtech.jts.geom.util.PolygonExtracter
-//import org.locationtech.jts.io.WKTWriter
 import org.locationtech.jts.operation.distance.DistanceOp
+
+import java.util
 
 /**
  * Validates that a given buffer curve lies an appropriate distance from the input generating it.

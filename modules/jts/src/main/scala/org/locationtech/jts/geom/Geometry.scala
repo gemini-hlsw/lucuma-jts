@@ -14,15 +14,11 @@
  */
 package org.locationtech.jts.geom
 
-import java.io.Serializable
-import java.util.Comparator
-
 import org.locationtech.jts.algorithm.Centroid
 import org.locationtech.jts.algorithm.ConvexHull
 import org.locationtech.jts.algorithm.InteriorPoint
 import org.locationtech.jts.geom.util.GeometryCollectionMapper
 import org.locationtech.jts.geom.util.GeometryMapper
-//import org.locationtech.jts.io.WKTWriter
 import org.locationtech.jts.operation.IsSimpleOp
 import org.locationtech.jts.operation.buffer.BufferOp
 import org.locationtech.jts.operation.distance.DistanceOp
@@ -34,6 +30,9 @@ import org.locationtech.jts.operation.relate.RelateOp
 import org.locationtech.jts.operation.union.UnaryUnionOp
 import org.locationtech.jts.operation.valid.IsValidOp
 import org.locationtech.jts.util.Assert
+
+import java.io.Serializable
+import java.util.Comparator
 
 /**
  * A representation of a planar, linear vector geometry. <P>

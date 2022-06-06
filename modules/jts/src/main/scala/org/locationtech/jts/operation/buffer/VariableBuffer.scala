@@ -24,7 +24,6 @@
  */
 package org.locationtech.jts.operation.buffer
 
-import java.util
 import org.locationtech.jts.algorithm.Angle
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateList
@@ -33,6 +32,8 @@ import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.LineSegment
 import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Polygon
+
+import java.util
 
 /**
  * Creates a buffer polygon with a varying buffer distance at each vertex along a line. <p> Only

@@ -18,7 +18,6 @@ package org.locationtech.jts.operation.relate
  * @version 1.7
  */
 
-import java.util
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geomgraph.Edge
 import org.locationtech.jts.geomgraph.EdgeEnd
@@ -26,6 +25,8 @@ import org.locationtech.jts.geomgraph.EdgeIntersection
 import org.locationtech.jts.geomgraph.GeometryGraph
 import org.locationtech.jts.geomgraph.Node
 import org.locationtech.jts.geomgraph.NodeMap
+
+import java.util
 
 /**
  * Implements the simple graph of Nodes and EdgeEnd which is all that is required to determine

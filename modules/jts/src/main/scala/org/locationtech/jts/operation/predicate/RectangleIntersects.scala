@@ -14,7 +14,6 @@
  */
 package org.locationtech.jts.operation.predicate
 
-import java.util
 import org.locationtech.jts.algorithm.RectangleLineIntersector
 import org.locationtech.jts.algorithm.locate.SimplePointInAreaLocator
 import org.locationtech.jts.geom.Coordinate
@@ -24,6 +23,8 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.util.LinearComponentExtracter
 import org.locationtech.jts.geom.util.ShortCircuitedGeometryVisitor
+
+import java.util
 
 /**
  * Implementation of the <tt>intersects</tt> spatial predicate optimized for the case where one

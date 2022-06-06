@@ -14,18 +14,14 @@
  */
 package org.locationtech.jts.operation.overlay
 
-import java.util
-
 import org.locationtech.jts.algorithm.PointLocator
-import org.locationtech.jts.geom.{
-  Coordinate,
-  Geometry,
-  GeometryFactory,
-  LineString,
-  Location,
-  Point,
-  Polygon
-}
+import org.locationtech.jts.geom.Coordinate
+import org.locationtech.jts.geom.Geometry
+import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.geom.LineString
+import org.locationtech.jts.geom.Location
+import org.locationtech.jts.geom.Point
+import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.DirectedEdgeStar
 import org.locationtech.jts.geomgraph.Edge
@@ -37,6 +33,8 @@ import org.locationtech.jts.geomgraph.PlanarGraph
 import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.operation.GeometryGraphOperation
 import org.locationtech.jts.util.Assert
+
+import java.util
 import scala.annotation.nowarn
 
 /**

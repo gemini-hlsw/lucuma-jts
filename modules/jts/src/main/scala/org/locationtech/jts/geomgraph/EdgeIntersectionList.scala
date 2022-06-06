@@ -14,11 +14,10 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.io.PrintStream
-import java.util
-
 import org.locationtech.jts.geom.Coordinate
 
+import java.io.PrintStream
+import java.util
 import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 

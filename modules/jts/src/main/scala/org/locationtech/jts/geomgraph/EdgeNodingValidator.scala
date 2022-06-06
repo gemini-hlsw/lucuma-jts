@@ -14,9 +14,11 @@
  */
 package org.locationtech.jts.geomgraph
 
-import java.util
+import org.locationtech.jts.noding.BasicSegmentString
+import org.locationtech.jts.noding.FastNodingValidator
+import org.locationtech.jts.noding.SegmentString
 
-import org.locationtech.jts.noding.{BasicSegmentString, FastNodingValidator, SegmentString}
+import java.util
 
 /**
  * Validates that a collection of {link Edge}s is correctly noded. Throws an appropriate exception

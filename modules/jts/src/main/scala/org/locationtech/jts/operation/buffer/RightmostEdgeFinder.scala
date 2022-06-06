@@ -18,13 +18,14 @@ package org.locationtech.jts.operation.buffer
  * @version 1.7
  */
 
-import java.util
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.DirectedEdgeStar
 import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.util.Assert
+
+import java.util
 
 /**
  * A RightmostEdgeFinder find the DirectedEdge in a list which has the highest coordinate, and which

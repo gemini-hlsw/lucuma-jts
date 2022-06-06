@@ -14,12 +14,13 @@
  */
 package org.locationtech.jts.operation.distance
 
-import java.util
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryFilter
 import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
+
+import java.util
 
 /**
  * A ConnectedElementPointFilter extracts a single point from each connected element in a Geometry
