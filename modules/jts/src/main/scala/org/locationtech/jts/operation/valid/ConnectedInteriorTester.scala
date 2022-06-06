@@ -31,11 +31,7 @@ import org.locationtech.jts.geomgraph.{
   PlanarGraph,
   Position
 }
-import org.locationtech.jts.operation.overlay.{
-  MaximalEdgeRing,
-  MinimalEdgeRing,
-  OverlayNodeFactory
-}
+import org.locationtech.jts.operation.overlay.{MaximalEdgeRing, MinimalEdgeRing, OverlayNodeFactory}
 import org.locationtech.jts.util.Assert
 
 /**

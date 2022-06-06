@@ -22,10 +22,10 @@ import java.util
 import java.util.Collections
 
 import org.locationtech.jts.algorithm.RobustLineIntersector
-import org.locationtech.jts.geom.{ Geometry, GeometryFactory, Location, Polygon, PrecisionModel }
+import org.locationtech.jts.geom.{Geometry, GeometryFactory, Location, Polygon, PrecisionModel}
 import org.locationtech.jts.geomgraph._
-import org.locationtech.jts.noding.{ IntersectionAdder, MCIndexNoder, Noder, SegmentString }
-import org.locationtech.jts.operation.overlay.{ OverlayNodeFactory, PolygonBuilder }
+import org.locationtech.jts.noding.{IntersectionAdder, MCIndexNoder, Noder, SegmentString}
+import org.locationtech.jts.operation.overlay.{OverlayNodeFactory, PolygonBuilder}
 
 import scala.jdk.CollectionConverters._
 
