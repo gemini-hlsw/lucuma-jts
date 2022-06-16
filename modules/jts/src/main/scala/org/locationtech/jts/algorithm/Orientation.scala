@@ -134,7 +134,7 @@ object Orientation {
     }) ()
     // find distinct point after highest point
     var iNext   = hiIndex
-    while ({ { iNext = (iNext + 1) % nPts }; (ring(iNext).equals2D(hiPt) && iNext != hiIndex) }) ()
+    while ({ { iNext = (iNext + 1) % nPts }; ring(iNext).equals2D(hiPt) && iNext != hiIndex }) ()
     val prev    = ring(iPrev)
     val next    = ring(iNext)
     /*

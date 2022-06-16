@@ -213,7 +213,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
      */
     i = 0
     while (i < inputPts.length) {
-      if (!(PointLocation.isInRing(inputPts(i), polyPts))) {
+      if (!PointLocation.isInRing(inputPts(i), polyPts)) {
         reducedSet.add(inputPts(i))
       }
       i += 1
@@ -277,7 +277,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     while (i < c.length) {
       p = ps.pop.asInstanceOf[Coordinate]
       // check for empty stack to guard against robustness problems
-      while (!(ps.empty) && Orientation.index(ps.peek.asInstanceOf[Coordinate], p, c(i)) > 0)
+      while (!ps.empty && Orientation.index(ps.peek.asInstanceOf[Coordinate], p, c(i)) > 0)
         p = ps.pop.asInstanceOf[Coordinate]
       ps.push(p)
       ps.push(c(i))
