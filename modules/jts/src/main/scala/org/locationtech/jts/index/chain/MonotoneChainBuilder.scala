@@ -52,7 +52,7 @@ object MonotoneChainBuilder {
         val mc       = new MonotoneChain(pts, chainStart, chainEnd, context)
         mcList.add(mc)
         chainStart = chainEnd
-      }; (chainStart < pts.length - 1)
+      }; chainStart < pts.length - 1
     }) ()
     mcList
   }

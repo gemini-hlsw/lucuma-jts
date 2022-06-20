@@ -158,7 +158,7 @@ class GeometryCollection(
     if (geometries.length != otherCollection.geometries.length) return false
     var i               = 0
     while (i < geometries.length) {
-      if (!(geometries(i)).equalsExact(otherCollection.geometries(i), tolerance)) return false
+      if (!geometries(i).equalsExact(otherCollection.geometries(i), tolerance)) return false
       i += 1
     }
     true
