@@ -910,7 +910,7 @@ object DD {
   /**
    * The value to split a double-precision value on during multiplication
    */
-  private val SPLIT    = 134217729.0d // 2^27+1, for IEEE double
+  private val SPLIT = 134217729.0d // 2^27+1, for IEEE double
   /**
    * Creates a new DoubleDouble with the value of the argument.
    *
