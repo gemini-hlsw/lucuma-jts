@@ -2,7 +2,7 @@ ThisBuild / tlBaseVersion       := "0.3"
 ThisBuild / tlCiReleaseBranches := Seq("master")
 
 Global / onChangedBuildSource  := ReloadOnSourceChanges
-ThisBuild / crossScalaVersions := Seq("3.2.0", "2.13.8")
+ThisBuild / crossScalaVersions := Seq("3.2.1", "2.13.8")
 ThisBuild / githubWorkflowBuildPreamble += WorkflowStep.Sbt(List("show coverageEnabled"))
 
 lazy val root = tlCrossRootProject.aggregate(jts, jts_awt, tests)
