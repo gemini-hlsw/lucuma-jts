@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -68,7 +68,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
     if (isEmpty) return false
     var i = 0
     while (i < geometries.length) {
-      if (!(geometries(i).asInstanceOf[LineString]).isClosed) return false
+      if (!geometries(i).asInstanceOf[LineString].isClosed) return false
       i += 1
     }
     true

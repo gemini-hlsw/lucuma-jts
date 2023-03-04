@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -256,7 +256,7 @@ class Polygon(
     if (holes.length != otherPolygon.holes.length) return false
     var i                 = 0
     while (i < holes.length) {
-      if (!(holes(i).asInstanceOf[Geometry]).equalsExact(otherPolygon.holes(i), tolerance))
+      if (!holes(i).asInstanceOf[Geometry].equalsExact(otherPolygon.holes(i), tolerance))
         return false
       i += 1
     }
