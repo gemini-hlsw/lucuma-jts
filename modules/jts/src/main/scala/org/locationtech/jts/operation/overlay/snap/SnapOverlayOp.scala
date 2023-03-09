@@ -46,11 +46,11 @@ object SnapOverlayOp {
 }
 
 class SnapOverlayOp(val g1: Geometry, val g2: Geometry) {
-  computeSnapTolerance()
   private val geom          = new Array[Geometry](2)
   geom(0) = g1
   geom(1) = g2
   private var snapTolerance = .0
+  computeSnapTolerance()
 
   private def computeSnapTolerance(): Unit =
     snapTolerance = GeometrySnapper.computeOverlaySnapTolerance(geom(0), geom(1))
