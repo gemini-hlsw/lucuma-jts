@@ -62,7 +62,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
     0
   }
 
-  override def getGeometryType = "MultiLineString"
+  override def getGeometryType = Geometry.TYPENAME_MULTILINESTRING
 
   def isClosed: Boolean = {
     if (isEmpty) return false
@@ -108,5 +108,5 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
     super.equalsExact(other, tolerance)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTILINESTRING
+  override protected def getTypeCode: Int = Geometry.TYPECODE_MULTILINESTRING
 }

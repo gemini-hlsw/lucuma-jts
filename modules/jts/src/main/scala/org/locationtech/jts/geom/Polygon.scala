@@ -190,7 +190,8 @@ class Polygon(
 
   def getInteriorRingN(n: Int): LinearRing = holes(n)
 
-  override def getGeometryType = "Polygon"
+  override def getGeometryType =
+    Geometry.TYPENAME_POLYGON
 
   /**
    * Returns the area of this <code>Polygon</code>
@@ -360,7 +361,7 @@ class Polygon(
     return 0
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_POLYGON
+  override protected def getTypeCode: Int = Geometry.TYPECODE_POLYGON
 
   private def normalized(ring: LinearRing, clockwise: Boolean): LinearRing = {
     val res = ring.copy.asInstanceOf[LinearRing]

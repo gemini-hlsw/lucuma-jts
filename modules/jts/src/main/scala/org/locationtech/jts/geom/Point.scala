@@ -100,7 +100,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
   override def getCoordinate: Coordinate = if (coordinates.size != 0) coordinates.getCoordinate(0)
   else null
 
-  override def getGeometryType = "Point"
+  override def getGeometryType = Geometry.TYPENAME_POINT
 
   /**
    * Gets the boundary of this geometry. Zero-dimensional geometries have no boundary by definition,
@@ -171,7 +171,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
     comp.compare(this.coordinates, point.coordinates)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_POINT
+  override protected def getTypeCode: Int = Geometry.TYPECODE_POINT
 
   def getCoordinateSequence: CoordinateSequence = coordinates
 }

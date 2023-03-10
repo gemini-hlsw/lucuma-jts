@@ -60,7 +60,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
 
   override def getBoundaryDimension = 1
 
-  override def getGeometryType = "MultiPolygon"
+  override def getGeometryType = Geometry.TYPENAME_MULTIPOLYGON
 
   /**
    * Computes the boundary of this geometry
@@ -111,5 +111,5 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
     new MultiPolygon(polygons, factory)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTIPOLYGON
+  override protected def getTypeCode: Int = Geometry.TYPECODE_MULTIPOLYGON
 }

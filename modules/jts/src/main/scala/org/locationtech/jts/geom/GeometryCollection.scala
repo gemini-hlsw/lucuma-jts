@@ -119,7 +119,7 @@ class GeometryCollection(
     numPoints
   }
 
-  override def getGeometryType = "GeometryCollection"
+  override def getGeometryType = Geometry.TYPENAME_GEOMETRYCOLLECTION
 
   override def getBoundary: Geometry = {
     Geometry.checkNotGeometryCollection(this)
@@ -265,7 +265,7 @@ class GeometryCollection(
     0
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_GEOMETRYCOLLECTION
+  override protected def getTypeCode: Int = Geometry.TYPECODE_GEOMETRYCOLLECTION
 
   /**
    * Creates a {link GeometryCollection} with every component reversed. The order of the components

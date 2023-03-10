@@ -105,7 +105,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
 
   def isRing: Boolean = isClosed && isSimple
 
-  override def getGeometryType = "LineString"
+  override def getGeometryType = Geometry.TYPENAME_LINESTRING
 
   /**
    * Returns the length of this <code>LineString</code>
@@ -254,5 +254,5 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
     comp.compare(this.points, line.points)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_LINESTRING
+  override protected def getTypeCode: Int = Geometry.TYPECODE_LINESTRING
 }

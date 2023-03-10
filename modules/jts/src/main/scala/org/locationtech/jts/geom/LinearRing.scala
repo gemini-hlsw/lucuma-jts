@@ -108,9 +108,9 @@ class LinearRing(val point: CoordinateSequence, val factor: GeometryFactory)
     super.isClosed
   }
 
-  override def getGeometryType = "LinearRing"
+  override def getGeometryType = Geometry.TYPENAME_LINEARRING
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_LINEARRING
+  override protected def getTypeCode: Int = Geometry.TYPECODE_LINEARRING
 
   override protected def copyInternal = new LinearRing(points.copy, factory)
 

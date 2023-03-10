@@ -119,15 +119,25 @@ import java.util.Comparator
  */
 @SerialVersionUID(8763622679187376702L)
 object Geometry {
-  private[geom] val SORTINDEX_POINT              = 0
-  private[geom] val SORTINDEX_MULTIPOINT         = 1
-  private[geom] val SORTINDEX_LINESTRING         = 2
-  private[geom] val SORTINDEX_LINEARRING         = 3
-  private[geom] val SORTINDEX_MULTILINESTRING    = 4
-  private[geom] val SORTINDEX_POLYGON            = 5
-  private[geom] val SORTINDEX_MULTIPOLYGON       = 6
-  private[geom] val SORTINDEX_GEOMETRYCOLLECTION = 7
-  private val geometryChangedFilter              = new GeometryComponentFilter() {
+  protected[geom] val TYPECODE_POINT              = 0
+  protected[geom] val TYPECODE_MULTIPOINT         = 1
+  protected[geom] val TYPECODE_LINESTRING         = 2
+  protected[geom] val TYPECODE_LINEARRING         = 3
+  protected[geom] val TYPECODE_MULTILINESTRING    = 4
+  protected[geom] val TYPECODE_POLYGON            = 5
+  protected[geom] val TYPECODE_MULTIPOLYGON       = 6
+  protected[geom] val TYPECODE_GEOMETRYCOLLECTION = 7
+
+  val TYPENAME_POINT              = "Point"
+  val TYPENAME_MULTIPOINT         = "MultiPoint"
+  val TYPENAME_LINESTRING         = "LineString"
+  val TYPENAME_LINEARRING         = "LinearRing"
+  val TYPENAME_MULTILINESTRING    = "MultiLineString"
+  val TYPENAME_POLYGON            = "Polygon"
+  val TYPENAME_MULTIPOLYGON       = "MultiPolygon"
+  val TYPENAME_GEOMETRYCOLLECTION = "GeometryCollection"
+
+  private val geometryChangedFilter = new GeometryComponentFilter() {
     override def filter(geom: Geometry): Unit = geom.geometryChangedAction()
   }
 
@@ -1302,7 +1312,7 @@ abstract class Geometry(
    *   Specifications
    */
   override def compareTo(other: Geometry): Int = {
-    if (getSortIndex != other.getSortIndex) return getSortIndex - other.getSortIndex
+    if (getTypeCode != other.getTypeCode) return getTypeCode - other.getTypeCode
     if (isEmpty && other.isEmpty) return 0
     if (isEmpty) return -1
     if (other.isEmpty) return 1
@@ -1327,7 +1337,7 @@ abstract class Geometry(
    *   <code>o</code>, as defined in "Normal Form For Geometry" in the JTS Technical Specifications
    */
   def compareTo(other: Geometry, comp: CoordinateSequenceComparator): Int = {
-    if (getSortIndex != other.getSortIndex) return getSortIndex - other.getSortIndex
+    if (getTypeCode != other.getTypeCode) return getTypeCode - other.getTypeCode
     if (isEmpty && other.isEmpty) return 0
     if (isEmpty) return -1
     if (other.isEmpty) return 1
@@ -1356,7 +1366,7 @@ abstract class Geometry(
    * return true if this is a heterogeneous GeometryCollection
    */
   protected def isGeometryCollection: Boolean =
-    getSortIndex == Geometry.SORTINDEX_GEOMETRYCOLLECTION
+    getTypeCode == Geometry.TYPECODE_GEOMETRYCOLLECTION
 
   /**
    * Returns the minimum and maximum x and y values in this <code>Geometry</code> , or a null
@@ -1431,7 +1441,7 @@ abstract class Geometry(
     a.distance(b) <= tolerance
   }
 
-  protected def getSortIndex: Int
+  protected def getTypeCode: Int
 
   private def createPointFromInternalCoord(coord: Coordinate, exemplar: Geometry) = {
     exemplar.getPrecisionModel.makePrecise(coord)

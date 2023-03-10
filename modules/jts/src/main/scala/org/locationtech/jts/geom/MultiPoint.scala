@@ -56,7 +56,7 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory)
 
   override def getBoundaryDimension: Int = Dimension.FALSE
 
-  override def getGeometryType = "MultiPoint"
+  override def getGeometryType = Geometry.TYPENAME_MULTIPOINT
 
   /**
    * Gets the boundary of this geometry. Zero-dimensional geometries have no boundary by definition,
@@ -94,5 +94,5 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory)
     new MultiPoint(points, factory)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTIPOINT
+  override protected def getTypeCode: Int = Geometry.TYPECODE_MULTIPOINT
 }
