@@ -19,12 +19,12 @@ import org.locationtech.jts.index.ItemVisitor
 import org.locationtech.jts.index.SpatialIndex
 import org.locationtech.jts.index.strtree.AbstractSTRtree.IntersectsOp
 import org.locationtech.jts.util.Assert
-import org.locationtech.jts.util.PriorityQueue
 
 import java.io.Serializable
 import java.util
 import java.util.Collections
 import java.util.Comparator
+import java.util.PriorityQueue
 
 /**
  * A query-only R-tree created using the Sort-Tile-Recursive (STR) algorithm. For two-dimensional
@@ -80,7 +80,7 @@ object STRtree {
   }
   private val DEFAULT_NODE_CAPACITY = 10
 
-  private def getItems(kNearestNeighbors: PriorityQueue) = {
+  private def getItems(kNearestNeighbors: PriorityQueue[BoundablePair]) = {
 
     /**
      * Iterate the K Nearest Neighbour Queue and retrieve the item from each BoundablePair in this
@@ -287,7 +287,7 @@ class STRtree(val nodeCapacityArg: Int)
     var distanceLowerBound     = java.lang.Double.POSITIVE_INFINITY
     var minPair: BoundablePair = null
     // initialize search queue
-    val priQ                   = new PriorityQueue
+    val priQ                   = new PriorityQueue[BoundablePair]
     priQ.add(initBndPair)
     while (!priQ.isEmpty && distanceLowerBound > 0.0) { // pop head of queue and expand one side of pair
       val bndPair      = priQ.poll.asInstanceOf[BoundablePair]
@@ -357,7 +357,7 @@ class STRtree(val nodeCapacityArg: Int)
    */
   private def isWithinDistance(initBndPair: BoundablePair, maxDistance: Double): Boolean = {
     var distanceUpperBound = java.lang.Double.POSITIVE_INFINITY
-    val priQ               = new PriorityQueue
+    val priQ               = new PriorityQueue[BoundablePair]
     priQ.add(initBndPair)
     while (!priQ.isEmpty) {
       val bndPair      = priQ.poll.asInstanceOf[BoundablePair]
@@ -429,10 +429,10 @@ class STRtree(val nodeCapacityArg: Int)
   ): Array[Any] = {
     var distanceLowerBound = maxDistance
     // initialize internal structures
-    val priQ               = new PriorityQueue
+    val priQ               = new PriorityQueue[BoundablePair]
     // initialize queue
     priQ.add(initBndPair)
-    val kNearestNeighbors  = new PriorityQueue
+    val kNearestNeighbors  = new PriorityQueue[BoundablePair]
     while (!priQ.isEmpty && distanceLowerBound >= 0.0) {
       val bndPair      = priQ.poll.asInstanceOf[BoundablePair]
       val pairDistance = bndPair.getDistance
