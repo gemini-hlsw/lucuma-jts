@@ -398,12 +398,57 @@ object CoordinateArrays {
    *   the coordinate to make first
    */
   def scroll(coordinates: Array[Coordinate], firstCoordinate: Coordinate): Unit = {
-    val i              = indexOf(firstCoordinate, coordinates)
-    if (i < 0) return
+    val i = indexOf(firstCoordinate, coordinates)
+    scroll(coordinates, i);
+  }
+
+  /**
+   * Shifts the positions of the coordinates until the coordinate at <code>firstCoordinate</code> is
+   * first.
+   *
+   * @param coordinates
+   *   the array to rearrange
+   * @param indexOfFirstCoordinate
+   *   the index of the coordinate to make first
+   */
+  def scroll(coordinates: Array[Coordinate], indexOfFirstCoordinate: Int): Unit =
+    scroll(coordinates, indexOfFirstCoordinate, CoordinateArrays.isRing(coordinates))
+
+  /**
+   * Shifts the positions of the coordinates until the coordinate at
+   * <code>indexOfFirstCoordinate</code> is first. <p/> If {@code ensureRing} is {@code true}, first
+   * and last coordinate of the returned array are equal.
+   *
+   * @param coordinates
+   *   the array to rearrange
+   * @param indexOfFirstCoordinate
+   *   the index of the coordinate to make first
+   * @param ensureRing
+   *   flag indicating if returned array should form a ring.
+   */
+  def scroll(
+    coordinates:            Array[Coordinate],
+    indexOfFirstCoordinate: Int,
+    ensureRing:             Boolean
+  ): Unit = {
+    val i              = indexOfFirstCoordinate
+    if (i <= 0) return
     val newCoordinates = new Array[Coordinate](coordinates.length)
-    System.arraycopy(coordinates, i, newCoordinates, 0, coordinates.length - i)
     System.arraycopy(coordinates, 0, newCoordinates, coordinates.length - i, i)
-    System.arraycopy(newCoordinates, 0, coordinates, 0, coordinates.length)
+    if (!ensureRing) {
+      System.arraycopy(coordinates, i, newCoordinates, 0, coordinates.length - i)
+      System.arraycopy(coordinates, 0, newCoordinates, coordinates.length - i, i)
+    } else {
+      val last = coordinates.length - 1
+
+      // fill in values
+      for {
+        j <- 0 to last
+      } yield newCoordinates(j) = coordinates((i + j) % last)
+
+      // Fix the ring (first == last)
+      newCoordinates(last - 1) = newCoordinates(0).copy
+    }
   }
 
   /**
