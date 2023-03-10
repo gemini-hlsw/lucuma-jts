@@ -55,6 +55,104 @@ object CoordinateArrays {
   }
 
   /**
+   * Utility method ensuring array contents are of consistent dimension and measures. <p> Array is
+   * modified in place if required, coordinates are replaced in the array as required to ensure all
+   * coordinates have the same dimension and measures. The final dimension and measures used are the
+   * maximum found when checking the array. </p>
+   *
+   * @param array
+   *   Modified in place to coordinates of consistent dimension and measures.
+   */
+  def enforceConsistency(array: Array[Coordinate]): Unit = {
+    if (array == null) {
+      return
+    }
+    // step one check
+    var maxDimension = -1
+    var maxMeasures  = -1
+    var isConsistent = true
+    for (i <- 0 to array.length) yield {
+      val coordinate = array(i)
+      if (coordinate != null) {
+        val d = Coordinates.dimension(coordinate)
+        val m = Coordinates.measures(coordinate)
+        if (maxDimension == -1) {
+          maxDimension = d
+          maxMeasures = m
+        } else if (d != maxDimension || m != maxMeasures) {
+          isConsistent = false
+          maxDimension = Math.max(maxDimension, d)
+          maxMeasures = Math.max(maxMeasures, m)
+        }
+      }
+    }
+    if (!isConsistent) {
+      // step two fix
+      val sample = Coordinates.create(maxDimension, maxMeasures)
+      val clz    = sample.getClass()
+
+      for (i <- 0 to array.length) yield {
+        val coordinate = array(i)
+        if (coordinate != null && !coordinate.getClass().equals(clz)) {
+          val duplicate = Coordinates.create(maxDimension, maxMeasures)
+          duplicate.setCoordinate(coordinate)
+          array(i) = duplicate
+        }
+      }
+    }
+  }
+
+  /**
+   * Utility method ensuring array contents are of the specified dimension and measures. <p> Array
+   * is returned unmodified if consistent, or a copy of the array is made with each inconsistent
+   * coordinate duplicated into an instance of the correct dimension and measures. </p></>
+   *
+   * @param array
+   *   coordinate array
+   * @param dimension
+   * @param measures
+   * @return
+   *   array returned, or copy created if required to enforce consistency.
+   */
+  def enforceConsistency(
+    array:     Array[Coordinate],
+    dimension: Int,
+    measures:  Int
+  ): Array[Coordinate] = {
+    val sample       = Coordinates.create(dimension, measures)
+    val clz          = sample.getClass()
+    var isConsistent = true
+    for {
+      i <- 0 to array.length
+      if isConsistent
+    } yield {
+      val coordinate = array(i)
+      if (coordinate != null && !coordinate.getClass().equals(clz)) {
+        isConsistent = false
+      }
+    }
+    if (isConsistent) {
+      return array
+    } else {
+      val coordinateType = sample.getClass()
+      val copy           = java.lang.reflect.Array
+        .newInstance(coordinateType, array.length)
+        .asInstanceOf[Array[Coordinate]]
+      for (i <- 0 to copy.length) {
+        val coordinate = array(i)
+        if (coordinate != null && !coordinate.getClass().equals(clz)) {
+          val duplicate = Coordinates.create(dimension, measures)
+          duplicate.setCoordinate(coordinate)
+          copy(i) = duplicate
+        } else {
+          copy(i) = coordinate
+        }
+      }
+      return copy
+    }
+  }
+
+  /**
    * Tests whether an array of {link Coordinate}s forms a ring, by checking length and closure.
    * Self-intersection is not checked.
    *
