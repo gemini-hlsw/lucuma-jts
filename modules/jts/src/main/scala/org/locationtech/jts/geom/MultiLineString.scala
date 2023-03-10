@@ -91,7 +91,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
    * return a { @link MultiLineString} in the reverse order
    * @deprecated
    */
-  override def reverse: Geometry = super.reverse
+  override def reverse: MultiLineString = super.reverse.asInstanceOf[MultiLineString]
 
   override protected def copyInternal: MultiLineString = {
     val lineStrings = new Array[LineString](this.geometries.length)

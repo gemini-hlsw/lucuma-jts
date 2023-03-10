@@ -153,7 +153,7 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
   override protected def copyInternal = new Point(coordinates.copy, factory)
 
   /** @deprecated */
-  override def reverse: Geometry = super.reverse
+  override def reverse: Point = super.reverse.asInstanceOf[Point]
 
   override protected def reverseInternal: Point = getFactory.createPoint(coordinates.copy)
 

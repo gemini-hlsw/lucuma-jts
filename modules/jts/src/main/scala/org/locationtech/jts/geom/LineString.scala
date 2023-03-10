@@ -130,7 +130,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
    * return a { @link LineString} with coordinates in the reverse order
    * @deprecated
    */
-  override def reverse: Geometry = super.reverse
+  override def reverse: LineString = super.reverse.asInstanceOf[LineString]
 
   override protected def reverseInternal: LineString = {
     val seq = points.copy

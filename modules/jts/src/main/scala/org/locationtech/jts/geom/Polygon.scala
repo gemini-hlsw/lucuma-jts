@@ -378,7 +378,7 @@ class Polygon(
   }
 
   /** @deprecated */
-  override def reverse: Geometry = super.reverse
+  override def reverse: Polygon = super.reverse.asInstanceOf[Polygon]
 
   override protected def reverseInternal: Polygon = {
     val shell = getExteriorRing.reverse.asInstanceOf[LinearRing]

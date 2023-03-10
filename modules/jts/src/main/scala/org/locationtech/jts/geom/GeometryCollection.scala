@@ -272,11 +272,10 @@ class GeometryCollection(
    * in the collection are not reversed.
    *
    * return a { @link GeometryCollection} in the reverse order
-   * @deprecated
    */
-  override def reverse: Geometry = super.reverse
+  override def reverse: GeometryCollection = super.reverse.asInstanceOf[GeometryCollection]
 
-  override protected def reverseInternal: Geometry = {
+  override protected def reverseInternal: GeometryCollection = {
     val numGeometries = geometries.length
     val reversed      = new java.util.ArrayList[Geometry](numGeometries)
     var i             = 0
@@ -284,6 +283,6 @@ class GeometryCollection(
       reversed.add(geometries(i).reverse)
       i += 1
     }
-    getFactory.buildGeometry(reversed)
+    getFactory.buildGeometry(reversed).asInstanceOf[GeometryCollection]
   }
 }

@@ -84,6 +84,8 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory)
    */
   protected def getCoordinate(n: Int): Coordinate = geometries(n).asInstanceOf[Point].getCoordinate
 
+  override def reverse: MultiPoint = super.reverse.asInstanceOf[MultiPoint]
+
   override protected def copyInternal: MultiPoint = {
     val points = new Array[Point](this.geometries.length)
     var i      = 0

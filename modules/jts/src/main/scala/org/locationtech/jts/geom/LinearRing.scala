@@ -115,7 +115,7 @@ class LinearRing(val point: CoordinateSequence, val factor: GeometryFactory)
   override protected def copyInternal = new LinearRing(points.copy, factory)
 
   /** @deprecated */
-  override def reverse: Geometry = super.reverse
+  override def reverse: LinearRing = super.reverse.asInstanceOf[LinearRing]
 
   override def reverseInternal: LinearRing = {
     val seq = points.copy

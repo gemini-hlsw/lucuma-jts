@@ -99,7 +99,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
    * return a MultiPolygon in the reverse order
    * @deprecated
    */
-  override def reverse: Geometry = super.reverse
+  override def reverse: MultiPolygon = super.reverse.asInstanceOf[MultiPolygon]
 
   override protected def copyInternal: MultiPolygon = {
     val polygons = new Array[Polygon](this.geometries.length)
