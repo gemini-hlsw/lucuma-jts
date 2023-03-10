@@ -112,7 +112,8 @@ class IndexedPointInAreaLocator(var geom: Geometry)
    *   the point to test return the location of the point in the geometry
    */
   override def locate(p: Coordinate): Int = {
-    createIndex()
+    // avoid calling synchronized method improves performance
+    if (index == null) createIndex()
     val rcc     = new RayCrossingCounter(p)
     val visitor = new IndexedPointInAreaLocator.SegmentVisitor(rcc)
     index.query(p.y, p.y, visitor)
