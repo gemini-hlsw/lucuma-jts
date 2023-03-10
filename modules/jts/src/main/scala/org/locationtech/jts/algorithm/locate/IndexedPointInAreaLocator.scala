@@ -112,11 +112,7 @@ class IndexedPointInAreaLocator(var geom: Geometry)
    *   the point to test return the location of the point in the geometry
    */
   override def locate(p: Coordinate): Int = {
-    if (index == null) {
-      index = new IndexedPointInAreaLocator.IntervalIndexedGeometry(geom)
-      // no need to hold onto geom
-      geom = null
-    }
+    createIndex()
     val rcc     = new RayCrossingCounter(p)
     val visitor = new IndexedPointInAreaLocator.SegmentVisitor(rcc)
     index.query(p.y, p.y, visitor)
@@ -126,5 +122,16 @@ class IndexedPointInAreaLocator(var geom: Geometry)
         countSegs(rcc, segs);
      */
     rcc.getLocation
+  }
+
+  /**
+   * Creates the indexed geometry, creating it if necessary.
+   */
+  def createIndex(): Unit = synchronized {
+    if (index == null) {
+      index = new IntervalIndexedGeometry(geom);
+      // no need to hold onto geom
+      geom = null;
+    }
   }
 }
