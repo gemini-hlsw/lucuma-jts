@@ -16,6 +16,7 @@ package org.locationtech.jts.algorithm
 
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateSequence
+import org.locationtech.jts.geom.impl.CoordinateArraySequence
 
 /**
  * Functions to compute the orientation of basic geometric structures including point triplets
@@ -103,65 +104,9 @@ object Orientation {
    *   an array of Coordinates forming a ring return true if the ring is oriented counter-clockwise.
    *   throws IllegalArgumentException if there are too few points to determine orientation (&lt; 4)
    */
-  def isCCW(ring: Array[Coordinate]): Boolean = { // # of points without closing endpoint
-    val nPts    = ring.length - 1
-    // sanity check
-    if (nPts < 3)
-      throw new IllegalArgumentException(
-        "Ring has fewer than 4 points, so orientation cannot be determined"
-      )
-    // find highest point
-    var hiPt    = ring(0)
-    var hiIndex = 0
-    var i       = 1
-    while (i <= nPts) {
-      val p = ring(i)
-      if (p.y > hiPt.y) {
-        hiPt = p
-        hiIndex = i
-      }
-      {
-        i += 1; i - 1
-      }
-    }
-    // find distinct point before highest point
-    var iPrev   = hiIndex
-    while ({
-      {
-        iPrev = iPrev - 1
-        if (iPrev < 0) iPrev = nPts
-      }; ring(iPrev).equals2D(hiPt) && iPrev != hiIndex
-    }) ()
-    // find distinct point after highest point
-    var iNext   = hiIndex
-    while ({ { iNext = (iNext + 1) % nPts }; ring(iNext).equals2D(hiPt) && iNext != hiIndex }) ()
-    val prev    = ring(iPrev)
-    val next    = ring(iNext)
-    /*
-     * This check catches cases where the ring contains an A-B-A configuration
-     * of points. This can happen if the ring does not contain 3 distinct points
-     * (including the case where the input array has fewer than 4 elements), or
-     * it contains coincident line segments.
-     */
-    if (prev.equals2D(hiPt) || next.equals2D(hiPt) || prev.equals2D(next)) return false
-    val disc    = Orientation.index(prev, hiPt, next)
-    /*
-     * If disc is exactly 0, lines are collinear. There are two possible cases:
-     * (1) the lines lie along the x axis in opposite directions (2) the lines
-     * lie on top of one another
-     *
-     * (1) is handled by checking if next is left of prev ==> CCW (2) will never
-     * happen if the ring is valid, so don't check for it (Might want to assert
-     * this)
-     */
-    var isCCW   = false
-    if (disc == 0) { // poly is CCW if prev x is right of next x
-      isCCW = prev.x > next.x
-    } else { // if area is positive, points are ordered CCW
-      isCCW = disc > 0
-    }
-    isCCW
-  }
+  def isCCW(ring: Array[Coordinate]): Boolean = // # of points without closing endpoint
+    // wrap with an XY CoordinateSequence
+    isCCW(new CoordinateArraySequence(ring, 2, 0))
 
   /**
    * Computes whether a ring defined by an {link CoordinateSequence} is oriented counter-clockwise.
@@ -175,55 +120,81 @@ object Orientation {
    *   throws IllegalArgumentException if there are too few points to determine orientation (&lt; 4)
    */
   def isCCW(ring: CoordinateSequence): Boolean = {
-    val nPts             = ring.size - 1
+    val nPts = ring.size - 1
     if (nPts < 3)
       throw new IllegalArgumentException(
         "Ring has fewer than 4 points, so orientation cannot be determined"
       )
-    var hiPt             = ring.getCoordinate(0)
-    var hiIndex          = 0
-    var i                = 1
-    while (i <= nPts) {
-      val p = ring.getCoordinate(i)
-      if (p.y > hiPt.y) {
-        hiPt = p
-        hiIndex = i
-      }
-      {
-        i += 1; i - 1
-      }
-    }
-    var prev: Coordinate = null
-    var iPrev            = hiIndex
-    while ({
-      {
-        iPrev = iPrev - 1
-        if (iPrev < 0) iPrev = nPts
-        prev = ring.getCoordinate(iPrev)
-      }; prev.equals2D(hiPt) && iPrev != hiIndex
-    }) ()
-    var next: Coordinate = null
-    var iNext            = hiIndex
-    while ({
-      {
-        iNext = (iNext + 1) % nPts
-        next = ring.getCoordinate(iNext)
-      }; next.equals2D(hiPt) && iNext != hiIndex
-    }) ()
-    if (prev.equals2D(hiPt) || next.equals2D(hiPt) || prev.equals2D(next)) return false
-    val disc             = Orientation.index(prev, hiPt, next)
-    /*
-     * If disc is exactly 0, lines are collinear. There are two possible cases:
-     * (1) the lines lie along the x axis in opposite directions (2) the lines
-     * lie on top of one another
-     *
-     * (1) is handled by checking if next is left of prev ==> CCW (2) will never
-     * happen if the ring is valid, so don't check for it (Might want to assert
-     * this)
+
+    /**
+     * Find first highest point after a lower point, if one exists (e.g. a rising segment) If one
+     * does not exist, hiIndex will remain 0 and the ring must be flat. Note this relies on the
+     * convention that rings have the same start and end point.
      */
-    var isCCW            = false
-    if (disc == 0) isCCW = prev.x > next.x
-    else isCCW = disc > 0
-    isCCW
+    var upHiPt              = ring.getCoordinate(0)
+    var prevY               = upHiPt.y
+    var upLowPt: Coordinate = null;
+    var iUpHi               = 0
+    for (i <- 1 to nPts) {
+      val py = ring.getOrdinate(i, Coordinate.Y)
+
+      /**
+       * If segment is upwards and endpoint is higher, record it
+       */
+      if (py > prevY && py >= upHiPt.y) {
+        upHiPt = ring.getCoordinate(i)
+        iUpHi = i
+        upLowPt = ring.getCoordinate(i - 1)
+      }
+      prevY = py
+    }
+
+    if (iUpHi == 0) return false
+
+    /**
+     * Find the next lower point after the high point (e.g. a falling segment). This must exist
+     * since ring is not flat.
+     */
+    var iDownLow = iUpHi
+
+    while ({
+      iDownLow = (iDownLow + 1) % nPts
+      iDownLow != iUpHi && ring.getOrdinate(iDownLow, Coordinate.Y) == upHiPt.y
+    }) {}
+
+    val downLowPt = ring.getCoordinate(iDownLow)
+    val iDownHi   = if (iDownLow > 0) iDownLow - 1 else nPts - 1
+    val downHiPt  = ring.getCoordinate(iDownHi)
+
+    /**
+     * Two cases can occur: 1) the hiPt and the downPrevPt are the same. This is the general
+     * position case of a "pointed cap". The ring orientation is determined by the orientation of
+     * the cap 2) The hiPt and the downPrevPt are different. In this case the top of the cap is
+     * flat. The ring orientation is given by the direction of the flat segment
+     */
+    if (upHiPt.equals2D(downHiPt)) {
+
+      /**
+       * Check for the case where the cap has configuration A-B-A. This can happen if the ring does
+       * not contain 3 distinct points (including the case where the input array has fewer than 4
+       * elements), or it contains coincident line segments.
+       */
+      if (upLowPt.equals2D(upHiPt) || downLowPt.equals2D(upHiPt) || upLowPt.equals2D(downLowPt))
+        return false
+
+      /**
+       * It can happen that the top segments are coincident. This is an invalid ring, which cannot
+       * be computed correctly. In this case the orientation is 0, and the result is false.
+       */
+      val indexOf = index(upLowPt, upHiPt, downLowPt)
+      indexOf == COUNTERCLOCKWISE
+    } else {
+
+      /**
+       * Flat cap - direction of flat top determines orientation
+       */
+      val delX = downHiPt.x - upHiPt.x
+      delX < 0
+    }
   }
 }
