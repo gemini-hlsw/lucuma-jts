@@ -23,7 +23,7 @@ import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.math.MathUtil
 import org.locationtech.jts.noding.ScaledNoder
-import org.locationtech.jts.noding.snaprounder.MCIndexSnapRounder
+import org.locationtech.jts.noding.snapround.MCIndexSnapRounder
 //import debug.*;
 // /**
 //  * Computes the buffer of a geometry, for both positive and negative buffer distances.

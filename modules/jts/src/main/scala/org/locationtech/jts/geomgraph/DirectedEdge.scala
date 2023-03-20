@@ -15,6 +15,7 @@
 package org.locationtech.jts.geomgraph
 
 import org.locationtech.jts.geom.Location
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geom.TopologyException
 
 import java.io.PrintStream

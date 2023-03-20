@@ -12,11 +12,11 @@
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
-package org.locationtech.jts.geomgraph
+package org.locationtech.jts.geom
 
 /**
- * A Position indicates the position of a Location relative to a graph component (Node, Edge, or
- * Area).
+ * Indicates the position of a location relative to a node or edge component of a planar topological
+ * structure.
  *
  * @version 1.7
  */

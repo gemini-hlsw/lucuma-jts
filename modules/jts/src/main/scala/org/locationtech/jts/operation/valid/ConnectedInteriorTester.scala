@@ -21,12 +21,12 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.MultiPolygon
 import org.locationtech.jts.geom.Polygon
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.Edge
 import org.locationtech.jts.geomgraph.EdgeEnd
 import org.locationtech.jts.geomgraph.GeometryGraph
 import org.locationtech.jts.geomgraph.PlanarGraph
-import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.operation.overlay.MaximalEdgeRing
 import org.locationtech.jts.operation.overlay.MinimalEdgeRing
 import org.locationtech.jts.operation.overlay.OverlayNodeFactory

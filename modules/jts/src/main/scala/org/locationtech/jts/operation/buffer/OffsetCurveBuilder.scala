@@ -16,8 +16,8 @@ package org.locationtech.jts.operation.buffer
 
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateArrays
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.geomgraph.Position
 
 import scala.annotation.nowarn
 

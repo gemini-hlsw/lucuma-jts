@@ -15,6 +15,8 @@
 package org.locationtech.jts.geomgraph
 
 import org.locationtech.jts.geom.Location
+import org.locationtech.jts.geom.Position
+import org.locationtech.jts.geom.Quadrant
 import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.util.Assert
 

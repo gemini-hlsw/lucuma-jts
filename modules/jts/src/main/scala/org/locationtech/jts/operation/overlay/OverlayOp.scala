@@ -22,6 +22,7 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.DirectedEdgeStar
 import org.locationtech.jts.geomgraph.Edge
@@ -30,7 +31,6 @@ import org.locationtech.jts.geomgraph.EdgeNodingValidator
 import org.locationtech.jts.geomgraph.Label
 import org.locationtech.jts.geomgraph.Node
 import org.locationtech.jts.geomgraph.PlanarGraph
-import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.operation.GeometryGraphOperation
 import org.locationtech.jts.util.Assert
 

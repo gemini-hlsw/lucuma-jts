@@ -47,15 +47,48 @@ object CGAlgorithmsDD {
    *   the point to compute the direction to return 1 if q is counter-clockwise (left) from p1-p2
    *   return -1 if q is clockwise (right) from p1-p2 return 0 if q is collinear with p1-p2
    */
-  def orientationIndex(p1: Coordinate, p2: Coordinate, q: Coordinate): Int = { // fast filter for orientation index
-    // avoids use of slow extended-precision arithmetic in many cases
-    val index = orientationIndexFilter(p1, p2, q)
+  def orientationIndex(p1: Coordinate, p2: Coordinate, q: Coordinate): Int =
+    return orientationIndex(p1.x, p1.y, p2.x, p2.y, q.x, q.y);
+
+  /**
+   * Returns the index of the direction of the point <code>q</code> relative to a vector specified
+   * by <code>p1-p2</code>.
+   *
+   * @param p1x
+   *   the x ordinate of the vector origin point
+   * @param p1y
+   *   the y ordinate of the vector origin point
+   * @param p2x
+   *   the x ordinate of the vector final point
+   * @param p2y
+   *   the y ordinate of the vector final point
+   * @param qx
+   *   the x ordinate of the query point
+   * @param qy
+   *   the y ordinate of the query point
+   *
+   * @return
+   *   1 if q is counter-clockwise (left) from p1-p2
+   * @return
+   * -1 if q is clockwise (right) from p1-p2
+   * @return
+   *   0 if q is collinear with p1-p2
+   */
+  def orientationIndex(
+    p1x: Double,
+    p1y: Double,
+    p2x: Double,
+    p2y: Double,
+    qx:  Double,
+    qy:  Double
+  ): Int = {
+    val index = orientationIndexFilter(p1x, p1y, p2x, p2y, qx, qy)
     if (index <= 1) return index
     // normalize coordinates
-    val dx1   = DD.valueOf(p2.x).selfAdd(-p1.x)
-    val dy1   = DD.valueOf(p2.y).selfAdd(-p1.y)
-    val dx2   = DD.valueOf(q.x).selfAdd(-p2.x)
-    val dy2   = DD.valueOf(q.y).selfAdd(-p2.y)
+    val dx1   = DD.valueOf(p2x).selfAdd(-p1x)
+    val dy1   = DD.valueOf(p2y).selfAdd(-p1y)
+    val dx2   = DD.valueOf(qx).selfAdd(-p2x)
+    val dy2   = DD.valueOf(qy).selfAdd(-p2y)
     // sign of determinant - unrolled for performance
     dx1.selfMultiply(dy2).selfSubtract(dy1.selfMultiply(dx2)).signum
   }
@@ -101,10 +134,17 @@ object CGAlgorithmsDD {
    *   a coordinate return the orientation index if it can be computed safely return i > 1 if the
    *   orientation index cannot be computed safely
    */
-  private def orientationIndexFilter(pa: Coordinate, pb: Coordinate, pc: Coordinate): Int = {
+  def orientationIndexFilter(
+    pax: Double,
+    pay: Double,
+    pbx: Double,
+    pby: Double,
+    pcx: Double,
+    pcy: Double
+  ): Int = {
     var detsum   = .0
-    val detleft  = (pa.x - pc.x) * (pb.y - pc.y)
-    val detright = (pa.y - pc.y) * (pb.x - pc.x)
+    val detleft  = (pax - pcx) * (pby - pcy)
+    val detright = (pay - pcy) * (pbx - pcx)
     val det      = detleft - detright
     if (detleft > 0.0)
       if (detright <= 0.0) return signum(det)

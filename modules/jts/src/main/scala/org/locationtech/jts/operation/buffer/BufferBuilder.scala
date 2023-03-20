@@ -23,6 +23,7 @@ import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.Polygon
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.geomgraph._
 import org.locationtech.jts.noding.IntersectionAdder

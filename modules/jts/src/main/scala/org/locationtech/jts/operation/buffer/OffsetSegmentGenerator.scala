@@ -30,8 +30,8 @@ import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.LineSegment
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.geomgraph.Position
 
 import scala.annotation.nowarn
 

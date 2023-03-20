@@ -39,7 +39,7 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
    * @param coord
    *   the initial coordinates
    */
-  def this(coord: Array[Coordinate]) = {
+  def this(coord: Array[Coordinate] = Array.empty) = {
     this(coord, true)
     ensureCapacity(coord.length)
   }

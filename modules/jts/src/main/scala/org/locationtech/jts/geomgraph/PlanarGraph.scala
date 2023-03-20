@@ -21,6 +21,7 @@ package org.locationtech.jts.geomgraph
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Location
+import org.locationtech.jts.geom.Quadrant
 
 import java.io.PrintStream
 import java.util

@@ -12,7 +12,7 @@
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
-package org.locationtech.jts.noding.snaprounder
+package org.locationtech.jts.noding.snapround
 
 import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.algorithm.RobustLineIntersector
@@ -104,7 +104,7 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
     val it = snapPts.iterator
     while (it.hasNext) {
       val snapPt   = it.next
-      val hotPixel = new HotPixel(snapPt, scaleFactor, li)
+      val hotPixel = new HotPixel(snapPt, scaleFactor)
       pointSnapper.snap(hotPixel)
     }
   }
@@ -130,7 +130,7 @@ class MCIndexSnapRounder(val pm: PrecisionModel) extends Noder[SegmentString] {
     val pts0 = e.getCoordinates
     var i    = 0
     while (i < pts0.length) {
-      val hotPixel    = new HotPixel(pts0(i), scaleFactor, li)
+      val hotPixel    = new HotPixel(pts0(i), scaleFactor)
       val isNodeAdded = pointSnapper.snap(hotPixel, e, i)
       // if a node is created for a vertex, that vertex must be noded too
       if (isNodeAdded) e.asInstanceOf[NodedSegmentString].addIntersection(pts0(i), i)

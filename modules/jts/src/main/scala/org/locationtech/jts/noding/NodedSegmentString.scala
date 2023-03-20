@@ -79,6 +79,14 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
   private val nodeList = new SegmentNodeList(this)
 
   /**
+   * Creates a new instance from a {@link SegmentString}.
+   *
+   * @param segString
+   *   the segment string to use
+   */
+  def this(ss: SegmentString) = this(ss.getCoordinates, ss.getData)
+
+  /**
    * Gets the user-defined data for this segment string.
    *
    * return the user-defined data
@@ -100,6 +108,15 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
   override def getCoordinate(i: Int): Coordinate = pts(i)
 
   override def getCoordinates: Array[Coordinate] = pts
+
+  /**
+   * Gets a list of coordinates with all nodes included.
+   *
+   * @return
+   *   an array of coordinates include nodes
+   */
+  def getNodedCoordinates: Array[Coordinate] =
+    nodeList.getSplitCoordinates
 
   override def isClosed: Boolean = pts(0) == pts(pts.length - 1)
 
