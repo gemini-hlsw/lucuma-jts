@@ -20,6 +20,7 @@ import org.locationtech.jts.geom.GeometryFilter
 import org.locationtech.jts.geom.LineString
 
 import java.util
+import scala.jdk.CollectionConverters._
 
 /**
  * Extracts all the {link LineString} elements from a {link Geometry}.
@@ -39,11 +40,11 @@ object LineStringExtracter {
    * @param lines
    *   the list to add the extracted LineStrings to return the list argument
    */
-  def getLines(geom: Geometry, lines: util.List[Geometry]): util.List[Geometry] = {
+  def getLines(geom: Geometry, lines: util.List[LineString]): util.List[LineString] = {
     geom match {
-      case _: LineString         => lines.add(geom)
-      case _: GeometryCollection => geom.applyF(new LineStringExtracter(lines))
-      case _                     =>
+      case geom: LineString         => lines.add(geom)
+      case geom: GeometryCollection => geom.applyF(new LineStringExtracter(lines))
+      case _                        =>
     }
     // skip non-LineString elemental geometries
     lines
@@ -56,7 +57,8 @@ object LineStringExtracter {
    * @param geom
    *   the geometry from which to extract return a list containing the linear elements
    */
-  def getLines(geom: Geometry): util.List[Geometry] = getLines(geom, new util.ArrayList[Geometry])
+  def getLines(geom: Geometry): util.List[LineString] =
+    getLines(geom, new util.ArrayList[LineString])
 
   /**
    * Extracts the {link LineString} elements from a single {link Geometry} and returns them as
@@ -65,17 +67,20 @@ object LineStringExtracter {
    * @param geom
    *   the geometry from which to extract return a linear geometry
    */
-  def getGeometry(geom: Geometry): Geometry = geom.getFactory.buildGeometry(getLines(geom))
+  def getGeometry(geom: Geometry): Geometry =
+    geom.getFactory.buildGeometry(getLines(geom).asScala.collect { case g: Geometry =>
+      g: Geometry
+    }.asJavaCollection)
 }
 
-class LineStringExtracter(var comps: util.List[Geometry])
+class LineStringExtracter(var comps: util.List[LineString])
 
 /**
  * Constructs a filter with a list in which to store the elements found.
  */
     extends GeometryFilter {
   override def filter(geom: Geometry): Unit = {
-    if (geom.isInstanceOf[LineString]) comps.add(geom)
+    if (geom.isInstanceOf[LineString]) comps.add(geom.asInstanceOf[LineString])
     ()
   }
 }
