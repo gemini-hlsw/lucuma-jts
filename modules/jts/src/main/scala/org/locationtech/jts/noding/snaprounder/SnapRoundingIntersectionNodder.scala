@@ -4,7 +4,6 @@
 package org.locationtech.jts.noding.snapround
 
 import org.locationtech.jts.algorithm.Distance
-import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.PrecisionModel
@@ -60,13 +59,13 @@ class SnapRoundingIntersectionAdder(var precModel: PrecisionModel)
    * Nearness distance tolerance is a small fraction of the snap grid size
    */
   val snapGridSize: Double = 1.0 / precModel.getScale
-  private var nearnessTol  = snapGridSize / SnapRoundingIntersectionAdder.NEARNESS_FACTOR
+  private val nearnessTol  = snapGridSize / SnapRoundingIntersectionAdder.NEARNESS_FACTOR
 
   /**
    * Intersections are detected and computed using full precision. They are snapped in a subsequent
    * phase.
    */
-  private var li                  = new RobustLineIntersector
+  private val li                  = new RobustLineIntersector
   final private var intersections = new util.ArrayList[Coordinate]
 
   /**

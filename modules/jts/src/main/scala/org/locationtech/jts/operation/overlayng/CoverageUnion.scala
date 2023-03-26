@@ -15,7 +15,6 @@
 package org.locationtech.jts.operation.overlayng
 
 import org.locationtech.jts.geom.Geometry
-import org.locationtech.jts.noding.Noder
 import org.locationtech.jts.noding.SegmentExtractingNoder
 
 /**

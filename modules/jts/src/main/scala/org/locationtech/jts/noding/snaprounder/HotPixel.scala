@@ -112,9 +112,6 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
   private def scaleRound(`val`: Double): Double =
     return `val` * scaleFactor.round.toDouble
 
-  private def scaleRound(p: Coordinate): Coordinate =
-    return new Coordinate(scaleRound(p.x), scaleRound(p.y))
-
   /**
    * Scale without rounding. This ensures intersections are checked against original linework. This
    * is required to ensure that intersections are not missed because the segment is moved by
