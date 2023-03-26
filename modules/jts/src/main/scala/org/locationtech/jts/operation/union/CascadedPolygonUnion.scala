@@ -4,7 +4,6 @@
 package org.locationtech.jts.operation.union
 
 import org.locationtech.jts.geom.Geometry
-import org.locationtech.jts.geom.GeometryCollection
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.Polygonal
@@ -146,7 +145,7 @@ class CascadedPolygonUnion(var inputPolys: util.Collection[Geometry], var unionF
   if (inputPolys == null) {
     inputPolys = new util.ArrayList[Geometry]
   }
-  private var countInput: Int              = inputPolys.size
+  private val countInput: Int              = inputPolys.size
   private var countRemainder               = countInput
   private var geomFactory: GeometryFactory = null
 

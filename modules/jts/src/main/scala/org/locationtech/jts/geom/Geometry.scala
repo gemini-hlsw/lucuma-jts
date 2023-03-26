@@ -17,17 +17,12 @@ package org.locationtech.jts.geom
 import org.locationtech.jts.algorithm.Centroid
 import org.locationtech.jts.algorithm.ConvexHull
 import org.locationtech.jts.algorithm.InteriorPoint
-import org.locationtech.jts.geom.util.GeometryCollectionMapper
-import org.locationtech.jts.geom.util.GeometryMapper
 import org.locationtech.jts.operation.IsSimpleOp
 import org.locationtech.jts.operation.buffer.BufferOp
 import org.locationtech.jts.operation.distance.DistanceOp
-import org.locationtech.jts.operation.overlay.OverlayOp
-import org.locationtech.jts.operation.overlay.snap.SnapIfNeededOverlayOp
 import org.locationtech.jts.operation.predicate.RectangleContains
 import org.locationtech.jts.operation.predicate.RectangleIntersects
 import org.locationtech.jts.operation.relate.RelateOp
-import org.locationtech.jts.operation.union.UnaryUnionOp
 import org.locationtech.jts.operation.valid.IsValidOp
 import org.locationtech.jts.util.Assert
 
@@ -997,31 +992,8 @@ abstract class Geometry(
    *   if a robustness error occurs throws IllegalArgumentException if the argument is a non-empty
    *   heterogeneous <code>GeometryCollection</code>
    */
-  def intersection(other: Geometry): Geometry = {
-
-    /**
-     * TODO: MD - add optimization for P-A case using Point-In-Polygon
-     */
-    // special case: if one input is empty ==> empty
-    if (this.isEmpty || other.isEmpty)
-      return OverlayOp.createEmptyResult(OverlayOp.INTERSECTION, this, other, factory)
-    // compute for GCs
-    // (An inefficient algorithm, but will work)
-    // TODO: improve efficiency of computation for GCs
-    if (this.isGeometryCollection) {
-      val g2 = other
-      return GeometryCollectionMapper.map(this.asInstanceOf[GeometryCollection],
-                                          new GeometryMapper.MapOp() {
-                                            override def map(g: Geometry): Geometry =
-                                              g.intersection(g2)
-                                          }
-      )
-    }
-    // No longer needed since GCs are handled by previous code
-    // checkNotGeometryCollection(this);
-    // checkNotGeometryCollection(other);
-    SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.INTERSECTION)
-  }
+  def intersection(other: Geometry): Geometry =
+    GeometryOverlay.intersection(this, other)
 
   /**
    * Computes a <code>Geometry</code> representing the point-set which is contained in both this
@@ -1045,19 +1017,8 @@ abstract class Geometry(
    * @see
    *   LineMerger
    */
-  def union(other: Geometry): Geometry = { // handle empty geometry cases
-    if (this.isEmpty || other.isEmpty) {
-      if (this.isEmpty && other.isEmpty)
-        return OverlayOp.createEmptyResult(OverlayOp.UNION, this, other, factory)
-      // special case: if either input is empty ==> other input
-      if (this.isEmpty) return other.copy
-      if (other.isEmpty) return copy
-    }
-    // TODO: optimize if envelopes of geometries do not intersect
-    Geometry.checkNotGeometryCollection(this)
-    Geometry.checkNotGeometryCollection(other)
-    SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.UNION)
-  }
+  def union(other: Geometry): Geometry = // handle empty geometry cases
+    GeometryOverlay.union(this, other)
 
   /**
    * Computes a <code>Geometry</code> representing the closure of the point-set of the points
@@ -1071,13 +1032,8 @@ abstract class Geometry(
    *   TopologyException if a robustness error occurs throws IllegalArgumentException if either
    *   input is a non-empty GeometryCollection
    */
-  def difference(other: Geometry): Geometry = { // special case: if A.isEmpty ==> empty; if B.isEmpty ==> A
-    if (this.isEmpty) return OverlayOp.createEmptyResult(OverlayOp.DIFFERENCE, this, other, factory)
-    if (other.isEmpty) return copy
-    Geometry.checkNotGeometryCollection(this)
-    Geometry.checkNotGeometryCollection(other)
-    SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.DIFFERENCE)
-  }
+  def difference(other: Geometry): Geometry =
+    GeometryOverlay.difference(this, other)
 
   /**
    * Computes a <code>Geometry </code> representing the closure of the point-set which is the union
@@ -1093,18 +1049,8 @@ abstract class Geometry(
    *   <code>other</code> throws TopologyException if a robustness error occurs throws
    *   IllegalArgumentException if either input is a non-empty GeometryCollection
    */
-  def symDifference(other: Geometry): Geometry = {
-    if (this.isEmpty || other.isEmpty) { // both empty - check dimensions
-      if (this.isEmpty && other.isEmpty)
-        return OverlayOp.createEmptyResult(OverlayOp.SYMDIFFERENCE, this, other, factory)
-      // special case: if either input is empty ==> result = other arg
-      if (this.isEmpty) return other.copy
-      if (other.isEmpty) return copy
-    }
-    Geometry.checkNotGeometryCollection(this)
-    Geometry.checkNotGeometryCollection(other)
-    SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.SYMDIFFERENCE)
-  }
+  def symDifference(other: Geometry): Geometry =
+    GeometryOverlay.symDifference(this, other)
 
   /**
    * Computes the union of all the elements of this geometry. <p> This method supports {link
@@ -1118,7 +1064,7 @@ abstract class Geometry(
    * @see
    *   UnaryUnionOp
    */
-  def union: Geometry = UnaryUnionOp.union(this)
+  def union: Geometry = GeometryOverlay.union(this)
 
   /**
    * Returns true if the two <code>Geometry</code>s are exactly equal, up to a specified distance
@@ -1365,7 +1311,7 @@ abstract class Geometry(
    *
    * return true if this is a heterogeneous GeometryCollection
    */
-  protected def isGeometryCollection: Boolean =
+  def isGeometryCollection: Boolean =
     getTypeCode == Geometry.TYPECODE_GEOMETRYCOLLECTION
 
   /**

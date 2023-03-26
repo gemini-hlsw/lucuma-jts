@@ -321,10 +321,8 @@ object OverlayNG {
  */
 class OverlayNG(val geom0: Geometry, val geom1: Geometry, var pm: PrecisionModel, var opCode: Int) {
 
-  geomFact = geom0.getFactory
-  inputGeom = new InputGeometry(geom0, geom1)
-  private var inputGeom: InputGeometry     = null
-  private var geomFact: GeometryFactory    = null
+  private var inputGeom: InputGeometry     = new InputGeometry(geom0, geom1)
+  private var geomFact: GeometryFactory    = geom0.getFactory
   private var noder: Noder[SegmentString]  = null
   private var isStrictMode: Boolean        = OverlayNG.STRICT_MODE_DEFAULT
   private var isOptimized: Boolean         = true

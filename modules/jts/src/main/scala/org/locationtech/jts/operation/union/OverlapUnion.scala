@@ -96,12 +96,12 @@ object OverlapUnion {
    * @param g1
    *   a geometry return the union of the geometries
    */
-  private def unionBuffer(g0: Geometry, g1: Geometry): Geometry = {
-    val factory = g0.getFactory
-    val gColl   = factory.createGeometryCollection(Array[Geometry](g0, g1))
-    val union   = gColl.buffer(0.0)
-    union
-  }
+  // private def unionBuffer(g0: Geometry, g1: Geometry): Geometry = {
+  //   val factory = g0.getFactory
+  //   val gColl   = factory.createGeometryCollection(Array[Geometry](g0, g1))
+  //   val union   = gColl.buffer(0.0)
+  //   union
+  // }
 
   private def intersects(env: Envelope, p0: Coordinate, p1: Coordinate): Boolean =
     env.intersects(p0) || env.intersects(p1)
