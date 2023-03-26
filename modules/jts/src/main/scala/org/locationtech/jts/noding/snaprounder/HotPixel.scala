@@ -41,16 +41,11 @@ object HotPixel {
 }
 
 class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
-  private var ptHot: Coordinate = originalPt
 
   /**
    * Indicates if this hot pixel must be a node in the output
    */
   private var isNode0: Boolean = false
-  private var minx: Double     = .0
-  private var maxx: Double     = .0
-  private var miny: Double     = .0
-  private var maxy: Double     = .0
 
   /**
    * Creates a new hot pixel, using a given scale factor. The scale factor must be strictly positive
@@ -66,13 +61,11 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
   if (scaleFactor <= 0) {
     throw new IllegalArgumentException("Scale factor must be non-zero")
   }
-  if (scaleFactor != 1.0) {
-    this.ptHot = scaleRound(ptHot)
+  val (hpx, hpy) = if (scaleFactor != 1.0) {
+    (scaleRound(originalPt.getX), scaleRound(originalPt.getY))
+  } else {
+    (originalPt.getX, originalPt.getY)
   }
-  // extreme values for pixel
-  maxx = ptHot.x + HotPixel.TOLERANCE
-  miny = ptHot.y - HotPixel.TOLERANCE
-  maxy = ptHot.y + HotPixel.TOLERANCE
 
   /**
    * Gets the coordinate this hot pixel is based at.
@@ -144,19 +137,19 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
   def intersects(p: Coordinate): Boolean = {
     val x: Double = scale(p.x)
     val y: Double = scale(p.y)
-    if (x >= maxx) {
+    if (x >= hpx + HotPixel.TOLERANCE) {
       return false
     }
     // check Left side
-    if (x < minx) {
+    if (x < hpx - HotPixel.TOLERANCE) {
       return false
     }
     // check Top side
-    if (y >= maxy) {
+    if (y >= hpy + HotPixel.TOLERANCE) {
       return false
     }
     // check Bottom side
-    if (y < miny) {
+    if (y < hpy - HotPixel.TOLERANCE) {
       return false
     }
     return true
@@ -200,18 +193,22 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
      * the pixel Top and Right sides are open (not part of the pixel).
      */
     // check Right side
+    val maxx            = hpx + HotPixel.TOLERANCE
     val segMinx: Double = Math.min(px, qx)
     if (segMinx >= maxx) {
       return false
     }
+    val minx            = hpx - HotPixel.TOLERANCE
     val segMaxx: Double = Math.max(px, qx)
     if (segMaxx < minx) {
       return false
     }
+    val maxy            = hpy + HotPixel.TOLERANCE
     val segMiny: Double = Math.min(py, qy)
     if (segMiny >= maxy) {
       return false
     }
+    val miny            = hpy - HotPixel.TOLERANCE
     val segMaxy: Double = Math.max(py, qy)
     if (segMaxy < miny) {
       return false
@@ -298,6 +295,10 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
    *   <code>true</code> if the segment intersects the closure of the pixel's tolerance square
    */
   private def intersectsPixelClosure(p0: Coordinate, p1: Coordinate): Boolean = {
+    val maxx                      = hpx + HotPixel.TOLERANCE
+    val minx                      = hpx - HotPixel.TOLERANCE
+    val miny                      = hpy - HotPixel.TOLERANCE
+    val maxy                      = hpy + HotPixel.TOLERANCE
     val corner: Array[Coordinate] = new Array[Coordinate](4)
     corner(HotPixel.UPPER_RIGHT) = new Coordinate(maxx, maxy)
     corner(HotPixel.UPPER_LEFT) = new Coordinate(minx, maxy)
