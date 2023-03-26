@@ -364,4 +364,42 @@ class KdTree(var tolerance: Double) {
    */
   def query(queryPt: Coordinate): KdNode =
     return queryNodePoint(root, queryPt, true)
+
+  /**
+   * Computes the depth of the tree.
+   *
+   * @return
+   *   the depth of the tree
+   */
+  def depth(): Int =
+    depthNode(root)
+
+  private def depthNode(currentNode: KdNode): Int =
+    if (currentNode == null) {
+      0
+    } else {
+
+      val dL = depthNode(currentNode.getLeft)
+      val dR = depthNode(currentNode.getRight)
+      1 + (if (dL > dR) dL else dR)
+    }
+
+  /**
+   * Computes the size (number of items) in the tree.
+   *
+   * @return
+   *   the size of the tree
+   */
+  def size(): Int =
+    sizeNode(root)
+
+  private def sizeNode(currentNode: KdNode): Int =
+    if (currentNode == null) {
+      0
+    } else {
+
+      val sizeL = sizeNode(currentNode.getLeft)
+      val sizeR = sizeNode(currentNode.getRight)
+      1 + sizeL + sizeR
+    }
 }
