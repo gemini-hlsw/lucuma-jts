@@ -8,7 +8,6 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateArrays
 import org.locationtech.jts.geom.CoordinateList
 
-import java.util
 import java.util.Comparator
 
 /*
@@ -168,11 +167,11 @@ class OverlayEdge(
   def setEdgeRingMax(maximalEdgeRing: MaximalEdgeRing): Unit =
     maxEdgeRing = maximalEdgeRing
 
-  private def resultSymbol: String = {
-    if (isInResultArea0) return " resA"
-    if (isInResultLine0) return " resL"
-    ""
-  }
+  // private def resultSymbol: String = {
+  //   if (isInResultArea0) return " resA"
+  //   if (isInResultLine0) return " resL"
+  //   ""
+  // }
 }
 
 object OverlayEdge {

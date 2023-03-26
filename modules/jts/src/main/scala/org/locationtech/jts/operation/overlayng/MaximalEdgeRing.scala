@@ -204,7 +204,6 @@ class MaximalEdgeRing(var startEdge: OverlayEdge) {
     var doBreak = false
     while ({
       coords.add(edge.orig)
-      if (edge == null) doBreak = true
       if (edge.nextResultMax == null) doBreak = true
       if (!doBreak) {
         edge = edge.nextResultMax

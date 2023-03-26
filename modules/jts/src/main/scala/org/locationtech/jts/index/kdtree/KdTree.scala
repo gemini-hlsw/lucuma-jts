@@ -67,7 +67,7 @@ object KdTree {
       val count =
         if (includeRepeated) node.getCount
         else 1
-      for (i <- 0 until count)
+      for (_ <- 0 until count)
         coord.add(node.getCoordinate, true)
     }
     coord.toCoordinateArray
@@ -219,14 +219,13 @@ class KdTree(var tolerance: Double) {
      * ordinate)
      */
     while (currentNode != null) { // test if point is already a node (not strictly necessary)
-      if (currentNode != null) {
-        val isInTolerance: Boolean = p.distance(currentNode.getCoordinate) <= tolerance
-        // check if point is already in tree (up to tolerance) and if so simply
-        // return existing node
-        if (isInTolerance) {
-          currentNode.increment()
-          return currentNode
-        }
+      val isInTolerance = p.distance(currentNode.getCoordinate) <= tolerance
+
+      // check if point is already in tree (up to tolerance) and if so simply
+      // return existing node
+      if (isInTolerance) {
+        currentNode.increment()
+        return currentNode
       }
       if (isOddLevel) {
         isLessThan = p.x < currentNode.getX
@@ -349,8 +348,10 @@ class KdTree(var tolerance: Double) {
               queryEnv,
               true,
               new KdNodeVisitor() {
-                override def visit(node: KdNode): Unit =
+                override def visit(node: KdNode): Unit = {
                   result.add(node)
+                  ()
+                }
               }
     )
 

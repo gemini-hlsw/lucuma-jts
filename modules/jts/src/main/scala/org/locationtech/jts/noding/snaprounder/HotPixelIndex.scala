@@ -6,7 +6,6 @@ package org.locationtech.jts.noding.snapround
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.index.kdtree.KdNode
 import org.locationtech.jts.index.kdtree.KdNodeVisitor
 import org.locationtech.jts.index.kdtree.KdTree
 
@@ -34,8 +33,7 @@ import scala.jdk.CollectionConverters._
  *   mdavis
  */
 class HotPixelIndex(var precModel: PrecisionModel) {
-  scaleFactor = precModel.getScale
-  private var scaleFactor = .0
+  private var scaleFactor = precModel.getScale
 
   /**
    * Use a kd-tree to index the pixel centers for optimum performance. Since HotPixels have an

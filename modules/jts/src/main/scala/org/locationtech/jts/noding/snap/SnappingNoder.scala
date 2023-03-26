@@ -32,7 +32,6 @@ import org.locationtech.jts.noding.MCIndexNoder
 import org.locationtech.jts.noding.NodedSegmentString
 import org.locationtech.jts.noding.Noder
 import org.locationtech.jts.noding.SegmentString
-import org.locationtech.jts.noding.ValidatingNoder
 
 import java.util
 import scala.jdk.CollectionConverters._
@@ -65,7 +64,7 @@ import scala.jdk.CollectionConverters._
  * @version 1.17
  */
 class SnappingNoder(var snapTolerance: Double) extends Noder[SegmentString] {
-  private var snapIndex                             = new SnappingPointIndex(snapTolerance)
+  private val snapIndex                             = new SnappingPointIndex(snapTolerance)
   private var nodedResult: util.List[SegmentString] = null
 
   /**

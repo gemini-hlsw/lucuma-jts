@@ -65,8 +65,8 @@ class SnapRoundingIntersectionAdder(var precModel: PrecisionModel)
    * Intersections are detected and computed using full precision. They are snapped in a subsequent
    * phase.
    */
-  private val li                  = new RobustLineIntersector
-  final private var intersections = new util.ArrayList[Coordinate]
+  private val li            = new RobustLineIntersector
+  private val intersections = new util.ArrayList[Coordinate]
 
   /**
    * Gets the created intersection nodes, so they can be processed as hot pixels.
