@@ -11,6 +11,7 @@ import org.locationtech.jts.index.kdtree.KdNodeVisitor
 import org.locationtech.jts.index.kdtree.KdTree
 
 import java.util
+import java.util.Random
 import scala.jdk.CollectionConverters._
 
 /*
@@ -49,9 +50,13 @@ class HotPixelIndex(var precModel: PrecisionModel) {
    * @param pts
    *   the points to add
    */
-  def add(pts: Array[Coordinate]): Unit =
-    for (pt <- pts)
+  def add(pts: Array[Coordinate]): Unit = {
+    val it = new HotPixelIndex.CoordinateShuffler(pts)
+    while (it.hasNext) {
+      val pt = it.next
       add(pt)
+    }
+  }
 
   /**
    * Adds a list of points as node pixels.
@@ -125,4 +130,43 @@ class HotPixelIndex(var precModel: PrecisionModel) {
     queryEnv.expandBy(1.0 / scaleFactor)
     index.query(queryEnv, visitor)
   }
+}
+
+object HotPixelIndex {
+
+  /**
+   * Utility class to shuffle an array of {@link Coordinate}s using the Fisher-Yates shuffle
+   * algorithm
+   *
+   * @see
+   *   <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fihser-Yates shuffle</a>
+   */
+  final private class CoordinateShuffler(val coordinates: Array[Coordinate])
+
+  /**
+   * Creates an instance of this class
+   *
+   * @param pts
+   *   An array of {@link Coordinate}s.
+   */
+      extends util.Iterator[Coordinate] {
+    val indices = new Array[Int](coordinates.length)
+    for (i <- 0 until coordinates.length)
+      indices(i) = i
+    index = coordinates.length - 1
+    final private val rnd = new Random(13)
+    private var index     = 0
+
+    override def hasNext: Boolean = index >= 0
+
+    override def next: Coordinate = {
+      val j   = rnd.nextInt(index + 1)
+      val res = coordinates(indices(j))
+      indices(j) = indices {
+        index -= 1; index + 1
+      }
+      res
+    }
+  }
+
 }

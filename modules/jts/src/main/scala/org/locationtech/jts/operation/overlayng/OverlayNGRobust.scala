@@ -3,11 +3,9 @@
 
 package org.locationtech.jts.operation.overlayng
 
-import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.geom.TopologyException
-import org.locationtech.jts.noding.ValidatingNoder
 import org.locationtech.jts.noding.snap.SnappingNoder
 import org.locationtech.jts.operation.union.UnaryUnionOp
 import org.locationtech.jts.operation.union.UnionStrategy
@@ -158,7 +156,7 @@ object OverlayNGRobust {
   ): Geometry = {
     try return overlaySnapTol(geom0, geom1, opCode, snapTol)
     catch {
-      case ex: TopologyException =>
+      case _: TopologyException =>
 
       // ---- ignore exception, return null result to indicate failure
       // System.out.println("Snapping with " + snapTol + " - FAILED");
@@ -189,7 +187,7 @@ object OverlayNGRobust {
       // log("Snapping BOTH with " + snapTol, geom0, geom1);
       return overlaySnapTol(snap0, snap1, opCode, snapTol)
     } catch {
-      case ex: TopologyException =>
+      case _: TopologyException =>
 
     }
     null
@@ -259,7 +257,7 @@ object OverlayNGRobust {
       result = OverlayNG.overlay(geom0, geom1, opCode, pmSafe)
       return result
     } catch {
-      case ex: TopologyException =>
+      case _: TopologyException =>
 
     }
     null
