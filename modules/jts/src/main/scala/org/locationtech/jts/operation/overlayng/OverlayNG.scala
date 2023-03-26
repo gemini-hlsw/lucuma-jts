@@ -298,6 +298,7 @@ object OverlayNG {
   ) = {
     val ov     = new OverlayNG(geom, pm)
     ov.setNoder(noder)
+    ov.setStrictMode(true)
     val geomOv = ov.getResult
     geomOv
   }
