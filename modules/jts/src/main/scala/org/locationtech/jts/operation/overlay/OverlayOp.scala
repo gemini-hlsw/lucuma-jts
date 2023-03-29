@@ -162,7 +162,6 @@ object OverlayOp {
     geomFact.createEmpty(resultDim)
   }
 
-  @nowarn
   private def resultDimension(opCode: Int, g0: Geometry, g1: Geometry) = {
     val dim0            = g0.getDimension
     val dim1            = g1.getDimension

@@ -62,6 +62,9 @@ class CoordinateXY(xArg: Double, yArg: Double)
   def this(coord: Coordinate) =
     this(coord.x, coord.y)
 
+  def this() =
+    this(0.0, 0.0)
+
   /**
    * Constructs a CoordinateXY instance with the x and y ordinates of the given CoordinateXY.
    *

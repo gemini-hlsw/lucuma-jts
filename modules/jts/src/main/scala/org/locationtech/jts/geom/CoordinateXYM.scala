@@ -67,6 +67,9 @@ class CoordinateXYM(xArg: Double, yArg: Double, var m: Double)
   def this(coord: Coordinate) =
     this(coord.x, coord.y, coord.getM)
 
+  def this() =
+    this(0.0, 0.0, 0.0)
+
   /**
    * Constructs a CoordinateXY instance with the x and y ordinates of the given CoordinateXYM.
    *

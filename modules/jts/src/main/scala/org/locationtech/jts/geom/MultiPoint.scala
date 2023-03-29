@@ -21,7 +21,7 @@ package org.locationtech.jts.geom
  */
 @SerialVersionUID(-8048474874175355449L)
 class MultiPoint(points: Array[Point], factory: GeometryFactory)
-    extends GeometryCollection(points.map(x => x: Geometry), factory)
+    extends GeometryCollection(Option(points).map(_.map(x => x: Geometry)).orNull, factory)
     with Puntal {
 
   /**

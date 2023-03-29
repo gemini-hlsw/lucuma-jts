@@ -6,6 +6,7 @@ package org.locationtech.jts.operation.overlayng
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Dimension
 import org.locationtech.jts.geom.Location
+import org.locationtech.jts.io.WKTWriter
 
 /*
  * Copyright (c) 2019 Martin Davis.
@@ -117,13 +118,14 @@ object Edge {
     val delSign0 = delSign(depthDelta)
     delSign0 match {
       case 0  =>
-        return OverlayLabel.LOC_UNKNOWN
+        OverlayLabel.LOC_UNKNOWN
       case 1  =>
-        return Location.EXTERIOR
+        Location.EXTERIOR
       case -1 =>
-        return Location.INTERIOR
+        Location.INTERIOR
+      case _  =>
+        OverlayLabel.LOC_UNKNOWN
     }
-    OverlayLabel.LOC_UNKNOWN
   }
 
   private def delSign(depthDel: Int): Int = {
@@ -140,16 +142,16 @@ object Edge {
     !isShellMerged
   }
 
-  // private def toStringPts(pts: Array[Coordinate]) = {
-  //   val orig     = pts(0)
-  //   val dest     = pts(pts.length - 1)
-  //   val dirPtStr =
-  //     if (pts.length > 2) ", " + WKTWriter.format(pts(1))
-  //     else ""
-  //   val ptsStr   = WKTWriter.format(orig) + dirPtStr + " .. " + WKTWriter.format(dest)
-  //   ptsStr
-  // }
-  //
+  private def toStringPts(pts: Array[Coordinate]) = {
+    val orig     = pts(0)
+    val dest     = pts(pts.length - 1)
+    val dirPtStr =
+      if (pts.length > 2) ", " + WKTWriter.format(pts(1))
+      else ""
+    val ptsStr   = WKTWriter.format(orig) + dirPtStr + " .. " + WKTWriter.format(dest)
+    ptsStr
+  }
+
   def infoString(index: Int, dim: Int, isHole: Boolean, depthDelta: Int): String =
     (if (index == 0) "A:"
      else
@@ -280,11 +282,11 @@ class Edge(var pts: Array[Coordinate], val info: EdgeSourceInfo) {
   }
 
   override def toString: String = {
-    val ptsStr = "" // Edge.toStringPts(pts)
+    val ptsStr = Edge.toStringPts(pts)
     val aInfo  = Edge.infoString(0, aDim, aIsHole, aDepthDelta)
     val bInfo  = Edge.infoString(1, bDim, bIsHole, bDepthDelta)
     "Edge( " + ptsStr + " ) " + aInfo + "/" + bInfo
   }
 
-  // def toLineString: String = WKTWriter.toLineString(pts)
+  def toLineString: String = WKTWriter.toLineString(pts)
 }

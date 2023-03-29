@@ -8,6 +8,8 @@ import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.Coordinate
 
+import scala.annotation.nowarn
+
 /*
  * Copyright (c) 2016 Vivid Solutions.
  *
@@ -291,6 +293,7 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
    * @return
    *   <code>true</code> if the segment intersects the closure of the pixel's tolerance square
    */
+  @nowarn
   private def intersectsPixelClosure(p0: Coordinate, p1: Coordinate): Boolean = {
     val maxx                      = hpx + HotPixel.TOLERANCE
     val minx                      = hpx - HotPixel.TOLERANCE

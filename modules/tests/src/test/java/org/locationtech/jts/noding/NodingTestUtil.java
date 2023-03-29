@@ -17,8 +17,8 @@ import org.locationtech.jts.geom.MultiLineString;
 import org.locationtech.jts.geom.util.LineStringExtracter;
 
 public class NodingTestUtil {
-  
-  public static Geometry toLines(Collection<NodedSegmentString> nodedList, 
+
+  public static Geometry toLines(Collection<NodedSegmentString> nodedList,
       GeometryFactory geomFact) {
     LineString[] lines = new LineString[ nodedList.size() ];
     int i = 0;
@@ -39,16 +39,16 @@ public class NodingTestUtil {
     }
     return nssList;
   }
-  
+
   /**
    * Runs a noder on one or two sets of input geometries
    * and validates that the result is fully noded.
-   * 
+   *
    * @param geom1 a geometry
    * @param geom2 a geometry, which may be null
    * @param noder the noder to use
    * @return the fully noded linework
-   * 
+   *
    * @throws TopologyException
    */
   public static Geometry nodeValidated(Geometry geom1, Geometry geom2, Noder noder) {
@@ -56,12 +56,12 @@ public class NodingTestUtil {
     if (geom2 != null) {
       lines.addAll( LineStringExtracter.getLines(geom2) );
     }
-    List ssList = toSegmentStrings(lines);
-    
+    List<NodedSegmentString> ssList = toSegmentStrings(lines);
+
     Noder noderValid = new ValidatingNoder(noder);
     noderValid.computeNodes(ssList);
     Collection<NodedSegmentString> nodedList = noder.getNodedSubstrings();
-    
+
     Geometry result = toLines(nodedList, geom1.getFactory());
     return result;
   }

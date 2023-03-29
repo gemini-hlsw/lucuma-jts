@@ -34,7 +34,6 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.util.Assert
 
 import java.util
 import scala.jdk.CollectionConverters._

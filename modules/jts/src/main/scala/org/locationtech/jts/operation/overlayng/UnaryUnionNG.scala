@@ -52,6 +52,3 @@ object UnaryUnionNG {
     op.union
   }
 }
-
-class UnaryUnionNG private () // no instantiation for now
-{}

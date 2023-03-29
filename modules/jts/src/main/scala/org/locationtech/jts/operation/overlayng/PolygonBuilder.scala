@@ -112,6 +112,7 @@ class PolygonBuilder(
     } else { // all rings are holes; their shell will be found later
       freeHoleList.addAll(minRings)
     }
+    ()
   }
 
   /**

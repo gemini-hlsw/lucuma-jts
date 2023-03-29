@@ -227,7 +227,8 @@ class GeometryCollection(
       geometries(i).normalize()
       i += 1
     }
-    java.util.Arrays.sort(geometries.map(x => x: AnyRef))
+    geometries = geometries.sorted
+    // java.util.Arrays.sort(geometries.map(x => x: AnyRef))
   }
 
   override protected def computeEnvelopeInternal: Envelope = {
@@ -240,7 +241,7 @@ class GeometryCollection(
     envelope
   }
 
-  protected def compareToSameClass(o: Geometry): Int = {
+  protected def compareToSameClass(o: AnyRef): Int = {
     val theseElements = new java.util.TreeSet(java.util.Arrays.asList(geometries))
     val otherElements =
       new java.util.TreeSet(java.util.Arrays.asList(o.asInstanceOf[GeometryCollection].geometries))
@@ -248,7 +249,7 @@ class GeometryCollection(
     compare(theseElements, otherElements, null)
   }
 
-  def compareToSameClass(o: Geometry, comp: CoordinateSequenceComparator): Int = {
+  def compareToSameClass(o: AnyRef, comp: CoordinateSequenceComparator): Int = {
     val gc = o.asInstanceOf[GeometryCollection]
     val n1 = getNumGeometries
     val n2 = gc.getNumGeometries

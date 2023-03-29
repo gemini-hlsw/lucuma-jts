@@ -24,7 +24,7 @@ import org.locationtech.jts.operation.BoundaryOp
  */
 @SerialVersionUID(8166665132445433741L)
 class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
-    extends GeometryCollection(lineStrings.map(x => x: Geometry), factory)
+    extends GeometryCollection(Option(lineStrings).map(_.map(x => x: Geometry)).orNull, factory)
     with Lineal {
 
   /**

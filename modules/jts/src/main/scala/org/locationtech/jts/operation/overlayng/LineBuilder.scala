@@ -10,6 +10,7 @@ import org.locationtech.jts.geom.LineString
 import org.locationtech.jts.geom.Location
 
 import java.util
+import scala.annotation.nowarn
 import scala.jdk.CollectionConverters._
 
 /*
@@ -124,7 +125,7 @@ class LineBuilder(
   var geometryFactory: GeometryFactory
 ) {
 
-  private var inputAreaIndex: Int = inputGeom.getAreaIndex
+  private val inputAreaIndex: Int = inputGeom.getAreaIndex
 
   /**
    * Indicates whether intersections are allowed to produce heterogeneous results including proper
@@ -271,6 +272,7 @@ class LineBuilder(
    * semantics. It is also faster.
    */
   /// FUTURE: enable merging via an option switch on OverlayNG
+  @nowarn
   private def addResultLinesMerged(): Unit = {
     addResultLinesForNodes()
     addResultLinesRings()

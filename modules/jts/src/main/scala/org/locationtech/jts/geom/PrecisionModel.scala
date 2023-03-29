@@ -322,18 +322,16 @@ class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { //
    * method has no effect on NaN values. <p> <b>Note:</b> Java's <code>Math#rint</code> uses the
    * "Banker's Rounding" algorithm, which is not suitable for precision operations elsewhere in JTS.
    */
-  def makePrecise(`val`: Double): Double = { // don't change NaN values
-    if (java.lang.Double.isNaN(`val`)) return `val`
-    if (modelType eq PrecisionModel.FLOATING_SINGLE) {
-      val floatSingleVal = `val`.toFloat
+  def makePrecise(value: Double): Double = { // don't change NaN values
+    if (java.lang.Double.isNaN(value)) return value
+    if (modelType == PrecisionModel.FLOATING_SINGLE) {
+      val floatSingleVal = value.toFloat
       return floatSingleVal.toDouble
     }
-    if (modelType eq PrecisionModel.FIXED) {
-      return `val` * scale.round / scale
-      //  		return Math.rint(val * scale) / scale;
+    if (modelType == PrecisionModel.FIXED) {
+      return (value * scale).round / scale
     }
-    // modelType == FLOATING - no rounding necessary
-    `val`
+    value
   }
 
   /**

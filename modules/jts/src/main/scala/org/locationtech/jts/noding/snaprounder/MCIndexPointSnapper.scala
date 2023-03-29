@@ -3,7 +3,6 @@
 
 package org.locationtech.jts.noding.snapround
 
-import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.index.ItemVisitor
 import org.locationtech.jts.index.SpatialIndex
@@ -92,7 +91,7 @@ object MCIndexPointSnapper {
 }
 
 class MCIndexPointSnapper(val index: SpatialIndex[Any]) {
-  private var index0: STRtree = index.asInstanceOf[STRtree]
+  private val index0: STRtree = index.asInstanceOf[STRtree]
 
   /**
    * Snaps (nodes) all interacting segments to this hot pixel. The hot pixel may represent a vertex

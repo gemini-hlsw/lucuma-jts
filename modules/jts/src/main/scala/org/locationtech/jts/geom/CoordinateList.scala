@@ -218,7 +218,7 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
     else {
       val pts = new Array[Coordinate](this.size())
       for {
-        i <- 0 to this.size()
+        i <- 0 until this.size()
       } yield {
         pts(i) = get(this.size() - i - 1)
         clone.add(i, this.get(i).clone)
@@ -234,7 +234,7 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
   override def clone: CoordinateList = {
     val clone = super.clone.asInstanceOf[CoordinateList]
     for {
-      i <- 0 to this.size()
+      i <- 0 until this.size()
     } yield clone.add(i, this.get(i).clone)
     clone
   }

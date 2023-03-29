@@ -25,7 +25,7 @@ import org.locationtech.jts.util.Assert
  * @version 1.7
  */
 @SerialVersionUID(4902022702746614570L)
-class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
+class Point private (factory: GeometryFactory) extends Geometry(factory) with Puntal {
 
   /**
    * The <code>Coordinate</code> wrapped by this <code>Point</code>.
@@ -161,12 +161,12 @@ class Point(factory: GeometryFactory) extends Geometry(factory) with Puntal {
     // a Point is always in normalized form
   }
 
-  override protected def compareToSameClass(other: Geometry): Int = {
+  override protected def compareToSameClass(other: AnyRef): Int = {
     val point = other.asInstanceOf[Point]
     getCoordinate.compareTo(point.getCoordinate)
   }
 
-  def compareToSameClass(other: Geometry, comp: CoordinateSequenceComparator): Int = {
+  def compareToSameClass(other: AnyRef, comp: CoordinateSequenceComparator): Int = {
     val point = other.asInstanceOf[Point]
     comp.compare(this.coordinates, point.coordinates)
   }

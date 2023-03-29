@@ -17,6 +17,7 @@ package org.locationtech.jts.geom
 import org.locationtech.jts.algorithm.Centroid
 import org.locationtech.jts.algorithm.ConvexHull
 import org.locationtech.jts.algorithm.InteriorPoint
+import org.locationtech.jts.io.WKTWriter
 import org.locationtech.jts.operation.IsSimpleOp
 import org.locationtech.jts.operation.buffer.BufferOp
 import org.locationtech.jts.operation.distance.DistanceOp
@@ -856,7 +857,7 @@ abstract class Geometry(
    */
   override def hashCode: Int = getEnvelopeInternal.hashCode
 
-  override def toString: String = "toText"
+  override def toString: String = toText
 
   /**
    * Returns the Well-known Text representation of this <code>Geometry</code>. For a definition of
@@ -864,10 +865,10 @@ abstract class Geometry(
    *
    * return the Well-known Text representation of this <code>Geometry</code>
    */
-//  def toText: String = {
-//    val writer = new WKTWriter
-//    writer.write(this)
-//  }
+  def toText: String = {
+    val writer = new WKTWriter
+    writer.write(this)
+  }
 
   /**
    * Computes a buffer area around this geometry having the given width. The buffer of a Geometry is
@@ -1335,7 +1336,7 @@ abstract class Geometry(
    *   or less than <code>o</code>, as defined in "Normal Form For Geometry" in the JTS Technical
    *   Specifications
    */
-  protected def compareToSameClass(o: Geometry): Int
+  protected def compareToSameClass(o: AnyRef): Int
 
   /**
    * Returns whether this <code>Geometry</code> is greater than, equal to, or less than another
@@ -1348,7 +1349,7 @@ abstract class Geometry(
    *   number, depending on whether this object is greater than, equal to, or less than
    *   <code>o</code>, as defined in "Normal Form For Geometry" in the JTS Technical Specifications
    */
-  def compareToSameClass(o: Geometry, comp: CoordinateSequenceComparator): Int
+  def compareToSameClass(o: AnyRef, comp: CoordinateSequenceComparator): Int
 
   /**
    * Returns the first non-zero result of <code>compareTo</code> encountered as the two

@@ -51,9 +51,9 @@ object IndexedPointInAreaLocator {
 
   private class IntervalIndexedGeometry(val geom: Geometry) {
     private var isEmpty = false
+    private val index   = new SortedPackedIntervalRTree
     if (geom.isEmpty) isEmpty = true
     else init(geom)
-    private val index   = new SortedPackedIntervalRTree
 
     private def init(geom: Geometry): Unit = {
       val lines = LinearComponentExtracter.getLines(geom)

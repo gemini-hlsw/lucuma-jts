@@ -32,7 +32,7 @@ import scala.jdk.CollectionConverters._
  */
 
 class OverlayEdgeRing(var startEdge: OverlayEdge, val geometryFactory: GeometryFactory) {
-  private var ringPts                         = computeRingPts(startEdge)
+  private val ringPts                         = computeRingPts(startEdge)
   computeRing(ringPts, geometryFactory)
   private var ring: LinearRing                = null
   private var isHole0                         = false
@@ -82,8 +82,10 @@ class OverlayEdgeRing(var startEdge: OverlayEdge, val geometryFactory: GeometryF
     this
   }
 
-  def addHole(ring: OverlayEdgeRing): Unit =
+  def addHole(ring: OverlayEdgeRing): Unit = {
     holes.add(ring)
+    ()
+  }
 
   private def computeRingPts(start: OverlayEdge) = {
     var edge = start

@@ -330,17 +330,16 @@ class Polygon(
       holes(i) = normalized(holes(i), false)
       i += 1
     }
-    java.util.Arrays.sort(holes.map(x => x: AnyRef))
+    holes = holes.sorted
   }
 
-  protected def compareToSameClass(o: Geometry): Int = {
-    val thisShell  = shell
-    val otherShell = o.asInstanceOf[Polygon].shell
-    // BUG
-    thisShell.compareToSameClass(otherShell, null)
+  protected def compareToSameClass(o: AnyRef): Int = {
+    val thisShell: LinearRing  = shell
+    val otherShell: LinearRing = o.asInstanceOf[Polygon].shell
+    thisShell.compareToSameClass(otherShell)
   }
 
-  def compareToSameClass(o: Geometry, comp: CoordinateSequenceComparator): Int = {
+  def compareToSameClass(o: AnyRef, comp: CoordinateSequenceComparator): Int = {
     val poly       = o.asInstanceOf[Polygon]
     val thisShell  = shell
     val otherShell = poly.shell

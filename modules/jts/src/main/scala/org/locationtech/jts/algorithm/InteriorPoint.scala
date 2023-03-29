@@ -44,11 +44,9 @@ object InteriorPoint {
    */
   def getInteriorPoint(geom: Geometry): Coordinate = {
     if (geom.isEmpty) return null
-    var interiorPt: Coordinate = null
-    val dim                    = geom.getDimension
-    if (dim == 0) interiorPt = InteriorPointPoint.getInteriorPoint(geom)
-    else if (dim == 1) interiorPt = InteriorPointLine.getInteriorPoint(geom)
-    else interiorPt = InteriorPointArea.getInteriorPoint(geom)
-    interiorPt
+    val dim = geom.getDimension
+    if (dim == 0) InteriorPointPoint.getInteriorPoint(geom)
+    else if (dim == 1) InteriorPointLine.getInteriorPoint(geom)
+    else InteriorPointArea.getInteriorPoint(geom)
   }
 }

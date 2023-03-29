@@ -51,10 +51,10 @@ object RingClipper {
  */
 class RingClipper(var clipEnv: Envelope) {
 
-  private var clipEnvMinY = clipEnv.getMinY
-  private var clipEnvMaxY = clipEnv.getMaxY
-  private var clipEnvMinX = clipEnv.getMinX
-  private var clipEnvMaxX = clipEnv.getMaxX
+  private val clipEnvMinY = clipEnv.getMinY
+  private val clipEnvMaxY = clipEnv.getMaxY
+  private val clipEnvMinX = clipEnv.getMinX
+  private val clipEnvMaxX = clipEnv.getMaxX
 
   /**
    * Clips a list of points to the clipping rectangle box.

@@ -357,9 +357,9 @@ class InteriorPointArea(val g: Geometry) {
    * @param g
    *   an areal geometry
    */
-  process(g)
   private var interiorPoint: Coordinate = null
   private var maxWidth: Double          = -1
+  process(g)
 
   /**
    * Gets the computed interior point.

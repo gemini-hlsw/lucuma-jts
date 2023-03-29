@@ -87,7 +87,6 @@ class OffsetSegmentGenerator(
    */
   if (bufParams.getQuadrantSegments >= 8 && bufParams.getJoinStyle == BufferParameters.JOIN_ROUND)
     closingSegLengthFactor = OffsetSegmentGenerator.MAX_CLOSING_SEG_LEN_FACTOR
-  init(distance)
 
   /**
    * the max error of approximation (distance) between a quad segment and the true fillet curve
@@ -115,6 +114,7 @@ class OffsetSegmentGenerator(
   private val offset1                      = new LineSegment
   private var side                         = 0
   private var vhasNarrowConcaveAngle       = false
+  init(distance)
 
   /**
    * Tests whether the input has a narrow concave angle (relative to the offset distance). In this

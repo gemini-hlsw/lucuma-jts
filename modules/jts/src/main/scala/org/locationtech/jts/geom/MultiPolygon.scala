@@ -34,7 +34,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
 //  *            HREF="http://www.opengis.org/techno/specs.htm">OpenGIS Simple
 //  *            Features Specification for SQL</A>.
 //  */
-    extends GeometryCollection(polygons.map(x => x: Geometry), factory)
+    extends GeometryCollection(Option(polygons).map(_.map(x => x: Geometry)).orNull, factory)
     with Polygonal {
 
   /**

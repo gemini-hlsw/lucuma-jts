@@ -13,6 +13,7 @@ import org.locationtech.jts.index.strtree.STRtree
 import org.locationtech.jts.operation.overlay.snap.SnapIfNeededOverlayOp
 
 import java.util
+import scala.annotation.nowarn
 
 /*
  * Copyright (c) 2016 Vivid Solutions.
@@ -147,6 +148,7 @@ class CascadedPolygonUnion(var inputPolys: util.Collection[Geometry], var unionF
   }
   private val countInput: Int              = inputPolys.size
   private var countRemainder               = countInput
+  @nowarn
   private var geomFactory: GeometryFactory = null
 
   def this(polys: util.Collection[Geometry]) =

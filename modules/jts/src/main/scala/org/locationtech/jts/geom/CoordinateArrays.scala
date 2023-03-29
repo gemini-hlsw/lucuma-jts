@@ -71,7 +71,7 @@ object CoordinateArrays {
     var maxDimension = -1
     var maxMeasures  = -1
     var isConsistent = true
-    for (i <- 0 to array.length) yield {
+    for (i <- 0 until array.length) yield {
       val coordinate = array(i)
       if (coordinate != null) {
         val d = Coordinates.dimension(coordinate)
@@ -91,7 +91,7 @@ object CoordinateArrays {
       val sample = Coordinates.create(maxDimension, maxMeasures)
       val clz    = sample.getClass()
 
-      for (i <- 0 to array.length) yield {
+      for (i <- 0 until array.length) yield {
         val coordinate = array(i)
         if (coordinate != null && !coordinate.getClass().equals(clz)) {
           val duplicate = Coordinates.create(maxDimension, maxMeasures)
@@ -120,10 +120,10 @@ object CoordinateArrays {
     measures:  Int
   ): Array[Coordinate] = {
     val sample       = Coordinates.create(dimension, measures)
-    val clz          = sample.getClass()
+    val clz          = sample.getClass();
     var isConsistent = true
     for {
-      i <- 0 to array.length
+      i <- 0 until array.length
       if isConsistent
     } yield {
       val coordinate = array(i)
@@ -138,7 +138,7 @@ object CoordinateArrays {
       val copy           = java.lang.reflect.Array
         .newInstance(coordinateType, array.length)
         .asInstanceOf[Array[Coordinate]]
-      for (i <- 0 to copy.length) {
+      for (i <- 0 until copy.length) {
         val coordinate = array(i)
         if (coordinate != null && !coordinate.getClass().equals(clz)) {
           val duplicate = Coordinates.create(dimension, measures)
@@ -529,10 +529,10 @@ object CoordinateArrays {
     indexOfFirstCoordinate: Int,
     ensureRing:             Boolean
   ): Unit = {
-    val i              = indexOfFirstCoordinate
+    val i = indexOfFirstCoordinate
+
     if (i <= 0) return
     val newCoordinates = new Array[Coordinate](coordinates.length)
-    System.arraycopy(coordinates, 0, newCoordinates, coordinates.length - i, i)
     if (!ensureRing) {
       System.arraycopy(coordinates, i, newCoordinates, 0, coordinates.length - i)
       System.arraycopy(coordinates, 0, newCoordinates, coordinates.length - i, i)
@@ -541,12 +541,13 @@ object CoordinateArrays {
 
       // fill in values
       for {
-        j <- 0 to last
+        j <- 0 until last
       } yield newCoordinates(j) = coordinates((i + j) % last)
 
       // Fix the ring (first == last)
-      newCoordinates(last - 1) = newCoordinates(0).copy
+      newCoordinates(last) = newCoordinates(0).copy
     }
+    System.arraycopy(newCoordinates, 0, coordinates, 0, coordinates.length)
   }
 
   /**

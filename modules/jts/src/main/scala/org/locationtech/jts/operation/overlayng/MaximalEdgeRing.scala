@@ -3,7 +3,6 @@
 
 package org.locationtech.jts.operation.overlayng
 
-import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateList
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.TopologyException

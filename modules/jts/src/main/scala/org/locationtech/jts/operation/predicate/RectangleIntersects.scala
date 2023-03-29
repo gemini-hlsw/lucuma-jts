@@ -50,7 +50,7 @@ object RectangleIntersects {
   }
 }
 
-class RectangleIntersects(var rectangle: Polygon) {
+class RectangleIntersects(rectangle: Polygon) {
 
   /**
    * Create a new intersects computer for a rectangle.
@@ -185,8 +185,8 @@ class GeometryContainsPointVisitor(val rectangle: Polygon) extends ShortCircuite
           vcontainsPoint = true
           return
         }
-        i += 1
       }
+      i += 1
     }
   }
 
@@ -237,7 +237,7 @@ class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
     checkIntersectionWithLineStrings(lines)
   }
 
-  private def checkIntersectionWithLineStrings(lines: util.List[_]): Unit = {
+  private def checkIntersectionWithLineStrings(lines: util.List[Geometry]): Unit = {
     val i = lines.iterator
     while (i.hasNext) {
       val testLine = i.next.asInstanceOf[LineString]
@@ -257,7 +257,7 @@ class RectangleIntersectsSegmentVisitor(val rectangle: Polygon)
         return
       }
       {
-        j += 1; j - 1
+        j += 1
       }
     }
   }

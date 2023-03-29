@@ -100,6 +100,9 @@ object GeometryExtracter {
     list
   }
 
+  def extract(geom: Geometry, geometryType: String): util.List[Geometry] =
+    extract(geom, geometryType, new util.ArrayList());
+
   /**
    * Extracts the components of type <tt>clz</tt> from a {link Geometry} and returns them in a {link
    * List}.

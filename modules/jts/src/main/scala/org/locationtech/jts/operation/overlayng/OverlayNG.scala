@@ -11,14 +11,8 @@ import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.geom.TopologyException
-import org.locationtech.jts.geomgraph.Label
-import org.locationtech.jts.noding.MCIndexNoder
-import org.locationtech.jts.noding.NodedSegmentString
 import org.locationtech.jts.noding.Noder
 import org.locationtech.jts.noding.SegmentString
-import org.locationtech.jts.noding.snap.SnappingNoder
-import org.locationtech.jts.noding.snapround.SnapRoundingNoder
 import org.locationtech.jts.operation.overlay.OverlayOp
 
 import java.util
@@ -138,13 +132,13 @@ object OverlayNG {
     val _loc1 = if (loc1 == Location.BOUNDARY) Location.INTERIOR else loc1
     overlayOpCode match {
       case INTERSECTION  =>
-        return loc0 == Location.INTERIOR && loc1 == Location.INTERIOR
+        return _loc0 == Location.INTERIOR && _loc1 == Location.INTERIOR
       case UNION         =>
-        return loc0 == Location.INTERIOR || loc1 == Location.INTERIOR
+        return _loc0 == Location.INTERIOR || _loc1 == Location.INTERIOR
       case DIFFERENCE    =>
-        return loc0 == Location.INTERIOR && loc1 != Location.INTERIOR
+        return _loc0 == Location.INTERIOR && _loc1 != Location.INTERIOR
       case SYMDIFFERENCE =>
-        return (loc0 == Location.INTERIOR && loc1 != Location.INTERIOR) || (loc0 != Location.INTERIOR && loc1 == Location.INTERIOR)
+        return (_loc0 == Location.INTERIOR && _loc1 != Location.INTERIOR) || (_loc0 != Location.INTERIOR && _loc1 == Location.INTERIOR)
     }
     false
   }
@@ -321,8 +315,8 @@ object OverlayNG {
  */
 class OverlayNG(val geom0: Geometry, val geom1: Geometry, var pm: PrecisionModel, var opCode: Int) {
 
-  private var inputGeom: InputGeometry     = new InputGeometry(geom0, geom1)
-  private var geomFact: GeometryFactory    = geom0.getFactory
+  private val inputGeom: InputGeometry     = new InputGeometry(geom0, geom1)
+  private val geomFact: GeometryFactory    = geom0.getFactory
   private var noder: Noder[SegmentString]  = null
   private var isStrictMode: Boolean        = OverlayNG.STRICT_MODE_DEFAULT
   private var isOptimized: Boolean         = true
