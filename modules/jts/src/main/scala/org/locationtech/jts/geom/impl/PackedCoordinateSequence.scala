@@ -375,11 +375,11 @@ abstract class PackedCoordinateSequence protected (
   /**
    * The dimensions of the coordinates held in the packed array
    */
-  var dimension: Int,
+  val dimension: Int,
   /**
    * The number of measures of the coordinates held in the packed array.
    */
-  var measures:  Int
+  val measures:  Int
 )
 
 /**

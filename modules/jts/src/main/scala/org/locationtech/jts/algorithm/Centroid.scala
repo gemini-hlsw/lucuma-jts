@@ -217,8 +217,8 @@ class Centroid(val geom: Geometry) {
         // i - 1
       }
     }
-      totalLength += lineLen
-      if (lineLen == 0.0 && pts.length > 0) addPoint(pts(0))
+    totalLength += lineLen
+    if (lineLen == 0.0 && pts.length > 0) addPoint(pts(0))
   }
 
   /**

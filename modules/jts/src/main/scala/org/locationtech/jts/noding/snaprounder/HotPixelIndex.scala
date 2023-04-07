@@ -148,21 +148,20 @@ object HotPixelIndex {
    *   An array of {@link Coordinate}s.
    */
       extends util.Iterator[Coordinate] {
-    val indices = new Array[Int](coordinates.length)
+    final private val rnd = new Random(13)
+    private var index     = 0
+    val indices           = new Array[Int](coordinates.length)
     for (i <- 0 until coordinates.length)
       indices(i) = i
     index = coordinates.length - 1
-    final private val rnd = new Random(13)
-    private var index     = 0
 
     override def hasNext: Boolean = index >= 0
 
     override def next: Coordinate = {
       val j   = rnd.nextInt(index + 1)
       val res = coordinates(indices(j))
-      indices(j) = indices {
-        index -= 1; index + 1
-      }
+      indices(j) = indices(index)
+      index -= 1
       res
     }
   }

@@ -8,6 +8,7 @@ import org.locationtech.jts.geom.CoordinateFilter
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.PrecisionModel
+import org.locationtech.jts.io.OrdinateFormat
 import org.locationtech.jts.math.MathUtil
 
 /*
@@ -213,8 +214,7 @@ object PrecisionUtil {
     /**
      * Ensure that scientific notation is NOT used (it would skew the number of fraction digits)
      */
-    // val s        = OrdinateFormat.DEFAULT.format(value)
-    val s        = value.toString
+    val s        = OrdinateFormat.DEFAULT.format(value)
     if (s.endsWith(".0")) return 0
     val len      = s.length
     val decIndex = s.indexOf('.')

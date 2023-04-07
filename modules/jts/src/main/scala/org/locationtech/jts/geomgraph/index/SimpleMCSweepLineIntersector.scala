@@ -71,7 +71,7 @@ class SimpleMCSweepLineIntersector()
     }
   }
 
-  private def addEdges(edges: util.List[Edge], edgeSet: Any): Unit = {
+  private def addEdges(edges: util.List[Edge], edgeSet: AnyRef): Unit = {
     val i = edges.iterator
     while (i.hasNext) {
       val edge = i.next
@@ -79,7 +79,7 @@ class SimpleMCSweepLineIntersector()
     }
   }
 
-  private def addEdge(edge: Edge, edgeSet: Any): Unit = {
+  private def addEdge(edge: Edge, edgeSet: AnyRef): Unit = {
     val mce        = edge.getMonotoneChainEdge
     val startIndex = mce.getStartIndexes
     var i          = 0

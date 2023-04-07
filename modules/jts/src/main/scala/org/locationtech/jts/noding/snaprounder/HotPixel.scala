@@ -102,8 +102,7 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
    * @return
    *   true if the pixel is marked as a node
    */
-  def isNode: Boolean =
-    return isNode0
+  def isNode: Boolean = isNode0
 
   /**
    * Sets this pixel to be a node.
@@ -122,8 +121,8 @@ class HotPixel(var originalPt: Coordinate, var scaleFactor: Double) {
    * @param val
    * @return
    */
-  private def scale(`val`: Double): Double =
-    return `val` * scaleFactor
+  private def scale(value: Double): Double =
+    return value * scaleFactor
 
   /**
    * Tests whether a coordinate lies in (intersects) this hot pixel.

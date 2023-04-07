@@ -70,55 +70,55 @@ public class CoordinateSequencesTest extends TestCase {
     System.out.println("Testing scrolling of closed ring");
     doTestScrollRing(CoordinateArraySequenceFactory.instance(), 2);
     doTestScrollRing(CoordinateArraySequenceFactory.instance(), 3);
-    doTestScrollRing(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 2);
-    doTestScrollRing(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 4);
-    doTestScrollRing(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 2);
-    doTestScrollRing(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 4);
+    doTestScrollRing(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 2);
+    doTestScrollRing(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 4);
+    doTestScrollRing(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 2);
+    doTestScrollRing(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 4);
   }
 
   public void testScroll() {
     System.out.println("Testing scrolling of circular string");
     doTestScroll(CoordinateArraySequenceFactory.instance(), 2);
     doTestScroll(CoordinateArraySequenceFactory.instance(), 3);
-    doTestScroll(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 2);
-    doTestScroll(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 4);
-    doTestScroll(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 2);
-    doTestScroll(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 4);
+    doTestScroll(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 2);
+    doTestScroll(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 4);
+    doTestScroll(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 2);
+    doTestScroll(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 4);
   }
 
   public void testIndexOf() {
     System.out.println("Testing indexOf");
     doTestIndexOf(CoordinateArraySequenceFactory.instance(), 2);
-    doTestIndexOf(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 5);
-    doTestIndexOf(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 7);
+    doTestIndexOf(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 5);
+    doTestIndexOf(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 7);
   }
 
   public void testMinCoordinateIndex() {
     System.out.println("Testing minCoordinateIndex");
     doTestMinCoordinateIndex(CoordinateArraySequenceFactory.instance(), 2);
-    doTestMinCoordinateIndex(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 5);
-    doTestMinCoordinateIndex(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 7);
+    doTestMinCoordinateIndex(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 5);
+    doTestMinCoordinateIndex(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 7);
   }
 
   public void testIsRing() {
     System.out.println("Testing isRing");
     doTestIsRing(CoordinateArraySequenceFactory.instance(), 2);
-    doTestIsRing(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 5);
-    doTestIsRing(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 7);
+    doTestIsRing(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 5);
+    doTestIsRing(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 7);
   }
 
   public void testCopy() {
     System.out.println("Testing copy");
     doTestCopy(CoordinateArraySequenceFactory.instance(), 2);
-    doTestCopy(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 5);
-    doTestCopy(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 7);
+    doTestCopy(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 5);
+    doTestCopy(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 7);
   }
 
   public void testReverse() {
     System.out.println("Testing reverse");
     doTestReverse(CoordinateArraySequenceFactory.instance(), 2);
-    doTestReverse(PackedCoordinateSequenceFactory.DOUBLE_FACTORY, 5);
-    doTestReverse(PackedCoordinateSequenceFactory.FLOAT_FACTORY, 7);
+    doTestReverse(PackedCoordinateSequenceFactory.DOUBLE_FACTORY(), 5);
+    doTestReverse(PackedCoordinateSequenceFactory.FLOAT_FACTORY(), 7);
   }
 
   /**

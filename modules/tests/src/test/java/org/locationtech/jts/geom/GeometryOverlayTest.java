@@ -23,22 +23,22 @@ public class GeometryOverlayTest extends GeometryTestCase {
 
   public GeometryOverlayTest(String name) { super(name); }
 
-  // public void testOverlayNGFixed() {
-  //   GeometryOverlay.setOverlayImpl(GeometryOverlay.OVERLAY_PROPERTY_VALUE_NG());
-  //   PrecisionModel pmFixed = new PrecisionModel(1);
-  //   Geometry expected = read("POLYGON ((1 2, 4 1, 1 1, 1 2))");
-  //
-  //   checkIntersectionPM(pmFixed, expected);
-  // }
-  //
-  // public void testOverlayNGFloat() {
-  //   GeometryOverlay.setOverlayImpl(GeometryOverlay.OVERLAY_PROPERTY_VALUE_NG());
-  //   PrecisionModel pmFloat = new PrecisionModel();
-  //   Geometry expected = read("POLYGON ((1 1, 1 2, 4 1.25, 4 1, 1 1))");
-  //
-  //   checkIntersectionPM(pmFloat, expected);
-  // }
-  //
+  public void testOverlayNGFixed() {
+    GeometryOverlay.setOverlayImpl(GeometryOverlay.OVERLAY_PROPERTY_VALUE_NG());
+    PrecisionModel pmFixed = new PrecisionModel(1);
+    Geometry expected = read("POLYGON ((1 2, 4 1, 1 1, 1 2))");
+
+    checkIntersectionPM(pmFixed, expected);
+  }
+
+  public void testOverlayNGFloat() {
+    GeometryOverlay.setOverlayImpl(GeometryOverlay.OVERLAY_PROPERTY_VALUE_NG());
+    PrecisionModel pmFloat = new PrecisionModel();
+    Geometry expected = read("POLYGON ((1 1, 1 2, 4 1.25, 4 1, 1 1))");
+
+    checkIntersectionPM(pmFloat, expected);
+  }
+
   private void checkIntersectionPM(PrecisionModel pmFixed, Geometry expected) {
     GeometryFactory geomFactFixed = new GeometryFactory(pmFixed);
     Geometry a = read(geomFactFixed, "POLYGON ((1 1, 1 2, 5 1, 1 1))");

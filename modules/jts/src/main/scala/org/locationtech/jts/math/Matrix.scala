@@ -63,32 +63,31 @@ object Matrix {
     val n = b.length
     if (a.length != n || a(0).length != n)
       throw new IllegalArgumentException("Matrix A is incorrectly sized")
+
     // Use Gaussian Elimination with partial pivoting.
     // Iterate over each row
-    var i = 0
-    while (i < n) { // Find the largest pivot in the rows below the current one.
+    for (i <- 0 until n) {
+      // Find the largest pivot in the rows below the current one.
       var maxElementRow = i
-      var j             = i + 1
-      while (j < n) {
-        if (Math.abs(a(j)(i)) > Math.abs(a(maxElementRow)(i))) maxElementRow = j
-        j += 1
+      for (j <- i + 1 until n)
+        if (math.abs(a(j)(i)) > math.abs(a(maxElementRow)(i))) {
+          maxElementRow = j
+        }
+
+      if (a(maxElementRow)(i) == 0.0) {
+        return null
       }
-      if (a(maxElementRow)(i) == 0.0) return null
+
       // Exchange current row and maxElementRow in A and b.
       swapRows(a, i, maxElementRow)
       swapRows(b, i, maxElementRow)
+
       // Eliminate using row i
-      j = i + 1
-      while (j < n) {
+      for (j <- i + 1 until n) {
         val rowFactor = a(j)(i) / a(i)(i)
-        var k         = n - 1
-        while (k >= i) a(j)(k) -= a(i)(k) * rowFactor
-        k -= 1
+        for (k <- n - 1 to i by -1)
+          a(j)(k) -= a(i)(k) * rowFactor
         b(j) -= b(i) * rowFactor
-        j += 1
-      }
-      {
-        i += 1; i - 1
       }
     }
 
@@ -96,16 +95,14 @@ object Matrix {
      * A is now (virtually) in upper-triangular form. The solution vector is determined by
      * back-substitution.
      */
-    val solution = new Array[Double](n)
-    var j        = n - 1
-    while (j >= 0) {
+    val solution = Array.fill(n)(0.0)
+    for (j <- n - 1 to 0 by -1) {
       var t = 0.0
-      var k = j + 1
-      while (k < n) t += a(j)(k) * solution(k)
-      k += 1
+      for (k <- j + 1 until n)
+        t += a(j)(k) * solution(k)
       solution(j) = (b(j) - t) / a(j)(j)
-      j -= 1
     }
     solution
   }
+
 }

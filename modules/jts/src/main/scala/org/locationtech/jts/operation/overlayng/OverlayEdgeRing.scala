@@ -33,13 +33,13 @@ import scala.jdk.CollectionConverters._
 
 class OverlayEdgeRing(var startEdge: OverlayEdge, val geometryFactory: GeometryFactory) {
   private val ringPts                         = computeRingPts(startEdge)
-  computeRing(ringPts, geometryFactory)
   private var ring: LinearRing                = null
   private var isHole0                         = false
   private var locator: PointOnGeometryLocator = null
   private var shell0: OverlayEdgeRing         = null
   private val holes                           =
     new util.ArrayList[OverlayEdgeRing] // a list of EdgeRings which are holes in this EdgeRing
+  computeRing(ringPts, geometryFactory)
 
   def getRing: LinearRing = ring
 

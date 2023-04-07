@@ -7,6 +7,7 @@ import org.locationtech.jts.edgegraph.HalfEdge
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.CoordinateArrays
 import org.locationtech.jts.geom.CoordinateList
+import org.locationtech.jts.io.WKTWriter
 
 import java.util.Comparator
 
@@ -167,11 +168,23 @@ class OverlayEdge(
   def setEdgeRingMax(maximalEdgeRing: MaximalEdgeRing): Unit =
     maxEdgeRing = maximalEdgeRing
 
-  // private def resultSymbol: String = {
-  //   if (isInResultArea0) return " resA"
-  //   if (isInResultLine0) return " resL"
-  //   ""
-  // }
+  override def toString = {
+    // val orig     = orig()
+    // val dest     = dest()
+    val dirPtStr = if (pts.length > 2) {
+      ", " + WKTWriter.format(directionPt)
+    } else ""
+
+    "OE( " + WKTWriter.format(orig) + dirPtStr + " .. " + WKTWriter.format(dest) + " ) " + label
+      .toString(direction) + resultSymbol + " / Sym: " + symOE.getLabel
+      .toString(symOE.direction) + symOE.resultSymbol
+  }
+
+  private def resultSymbol: String = {
+    if (isInResultArea0) return " resA"
+    if (isInResultLine0) return " resL"
+    ""
+  }
 }
 
 object OverlayEdge {

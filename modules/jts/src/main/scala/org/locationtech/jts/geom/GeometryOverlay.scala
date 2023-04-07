@@ -50,7 +50,7 @@ object GeometryOverlay {
    * @param overlayImplCode
    *   the code for the overlay method (may be null)
    */
-  private[geom] def setOverlayImpl(overlayImplCode: String): Unit = {
+  def setOverlayImpl(overlayImplCode: String): Unit = {
     if (overlayImplCode == null) return
     // set flag explicitly since current value may not be default
     isOverlayNG = OVERLAY_NG_DEFAULT

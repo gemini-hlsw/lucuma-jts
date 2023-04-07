@@ -44,11 +44,11 @@ object EdgeKey {
 }
 
 class EdgeKey private[overlayng] (val edge: Edge) extends Comparable[EdgeKey] {
-  initPoints(edge)
   private var p0x = .0
   private var p0y = .0
   private var p1x = .0
   private var p1y = .0
+  initPoints(edge)
 
   private def initPoints(edge: Edge): Unit = {
     val direction = edge.direction

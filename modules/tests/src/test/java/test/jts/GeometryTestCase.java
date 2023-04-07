@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * A base class for Geometry tests which provides various utility methods.
- * 
+ *
  * @author mbdavis
  *
  */
@@ -40,7 +40,7 @@ import java.util.List;
 public abstract class GeometryTestCase extends TestCase{
 
   final GeometryFactory geomFactory;
-  
+
 //  final WKTReader readerWKT;
 
   protected GeometryTestCase(String name)
@@ -83,31 +83,31 @@ public abstract class GeometryTestCase extends TestCase{
   GeometryCollection toGeometryCollection(Collection geoms) {
     return geomFactory.createGeometryCollection(GeometryFactory.toGeometryArray(geoms));
   }
-  
+
   protected void checkEqualXY(Coordinate expected, Coordinate actual) {
     assertEquals("Coordinate X", expected.getX(), actual.getX() );
     assertEquals("Coordinate Y", expected.getY(), actual.getY() );
   }
-  
+
   protected void checkEqualXY(String message, Coordinate expected, Coordinate actual) {
     assertEquals(message + " X", expected.getX(), actual.getX() );
     assertEquals(message + " Y", expected.getY(), actual.getY() );
   }
-  
+
   protected void checkEqualXY(Coordinate expected, Coordinate actual, double tolerance) {
     assertEquals("Coordinate X", expected.getX(), actual.getX(), tolerance);
     assertEquals("Coordinate Y", expected.getY(), actual.getY(), tolerance);
   }
-  
+
   protected void checkEqualXY(String message, Coordinate expected, Coordinate actual, double tolerance) {
     assertEquals(message + " X", expected.getX(), actual.getX(), tolerance);
     assertEquals(message + " Y", expected.getY(), actual.getY(), tolerance);
   }
- 
-  
+
+
   /**
    * Reads a {@link Geometry} from a WKT string using a custom {@link GeometryFactory}.
-   *  
+   *
    * @param geomFactory the custom factory to use
    * @param wkt the WKT string
    * @return the geometry read
@@ -133,16 +133,17 @@ public abstract class GeometryTestCase extends TestCase{
       throw new RuntimeException(e.getMessage());
     }
   }
-  protected List readList(String[] wkt) {
-    ArrayList geometries = new ArrayList(wkt.length);
+
+  protected List<Geometry> readList(String[] wkt) {
+    ArrayList<Geometry> geometries = new ArrayList<>(wkt.length);
     for (int i = 0; i < wkt.length; i++) {
       geometries.add(read(wkt[i]));
     }
     return geometries;
   }
 
-  public static List readList(WKTReader reader, String[] wkt) {
-    ArrayList geometries = new ArrayList(wkt.length);
+  public static List<Geometry> readList(WKTReader reader, String[] wkt) {
+    ArrayList<Geometry> geometries = new ArrayList<>(wkt.length);
     for (int i = 0; i < wkt.length; i++) {
       geometries.add(read(reader, wkt[i]));
     }
@@ -195,11 +196,11 @@ public abstract class GeometryTestCase extends TestCase{
       result = new WKTReader(new GeometryFactory(precisionModel, 0, CoordinateArraySequenceFactory.instance()));
     else if (ordinateFlags.contains(Ordinate.M)) {
       result = new WKTReader(new GeometryFactory(precisionModel, 0,
-              PackedCoordinateSequenceFactory.DOUBLE_FACTORY));
+              PackedCoordinateSequenceFactory.DOUBLE_FACTORY()));
       result.setIsOldJtsCoordinateSyntaxAllowed(false);
     }
     else
-      result = new WKTReader(new GeometryFactory(precisionModel, 0, PackedCoordinateSequenceFactory.DOUBLE_FACTORY));
+      result = new WKTReader(new GeometryFactory(precisionModel, 0, PackedCoordinateSequenceFactory.DOUBLE_FACTORY()));
 
     return result;
   }
@@ -293,7 +294,7 @@ public abstract class GeometryTestCase extends TestCase{
   public static CoordinateSequenceFactory getCSFactory(EnumSet<Ordinate> ordinateFlags)
   {
     if (ordinateFlags.contains(Ordinate.M))
-        return PackedCoordinateSequenceFactory.DOUBLE_FACTORY;
+        return PackedCoordinateSequenceFactory.DOUBLE_FACTORY();
 
     return CoordinateArraySequenceFactory.instance();
   }

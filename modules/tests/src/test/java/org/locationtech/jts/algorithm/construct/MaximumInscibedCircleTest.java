@@ -76,14 +76,10 @@ public class MaximumInscibedCircleTest extends GeometryTestCase {
   private void checkCircle(Geometry geom, double tolerance,
       double x, double y, double expectedRadius) {
     MaximumInscribedCircle mic = new MaximumInscribedCircle(geom, tolerance);
-    System.out.println(mic);
     Geometry centerPoint = mic.getCenter();
-    System.out.println(centerPoint);
     Coordinate centerPt = centerPoint.getCoordinate();
     Coordinate expectedCenter = new Coordinate(x, y);
-    System.out.println(expectedCenter);
     checkEqualXY(expectedCenter, centerPt, tolerance);
-    System.out.println("here");
 
     LineString radiusLine = mic.getRadiusLine();
     double actualRadius = radiusLine.getLength();

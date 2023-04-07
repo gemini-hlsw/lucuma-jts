@@ -169,13 +169,13 @@ object Edge {
 }
 
 class Edge(var pts: Array[Coordinate], val info: EdgeSourceInfo) {
-  copyInfo(info)
   private var aDim        = OverlayLabel.DIM_UNKNOWN
   private var aDepthDelta = 0
   private var aIsHole     = false
   private var bDim        = OverlayLabel.DIM_UNKNOWN
   private var bDepthDelta = 0
   private var bIsHole     = false
+  copyInfo(info)
 
   def getCoordinates: Array[Coordinate] = pts
 

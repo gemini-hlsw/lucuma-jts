@@ -51,7 +51,7 @@ object SegmentExtractingNoder {
   }
 
   def extractSegments(ss: SegmentString, segList: List[SegmentString]): Unit =
-    for (i <- 0 to ss.size - 1) {
+    for (i <- 0 until ss.size - 1) {
       val p0  = ss.getCoordinate(i)
       val p1  = ss.getCoordinate(i + 1)
       val seg = new BasicSegmentString(Array[Coordinate](p0, p1), ss.getData)

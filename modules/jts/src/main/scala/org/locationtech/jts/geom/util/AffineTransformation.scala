@@ -225,7 +225,6 @@ class AffineTransformation()
  */
     extends Cloneable
     with CoordinateSequenceFilter {
-  setToIdentity
   // affine matrix entries
   // (bottom row is always [ 0 0 1 ])
   private var m00 = .0
@@ -234,6 +233,7 @@ class AffineTransformation()
   private var m10 = .0
   private var m11 = .0
   private var m12 = .0
+  setToIdentity
 
   /**
    * Constructs a new transformation whose matrix has the specified values.

@@ -108,7 +108,7 @@ object OverlayLabel {
    * @return
    *   the dimension symbol character
    */
-  def dimensionSymbol(dim: Int): Char = {
+  def dimensionSymbol(dim: Int): Char =
     dim match {
       case DIM_LINE     =>
         return SYM_LINE
@@ -116,9 +116,8 @@ object OverlayLabel {
         return SYM_COLLAPSE
       case DIM_BOUNDARY =>
         return SYM_BOUNDARY
+      case _            => SYM_UNKNOWN
     }
-    SYM_UNKNOWN
-  }
 }
 
 /**

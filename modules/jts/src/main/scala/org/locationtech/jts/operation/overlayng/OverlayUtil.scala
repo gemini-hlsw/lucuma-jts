@@ -186,8 +186,7 @@ object OverlayUtil {
       case OverlayNG.DIFFERENCE =>
         if (isEmpty(a)) return true
 
-      case OverlayNG.UNION         =>
-      case OverlayNG.SYMDIFFERENCE =>
+      case OverlayNG.UNION | OverlayNG.SYMDIFFERENCE =>
         if (isEmpty(a) && isEmpty(b)) return true
 
     }

@@ -113,6 +113,7 @@ public class AffineTransformationBuilderTest
         pp0, pp1, pp2);
     AffineTransformation trans = atb.getTransformation();
 
+
     Coordinate dest = new Coordinate();
     assertEqualPoint(pp0, trans.transform(p0, dest));
     assertEqualPoint(pp1, trans.transform(p1, dest));

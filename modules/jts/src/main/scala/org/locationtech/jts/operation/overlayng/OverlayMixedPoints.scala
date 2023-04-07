@@ -95,6 +95,10 @@ class OverlayMixedPoints(
   private var geomNonPointInput: Geometry     = null
   private var isPointRHS                      = false
   resultDim = OverlayUtil.resultDimension(opCode, geom0.getDimension, geom1.getDimension)
+  private var geomNonPoint: Geometry          = null
+  private var geomNonPointDim                 = 0
+  private var locator: PointOnGeometryLocator = null
+  private var resultDim                       = 0
   // name the dimensional geometries
   if (geom0.getDimension == 0) {
     this.geomPoint = geom0
@@ -105,10 +109,6 @@ class OverlayMixedPoints(
     this.geomNonPointInput = geom0
     this.isPointRHS = true
   }
-  private var geomNonPoint: Geometry          = null
-  private var geomNonPointDim                 = 0
-  private var locator: PointOnGeometryLocator = null
-  private var resultDim                       = 0
 
   def getResult: Geometry = { // reduce precision of non-point input, if required
     geomNonPoint = prepareNonPoint(geomNonPointInput)
@@ -116,16 +116,15 @@ class OverlayMixedPoints(
     locator = createLocator(geomNonPoint)
     val coords = OverlayMixedPoints.extractCoordinates(geomPoint, pm)
     opCode match {
-      case OverlayNG.INTERSECTION  =>
+      case OverlayNG.INTERSECTION                    =>
         return computeIntersection(coords)
-      case OverlayNG.UNION         =>
-      case OverlayNG.SYMDIFFERENCE =>
+      case OverlayNG.UNION | OverlayNG.SYMDIFFERENCE =>
         // UNION and SYMDIFFERENCE have same output
         return computeUnion(coords)
-      case OverlayNG.DIFFERENCE    =>
+      case OverlayNG.DIFFERENCE                      =>
         return computeDifference(coords)
     }
-    Assert.shouldNeverReachHere("Unknown overlay op code")
+    Assert.shouldNeverReachHere("Unknown overlay op code" + opCode)
     null
   }
 

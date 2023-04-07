@@ -33,9 +33,8 @@ class ValidatingNoder(var noder: Noder[SegmentString])
    *
    * @throws TopologyException
    */
-  @SuppressWarnings(Array("unchecked"))
   override def computeNodes(
-    @SuppressWarnings(Array("rawtypes")) segStrings: util.Collection[SegmentString]
+    segStrings: util.Collection[SegmentString]
   ): Unit = {
     noder.computeNodes(segStrings)
     nodedSS = noder.getNodedSubstrings
@@ -47,6 +46,5 @@ class ValidatingNoder(var noder: Noder[SegmentString])
     nv.checkValid()
   }
 
-  @SuppressWarnings(Array("rawtypes"))
   override def getNodedSubstrings: util.Collection[SegmentString] = nodedSS
 }

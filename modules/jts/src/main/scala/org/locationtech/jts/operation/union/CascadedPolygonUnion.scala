@@ -134,14 +134,14 @@ object CascadedPolygonUnion {
   }
 }
 
+/**
+ * Creates a new instance to union the given collection of {@link Geometry}s.
+ *
+ * @param polys
+ *   a collection of {@link Polygonal} {@link Geometry}s
+ */
 class CascadedPolygonUnion(var inputPolys: util.Collection[Geometry], var unionFun: UnionStrategy) {
 
-  /**
-   * Creates a new instance to union the given collection of {@link Geometry}s.
-   *
-   * @param polys
-   *   a collection of {@link Polygonal} {@link Geometry}s
-   */
   // guard against null input
   if (inputPolys == null) {
     inputPolys = new util.ArrayList[Geometry]

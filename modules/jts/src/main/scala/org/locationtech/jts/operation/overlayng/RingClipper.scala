@@ -69,10 +69,10 @@ class RingClipper(var clipEnv: Envelope) {
       val closeRing: Boolean = edgeIndex == 3
       pts0 = clipToBoxEdge(pts0, edgeIndex, closeRing)
       if (pts0.length == 0) {
-        return pts
+        return pts0
       }
     }
-    return pts
+    return pts0
   }
 
   /**
@@ -143,8 +143,7 @@ class RingClipper(var clipEnv: Envelope) {
       case RingClipper.BOX_TOP =>
         intPt = new Coordinate(intersectionLineY(a, b, clipEnvMaxY), clipEnvMaxY)
 
-      case RingClipper.BOX_LEFT =>
-      case _                    =>
+      case _ =>
         intPt = new Coordinate(clipEnvMinX, intersectionLineX(a, b, clipEnvMinX))
     }
     return intPt
@@ -162,22 +161,18 @@ class RingClipper(var clipEnv: Envelope) {
     return a.y + intercept
   }
 
-  private def isInsideEdge(p: Coordinate, edgeIndex: Int): Boolean = {
-    var isInside: Boolean = false
+  private def isInsideEdge(p: Coordinate, edgeIndex: Int): Boolean =
     edgeIndex match {
       case RingClipper.BOX_BOTTOM => // bottom
-        isInside = p.y > clipEnvMinY
+        p.y > clipEnvMinY
 
       case RingClipper.BOX_RIGHT => // right
-        isInside = p.x < clipEnvMaxX
+        p.x < clipEnvMaxX
 
       case RingClipper.BOX_TOP => // top
-        isInside = p.y < clipEnvMaxY
+        p.y < clipEnvMaxY
 
-      case RingClipper.BOX_LEFT =>
-      case _                    => // left
-        isInside = p.x > clipEnvMinX
+      case _ => // left
+        p.x > clipEnvMinX
     }
-    return isInside
-  }
 }

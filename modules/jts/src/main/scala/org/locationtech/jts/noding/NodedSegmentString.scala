@@ -17,6 +17,7 @@ package org.locationtech.jts.noding
 import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.impl.CoordinateArraySequence
+import org.locationtech.jts.io.WKTWriter
 
 import java.util
 import scala.jdk.CollectionConverters._
@@ -65,7 +66,7 @@ object NodedSegmentString {
   }
 }
 
-class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
+class NodedSegmentString(val pts: Array[Coordinate], var data: Any)
 
 /**
  * Creates a new segment string from a list of vertices.
@@ -209,6 +210,5 @@ class NodedSegmentString(var pts: Array[Coordinate], var data: Any)
     ei
   }
 
-//  override def toString: String = WKTWriter.toLineString(new CoordinateArraySequence(pts))
-  override def toString: String = (new CoordinateArraySequence(pts)).toString
+  override def toString: String = WKTWriter.toLineString(new CoordinateArraySequence(pts))
 }

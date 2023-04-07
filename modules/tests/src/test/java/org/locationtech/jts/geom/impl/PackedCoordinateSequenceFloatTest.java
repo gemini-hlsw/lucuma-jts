@@ -13,7 +13,7 @@ import junit.textui.TestRunner;
 /**
  * Test {@link PackedCoordinateSequence.Float}
  * using the {@link CoordinateSequenceTestBase}
- * 
+ *
  * @version 1.7
  */
 public class PackedCoordinateSequenceFloatTest
@@ -30,11 +30,11 @@ public class PackedCoordinateSequenceFloatTest
 
   @Override
   CoordinateSequenceFactory getCSFactory() {
-    return PackedCoordinateSequenceFactory.FLOAT_FACTORY;
+    return PackedCoordinateSequenceFactory.FLOAT_FACTORY();
   }
 
   public void test4dCoordinateSequence() {
-    CoordinateSequence cs = new PackedCoordinateSequenceFactory(PackedCoordinateSequenceFactory.FLOAT)
+    CoordinateSequence cs = new PackedCoordinateSequenceFactory(PackedCoordinateSequenceFactory.FLOAT())
             .create(new float[]{0.0f,1.0f,2.0f,3.0f,4.0f,5.0f,6.0f,7.0f}, 4);
     assertEquals(2.0, cs.getCoordinate(0).getZ());
     assertEquals(3.0, cs.getCoordinate(0).getM());

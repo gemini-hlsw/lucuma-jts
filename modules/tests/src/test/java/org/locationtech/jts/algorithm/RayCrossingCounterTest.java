@@ -39,7 +39,7 @@ public class RayCrossingCounterTest extends AbstractPointInRingTest {
 
   public void testRunPtInRing4d()
   {
-    CoordinateSequence cs = new PackedCoordinateSequenceFactory(PackedCoordinateSequenceFactory.DOUBLE)
+    CoordinateSequence cs = new PackedCoordinateSequenceFactory(PackedCoordinateSequenceFactory.DOUBLE())
             .create(new double[]{
                     0.0, 0.0, 0.0, 0.0,
                     10.0, 0.0, 0.0, 0.0,

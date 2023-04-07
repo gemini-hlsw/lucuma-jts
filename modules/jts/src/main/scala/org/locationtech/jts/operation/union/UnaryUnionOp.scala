@@ -130,7 +130,7 @@ class UnaryUnionOp(geoms: util.Collection[Geometry], var geomFact: GeometryFacto
   //  * @param geom
   //  */
   def this(geom: Geometry) = {
-    this(null, null)
+    this(new util.ArrayList(), null)
     extract(geom)
   }
 

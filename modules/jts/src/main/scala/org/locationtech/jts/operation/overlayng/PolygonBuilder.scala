@@ -57,9 +57,9 @@ class PolygonBuilder(
   var geometryFactory:    GeometryFactory,
   val isEnforcePolygonal: Boolean
 ) {
-  buildRings(resultAreaEdges)
   private val shellList    = new util.ArrayList[OverlayEdgeRing]
   private val freeHoleList = new util.ArrayList[OverlayEdgeRing]
+  buildRings(resultAreaEdges)
 
   def this(resultAreaEdges: util.List[OverlayEdge], geomFact: GeometryFactory) =
     this(resultAreaEdges, geomFact, true)

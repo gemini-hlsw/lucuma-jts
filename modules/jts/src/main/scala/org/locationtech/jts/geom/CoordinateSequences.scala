@@ -14,6 +14,8 @@
  */
 package org.locationtech.jts.geom
 
+import org.locationtech.jts.io.OrdinateFormat
+
 //import org.locationtech.jts.io.OrdinateFormat
 
 /**
@@ -245,19 +247,11 @@ object CoordinateSequences {
     val dim     = cs.getDimension
     val builder = new StringBuilder
     builder.append('(')
-    var i       = 0
-    while (i < size) {
+    for (i <- 0 until size) {
       if (i > 0) builder.append(" ")
-      var d = 0
-      while (d < dim) {
+      for (d <- 0 until dim) {
         if (d > 0) builder.append(",")
-//            builder.append(OrdinateFormat.DEFAULT.format(cs.getOrdinate(i, d))
-        d += 1;
-        d - 1
-      }
-      {
-        i += 1;
-        i - 1
+        builder.append(OrdinateFormat.DEFAULT.format(cs.getOrdinate(i, d)))
       }
     }
     builder.append(')')

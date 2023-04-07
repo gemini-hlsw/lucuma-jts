@@ -186,12 +186,12 @@ public class NormalizeTest extends TestCase {
   }
 
   public void testNormalizePackedCoordinateSequence() throws Exception {
-    GeometryFactory pcsFactory = new GeometryFactory(PackedCoordinateSequenceFactory.DOUBLE_FACTORY);
+    GeometryFactory pcsFactory = new GeometryFactory(PackedCoordinateSequenceFactory.DOUBLE_FACTORY());
     WKTReader pcsReader = new WKTReader(pcsFactory);
     Geometry geom = pcsReader.read("LINESTRING (100 100, 0 0)");
     geom.normalize();
     // force PackedCoordinateSequence to be copied with empty coordinate cache
-    Geometry clone = (Geometry) geom.copy();
+    Geometry clone = geom.copy();
     assertEqualsExact(geom, clone);
   }
 
