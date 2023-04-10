@@ -398,7 +398,7 @@ class OverlayNG(val geom0: Geometry, val geom1: Geometry, var pm: PrecisionModel
   def setOutputResultEdges(isOutputResultEdges: Boolean): Unit =
     this.isOutputResultEdges = isOutputResultEdges
 
-  private def setNoder(noder: Noder[SegmentString]): Unit =
+  def setNoder(noder: Noder[SegmentString]): Unit =
     this.noder = noder
 
   /**

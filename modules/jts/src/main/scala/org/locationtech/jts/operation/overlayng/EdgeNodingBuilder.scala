@@ -258,7 +258,7 @@ class EdgeNodingBuilder(var pm: PrecisionModel, var customNoder: Noder[SegmentSt
             addCollection(g.asInstanceOf[MultiPolygon], geomIndex)
           } else {
             if (g.isInstanceOf[GeometryCollection]) {
-              addCollection(g.asInstanceOf[GeometryCollection], geomIndex)
+              addGeometryCollection(g.asInstanceOf[GeometryCollection], geomIndex, g.getDimension)
             }
           }
         }
@@ -284,6 +284,20 @@ class EdgeNodingBuilder(var pm: PrecisionModel, var customNoder: Noder[SegmentSt
       addPolygonRing(hole, true, geomIndex)
     }
   }
+
+  private def addGeometryCollection(
+    gc:          GeometryCollection,
+    geomIndex:   Int,
+    expectedDim: Int
+  ): Unit =
+    for (i <- 0 until gc.getNumGeometries) {
+      val g = gc.getGeometryN(i)
+      // check for mixed-dimension input, which is not supported
+      if (g.getDimension != expectedDim) {
+        throw new IllegalArgumentException("Overlay input is mixed-dimension")
+      }
+      add(g, geomIndex)
+    }
 
   /**
    * Adds a polygon ring to the graph. Empty rings are ignored.

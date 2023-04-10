@@ -182,8 +182,8 @@ object OverlayNGRobust {
     snapTol: Double
   ): Geometry = {
     try {
-      val snap0 = overlaySnapTol(geom0, null, OverlayNG.UNION, snapTol)
-      val snap1 = overlaySnapTol(geom1, null, OverlayNG.UNION, snapTol)
+      val snap0 = snapSelf(geom0, snapTol)
+      val snap1 = snapSelf(geom1, snapTol)
       // log("Snapping BOTH with " + snapTol, geom0, geom1);
       return overlaySnapTol(snap0, snap1, opCode, snapTol)
     } catch {
@@ -191,6 +191,32 @@ object OverlayNGRobust {
 
     }
     null
+  }
+
+  /**
+   * Self-snaps a geometry by running a union operation with it as the only input. This helps to
+   * remove narrow spike/gore artifacts to simplify the geometry, which improves robustness.
+   * Collapsed artifacts are removed from the result to allow using it in further overlay
+   * operations.
+   *
+   * @param geom
+   *   geometry to self-snap
+   * @param snapTol
+   *   snap tolerance
+   * @return
+   *   the snapped geometry (homogeneous)
+   */
+  def snapSelf(geom: Geometry, snapTol: Double): Geometry = {
+    val ov        = new OverlayNG(geom, null)
+    val snapNoder = new SnappingNoder(snapTol)
+    ov.setNoder(snapNoder)
+
+    /**
+     * Ensure the result is not mixed-dimension, since it will be used in further overlay
+     * computation. It may however be lower dimension, if it collapses completely due to snapping.
+     */
+    ov.setStrictMode(true)
+    ov.getResult
   }
 
   private def overlaySnapTol(geom0: Geometry, geom1: Geometry, opCode: Int, snapTol: Double) = {
