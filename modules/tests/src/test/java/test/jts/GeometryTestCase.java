@@ -41,7 +41,7 @@ public abstract class GeometryTestCase extends TestCase{
 
   final GeometryFactory geomFactory;
 
-//  final WKTReader readerWKT;
+  final WKTReader readerWKT;
 
   protected GeometryTestCase(String name)
   {
@@ -51,7 +51,7 @@ public abstract class GeometryTestCase extends TestCase{
   protected GeometryTestCase(String name, CoordinateSequenceFactory coordinateSequenceFactory) {
     super(name);
     geomFactory = new GeometryFactory(coordinateSequenceFactory);
-//    readerWKT = new WKTReader(geomFactory);
+    readerWKT = new WKTReader(geomFactory);
   }
 
   protected void checkEqual(Geometry expected, Geometry actual) {
@@ -76,11 +76,11 @@ public abstract class GeometryTestCase extends TestCase{
     assertTrue(equal);
   }
 
-  protected void checkEqual(Collection expected, Collection actual) {
+  protected <A> void checkEqual(Collection<A> expected, Collection<A> actual) {
     checkEqual(toGeometryCollection(expected),toGeometryCollection(actual) );
   }
 
-  GeometryCollection toGeometryCollection(Collection geoms) {
+  <A> GeometryCollection toGeometryCollection(Collection<A> geoms) {
     return geomFactory.createGeometryCollection(GeometryFactory.toGeometryArray(geoms));
   }
 

@@ -51,14 +51,14 @@ public class NodingTestUtil {
    *
    * @throws TopologyException
    */
-  public static Geometry nodeValidated(Geometry geom1, Geometry geom2, Noder noder) {
+  public static Geometry nodeValidated(Geometry geom1, Geometry geom2, Noder<NodedSegmentString> noder) {
     List<LineString> lines = LineStringExtracter.getLines(geom1);
     if (geom2 != null) {
       lines.addAll( LineStringExtracter.getLines(geom2) );
     }
     List<NodedSegmentString> ssList = toSegmentStrings(lines);
 
-    Noder noderValid = new ValidatingNoder(noder);
+    Noder<NodedSegmentString> noderValid = new ValidatingNoder<NodedSegmentString>(noder);
     noderValid.computeNodes(ssList);
     Collection<NodedSegmentString> nodedList = noder.getNodedSubstrings();
 

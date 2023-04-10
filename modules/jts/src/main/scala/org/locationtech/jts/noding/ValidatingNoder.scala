@@ -16,7 +16,7 @@ import java.util
  * @see
  *   FastNodingValidator
  */
-class ValidatingNoder(var noder: Noder[SegmentString])
+class ValidatingNoder[A <: SegmentString](var noder: Noder[A])
 
 /**
  * Creates a noding validator wrapping the given Noder
@@ -24,8 +24,8 @@ class ValidatingNoder(var noder: Noder[SegmentString])
  * @param noder
  *   the Noder to validate
  */
-    extends Noder[SegmentString] {
-  private var nodedSS: util.Collection[SegmentString] = null
+    extends Noder[A] {
+  private var nodedSS: util.Collection[A] = null
 
   /**
    * Checks whether the output of the wrapped noder is fully noded. Throws an exception if it is
@@ -34,7 +34,7 @@ class ValidatingNoder(var noder: Noder[SegmentString])
    * @throws TopologyException
    */
   override def computeNodes(
-    segStrings: util.Collection[SegmentString]
+    segStrings: util.Collection[A]
   ): Unit = {
     noder.computeNodes(segStrings)
     nodedSS = noder.getNodedSubstrings
@@ -42,9 +42,9 @@ class ValidatingNoder(var noder: Noder[SegmentString])
   }
 
   private def validate(): Unit = {
-    val nv = new FastNodingValidator(nodedSS)
+    val nv = new FastNodingValidator(nodedSS.asInstanceOf[util.Collection[SegmentString]])
     nv.checkValid()
   }
 
-  override def getNodedSubstrings: util.Collection[SegmentString] = nodedSS
+  override def getNodedSubstrings: util.Collection[A] = nodedSS
 }

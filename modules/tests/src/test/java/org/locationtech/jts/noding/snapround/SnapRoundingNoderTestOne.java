@@ -159,7 +159,7 @@ public class SnapRoundingNoderTestOne  extends GeometryTestCase {
   {
     Geometry geom = read(wkt);
     PrecisionModel pm = new PrecisionModel(scale);
-    Noder<SegmentString> noder = getSnapRounder(pm);
+    Noder noder = getSnapRounder(pm);
     Geometry result = NodingTestUtil.nodeValidated(geom, null, noder);
 
     // only check if expected was provided
