@@ -29,15 +29,15 @@ import java.util.List;
 import org.locationtech.jts.geom.Geometry;
 
 /**
- * Reads a sequence of {@link Geometry}s in WKT format 
+ * Reads a sequence of {@link Geometry}s in WKT format
  * from a text file.
  * The geometries in the file may be separated by any amount
  * of whitespace and newlines.
- * 
+ *
  * @author Martin Davis
  *
  */
-public class WKTFileReader 
+public class WKTFileReader
 {
 	private File file = null;
   private Reader reader;
@@ -47,11 +47,11 @@ public class WKTFileReader
 	private int limit = -1;
 	private int offset = 0;
   private boolean isStrictParsing = true;
-	
+
   /**
-   * Creates a new <tt>WKTFileReader</tt> given the <tt>File</tt> to read from 
+   * Creates a new <tt>WKTFileReader</tt> given the <tt>File</tt> to read from
    * and a <tt>WKTReader</tt> to use to parse the geometries.
-   * 
+   *
    * @param file the <tt>File</tt> to read from
    * @param wktReader the geometry reader to use
    */
@@ -60,10 +60,10 @@ public class WKTFileReader
 		this.file = file;
     this.wktReader = wktReader;
 	}
-	
+
   /**
    * Creates a new <tt>WKTFileReader</tt>, given the name of the file to read from.
-   * 
+   *
    * @param filename the name of the file to read from
    * @param wktReader the geometry reader to use
    */
@@ -71,10 +71,10 @@ public class WKTFileReader
   {
     this(new File(filename), wktReader);
   }
-  
+
   /**
    * Creates a new <tt>WKTFileReader</tt>, given a {@link Reader} to read from.
-   * 
+   *
    * @param reader the reader to read from
    * @param wktReader the geometry reader to use
    */
@@ -83,55 +83,55 @@ public class WKTFileReader
     this.reader = reader;
     this.wktReader = wktReader;
   }
-  
+
   /**
    * Sets the maximum number of geometries to read.
-   * 
+   *
    * @param limit the maximum number of geometries to read
    */
   public void setLimit(int limit)
   {
     this.limit = limit;
   }
-  
+
   /**
-   * Allows ignoring WKT parse errors 
+   * Allows ignoring WKT parse errors
    * after at least one geometry has been read,
    * to return a partial result.
-   * 
+   *
    * @param isLenient whether to ignore parse errors
    */
   public void setStrictParsing(boolean isStrict)
   {
     this.isStrictParsing = isStrict;
   }
-  
+
 	/**
 	 * Sets the number of geometries to skip before storing.
-   * 
+   *
 	 * @param offset the number of geometries to skip
 	 */
 	public void setOffset(int offset)
 	{
 		this.offset = offset;
 	}
-	
+
 	/**
 	 * Reads a sequence of geometries.
 	 * If an offset is specified, geometries read up to the offset count are skipped.
 	 * If a limit is specified, no more than <tt>limit</tt> geometries are read.
-	 * 
+	 *
 	 * @return the list of geometries read
 	 * @throws IOException if an I/O exception was encountered
 	 * @throws ParseException if an error occurred reading a geometry
 	 */
-	public List read() 
-	throws IOException, ParseException 
+	public List<Geometry> read()
+	throws IOException, ParseException
 	{
     // do this here so that constructors don't throw exceptions
     if (file != null)
       reader = new FileReader(file);
-    
+
 		count = 0;
 		try {
 			BufferedReader bufferedReader = new BufferedReader(reader);
@@ -144,10 +144,10 @@ public class WKTFileReader
 			reader.close();
 		}
 	}
-	
-  private List read(BufferedReader bufferedReader) 
+
+  private List<Geometry> read(BufferedReader bufferedReader)
       throws IOException, ParseException {
-    List geoms = new ArrayList();
+    List<Geometry> geoms = new ArrayList<>();
     try {
       read(bufferedReader, geoms);
     }
@@ -159,7 +159,7 @@ public class WKTFileReader
     return geoms;
   }
 
-  private void read(BufferedReader bufferedReader, List geoms) 
+  private void read(BufferedReader bufferedReader, List<Geometry> geoms)
       throws IOException, ParseException {
     while (!isAtEndOfFile(bufferedReader) && !isAtLimit(geoms)) {
       Geometry g = wktReader.read(bufferedReader);
@@ -169,20 +169,20 @@ public class WKTFileReader
     }
   }
 
-	private boolean isAtLimit(List geoms)
+	private boolean isAtLimit(List<Geometry> geoms)
 	{
 		if (limit < 0) return false;
 		if (geoms.size() < limit) return false;
 		return true;
 	}
-	
+
   private static final int MAX_LOOKAHEAD = 1000;
-  
+
   /**
 	 * Tests if reader is at EOF.
 	 */
 	private boolean isAtEndOfFile(BufferedReader bufferedReader)
-			throws IOException 
+			throws IOException
 			{
 		bufferedReader.mark(MAX_LOOKAHEAD);
 

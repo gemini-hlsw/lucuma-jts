@@ -65,9 +65,9 @@ public class GeometryStrategies{
 		Object parse(GMLHandler.Handler arg, GeometryFactory gf) throws SAXException;
 	}
 	
-	private static HashMap strategies = loadStrategies();
-	private static HashMap loadStrategies(){
-		HashMap strats = new HashMap();
+	private static HashMap<String, ParseStrategy> strategies = loadStrategies();
+	private static HashMap<String, ParseStrategy> loadStrategies(){
+		HashMap<String, ParseStrategy> strats = new HashMap<>();
 		
 		// point
 		strats.put(GMLConstants.GML_POINT.toLowerCase(),new ParseStrategy(){
@@ -118,7 +118,7 @@ public class GeometryStrategies{
 					}
 				}else{
 					try{
-						Coordinate[] coords = (Coordinate[]) arg.children.toArray(new Coordinate[arg.children.size()]);
+						Coordinate[] coords = arg.children.toArray(new Coordinate[arg.children.size()]);
 						ls = gf.createLineString(coords);
 					}catch(ClassCastException e){
 						throw new SAXException("Cannot create a linestring without atleast two coordinates or one coordinate sequence",e);
@@ -155,7 +155,7 @@ public class GeometryStrategies{
 					}
 				}else{
 					try{
-						Coordinate[] coords = (Coordinate[]) arg.children.toArray(new Coordinate[arg.children.size()]);
+						Coordinate[] coords = arg.children.toArray(new Coordinate[arg.children.size()]);
 						ls = gf.createLinearRing(coords);
 					}catch(ClassCastException e){
 						throw new SAXException("Cannot create a linear ring without atleast four coordinates or one coordinate sequence",e);
@@ -182,8 +182,8 @@ public class GeometryStrategies{
 				int srid = getSrid(arg.attrs,gf.getSRID());
 				
 				LinearRing outer = (LinearRing) arg.children.get(0); // will be the first
-				List t = arg.children.size()>1?arg.children.subList(1,arg.children.size()):null;
-				LinearRing[] inner = t==null?null:(LinearRing[]) t.toArray(new LinearRing[t.size()]);
+				List<?> t = arg.children.size()>1?arg.children.subList(1,arg.children.size()):null;
+				LinearRing[] inner = t==null?null:t.toArray(new LinearRing[t.size()]);
 				
 				Polygon p = gf.createPolygon(outer,inner);
 				
@@ -230,7 +230,7 @@ public class GeometryStrategies{
 
 				int srid = getSrid(arg.attrs,gf.getSRID());
 				
-				Point[] pts = (Point[]) arg.children.toArray(new Point[arg.children.size()]);
+				Point[] pts = arg.children.toArray(new Point[arg.children.size()]);
 				
 				MultiPoint mp = gf.createMultiPoint(pts);
 				
@@ -253,7 +253,7 @@ public class GeometryStrategies{
 
 				int srid = getSrid(arg.attrs,gf.getSRID());
 				
-				LineString[] lns = (LineString[]) arg.children.toArray(new LineString[arg.children.size()]);
+				LineString[] lns = arg.children.toArray(new LineString[arg.children.size()]);
 				
 				MultiLineString mp = gf.createMultiLineString(lns);
 				
@@ -276,7 +276,7 @@ public class GeometryStrategies{
 
 				int srid = getSrid(arg.attrs,gf.getSRID());
 				
-				Polygon[] plys = (Polygon[]) arg.children.toArray(new Polygon[arg.children.size()]);
+				Polygon[] plys = arg.children.toArray(new Polygon[arg.children.size()]);
 				
 				MultiPolygon mp = gf.createMultiPolygon(plys);
 				
@@ -297,7 +297,7 @@ public class GeometryStrategies{
 				if(arg.children.size()<1)
 					throw new SAXException("Cannot create a multi-polygon without atleast one geometry");
 				
-				Geometry[] geoms = (Geometry[]) arg.children.toArray(new Geometry[arg.children.size()]);
+				Geometry[] geoms = arg.children.toArray(new Geometry[arg.children.size()]);
 				
 				GeometryCollection gc = gf.createGeometryCollection(geoms);
 								
@@ -308,7 +308,7 @@ public class GeometryStrategies{
 		// coordinates
 		strats.put(GMLConstants.GML_COORDINATES.toLowerCase(),new ParseStrategy(){
 
-			private WeakHashMap patterns = new WeakHashMap();
+			private WeakHashMap<String, Pattern> patterns = new WeakHashMap<>();
 			
 			public Object parse(GMLHandler.Handler arg, GeometryFactory gf) throws SAXException {
 				// one child, either a coord
@@ -341,7 +341,7 @@ public class GeometryStrategies{
 				String t = arg.text.toString();
 				t = t.replaceAll("\\s"," ");
 				
-				Pattern ptn = (Pattern) patterns.get(toupleSeperator);
+				Pattern ptn = patterns.get(toupleSeperator);
 				if(ptn == null){
 					String ts = new String(toupleSeperator);
 					if(ts.indexOf('\\')>-1){
@@ -386,7 +386,7 @@ public class GeometryStrategies{
 				for(int i=0;i<numNonNullTouples;i++){
 					// for each touple, split, parse, add
 
-					ptn = (Pattern) patterns.get(coordSeperator);
+					ptn = patterns.get(coordSeperator);
 					if(ptn == null){
 						String ts = new String(coordSeperator);
 						if(ts.indexOf('\\')>-1){
@@ -429,7 +429,7 @@ public class GeometryStrategies{
 				if(arg.children.size()>3)
 					throw new SAXException("Cannot create a coordinate with more than 3 axis");
 				
-				Double[] axis = (Double[]) arg.children.toArray(new Double[arg.children.size()]);
+				Double[] axis = arg.children.toArray(new Double[arg.children.size()]);
 				Coordinate c = new Coordinate();
 				c.setX(axis[0].doubleValue());
 				if(axis.length>1)
@@ -526,6 +526,6 @@ public class GeometryStrategies{
 	 * @see ParseStrategy
 	 */
 	public static ParseStrategy findStrategy(String uri,String localName){
-		return localName == null?null:(ParseStrategy) strategies.get(localName.toLowerCase());
+		return localName == null?null:strategies.get(localName.toLowerCase());
 	}
 }

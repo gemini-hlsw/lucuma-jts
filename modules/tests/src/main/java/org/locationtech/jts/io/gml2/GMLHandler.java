@@ -89,7 +89,7 @@ public class GMLHandler extends DefaultHandler {
 			text.append(str);
 		}
 
-		protected List children = null;
+		protected List<Object> children = null;
 
 		/**
 		 * Store param for the future
@@ -98,7 +98,7 @@ public class GMLHandler extends DefaultHandler {
 		 */
 		public void keep(Object obj) {
 			if (children == null)
-				children = new LinkedList();
+				children = new LinkedList<>();
 			children.add(obj);
 
 		}
@@ -113,7 +113,7 @@ public class GMLHandler extends DefaultHandler {
 		}
 	}
 
-	private Stack stack = new Stack();
+	private Stack<Handler> stack = new Stack<>();
 
 	private ErrorHandler delegate = null;
 
@@ -152,7 +152,7 @@ public class GMLHandler extends DefaultHandler {
 		if (stack.size() > 1)
 			return false;
 		// top level node on stack needs to have at least one child 
-		Handler h = (Handler) stack.peek();
+		Handler h = stack.peek();
 		if (h.children.size() < 1)
 			return false;
 		return true;
@@ -168,11 +168,11 @@ public class GMLHandler extends DefaultHandler {
 	 */
 	public Geometry getGeometry() {
 		if (stack.size() == 1) {
-			Handler h = (Handler) stack.peek();
+			Handler h = stack.peek();
 			if (h.children.size() == 1)
 				return (Geometry) h.children.get(0);
 			return gf.createGeometryCollection(
-					(Geometry[]) h.children.toArray(new Geometry[stack.size()]));
+					h.children.toArray(new Geometry[stack.size()]));
 		}
 		throw new IllegalStateException(
 				"Parse did not complete as expected, there are " + stack.size()
@@ -187,7 +187,7 @@ public class GMLHandler extends DefaultHandler {
 	 */
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		if (!stack.isEmpty())
-			((Handler) stack.peek()).addText(new String(ch, start, length));
+			( stack.peek()).addText(new String(ch, start, length));
 	}
 
 	/**
@@ -196,7 +196,7 @@ public class GMLHandler extends DefaultHandler {
 	public void ignorableWhitespace(char[] ch, int start, int length)
 			throws SAXException {
 		if (!stack.isEmpty())
-			((Handler) stack.peek()).addText(" ");
+			(stack.peek()).addText(" ");
 	}
 
 	/**
@@ -204,8 +204,8 @@ public class GMLHandler extends DefaultHandler {
 	 */
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		Handler thisAction = (Handler) stack.pop();
-		((Handler) stack.peek()).keep(thisAction.create(gf));
+		Handler thisAction = stack.pop();
+		(stack.peek()).keep(thisAction.create(gf));
 	}
 
 	/**

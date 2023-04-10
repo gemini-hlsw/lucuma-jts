@@ -45,7 +45,7 @@ public class StringUtil
  public static String[] split(String s, String separator)
  {
    int separatorlen = separator.length();
-   ArrayList tokenList = new ArrayList();
+   ArrayList<String> tokenList = new ArrayList<>();
    String tmpString = "" + s;
    int pos = tmpString.indexOf(separator);
    while (pos >= 0) {
@@ -58,7 +58,7 @@ public class StringUtil
      tokenList.add(tmpString);
    String[] res = new String[tokenList.size()];
    for (int i = 0; i < res.length; i++) {
-     res[i] = (String) tokenList.get(i);
+     res[i] = tokenList.get(i);
    }
    return res;
  }
@@ -98,6 +98,7 @@ public class StringUtil
    *
    * @deprecated use {@link OrdinateFormat}
    */
+  @Deprecated
   public static String toString(double d) {
     return OrdinateFormat.DEFAULT.format(d);
   }
