@@ -91,18 +91,15 @@ class SnappingIntersectionAdder(var snapTolerance: Double, var snapPointIndex: S
     val p01: Coordinate = seg0.getCoordinates(segIndex0 + 1)
     val p10: Coordinate = seg1.getCoordinates(segIndex1)
     val p11: Coordinate = seg1.getCoordinates(segIndex1 + 1)
-    li.computeIntersection(p00, p01, p10, p11)
-    // if (li.hasIntersection() && li.isProper()) Debug.println(li);
-    /**
-     * Process single point intersections only. Two-point (collinear) ones are handled by the
-     * near-vertex code
-     */
-    if (li.hasIntersection && li.getIntersectionNum == 1) {
+    if (!SnappingIntersectionAdder.isAdjacent(seg0, segIndex0, seg1, segIndex1)) {
+      li.computeIntersection(p00, p01, p10, p11);
 
       /**
-       * Don't node intersections which are just due to the shared vertex of adjacent segments.
+       * Process single point intersections only. Two-point (collinear) ones are handled by the
+       * near-vertex code
        */
-      if (!SnappingIntersectionAdder.isAdjacent(seg0, segIndex0, seg1, segIndex1)) {
+      if (li.hasIntersection && li.getIntersectionNum == 1) {
+
         val intPt: Coordinate  = li.getIntersection(0)
         val snapPt: Coordinate = snapPointIndex.snap(intPt)
         seg0.asInstanceOf[NodedSegmentString].addIntersection(snapPt, segIndex0)

@@ -25,7 +25,7 @@ import org.locationtech.jts.index.kdtree.KdTree
  * @author
  *   mdavis
  */
-class SnappingPointIndex private[snap] (var snapTolerance: Double) {
+class SnappingPointIndex(var snapTolerance: Double) {
 
   /**
    * Since points are added incrementally, this index needs to be dynamic. This class also makes use
