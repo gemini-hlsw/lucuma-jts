@@ -121,8 +121,8 @@ abstract class LineIntersector() {
    */
   protected var intLineIndex: Array[Array[Int]] = null
   protected[jts] var isProperF                  = false
-  protected[algorithm] var pa: Coordinate       = intPt(0)
-  protected[jts] var pb: Coordinate             = intPt(1)
+  protected var pa: Coordinate                  = intPt(0)
+  protected var pb: Coordinate                  = intPt(1)
   // alias the intersection points for ease of reference
   /**
    * If makePrecise is true, computed intersection coordinates will be made precise using
@@ -200,6 +200,10 @@ abstract class LineIntersector() {
 //  }
 
   protected def isEndPoint: Boolean = hasIntersection && !this.isProperF
+
+  protected def setIsProper(b: Boolean): Unit = this.isProperF = b
+
+  protected def setResult(b: Int): Unit = this.result = b
 
   /**
    * Tests whether the input geometries intersect.

@@ -22,6 +22,7 @@ package org.locationtech.jts.io;
  *@version 1.7
  */
 public class ParseException extends Exception {
+  private static final long serialVersionUID = 1L;
 
   /**
    *  Creates a <code>ParseException</code> with the given detail message.

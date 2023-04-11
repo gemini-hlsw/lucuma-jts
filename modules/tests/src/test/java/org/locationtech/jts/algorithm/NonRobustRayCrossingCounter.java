@@ -179,10 +179,6 @@ public class NonRobustRayCrossingCounter
 		}
 	}
 
-  int Boundary = org.locationtech.jts.geom.Location$.MODULE$.BOUNDARY();
-  int Interior = org.locationtech.jts.geom.Location$.MODULE$.INTERIOR();
-  int Exterior = org.locationtech.jts.geom.Location$.MODULE$.EXTERIOR();
-
 /**
  * Reports whether the point lies exactly on one of the supplied segments.
  * This method may be called at any time as segments are processed.
@@ -207,14 +203,14 @@ public class NonRobustRayCrossingCounter
 	public int getLocation()
 	{
 		if (isPointOnSegment)
-			return Boundary;
+			return Location.BOUNDARY();
 
     // The point is in the interior of the ring if the number of X-crossings is
 		// odd.
     if ((crossingCount % 2) == 1) {
-      return Interior;
+      return Location.INTERIOR();
     }
-    return Exterior;
+    return Location.EXTERIOR();
 	}
 
 	/**
@@ -229,6 +225,6 @@ public class NonRobustRayCrossingCounter
 	 */
 	public boolean isPointInPolygon()
 	{
-		return getLocation() != Exterior;
+		return getLocation() != Location.EXTERIOR();
 	}
 }

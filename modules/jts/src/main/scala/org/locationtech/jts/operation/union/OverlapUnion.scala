@@ -139,7 +139,6 @@ object OverlapUnion {
 }
 
 class OverlapUnion(var g0: Geometry, var g1: Geometry, var unionFun: UnionStrategy) {
-  def this(g0: Geometry, g1: Geometry) = this(g0, g1, CascadedPolygonUnion.CLASSIC_UNION)
 
   /**
    * Creates a new instance for unioning the given geometries.
@@ -151,6 +150,8 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry, var unionFun: UnionStrate
    */
   private val geomFactory = g0.getFactory
   private var isUnionSafe = false
+
+  def this(g0: Geometry, g1: Geometry) = this(g0, g1, CascadedPolygonUnion.CLASSIC_UNION)
 
   /**
    * Unions the input geometries, using the more performant overlap union algorithm if possible.

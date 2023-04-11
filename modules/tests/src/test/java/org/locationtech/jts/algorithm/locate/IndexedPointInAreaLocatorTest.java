@@ -19,7 +19,6 @@ import junit.textui.TestRunner;
  * @version 1.7
  */
 public class IndexedPointInAreaLocatorTest extends AbstractPointInRingTest {
-  int Exterior = org.locationtech.jts.geom.Location$.MODULE$.EXTERIOR();
 
   private WKTReader reader = new WKTReader();
 
@@ -46,6 +45,6 @@ public class IndexedPointInAreaLocatorTest extends AbstractPointInRingTest {
     * @throws Exception
     */
    public void testEmpty() throws Exception {
-     runPtInRing(Exterior, new Coordinate(0,0), "POLYGON EMPTY");
+     runPtInRing(Location.EXTERIOR(), new Coordinate(0,0), "POLYGON EMPTY");
   }
 }

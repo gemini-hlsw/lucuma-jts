@@ -447,23 +447,20 @@ class IsValidOp(var parentGeometry: Geometry) { // the base Geometry to be valid
    * <li>no duplicate rings exist </ul> This routine relies on the fact that while polygon shells
    * may touch at one or more vertices, they cannot touch at ALL vertices.
    */
-  private def checkShellsNotNested(mp: MultiPolygon, graph: GeometryGraph): Unit = {
-    var i = 0
-    while (i < mp.getNumGeometries) {
+
+  private def checkShellsNotNested(mp: MultiPolygon, graph: GeometryGraph): Unit =
+    for (i <- 0 until mp.getNumGeometries) {
       val p     = mp.getGeometryN(i).asInstanceOf[Polygon]
       val shell = p.getExteriorRing
-      var j     = 0
-      while (j < mp.getNumGeometries) {
-        if (i != j) {
+      for (j <- 0 until mp.getNumGeometries)
+        if (i == j) {
+          // skip iteration if polygons are the same
+        } else {
           val p2 = mp.getGeometryN(j).asInstanceOf[Polygon]
           checkShellNotNested(shell, p2, graph)
           if (validErr != null) return
-          j += 1
         }
-        i += 1
-      }
     }
-  }
 
   /**
    * Check if a shell is incorrectly nested within a polygon. This is the case if the shell is

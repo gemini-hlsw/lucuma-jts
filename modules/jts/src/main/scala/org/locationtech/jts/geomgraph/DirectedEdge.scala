@@ -42,7 +42,6 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
     val n = edge.getNumPoints - 1
     init(edge.getCoordinate(n), edge.getCoordinate(n - 1))
   }
-  computeDirectedLabel()
   private var visInResult        = false
   private var visVisited         = false
   private var sym: DirectedEdge  = null // the symmetric edge
@@ -56,6 +55,7 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
    * The depth of each side (position) of this edge. The 0 element of the array is never used.
    */
   private val depth                 = Array(0, -999, -999)
+  computeDirectedLabel()
 
   override def getEdge: Edge = edge
 
