@@ -138,17 +138,8 @@ class GeometryPrecisionReducer(var targetPM: PrecisionModel) {
     this.isPointwise = isPointwise
 
   def reduce(geom: Geometry): Geometry = {
-    if (!isPointwise && geom.isInstanceOf[Polygonal]) {
-      val reduced = PrecisionReducer.reducePrecision(geom, targetPM)
-      if (changePrecisionModel) return changePM(reduced, targetPM)
-      return reduced
-    }
-
-    /**
-     * Process pointwise reduction (which is only strategy used for linear and point geoms)
-     */
-    val reducePW = reducePointwise(geom)
-    reducePW
+    val reduced = PrecisionReducerTransformer.reduce(geom, targetPM, isPointwise)
+    if (changePrecisionModel) changePM(reduced, targetPM) else reduced
   }
 
   private def reducePointwise(geom: Geometry) = {
