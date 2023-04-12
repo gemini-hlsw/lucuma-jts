@@ -22,10 +22,10 @@ object SweepLineEvent {
   private val DELETE = 2
 }
 
-class SweepLineEvent(val label: Any, val x: Double, val obj: Any)
+class SweepLineEvent(val label: AnyRef, val x: Double, val obj: Any)
     extends Comparable[SweepLineEvent] {
 //  private var label: AnyRef = null // used for red-blue intersection detection
-  private val xValue                      = x
+  private var xValue                      = x
   private var eventType                   = SweepLineEvent.INSERT
   private var insertEvent: SweepLineEvent = null // null if this is an INSERT event
   private var deleteEventIndex            = 0
@@ -60,7 +60,7 @@ class SweepLineEvent(val label: Any, val x: Double, val obj: Any)
   def this(x: Double, insertEventArg: SweepLineEvent) = {
     this(null, x, null)
     eventType = SweepLineEvent.DELETE
-//    xValue = x
+    xValue = x
     this.insertEvent = insertEventArg
   }
 
@@ -78,7 +78,7 @@ class SweepLineEvent(val label: Any, val x: Double, val obj: Any)
 
   def isSameLabel(ev: SweepLineEvent): Boolean = { // no label set indicates single group
     if (label == null) return false
-    label == ev.label
+    label eq ev.label
   }
 
   /**

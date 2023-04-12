@@ -37,7 +37,7 @@ class CoordinateArraySequence(
     with Serializable {
   private var coordinates: Array[Coordinate] =
     if (coordinatesArg == null) new Array[Coordinate](0)
-    else enforceArrayConsistency(coordinatesArg)
+    else coordinatesArg
 
   /**
    * The actual dimension of the coordinates in the sequence. Allowable values are 2, 3 or 4.
@@ -122,31 +122,6 @@ class CoordinateArraySequence(
       {
         i += 1;
         i - 1
-      }
-    }
-  }
-
-  /**
-   * Ensure array contents of the same type, making use of {link #createCoordinate()} as needed. <p>
-   * A new array will be created if needed to return a consistent result. </p>
-   *
-   * @param array
-   *   array containing consistent coordinate instances
-   */
-  protected def enforceArrayConsistency(array: Array[Coordinate]): Array[Coordinate] = {
-    val sample       = createCoordinate
-    val `type`       = sample.getClass
-    val isConsistent = array.foldLeft(true) { (consistent, c) =>
-      if (c != null && !(c.getClass == `type`)) false else consistent
-    }
-    if (isConsistent) array
-    else {
-      array.map { c =>
-        if (c != null && !(c.getClass == `type`)) {
-          val duplicate = createCoordinate
-          duplicate.setCoordinate(c)
-          duplicate
-        } else c
       }
     }
   }

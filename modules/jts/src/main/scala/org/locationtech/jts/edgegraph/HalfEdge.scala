@@ -16,7 +16,7 @@ package org.locationtech.jts.edgegraph
 
 import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.geom.Coordinate
-import org.locationtech.jts.geomgraph.Quadrant
+import org.locationtech.jts.geom.Quadrant
 import org.locationtech.jts.util.Assert
 
 /**

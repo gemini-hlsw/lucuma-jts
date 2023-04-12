@@ -14,6 +14,8 @@
  */
 package org.locationtech.jts.geom
 
+import org.locationtech.jts.io.OrdinateFormat
+
 //import org.locationtech.jts.io.OrdinateFormat
 
 /**
@@ -212,35 +214,25 @@ object CoordinateSequences {
    * @param cs2
    *   a CoordinateSequence return true if the sequences are equal in the common dimensions
    */
-//  def isEqual(cs1: CoordinateSequence, cs2: CoordinateSequence): Boolean = {
-//    val cs1Size = cs1.size
-//    val cs2Size = cs2.size
-//    if (cs1Size != cs2Size) return false
-//    val dim = Math.min(cs1.getDimension, cs2.getDimension)
-//    var i = 0
-//    while ( {
-//      i < cs1Size
-//    }) {
-//      var d = 0
-//      while ( {
-//        d < dim
-//      }) {
-//        val v1 = cs1.getOrdinate(i, d)
-//        val v2 = cs2.getOrdinate(i, d)
-//        if (cs1.getOrdinate(i, d) == cs2.getOrdinate(i, d)) {
-//          continue //todo: continue is not supported}
-//          // special check for NaNs
-//          if (Double.isNaN(v1) && Double.isNaN(v2)) {
-//            continue //todo: continue is not supported}
-//            return false
-//              d += 1;
-//          }
-//            i += 1;
-//        }
-//        return true
-//      }
-//    }
-//  }
+  def isEqual(cs1: CoordinateSequence, cs2: CoordinateSequence): Boolean = {
+    val cs1Size = cs1.size
+    val cs2Size = cs2.size
+    if (cs1Size != cs2Size) return false
+    val dim     = Math.min(cs1.getDimension, cs2.getDimension)
+    for (i <- 0 until cs1Size)
+      for (d <- 0 until dim) {
+        val v1 = cs1.getOrdinate(i, d)
+        val v2 = cs2.getOrdinate(i, d)
+        if (cs1.getOrdinate(i, d) == cs2.getOrdinate(i, d)) {
+          // continue the inner loop
+        } else if (v1.isNaN && v2.isNaN) {
+          // continue the inner loop
+        } else {
+          return false
+        }
+      }
+    true
+  }
 
   /**
    * Creates a string representation of a {link CoordinateSequence}. The format is: <pre> (
@@ -255,19 +247,11 @@ object CoordinateSequences {
     val dim     = cs.getDimension
     val builder = new StringBuilder
     builder.append('(')
-    var i       = 0
-    while (i < size) {
+    for (i <- 0 until size) {
       if (i > 0) builder.append(" ")
-      var d = 0
-      while (d < dim) {
+      for (d <- 0 until dim) {
         if (d > 0) builder.append(",")
-//            builder.append(OrdinateFormat.DEFAULT.format(cs.getOrdinate(i, d))
-        d += 1;
-        d - 1
-      }
-      {
-        i += 1;
-        i - 1
+        builder.append(OrdinateFormat.DEFAULT.format(cs.getOrdinate(i, d)))
       }
     }
     builder.append(')')

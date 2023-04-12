@@ -14,6 +14,7 @@
  */
 package org.locationtech.jts.noding
 
+import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.index.chain.MonotoneChain
 import org.locationtech.jts.index.chain.MonotoneChainBuilder
 import org.locationtech.jts.index.chain.MonotoneChainOverlapAction
@@ -43,7 +44,9 @@ object MCIndexNoder {
 
 }
 
-class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString](si) {
+@Deprecated
+class MCIndexNoder(si: SegmentIntersector, overlapTolerance: Double = 0)
+    extends SinglePassNoder[SegmentString](si) {
   private val monoChains                                      = new util.ArrayList[MonotoneChain]
   private val index                                           = new STRtree
   private var idCounter                                       = 0
@@ -68,7 +71,7 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
     this.nodedSegStrings =
       inputSegStrings // .asScala.map(x => x.asInstanceOf[NodedSegmentString]).toList.asJava
     val i = inputSegStrings.iterator
-    while (i.hasNext) add(i.next)
+    while (i.hasNext) add(i.next.asInstanceOf[SegmentString])
     intersectChains()
     // System.out.println("MCIndexNoder: # chain overlaps = " + nOverlaps);
   }
@@ -78,7 +81,8 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
     val i             = monoChains.iterator
     while (i.hasNext) {
       val queryChain    = i.next
-      val overlapChains = index.query(queryChain.getEnvelope)
+      val queryEnv      = queryChain.getEnvelope(overlapTolerance)
+      val overlapChains = index.query(queryEnv)
       val j             = overlapChains.iterator
       while (j.hasNext) {
         val testChain = j.next.asInstanceOf[MonotoneChain]
@@ -88,7 +92,7 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
          * compare a chain to itself
          */
         if (testChain.getId > queryChain.getId) {
-          queryChain.computeOverlaps(testChain, overlapAction)
+          queryChain.computeOverlaps(testChain, overlapTolerance, overlapAction)
           nOverlaps += 1
         }
         // short-circuit if possible
@@ -104,7 +108,7 @@ class MCIndexNoder(si: SegmentIntersector) extends SinglePassNoder[SegmentString
       val mc = i.next
       mc.setId(idCounter)
       idCounter += 1
-      index.insert(mc.getEnvelope, mc)
+      index.insert(mc.getEnvelope(overlapTolerance), mc)
       monoChains.add(mc)
     }
   }

@@ -44,6 +44,9 @@ class CoordinateXYZM(xArg: Double, yArg: Double, zArg: Double, var m: Double)
   def this(coord: CoordinateXYZM) =
     this(coord.x, coord.y, coord.z, coord.m)
 
+  def this() =
+    this(0.0, 0.0, 0.0, 0.0)
+
   /**
    * Creates a copy of this CoordinateXYZM.
    *

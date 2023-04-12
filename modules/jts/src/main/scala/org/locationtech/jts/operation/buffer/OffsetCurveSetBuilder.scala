@@ -32,9 +32,9 @@ import org.locationtech.jts.geom.MultiPoint
 import org.locationtech.jts.geom.MultiPolygon
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geom.Triangle
 import org.locationtech.jts.geomgraph.Label
-import org.locationtech.jts.geomgraph.Position
 import org.locationtech.jts.noding.NodedSegmentString
 import org.locationtech.jts.noding.SegmentString
 
@@ -211,7 +211,7 @@ class OffsetCurveSetBuilder(
     if (offsetDistance == 0.0 && coord.length < LinearRing.MINIMUM_VALID_SIZE) return
     var leftLoc  = cwLeftLoc
     var rightLoc = cwRightLoc
-    if (coord.length >= LinearRing.MINIMUM_VALID_SIZE && Orientation.isCCW(coord)) {
+    if (coord.length >= LinearRing.MINIMUM_VALID_SIZE && Orientation.isCCWArea(coord)) {
       leftLoc = cwRightLoc
       rightLoc = cwLeftLoc
       side = Position.opposite(side)

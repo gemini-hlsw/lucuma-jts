@@ -17,17 +17,13 @@ package org.locationtech.jts.geom
 import org.locationtech.jts.algorithm.Centroid
 import org.locationtech.jts.algorithm.ConvexHull
 import org.locationtech.jts.algorithm.InteriorPoint
-import org.locationtech.jts.geom.util.GeometryCollectionMapper
-import org.locationtech.jts.geom.util.GeometryMapper
+import org.locationtech.jts.io.WKTWriter
 import org.locationtech.jts.operation.IsSimpleOp
 import org.locationtech.jts.operation.buffer.BufferOp
 import org.locationtech.jts.operation.distance.DistanceOp
-import org.locationtech.jts.operation.overlay.OverlayOp
-import org.locationtech.jts.operation.overlay.snap.SnapIfNeededOverlayOp
 import org.locationtech.jts.operation.predicate.RectangleContains
 import org.locationtech.jts.operation.predicate.RectangleIntersects
 import org.locationtech.jts.operation.relate.RelateOp
-import org.locationtech.jts.operation.union.UnaryUnionOp
 import org.locationtech.jts.operation.valid.IsValidOp
 import org.locationtech.jts.util.Assert
 
@@ -119,15 +115,25 @@ import java.util.Comparator
  */
 @SerialVersionUID(8763622679187376702L)
 object Geometry {
-  private[geom] val SORTINDEX_POINT              = 0
-  private[geom] val SORTINDEX_MULTIPOINT         = 1
-  private[geom] val SORTINDEX_LINESTRING         = 2
-  private[geom] val SORTINDEX_LINEARRING         = 3
-  private[geom] val SORTINDEX_MULTILINESTRING    = 4
-  private[geom] val SORTINDEX_POLYGON            = 5
-  private[geom] val SORTINDEX_MULTIPOLYGON       = 6
-  private[geom] val SORTINDEX_GEOMETRYCOLLECTION = 7
-  private val geometryChangedFilter              = new GeometryComponentFilter() {
+  protected[geom] val TYPECODE_POINT              = 0
+  protected[geom] val TYPECODE_MULTIPOINT         = 1
+  protected[geom] val TYPECODE_LINESTRING         = 2
+  protected[geom] val TYPECODE_LINEARRING         = 3
+  protected[geom] val TYPECODE_MULTILINESTRING    = 4
+  protected[geom] val TYPECODE_POLYGON            = 5
+  protected[geom] val TYPECODE_MULTIPOLYGON       = 6
+  protected[geom] val TYPECODE_GEOMETRYCOLLECTION = 7
+
+  val TYPENAME_POINT              = "Point"
+  val TYPENAME_MULTIPOINT         = "MultiPoint"
+  val TYPENAME_LINESTRING         = "LineString"
+  val TYPENAME_LINEARRING         = "LinearRing"
+  val TYPENAME_MULTILINESTRING    = "MultiLineString"
+  val TYPENAME_POLYGON            = "Polygon"
+  val TYPENAME_MULTIPOLYGON       = "MultiPolygon"
+  val TYPENAME_GEOMETRYCOLLECTION = "GeometryCollection"
+
+  private val geometryChangedFilter = new GeometryComponentFilter() {
     override def filter(geom: Geometry): Unit = geom.geometryChangedAction()
   }
 
@@ -851,7 +857,7 @@ abstract class Geometry(
    */
   override def hashCode: Int = getEnvelopeInternal.hashCode
 
-  override def toString: String = "toText"
+  override def toString: String = toText
 
   /**
    * Returns the Well-known Text representation of this <code>Geometry</code>. For a definition of
@@ -859,10 +865,10 @@ abstract class Geometry(
    *
    * return the Well-known Text representation of this <code>Geometry</code>
    */
-//  def toText: String = {
-//    val writer = new WKTWriter
-//    writer.write(this)
-//  }
+  def toText: String = {
+    val writer = new WKTWriter
+    writer.write(this)
+  }
 
   /**
    * Computes a buffer area around this geometry having the given width. The buffer of a Geometry is
@@ -987,31 +993,8 @@ abstract class Geometry(
    *   if a robustness error occurs throws IllegalArgumentException if the argument is a non-empty
    *   heterogeneous <code>GeometryCollection</code>
    */
-  def intersection(other: Geometry): Geometry = {
-
-    /**
-     * TODO: MD - add optimization for P-A case using Point-In-Polygon
-     */
-    // special case: if one input is empty ==> empty
-    if (this.isEmpty || other.isEmpty)
-      return OverlayOp.createEmptyResult(OverlayOp.INTERSECTION, this, other, factory)
-    // compute for GCs
-    // (An inefficient algorithm, but will work)
-    // TODO: improve efficiency of computation for GCs
-    if (this.isGeometryCollection) {
-      val g2 = other
-      return GeometryCollectionMapper.map(this.asInstanceOf[GeometryCollection],
-                                          new GeometryMapper.MapOp() {
-                                            override def map(g: Geometry): Geometry =
-                                              g.intersection(g2)
-                                          }
-      )
-    }
-    // No longer needed since GCs are handled by previous code
-    // checkNotGeometryCollection(this);
-    // checkNotGeometryCollection(other);
-    SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.INTERSECTION)
-  }
+  def intersection(other: Geometry): Geometry =
+    GeometryOverlay.intersection(this, other)
 
   /**
    * Computes a <code>Geometry</code> representing the point-set which is contained in both this
@@ -1035,19 +1018,8 @@ abstract class Geometry(
    * @see
    *   LineMerger
    */
-  def union(other: Geometry): Geometry = { // handle empty geometry cases
-    if (this.isEmpty || other.isEmpty) {
-      if (this.isEmpty && other.isEmpty)
-        return OverlayOp.createEmptyResult(OverlayOp.UNION, this, other, factory)
-      // special case: if either input is empty ==> other input
-      if (this.isEmpty) return other.copy
-      if (other.isEmpty) return copy
-    }
-    // TODO: optimize if envelopes of geometries do not intersect
-    Geometry.checkNotGeometryCollection(this)
-    Geometry.checkNotGeometryCollection(other)
-    SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.UNION)
-  }
+  def union(other: Geometry): Geometry = // handle empty geometry cases
+    GeometryOverlay.union(this, other)
 
   /**
    * Computes a <code>Geometry</code> representing the closure of the point-set of the points
@@ -1061,13 +1033,8 @@ abstract class Geometry(
    *   TopologyException if a robustness error occurs throws IllegalArgumentException if either
    *   input is a non-empty GeometryCollection
    */
-  def difference(other: Geometry): Geometry = { // special case: if A.isEmpty ==> empty; if B.isEmpty ==> A
-    if (this.isEmpty) return OverlayOp.createEmptyResult(OverlayOp.DIFFERENCE, this, other, factory)
-    if (other.isEmpty) return copy
-    Geometry.checkNotGeometryCollection(this)
-    Geometry.checkNotGeometryCollection(other)
-    SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.DIFFERENCE)
-  }
+  def difference(other: Geometry): Geometry =
+    GeometryOverlay.difference(this, other)
 
   /**
    * Computes a <code>Geometry </code> representing the closure of the point-set which is the union
@@ -1083,18 +1050,8 @@ abstract class Geometry(
    *   <code>other</code> throws TopologyException if a robustness error occurs throws
    *   IllegalArgumentException if either input is a non-empty GeometryCollection
    */
-  def symDifference(other: Geometry): Geometry = {
-    if (this.isEmpty || other.isEmpty) { // both empty - check dimensions
-      if (this.isEmpty && other.isEmpty)
-        return OverlayOp.createEmptyResult(OverlayOp.SYMDIFFERENCE, this, other, factory)
-      // special case: if either input is empty ==> result = other arg
-      if (this.isEmpty) return other.copy
-      if (other.isEmpty) return copy
-    }
-    Geometry.checkNotGeometryCollection(this)
-    Geometry.checkNotGeometryCollection(other)
-    SnapIfNeededOverlayOp.overlayOp(this, other, OverlayOp.SYMDIFFERENCE)
-  }
+  def symDifference(other: Geometry): Geometry =
+    GeometryOverlay.symDifference(this, other)
 
   /**
    * Computes the union of all the elements of this geometry. <p> This method supports {link
@@ -1108,7 +1065,7 @@ abstract class Geometry(
    * @see
    *   UnaryUnionOp
    */
-  def union: Geometry = UnaryUnionOp.union(this)
+  def union: Geometry = GeometryOverlay.union(this)
 
   /**
    * Returns true if the two <code>Geometry</code>s are exactly equal, up to a specified distance
@@ -1302,7 +1259,7 @@ abstract class Geometry(
    *   Specifications
    */
   override def compareTo(other: Geometry): Int = {
-    if (getSortIndex != other.getSortIndex) return getSortIndex - other.getSortIndex
+    if (getTypeCode != other.getTypeCode) return getTypeCode - other.getTypeCode
     if (isEmpty && other.isEmpty) return 0
     if (isEmpty) return -1
     if (other.isEmpty) return 1
@@ -1327,7 +1284,7 @@ abstract class Geometry(
    *   <code>o</code>, as defined in "Normal Form For Geometry" in the JTS Technical Specifications
    */
   def compareTo(other: Geometry, comp: CoordinateSequenceComparator): Int = {
-    if (getSortIndex != other.getSortIndex) return getSortIndex - other.getSortIndex
+    if (getTypeCode != other.getTypeCode) return getTypeCode - other.getTypeCode
     if (isEmpty && other.isEmpty) return 0
     if (isEmpty) return -1
     if (other.isEmpty) return 1
@@ -1355,8 +1312,8 @@ abstract class Geometry(
    *
    * return true if this is a heterogeneous GeometryCollection
    */
-  protected def isGeometryCollection: Boolean =
-    getSortIndex == Geometry.SORTINDEX_GEOMETRYCOLLECTION
+  def isGeometryCollection: Boolean =
+    getTypeCode == Geometry.TYPECODE_GEOMETRYCOLLECTION
 
   /**
    * Returns the minimum and maximum x and y values in this <code>Geometry</code> , or a null
@@ -1379,7 +1336,7 @@ abstract class Geometry(
    *   or less than <code>o</code>, as defined in "Normal Form For Geometry" in the JTS Technical
    *   Specifications
    */
-  protected def compareToSameClass(o: Geometry): Int
+  protected def compareToSameClass(o: AnyRef): Int
 
   /**
    * Returns whether this <code>Geometry</code> is greater than, equal to, or less than another
@@ -1392,7 +1349,7 @@ abstract class Geometry(
    *   number, depending on whether this object is greater than, equal to, or less than
    *   <code>o</code>, as defined in "Normal Form For Geometry" in the JTS Technical Specifications
    */
-  def compareToSameClass(o: Geometry, comp: CoordinateSequenceComparator): Int
+  def compareToSameClass(o: AnyRef, comp: CoordinateSequenceComparator): Int
 
   /**
    * Returns the first non-zero result of <code>compareTo</code> encountered as the two
@@ -1431,7 +1388,7 @@ abstract class Geometry(
     a.distance(b) <= tolerance
   }
 
-  protected def getSortIndex: Int
+  protected def getTypeCode: Int
 
   private def createPointFromInternalCoord(coord: Coordinate, exemplar: Geometry) = {
     exemplar.getPrecisionModel.makePrecise(coord)

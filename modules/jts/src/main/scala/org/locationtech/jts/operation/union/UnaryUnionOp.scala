@@ -17,8 +17,6 @@ package org.locationtech.jts.operation.union
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.geom.Puntal
-import org.locationtech.jts.operation.overlay.OverlayOp
-import org.locationtech.jts.operation.overlay.snap.SnapIfNeededOverlayOp
 
 import java.util
 
@@ -95,7 +93,9 @@ object UnaryUnionOp {
 
 class UnaryUnionOp(geoms: util.Collection[Geometry], var geomFact: GeometryFactory) {
 //  private var geomFact: GeometryFactory = null
-  private var extracter: InputExtracter = null
+  private var extracter: InputExtracter    = null
+  private var unionFunction: UnionStrategy = CascadedPolygonUnion.CLASSIC_UNION
+
   extract(geoms)
 
   // /**
@@ -130,9 +130,11 @@ class UnaryUnionOp(geoms: util.Collection[Geometry], var geomFact: GeometryFacto
   //  * @param geom
   //  */
   def this(geom: Geometry) = {
-    this(null, null)
+    this(new util.ArrayList(), null)
     extract(geom)
   }
+
+  def setUnionFunction(unionFun: UnionStrategy): Unit = unionFunction = unionFun
 
   private def extract(geoms: util.Collection[Geometry]): Unit = extracter =
     InputExtracter.extract(geoms)
@@ -182,7 +184,7 @@ class UnaryUnionOp(geoms: util.Collection[Geometry], var geomFact: GeometryFacto
       unionLines = unionNoOpt(lineGeom)
     }
     var unionPolygons: Geometry = null
-    if (polygons.size > 0) unionPolygons = CascadedPolygonUnion.union(polygons)
+    if (polygons.size > 0) unionPolygons = CascadedPolygonUnion.union(polygons, unionFunction)
 
     /**
      * Performing two unions is somewhat inefficient, but is mitigated by unioning lines and points
@@ -223,6 +225,6 @@ class UnaryUnionOp(geoms: util.Collection[Geometry], var geomFact: GeometryFacto
    */
   private def unionNoOpt(g0: Geometry): Geometry = {
     val empty = geomFact.createPoint
-    SnapIfNeededOverlayOp.overlayOp(g0, empty, OverlayOp.UNION)
+    unionFunction.union(g0, empty)
   }
 }

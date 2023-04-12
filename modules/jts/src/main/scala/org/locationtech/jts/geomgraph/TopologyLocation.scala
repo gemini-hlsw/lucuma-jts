@@ -15,6 +15,7 @@
 package org.locationtech.jts.geomgraph
 
 import org.locationtech.jts.geom.Location
+import org.locationtech.jts.geom.Position
 
 /**
  * A TopologyLocation is the labelling of a GraphComponent's topological relationship to a single

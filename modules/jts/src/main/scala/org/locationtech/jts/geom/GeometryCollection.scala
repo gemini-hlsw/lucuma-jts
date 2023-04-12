@@ -119,7 +119,7 @@ class GeometryCollection(
     numPoints
   }
 
-  override def getGeometryType = "GeometryCollection"
+  override def getGeometryType = Geometry.TYPENAME_GEOMETRYCOLLECTION
 
   override def getBoundary: Geometry = {
     Geometry.checkNotGeometryCollection(this)
@@ -227,7 +227,8 @@ class GeometryCollection(
       geometries(i).normalize()
       i += 1
     }
-    java.util.Arrays.sort(geometries.map(x => x: AnyRef))
+    geometries = geometries.sorted
+    // java.util.Arrays.sort(geometries.map(x => x: AnyRef))
   }
 
   override protected def computeEnvelopeInternal: Envelope = {
@@ -240,7 +241,7 @@ class GeometryCollection(
     envelope
   }
 
-  protected def compareToSameClass(o: Geometry): Int = {
+  protected def compareToSameClass(o: AnyRef): Int = {
     val theseElements = new java.util.TreeSet(java.util.Arrays.asList(geometries))
     val otherElements =
       new java.util.TreeSet(java.util.Arrays.asList(o.asInstanceOf[GeometryCollection].geometries))
@@ -248,7 +249,7 @@ class GeometryCollection(
     compare(theseElements, otherElements, null)
   }
 
-  def compareToSameClass(o: Geometry, comp: CoordinateSequenceComparator): Int = {
+  def compareToSameClass(o: AnyRef, comp: CoordinateSequenceComparator): Int = {
     val gc = o.asInstanceOf[GeometryCollection]
     val n1 = getNumGeometries
     val n2 = gc.getNumGeometries
@@ -265,18 +266,17 @@ class GeometryCollection(
     0
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_GEOMETRYCOLLECTION
+  override protected def getTypeCode: Int = Geometry.TYPECODE_GEOMETRYCOLLECTION
 
   /**
    * Creates a {link GeometryCollection} with every component reversed. The order of the components
    * in the collection are not reversed.
    *
    * return a { @link GeometryCollection} in the reverse order
-   * @deprecated
    */
-  override def reverse: Geometry = super.reverse
+  override def reverse: GeometryCollection = super.reverse.asInstanceOf[GeometryCollection]
 
-  override protected def reverseInternal: Geometry = {
+  override protected def reverseInternal: GeometryCollection = {
     val numGeometries = geometries.length
     val reversed      = new java.util.ArrayList[Geometry](numGeometries)
     var i             = 0
@@ -284,6 +284,6 @@ class GeometryCollection(
       reversed.add(geometries(i).reverse)
       i += 1
     }
-    getFactory.buildGeometry(reversed)
+    getFactory.buildGeometry(reversed).asInstanceOf[GeometryCollection]
   }
 }

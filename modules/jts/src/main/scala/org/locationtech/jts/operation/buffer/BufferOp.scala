@@ -23,7 +23,7 @@ import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.math.MathUtil
 import org.locationtech.jts.noding.ScaledNoder
-import org.locationtech.jts.noding.snaprounder.MCIndexSnapRounder
+import org.locationtech.jts.noding.snapround.SnapRoundingNoder
 //import debug.*;
 // /**
 //  * Computes the buffer of a geometry, for both positive and negative buffer distances.
@@ -316,7 +316,8 @@ class BufferOp(g: Geometry, bufParams: BufferParameters = new BufferParameters()
   }
 
   private def bufferFixedPrecision(fixedPM: PrecisionModel): Unit = {
-    val noder      = new ScaledNoder(new MCIndexSnapRounder(new PrecisionModel(1.0)), fixedPM.getScale)
+    val snapNoder  = new SnapRoundingNoder(new PrecisionModel(1.0))
+    val noder      = new ScaledNoder(snapNoder, fixedPM.getScale)
     val bufBuilder = new BufferBuilder(bufParams)
     bufBuilder.setWorkingPrecisionModel(fixedPM)
     bufBuilder.setNoder(noder)

@@ -18,6 +18,7 @@ import org.locationtech.jts.algorithm.LineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.IntersectionMatrix
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geomgraph.index.MonotoneChainEdge
 
 import java.io.PrintStream
@@ -50,7 +51,7 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
   private[geomgraph] val eiList      = new EdgeIntersectionList(this)
   private var name: String           = null
   private var mce: MonotoneChainEdge = null
-  private var visIsolated            = true
+  private var isIsolated0            = true
   private val depth                  = new Depth
   private var depthDelta             = 0 // the change in area depth from the R to L side of this edge
   def this(pts: Array[Coordinate]) =
@@ -122,9 +123,10 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
     newe
   }
 
-  def setIsolated(isIsolated: Boolean): Unit = this.visIsolated = isIsolated
+  def setIsolated(isIsolated: Boolean): Unit =
+    this.isIsolated0 = isIsolated
 
-  override def isIsolated: Boolean = visIsolated
+  override def isIsolated: Boolean = isIsolated0
 
   /**
    * Adds EdgeIntersections for one or both intersections found for a segment of an edge to the edge
@@ -190,16 +192,15 @@ class Edge(var pts: Array[Coordinate], val labelArg: Label) extends GraphCompone
     var isEqualForward = true
     var isEqualReverse = true
     var iRev           = pts.length
-    var i              = 0
-    while (i < pts.length) {
-      if (!pts(i).equals2D(e.pts(i))) isEqualForward = false
-      if (
-        !pts(i).equals2D(e.pts {
-          iRev -= 1; iRev
-        })
-      ) isEqualReverse = false
+    for (i <- 0 until pts.length) {
+      if (!pts(i).equals2D(e.pts(i))) {
+        isEqualForward = false
+      }
+      if (!pts(i).equals2D(e.pts(iRev - 1))) {
+        isEqualReverse = false
+      }
       if (!isEqualForward && !isEqualReverse) return false
-      i += 1
+      iRev -= 1
     }
     true
   }

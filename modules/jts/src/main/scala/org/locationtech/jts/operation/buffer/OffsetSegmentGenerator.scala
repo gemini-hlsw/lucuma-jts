@@ -30,8 +30,8 @@ import org.locationtech.jts.algorithm.Orientation
 import org.locationtech.jts.algorithm.RobustLineIntersector
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.LineSegment
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.geomgraph.Position
 
 import scala.annotation.nowarn
 
@@ -87,7 +87,6 @@ class OffsetSegmentGenerator(
    */
   if (bufParams.getQuadrantSegments >= 8 && bufParams.getJoinStyle == BufferParameters.JOIN_ROUND)
     closingSegLengthFactor = OffsetSegmentGenerator.MAX_CLOSING_SEG_LEN_FACTOR
-  init(distance)
 
   /**
    * the max error of approximation (distance) between a quad segment and the true fillet curve
@@ -115,6 +114,7 @@ class OffsetSegmentGenerator(
   private val offset1                      = new LineSegment
   private var side                         = 0
   private var vhasNarrowConcaveAngle       = false
+  init(distance)
 
   /**
    * Tests whether the input has a narrow concave angle (relative to the offset distance). In this

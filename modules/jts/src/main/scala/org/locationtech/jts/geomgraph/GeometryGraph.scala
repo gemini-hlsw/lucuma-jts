@@ -33,6 +33,7 @@ import org.locationtech.jts.geom.MultiPolygon
 import org.locationtech.jts.geom.Point
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.Polygonal
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geomgraph.index.SegmentIntersector
 import org.locationtech.jts.geomgraph.index.SimpleMCSweepLineIntersector
 import org.locationtech.jts.util.Assert
@@ -82,10 +83,6 @@ class GeometryGraph(
    * are derived from them. This is used to efficiently perform findEdge queries
    */
   private val lineEdgeMap = new util.HashMap[LineString, Edge]
-  if (parentGeom != null) { //      precisionModel = parentGeom.getPrecisionModel();
-    //      SRID = parentGeom.getSRID();
-    add(parentGeom)
-  }
 
   /**
    * If this flag is true, the Boundary Determination Rule will used when deciding whether nodes are
@@ -98,6 +95,10 @@ class GeometryGraph(
   private var areaPtLocator: PointOnGeometryLocator = null
   // for use if geometry is not Polygonal
   final private val ptLocator: PointLocator         = new PointLocator
+  if (parentGeom != null) { //      precisionModel = parentGeom.getPrecisionModel();
+    //      SRID = parentGeom.getSRID();
+    add(parentGeom)
+  }
 
   private def createEdgeSetIntersector = // various options for computing intersections, from slowest to fastest
     // private EdgeSetIntersector esi = new SimpleEdgeSetIntersector();

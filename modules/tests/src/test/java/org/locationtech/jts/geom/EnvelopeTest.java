@@ -3,17 +3,6 @@
  * For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
  */
 
-/*
- * Copyright (c) 2016 Vivid Solutions.
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * and Eclipse Distribution License v. 1.0 which accompanies this distribution.
- * The Eclipse Public License is available at http://www.eclipse.org/legal/epl-v10.html
- * and the Eclipse Distribution License is available at
- *
- * http://www.eclipse.org/org/documents/edl-v10.php.
- */
 package org.locationtech.jts.geom;
 
 import org.locationtech.jts.io.ParseException;
@@ -209,7 +198,7 @@ public class EnvelopeTest extends TestCase {
   public void testCopy() throws Exception {
     Envelope e1 = new Envelope(1, 2, 3, 4);
     Envelope e2 = e1.copy();
-	  assertEquals(1, e2.getMinX(), 1E-5);
+    assertEquals(1, e2.getMinX(), 1E-5);
     assertEquals(2, e2.getMaxX(), 1E-5);
     assertEquals(3, e2.getMinY(), 1E-5);
     assertEquals(4, e2.getMaxY(), 1E-5);

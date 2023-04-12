@@ -101,7 +101,7 @@ object PackedCoordinateSequence {
      *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
      */
     def this(coordinates: Array[Coordinate], dimension: Int) =
-      this(coordinates, dimension, 0)
+      this(coordinates, dimension, Math.max(0, dimension - 3))
 
     /**
      * Builds a new packed coordinate sequence out of a coordinate array
@@ -139,7 +139,7 @@ object PackedCoordinateSequence {
       } else if (dimension == 3 && measures == 1) {
         val m = coords(i * dimension + 2)
         return new CoordinateXYM(x, y, m)
-      } else if (dimension == 4 && measures == 1) {
+      } else if (dimension == 4) {
         val z = coords(i * dimension + 2)
         val m = coords(i * dimension + 3)
         return new CoordinateXYZM(x, y, z, m)
@@ -296,7 +296,7 @@ object PackedCoordinateSequence {
      *   the total number of ordinates that make up a { @link Coordinate} in this sequence.
      */
     def this(coordinates: Array[Coordinate], dimension: Int) =
-      this(coordinates, dimension, 0)
+      this(coordinates, dimension, Math.max(0, dimension - 3))
 
     /**
      * Constructs an empty packed coordinate sequence of a given size and dimension
@@ -321,7 +321,7 @@ object PackedCoordinateSequence {
       } else if (dimension == 3 && measures == 1) {
         val m = coords(i * dimension + 2)
         return new CoordinateXYM(x.toDouble, y.toDouble, m.toDouble)
-      } else if (dimension == 4 && measures == 1) {
+      } else if (dimension == 4) {
         val z = coords(i * dimension + 2)
         val m = coords(i * dimension + 3)
         return new CoordinateXYZM(x.toDouble, y.toDouble, z.toDouble, m.toDouble)
@@ -375,11 +375,11 @@ abstract class PackedCoordinateSequence protected (
   /**
    * The dimensions of the coordinates held in the packed array
    */
-  var dimension: Int,
+  val dimension: Int,
   /**
    * The number of measures of the coordinates held in the packed array.
    */
-  var measures:  Int
+  val measures:  Int
 )
 
 /**

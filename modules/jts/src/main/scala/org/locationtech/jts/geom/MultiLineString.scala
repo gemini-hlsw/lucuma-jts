@@ -24,7 +24,7 @@ import org.locationtech.jts.operation.BoundaryOp
  */
 @SerialVersionUID(8166665132445433741L)
 class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
-    extends GeometryCollection(lineStrings.map(x => x: Geometry), factory)
+    extends GeometryCollection(Option(lineStrings).map(_.map(x => x: Geometry)).orNull, factory)
     with Lineal {
 
   /**
@@ -62,7 +62,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
     0
   }
 
-  override def getGeometryType = "MultiLineString"
+  override def getGeometryType = Geometry.TYPENAME_MULTILINESTRING
 
   def isClosed: Boolean = {
     if (isEmpty) return false
@@ -91,7 +91,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
    * return a { @link MultiLineString} in the reverse order
    * @deprecated
    */
-  override def reverse: Geometry = super.reverse
+  override def reverse: MultiLineString = super.reverse.asInstanceOf[MultiLineString]
 
   override protected def copyInternal: MultiLineString = {
     val lineStrings = new Array[LineString](this.geometries.length)
@@ -108,5 +108,5 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
     super.equalsExact(other, tolerance)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTILINESTRING
+  override protected def getTypeCode: Int = Geometry.TYPECODE_MULTILINESTRING
 }

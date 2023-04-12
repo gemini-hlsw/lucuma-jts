@@ -112,7 +112,7 @@ public class WKBHexFileReader
 	 * @throws IOException if an I/O exception was encountered
 	 * @throws ParseException if an error occurred reading a geometry
 	 */
-	public List read() 
+	public List<Geometry> read() 
 	throws IOException, ParseException 
 	{
     // do this here so that constructors don't throw exceptions
@@ -132,9 +132,9 @@ public class WKBHexFileReader
 		}
 	}
 	
-	private List read(BufferedReader bufferedReader) throws IOException,
+	private List<Geometry> read(BufferedReader bufferedReader) throws IOException,
 			ParseException {
-		List geoms = new ArrayList();
+		List<Geometry> geoms = new ArrayList<>();
 		while (! isAtEndOfFile(bufferedReader) && ! isAtLimit(geoms)) {
 		  String line = bufferedReader.readLine().trim();
 		  if (line.length() == 0) 
@@ -147,7 +147,7 @@ public class WKBHexFileReader
 		return geoms;
 	}
 	
-	private boolean isAtLimit(List geoms)
+	private boolean isAtLimit(List<Geometry> geoms)
 	{
 		if (limit < 0) return false;
 		if (geoms.size() < limit) return false;

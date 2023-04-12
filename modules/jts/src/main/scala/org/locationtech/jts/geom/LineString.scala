@@ -54,14 +54,15 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
     init(points)
   }
 
-  private def init(point: CoordinateSequence): Unit = {
-    if (point == null)
-      points = getFactory.getCoordinateSequenceFactory.create(Array.empty[Coordinate])
-    if (point.size == 1)
+  private def init(points: CoordinateSequence): Unit = {
+    val pt: CoordinateSequence = if (points == null) {
+      getFactory.getCoordinateSequenceFactory.create(Array.empty[Coordinate])
+    } else points
+    if (pt.size == 1)
       throw new IllegalArgumentException(
         "Invalid number of points in LineString (found " + points.size + " - must be 0 or >= 2)"
       )
-    this.points = point
+    this.points = pt
   }
 
   override def getCoordinates: Array[Coordinate] = points.toCoordinateArray
@@ -105,7 +106,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
 
   def isRing: Boolean = isClosed && isSimple
 
-  override def getGeometryType = "LineString"
+  override def getGeometryType = Geometry.TYPENAME_LINESTRING
 
   /**
    * Returns the length of this <code>LineString</code>
@@ -130,7 +131,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
    * return a { @link LineString} with coordinates in the reverse order
    * @deprecated
    */
-  override def reverse: Geometry = super.reverse
+  override def reverse: LineString = super.reverse.asInstanceOf[LineString]
 
   override protected def reverseInternal: LineString = {
     val seq = points.copy
@@ -233,7 +234,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   override protected def isEquivalentClass(other: Geometry): Boolean =
     other.isInstanceOf[LineString]
 
-  protected def compareToSameClass(o: Geometry): Int = {
+  protected[jts] def compareToSameClass(o: AnyRef): Int = {
     val line = o.asInstanceOf[LineString]
     // MD - optimized implementation
     var i    = 0
@@ -249,10 +250,10 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
     0
   }
 
-  def compareToSameClass(o: Geometry, comp: CoordinateSequenceComparator): Int = {
+  def compareToSameClass(o: AnyRef, comp: CoordinateSequenceComparator): Int = {
     val line = o.asInstanceOf[LineString]
     comp.compare(this.points, line.points)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_LINESTRING
+  override protected def getTypeCode: Int = Geometry.TYPECODE_LINESTRING
 }

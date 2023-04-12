@@ -23,3 +23,7 @@ They don't need to run on java but may need to be adjusted to work with the scal
 ## AWT
 A small awt package is also included but that is just a copy of the awt package as in the original java code
 It is only meant to be used on the JVM obviously
+
+## History
+Original port done up to commit 16023a11a6b96940fefc811399501296fe00f541 of JTS corresponding to version 1.18.0
+https://github.com/locationtech/jts/commit/16023a11a6b96940fefc811399501296fe00f541

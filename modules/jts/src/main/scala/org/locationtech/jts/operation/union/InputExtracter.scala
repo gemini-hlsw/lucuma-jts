@@ -111,7 +111,7 @@ class InputExtracter() extends GeometryFilter {
    *   the dimension of geometry to return return a list of the extracted geometries of dimension
    *   dim.
    */
-  def getExtract(dim: Int): util.List[Geometry] = {
+  def getExtract(dim: Int): util.List[Geometry] =
     dim match {
       case 0 =>
         return points.asScala.map(x => x: Geometry).asJava
@@ -119,10 +119,10 @@ class InputExtracter() extends GeometryFilter {
         return lines.asScala.map(x => x: Geometry).asJava
       case 2 =>
         return polygons.asScala.map(x => x: Geometry).asJava
+      case _ =>
+        Assert.shouldNeverReachHere("Invalid dimension: " + dim)
+        null
     }
-    Assert.shouldNeverReachHere("Invalid dimension: " + dim)
-    null
-  }
 
   private def add(geoms: util.Collection[Geometry]): Unit =
     geoms.asScala.foreach(add)

@@ -20,11 +20,11 @@ package org.locationtech.jts.operation.buffer
 
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
+import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.geomgraph.DirectedEdge
 import org.locationtech.jts.geomgraph.DirectedEdgeStar
 import org.locationtech.jts.geomgraph.Node
-import org.locationtech.jts.geomgraph.Position
 
 import java.util
 

@@ -183,10 +183,8 @@ class GeometryEditor(var factory: GeometryFactory) {
    * @param factory
    *   the GeometryFactory to create edited Geometrys with
    */
-//  def this {
-//    this()
-//    this.factory = factory
-//  }
+  def this() =
+    this(null)
 //
   /**
    * Sets whether the User Data is copied to the edit result. Only the object reference is copied.

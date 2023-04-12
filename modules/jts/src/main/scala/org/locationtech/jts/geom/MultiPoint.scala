@@ -21,7 +21,7 @@ package org.locationtech.jts.geom
  */
 @SerialVersionUID(-8048474874175355449L)
 class MultiPoint(points: Array[Point], factory: GeometryFactory)
-    extends GeometryCollection(points.map(x => x: Geometry), factory)
+    extends GeometryCollection(Option(points).map(_.map(x => x: Geometry)).orNull, factory)
     with Puntal {
 
   /**
@@ -56,7 +56,7 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory)
 
   override def getBoundaryDimension: Int = Dimension.FALSE
 
-  override def getGeometryType = "MultiPoint"
+  override def getGeometryType = Geometry.TYPENAME_MULTIPOINT
 
   /**
    * Gets the boundary of this geometry. Zero-dimensional geometries have no boundary by definition,
@@ -84,6 +84,8 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory)
    */
   protected def getCoordinate(n: Int): Coordinate = geometries(n).asInstanceOf[Point].getCoordinate
 
+  override def reverse: MultiPoint = super.reverse.asInstanceOf[MultiPoint]
+
   override protected def copyInternal: MultiPoint = {
     val points = new Array[Point](this.geometries.length)
     var i      = 0
@@ -94,5 +96,5 @@ class MultiPoint(points: Array[Point], factory: GeometryFactory)
     new MultiPoint(points, factory)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTIPOINT
+  override protected def getTypeCode: Int = Geometry.TYPECODE_MULTIPOINT
 }

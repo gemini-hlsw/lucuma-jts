@@ -34,12 +34,12 @@ object Dimension {
   /**
    * Dimension value of a curve (1).
    */
-  val L = 1
+  val L: Int = 1
 
   /**
    * Dimension value of a surface (2).
    */
-  val A = 2
+  val A: Int = 2
 
   /**
    * Dimension value of the empty geometry (-1).

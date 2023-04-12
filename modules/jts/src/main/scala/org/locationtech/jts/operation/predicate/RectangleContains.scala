@@ -107,12 +107,10 @@ class RectangleContains(val rectangle: Polygon) {
     val seq = line.getCoordinateSequence
     val p0  = new Coordinate
     val p1  = new Coordinate
-    var i   = 0
-    while (i < seq.size - 1) {
+    for (i <- 0 until seq.size - 1) {
       seq.getCoordinate(i, p0)
       seq.getCoordinate(i + 1, p1)
       if (!isLineSegmentContainedInBoundary(p0, p1)) return false
-      i += 1
     }
     true
   }
@@ -128,9 +126,11 @@ class RectangleContains(val rectangle: Polygon) {
   private def isLineSegmentContainedInBoundary(p0: Coordinate, p1: Coordinate): Boolean = {
     if (p0 == p1) return isPointContainedInBoundary(p0)
     // we already know that the segment is contained in the rectangle envelope
-    if (p0.x == p1.x)
+    if (p0.x == p1.x) {
       if ((p0.x == rectEnv.getMinX) || (p0.x == rectEnv.getMaxX)) return true
-      else if (p0.y == p1.y) if ((p0.y == rectEnv.getMinY) || (p0.y == rectEnv.getMaxY)) return true
+    } else {
+      if (p0.y == p1.y) if ((p0.y == rectEnv.getMinY) || (p0.y == rectEnv.getMaxY)) return true
+    }
 
     /**
      * Either both x and y values are different or one of x and y are the same, but the other

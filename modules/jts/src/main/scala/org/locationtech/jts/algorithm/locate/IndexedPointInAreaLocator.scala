@@ -51,9 +51,9 @@ object IndexedPointInAreaLocator {
 
   private class IntervalIndexedGeometry(val geom: Geometry) {
     private var isEmpty = false
+    private val index   = new SortedPackedIntervalRTree
     if (geom.isEmpty) isEmpty = true
     else init(geom)
-    private val index   = new SortedPackedIntervalRTree
 
     private def init(geom: Geometry): Unit = {
       val lines = LinearComponentExtracter.getLines(geom)
@@ -112,11 +112,8 @@ class IndexedPointInAreaLocator(var geom: Geometry)
    *   the point to test return the location of the point in the geometry
    */
   override def locate(p: Coordinate): Int = {
-    if (index == null) {
-      index = new IndexedPointInAreaLocator.IntervalIndexedGeometry(geom)
-      // no need to hold onto geom
-      geom = null
-    }
+    // avoid calling synchronized method improves performance
+    if (index == null) createIndex()
     val rcc     = new RayCrossingCounter(p)
     val visitor = new IndexedPointInAreaLocator.SegmentVisitor(rcc)
     index.query(p.y, p.y, visitor)
@@ -126,5 +123,16 @@ class IndexedPointInAreaLocator(var geom: Geometry)
         countSegs(rcc, segs);
      */
     rcc.getLocation
+  }
+
+  /**
+   * Creates the indexed geometry, creating it if necessary.
+   */
+  def createIndex(): Unit = synchronized {
+    if (index == null) {
+      index = new IntervalIndexedGeometry(geom);
+      // no need to hold onto geom
+      geom = null;
+    }
   }
 }

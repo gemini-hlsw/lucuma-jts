@@ -55,6 +55,104 @@ object CoordinateArrays {
   }
 
   /**
+   * Utility method ensuring array contents are of consistent dimension and measures. <p> Array is
+   * modified in place if required, coordinates are replaced in the array as required to ensure all
+   * coordinates have the same dimension and measures. The final dimension and measures used are the
+   * maximum found when checking the array. </p>
+   *
+   * @param array
+   *   Modified in place to coordinates of consistent dimension and measures.
+   */
+  def enforceConsistency(array: Array[Coordinate]): Unit = {
+    if (array == null) {
+      return
+    }
+    // step one check
+    var maxDimension = -1
+    var maxMeasures  = -1
+    var isConsistent = true
+    for (i <- 0 until array.length) yield {
+      val coordinate = array(i)
+      if (coordinate != null) {
+        val d = Coordinates.dimension(coordinate)
+        val m = Coordinates.measures(coordinate)
+        if (maxDimension == -1) {
+          maxDimension = d
+          maxMeasures = m
+        } else if (d != maxDimension || m != maxMeasures) {
+          isConsistent = false
+          maxDimension = Math.max(maxDimension, d)
+          maxMeasures = Math.max(maxMeasures, m)
+        }
+      }
+    }
+    if (!isConsistent) {
+      // step two fix
+      val sample = Coordinates.create(maxDimension, maxMeasures)
+      val clz    = sample.getClass()
+
+      for (i <- 0 until array.length) yield {
+        val coordinate = array(i)
+        if (coordinate != null && !coordinate.getClass().equals(clz)) {
+          val duplicate = Coordinates.create(maxDimension, maxMeasures)
+          duplicate.setCoordinate(coordinate)
+          array(i) = duplicate
+        }
+      }
+    }
+  }
+
+  /**
+   * Utility method ensuring array contents are of the specified dimension and measures. <p> Array
+   * is returned unmodified if consistent, or a copy of the array is made with each inconsistent
+   * coordinate duplicated into an instance of the correct dimension and measures. </p></>
+   *
+   * @param array
+   *   coordinate array
+   * @param dimension
+   * @param measures
+   * @return
+   *   array returned, or copy created if required to enforce consistency.
+   */
+  def enforceConsistency(
+    array:     Array[Coordinate],
+    dimension: Int,
+    measures:  Int
+  ): Array[Coordinate] = {
+    val sample       = Coordinates.create(dimension, measures)
+    val clz          = sample.getClass();
+    var isConsistent = true
+    for {
+      i <- 0 until array.length
+      if isConsistent
+    } yield {
+      val coordinate = array(i)
+      if (coordinate != null && !coordinate.getClass().equals(clz)) {
+        isConsistent = false
+      }
+    }
+    if (isConsistent) {
+      return array
+    } else {
+      val coordinateType = sample.getClass()
+      val copy           = java.lang.reflect.Array
+        .newInstance(coordinateType, array.length)
+        .asInstanceOf[Array[Coordinate]]
+      for (i <- 0 until copy.length) {
+        val coordinate = array(i)
+        if (coordinate != null && !coordinate.getClass().equals(clz)) {
+          val duplicate = Coordinates.create(dimension, measures)
+          duplicate.setCoordinate(coordinate)
+          copy(i) = duplicate
+        } else {
+          copy(i) = coordinate
+        }
+      }
+      return copy
+    }
+  }
+
+  /**
    * Tests whether an array of {link Coordinate}s forms a ring, by checking length and closure.
    * Self-intersection is not checked.
    *
@@ -398,11 +496,57 @@ object CoordinateArrays {
    *   the coordinate to make first
    */
   def scroll(coordinates: Array[Coordinate], firstCoordinate: Coordinate): Unit = {
-    val i              = indexOf(firstCoordinate, coordinates)
-    if (i < 0) return
+    val i = indexOf(firstCoordinate, coordinates)
+    scroll(coordinates, i);
+  }
+
+  /**
+   * Shifts the positions of the coordinates until the coordinate at <code>firstCoordinate</code> is
+   * first.
+   *
+   * @param coordinates
+   *   the array to rearrange
+   * @param indexOfFirstCoordinate
+   *   the index of the coordinate to make first
+   */
+  def scroll(coordinates: Array[Coordinate], indexOfFirstCoordinate: Int): Unit =
+    scroll(coordinates, indexOfFirstCoordinate, CoordinateArrays.isRing(coordinates))
+
+  /**
+   * Shifts the positions of the coordinates until the coordinate at
+   * <code>indexOfFirstCoordinate</code> is first. <p/> If {@code ensureRing} is {@code true}, first
+   * and last coordinate of the returned array are equal.
+   *
+   * @param coordinates
+   *   the array to rearrange
+   * @param indexOfFirstCoordinate
+   *   the index of the coordinate to make first
+   * @param ensureRing
+   *   flag indicating if returned array should form a ring.
+   */
+  def scroll(
+    coordinates:            Array[Coordinate],
+    indexOfFirstCoordinate: Int,
+    ensureRing:             Boolean
+  ): Unit = {
+    val i = indexOfFirstCoordinate
+
+    if (i <= 0) return
     val newCoordinates = new Array[Coordinate](coordinates.length)
-    System.arraycopy(coordinates, i, newCoordinates, 0, coordinates.length - i)
-    System.arraycopy(coordinates, 0, newCoordinates, coordinates.length - i, i)
+    if (!ensureRing) {
+      System.arraycopy(coordinates, i, newCoordinates, 0, coordinates.length - i)
+      System.arraycopy(coordinates, 0, newCoordinates, coordinates.length - i, i)
+    } else {
+      val last = coordinates.length - 1
+
+      // fill in values
+      for {
+        j <- 0 until last
+      } yield newCoordinates(j) = coordinates((i + j) % last)
+
+      // Fix the ring (first == last)
+      newCoordinates(last) = newCoordinates(0).copy
+    }
     System.arraycopy(newCoordinates, 0, coordinates, 0, coordinates.length)
   }
 

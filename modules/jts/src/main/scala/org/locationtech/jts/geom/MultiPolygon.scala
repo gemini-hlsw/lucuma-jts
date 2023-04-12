@@ -34,7 +34,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
 //  *            HREF="http://www.opengis.org/techno/specs.htm">OpenGIS Simple
 //  *            Features Specification for SQL</A>.
 //  */
-    extends GeometryCollection(polygons.map(x => x: Geometry), factory)
+    extends GeometryCollection(Option(polygons).map(_.map(x => x: Geometry)).orNull, factory)
     with Polygonal {
 
   /**
@@ -60,7 +60,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
 
   override def getBoundaryDimension = 1
 
-  override def getGeometryType = "MultiPolygon"
+  override def getGeometryType = Geometry.TYPENAME_MULTIPOLYGON
 
   /**
    * Computes the boundary of this geometry
@@ -99,7 +99,7 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
    * return a MultiPolygon in the reverse order
    * @deprecated
    */
-  override def reverse: Geometry = super.reverse
+  override def reverse: MultiPolygon = super.reverse.asInstanceOf[MultiPolygon]
 
   override protected def copyInternal: MultiPolygon = {
     val polygons = new Array[Polygon](this.geometries.length)
@@ -111,5 +111,5 @@ class MultiPolygon(val polygons: Array[Polygon], override val factory: GeometryF
     new MultiPolygon(polygons, factory)
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_MULTIPOLYGON
+  override protected def getTypeCode: Int = Geometry.TYPECODE_MULTIPOLYGON
 }

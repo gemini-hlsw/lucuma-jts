@@ -25,7 +25,8 @@
 package org.locationtech.jts.index.strtree
 
 import org.locationtech.jts.geom.Envelope
-import org.locationtech.jts.util.PriorityQueue
+
+import java.util.PriorityQueue
 
 /**
  * A pair of {link Boundable}s, whose leaf items support a distance metric between them. Used to
@@ -127,7 +128,7 @@ class BoundablePair(
    * @param minDistance
    *   the limit on the distance between added pairs
    */
-  def expandToQueue(priQ: PriorityQueue, minDistance: Double): Unit = {
+  def expandToQueue(priQ: PriorityQueue[BoundablePair], minDistance: Double): Unit = {
     val isComp1 = BoundablePair.isComposite(boundable1)
     val isComp2 = BoundablePair.isComposite(boundable2)
 
@@ -156,7 +157,7 @@ class BoundablePair(
     bndComposite: Boundable,
     bndOther:     Boundable,
     isFlipped:    Boolean,
-    priQ:         PriorityQueue,
+    priQ:         PriorityQueue[BoundablePair],
     minDistance:  Double
   ): Unit = {
     val children = bndComposite.asInstanceOf[AbstractNode].getChildBoundables

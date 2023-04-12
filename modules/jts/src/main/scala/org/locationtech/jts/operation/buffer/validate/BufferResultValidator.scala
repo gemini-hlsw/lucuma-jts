@@ -45,6 +45,8 @@ object BufferResultValidator {
     false
   }
 
+  def isValid0(g: Geometry, distance: Double, result: Geometry) = isValid(g, distance, result)
+
   /**
    * Checks whether the geometry buffer is valid, and returns an error message if not.
    *

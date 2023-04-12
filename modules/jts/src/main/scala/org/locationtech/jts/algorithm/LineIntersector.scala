@@ -22,6 +22,8 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.util.Assert
 
+import scala.annotation.nowarn
+
 /**
  * A <code>LineIntersector</code> is an algorithm that can both test whether two line segments
  * intersect and compute the intersection point(s) if they do. <p> There are three possible outcomes
@@ -99,6 +101,7 @@ object LineIntersector {
    * This function is non-robust, since it may compute the square of large numbers. Currently not
    * sure how to improve this.
    */
+  @nowarn
   def nonRobustComputeEdgeDistance(p: Coordinate, p1: Coordinate, p2: Coordinate): Double = {
     val dx   = p.x - p1.x
     val dy   = p.y - p1.y
@@ -197,6 +200,10 @@ abstract class LineIntersector() {
 //  }
 
   protected def isEndPoint: Boolean = hasIntersection && !this.isProperF
+
+  protected def setIsProper(b: Boolean): Unit = this.isProperF = b
+
+  protected def setResult(b: Int): Unit = this.result = b
 
   /**
    * Tests whether the input geometries intersect.

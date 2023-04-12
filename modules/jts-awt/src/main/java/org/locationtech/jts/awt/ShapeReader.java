@@ -17,38 +17,40 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
 
 import org.locationtech.jts.algorithm.Orientation;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateList;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LinearRing;
 
 
 /**
- * Converts a Java2D {@link Shape} 
+ * Converts a Java2D {@link Shape}
  * or the more general {@link PathIterator} into a {@link Geometry}.
  * <p>
- * The coordinate system for Java2D is typically screen coordinates, 
+ * The coordinate system for Java2D is typically screen coordinates,
  * which has the Y axis inverted
  * relative to the usual JTS coordinate system.
- * This is rectified during conversion. 
+ * This is rectified during conversion.
  * <p>
  * PathIterators to be converted are expected to be linear or flat.
  * That is, they should contain only <tt>SEG_MOVETO</tt>, <tt>SEG_LINETO</tt>, and <tt>SEG_CLOSE</tt> segment types.
  * Any other segment types will cause an exception.
- * 
+ *
  * @author Martin Davis
  *
  */
-public class ShapeReader 
+public class ShapeReader
 {
   private static final AffineTransform INVERT_Y = AffineTransform.getScaleInstance(1, -1);
 
   /**
    * Converts a flat path to a {@link Geometry}.
-   * 
+   *
    * @param pathIt the path to convert
    * @param geomFact the GeometryFactory to use
    * @return a Geometry representing the path
@@ -58,10 +60,10 @@ public class ShapeReader
     ShapeReader pc = new ShapeReader(geomFact);
     return pc.read(pathIt);
   }
-  
+
   /**
    * Converts a Shape to a Geometry, flattening it first.
-   * 
+   *
    * @param shp the Java2D shape
    * @param flatness the flatness parameter to use
    * @param geomFact the GeometryFactory to use
@@ -74,34 +76,34 @@ public class ShapeReader
   }
 
   private GeometryFactory geometryFactory;
-  
+
   public ShapeReader(GeometryFactory geometryFactory) {
     this.geometryFactory = geometryFactory;
   }
 
   /**
    * Converts a flat path to a {@link Geometry}.
-   * 
+   *
    * @param pathIt the path to convert
    * @return a Geometry representing the path
    */
   public Geometry read(PathIterator pathIt)
   {
-    List pathPtSeq = toCoordinates(pathIt);
-    
-    List polys = new ArrayList();
+    List<Coordinate[]> pathPtSeq = toCoordinates(pathIt);
+
+    List<Geometry> polys = new ArrayList<>();
     int seqIndex = 0;
     while (seqIndex < pathPtSeq.size()) {
-      // assume next seq is shell 
+      // assume next seq is shell
       // TODO: test this
-      Coordinate[] pts = (Coordinate[]) pathPtSeq.get(seqIndex);
+      Coordinate[] pts = pathPtSeq.get(seqIndex);
       LinearRing shell = geometryFactory.createLinearRing(pts);
       seqIndex++;
-      
-      List holes = new ArrayList();
+
+      List<Geometry> holes = new ArrayList<>();
       // add holes as long as rings are CCW
-      while (seqIndex < pathPtSeq.size() && isHole((Coordinate[]) pathPtSeq.get(seqIndex))) {
-        Coordinate[] holePts = (Coordinate[]) pathPtSeq.get(seqIndex);
+      while (seqIndex < pathPtSeq.size() && isHole(pathPtSeq.get(seqIndex))) {
+        Coordinate[] holePts = pathPtSeq.get(seqIndex);
         LinearRing hole = geometryFactory.createLinearRing(holePts);
         holes.add(hole);
         seqIndex++;
@@ -111,23 +113,23 @@ public class ShapeReader
     }
     return geometryFactory.buildGeometry(polys);
   }
-  
+
   private boolean isHole(Coordinate[] pts)
   {
     return Orientation.isCCW(pts);
   }
-  
+
   /**
    * Extracts the points of the paths in a flat {@link PathIterator} into
    * a list of Coordinate arrays.
-   * 
+   *
    * @param pathIt a path iterator
    * @return a List of Coordinate arrays
    * @throws IllegalArgumentException if a non-linear segment type is encountered
    */
-  public static List toCoordinates(PathIterator pathIt)
+  public static List<Coordinate[]> toCoordinates(PathIterator pathIt)
   {
-    List coordArrays = new ArrayList();
+    List<Coordinate[]> coordArrays = new ArrayList<>();
     while (! pathIt.isDone()) {
       Coordinate[] pts = nextCoordinateArray(pathIt);
       if (pts == null)
@@ -136,7 +138,7 @@ public class ShapeReader
     }
     return coordArrays;
   }
-  
+
   private static Coordinate[] nextCoordinateArray(PathIterator pathIt)
   {
     double[] pathPt = new double[6];
@@ -160,15 +162,15 @@ public class ShapeReader
         coordList.add(new Coordinate(pathPt[0], pathPt[1]));
         pathIt.next();
         break;
-      case PathIterator.SEG_CLOSE:  
+      case PathIterator.SEG_CLOSE:
         coordList.closeRing();
         pathIt.next();
-        isDone = true;   
+        isDone = true;
         break;
       default:
       	throw new IllegalArgumentException("unhandled (non-linear) segment type encountered");
       }
-      if (isDone) 
+      if (isDone)
         break;
     }
     return coordList.toCoordinateArray();

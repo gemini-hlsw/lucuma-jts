@@ -93,7 +93,10 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    *
    * return the envelope of the chain
    */
-  def getEnvelope: Envelope = {
+  def getEnvelope: Envelope =
+    getEnvelope(0.0)
+
+  def getEnvelope(expansionDistance: Double): Envelope = {
     if (env == null) {
 
       /**
@@ -102,6 +105,8 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
       val p0 = pts(start)
       val p1 = pts(end)
       env = new Envelope(p0, p1)
+      if (expansionDistance > 0.0)
+        env.expandBy(expansionDistance)
     }
     env
   }
@@ -203,7 +208,25 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    *   the overlap action to execute on selected segments
    */
   def computeOverlaps(mc: MonotoneChain, mco: MonotoneChainOverlapAction): Unit =
-    computeOverlaps(start, end, mc, mc.start, mc.end, mco)
+    computeOverlaps0(start, end, mc, mc.start, mc.end, 0.0, mco)
+
+  /**
+   * Determines the line segments in two chains which may overlap, using an overlap distance
+   * tolerance, and passes them to an overlap action.
+   *
+   * @param mc
+   *   the chain to compare to
+   * @param overlapTolerance
+   *   the distance tolerance for the overlap test
+   * @param mco
+   *   the overlap action to execute on selected segments
+   */
+  def computeOverlaps(
+    mc:               MonotoneChain,
+    overlapTolerance: Double,
+    mco:              MonotoneChainOverlapAction
+  ) =
+    computeOverlaps0(start, end, mc, mc.start, mc.end, overlapTolerance, mco)
 
   /**
    * Uses an efficient mutual binary search strategy to determine which pairs of chain segments may
@@ -222,29 +245,30 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    * @param mco
    *   the overlap action to execute on selected segments
    */
-  private def computeOverlaps(
-    start0: Int,
-    end0:   Int,
-    mc:     MonotoneChain,
-    start1: Int,
-    end1:   Int,
-    mco:    MonotoneChainOverlapAction
+  private def computeOverlaps0(
+    start0:           Int,
+    end0:             Int,
+    mc:               MonotoneChain,
+    start1:           Int,
+    end1:             Int,
+    overlapTolerance: Double,
+    mco:              MonotoneChainOverlapAction
   ): Unit = { // Debug.println("computeIntersectsForChain:" + p00 + p01 + p10 + p11);
     if (end0 - start0 == 1 && end1 - start1 == 1) {
       mco.overlap(this, start0, mc, start1)
       return
     }
     // nothing to do if the envelopes of these subchains don't overlap
-    if (!overlaps(start0, end0, mc, start1, end1)) return
+    if (!overlaps(start0, end0, mc, start1, end1, overlapTolerance)) return
     val mid0 = (start0 + end0) / 2
     val mid1 = (start1 + end1) / 2
     if (start0 < mid0) {
-      if (start1 < mid1) computeOverlaps(start0, mid0, mc, start1, mid1, mco)
-      if (mid1 < end1) computeOverlaps(start0, mid0, mc, mid1, end1, mco)
+      if (start1 < mid1) computeOverlaps0(start0, mid0, mc, start1, mid1, overlapTolerance, mco)
+      if (mid1 < end1) computeOverlaps0(start0, mid0, mc, mid1, end1, overlapTolerance, mco)
     }
     if (mid0 < end0) {
-      if (start1 < mid1) computeOverlaps(mid0, end0, mc, start1, mid1, mco)
-      if (mid1 < end1) computeOverlaps(mid0, end0, mc, mid1, end1, mco)
+      if (start1 < mid1) computeOverlaps0(mid0, end0, mc, start1, mid1, overlapTolerance, mco)
+      if (mid1 < end1) computeOverlaps0(mid0, end0, mc, mid1, end1, overlapTolerance, mco)
     }
   }
 
@@ -265,6 +289,46 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    * @param end1
    *   the end index of the target chain section return true if the section envelopes overlap
    */
-  private def overlaps(start0: Int, end0: Int, mc: MonotoneChain, start1: Int, end1: Int) =
-    Envelope.intersects(pts(start0), pts(end0), mc.pts(start1), mc.pts(end1))
+  private def overlaps(
+    start0:           Int,
+    end0:             Int,
+    mc:               MonotoneChain,
+    start1:           Int,
+    end1:             Int,
+    overlapTolerance: Double
+  ) =
+    if (overlapTolerance > 0.0) {
+      overlaps0(pts(start0), pts(end0), mc.pts(start1), mc.pts(end1), overlapTolerance);
+    } else
+      Envelope.intersects(pts(start0), pts(end0), mc.pts(start1), mc.pts(end1))
+
+  private def overlaps0(
+    p1:               Coordinate,
+    p2:               Coordinate,
+    q1:               Coordinate,
+    q2:               Coordinate,
+    overlapTolerance: Double
+  ): Boolean = {
+    var minq: Double = Math.min(q1.x, q2.x)
+    var maxq: Double = Math.max(q1.x, q2.x)
+    var minp: Double = Math.min(p1.x, p2.x)
+    var maxp: Double = Math.max(p1.x, p2.x)
+    if (minp > maxq + overlapTolerance) {
+      return false
+    }
+    if (maxp < minq - overlapTolerance) {
+      return false
+    }
+    minq = Math.min(q1.y, q2.y)
+    maxq = Math.max(q1.y, q2.y)
+    minp = Math.min(p1.y, p2.y)
+    maxp = Math.max(p1.y, p2.y)
+    if (minp > maxq + overlapTolerance) {
+      return false
+    }
+    if (maxp < minq - overlapTolerance) {
+      return false
+    }
+    return true
+  }
 }

@@ -190,7 +190,8 @@ class Polygon(
 
   def getInteriorRingN(n: Int): LinearRing = holes(n)
 
-  override def getGeometryType = "Polygon"
+  override def getGeometryType =
+    Geometry.TYPENAME_POLYGON
 
   /**
    * Returns the area of this <code>Polygon</code>
@@ -329,17 +330,16 @@ class Polygon(
       holes(i) = normalized(holes(i), false)
       i += 1
     }
-    java.util.Arrays.sort(holes.map(x => x: AnyRef))
+    holes = holes.sorted
   }
 
-  protected def compareToSameClass(o: Geometry): Int = {
-    val thisShell  = shell
-    val otherShell = o.asInstanceOf[Polygon].shell
-    // BUG
-    thisShell.compareToSameClass(otherShell, null)
+  protected def compareToSameClass(o: AnyRef): Int = {
+    val thisShell: LinearRing  = shell
+    val otherShell: LinearRing = o.asInstanceOf[Polygon].shell
+    thisShell.compareToSameClass(otherShell)
   }
 
-  def compareToSameClass(o: Geometry, comp: CoordinateSequenceComparator): Int = {
+  def compareToSameClass(o: AnyRef, comp: CoordinateSequenceComparator): Int = {
     val poly       = o.asInstanceOf[Polygon]
     val thisShell  = shell
     val otherShell = poly.shell
@@ -360,7 +360,7 @@ class Polygon(
     return 0
   }
 
-  override protected def getSortIndex: Int = Geometry.SORTINDEX_POLYGON
+  override protected def getTypeCode: Int = Geometry.TYPECODE_POLYGON
 
   private def normalized(ring: LinearRing, clockwise: Boolean): LinearRing = {
     val res = ring.copy.asInstanceOf[LinearRing]
@@ -377,7 +377,7 @@ class Polygon(
   }
 
   /** @deprecated */
-  override def reverse: Geometry = super.reverse
+  override def reverse: Polygon = super.reverse.asInstanceOf[Polygon]
 
   override protected def reverseInternal: Polygon = {
     val shell = getExteriorRing.reverse.asInstanceOf[LinearRing]

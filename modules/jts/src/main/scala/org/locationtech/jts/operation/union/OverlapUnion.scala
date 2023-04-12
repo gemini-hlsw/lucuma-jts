@@ -30,7 +30,6 @@ import org.locationtech.jts.geom.CoordinateSequenceFilter
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.LineSegment
-import org.locationtech.jts.geom.TopologyException
 import org.locationtech.jts.geom.util.GeometryCombiner
 
 import java.util
@@ -76,8 +75,8 @@ object OverlapUnion {
    * @param g1
    *   a geometry to union return the union of the inputs
    */
-  def union(g0: Geometry, g1: Geometry): Geometry = {
-    val union = new OverlapUnion(g0, g1)
+  def union(g0: Geometry, g1: Geometry, unionFun: UnionStrategy): Geometry = {
+    val union = new OverlapUnion(g0, g1, unionFun)
     union.union
   }
 
@@ -97,12 +96,12 @@ object OverlapUnion {
    * @param g1
    *   a geometry return the union of the geometries
    */
-  private def unionBuffer(g0: Geometry, g1: Geometry): Geometry = {
-    val factory = g0.getFactory
-    val gColl   = factory.createGeometryCollection(Array[Geometry](g0, g1))
-    val union   = gColl.buffer(0.0)
-    union
-  }
+  // private def unionBuffer(g0: Geometry, g1: Geometry): Geometry = {
+  //   val factory = g0.getFactory
+  //   val gColl   = factory.createGeometryCollection(Array[Geometry](g0, g1))
+  //   val union   = gColl.buffer(0.0)
+  //   union
+  // }
 
   private def intersects(env: Envelope, p0: Coordinate, p1: Coordinate): Boolean =
     env.intersects(p0) || env.intersects(p1)
@@ -139,7 +138,7 @@ object OverlapUnion {
   })
 }
 
-class OverlapUnion(var g0: Geometry, var g1: Geometry) {
+class OverlapUnion(var g0: Geometry, var g1: Geometry, var unionFun: UnionStrategy) {
 
   /**
    * Creates a new instance for unioning the given geometries.
@@ -151,6 +150,8 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
    */
   private val geomFactory = g0.getFactory
   private var isUnionSafe = false
+
+  def this(g0: Geometry, g1: Geometry) = this(g0, g1, CascadedPolygonUnion.CLASSIC_UNION)
 
   /**
    * Unions the input geometries, using the more performant overlap union algorithm if possible.
@@ -217,14 +218,11 @@ class OverlapUnion(var g0: Geometry, var g1: Geometry) {
     geomFactory.buildGeometry(intersectingGeoms)
   }
 
-  private def unionFull(geom0: Geometry, geom1: Geometry): Geometry = try geom0.union(geom1)
-  catch {
-    case _: TopologyException =>
-      /**
-       * If the overlay union fails, try a buffer union, which often succeeds
-       */
-      OverlapUnion.unionBuffer(geom0, geom1)
-  }
+  private def unionFull(geom0: Geometry, geom1: Geometry): Geometry =
+    if (geom0.getNumGeometries == 0 && geom1.getNumGeometries == 0) geom0.copy
+    else {
+      unionFun.union(geom0, geom1)
+    }
 
   private def isBorderSegmentsSame(result: Geometry, env: Envelope) = {
     val segsBefore = extractBorderSegments(g0, g1, env)

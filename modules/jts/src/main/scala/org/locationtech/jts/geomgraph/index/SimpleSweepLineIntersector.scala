@@ -63,7 +63,7 @@ class SimpleSweepLineIntersector() extends EdgeSetIntersector {
     }
   }
 
-  private def add(edges: util.List[Edge], edgeSet: Any): Unit = {
+  private def add(edges: util.List[Edge], edgeSet: AnyRef): Unit = {
     val i = edges.iterator
     while (i.hasNext) {
       val edge = i.next
@@ -71,7 +71,7 @@ class SimpleSweepLineIntersector() extends EdgeSetIntersector {
     }
   }
 
-  private def add(edge: Edge, edgeSet: Any): Unit = {
+  private def add(edge: Edge, edgeSet: AnyRef): Unit = {
     val pts = edge.getCoordinates
     var i   = 0
     while (i < pts.length - 1) {

@@ -12,13 +12,11 @@
  *
  * http://www.eclipse.org/org/documents/edl-v10.php.
  */
-package org.locationtech.jts.geomgraph
+package org.locationtech.jts.geom
 
 /**
  * @version 1.7
  */
-
-import org.locationtech.jts.geom.Coordinate
 
 /**
  * Utility functions for working with quadrants, which are numbered as follows: <pre> 1 | 0
