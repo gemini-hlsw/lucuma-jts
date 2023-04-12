@@ -25,5 +25,5 @@ A small awt package is also included but that is just a copy of the awt package 
 It is only meant to be used on the JVM obviously
 
 ## History
-Original port done up to commit e5e52b64b5be06ad73932a49a7303a04d89d923a of JTS
-https://github.com/locationtech/jts/commit/e5e52b64b5be06ad73932a49a7303a04d89d923a
+Original port done up to commit 16023a11a6b96940fefc811399501296fe00f541 of JTS corresponding to version 1.18.0
+https://github.com/locationtech/jts/commit/16023a11a6b96940fefc811399501296fe00f541

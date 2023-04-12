@@ -40,7 +40,7 @@ object GeometryOverlay {
   /**
    * Currently the original JTS overlay implementation is the default
    */
-  var OVERLAY_NG_DEFAULT  = false
+  var OVERLAY_NG_DEFAULT  = true
   private var isOverlayNG = OVERLAY_NG_DEFAULT
 
   /**
