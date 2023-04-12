@@ -211,7 +211,7 @@ class OffsetCurveSetBuilder(
     if (offsetDistance == 0.0 && coord.length < LinearRing.MINIMUM_VALID_SIZE) return
     var leftLoc  = cwLeftLoc
     var rightLoc = cwRightLoc
-    if (coord.length >= LinearRing.MINIMUM_VALID_SIZE && Orientation.isCCW(coord)) {
+    if (coord.length >= LinearRing.MINIMUM_VALID_SIZE && Orientation.isCCWArea(coord)) {
       leftLoc = cwRightLoc
       rightLoc = cwLeftLoc
       side = Position.opposite(side)

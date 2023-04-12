@@ -119,7 +119,7 @@ object Orientation {
    *   a CoordinateSequence forming a ring return true if the ring is oriented counter-clockwise.
    *   throws IllegalArgumentException if there are too few points to determine orientation (&lt; 4)
    */
-  def isCCW(ring: CoordinateSequence): Boolean = {
+  def isCCW(ring: CoordinateSequence): Boolean    = {
     val nPts = ring.size - 1
     if (nPts < 3)
       throw new IllegalArgumentException(
@@ -197,4 +197,6 @@ object Orientation {
       delX < 0
     }
   }
+  def isCCWArea(ring: Array[Coordinate]): Boolean =
+    Area.ofRingSigned(ring) < 0
 }
