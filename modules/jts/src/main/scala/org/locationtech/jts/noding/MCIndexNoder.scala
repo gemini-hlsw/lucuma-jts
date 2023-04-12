@@ -44,6 +44,7 @@ object MCIndexNoder {
 
 }
 
+@Deprecated
 class MCIndexNoder(si: SegmentIntersector, overlapTolerance: Double = 0)
     extends SinglePassNoder[SegmentString](si) {
   private val monoChains                                      = new util.ArrayList[MonotoneChain]
