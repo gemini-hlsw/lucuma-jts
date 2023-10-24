@@ -69,8 +69,7 @@ class EdgeList() {
   /**
    * If the edge e is already in the list, return its index.
    *
-   * return index, if e is already in the list
-   * -1 otherwise
+   * return index, if e is already in the list -1 otherwise
    */
   def findEdgeIndex(e: Edge): Int = {
     var i = 0
