@@ -17,8 +17,8 @@ package org.locationtech.jts.io
 
 /**
  * An enumeration of possible Well-Known-Text or Well-Known-Binary ordinates. <p> Intended to be
- * used as an {@code EnumSet<Ordinate>}, optimized create methods have been provided for {@link #
- * createXY ( )}, {@link # createXYM ( )}, {@link # createXYZ ( )} and {@link # createXYZM ( )}.
+ * used as an {@code EnumSet<Ordinate>} , optimized create methods have been provided for {@link #
+ * createXY ( )}, {@link # createXYM ( )} , {@link # createXYZ ( )} and {@link # createXYZM ( )} .
  */
 object Ordinate extends Enumeration {
   type Ordinate = Value
