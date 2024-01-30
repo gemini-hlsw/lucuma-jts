@@ -80,7 +80,7 @@ class NodedSegmentString(val pts: Array[Coordinate], var data: Any)
   private val nodeList = new SegmentNodeList(this)
 
   /**
-   * Creates a new instance from a {@link SegmentString}.
+   * Creates a new instance from a {@link SegmentString} .
    *
    * @param segString
    *   the segment string to use

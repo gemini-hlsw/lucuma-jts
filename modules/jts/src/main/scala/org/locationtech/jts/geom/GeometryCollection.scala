@@ -272,7 +272,7 @@ class GeometryCollection(
    * Creates a {link GeometryCollection} with every component reversed. The order of the components
    * in the collection are not reversed.
    *
-   * return a { @link GeometryCollection} in the reverse order
+   * return a {@link GeometryCollection} in the reverse order
    */
   override def reverse: GeometryCollection = super.reverse.asInstanceOf[GeometryCollection]
 
