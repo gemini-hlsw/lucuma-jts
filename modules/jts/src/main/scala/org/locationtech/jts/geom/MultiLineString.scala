@@ -88,7 +88,7 @@ class MultiLineString(lineStrings: Array[LineString], factory: GeometryFactory)
    * Creates a {link MultiLineString} in the reverse order to this object. Both the order of the
    * component LineStrings and the order of their coordinate sequences are reversed.
    *
-   * return a { @link MultiLineString} in the reverse order
+   * return a {@link MultiLineString} in the reverse order
    * @deprecated
    */
   override def reverse: MultiLineString = super.reverse.asInstanceOf[MultiLineString]
