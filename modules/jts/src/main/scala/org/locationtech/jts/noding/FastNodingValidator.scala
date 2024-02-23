@@ -66,7 +66,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
    * Creates a new noding validator for a given set of linework.
    *
    * @param segStrings
-   *   a collection of { @link SegmentString}s
+   *   a collection of {@link SegmentString} s
    */
   private val li                               = new RobustLineIntersector
   private var findAllIntersections             = false

@@ -169,9 +169,9 @@ object CoordinateArrays {
    * Finds a point in a list of points which is not contained in another list of points
    *
    * @param testPts
-   *   the { @link Coordinate}s to test
+   *   the {@link Coordinate} s to test
    * @param pts
-   *   an array of { @link Coordinate}s to test the input points against return a { @link
+   *   an array of {@link Coordinate} s to test the input points against return a { @link
    *   Coordinate} from <code>testPts</code> which is not in <code>pts</code>, ' or
    *   <code>null</code>
    */
@@ -514,8 +514,8 @@ object CoordinateArrays {
 
   /**
    * Shifts the positions of the coordinates until the coordinate at
-   * <code>indexOfFirstCoordinate</code> is first. <p/> If {@code ensureRing} is {@code true}, first
-   * and last coordinate of the returned array are equal.
+   * <code>indexOfFirstCoordinate</code> is first. <p/> If {@code ensureRing} is {@code true} ,
+   * first and last coordinate of the returned array are equal.
    *
    * @param coordinates
    *   the array to rearrange
