@@ -19,8 +19,8 @@ package org.locationtech.jts.geom
  */
 
 /**
- * Utility functions for working with quadrants, which are numbered as follows: <pre> 1 | 0
- * --+-- 2 | 3 </pre>
+ * Utility functions for working with quadrants, which are numbered as follows: <pre> 1 | 0 --+-- 2
+ * \| 3 </pre>
  *
  * @version 1.7
  */
