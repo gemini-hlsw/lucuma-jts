@@ -18,9 +18,8 @@ import org.locationtech.jts.geom.Coordinate
 
 /**
  * Methods for computing and working with octants of the Cartesian plane Octants are numbered as
- * follows: <pre> \2|1/ 3 \|/ 0
- * ---+-- 4 /|\ 7 /5|6\ </pre> If line segments lie along a coordinate axis, the octant is the lower
- * of the two possible values.
+ * follows: <pre> \2|1/ 3 \|/ 0 ---+-- 4 /|\ 7 /5|6\ </pre> If line segments lie along a coordinate
+ * axis, the octant is the lower of the two possible values.
  *
  * @version 1.7
  */
