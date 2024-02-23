@@ -120,8 +120,8 @@ class Centroid(val geom: Geometry) {
   def getCentroid: Coordinate = {
 
     /**
-     * The centroid is computed from the highest dimension components present in the input.
-     * I.e. areas dominate lineal geometry, which dominates points. Degenerate geometry are computed
+     * The centroid is computed from the highest dimension components present in the input. I.e.
+     * areas dominate lineal geometry, which dominates points. Degenerate geometry are computed
      * using their effective dimension (e.g. areas may degenerate to lines or points)
      */
     val cent = new Coordinate
