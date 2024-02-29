@@ -120,12 +120,11 @@ class EdgeEndBundle(val boundaryNodeRule: BoundaryNodeRule, val e: EdgeEnd) /*
    * To compute the summary label for a side, the algorithm is: FOR all edges IF any edge's location
    * is INTERIOR for the side, side location = INTERIOR ELSE IF there is at least one EXTERIOR
    * attribute, side location = EXTERIOR ELSE side location = NULL <br> Note that it is possible for
-   * two sides to have apparently contradictory information
-   * i.e. one edge side may indicate that it is in the interior of a geometry, while another edge
-   * side may indicate the exterior of the same geometry. This is not an incompatibility -
-   * GeometryCollections may contain two Polygons that touch along an edge. This is the reason for
-   * Interior-primacy rule above - it results in the summary label having the Geometry interior on
-   * <b>both</b> sides.
+   * two sides to have apparently contradictory information i.e. one edge side may indicate that it
+   * is in the interior of a geometry, while another edge side may indicate the exterior of the same
+   * geometry. This is not an incompatibility - GeometryCollections may contain two Polygons that
+   * touch along an edge. This is the reason for Interior-primacy rule above - it results in the
+   * summary label having the Geometry interior on <b>both</b> sides.
    */
   private def computeLabelSide(geomIndex: Int, side: Int): Unit = {
     val it = iterator
