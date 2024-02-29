@@ -299,7 +299,7 @@ abstract class Geometry(
    * The returned coordinate should not be assumed to be an actual Coordinate object used in the
    * internal representation.
    *
-   * return a { @link Coordinate} which is a vertex of this <code>Geometry</code>. return null if
+   * return a {@link Coordinate} which is a vertex of this <code>Geometry</code>. return null if
    * this Geometry is empty
    */
   def getCoordinate: Coordinate
@@ -422,7 +422,7 @@ abstract class Geometry(
    * contribute zero "weight" to the centroid). <p> The centroid of an empty geometry is <code>POINT
    * EMPTY</code>.
    *
-   * return a { @link Point} which is the centroid of this Geometry
+   * return a {@link Point} which is the centroid of this Geometry
    */
   def getCentroid: Point = {
     if (isEmpty) return factory.createPoint
@@ -436,7 +436,7 @@ abstract class Geometry(
    * Otherwise, the point may lie on the boundary of the geometry. <p> The interior point of an
    * empty geometry is <code>POINT EMPTY</code>.
    *
-   * return a { @link Point} which is in the interior of this Geometry
+   * return a {@link Point} which is in the interior of this Geometry
    */
   def getInteriorPoint: Point = {
     if (isEmpty) return factory.createPoint

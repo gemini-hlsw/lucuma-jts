@@ -25,8 +25,8 @@ import org.locationtech.jts.noding.SegmentString
  */
 
 /**
- * "Snaps" all {@link SegmentString}s in a {@link SpatialIndex} containing {@link MonotoneChain}s to
- * a given {@link HotPixel}.
+ * "Snaps" all {@link SegmentString} s in a {@link SpatialIndex} containing {@link MonotoneChain} s
+ * to a given {@link HotPixel} .
  *
  * @version 1.7
  */
