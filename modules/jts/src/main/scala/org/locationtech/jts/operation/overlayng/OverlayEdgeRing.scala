@@ -122,7 +122,7 @@ class OverlayEdgeRing(var startEdge: OverlayEdge, val geometryFactory: GeometryF
    * once only and cached.
    *
    * @return
-   *   an array of the {@link Coordinate}s in this ring
+   *   an array of the {@link Coordinate} s in this ring
    */
   private def getCoordinates = ringPts
 
