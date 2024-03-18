@@ -57,7 +57,7 @@ class PackedCoordinateSequenceFactory(val `type`: Int)
 
 /**
  * Creates a new PackedCoordinateSequenceFactory of the given type. Acceptable type values are
- * {@linkplain PackedCoordinateSequenceFactory# FLOAT}or {@linkplain
+ * {@linkplain PackedCoordinateSequenceFactory# FLOAT} or {@linkplain
  * PackedCoordinateSequenceFactory# DOUBLE}
  */
     extends CoordinateSequenceFactory
