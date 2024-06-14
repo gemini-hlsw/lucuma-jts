@@ -368,7 +368,7 @@ class GeometryFactory(
    *   an array (without null elements), or an empty array, or <code>null</code> return a MultiPoint
    *   object
    * @deprecated
-   *   Use { @link GeometryFactory#createMultiPointFromCoords} instead
+   *   Use {@link GeometryFactory#createMultiPointFromCoords} instead
    */
   def createMultiPoint(coordinates: Array[Coordinate]): MultiPoint = createMultiPoint(
     if (coordinates != null) getCoordinateSequenceFactory.create(coordinates)

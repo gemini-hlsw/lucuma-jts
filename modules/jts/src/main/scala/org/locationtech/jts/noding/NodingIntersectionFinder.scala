@@ -238,7 +238,7 @@ class NodingIntersectionFinder(var li: LineIntersector)
   /**
    * Gets the intersections found.
    *
-   * return a List of { @link Coordinate}
+   * return a List of {@link Coordinate}
    */
   def getIntersections: util.ArrayList[_] = intersections
 
