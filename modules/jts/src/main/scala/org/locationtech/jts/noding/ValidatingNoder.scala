@@ -6,7 +6,7 @@ package org.locationtech.jts.noding
 import java.util
 
 /**
- * A wrapper for {@link Noder}s which validates the output arrangement is correctly noded. An
+ * A wrapper for {@link Noder} s which validates the output arrangement is correctly noded. An
  * arrangement of line segments is fully noded if there is no line segment which has another segment
  * intersecting its interior. If the noding is not correct, a {@link TopologyException} is thrown
  * with details of the first invalid location found.

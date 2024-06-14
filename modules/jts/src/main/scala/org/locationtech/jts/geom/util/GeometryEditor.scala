@@ -201,7 +201,7 @@ class GeometryEditor(var factory: GeometryFactory) {
    * @param geometry
    *   the Geometry to edit
    * @param operation
-   *   the edit operation to carry out return a new { @link Geometry} which is the result of the
+   *   the edit operation to carry out return a new {@link Geometry} which is the result of the
    *   editing (which may be empty)
    */
   def edit(geometry: Geometry, operation: GeometryEditor.GeometryEditorOperation): Geometry = { // nothing to do
