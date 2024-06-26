@@ -16,7 +16,7 @@ package org.locationtech.jts.index.kdtree
  */
 
 /**
- * A visitor for {@link KdNode}s in a {@link KdTree} index.
+ * A visitor for {@link KdNode} s in a {@link KdTree} index.
  *
  * @version 1.7
  */

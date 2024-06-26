@@ -51,7 +51,7 @@ import java.util
  * topology, and it happens in the overlay in any case. This can substantially reduce the number of
  * vertices which need to be processed during overlay. <p> This optimization is only applicable to
  * Line geometries, since it does not maintain the closed topology of rings. Polygonal geometries
- * are optimized using the {@link RingClipper}.
+ * are optimized using the {@link RingClipper} .
  *
  * @author
  *   Martin Davis

@@ -24,7 +24,7 @@ import scala.jdk.CollectionConverters._
  */
 
 /**
- * Implements the logic to compute the full labeling for the edges in an {@link OverlayGraph}.
+ * Implements the logic to compute the full labeling for the edges in an {@link OverlayGraph} .
  *
  * @author
  *   mdavis

@@ -26,8 +26,8 @@ import scala.jdk.CollectionConverters._
  */
 
 /**
- * An index which creates {@link HotPixel}s for provided points, and allows performing range queries
- * on them.
+ * An index which creates {@link HotPixel} s for provided points, and allows performing range
+ * queries on them.
  *
  * @author
  *   mdavis
@@ -133,7 +133,7 @@ class HotPixelIndex(var precModel: PrecisionModel) {
 object HotPixelIndex {
 
   /**
-   * Utility class to shuffle an array of {@link Coordinate}s using the Fisher-Yates shuffle
+   * Utility class to shuffle an array of {@link Coordinate} s using the Fisher-Yates shuffle
    * algorithm
    *
    * @see
@@ -145,7 +145,7 @@ object HotPixelIndex {
    * Creates an instance of this class
    *
    * @param pts
-   *   An array of {@link Coordinate}s.
+   *   An array of {@link Coordinate} s.
    */
       extends util.Iterator[Coordinate] {
     final private val rnd = new Random(13)

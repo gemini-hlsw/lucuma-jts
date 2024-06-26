@@ -60,9 +60,9 @@ object Orientation {
    * @param p2
    *   the final point of the line vector
    * @param q
-   *   the point to compute the direction to return -1 ( { @link #CLOCKWISE} or { @link #RIGHT} ) if
-   *   q is clockwise (right) from p1-p2; 1 ( { @link #COUNTERCLOCKWISE} or { @link #LEFT} ) if q is
-   *   counter-clockwise (left) from p1-p2; 0 ( { @link #COLLINEAR} or { @link #STRAIGHT} ) if q is
+   *   the point to compute the direction to return -1 ( {@link #CLOCKWISE} or {@link #RIGHT} ) if q
+   *   is clockwise (right) from p1-p2; 1 ( {@link #COUNTERCLOCKWISE} or {@link #LEFT} ) if q is
+   *   counter-clockwise (left) from p1-p2; 0 ( {@link #COLLINEAR} or {@link #STRAIGHT} ) if q is
    *   collinear with p1-p2
    */
   def index(p1: Coordinate, p2: Coordinate, q: Coordinate): Int =
