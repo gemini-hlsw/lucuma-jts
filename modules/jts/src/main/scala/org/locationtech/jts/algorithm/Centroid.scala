@@ -120,8 +120,8 @@ class Centroid(val geom: Geometry) {
   def getCentroid: Coordinate = {
 
     /**
-     * The centroid is computed from the highest dimension components present in the input.
-     * I.e. areas dominate lineal geometry, which dominates points. Degenerate geometry are computed
+     * The centroid is computed from the highest dimension components present in the input. I.e.
+     * areas dominate lineal geometry, which dominates points. Degenerate geometry are computed
      * using their effective dimension (e.g. areas may degenerate to lines or points)
      */
     val cent = new Coordinate
@@ -200,7 +200,7 @@ class Centroid(val geom: Geometry) {
    * Adds the line segments defined by an array of coordinates to the linear centroid accumulators.
    *
    * @param pts
-   *   an array of { @link Coordinate}s
+   *   an array of {@link Coordinate} s
    */
   private def addLineSegments(pts: Array[Coordinate]): Unit = {
     var lineLen = 0.0
@@ -225,7 +225,7 @@ class Centroid(val geom: Geometry) {
    * Adds a point to the point centroid accumulator.
    *
    * @param pt
-   *   a { @link Coordinate}
+   *   a {@link Coordinate}
    */
   private def addPoint(pt: Coordinate): Unit = {
     ptCount += 1
