@@ -23,7 +23,7 @@ import org.locationtech.jts.operation.union.UnionStrategy
  */
 
 /**
- * Performs an overlay operation using {@link OverlayNG}, providing full robustness by using a
+ * Performs an overlay operation using {@link OverlayNG} , providing full robustness by using a
  * series of increasingly robust (but slower) noding strategies. <p> The noding strategies used are:
  * <ol> <li>A simple, fast noder using FLOATING precision. <li>A {@link SnappingNoder} using an
  * automatically-determined snap tolerance <li>First snapping each geometry to itself, and then
@@ -139,7 +139,7 @@ object OverlayNGRobust {
   }
 
   /**
-   * Attempt overlay using a {@link SnappingNoder}.
+   * Attempt overlay using a {@link SnappingNoder} .
    *
    * @param geom0
    * @param geom1
