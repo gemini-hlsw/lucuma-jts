@@ -20,9 +20,9 @@ import org.locationtech.jts.geom.Position
 
 /**
  * A structure recording the topological situation for an edge in a topology graph used during
- * overlay processing. A label contains the topological {@link Location}s for one or two input
+ * overlay processing. A label contains the topological {@link Location} s for one or two input
  * geometries to an overlay operation. An input geometry may be either a Line or an Area. The label
- * locations for each input geometry are populated with the {@Location }s for the edge {@link
+ * locations for each input geometry are populated with the {@Location} s for the edge {@link
  * Position}s when they are created or once they are computed by topological evaluation. A label
  * also records the (effective) dimension of each input geometry. For area edges the role (shell or
  * hole) of the originating ring is recorded, to allow determination of edge handling in collapse
@@ -321,7 +321,7 @@ class OverlayLabel() {
   /**
    * Sets the location for a collapsed edge (the Line position) for an input geometry, depending on
    * the ring role recorded in the label. If the input geometry edge is from a shell, the location
-   * is {@link Location# EXTERIOR}, if it is a hole it is {@link Location# INTERIOR}.
+   * is {@link Location# EXTERIOR} , if it is a hole it is {@link Location# INTERIOR} .
    *
    * @param index
    *   the index of the input geometry
@@ -543,7 +543,7 @@ class OverlayLabel() {
     return dimension(index) == OverlayLabel.DIM_COLLAPSE
 
   /**
-   * Tests if a label is a Collapse has location {@link Location# INTERIOR}, to at least one source
+   * Tests if a label is a Collapse has location {@link Location# INTERIOR} , to at least one source
    * geometry.
    *
    * @return
