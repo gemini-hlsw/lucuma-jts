@@ -140,7 +140,7 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
   /**
    * Gets a {link LineString} which is a minimum diameter
    *
-   * return a { @link LineString} which is a minimum diameter
+   * return a {@link LineString} which is a minimum diameter
    */
   def getDiameter: LineString = {
     computeMinimumDiameter()

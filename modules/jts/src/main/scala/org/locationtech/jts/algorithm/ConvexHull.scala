@@ -129,8 +129,8 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
    * geometry contains the minimal number of points needed to represent the convex hull. In
    * particular, no more than two consecutive points will be collinear.
    *
-   * return if the convex hull contains 3 or more points, a { @link Polygon}; 2 points, a { @link
-   * LineString}; 1 point, a { @link Point}; 0 points, an empty { @link GeometryCollection}.
+   * return if the convex hull contains 3 or more points, a {@link Polygon} ; 2 points, a { @link
+   * LineString}; 1 point, a {@link Point} ; 0 points, an empty {@link GeometryCollection} .
    */
   def getConvexHull: Geometry = {
     if (inputPts.length == 0) {
