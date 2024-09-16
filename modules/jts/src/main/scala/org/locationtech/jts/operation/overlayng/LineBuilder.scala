@@ -189,8 +189,8 @@ class LineBuilder(
     }
 
     /**
-     * Omit edge which is a collapse along a boundary.
-     * I.e a result line edge must be from a input line OR two coincident area boundaries.
+     * Omit edge which is a collapse along a boundary. I.e a result line edge must be from a input
+     * line OR two coincident area boundaries.
      *
      * This logic is only used if not including collapse lines in result.
      */

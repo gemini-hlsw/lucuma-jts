@@ -110,7 +110,7 @@ object CGAlgorithms {
    *   point to check for ring inclusion
    * @param ring
    *   an array of coordinates representing the ring (which must have first point identical to last
-   *   point) return the { @link Location} of p relative to the ring
+   *   point) return the {@link Location} of p relative to the ring
    */
   def locatePointInRing(p: Coordinate, ring: Array[Coordinate]): Int =
     RayCrossingCounter.locatePointInRing(p, ring)

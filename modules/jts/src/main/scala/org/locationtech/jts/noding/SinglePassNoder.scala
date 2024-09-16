@@ -45,7 +45,7 @@ abstract class SinglePassNoder[A](var segInt: SegmentIntersector) extends Noder[
    * the input SegmentStrings; others may only add some or none at all.
    *
    * @param segStrings
-   *   a collection of { @link SegmentString}s to node
+   *   a collection of {@link SegmentString} s to node
    */
   override def computeNodes(segStrings: util.Collection[A]): Unit
 
