@@ -78,7 +78,7 @@ object GeometryExtracter {
 
   /**
    * Extracts the components of <tt>geometryType</tt> from a {@link Geometry} and adds them to the
-   * provided {@link List}.
+   * provided {@link List} .
    *
    * @param geom
    *   the geometry from which to extract
