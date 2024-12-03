@@ -292,7 +292,7 @@ object CoordinateSequences {
 
   /**
    * Returns the index of the minimum coordinate of a part of the coordinate sequence (defined by
-   * {@code from} and {@code to}, using the usual lexicographic comparison.
+   * {@code from} and {@code to} , using the usual lexicographic comparison.
    *
    * @param seq
    *   the coordinate sequence to search
@@ -357,7 +357,7 @@ object CoordinateSequences {
    * @param indexOfFirstCoordinate
    *   the index of the coordinate to make first
    * @param ensureRing
-   *   makes sure that { @code } will be a closed ring upon exit
+   *   makes sure that {@code} will be a closed ring upon exit
    */
   def scroll(seq: CoordinateSequence, indexOfFirstCoordinate: Int, ensureRing: Boolean): Unit = {
     val i    = indexOfFirstCoordinate
