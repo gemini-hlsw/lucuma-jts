@@ -128,7 +128,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   /**
    * Creates a {link LineString} whose coordinates are in the reverse order of this objects
    *
-   * return a { @link LineString} with coordinates in the reverse order
+   * return a {@link LineString} with coordinates in the reverse order
    * @deprecated
    */
   override def reverse: LineString = super.reverse.asInstanceOf[LineString]

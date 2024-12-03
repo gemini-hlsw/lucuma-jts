@@ -27,7 +27,7 @@ import org.locationtech.jts.geom.Polygon
  * Computes a robust clipping envelope for a pair of polygonal geometries. The envelope is computed
  * to be large enough to include the full length of all geometry line segments which intersect a
  * given target envelope. This ensures that line segments which might intersect are not perturbed
- * when clipped using {@link RingClipper}.
+ * when clipped using {@link RingClipper} .
  *
  * @author
  *   Martin Davis
