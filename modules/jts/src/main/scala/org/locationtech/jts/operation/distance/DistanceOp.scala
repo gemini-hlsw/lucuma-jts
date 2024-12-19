@@ -31,7 +31,7 @@ import org.locationtech.jts.geom.util.PolygonExtracter
 import java.util
 
 /**
- * Find two points on two {@link Geometry}s which lie within a given distance, or else are the
+ * Find two points on two {@link Geometry} s which lie within a given distance, or else are the
  * nearest points on the geometries (in which case this also provides the distance between the
  * geometries). <p> The distance computation also finds a pair of points in the input geometries
  * which have the minimum distance between them. If a point lies in the interior of a line segment,
@@ -171,7 +171,7 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
    * in the same order as the input Geometries.
    *
    * @return
-   *   a pair of {@link Coordinate}s of the nearest points
+   *   a pair of {@link Coordinate} s of the nearest points
    */
   def nearestPoints: Array[Coordinate] = {
     computeMinDistance()
@@ -182,7 +182,7 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
 
   /**
    * @return
-   *   a pair of {@link Coordinate}s of the nearest points
+   *   a pair of {@link Coordinate} s of the nearest points
    * @deprecated
    *   renamed to nearestPoints
    */
@@ -194,7 +194,7 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
    * in the same order as the input Geometries.
    *
    * @return
-   *   a pair of {@link GeometryLocation}s for the nearest points
+   *   a pair of {@link GeometryLocation} s for the nearest points
    */
   def nearestLocations: Array[GeometryLocation] = {
     computeMinDistance()
@@ -203,7 +203,7 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
 
   /**
    * @return
-   *   a pair of {@link GeometryLocation}s for the nearest points
+   *   a pair of {@link GeometryLocation} s for the nearest points
    * @deprecated
    *   renamed to nearestLocations
    */
