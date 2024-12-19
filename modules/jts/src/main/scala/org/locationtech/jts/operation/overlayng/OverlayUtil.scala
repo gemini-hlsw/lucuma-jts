@@ -73,7 +73,7 @@ object OverlayUtil {
    * Computes a clipping envelope for overlay input geometries. The clipping envelope encloses all
    * geometry line segments which might participate in the overlay, with a buffer to account for
    * numerical precision (in particular, rounding due to a precision model. The clipping envelope is
-   * used in both the {@link RingClipper} and in the {@link LineLimiter}. <p> Some overlay
+   * used in both the {@link RingClipper} and in the {@link LineLimiter} . <p> Some overlay
    * operations (i.e. {@link OverlayNG# UNION and OverlayNG#SYMDIFFERENCE} cannot use clipping as an
    * optimization, since the result envelope is the full extent of the two input geometries. In this
    * case the returned envelope is <code>null</code> to indicate this.
