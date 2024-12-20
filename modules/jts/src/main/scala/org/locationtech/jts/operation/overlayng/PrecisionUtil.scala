@@ -26,7 +26,7 @@ import org.locationtech.jts.math.MathUtil
 /**
  * Functions for computing precision model scale factors that ensure robust geometry operations. In
  * particular, these can be used to automatically determine appropriate scale factors for operations
- * using limited-precision noding (such as {@link OverlayNG}). <p> WARNING: the
+ * using limited-precision noding (such as {@link OverlayNG} ). <p> WARNING: the
  * <code>inherentScale</code> and <code>robustScale</code> functions can be very slow, due to the
  * method used to determine number of decimal places of a number. These are not recommended for
  * production use.
