@@ -31,7 +31,7 @@ import scala.jdk.CollectionConverters._
  */
 
 /**
- * Computes the geometric overlay of two {@link Geometry}s, using an explicit precision model to
+ * Computes the geometric overlay of two {@link Geometry} s, using an explicit precision model to
  * allow robust computation. The overlay can be used to determine any of the following set-theoretic
  * operations (boolean combinations) of the geometries: <ul> <li>{@link INTERSECTION} - all points
  * which lie in both geometries <li>{@link UNION} - all points which lie in at least one geometry
@@ -42,12 +42,12 @@ import scala.jdk.CollectionConverters._
  * precision model of the input geometry. The main use for this is to allow using a fixed precision
  * for geometry with a floating precision model. This does two things: ensures robust computation;
  * and forces the output to be validly rounded to the precision model. <p> For fixed precision
- * models noding is performed using a {@link SnapRoundingNoder}. This provides robust computation
+ * models noding is performed using a {@link SnapRoundingNoder} . This provides robust computation
  * (as long as precision is limited to around 13 decimal digits). <p> For floating precision an
  * {@link MCIndexNoder} is used. This is not fully robust, so can sometimes result in {@link
- * TopologyException}s being thrown. For robust full-precision overlay see {@link OverlayNGRobust}.
+ * TopologyException}s being thrown. For robust full-precision overlay see {@link OverlayNGRobust} .
  * <p> A custom {@link Noder} can be supplied. This allows using a more performant noding strategy
- * in specific cases, for instance in {@link CoverageUnion}. <p> <b>Note:</b If a {@link
+ * in specific cases, for instance in {@link CoverageUnion} . <p> <b>Note:</b If a {@link
  * SnappingNoder} is used it is best to specify a fairly small snap tolerance, since the
  * intersection clipping optimization can interact with the snapping to alter the result. <p>
  * Optionally the overlay computation can process using strict mode (via {@link # setStrictMode (
@@ -113,7 +113,7 @@ object OverlayNG {
   }
 
   /**
-   * Tests whether a point with given {@link Location}s relative to two geometries would be
+   * Tests whether a point with given {@link Location} s relative to two geometries would be
    * contained in the result of overlaying the geometries using a given overlay operation. This is
    * used to determine whether components computed during the overlay process should be included in
    * the result geometry. <p> The method handles arguments of {@link Location# NONE} correctly.
@@ -165,7 +165,7 @@ object OverlayNG {
   }
 
   /**
-   * Computes an overlay operation on the given geometry operands, using a supplied {@link Noder}.
+   * Computes an overlay operation on the given geometry operands, using a supplied {@link Noder} .
    *
    * @param geom0
    *   the first geometry argument
@@ -194,7 +194,7 @@ object OverlayNG {
   }
 
   /**
-   * Computes an overlay operation on the given geometry operands, using a supplied {@link Noder}.
+   * Computes an overlay operation on the given geometry operands, using a supplied {@link Noder} .
    *
    * @param geom0
    *   the first geometry argument
@@ -245,7 +245,7 @@ object OverlayNG {
    * Computes a union operation on the given geometry, with the supplied precision model. The
    * primary use for this is to perform precision reduction (round the geometry to the supplied
    * precision). <p> The input must be a valid geometry. Collections must be homogeneous. <p> To
-   * union an overlapping set of polygons in a more performant way use {@link UnaryUnionNG}. To
+   * union an overlapping set of polygons in a more performant way use {@link UnaryUnionNG} . To
    * union a polyonal coverage or linear network in a more performant way, use {@link
    * CoverageUnion}.
    *
