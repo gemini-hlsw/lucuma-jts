@@ -56,7 +56,7 @@ class PointLocator(boundaryRule: BoundaryNodeRule = BoundaryNodeRule.OGC_SFS_BOU
    * handles both single-element and multi-element Geometries. The algorithm for multi-part
    * Geometries takes into account the SFS Boundary Determination Rule.
    *
-   * return the { @link Location} of the point relative to the input Geometry
+   * return the {@link Location} of the point relative to the input Geometry
    */
   def locate(p: Coordinate, geom: Geometry): Int = {
     if (geom.isEmpty) return Location.EXTERIOR

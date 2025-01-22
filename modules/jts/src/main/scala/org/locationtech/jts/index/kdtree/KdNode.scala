@@ -18,7 +18,7 @@ import org.locationtech.jts.geom.Coordinate
  */
 
 /**
- * A node of a {@link KdTree}, which represents one or more points in the same location.
+ * A node of a {@link KdTree} , which represents one or more points in the same location.
  *
  * @author
  *   dskea
