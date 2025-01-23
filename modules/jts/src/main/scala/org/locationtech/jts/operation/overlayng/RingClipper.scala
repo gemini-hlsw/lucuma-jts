@@ -27,9 +27,9 @@ import org.locationtech.jts.geom.Envelope
  * coincident linework due to the need to handle topology collapse under precision reduction). <p>
  * Because of the likelihood of creating extraneous line segments along the clipping rectangle
  * sides, this class is not suitable for clipping linestrings. <p> The clipping envelope should be
- * generated using {@link RobustClipEnvelopeComputer}, to ensure that intersecting line segments are
- * not perturbed by clipping. This is required to ensure that the overlay of the clipped geometry is
- * robust and correct (i.e. the same as if clipping was not used).
+ * generated using {@link RobustClipEnvelopeComputer} , to ensure that intersecting line segments
+ * are not perturbed by clipping. This is required to ensure that the overlay of the clipped
+ * geometry is robust and correct (i.e. the same as if clipping was not used).
  *
  * @see
  *   LineLimiter

@@ -193,7 +193,7 @@ class OffsetCurveSetBuilder(
    * @param offsetDistance
    *   the positive distance at which to create the buffer
    * @param side
-   *   the side { @link Position} of the ring on which to construct the buffer line
+   *   the side {@link Position} of the ring on which to construct the buffer line
    * @param cwLeftLoc
    *   the location on the L side of the ring (if it is CW)
    * @param cwRightLoc
