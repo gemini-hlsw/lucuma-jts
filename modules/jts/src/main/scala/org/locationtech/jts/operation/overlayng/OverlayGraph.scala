@@ -22,7 +22,7 @@ import scala.jdk.CollectionConverters._
 
 /**
  * A planar graph of edges, representing the topology resulting from an overlay operation. Each
- * source edge is represented by a pair of {@link OverlayEdge}s, with opposite (symmetric)
+ * source edge is represented by a pair of {@link OverlayEdge} s, with opposite (symmetric)
  * orientation. The pair of OverlayEdges share the edge coordinates and a single {@link
  * OverlayLabel}.
  *
@@ -39,7 +39,7 @@ class OverlayGraph() {
 
   /**
    * Gets the set of edges in this graph. Only one of each symmetric pair of OverlayEdges is
-   * included. The opposing edge can be found by using {@link OverlayEdge# sym ( )}.
+   * included. The opposing edge can be found by using {@link OverlayEdge# sym ( )} .
    *
    * @return
    *   the collection of representative edges in this graph
@@ -86,7 +86,7 @@ class OverlayGraph() {
 
   /**
    * Adds a new edge to this graph, for the given linework and topology information. A pair of
-   * {@link OverlayEdge}s with opposite (symmetric) orientation is added, sharing the same {@link
+   * {@link OverlayEdge} s with opposite (symmetric) orientation is added, sharing the same {@link
    * OverlayLabel}.
    *
    * @param pts
