@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -37,11 +37,10 @@ import java.io.Serializable
  * <p> For example, the following code example constructs three DD instances: two to hold the input
  * values and one to hold the result of the addition. <pre> DD a = new DD(2.0); DD b = new DD(3.0);
  * DD c = a.add(b); </pre> In contrast, the following approach uses only one object: <pre> DD a =
- * new DD(2.0);
- * a.selfAdd(3.0); </pre> <p> This implementation uses algorithms originally designed variously by
- * Knuth, Kahan, Dekker, and Linnainmaa. Douglas Priest developed the first C implementation of
- * these techniques. Other more recent C++ implementation are due to Keith M. Briggs and David
- * Bailey et al.
+ * new DD(2.0); a.selfAdd(3.0); </pre> <p> This implementation uses algorithms originally designed
+ * variously by Knuth, Kahan, Dekker, and Linnainmaa. Douglas Priest developed the first C
+ * implementation of these techniques. Other more recent C++ implementation are due to Keith M.
+ * Briggs and David Bailey et al.
  *
  * <h3>References</h3> <ul> <li>Priest, D., <i>Algorithms for Arbitrary Precision Floating Point
  * Arithmetic</i>, in P. Kornerup and D. Matula, Eds., Proc. 10th Symposium on Computer Arithmetic,
@@ -910,7 +909,7 @@ object DD {
   /**
    * The value to split a double-precision value on during multiplication
    */
-  private val SPLIT = 134217729.0d // 2^27+1, for IEEE double
+  private val SPLIT    = 134217729.0d // 2^27+1, for IEEE double
   /**
    * Creates a new DoubleDouble with the value of the argument.
    *

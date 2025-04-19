@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -34,7 +34,7 @@ object HCoordinate {
    * to this routine.
    *
    * @deprecated
-   *   use { @link Intersection#intersection(Coordinate, Coordinate, Coordinate, Coordinate)}
+   *   use {@link Intersection#intersection(Coordinate, Coordinate, Coordinate, Coordinate)}
    */
   @throws[NotRepresentableException]
   def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Coordinate = { // unrolled computation

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -33,20 +33,20 @@ import java.util
 abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFactory) {
   protected var startDe: DirectedEdge =
     null // the directed edge which starts the list of edges for this EdgeRing
-  private var maxNodeDegree = -1
-  private val edges         = new util.ArrayList[DirectedEdge] // the DirectedEdges making up this EdgeRing
-  private val pts           = new util.ArrayList[Coordinate]
-  private val label         =
+  private var maxNodeDegree    = -1
+  private val edges            = new util.ArrayList[DirectedEdge] // the DirectedEdges making up this EdgeRing
+  private val pts              = new util.ArrayList[Coordinate]
+  private val label            =
     new Label(
       Location.NONE
     ) // label stores the locations of each geometry on the face surrounded by this ring
-  private var ring: LinearRing = null // the ring created for this EdgeRing
+  private var ring: LinearRing = null                             // the ring created for this EdgeRing
   private var visHole          = false
   private var shell: EdgeRing  =
     null // if non-null, the ring is a hole and this EdgeRing is its containing shell
-  private val holes =
+  private val holes            =
     new util.ArrayList[EdgeRing] // a list of EdgeRings which are holes in this EdgeRing
-  def isIsolated: Boolean = label.getGeometryCount == 1
+  def isIsolated: Boolean      = label.getGeometryCount == 1
   computePoints(start)
   computeRing()
 

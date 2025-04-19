@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -42,10 +42,10 @@ class DirectedEdge(val edg: Edge, var visForward: Boolean) extends EdgeEnd(edg) 
     val n = edge.getNumPoints - 1
     init(edge.getCoordinate(n), edge.getCoordinate(n - 1))
   }
-  private var visInResult        = false
-  private var visVisited         = false
-  private var sym: DirectedEdge  = null // the symmetric edge
-  private var next: DirectedEdge =
+  private var visInResult           = false
+  private var visVisited            = false
+  private var sym: DirectedEdge     = null // the symmetric edge
+  private var next: DirectedEdge    =
     null // the next edge in the edge ring for the polygon containing this edge
   private var nextMin: DirectedEdge =
     null // the next edge in the MinimalEdgeRing that contains this edge

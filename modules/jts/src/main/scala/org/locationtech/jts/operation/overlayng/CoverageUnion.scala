@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -19,11 +19,11 @@ import org.locationtech.jts.noding.SegmentExtractingNoder
 
 /**
  * Unions a valid coverage of polygons or lines in an efficient way. <p> A valid polygonal coverage
- * is a collection of {@link Polygon}s which satisfy the following conditions: <ol>
+ * is a collection of {@link Polygon} s which satisfy the following conditions: <ol>
  * <li><b>Vector-clean</b> - Line segments within the collection must either be identical or
  * intersect only at endpoints. <li><b>Non-overlapping</b> - No two polygons may overlap.
  * Equivalently, polygons must be interior-disjoint. </ol> <p> A valid linear coverage is a
- * collection of {@link LineString}s which satisfies the <b>Vector-clean</b> condition. Note that
+ * collection of {@link LineString} s which satisfies the <b>Vector-clean</b> condition. Note that
  * this does not require the LineStrings to be fully noded
  *   - i.e. they may contain coincident linework. Coincident line segments are dissolved by the
  *     union. Currently linear output is not merged (this may be added in a future release.) <p>

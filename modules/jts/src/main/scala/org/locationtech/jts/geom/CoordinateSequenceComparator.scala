@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -74,9 +74,9 @@ class CoordinateSequenceComparator(dimensionLimit: Int = Int.MaxValue)
    * Compares two {link CoordinateSequence}s for relative order.
    *
    * @param o1
-   *   a { @link CoordinateSequence}
+   *   a {@link CoordinateSequence}
    * @param o2
-   *   a { @link CoordinateSequence} return -1, 0, or 1 depending on whether o1 is less than, equal
+   *   a {@link CoordinateSequence} return -1, 0, or 1 depending on whether o1 is less than, equal
    *   to, or greater than o2
    */
   override def compare(s1: CoordinateSequence, s2: CoordinateSequence): Int = {
@@ -113,9 +113,9 @@ class CoordinateSequenceComparator(dimensionLimit: Int = Int.MaxValue)
    * dimensions.
    *
    * @param s1
-   *   a { @link CoordinateSequence}
+   *   a {@link CoordinateSequence}
    * @param s2
-   *   a { @link CoordinateSequence}
+   *   a {@link CoordinateSequence}
    * @param i
    *   the index of the coordinate to test
    * @param dimension

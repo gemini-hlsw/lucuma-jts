@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.index.kdtree
@@ -39,7 +39,7 @@ import java.util
 object KdTree {
 
   /**
-   * Converts a collection of {@link KdNode}s to an array of {@link Coordinate}s.
+   * Converts a collection of {@link KdNode} s to an array of {@link Coordinate} s.
    *
    * @param kdnodes
    *   a collection of nodes
@@ -49,8 +49,8 @@ object KdTree {
   def toCoordinates(kdnodes: util.Collection[_]): Array[Coordinate] = toCoordinates(kdnodes, false)
 
   /**
-   * Converts a collection of {@link KdNode}s to an array of {@link Coordinate}s, specifying whether
-   * repeated nodes should be represented by multiple coordinates.
+   * Converts a collection of {@link KdNode} s to an array of {@link Coordinate} s, specifying
+   * whether repeated nodes should be represented by multiple coordinates.
    *
    * @param kdnodes
    *   a collection of nodes

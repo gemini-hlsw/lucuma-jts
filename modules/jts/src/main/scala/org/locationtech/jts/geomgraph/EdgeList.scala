@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -69,8 +69,7 @@ class EdgeList() {
   /**
    * If the edge e is already in the list, return its index.
    *
-   * return index, if e is already in the list
-   * -1 otherwise
+   * return index, if e is already in the list -1 otherwise
    */
   def findEdgeIndex(e: Edge): Int = {
     var i = 0

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.index.kdtree
@@ -18,7 +18,7 @@ import org.locationtech.jts.geom.Coordinate
  */
 
 /**
- * A node of a {@link KdTree}, which represents one or more points in the same location.
+ * A node of a {@link KdTree} , which represents one or more points in the same location.
  *
  * @author
  *   dskea
