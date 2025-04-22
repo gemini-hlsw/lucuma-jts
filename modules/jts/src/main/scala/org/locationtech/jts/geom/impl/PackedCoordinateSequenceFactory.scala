@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -57,7 +57,7 @@ class PackedCoordinateSequenceFactory(val `type`: Int)
 
 /**
  * Creates a new PackedCoordinateSequenceFactory of the given type. Acceptable type values are
- * {@linkplain PackedCoordinateSequenceFactory# FLOAT}or {@linkplain
+ * {@linkplain PackedCoordinateSequenceFactory# FLOAT} or {@linkplain
  * PackedCoordinateSequenceFactory# DOUBLE}
  */
     extends CoordinateSequenceFactory

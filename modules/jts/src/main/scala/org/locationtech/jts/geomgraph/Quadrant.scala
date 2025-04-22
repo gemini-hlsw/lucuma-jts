@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -19,8 +19,8 @@ package org.locationtech.jts.geom
  */
 
 /**
- * Utility functions for working with quadrants, which are numbered as follows: <pre> 1 | 0
- * --+-- 2 | 3 </pre>
+ * Utility functions for working with quadrants, which are numbered as follows: <pre> 1 | 0 --+-- 2
+ * \| 3 </pre>
  *
  * @version 1.7
  */

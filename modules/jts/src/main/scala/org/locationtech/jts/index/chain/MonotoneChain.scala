@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -72,7 +72,7 @@ class MonotoneChain(var pts: Array[Coordinate], val start: Int, val end: Int, va
    * @param id
    *   an id value
    */
-  def setId(id: Int): Unit = this.id = id
+  def setId(id: Int): Unit  = this.id = id
 
   /**
    * Gets the id of this chain.

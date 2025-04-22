@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.noding.snapround
@@ -34,7 +34,7 @@ import scala.jdk.CollectionConverters._
  * SegmentString}s, in a performant way, and avoiding unnecessary noding. <p> Implements the Snap
  * Rounding technique described in the papers by Hobby, Guibas &amp; Marimont, and Goodrich et al.
  * Snap Rounding enforces that all output vertices lie on a uniform grid, which is determined by the
- * provided {@link PrecisionModel}. <p> Input vertices do not have to be rounded to the grid
+ * provided {@link PrecisionModel} . <p> Input vertices do not have to be rounded to the grid
  * beforehand; this is done during the snap-rounding process. In fact, rounding cannot be done a
  * priori, since rounding vertices by themselves can distort the rounded topology of the arrangement
  * (i.e. by moving segments away from hot pixels that would otherwise intersect them, or by moving
@@ -42,7 +42,7 @@ import scala.jdk.CollectionConverters._
  * Noder avoids creating nodes at edge vertices if there is no intersection or snap at that
  * location. However, if two different input edges contain identical segments, each of the segment
  * vertices will be noded. This still provides fully-noded output. This is the same behaviour
- * provided by other noders, such as {@link MCIndexNoder} and {@link SnappingNoder}.
+ * provided by other noders, such as {@link MCIndexNoder} and {@link SnappingNoder} .
  *
  * @version 1.7
  */
@@ -85,7 +85,7 @@ class SnapRoundingNoder(val pm: PrecisionModel) extends Noder[SegmentString] {
   }
 
   /**
-   * Detects interior intersections in the collection of {@link SegmentString}s, and adds nodes for
+   * Detects interior intersections in the collection of {@link SegmentString} s, and adds nodes for
    * them to the segment strings. Also creates HotPixel nodes for the intersection points.
    *
    * @param segStrings
