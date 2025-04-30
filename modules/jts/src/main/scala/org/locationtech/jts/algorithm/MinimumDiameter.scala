@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -140,7 +140,7 @@ class MinimumDiameter(val inputGeom: Geometry, val isConvex: Boolean) {
   /**
    * Gets a {link LineString} which is a minimum diameter
    *
-   * return a { @link LineString} which is a minimum diameter
+   * return a {@link LineString} which is a minimum diameter
    */
   def getDiameter: LineString = {
     computeMinimumDiameter()

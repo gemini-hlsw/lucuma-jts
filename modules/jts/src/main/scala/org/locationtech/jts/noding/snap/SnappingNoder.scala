@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -59,7 +59,7 @@ import scala.jdk.CollectionConverters._
  * of the segment coordinates. <p> With an appropriate snap tolerance this algorithm appears to be
  * very robust. So far no failure cases have been found, given a small enough snap tolerance. <p>
  * The correctness of the output is not verified by this noder. If required this can be done by
- * {@link ValidatingNoder}.
+ * {@link ValidatingNoder} .
  *
  * @version 1.17
  */
@@ -106,8 +106,8 @@ class SnappingNoder(var snapTolerance: Double) extends Noder[SegmentString] {
   }
 
   /**
-   * Computes all interior intersections in the collection of {@link SegmentString}s, and returns
-   * their {@link Coordinate}s.
+   * Computes all interior intersections in the collection of {@link SegmentString} s, and returns
+   * their {@link Coordinate} s.
    *
    * Also adds the intersection nodes to the segments.
    *

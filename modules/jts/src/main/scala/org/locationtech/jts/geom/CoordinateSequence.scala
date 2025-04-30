@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -92,7 +92,7 @@ trait CoordinateSequence extends Cloneable {
    * Checks {link #getDimension()} and {link #getMeasures()} to determine if {link #getZ(int)} is
    * supported.
    *
-   * return true if { @link #getZ(int)} is supported.
+   * return true if {@link #getZ(int)} is supported.
    */
   def hasZ: Boolean = (getDimension - getMeasures) > 2
 
@@ -101,7 +101,7 @@ trait CoordinateSequence extends Cloneable {
    * if {link #getMeasures()} > 0. See {link #getMeasures()} to determine the number of measures
    * present.
    *
-   * return true if { @link #getM(int)} is supported.
+   * return true if {@link #getM(int)} is supported.
    * @see
    *   #getMeasures()
    * @see
@@ -147,7 +147,7 @@ trait CoordinateSequence extends Cloneable {
    * @param index
    *   the index of the coordinate to copy
    * @param coord
-   *   a { @link Coordinate} to receive the value
+   *   a {@link Coordinate} to receive the value
    */
   def getCoordinate(index: Int, coord: Coordinate): Unit
 
@@ -243,7 +243,7 @@ trait CoordinateSequence extends Cloneable {
    *
    * return a copy of the coordinate sequence containing copies of all points
    * @deprecated
-   *   Recommend { @link #copy()}
+   *   Recommend {@link #copy()}
    */
   protected def clone: Object
 

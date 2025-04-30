@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -201,7 +201,7 @@ class GeometryEditor(var factory: GeometryFactory) {
    * @param geometry
    *   the Geometry to edit
    * @param operation
-   *   the edit operation to carry out return a new { @link Geometry} which is the result of the
+   *   the edit operation to carry out return a new {@link Geometry} which is the result of the
    *   editing (which may be empty)
    */
   def edit(geometry: Geometry, operation: GeometryEditor.GeometryEditorOperation): Geometry = { // nothing to do

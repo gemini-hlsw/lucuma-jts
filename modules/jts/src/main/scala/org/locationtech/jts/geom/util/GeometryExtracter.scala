@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -78,7 +78,7 @@ object GeometryExtracter {
 
   /**
    * Extracts the components of <tt>geometryType</tt> from a {@link Geometry} and adds them to the
-   * provided {@link List}.
+   * provided {@link List} .
    *
    * @param geom
    *   the geometry from which to extract

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -396,7 +396,7 @@ class STRtree(val nodeCapacityArg: Int)
   }
 
   /**
-   * Finds k items in this tree which are the top k nearest neighbors to the given {@code item},
+   * Finds k items in this tree which are the top k nearest neighbors to the given {@code item} ,
    * using {@code itemDist} as the distance metric. A Branch-and-Bound tree traversal algorithm is
    * used to provide an efficient search. This method implements the KNN algorithm described in the
    * following paper: <p> Roussopoulos, Nick, Stephen Kelley, and Frédéric Vincent. "Nearest

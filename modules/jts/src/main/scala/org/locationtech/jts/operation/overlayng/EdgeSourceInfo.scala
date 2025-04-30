@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.operation.overlayng
@@ -21,8 +21,8 @@ import org.locationtech.jts.geom.Dimension
  * Records topological information about an edge representing a piece of linework (lineString or
  * polygon ring) from a single source geometry. This information is carried through the noding
  * process (which may result in many noded edges sharing the same information object). It is then
- * used to populate the topology info fields in {@link Edge}s (possibly via merging). That
- * information is used to construct the topology graph {@link OverlayLabel}s.
+ * used to populate the topology info fields in {@link Edge} s (possibly via merging). That
+ * information is used to construct the topology graph {@link OverlayLabel} s.
  *
  * @author
  *   mdavis

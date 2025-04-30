@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -128,7 +128,7 @@ class LineString(fac: GeometryFactory) extends Geometry(fac) with Lineal {
   /**
    * Creates a {link LineString} whose coordinates are in the reverse order of this objects
    *
-   * return a { @link LineString} with coordinates in the reverse order
+   * return a {@link LineString} with coordinates in the reverse order
    * @deprecated
    */
   override def reverse: LineString = super.reverse.asInstanceOf[LineString]
