@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -20,7 +20,7 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequence
 import org.locationtech.jts.io.WKTWriter
 
 import java.util
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 /**
  * Represents a list of contiguous line segments, and supports noding the segments. The line
@@ -80,7 +80,7 @@ class NodedSegmentString(val pts: Array[Coordinate], var data: Any)
   private val nodeList = new SegmentNodeList(this)
 
   /**
-   * Creates a new instance from a {@link SegmentString}.
+   * Creates a new instance from a {@link SegmentString} .
    *
    * @param segString
    *   the segment string to use

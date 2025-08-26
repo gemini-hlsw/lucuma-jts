@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -49,7 +49,7 @@ class RightmostEdgeFinder() {
 
   def getCoordinate: Coordinate = minCoord
 
-  def findEdge(dirEdgeList: util.List[_]): Unit = {
+  def findEdge(dirEdgeList: util.List[?]): Unit = {
 
     /**
      * Check all forward DirectedEdges only. This is still general, because each edge has a forward

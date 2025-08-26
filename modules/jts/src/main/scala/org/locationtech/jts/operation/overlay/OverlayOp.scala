@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -556,7 +556,7 @@ class OverlayOp(val g0: Geometry, val g1: Geometry) extends GeometryGraphOperati
   /**
    * return true if the coord is located in the interior or boundary of a geometry in the list.
    */
-  private def isCovered(coord: Coordinate, geomList: util.List[_]): Boolean = {
+  private def isCovered(coord: Coordinate, geomList: util.List[?]): Boolean = {
     val it = geomList.iterator
     while (it.hasNext) {
       val geom = it.next.asInstanceOf[Geometry]

@@ -46,6 +46,7 @@ out/
 .bloop/
 .metals/
 .bsp/
+.direnv/
 
 # Vim
 *.swp

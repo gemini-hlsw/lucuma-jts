@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -70,7 +70,7 @@ object CGAlgorithmsDD {
    * @return
    *   1 if q is counter-clockwise (left) from p1-p2
    * @return
-   * -1 if q is clockwise (right) from p1-p2
+   *   -1 if q is clockwise (right) from p1-p2
    * @return
    *   0 if q is collinear with p1-p2
    */

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -25,7 +25,7 @@ import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.Polygon
 import org.locationtech.jts.geom.Position
 import org.locationtech.jts.geom.PrecisionModel
-import org.locationtech.jts.geomgraph._
+import org.locationtech.jts.geomgraph.*
 import org.locationtech.jts.noding.IntersectionAdder
 import org.locationtech.jts.noding.MCIndexNoder
 import org.locationtech.jts.noding.Noder
@@ -35,7 +35,7 @@ import org.locationtech.jts.operation.overlay.PolygonBuilder
 
 import java.util
 import java.util.Collections
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 // /**
 //  * Builds the buffer geometry for a given input geometry and precision model.

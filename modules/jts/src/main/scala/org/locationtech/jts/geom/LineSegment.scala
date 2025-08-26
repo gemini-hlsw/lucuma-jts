@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -128,8 +128,8 @@ class LineSegment(var p0: Coordinate, var p1: Coordinate)
    *
    * @param seg
    *   the LineSegment to compare return 1 if <code>seg</code> is to the left of this segment return
-   * -1 if <code>seg</code> is to the right of this segment return 0 if <code>seg</code> is
-   * collinear to or crosses this segment
+   *   -1 if <code>seg</code> is to the right of this segment return 0 if <code>seg</code> is
+   *   collinear to or crosses this segment
    */
   def orientationIndex(seg: LineSegment): Int = {
     val orient0 = Orientation.index(p0, p1, seg.p0)

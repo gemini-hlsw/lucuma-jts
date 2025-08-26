@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.geom
@@ -109,8 +109,8 @@ object GeometryOverlay {
   }
 
   private[geom] def union(a: Geometry, b: Geometry): Geometry = {
-    if (a.isEmpty || a.isEmpty) {
-      if (b.isEmpty && b.isEmpty)
+    if (a.isEmpty || b.isEmpty) {
+      if (a.isEmpty && b.isEmpty)
         return OverlayOp.createEmptyResult(OverlayOp.UNION, a, b, a.getFactory)
       // special case: if either input is empty ==> other input
       if (a.isEmpty) return b.copy

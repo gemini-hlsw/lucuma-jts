@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.noding.snapround
@@ -78,7 +78,7 @@ class SnapRoundingIntersectionAdder(var precModel: PrecisionModel)
 
   /**
    * This method is called by clients of the {@link SegmentIntersector} class to process
-   * intersections for two segments of the {@link SegmentString}s being intersected. Note that some
+   * intersections for two segments of the {@link SegmentString} s being intersected. Note that some
    * clients (such as <code>MonotoneChain</code>s) may optimize away this call for segment pairs
    * which they have determined do not intersect (e.g. by an disjoint envelope test).
    */

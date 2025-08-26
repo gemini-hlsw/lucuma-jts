@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -22,7 +22,7 @@ import java.io.Serializable
 import java.util
 import java.util.Collections
 import java.util.Comparator
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 /**
  * Base class for STRtree and SIRtree. STR-packed R-trees are described in: P. Rigaux, Michel Scholl
@@ -382,7 +382,7 @@ abstract class AbstractSTRtree(var nodeCapacity: Int)
 
   /**
    * @param level
-   * -1 to get items
+   *   -1 to get items
    */
   private def boundablesAtLevel(
     level:      Int,

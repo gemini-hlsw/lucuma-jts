@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -180,7 +180,7 @@ class CoordinateList(coord: Array[Coordinate], allowRepeated: Boolean)
    *   if set to false, repeated coordinates are collapsed return true (as by general collection
    *   contract)
    */
-  def addAll(coll: java.util.Collection[_ <: Coordinate], allowRepeated: Boolean): Boolean = {
+  def addAll(coll: java.util.Collection[? <: Coordinate], allowRepeated: Boolean): Boolean = {
     var isChanged = false
     val i         = coll.iterator
     while (i.hasNext) {

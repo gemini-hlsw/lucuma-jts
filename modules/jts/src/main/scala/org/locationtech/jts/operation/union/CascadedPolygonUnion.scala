@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.operation.union
@@ -47,7 +47,7 @@ import scala.annotation.nowarn
 object CascadedPolygonUnion {
 
   /**
-   * A union strategy that uses the classic JTS {@link SnapIfNeededOverlayOp}, and for polygonal
+   * A union strategy that uses the classic JTS {@link SnapIfNeededOverlayOp} , and for polygonal
    * geometries a robustness fallback using <cod>buffer(0)</code>.
    */
   private[union] val CLASSIC_UNION = new UnionStrategy() {
@@ -80,10 +80,10 @@ object CascadedPolygonUnion {
   }
 
   /**
-   * Computes the union of a collection of {@link Polygonal} {@link Geometry}s.
+   * Computes the union of a collection of {@link Polygonal} {@link Geometry} s.
    *
    * @param polys
-   *   a collection of {@link Polygonal} {@link Geometry}s
+   *   a collection of {@link Polygonal} {@link Geometry} s
    */
   def union(polys: util.Collection[Geometry]): Geometry = {
     val op = new CascadedPolygonUnion(polys)
@@ -135,10 +135,10 @@ object CascadedPolygonUnion {
 }
 
 /**
- * Creates a new instance to union the given collection of {@link Geometry}s.
+ * Creates a new instance to union the given collection of {@link Geometry} s.
  *
  * @param polys
- *   a collection of {@link Polygonal} {@link Geometry}s
+ *   a collection of {@link Polygonal} {@link Geometry} s
  */
 class CascadedPolygonUnion(var inputPolys: util.Collection[Geometry], var unionFun: UnionStrategy) {
 
@@ -258,7 +258,7 @@ class CascadedPolygonUnion(var inputPolys: util.Collection[Geometry], var unionF
     while (i.hasNext) {
       val o: Any         = i.next
       var geom: Geometry = null
-      if (o.isInstanceOf[util.List[_]]) {
+      if (o.isInstanceOf[util.List[?]]) {
         geom = unionTree(o.asInstanceOf[util.List[Geometry]])
       } else {
         if (o.isInstanceOf[Geometry]) {

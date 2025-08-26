@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.io
@@ -36,7 +36,7 @@ import scala.annotation.nowarn
  */
 
 /**
- * Writes the Well-Known Text representation of a {@link Geometry}. The Well-Known Text format is
+ * Writes the Well-Known Text representation of a {@link Geometry} . The Well-Known Text format is
  * defined in the OGC <a href="http://www.opengis.org/techno/specs.htm"> <i>Simple Features
  * Specification for SQL</i></a>. See {@link WKTReader} for a formal specification of the format
  * syntax. <p> The <code>WKTWriter</code> outputs coordinates rounded to the precision model. Only
@@ -53,7 +53,7 @@ import scala.annotation.nowarn
 object WKTWriter {
 
   /**
-   * Generates the WKT for a <tt>POINT</tt> specified by a {@link Coordinate}.
+   * Generates the WKT for a <tt>POINT</tt> specified by a {@link Coordinate} .
    *
    * @param p0
    *   the point coordinate
@@ -63,7 +63,7 @@ object WKTWriter {
   def toPoint(p0: Coordinate): String = WKTConstants.POINT + " ( " + format(p0) + " )"
 
   /**
-   * Generates the WKT for a <tt>LINESTRING</tt> specified by a {@link CoordinateSequence}.
+   * Generates the WKT for a <tt>LINESTRING</tt> specified by a {@link CoordinateSequence} .
    *
    * @param seq
    *   the sequence to write
@@ -87,7 +87,7 @@ object WKTWriter {
   }
 
   /**
-   * Generates the WKT for a <tt>LINESTRING</tt> specified by a {@link CoordinateSequence}.
+   * Generates the WKT for a <tt>LINESTRING</tt> specified by a {@link CoordinateSequence} .
    *
    * @param coord
    *   the sequence to write
@@ -111,7 +111,7 @@ object WKTWriter {
   }
 
   /**
-   * Generates the WKT for a <tt>LINESTRING</tt> specified by two {@link Coordinate}s.
+   * Generates the WKT for a <tt>LINESTRING</tt> specified by two {@link Coordinate} s.
    *
    * @param p0
    *   the first coordinate
@@ -174,7 +174,7 @@ object WKTWriter {
 class WKTWriter(val outputDimension: Int) {
 
   /**
-   * Creates a writer that writes {@link Geometry}s with the given output dimension (2 to 4). The
+   * Creates a writer that writes {@link Geometry} s with the given output dimension (2 to 4). The
    * output follows the following rules: <ul> <li>If the specified <b>output dimension is 3</b> and
    * the <b>z is measure flag is set to true</b>, the Z value of coordinates will be written if it
    * is present (i.e. if it is not <code>Double.NaN</code>)</li> <li>If the specified <b>output
@@ -232,7 +232,7 @@ class WKTWriter(val outputDimension: Int) {
      * Gets the evaluated ordinate bit-pattern
      *
      * @return
-     *   A bit-pattern of ordinates with valid values masked by {@link # checkOrdinateFlags}.
+     *   A bit-pattern of ordinates with valid values masked by {@link # checkOrdinateFlags} .
      */
     private[io] def getOutputOrdinates = outputOrdinates
   }
@@ -332,7 +332,7 @@ class WKTWriter(val outputDimension: Int) {
    * <p>Note: The precision model is applied to all ordinate values, not just x and y.</p>
    *
    * @param precisionModel
-   *   the flag indicating if {@link Coordinate# z}/{} is actually a measure value.
+   *   the flag indicating if {@link Coordinate# z} /{} is actually a measure value.
    */
   def setPrecisionModel(precisionModel: PrecisionModel): Unit = {
     this.precisionModel = precisionModel
@@ -835,7 +835,7 @@ class WKTWriter(val outputDimension: Int) {
 
   /**
    * Appends the i'th coordinate from the sequence to the writer <p>If the {@code seq} has
-   * coordinates that are {@link double.NAN}, these are not written, even though {@link #
+   * coordinates that are {@link double.NAN} , these are not written, even though {@link #
    * outputDimension} suggests this.
    *
    * @param seq

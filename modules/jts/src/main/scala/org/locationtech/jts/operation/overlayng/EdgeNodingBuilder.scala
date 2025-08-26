@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.operation.overlayng
@@ -26,7 +26,7 @@ import org.locationtech.jts.noding.ValidatingNoder
 import org.locationtech.jts.noding.snapround.SnapRoundingNoder
 
 import java.util
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 /*
  * Copyright (c) 2019 Martin Davis.
@@ -45,7 +45,7 @@ import scala.jdk.CollectionConverters._
  * performs the following steps: <ul> <li>Extracts input edges, and attaches topological information
  * <li>if clipping is enabled, handles clipping or limiting input geometry <li>chooses a {@link
  * Noder} based on provided precision model, unless a custom one is supplied <li>calls the chosen
- * Noder, with precision model <li>removes any fully collapsed noded edges <li>builds {@link Edge}s
+ * Noder, with precision model <li>removes any fully collapsed noded edges <li>builds {@link Edge} s
  * and merges them </ul>
  *
  * @author
@@ -203,7 +203,7 @@ class EdgeNodingBuilder(var pm: PrecisionModel, var customNoder: Noder[SegmentSt
   }
 
   /**
-   * Nodes a set of segment strings and creates {@link Edge}s from the result. The input segment
+   * Nodes a set of segment strings and creates {@link Edge} s from the result. The input segment
    * strings each carry a {@link EdgeSourceInfo} object, which is used to provide source topology
    * info to the constructed Edges (and is then discarded).
    *

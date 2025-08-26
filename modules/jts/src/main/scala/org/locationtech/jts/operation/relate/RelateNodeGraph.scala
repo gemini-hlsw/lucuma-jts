@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -104,7 +104,7 @@ class RelateNodeGraph() {
     }
   }
 
-  def insertEdgeEnds(ee: util.List[_]): Unit = {
+  def insertEdgeEnds(ee: util.List[?]): Unit = {
     val i = ee.iterator
     while (i.hasNext) {
       val e = i.next.asInstanceOf[EdgeEnd]

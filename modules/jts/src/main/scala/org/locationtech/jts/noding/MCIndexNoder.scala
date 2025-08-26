@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -21,7 +21,7 @@ import org.locationtech.jts.index.chain.MonotoneChainOverlapAction
 import org.locationtech.jts.index.strtree.STRtree
 
 import java.util
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 /**
  * Nodes a set of {link SegmentString}s using a index based on {link MonotoneChain}s and a {link

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.operation.overlayng
@@ -27,7 +27,7 @@ import org.locationtech.jts.geom.Polygon
  * Computes a robust clipping envelope for a pair of polygonal geometries. The envelope is computed
  * to be large enough to include the full length of all geometry line segments which intersect a
  * given target envelope. This ensures that line segments which might intersect are not perturbed
- * when clipped using {@link RingClipper}.
+ * when clipped using {@link RingClipper} .
  *
  * @author
  *   Martin Davis
