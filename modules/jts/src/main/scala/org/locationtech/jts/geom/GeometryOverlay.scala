@@ -109,8 +109,8 @@ object GeometryOverlay {
   }
 
   private[geom] def union(a: Geometry, b: Geometry): Geometry = {
-    if (a.isEmpty || a.isEmpty) {
-      if (b.isEmpty && b.isEmpty)
+    if (a.isEmpty || b.isEmpty) {
+      if (a.isEmpty && b.isEmpty)
         return OverlayOp.createEmptyResult(OverlayOp.UNION, a, b, a.getFactory)
       // special case: if either input is empty ==> other input
       if (a.isEmpty) return b.copy
