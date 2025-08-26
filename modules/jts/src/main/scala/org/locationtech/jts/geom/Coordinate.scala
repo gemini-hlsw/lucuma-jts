@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -132,7 +132,7 @@ object Coordinate {
      * Compares two {link Coordinate}s along to the number of dimensions specified.
      *
      * @param o1
-     *   a { @link Coordinate}
+     *   a {@link Coordinate}
      * @param o2
      *   a {link Coordinate} return -1, 0, or 1 depending on whether o1 is less than, equal to, or
      *   greater than 02
@@ -293,7 +293,7 @@ class Coordinate(var x: Double, var y: Double, var z: Double)
       y = value
     case Coordinate.Z =>
       setZ(value) // delegate to subclass rather than offer direct field access
-    case _            =>
+    case _ =>
       throw new IllegalArgumentException("Invalid ordinate index: " + ordinateIndex)
   }
 
@@ -375,8 +375,8 @@ class Coordinate(var x: Double, var y: Double, var z: Double)
    *
    * @param o
    *   the <code>Coordinate</code> with which this <code>Coordinate</code> is being compared return
-   * -1, zero, or 1 as this <code>Coordinate</code> is less than, equal to, or greater than the
-   * specified <code>Coordinate</code>
+   *   -1, zero, or 1 as this <code>Coordinate</code> is less than, equal to, or greater than the
+   *   specified <code>Coordinate</code>
    */
   override def compareTo(o: Coordinate): Int = {
     val other = o.asInstanceOf[Coordinate]

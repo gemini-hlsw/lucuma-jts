@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.operation.overlayng
@@ -11,7 +11,7 @@ import org.locationtech.jts.geom.Location
 
 import java.util
 import scala.annotation.nowarn
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 /*
  * Copyright (c) 2019 Martin Davis.
@@ -189,8 +189,8 @@ class LineBuilder(
     }
 
     /**
-     * Omit edge which is a collapse along a boundary.
-     * I.e a result line edge must be from a input line OR two coincident area boundaries.
+     * Omit edge which is a collapse along a boundary. I.e a result line edge must be from a input
+     * line OR two coincident area boundaries.
      *
      * This logic is only used if not including collapse lines in result.
      */

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -52,7 +52,7 @@ object FastNodingValidator {
    * @param segStrings
    *   a collection of SegmentStrings return a list of Coordinate
    */
-  def computeIntersections(segStrings: util.Collection[SegmentString]): util.List[_] = {
+  def computeIntersections(segStrings: util.Collection[SegmentString]): util.List[?] = {
     val nv = new FastNodingValidator(segStrings)
     nv.setFindAllIntersections(true)
     nv.isValid()
@@ -66,7 +66,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
    * Creates a new noding validator for a given set of linework.
    *
    * @param segStrings
-   *   a collection of { @link SegmentString}s
+   *   a collection of {@link SegmentString} s
    */
   private val li                               = new RobustLineIntersector
   private var findAllIntersections             = false
@@ -82,7 +82,7 @@ class FastNodingValidator(val segStrings: util.Collection[SegmentString]) {
    *
    * return a list of Coordinate
    */
-  def getIntersections: util.ArrayList[_] = segInt.getIntersections
+  def getIntersections: util.ArrayList[?] = segInt.getIntersections
 
   /**
    * Checks for an intersection and reports if one is found.

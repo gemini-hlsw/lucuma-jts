@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -238,9 +238,9 @@ class NodingIntersectionFinder(var li: LineIntersector)
   /**
    * Gets the intersections found.
    *
-   * return a List of { @link Coordinate}
+   * return a List of {@link Coordinate}
    */
-  def getIntersections: util.ArrayList[_] = intersections
+  def getIntersections: util.ArrayList[?] = intersections
 
   /**
    * Gets the count of intersections found.

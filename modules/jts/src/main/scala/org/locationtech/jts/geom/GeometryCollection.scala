@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -272,7 +272,7 @@ class GeometryCollection(
    * Creates a {link GeometryCollection} with every component reversed. The order of the components
    * in the collection are not reversed.
    *
-   * return a { @link GeometryCollection} in the reverse order
+   * return a {@link GeometryCollection} in the reverse order
    */
   override def reverse: GeometryCollection = super.reverse.asInstanceOf[GeometryCollection]
 

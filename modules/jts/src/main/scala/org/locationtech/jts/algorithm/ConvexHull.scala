@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -129,8 +129,8 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
    * geometry contains the minimal number of points needed to represent the convex hull. In
    * particular, no more than two consecutive points will be collinear.
    *
-   * return if the convex hull contains 3 or more points, a { @link Polygon}; 2 points, a { @link
-   * LineString}; 1 point, a { @link Point}; 0 points, an empty { @link GeometryCollection}.
+   * return if the convex hull contains 3 or more points, a {@link Polygon} ; 2 points, a { @link
+   * LineString}; 1 point, a {@link Point} ; 0 points, an empty {@link GeometryCollection} .
    */
   def getConvexHull: Geometry = {
     if (inputPts.length == 0) {
@@ -150,7 +150,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
     // sort points for Graham scan.
     val sortedPts: Array[Coordinate]  = preSort(reducedPts)
     // Use Graham scan to find convex hull.
-    val cHS: util.Stack[_]            = grahamScan(sortedPts)
+    val cHS: util.Stack[Coordinate]   = grahamScan(sortedPts)
     // Convert stack to an array.
     val cH: Array[Coordinate]         = toCoordinateArray(cHS)
     // Convert array to appropriate output geometry.
@@ -160,7 +160,7 @@ class ConvexHull(val pts: Array[Coordinate], var geomFactory: GeometryFactory) {
   /**
    * An alternative to Stack.toArray, which is not present in earlier versions of Java.
    */
-  protected def toCoordinateArray(stack: util.Stack[_]): Array[Coordinate] = {
+  protected def toCoordinateArray(stack: util.Stack[Coordinate]): Array[Coordinate] = {
     val coordinates: Array[Coordinate] = new Array[Coordinate](stack.size)
     var i: Int                         = 0
     while (i < stack.size) {

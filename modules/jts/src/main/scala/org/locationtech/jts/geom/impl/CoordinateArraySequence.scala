@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -14,7 +14,7 @@
  */
 package org.locationtech.jts.geom.impl
 
-import org.locationtech.jts.geom._
+import org.locationtech.jts.geom.*
 
 import java.io.Serializable
 

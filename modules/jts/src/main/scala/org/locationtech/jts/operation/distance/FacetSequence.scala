@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -139,7 +139,7 @@ class FacetSequence(val geom: Geometry, val pts: CoordinateSequence, val start: 
    * Computes the locations of the nearest points between this sequence and another sequence. The
    * locations are presented in the same order as the input sequences.
    *
-   * return a pair of { @link GeometryLocation}s for the nearest points
+   * return a pair of {@link GeometryLocation} s for the nearest points
    */
   def nearestLocations(facetSeq: FacetSequence): Array[GeometryLocation] = {
     val visPoint     = isPoint

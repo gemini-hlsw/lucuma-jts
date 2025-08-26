@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 package org.locationtech.jts.operation.overlayng
@@ -17,7 +17,7 @@ import org.locationtech.jts.geom.PrecisionModel
 import org.locationtech.jts.util.Assert
 
 import java.util
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 /*
  * Copyright (c) 2020 Martin Davis.

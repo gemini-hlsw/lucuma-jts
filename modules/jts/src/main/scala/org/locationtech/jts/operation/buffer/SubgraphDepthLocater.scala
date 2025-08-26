@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -114,8 +114,8 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
    * to the right of stabbingRayLeftPt.
    *
    * @param stabbingRayLeftPt
-   *   the left-hand origin of the stabbing line return a List of { @link DepthSegments}
-   *   intersecting the stabbing line
+   *   the left-hand origin of the stabbing line return a List of {@link DepthSegments} intersecting
+   *   the stabbing line
    */
   private def findStabbedSegments(stabbingRayLeftPt: Coordinate): util.List[DepthSegment] = {
     val stabbedSegments = new util.ArrayList[DepthSegment]
@@ -138,7 +138,7 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
    * @param stabbingRayLeftPt
    *   the left-hand origin of the stabbing line
    * @param stabbedSegments
-   *   the current list of { @link DepthSegments} intersecting the stabbing line
+   *   the current list of {@link DepthSegments} intersecting the stabbing line
    */
   private def findStabbedSegments(
     stabbingRayLeftPt: Coordinate,
@@ -166,7 +166,7 @@ class SubgraphDepthLocater(var subgraphs: util.Collection[BufferSubgraph]) {
    * @param stabbingRayLeftPt
    *   the left-hand origin of the stabbing line
    * @param stabbedSegments
-   *   the current list of { @link DepthSegments} intersecting the stabbing line
+   *   the current list of {@link DepthSegments} intersecting the stabbing line
    */
   private def findStabbedSegments(
     stabbingRayLeftPt: Coordinate,

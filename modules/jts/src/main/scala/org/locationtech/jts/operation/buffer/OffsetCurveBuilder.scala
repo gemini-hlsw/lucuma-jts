@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -98,7 +98,7 @@ class OffsetCurveBuilder(var precisionModel: PrecisionModel, var bufParams: Buff
    * @param inputPts
    *   the coordinates of the ring (must not contain repeated points)
    * @param side
-   *   side the side { @link Position} of the ring on which to construct the buffer line
+   *   side the side {@link Position} of the ring on which to construct the buffer line
    * @param distance
    *   the positive distance at which to create the offset return a Coordinate array representing
    *   the curve, or null if the curve is empty

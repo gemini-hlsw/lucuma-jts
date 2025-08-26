@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -46,7 +46,7 @@ object PolygonBuilder {
    *
    * return containing EdgeRing, if there is one or null if no containing EdgeRing is found
    */
-  private def findEdgeRingContaining(testEr: EdgeRing, shellList: util.List[_]): EdgeRing = {
+  private def findEdgeRingContaining(testEr: EdgeRing, shellList: util.List[?]): EdgeRing = {
     val testRing              = testEr.getLinearRing
     val testEnv               = testRing.getEnvelopeInternal
     var testPt                = testRing.getCoordinateN(0)
@@ -217,7 +217,7 @@ class PolygonBuilder(var geometryFactory: GeometryFactory) {
    *
    * throws TopologyException if a hole cannot be assigned to a shell
    */
-  private def placeFreeHoles(shellList: util.List[_], freeHoleList: util.List[EdgeRing]): Unit = {
+  private def placeFreeHoles(shellList: util.List[?], freeHoleList: util.List[EdgeRing]): Unit = {
     val it = freeHoleList.iterator
     while (it.hasNext) {
       val hole = it.next

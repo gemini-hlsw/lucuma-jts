@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -33,7 +33,7 @@ import java.util
  * @version 1.7
  */
 object GeometryExtracter {
-  protected def isOfClass(o: Any, clz: Class[_]): Boolean =
+  protected def isOfClass(o: Any, clz: Class[?]): Boolean =
     clz.isAssignableFrom(o.getClass)
   //		return o.getClass() == clz;
 
@@ -48,13 +48,13 @@ object GeometryExtracter {
    * @deprecated
    *   Use {@link GeometryExtracter#extract(Geometry, String, List)}
    */
-  def extract(geom: Geometry, clz: Class[_], list: util.List[Geometry]): util.List[Geometry] =
+  def extract(geom: Geometry, clz: Class[?], list: util.List[Geometry]): util.List[Geometry] =
     extract(geom, toGeometryType(clz), list)
 
   /**
    * @deprecated
    */
-  def toGeometryType(clz: Class[_]): String = {
+  def toGeometryType(clz: Class[?]): String = {
     if (clz == null)
       return null;
     else if (clz.isAssignableFrom(classOf[Point]))
@@ -78,7 +78,7 @@ object GeometryExtracter {
 
   /**
    * Extracts the components of <tt>geometryType</tt> from a {@link Geometry} and adds them to the
-   * provided {@link List}.
+   * provided {@link List} .
    *
    * @param geom
    *   the geometry from which to extract
@@ -112,7 +112,7 @@ object GeometryExtracter {
    * @deprecated
    *   Use {@link GeometryExtracter#extract(Geometry, String)}
    */
-  def extract(geom: Geometry, clz: Class[_]): util.List[Geometry] =
+  def extract(geom: Geometry, clz: Class[?]): util.List[Geometry] =
     extract(geom, clz, new util.ArrayList[Geometry])
 
   def isOfType(geom: Geometry, geometryType: String): Boolean = {

@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Association of Universities for Research in Astronomy, Inc. (AURA)
+// Copyright (c) 2016-2025 Association of Universities for Research in Astronomy, Inc. (AURA)
 // For license information see LICENSE or https://opensource.org/licenses/BSD-3-Clause
 
 /*
@@ -193,7 +193,7 @@ class OffsetCurveSetBuilder(
    * @param offsetDistance
    *   the positive distance at which to create the buffer
    * @param side
-   *   the side { @link Position} of the ring on which to construct the buffer line
+   *   the side {@link Position} of the ring on which to construct the buffer line
    * @param cwLeftLoc
    *   the location on the L side of the ring (if it is CW)
    * @param cwRightLoc
