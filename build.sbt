@@ -2,7 +2,7 @@ ThisBuild / tlBaseVersion       := "0.4"
 ThisBuild / tlCiReleaseBranches := Seq("master")
 
 Global / onChangedBuildSource  := ReloadOnSourceChanges
-ThisBuild / crossScalaVersions := Seq("3.7.2")
+ThisBuild / crossScalaVersions := Seq("3.7.3")
 
 lazy val root = tlCrossRootProject.aggregate(jts, jts_awt, tests)
 
