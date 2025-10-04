@@ -30,7 +30,7 @@ class PrecisionReducerCoordinateOperation(
 
   override def edit(coordinates: Array[Coordinate], geom: Geometry): Array[Coordinate] = {
     if (coordinates.length == 0) return null
-    val reducedCoords = new Array[Coordinate](coordinates.length)
+    val reducedCoords       = new Array[Coordinate](coordinates.length)
     // copy coordinates and reduce
     for (i <- 0 until coordinates.length) {
       val coord = new Coordinate(coordinates(i))
@@ -39,7 +39,7 @@ class PrecisionReducerCoordinateOperation(
     }
     // remove repeated points, to simplify returned geometry as much as possible
     val noRepeatedCoordList = new CoordinateList(reducedCoords, false)
-    val noRepeatedCoords = noRepeatedCoordList.toCoordinateArray
+    val noRepeatedCoords    = noRepeatedCoordList.toCoordinateArray
 
     /**
      * Check to see if the removal of repeated points collapsed the coordinate List to an invalid
