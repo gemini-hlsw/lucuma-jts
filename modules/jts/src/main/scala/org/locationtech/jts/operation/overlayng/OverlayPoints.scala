@@ -152,7 +152,7 @@ class OverlayPoints(
     map1:       util.Map[Coordinate, Point],
     resultList: util.ArrayList[Point]
   ): Unit = { // copy all A points
-    for (p     <- map0.values.asScala)
+    for (p <- map0.values.asScala)
       resultList.add(copyPoint(p))
     for (entry <- map1.entrySet.asScala)
       if (!map0.containsKey(entry.getKey)) {

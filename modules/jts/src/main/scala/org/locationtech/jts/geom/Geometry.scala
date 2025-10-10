@@ -577,7 +577,6 @@ abstract class Geometry(
      * TODO: (MD) Add optimizations:
      *
      *   - for P-A case: If P is in env(A), test for point-in-poly
-     *
      *   - for A-A case: If env(A1).overlaps(env(A2)) test for overlaps via point-in-poly first
      *     (both ways) Possibly optimize selection of point to test by finding point of A1 closest
      *     to centre of env(A2). (Is there a test where we shouldn't bother - e.g. if env A is much
