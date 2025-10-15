@@ -106,7 +106,9 @@ object PrecisionModel {
 }
 
 @SerialVersionUID(7777263578777803835L)
-class PrecisionModel() extends Serializable with Comparable[PrecisionModel] { // default is floating precision
+class PrecisionModel()
+    extends Serializable
+    with Comparable[PrecisionModel] { // default is floating precision
   /**
    * The type of PrecisionModel this represents.
    */
