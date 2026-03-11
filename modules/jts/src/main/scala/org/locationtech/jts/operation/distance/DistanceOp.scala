@@ -405,10 +405,12 @@ class DistanceOp(val g0: Geometry, val g1: Geometry, val terminateDistance: Doub
     // brute force approach!
     for (i <- 0 until coord0.length - 1) { // short-circuit if line segment is far from line
       val segEnv0: Envelope = new Envelope(coord0(i), coord0(i + 1))
-      if (segEnv0.distance(line1.getEnvelopeInternal) > minDistance) {} else {
+      if (segEnv0.distance(line1.getEnvelopeInternal) > minDistance) {}
+      else {
         for (j <- 0 until coord1.length - 1) { // short-circuit if line segments are far apart
           val segEnv1: Envelope = new Envelope(coord1(j), coord1(j + 1))
-          if (segEnv0.distance(segEnv1) > minDistance) {} else {
+          if (segEnv0.distance(segEnv1) > minDistance) {}
+          else {
             val dist: Double =
               Distance.segmentToSegment(coord0(i), coord0(i + 1), coord1(j), coord1(j + 1))
             if (dist < minDistance) {
