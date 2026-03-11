@@ -64,7 +64,7 @@ class PrecisionReducerTransformer private[precision] (
       noRepeatCoordList.add(coord, false)
     }
     // remove repeated points, to simplify returned geometry as much as possible
-    val noRepeatCoords = noRepeatCoordList.toCoordinateArray
+    val noRepeatCoords    = noRepeatCoordList.toCoordinateArray
     noRepeatCoords
   }
 

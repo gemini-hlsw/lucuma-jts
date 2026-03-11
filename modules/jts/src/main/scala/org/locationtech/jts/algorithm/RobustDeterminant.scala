@@ -85,7 +85,8 @@ object RobustDeterminant {
      */
     if (0.0 < y1) {
       if (0.0 < y2) {
-        if (y1 <= y2) {} else {
+        if (y1 <= y2) {}
+        else {
           sign = -sign
           swap = x1
           x1 = x2
