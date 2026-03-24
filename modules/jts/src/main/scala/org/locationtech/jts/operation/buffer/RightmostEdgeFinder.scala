@@ -150,7 +150,7 @@ class RightmostEdgeFinder() {
     val coord = e.getCoordinates
     if (i < 0 || i + 1 >= coord.length) return -1
     if (coord(i).y == coord(i + 1).y) return -1 // indicates edge is parallel to x-axis
-    var pos = Position.LEFT
+    var pos   = Position.LEFT
     if (coord(i).y < coord(i + 1).y) pos = Position.RIGHT
     pos
   }
