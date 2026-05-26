@@ -69,7 +69,8 @@ class EdgeEndBuilder() {
           createEdgeEndForPrev(edge, l, eiCurr, eiPrev)
           createEdgeEndForNext(edge, l, eiCurr, eiNext)
         }
-      }; eiCurr != null
+      };
+      eiCurr != null
     }) ()
   }
 

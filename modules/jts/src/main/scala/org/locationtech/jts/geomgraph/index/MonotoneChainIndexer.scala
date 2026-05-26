@@ -59,7 +59,8 @@ class MonotoneChainIndexer() {
         val last = findChainEnd(pts, start)
         startIndexList.add(last)
         start = last
-      }; start < pts.length - 1
+      };
+      start < pts.length - 1
     }) ()
     // copy list to an array of ints, for efficiency
     startIndexList.toArray
@@ -74,7 +75,8 @@ class MonotoneChainIndexer() {
         val last = findChainEnd(pts, start)
         startIndexList.add(last)
         start = last
-      }; start < pts.length - 1
+      };
+      start < pts.length - 1
     }) ()
     val startIndex     = MonotoneChainIndexer.toIntArray(startIndexList)
     startIndex

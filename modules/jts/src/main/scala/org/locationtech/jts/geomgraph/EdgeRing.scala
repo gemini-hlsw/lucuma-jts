@@ -132,7 +132,8 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
         isFirstEdge = false
         setEdgeRing(de, this)
         de = getNext(de)
-      }; de != startDe
+      };
+      de != startDe
     }) ()
   }
 
@@ -150,7 +151,8 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
         val degree = node.getEdges.asInstanceOf[DirectedEdgeStar].getOutgoingDegree(this)
         if (degree > maxNodeDegree) maxNodeDegree = degree
         de = getNext(de)
-      }; de != startDe
+      };
+      de != startDe
     }) ()
     maxNodeDegree *= 2
   }
@@ -161,7 +163,8 @@ abstract class EdgeRing(val start: DirectedEdge, var geometryFactory: GeometryFa
       {
         de.getEdge.setInResult(true)
         de = de.getNext
-      }; de ne startDe
+      };
+      de ne startDe
     }) ()
   }
 
