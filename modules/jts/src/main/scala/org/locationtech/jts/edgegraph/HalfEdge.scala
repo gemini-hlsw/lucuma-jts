@@ -179,7 +179,8 @@ class HalfEdge(var origI: Coordinate) {
         if (oNext == null) return null
         if (oNext.dest.equals2D(dest)) return oNext
         oNext = oNext.oNext
-      }; oNext ne this
+      };
+      oNext ne this
     }) ()
     null
   }
@@ -243,7 +244,8 @@ class HalfEdge(var origI: Coordinate) {
         )
           return ePrev
         ePrev = eNext
-      }; ePrev ne this
+      };
+      ePrev ne this
     }) ()
     Assert.shouldNeverReachHere()
     null
@@ -285,7 +287,8 @@ class HalfEdge(var origI: Coordinate) {
         } else {
           e = eNext
         }
-      }; e != lowest
+      };
+      e != lowest
     }) ()
     true
   }
@@ -302,7 +305,8 @@ class HalfEdge(var origI: Coordinate) {
       {
         if (e.compareTo(lowest) < 0) lowest = e
         e = e.oNext
-      }; e ne this
+      };
+      e ne this
     }) ()
     lowest
   }
@@ -372,7 +376,8 @@ class HalfEdge(var origI: Coordinate) {
         sb.append("  -> " + e)
         sb.append("\n")
         e = e.oNext
-      }; e != this
+      };
+      e != this
     }) ()
     sb.toString
   }
@@ -394,7 +399,8 @@ class HalfEdge(var origI: Coordinate) {
       {
         degree += 1
         e = e.oNext
-      }; e ne this
+      };
+      e ne this
     }) ()
     degree
   }

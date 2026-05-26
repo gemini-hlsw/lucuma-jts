@@ -51,7 +51,8 @@ class MaximalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: 
         val node = de.getNode
         node.getEdges.asInstanceOf[DirectedEdgeStar].linkMinimalDirectedEdges(this)
         de = de.getNext
-      }; de != startDe
+      };
+      de != startDe
     }) ()
   }
 
@@ -65,7 +66,8 @@ class MaximalEdgeRing(override val start: DirectedEdge, val geometryFactoryArg: 
           minEdgeRings.add(minEr)
         }
         de = de.getNext
-      }; de != startDe
+      };
+      de != startDe
     }) ()
     minEdgeRings
   }

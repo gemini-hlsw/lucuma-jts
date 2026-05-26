@@ -172,7 +172,8 @@ object CGAlgorithms {
       {
         iPrev = iPrev - 1
         if (iPrev < 0) iPrev = nPts
-      }; ring(iPrev).equals2D(hiPt) && iPrev != hiIndex
+      };
+      ring(iPrev).equals2D(hiPt) && iPrev != hiIndex
     }) ()
     // find distinct point after highest point
     var iNext   = hiIndex

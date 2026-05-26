@@ -165,7 +165,8 @@ class ConnectedInteriorTester(var geomGraph: GeometryGraph) {
         Assert.isTrue(de != null, "found null Directed Edge")
         de.setVisited(true)
         de = de.getNext
-      }; de ne startDe
+      };
+      de ne startDe
     }) ()
   }
 
