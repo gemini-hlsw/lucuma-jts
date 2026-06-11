@@ -26,10 +26,11 @@ object Intersection {
 
   /**
    * Computes the intersection point of two lines. If the lines are parallel or collinear this case
-   * is detected and <code>null</code> is returned. <p> In general it is not possible to accurately
-   * compute the intersection point of two lines, due to numerical roundoff. This is particularly
-   * true when the input lines are nearly parallel. This routine uses numerical conditioning on the
-   * input values to ensure that the computed value should be very close to the correct value.
+   * is detected and <code>null</code> is returned.
+   *
+   * Delegates to the double-double precision computation, matching upstream JTS 1.20: the
+   * floating-point version (retained below as `intersectionFP` for testing) caused spatial
+   * predicate failures in some cases.
    *
    * @param p1
    *   an endpoint of line 1
@@ -43,7 +44,21 @@ object Intersection {
    * @see
    *   CGAlgorithmsDD#intersection(Coordinate, Coordinate, Coordinate, Coordinate)
    */
-  def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Coordinate = { // compute midpoint of "kernel envelope"
+  def intersection(p1: Coordinate, p2: Coordinate, q1: Coordinate, q2: Coordinate): Coordinate =
+    CGAlgorithmsDD.intersection(p1, p2, q1, q2)
+
+  /**
+   * Computes the intersection point of two lines using a floating-point algorithm. Less accurate
+   * than the DD version; kept for testing purposes. <p> Uses numerical conditioning on the input
+   * values to keep the computed value close to the correct value.
+   */
+  @annotation.unused
+  private def intersectionFP(
+    p1: Coordinate,
+    p2: Coordinate,
+    q1: Coordinate,
+    q2: Coordinate
+  ): Coordinate = { // compute midpoint of "kernel envelope"
     val minX0   =
       if (p1.x < p2.x) p1.x
       else p2.x
