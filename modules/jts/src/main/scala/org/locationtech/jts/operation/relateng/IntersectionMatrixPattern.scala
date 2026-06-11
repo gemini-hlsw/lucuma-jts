@@ -15,15 +15,14 @@
 package org.locationtech.jts.operation.relateng
 
 /**
- * String constants for DE-9IM matrix patterns for topological relationships. These can be used
- * with {link RelateNG#evaluate(org.locationtech.jts.geom.Geometry, String)} and {link
- * RelateNG#relate(org.locationtech.jts.geom.Geometry, org.locationtech.jts.geom.Geometry,
- * String)}.
+ * String constants for DE-9IM matrix patterns for topological relationships. These can be used with
+ * {link RelateNG#evaluate(org.locationtech.jts.geom.Geometry, String)} and {link
+ * RelateNG#relate(org.locationtech.jts.geom.Geometry, org.locationtech.jts.geom.Geometry, String)}.
  *
- * <h3>DE-9IM Pattern Matching</h3> Matrix patterns are specified as a 9-character string
- * containing the pattern symbols for the DE-9IM 3x3 matrix entries, listed row-wise. The pattern
- * symbols are: <ul> <li><tt>0</tt> - topological interaction has dimension 0 <li><tt>1</tt> -
- * topological interaction has dimension 1 <li><tt>2</tt> - topological interaction has dimension 2
+ * <h3>DE-9IM Pattern Matching</h3> Matrix patterns are specified as a 9-character string containing
+ * the pattern symbols for the DE-9IM 3x3 matrix entries, listed row-wise. The pattern symbols are:
+ * <ul> <li><tt>0</tt> - topological interaction has dimension 0 <li><tt>1</tt> - topological
+ * interaction has dimension 1 <li><tt>2</tt> - topological interaction has dimension 2
  * <li><tt>F</tt> - no topological interaction <li><tt>T</tt> - topological interaction of any
  * dimension <li><tt>*</tt> - any topological interaction is allowed, including none </ul>
  *
@@ -39,8 +38,8 @@ object IntersectionMatrixPattern {
   val ADJACENT: String = "F***1****"
 
   /**
-   * A DE-9IM pattern to detect a geometry which properly contains another geometry (i.e. which
-   * lies entirely in the interior of the first geometry).
+   * A DE-9IM pattern to detect a geometry which properly contains another geometry (i.e. which lies
+   * entirely in the interior of the first geometry).
    */
   val CONTAINS_PROPERLY: String = "T**FF*FF*"
 

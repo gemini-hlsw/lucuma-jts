@@ -33,11 +33,11 @@ trait TopologyPredicate {
   def name: String
 
   /**
-   * Reports whether this predicate requires self-noding for geometries which contain crossing
-   * edges (for example, {link LineString}s, or {link GeometryCollection}s containing lines or
-   * polygons which may self-intersect). Self-noding ensures that intersections are computed
-   * consistently in cases which contain self-crossings and mutual crossings. <p> Most predicates
-   * require this, but it can be avoided for simple intersection detection (such as in {link
+   * Reports whether this predicate requires self-noding for geometries which contain crossing edges
+   * (for example, {link LineString}s, or {link GeometryCollection}s containing lines or polygons
+   * which may self-intersect). Self-noding ensures that intersections are computed consistently in
+   * cases which contain self-crossings and mutual crossings. <p> Most predicates require this, but
+   * it can be avoided for simple intersection detection (such as in {link
    * RelatePredicate#intersects()} and {link RelatePredicate#disjoint()}. Avoiding self-noding
    * improves performance for polygonal inputs.
    *
@@ -66,8 +66,8 @@ trait TopologyPredicate {
   def requireCovers(isSourceA: Boolean): Boolean = false
 
   /**
-   * Reports whether this predicate requires checking if the source input intersects the Exterior
-   * of the target input. This is the case if: <pre> IM[Int(Src), Ext(Tgt)] >= 0 or IM[Bdy(Src),
+   * Reports whether this predicate requires checking if the source input intersects the Exterior of
+   * the target input. This is the case if: <pre> IM[Int(Src), Ext(Tgt)] >= 0 or IM[Bdy(Src),
    * Ext(Tgt)] >= 0 </pre> If false, this may permit a faster result in some geometric situations.
    *
    * @param isSourceA
@@ -77,8 +77,8 @@ trait TopologyPredicate {
   def requireExteriorCheck(isSourceA: Boolean): Boolean = true
 
   /**
-   * Initializes the predicate for a specific geometric case. This may allow the predicate result
-   * to become known if it can be inferred from the dimensions.
+   * Initializes the predicate for a specific geometric case. This may allow the predicate result to
+   * become known if it can be inferred from the dimensions.
    *
    * @param dimA
    *   the dimension of geometry A
@@ -93,8 +93,8 @@ trait TopologyPredicate {
   }
 
   /**
-   * Initializes the predicate for a specific geometric case. This may allow the predicate result
-   * to become known if it can be inferred from the envelopes.
+   * Initializes the predicate for a specific geometric case. This may allow the predicate result to
+   * become known if it can be inferred from the envelopes.
    *
    * @param envA
    *   the envelope of geometry A
@@ -138,8 +138,8 @@ trait TopologyPredicate {
   def isKnown: Boolean
 
   /**
-   * Gets the current value of the predicate result. The value is only valid if {link #isKnown()}
-   * is true.
+   * Gets the current value of the predicate result. The value is only valid if {link #isKnown()} is
+   * true.
    *
    * return the predicate result value
    */

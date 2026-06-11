@@ -46,8 +46,8 @@ object BasicPredicate {
 }
 
 /**
- * The base class for relate topological predicates with a boolean value. Implements tri-state
- * logic for the predicate value, to detect when the final value has been determined.
+ * The base class for relate topological predicates with a boolean value. Implements tri-state logic
+ * for the predicate value, to detect when the final value has been determined.
  *
  * @author
  *   Martin Davis

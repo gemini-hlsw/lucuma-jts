@@ -36,15 +36,15 @@ import org.locationtech.jts.operation.relateng.RelateGeometry.GEOM_B
 /**
  * Computes the value of topological predicates between two geometries based on the <a
  * href="https://en.wikipedia.org/wiki/DE-9IM">Dimensionally-Extended 9-Intersection Model</a>
- * (DE-9IM). Standard and custom topological predicates are provided by {link RelatePredicate}.
- * <p> The RelateNG algorithm has the following capabilities: <ol> <li>Efficient short-circuited
+ * (DE-9IM). Standard and custom topological predicates are provided by {link RelatePredicate}. <p>
+ * The RelateNG algorithm has the following capabilities: <ol> <li>Efficient short-circuited
  * evaluation of topological predicates (including matching custom DE-9IM matrix patterns)
  * <li>Optimized repeated evaluation of predicates against a single geometry via cached spatial
  * indexes (AKA "prepared mode") <li>Robust computation (only point-local topology is required, so
  * invalid geometry topology does not cause failures) <li>{link GeometryCollection} inputs
  * containing mixed types and overlapping polygons are supported, using <i>union semantics</i>.
- * <li>Zero-length LineStrings are treated as being topologically identical to Points.
- * <li>Support for {link BoundaryNodeRule}s. </ol>
+ * <li>Zero-length LineStrings are treated as being topologically identical to Points. <li>Support
+ * for {link BoundaryNodeRule}s. </ol>
  *
  * See {link IntersectionMatrixPattern} for a description of DE-9IM patterns.
  *
@@ -54,8 +54,8 @@ import org.locationtech.jts.operation.relateng.RelateGeometry.GEOM_B
  *
  * This implementation replaces {link RelateOp} and {link PreparedGeometry}.
  *
- * <h3>FUTURE WORK</h3> <ul> <li>Support for a distance tolerance to provide "approximate"
- * predicate evaluation </ul>
+ * <h3>FUTURE WORK</h3> <ul> <li>Support for a distance tolerance to provide "approximate" predicate
+ * evaluation </ul>
  *
  * @author
  *   Martin Davis
@@ -96,8 +96,12 @@ object RelateNG {
    * @param bnRule
    *   the Boundary Node Rule to use return true if the topological relationship is satisfied
    */
-  def relate(a: Geometry, b: Geometry, pred: TopologyPredicate, bnRule: BoundaryNodeRule)
-    : Boolean = {
+  def relate(
+    a:      Geometry,
+    b:      Geometry,
+    pred:   TopologyPredicate,
+    bnRule: BoundaryNodeRule
+  ): Boolean = {
     val rng = new RelateNG(a, false, bnRule)
     rng.evaluate(b, pred)
   }
@@ -160,8 +164,8 @@ object RelateNG {
     new RelateNG(a, true)
 
   /**
-   * Creates a prepared RelateNG instance to optimize the computation of predicates against a
-   * single geometry, using a given {link BoundaryNodeRule}.
+   * Creates a prepared RelateNG instance to optimize the computation of predicates against a single
+   * geometry, using a given {link BoundaryNodeRule}.
    *
    * @param a
    *   the A input geometry
@@ -174,8 +178,8 @@ object RelateNG {
 
 class RelateNG private (inputA: Geometry, isPrepared: Boolean, bnRule: BoundaryNodeRule) {
 
-  private val boundaryNodeRule: BoundaryNodeRule              = bnRule
-  private val geomA: RelateGeometry                           =
+  private val boundaryNodeRule: BoundaryNodeRule                = bnRule
+  private val geomA: RelateGeometry                             =
     new RelateGeometry(inputA, isPrepared, boundaryNodeRule)
   private var edgeMutualInt: MCIndexSegmentSetMutualIntersector = null
 
@@ -229,8 +233,8 @@ class RelateNG private (inputA: Geometry, isPrepared: Boolean, bnRule: BoundaryN
       // TODO: what if predicate is disjoint?  Perhaps use result on disjoint envs?
       return finishValue(predicate)
     }
-    val dimA  = geomA.getDimensionReal
-    val dimB  = geomB.getDimensionReal
+    val dimA = geomA.getDimensionReal
+    val dimB = geomB.getDimensionReal
 
     // -- check if predicate is determined by dimension or envelope
     predicate.init(dimA, dimB)
@@ -269,8 +273,7 @@ class RelateNG private (inputA: Geometry, isPrepared: Boolean, bnRule: BoundaryN
     topoComputer.getResult
   }
 
-  private def hasRequiredEnvelopeInteraction(b: Geometry, predicate: TopologyPredicate)
-    : Boolean = {
+  private def hasRequiredEnvelopeInteraction(b: Geometry, predicate: TopologyPredicate): Boolean = {
     val envB        = b.getEnvelopeInternal
     var isInteracts = false
     if (predicate.requireCovers(GEOM_A)) {
@@ -349,8 +352,8 @@ class RelateNG private (inputA: Geometry, isPrepared: Boolean, bnRule: BoundaryN
 
     /**
      * Performance optimization: only check points against target if it has areas OR if the
-     * predicate requires checking for exterior interaction. In particular, this avoids testing
-     * line ends against lines for the intersects predicate (since these are checked during
+     * predicate requires checking for exterior interaction. In particular, this avoids testing line
+     * ends against lines for the intersects predicate (since these are checked during
      * segment/segment intersection checking anyway). Checking points against areas is necessary,
      * since the input linework is disjoint if one input lies wholly inside an area, so segment
      * intersection checking is not sufficient.
@@ -448,8 +451,8 @@ class RelateNG private (inputA: Geometry, isPrepared: Boolean, bnRule: BoundaryN
   }
 
   /**
-   * Compute the topology of a line endpoint. Also reports if the line end is in the exterior of
-   * the target geometry, to optimize testing multiple exterior endpoints.
+   * Compute the topology of a line endpoint. Also reports if the line end is in the exterior of the
+   * target geometry, to optimize testing multiple exterior endpoints.
    *
    * @param geom
    * @param isA

@@ -51,9 +51,9 @@ class RelateNode(private val nodePt: Coordinate) {
       case Dimension.A =>
         // -- assumes node edges have CW orientation (as per JTS norm)
         // -- entering edge - interior on L
-        val e0     = addAreaEdge(ns.isA, ns.getVertex(0), false)
+        val e0 = addAreaEdge(ns.isA, ns.getVertex(0), false)
         // -- exiting edge - interior on R
-        val e1     = addAreaEdge(ns.isA, ns.getVertex(1), true)
+        val e1 = addAreaEdge(ns.isA, ns.getVertex(1), true)
 
         val index0 = edges.indexOf(e0)
         val index1 = edges.indexOf(e1)
@@ -131,7 +131,7 @@ class RelateNode(private val nodePt: Coordinate) {
       i += 1
     }
     // -- add a new edge
-    val e = RelateEdge.create(this, dirPt, isA, dim, isForward)
+    val e           = RelateEdge.create(this, dirPt, isA, dim, isForward)
     if (insertIndex < 0) {
       // -- add edge at end of list
       edges.add(e)

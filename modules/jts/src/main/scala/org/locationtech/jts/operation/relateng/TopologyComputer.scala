@@ -183,9 +183,9 @@ class TopologyComputer(
 
   /**
    * Updates topology for an AB Area-Area crossing node. Sections cross at a node if (a) the
-   * intersection is proper (i.e. in the interior of two segments) or (b) if non-proper then
-   * whether the linework crosses is determined by the geometry of the segments on either side of
-   * the node. In these situations the area geometry interiors intersect (in dimension 2).
+   * intersection is proper (i.e. in the interior of two segments) or (b) if non-proper then whether
+   * the linework crosses is determined by the geometry of the segments on either side of the node.
+   * In these situations the area geometry interiors intersect (in dimension 2).
    *
    * @param a
    *   the section for geometry A
@@ -260,8 +260,8 @@ class TopologyComputer(
   }
 
   /**
-   * Add topology for a line end. The line end point must be "significant"; i.e. not contained in
-   * an area if the source is a mixed-dimension GC.
+   * Add topology for a line end. The line end point must be "significant"; i.e. not contained in an
+   * area if the source is a mixed-dimension GC.
    *
    * @param isLineA
    *   the input containing the line end
@@ -307,8 +307,8 @@ class TopologyComputer(
     pt:         Coordinate
   ): Unit =
     /**
-     * When a line end is in the EXTERIOR of a Line, some length of the source Line INTERIOR is
-     * also in the target Line EXTERIOR. This works for zero-length lines as well.
+     * When a line end is in the EXTERIOR of a Line, some length of the source Line INTERIOR is also
+     * in the target Line EXTERIOR. This works for zero-length lines as well.
      */
     if (locLine == Location.EXTERIOR) {
       updateDim(isLineA, Location.INTERIOR, Location.EXTERIOR, Dimension.L)
@@ -321,10 +321,11 @@ class TopologyComputer(
     pt:         Coordinate
   ): Unit =
     if (locArea != Location.BOUNDARY) {
+
       /**
-       * When a line end is in an Area INTERIOR or EXTERIOR some length of the source Line
-       * Interior AND the Exterior of the line is also in that location of the target. NOTE: this
-       * assumes the line end is NOT also in an Area of a mixed-dim GC
+       * When a line end is in an Area INTERIOR or EXTERIOR some length of the source Line Interior
+       * AND the Exterior of the line is also in that location of the target. NOTE: this assumes the
+       * line end is NOT also in an Area of a mixed-dim GC
        */
       // TODO: handle zero-length lines?
       updateDim(isLineA, Location.INTERIOR, locArea, Dimension.L)
@@ -332,12 +333,11 @@ class TopologyComputer(
     }
 
   /**
-   * Adds topology for an area vertex interaction with a target geometry element. Assumes the
-   * target geometry element has highest dimension (i.e. if the point lies on two elements of
-   * different dimension, the location on the higher dimension element is provided. This is the
-   * semantic provided by {link RelatePointLocator}. <p> Note that in a GeometryCollection
-   * containing overlapping or adjacent polygons, the area vertex location may be INTERIOR instead
-   * of BOUNDARY.
+   * Adds topology for an area vertex interaction with a target geometry element. Assumes the target
+   * geometry element has highest dimension (i.e. if the point lies on two elements of different
+   * dimension, the location on the higher dimension element is provided. This is the semantic
+   * provided by {link RelatePointLocator}. <p> Note that in a GeometryCollection containing
+   * overlapping or adjacent polygons, the area vertex location may be INTERIOR instead of BOUNDARY.
    *
    * @param isAreaA
    *   the input that is the area
@@ -361,10 +361,9 @@ class TopologyComputer(
       updateDim(isAreaA, Location.INTERIOR, Location.EXTERIOR, Dimension.A)
 
       /**
-       * If area vertex is on Boundary further topology can be deduced from the neighbourhood
-       * around the boundary vertex. This is always the case for polygonal geometries. For GCs,
-       * the vertex may be either on boundary or in interior (i.e. of overlapping or adjacent
-       * polygons)
+       * If area vertex is on Boundary further topology can be deduced from the neighbourhood around
+       * the boundary vertex. This is always the case for polygonal geometries. For GCs, the vertex
+       * may be either on boundary or in interior (i.e. of overlapping or adjacent polygons)
        */
       if (locArea == Location.BOUNDARY) {
         updateDim(isAreaA, Location.BOUNDARY, Location.EXTERIOR, Dimension.L)
@@ -389,9 +388,9 @@ class TopologyComputer(
 
   /**
    * Updates topology for an area vertex (in Interior or on Boundary) intersecting a point. Note
-   * that because the largest dimension of intersecting target is determined, the intersecting
-   * point is not part of any other target geometry, and hence its neighbourhood is in the
-   * Exterior of the target.
+   * that because the largest dimension of intersecting target is determined, the intersecting point
+   * is not part of any other target geometry, and hence its neighbourhood is in the Exterior of the
+   * target.
    *
    * @param isAreaA
    *   whether the area is the A input
@@ -431,12 +430,13 @@ class TopologyComputer(
   ): Unit = {
     // -- Assert: locArea != EXTERIOR
     /**
-     * If an area vertex intersects a line, all we know is the intersection at that point. e.g.
-     * the line may or may not be collinear with the area boundary, and the line may or may not
+     * If an area vertex intersects a line, all we know is the intersection at that point. e.g. the
+     * line may or may not be collinear with the area boundary, and the line may or may not
      * intersect the area interior. Full topology is determined later by node analysis
      */
     updateDim(isAreaA, locArea, locTarget, Dimension.P)
     if (locArea == Location.INTERIOR) {
+
       /**
        * The area interior intersects the line's exterior neighbourhood.
        */
@@ -460,10 +460,9 @@ class TopologyComputer(
       updateDim(isAreaA, Location.INTERIOR, locTarget, Dimension.A)
 
       /**
-       * If area vertex is on Boundary further topology can be deduced from the neighbourhood
-       * around the boundary vertex. This is always the case for polygonal geometries. For GCs,
-       * the vertex may be either on boundary or in interior (i.e. of overlapping or adjacent
-       * polygons)
+       * If area vertex is on Boundary further topology can be deduced from the neighbourhood around
+       * the boundary vertex. This is always the case for polygonal geometries. For GCs, the vertex
+       * may be either on boundary or in interior (i.e. of overlapping or adjacent polygons)
        */
       if (locArea == Location.BOUNDARY) {
         updateDim(isAreaA, Location.BOUNDARY, locTarget, Dimension.L)

@@ -80,13 +80,12 @@ class NodeSections(private val nodePt: Coordinate) {
   }
 
   /**
-   * Sorts the sections so that:
-   * <ul> <li>lines are before areas <li>edges from the same polygon are contiguous </ul>
+   * Sorts the sections so that: <ul> <li>lines are before areas <li>edges from the same polygon are
+   * contiguous </ul>
    */
-  private def prepareSections(): Unit = {
+  private def prepareSections(): Unit =
     util.Collections.sort(sections)
     // TODO: remove duplicate sections
-  }
 
 }
 

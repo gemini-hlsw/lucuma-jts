@@ -29,10 +29,10 @@ import java.util
 class LinearBoundary(lines: util.List[LineString], bnRule: BoundaryNodeRule) {
 
   // assert: dim(geom) == 1
-  private val boundaryNodeRule: BoundaryNodeRule              = bnRule
-  private val vertexDegree: util.Map[Coordinate, Integer]     =
+  private val boundaryNodeRule: BoundaryNodeRule          = bnRule
+  private val vertexDegree: util.Map[Coordinate, Integer] =
     LinearBoundary.computeBoundaryPoints(lines)
-  private val hasBoundaryPoints: Boolean                      = checkBoundary(vertexDegree)
+  private val hasBoundaryPoints: Boolean                  = checkBoundary(vertexDegree)
 
   private def checkBoundary(vertexDegree: util.Map[Coordinate, Integer]): Boolean = {
     val it = vertexDegree.values.iterator

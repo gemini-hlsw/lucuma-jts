@@ -25,7 +25,7 @@ import org.locationtech.jts.geom.Location
  */
 object DimensionLocation {
 
-  val EXTERIOR: Int = Location.EXTERIOR
+  val EXTERIOR: Int  = Location.EXTERIOR
   val POINT_INTERIOR = 103
   val LINE_INTERIOR  = 110
   val LINE_BOUNDARY  = 111
@@ -56,10 +56,10 @@ object DimensionLocation {
   }
 
   def dimension(dimLoc: Int): Int = dimLoc match {
-    case POINT_INTERIOR                 => Dimension.P
-    case LINE_INTERIOR | LINE_BOUNDARY  => Dimension.L
-    case AREA_INTERIOR | AREA_BOUNDARY  => Dimension.A
-    case _                              => Dimension.FALSE
+    case POINT_INTERIOR                => Dimension.P
+    case LINE_INTERIOR | LINE_BOUNDARY => Dimension.L
+    case AREA_INTERIOR | AREA_BOUNDARY => Dimension.A
+    case _                             => Dimension.FALSE
   }
 
   def dimension(dimLoc: Int, exteriorDim: Int): Int = {

@@ -81,8 +81,8 @@ object HPRtree {
 }
 
 /**
- * A Hilbert-Packed R-tree. This is a static R-tree which is packed by using the Hilbert ordering
- * of the tree items. <p> The tree is constructed by sorting the items by the Hilbert code of the
+ * A Hilbert-Packed R-tree. This is a static R-tree which is packed by using the Hilbert ordering of
+ * the tree items. <p> The tree is constructed by sorting the items by the Hilbert code of the
  * midpoint of their envelope. Then, a set of internal layers is created recursively as follows:
  * <ul> <li>The items/nodes of the previous are partitioned into blocks of size
  * <code>nodeCapacity</code> <li>For each block a layer node is created with range equal to the
@@ -246,7 +246,7 @@ class HPRtree(private val nodeCapacity: Int) extends SpatialIndex[Any] {
 
     // compute tree nodes
     computeLeafNodes(layerStartIndex(1))
-    var i         = 1
+    var i = 1
     while (i < layerStartIndex.length - 1) {
       computeLayerNodes(i)
       i += 1

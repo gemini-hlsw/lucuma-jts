@@ -63,8 +63,8 @@ abstract class IMPredicate extends BasicPredicate {
 
   /**
    * Tests whether predicate evaluation can be short-circuited due to the current state of the
-   * matrix providing enough information to determine the predicate value. <p> If this value is
-   * true then {link valueIM()} must provide the correct result of the predicate.
+   * matrix providing enough information to determine the predicate value. <p> If this value is true
+   * then {link valueIM()} must provide the correct result of the predicate.
    *
    * return true if the predicate value is determined
    */

@@ -38,8 +38,8 @@ object IMPatternMatcher {
  * A predicate that matches a DE-9IM pattern.
  *
  * <h3>FUTURE WORK</h3> Extend the expressiveness of the DE-9IM pattern language to allow: <ul>
- * <li>Combining patterns via disjunction using "|". <li>Limiting patterns via geometry dimension.
- * A dimension limit specifies the allowable dimensions for both or individual geometries as [d] or
+ * <li>Combining patterns via disjunction using "|". <li>Limiting patterns via geometry dimension. A
+ * dimension limit specifies the allowable dimensions for both or individual geometries as [d] or
  * [ab] or [ab;cd] </ul>
  *
  * @author

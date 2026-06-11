@@ -29,9 +29,9 @@ class EdgeSetIntersector(
   private val envelope: Envelope
 ) {
 
-  private val index                                  = new HPRtree()
-  private val monoChains: util.List[MonotoneChain]   = new util.ArrayList[MonotoneChain]
-  private var idCounter                              = 0
+  private val index                                = new HPRtree()
+  private val monoChains: util.List[MonotoneChain] = new util.ArrayList[MonotoneChain]
+  private var idCounter                            = 0
 
   addEdges(edgesA)
   addEdges(edgesB)

@@ -49,8 +49,7 @@ class NodeSection(
     if (i == 0) v0 else v1
 
   /**
-   * Gets the polygon this section is part of. Will be null if section is not on a polygon
-   * boundary.
+   * Gets the polygon this section is part of. Will be null if section is not on a polygon boundary.
    *
    * return the associated polygon, or null
    */
@@ -80,8 +79,8 @@ class NodeSection(
   }
 
   /**
-   * Compare node sections by parent geometry, dimension, element id and ring id, and edge
-   * vertices. Sections are assumed to be at the same node point.
+   * Compare node sections by parent geometry, dimension, element id and ring id, and edge vertices.
+   * Sections are assumed to be at the same node point.
    */
   def compareTo(o: NodeSection): Int = {
     // Assert: nodePt.equals2D(o.nodePt)

@@ -89,7 +89,16 @@ class RelateSegmentString private (
     val prev           = prevVertex(segIndex, intPt)
     val next           = nextVertex(segIndex, intPt)
     val a              =
-      new NodeSection(isA, dimension, id, ringId, parentPolygonal, isNodeAtVertex, prev, intPt, next)
+      new NodeSection(isA,
+                      dimension,
+                      id,
+                      ringId,
+                      parentPolygonal,
+                      isNodeAtVertex,
+                      prev,
+                      intPt,
+                      next
+      )
     a
   }
 
@@ -148,8 +157,8 @@ class RelateSegmentString private (
    * Tests if a segment intersection point has that segment as its canonical containing segment.
    * Segments are half-closed, and contain their start point but not the endpoint, except for the
    * final segment in a non-closed segment string, which contains its endpoint as well. This test
-   * ensures that vertices are assigned to a unique segment in a segment string. In particular,
-   * this avoids double-counting intersections which lie exactly at segment endpoints.
+   * ensures that vertices are assigned to a unique segment in a segment string. In particular, this
+   * avoids double-counting intersections which lie exactly at segment endpoints.
    *
    * @param segIndex
    *   the segment the point may lie on

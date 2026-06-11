@@ -17,14 +17,14 @@ package org.locationtech.jts.shape.fractal
 import org.locationtech.jts.geom.Coordinate
 
 /**
- * Encodes points as the index along finite planar Hilbert curves. <p> The planar Hilbert Curve is
- * a continuous space-filling curve. In the limit the Hilbert curve has infinitely many vertices
- * and fills the space of the unit square. A sequence of finite approximations to the infinite
- * Hilbert curve is defined by the level number. The finite Hilbert curve at level n contains 2^(n
- * + 1) points. Each finite Hilbert curve defines an ordering of the points in the 2-dimensional
- * range square containing the curve. <p> This implementation represents codes using 32-bit
- * integers. This allows levels 0 to 16 to be handled. <p> The Hilbert order has the property that
- * it tends to preserve locality.
+ * Encodes points as the index along finite planar Hilbert curves. <p> The planar Hilbert Curve is a
+ * continuous space-filling curve. In the limit the Hilbert curve has infinitely many vertices and
+ * fills the space of the unit square. A sequence of finite approximations to the infinite Hilbert
+ * curve is defined by the level number. The finite Hilbert curve at level n contains 2^(n + 1)
+ * points. Each finite Hilbert curve defines an ordering of the points in the 2-dimensional range
+ * square containing the curve. <p> This implementation represents codes using 32-bit integers. This
+ * allows levels 0 to 16 to be handled. <p> The Hilbert order has the property that it tends to
+ * preserve locality.
  *
  * @author
  *   Martin Davis
@@ -48,8 +48,8 @@ object HilbertCode {
   }
 
   /**
-   * The maximum ordinate value for points in the curve for the given level. The maximum ordinate
-   * is 2^level - 1.
+   * The maximum ordinate value for points in the curve for the given level. The maximum ordinate is
+   * 2^level - 1.
    *
    * @param level
    *   the level of the curve return the maximum ordinate value
@@ -98,22 +98,22 @@ object HilbertCode {
     val x = x0 << (16 - lvl)
     val y = y0 << (16 - lvl)
 
-    var a: Long = (x ^ y).toLong
+    var a: Long = (x     ^ y).toLong
     var b: Long = 0xffff ^ a
     var c: Long = 0xffff ^ (x | y).toLong
     var d: Long = (x & (y ^ 0xffff)).toLong
 
     var bigA: Long = a | (b >> 1)
-    var bigB: Long = (a >> 1) ^ a
-    var bigC: Long = ((c >> 1) ^ (b & (d >> 1))) ^ c
-    var bigD: Long = ((a & (c >> 1)) ^ (d >> 1)) ^ d
+    var bigB: Long = (a >> 1)        ^ a
+    var bigC: Long = ((c >> 1)       ^ (b & (d >> 1))) ^ c
+    var bigD: Long = ((a & (c >> 1)) ^ (d >> 1))       ^ d
 
     a = bigA
     b = bigB
     c = bigC
     d = bigD
-    bigA = (a & (a >> 2)) ^ (b & (b >> 2))
-    bigB = (a & (b >> 2)) ^ (b & ((a ^ b) >> 2))
+    bigA = (a & (a >> 2))  ^ (b & (b >> 2))
+    bigB = (a & (b >> 2))  ^ (b & ((a ^ b) >> 2))
     bigC ^= (a & (c >> 2)) ^ (b & (d >> 2))
     bigD ^= (b & (c >> 2)) ^ ((a ^ b) & (d >> 2))
 
@@ -121,8 +121,8 @@ object HilbertCode {
     b = bigB
     c = bigC
     d = bigD
-    bigA = (a & (a >> 4)) ^ (b & (b >> 4))
-    bigB = (a & (b >> 4)) ^ (b & ((a ^ b) >> 4))
+    bigA = (a & (a >> 4))  ^ (b & (b >> 4))
+    bigB = (a & (b >> 4))  ^ (b & ((a ^ b) >> 4))
     bigC ^= (a & (c >> 4)) ^ (b & (d >> 4))
     bigD ^= (b & (c >> 4)) ^ ((a ^ b) & (d >> 4))
 

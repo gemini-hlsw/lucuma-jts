@@ -108,9 +108,9 @@ object RelatePredicate {
   /**
    * Creates a predicate to determine whether a geometry contains another geometry. <p> The
    * <code>contains</code> predicate has the following equivalent definitions: <ul> <li>Every point
-   * of the other geometry is a point of this geometry, and the interiors of the two geometries
-   * have at least one point in common. <li>The DE-9IM Intersection Matrix for the two geometries
-   * matches the pattern <code>[T*****FF*]</code> <li><code>within(B, A) = true</code>
+   * of the other geometry is a point of this geometry, and the interiors of the two geometries have
+   * at least one point in common. <li>The DE-9IM Intersection Matrix for the two geometries matches
+   * the pattern <code>[T*****FF*]</code> <li><code>within(B, A) = true</code>
    * <br>(<code>contains</code> is the converse of {link #within} ) </ul> An implication of the
    * definition is that "Geometries do not contain their boundary". In other words, if a geometry A
    * is a subset of the points in the boundary of a geometry B, <code>B.contains(A) = false</code>.
@@ -150,15 +150,15 @@ object RelatePredicate {
 
   /**
    * Creates a predicate to determine whether a geometry is within another geometry. <p> The
-   * <code>within</code> predicate has the following equivalent definitions: <ul> <li>Every point
-   * of this geometry is a point of the other geometry, and the interiors of the two geometries
-   * have at least one point in common. <li>The DE-9IM Intersection Matrix for the two geometries
-   * matches <code>[T*F**F***]</code> <li><code>contains(B, A) = true</code> <br>(<code>within</code>
-   * is the converse of {link #contains}) </ul> An implication of the definition is that "The
-   * boundary of a Geometry is not within the Geometry". In other words, if a geometry A is a
-   * subset of the points in the boundary of a geometry B, <code>within(B, A) = false</code> (As a
-   * concrete example, take A to be a LineString which lies in the boundary of a Polygon B.) For a
-   * predicate with similar behavior but avoiding this subtle limitation, see {link #coveredBy}.
+   * <code>within</code> predicate has the following equivalent definitions: <ul> <li>Every point of
+   * this geometry is a point of the other geometry, and the interiors of the two geometries have at
+   * least one point in common. <li>The DE-9IM Intersection Matrix for the two geometries matches
+   * <code>[T*F**F***]</code> <li><code>contains(B, A) = true</code> <br>(<code>within</code> is the
+   * converse of {link #contains}) </ul> An implication of the definition is that "The boundary of a
+   * Geometry is not within the Geometry". In other words, if a geometry A is a subset of the points
+   * in the boundary of a geometry B, <code>within(B, A) = false</code> (As a concrete example, take
+   * A to be a LineString which lies in the boundary of a Polygon B.) For a predicate with similar
+   * behavior but avoiding this subtle limitation, see {link #coveredBy}.
    *
    * return the predicate instance
    *
@@ -193,18 +193,18 @@ object RelatePredicate {
 
   /**
    * Creates a predicate to determine whether a geometry covers another geometry. <p> The
-   * <code>covers</code> predicate has the following equivalent definitions: <ul> <li>Every point
-   * of the other geometry is a point of this geometry. <li>The DE-9IM Intersection Matrix for the
-   * two geometries matches at least one of the following patterns: <ul>
-   * <li><code>[T*****FF*]</code> <li><code>[*T****FF*]</code> <li><code>[***T**FF*]</code>
-   * <li><code>[****T*FF*]</code> </ul> <li><code>coveredBy(b, a) = true</code>
-   * <br>(<code>covers</code> is the converse of {link #coveredBy}) </ul> If either geometry is
-   * empty, the value of this predicate is <code>false</code>. <p> This predicate is similar to
-   * {link #contains()}, but is more inclusive (i.e. returns <code>true</code> for more cases). In
-   * particular, unlike <code>contains</code> it does not distinguish between points in the
-   * boundary and in the interior of geometries. For most cases, <code>covers</code> should be used
-   * in preference to <code>contains</code>. As an added benefit, <code>covers</code> is more
-   * amenable to optimization, and hence should be more performant.
+   * <code>covers</code> predicate has the following equivalent definitions: <ul> <li>Every point of
+   * the other geometry is a point of this geometry. <li>The DE-9IM Intersection Matrix for the two
+   * geometries matches at least one of the following patterns: <ul> <li><code>[T*****FF*]</code>
+   * <li><code>[*T****FF*]</code> <li><code>[***T**FF*]</code> <li><code>[****T*FF*]</code> </ul>
+   * <li><code>coveredBy(b, a) = true</code> <br>(<code>covers</code> is the converse of {link
+   * #coveredBy}) </ul> If either geometry is empty, the value of this predicate is
+   * <code>false</code>. <p> This predicate is similar to {link #contains()}, but is more inclusive
+   * (i.e. returns <code>true</code> for more cases). In particular, unlike <code>contains</code> it
+   * does not distinguish between points in the boundary and in the interior of geometries. For most
+   * cases, <code>covers</code> should be used in preference to <code>contains</code>. As an added
+   * benefit, <code>covers</code> is more amenable to optimization, and hence should be more
+   * performant.
    *
    * return the predicate instance
    *
@@ -239,9 +239,9 @@ object RelatePredicate {
 
   /**
    * Creates a predicate to determine whether a geometry is covered by another geometry. <p> The
-   * <code>coveredBy</code> predicate has the following equivalent definitions: <ul> <li>Every
-   * point of this geometry is a point of the other geometry. <li>The DE-9IM Intersection Matrix
-   * for the two geometries matches at least one of the following patterns: <ul>
+   * <code>coveredBy</code> predicate has the following equivalent definitions: <ul> <li>Every point
+   * of this geometry is a point of the other geometry. <li>The DE-9IM Intersection Matrix for the
+   * two geometries matches at least one of the following patterns: <ul>
    * <li><code>[T*F**F***]</code> <li><code>[*TF**F***]</code> <li><code>[**FT*F***]</code>
    * <li><code>[**F*TF***]</code> </ul> <li><code>covers(B, A) = true</code>
    * <br>(<code>coveredBy</code> is the converse of {link #covers}) </ul> If either geometry is
@@ -283,12 +283,12 @@ object RelatePredicate {
    * Creates a predicate to determine whether a geometry crosses another geometry. <p> The
    * <code>crosses</code> predicate has the following equivalent definitions: <ul> <li>The
    * geometries have some but not all interior points in common. <li>The DE-9IM Intersection Matrix
-   * for the two geometries matches one of the following patterns: <ul>
-   * <li><code>[T*T******]</code> (for P/L, P/A, and L/A cases) <li><code>[T*****T**]</code> (for
-   * L/P, A/P, and A/L cases) <li><code>[0********]</code> (for L/L cases) </ul> </ul> For the A/A
-   * and P/P cases this predicate returns <code>false</code>. <p> The SFS defined this predicate
-   * only for P/L, P/A, L/L, and L/A cases. To make the relation symmetric JTS extends the
-   * definition to apply to L/P, A/P and A/L cases as well.
+   * for the two geometries matches one of the following patterns: <ul> <li><code>[T*T******]</code>
+   * (for P/L, P/A, and L/A cases) <li><code>[T*****T**]</code> (for L/P, A/P, and A/L cases)
+   * <li><code>[0********]</code> (for L/L cases) </ul> </ul> For the A/A and P/P cases this
+   * predicate returns <code>false</code>. <p> The SFS defined this predicate only for P/L, P/A,
+   * L/L, and L/A cases. To make the relation symmetric JTS extends the definition to apply to L/P,
+   * A/P and A/L cases as well.
    *
    * return the predicate instance
    */
@@ -366,12 +366,12 @@ object RelatePredicate {
   /**
    * Creates a predicate to determine whether a geometry overlaps another geometry. <p> The
    * <code>overlaps</code> predicate has the following equivalent definitions: <ul> <li>The
-   * geometries have at least one point each not shared by the other (or equivalently neither
-   * covers the other), they have the same dimension, and the intersection of the interiors of the
-   * two geometries has the same dimension as the geometries themselves. <li>The DE-9IM
-   * Intersection Matrix for the two geometries matches <code>[T*T***T**]</code> (for P/P and A/A
-   * cases) or <code>[1*T***T**]</code> (for L/L cases) </ul> If the geometries are of different
-   * dimension this predicate returns <code>false</code>. This predicate is symmetric.
+   * geometries have at least one point each not shared by the other (or equivalently neither covers
+   * the other), they have the same dimension, and the intersection of the interiors of the two
+   * geometries has the same dimension as the geometries themselves. <li>The DE-9IM Intersection
+   * Matrix for the two geometries matches <code>[T*T***T**]</code> (for P/P and A/A cases) or
+   * <code>[1*T***T**]</code> (for L/L cases) </ul> If the geometries are of different dimension
+   * this predicate returns <code>false</code>. This predicate is symmetric.
    *
    * return the predicate instance
    */

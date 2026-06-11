@@ -83,8 +83,12 @@ object PolygonNodeTopology {
    *   the other vertex of the test segment return true if the segment is interior to the ring
    *   corner
    */
-  def isInteriorSegment(nodePt: Coordinate, a0: Coordinate, a1: Coordinate, b: Coordinate)
-    : Boolean = {
+  def isInteriorSegment(
+    nodePt: Coordinate,
+    a0:     Coordinate,
+    a1:     Coordinate,
+    b:      Coordinate
+  ): Boolean = {
     var aLo               = a0
     var aHi               = a1
     var isInteriorBetween = true

@@ -50,13 +50,13 @@ class RelatePointLocator(geom: Geometry, isPrepared: Boolean, boundaryRule: Boun
   def this(geom: Geometry) =
     this(geom, false, BoundaryNodeRule.OGC_SFS_BOUNDARY_RULE)
 
-  private var adjEdgeLocator: AdjacentEdgeLocator         = null
-  private var points: util.Set[Coordinate]                = null
-  private var lines: util.List[LineString]                = null
-  private var polygons: util.List[Geometry]               = null
-  private var polyLocator: Array[PointOnGeometryLocator]  = null
-  private var lineBoundary: LinearBoundary                = null
-  private var isEmpty                                     = false
+  private var adjEdgeLocator: AdjacentEdgeLocator        = null
+  private var points: util.Set[Coordinate]               = null
+  private var lines: util.List[LineString]               = null
+  private var polygons: util.List[Geometry]              = null
+  private var polyLocator: Array[PointOnGeometryLocator] = null
+  private var lineBoundary: LinearBoundary               = null
+  private var isEmpty                                    = false
 
   init(geom)
 

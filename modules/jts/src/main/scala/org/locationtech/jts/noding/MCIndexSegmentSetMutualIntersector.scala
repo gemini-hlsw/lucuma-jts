@@ -28,8 +28,7 @@ object MCIndexSegmentSetMutualIntersector {
   class SegmentOverlapAction(private val si: SegmentIntersector)
       extends MonotoneChainOverlapAction {
 
-    override def overlap(mc1: MonotoneChain, start1: Int, mc2: MonotoneChain, start2: Int)
-      : Unit = {
+    override def overlap(mc1: MonotoneChain, start1: Int, mc2: MonotoneChain, start2: Int): Unit = {
       val ss1 = mc1.getContext.asInstanceOf[SegmentString]
       val ss2 = mc2.getContext.asInstanceOf[SegmentString]
       si.processIntersections(ss1, start1, ss2, start2)
@@ -123,8 +122,7 @@ class MCIndexSegmentSetMutualIntersector private (
     intersectChains(monoChains, segInt)
   }
 
-  private def addToMonoChains(segStr: SegmentString, monoChains: util.List[MonotoneChain])
-    : Unit = {
+  private def addToMonoChains(segStr: SegmentString, monoChains: util.List[MonotoneChain]): Unit = {
     if (segStr.size == 0) return
     val segChains = MonotoneChainBuilder.getChains(segStr.getCoordinates, segStr)
     val i         = segChains.iterator

@@ -43,18 +43,18 @@ class RelateGeometry(input: Geometry, prepared: Boolean, bnRule: BoundaryNodeRul
   def this(input: Geometry, bnRule: BoundaryNodeRule) =
     this(input, false, bnRule)
 
-  private val geom: Geometry                       = input
-  private val geomEnv: Envelope                    = input.getEnvelopeInternal
-  private val boundaryNodeRule: BoundaryNodeRule   = bnRule
-  private var geomDim: Int                         = Dimension.FALSE
-  private var uniquePoints: util.Set[Coordinate]   = null
-  private var locator: RelatePointLocator          = null
-  private var elementId                            = 0
-  private var hasPoints                            = false
-  private var hasLines                             = false
-  private var hasAreas                             = false
+  private val geom: Geometry                     = input
+  private val geomEnv: Envelope                  = input.getEnvelopeInternal
+  private val boundaryNodeRule: BoundaryNodeRule = bnRule
+  private var geomDim: Int                       = Dimension.FALSE
+  private var uniquePoints: util.Set[Coordinate] = null
+  private var locator: RelatePointLocator        = null
+  private var elementId                          = 0
+  private var hasPoints                          = false
+  private var hasLines                           = false
+  private var hasAreas                           = false
   // -- cache geometry metadata
-  private val isGeomEmpty: Boolean                 = geom.isEmpty
+  private val isGeomEmpty: Boolean               = geom.isEmpty
 
   geomDim = input.getDimension
   analyzeDimensions()

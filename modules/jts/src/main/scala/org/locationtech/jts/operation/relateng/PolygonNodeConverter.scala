@@ -20,21 +20,17 @@ import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Dimension
 
 /**
- * Converts the node sections at a polygon node where a shell and one or more holes touch, or two
- * or more holes touch. This converts the node topological structure from the OGC "touching-rings"
- * (AKA "minimal-ring") model to the equivalent "self-touch" (AKA "inverted/exverted ring" or
- * "maximal ring") model. In the "self-touch" model the converted NodeSection corners enclose areas
- * which all lies inside the polygon (i.e. they does not enclose hole edges). This allows {link
- * RelateNode} to use simple area-additive semantics for adding edges and propagating edge
- * locations.
- * <p>
- * The input node sections are assumed to have canonical orientation (CW shells and CCW holes). The
- * arrangement of shells and holes must be topologically valid. Specifically, the node sections
- * must not cross or be collinear.
- * <p>
- * This supports multiple shell-shell touches (including ones containing holes), and hole-hole
- * touches, This generalizes the relate algorithm to support both the OGC model and the self-touch
- * model.
+ * Converts the node sections at a polygon node where a shell and one or more holes touch, or two or
+ * more holes touch. This converts the node topological structure from the OGC "touching-rings" (AKA
+ * "minimal-ring") model to the equivalent "self-touch" (AKA "inverted/exverted ring" or "maximal
+ * ring") model. In the "self-touch" model the converted NodeSection corners enclose areas which all
+ * lies inside the polygon (i.e. they does not enclose hole edges). This allows {link RelateNode} to
+ * use simple area-additive semantics for adding edges and propagating edge locations. <p> The input
+ * node sections are assumed to have canonical orientation (CW shells and CCW holes). The
+ * arrangement of shells and holes must be topologically valid. Specifically, the node sections must
+ * not cross or be collinear. <p> This supports multiple shell-shell touches (including ones
+ * containing holes), and hole-hole touches, This generalizes the relate algorithm to support both
+ * the OGC model and the self-touch model.
  *
  * @author
  *   Martin Davis
@@ -44,8 +40,8 @@ import org.locationtech.jts.geom.Dimension
 object PolygonNodeConverter {
 
   /**
-   * Converts a list of sections of valid polygon rings to have "self-touching" structure. There
-   * are the same number of output sections as input ones.
+   * Converts a list of sections of valid polygon rings to have "self-touching" structure. There are
+   * the same number of output sections as input ones.
    *
    * @param polySections
    *   the original sections return the converted sections
@@ -59,7 +55,7 @@ object PolygonNodeConverter {
       return sections
 
     // -- find shell section index
-    val shellIndex = findShell(sections)
+    val shellIndex        = findShell(sections)
     if (shellIndex < 0) {
       return convertHoles(sections)
     }
@@ -80,9 +76,9 @@ object PolygonNodeConverter {
     shellIndex:        Int,
     convertedSections: util.List[NodeSection]
   ): Int = {
-    val shellSection = sections.get(shellIndex)
-    var inVertex     = shellSection.getVertex(0)
-    var i            = next(sections, shellIndex)
+    val shellSection             = sections.get(shellIndex)
+    var inVertex                 = shellSection.getVertex(0)
+    var i                        = next(sections, shellIndex)
     var holeSection: NodeSection = null
     while (!sections.get(i).isShell) {
       holeSection = sections.get(i)
@@ -95,8 +91,8 @@ object PolygonNodeConverter {
       i = next(sections, i)
     }
     // -- create final section for corner from last hole to shell
-    val outVertex = shellSection.getVertex(1)
-    val ns        = createSection(shellSection, inVertex, outVertex)
+    val outVertex                = shellSection.getVertex(1)
+    val ns                       = createSection(shellSection, inVertex, outVertex)
     convertedSections.add(ns)
     i
   }
@@ -117,7 +113,16 @@ object PolygonNodeConverter {
   }
 
   private def createSection(ns: NodeSection, v0: Coordinate, v1: Coordinate): NodeSection =
-    new NodeSection(ns.isA, Dimension.A, ns.id, 0, ns.getPolygonal, ns.isNodeAtVertex, v0, ns.nodePt, v1)
+    new NodeSection(ns.isA,
+                    Dimension.A,
+                    ns.id,
+                    0,
+                    ns.getPolygonal,
+                    ns.isNodeAtVertex,
+                    v0,
+                    ns.nodePt,
+                    v1
+    )
 
   private def extractUnique(sections: util.List[NodeSection]): util.List[NodeSection] = {
     val uniqueSections = new util.ArrayList[NodeSection]()
