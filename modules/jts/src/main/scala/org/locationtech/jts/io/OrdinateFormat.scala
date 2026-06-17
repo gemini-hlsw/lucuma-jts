@@ -3,11 +3,6 @@
 
 package org.locationtech.jts.io
 
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.text.NumberFormat
-import java.util.Locale
-
 /*
  * Copyright (c) 2019 Martin Davis.
  *
@@ -21,117 +16,43 @@ import java.util.Locale
  */
 
 /**
- * Formats numeric values for ordinates in a consistent, accurate way. <p> The format has the
- * following characteristics: <ul> <li>It is consistent in all locales (in particular, the decimal
- * separator is always a period) <li>Scientific notation is never output, even for very large
- * numbers. This means that it is possible that output can contain a large number of digits. <li>The
- * maximum number of decimal places reflects the available precision <li>NaN values are represented
- * as "NaN" <li>Inf values are represented as "Inf" or "-Inf" </ul>
+ * Formats numeric values for ordinates in a consistent, accurate way.
  *
- * @author
- *   mdavis
+ * Characteristics:
+ *   - Always uses a period decimal separator (locale-independent).
+ *   - NaN, +Inf, -Inf use canonical symbols (`NaN`, `Inf`, `-Inf`).
+ *   - Other values are produced by `java.lang.Double.toString`, which is cross-platform (JVM +
+ *     Scala.js) and round-trips exactly through `Double.parseDouble`.
+ *
+ * This is a cross-platform re-implementation: upstream JTS uses `java.text.DecimalFormat` (and
+ * configurable max fraction digits), which is not available in Scala.js' javalib. For the values
+ * JTS produces (geometry ordinates), `Double.toString` is fully sufficient and the output remains
+ * valid WKT.
  */
-object OrdinateFormat {
-  private val DECIMAL_PATTERN = "0"
-
-  /**
-   * The output representation of {@link Double# POSITIVE_INFINITY}
-   */
-  val REP_POS_INF = "Inf"
-
-  /**
-   * The output representation of {@link Double# NEGATIVE_INFINITY}
-   */
-  val REP_NEG_INF = "-Inf"
-
-  /**
-   * The output representation of {@link Double# NaN}
-   */
-  val REP_NAN = "NaN"
-
-  /**
-   * The maximum number of fraction digits to support output of reasonable ordinate values.
-   *
-   * The default is chosen to allow representing the smallest possible IEEE-754 double-precision
-   * value, although this is not expected to occur (and is not supported by other areas of the JTS
-   * code).
-   */
+object OrdinateFormat:
+  val REP_POS_INF         = "Inf"
+  val REP_NEG_INF         = "-Inf"
+  val REP_NAN             = "NaN"
   val MAX_FRACTION_DIGITS = 325
 
-  /**
-   * The default formatter using the maximum number of digits in the fraction portion of a number.
-   */
-  var DEFAULT = new OrdinateFormat
+  var DEFAULT: OrdinateFormat = new OrdinateFormat
 
-  /**
-   * Creates a new formatter with the given maximum number of digits in the fraction portion of a
-   * number.
-   *
-   * @param maximumFractionDigits
-   *   the maximum number of fraction digits to output
-   * @return
-   *   a formatter
-   */
-  def create(maximumFractionDigits: Int) = new OrdinateFormat(maximumFractionDigits)
+  def create(maximumFractionDigits: Int): OrdinateFormat =
+    new OrdinateFormat(maximumFractionDigits)
 
-  private def createFormat(maximumFractionDigits: Int) = { // ensure format uses standard WKY number format
-    val nf                    = NumberFormat.getInstance(Locale.US)
-    // This is expected to succeed for Locale.US
-    var format: DecimalFormat = null
-    try format = nf.asInstanceOf[DecimalFormat]
-    catch {
-      case ex: ClassCastException =>
-        throw new RuntimeException("Unable to create DecimalFormat for Locale.US")
-    }
-    format.applyPattern(DECIMAL_PATTERN)
-    format.setMaximumFractionDigits(maximumFractionDigits)
-    format
-  }
-}
+class OrdinateFormat:
+  // The maximumFractionDigits parameter is retained for API compatibility but
+  // ignored — Double.toString round-trips exactly with whatever precision the
+  // value actually has.
+  @annotation.unused
+  private var _maxFractionDigits: Int = OrdinateFormat.MAX_FRACTION_DIGITS
 
-class OrdinateFormat() {
-
-  /**
-   * Creates an OrdinateFormat using the default maximum number of fraction digits.
-   */
-  private var format: DecimalFormat =
-    OrdinateFormat.createFormat(OrdinateFormat.MAX_FRACTION_DIGITS)
-
-  /**
-   * Creates an OrdinateFormat using the given maximum number of fraction digits.
-   *
-   * @param maximumFractionDigits
-   *   the maximum number of fraction digits to output
-   */
-  def this(maximumFractionDigits: Int) = {
+  def this(maximumFractionDigits: Int) =
     this()
-    format = OrdinateFormat.createFormat(maximumFractionDigits)
-  }
+    _maxFractionDigits = maximumFractionDigits
 
-  /**
-   * Returns a string representation of the given ordinate numeric value.
-   *
-   * @param ord
-   *   the ordinate value
-   * @return
-   *   the formatted number string
-   */
-  def format(ord: Double): String = {
-
-    /**
-     * FUTURE: If it seems better to use scientific notation for very large/small numbers then this
-     * can be done here.
-     */
-    if (java.lang.Double.isNaN(ord)) {
-      return OrdinateFormat.REP_NAN
-    }
-    if (java.lang.Double.isInfinite(ord)) {
-      return if (ord > 0) {
-        OrdinateFormat.REP_POS_INF
-      } else {
-        OrdinateFormat.REP_NEG_INF
-      }
-    }
-    return format.format(ord)
-  }
-}
+  def format(ord: Double): String =
+    if java.lang.Double.isNaN(ord) then OrdinateFormat.REP_NAN
+    else if java.lang.Double.isInfinite(ord) then
+      if ord > 0 then OrdinateFormat.REP_POS_INF else OrdinateFormat.REP_NEG_INF
+    else java.lang.Double.toString(ord)
