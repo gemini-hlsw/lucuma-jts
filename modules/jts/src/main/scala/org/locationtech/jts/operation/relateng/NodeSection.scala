@@ -14,13 +14,13 @@
  */
 package org.locationtech.jts.operation.relateng
 
-import java.util.Comparator
-
 import org.locationtech.jts.algorithm.PolygonNodeTopology
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Dimension
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.io.WKTWriter
+
+import java.util.Comparator
 
 /**
  * Represents a computed node along with the incident edges on either side of it (if they exist).

@@ -14,10 +14,10 @@
  */
 package org.locationtech.jts.operation.relateng
 
-import java.util
-
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Dimension
+
+import java.util
 
 /**
  * Converts the node sections at a polygon node where a shell and one or more holes touch, or two or

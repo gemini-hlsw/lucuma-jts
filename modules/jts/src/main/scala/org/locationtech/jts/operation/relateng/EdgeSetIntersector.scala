@@ -14,14 +14,14 @@
  */
 package org.locationtech.jts.operation.relateng
 
-import java.util
-
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.index.chain.MonotoneChain
 import org.locationtech.jts.index.chain.MonotoneChainBuilder
 import org.locationtech.jts.index.chain.MonotoneChainOverlapAction
 import org.locationtech.jts.index.hprtree.HPRtree
 import org.locationtech.jts.noding.SegmentString
+
+import java.util
 
 class EdgeSetIntersector(
   edgesA:               util.List[RelateSegmentString],

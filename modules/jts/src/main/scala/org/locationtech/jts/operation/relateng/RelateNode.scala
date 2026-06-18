@@ -14,13 +14,13 @@
  */
 package org.locationtech.jts.operation.relateng
 
-import java.util
-
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Dimension
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.Position
 import org.locationtech.jts.io.WKTWriter
+
+import java.util
 
 class RelateNode(private val nodePt: Coordinate) {
 

@@ -14,13 +14,13 @@
  */
 package org.locationtech.jts.operation.relateng
 
-import java.util
-
 import org.locationtech.jts.algorithm.PolygonNodeTopology
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Dimension
 import org.locationtech.jts.geom.Location
 import org.locationtech.jts.geom.Position
+
+import java.util
 
 object TopologyComputer {
   private val MSG_GEOMETRY_DIMENSION_UNEXPECTED = "Unexpected combination of geometry dimensions"

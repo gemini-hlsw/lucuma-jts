@@ -14,8 +14,6 @@
  */
 package org.locationtech.jts.operation.relateng
 
-import java.util
-
 import org.locationtech.jts.algorithm.BoundaryNodeRule
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Dimension
@@ -32,6 +30,8 @@ import org.locationtech.jts.noding.MCIndexSegmentSetMutualIntersector
 import org.locationtech.jts.noding.SegmentString
 import org.locationtech.jts.operation.relateng.RelateGeometry.GEOM_A
 import org.locationtech.jts.operation.relateng.RelateGeometry.GEOM_B
+
+import java.util
 
 /**
  * Computes the value of topological predicates between two geometries based on the <a
