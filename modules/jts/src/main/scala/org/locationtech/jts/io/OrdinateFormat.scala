@@ -41,15 +41,9 @@ object OrdinateFormat:
     new OrdinateFormat(maximumFractionDigits)
 
 class OrdinateFormat:
-  // The maximumFractionDigits parameter is retained for API compatibility but
-  // ignored — Double.toString round-trips exactly with whatever precision the
-  // value actually has.
-  @annotation.unused
-  private var _maxFractionDigits: Int = OrdinateFormat.MAX_FRACTION_DIGITS
-
-  def this(maximumFractionDigits: Int) =
-    this()
-    _maxFractionDigits = maximumFractionDigits
+  // maximumFractionDigits is accepted for API compatibility but ignored:
+  // Double.toString round-trips exactly with whatever precision the value has.
+  def this(maximumFractionDigits: Int) = this()
 
   def format(ord: Double): String =
     if java.lang.Double.isNaN(ord) then OrdinateFormat.REP_NAN
