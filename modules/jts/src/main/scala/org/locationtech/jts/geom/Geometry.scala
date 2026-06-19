@@ -23,7 +23,6 @@ import org.locationtech.jts.operation.buffer.BufferOp
 import org.locationtech.jts.operation.distance.DistanceOp
 import org.locationtech.jts.operation.predicate.RectangleContains
 import org.locationtech.jts.operation.predicate.RectangleIntersects
-import org.locationtech.jts.operation.relate.RelateOp
 import org.locationtech.jts.operation.valid.IsValidOp
 import org.locationtech.jts.util.Assert
 
@@ -553,7 +552,7 @@ abstract class Geometry(
    */
   def touches(g: Geometry): Boolean = { // short-circuit test
     if (!getEnvelopeInternal.intersects(g.getEnvelopeInternal)) return false
-    relate(g).isTouches(getDimension, g.getDimension)
+    GeometryRelate.touches(this, g)
   }
 
   /**
@@ -585,20 +584,8 @@ abstract class Geometry(
     // optimization for rectangle arguments
     if (isRectangle) return RectangleIntersects.intersects(this.asInstanceOf[Polygon], g)
     if (g.isRectangle) return RectangleIntersects.intersects(g.asInstanceOf[Polygon], this)
-    if (isGeometryCollection || g.isGeometryCollection) {
-      var i = 0
-      while (i < getNumGeometries) {
-        var j = 0
-        while (j < g.getNumGeometries) {
-          if (getGeometryN(i).intersects(g.getGeometryN(j))) return true
-          j += 1
-        }
-        i += 1
-      }
-      return false
-    }
-    // general case
-    relate(g).isIntersects
+    // general case (RelateNG handles GeometryCollections directly)
+    GeometryRelate.intersects(this, g)
   }
 
   /**
@@ -618,7 +605,7 @@ abstract class Geometry(
    */
   def crosses(g: Geometry): Boolean = {
     if (!getEnvelopeInternal.intersects(g.getEnvelopeInternal)) return false
-    relate(g).isCrosses(getDimension, g.getDimension)
+    GeometryRelate.crosses(this, g)
   }
 
   /**
@@ -663,16 +650,10 @@ abstract class Geometry(
    * @see
    *   Geometry#covers
    */
-  def contains(g: Geometry): Boolean = { // optimization - lower dimension cannot contain areas
-    if (g.getDimension == 2 && getDimension < 2) return false
-    // optimization - P cannot contain a non-zero-length L
-    // Note that a point can contain a zero-length lineal geometry,
-    // since the line has no boundary due to Mod-2 Boundary Rule
-    if (g.getDimension == 1 && getDimension < 1 && g.getLength > 0.0) return false
-    // optimization - envelope test
+  def contains(g: Geometry): Boolean = { // optimization - envelope test
     if (!getEnvelopeInternal.contains(g.getEnvelopeInternal)) return false
     if (isRectangle) return RectangleContains.contains(this.asInstanceOf[Polygon], g)
-    relate(g).isContains
+    GeometryRelate.contains(this, g)
   }
 
   /**
@@ -691,7 +672,7 @@ abstract class Geometry(
    */
   def overlaps(g: Geometry): Boolean = {
     if (!getEnvelopeInternal.intersects(g.getEnvelopeInternal)) return false
-    relate(g).isOverlaps(getDimension, g.getDimension)
+    GeometryRelate.overlaps(this, g)
   }
 
   /**
@@ -716,16 +697,12 @@ abstract class Geometry(
    * @see
    *   Geometry#coveredBy
    */
-  def covers(g: Geometry): Boolean = { // optimization - lower dimension cannot cover areas
-    if (g.getDimension == 2 && getDimension < 2) return false
-    // optimization - P cannot cover a non-zero-length L
-    // Note that a point can cover a zero-length lineal geometry
-    if (g.getDimension == 1 && getDimension < 1 && g.getLength > 0.0) return false
+  def covers(g: Geometry): Boolean = { // optimization - envelope test
     if (!getEnvelopeInternal.covers(g.getEnvelopeInternal)) return false
     if (isRectangle) { // since we have already tested that the test envelope is covered
       return true
     }
-    relate(g).isCovers
+    GeometryRelate.covers(this, g)
   }
 
   /**
@@ -767,7 +744,7 @@ abstract class Geometry(
    *   IntersectionMatrix
    */
   def relate(g: Geometry, intersectionPattern: String): Boolean =
-    relate(g).matches(intersectionPattern)
+    GeometryRelate.relate(this, g, intersectionPattern)
 
   /**
    * Returns the DE-9IM {link IntersectionMatrix} for the two <code>Geometry</code>s.
@@ -777,11 +754,8 @@ abstract class Geometry(
    *   IntersectionMatrix} describing the intersections of the interiors, boundaries and exteriors
    *   of the two <code>Geometry</code>s
    */
-  def relate(g: Geometry): IntersectionMatrix = {
-    Geometry.checkNotGeometryCollection(this)
-    Geometry.checkNotGeometryCollection(g)
-    RelateOp.relate(this, g)
-  }
+  def relate(g: Geometry): IntersectionMatrix =
+    GeometryRelate.relate(this, g)
 
   /**
    * Tests whether this geometry is topologically equal to the argument geometry. <p> This method is
@@ -818,7 +792,7 @@ abstract class Geometry(
    */
   def equalsTopo(g: Geometry): Boolean = {
     if (!(getEnvelopeInternal == g.getEnvelopeInternal)) return false
-    relate(g).isEquals(getDimension, g.getDimension)
+    GeometryRelate.equalsTopo(this, g)
   }
 
   /**

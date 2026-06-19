@@ -19,8 +19,6 @@ import org.locationtech.jts.geom.Location
 
 import java.io.PrintStream
 import java.util
-import scala.collection.mutable
-import scala.jdk.CollectionConverters.*
 
 /**
  * A map of nodes, indexed by the coordinate of the node
@@ -28,14 +26,16 @@ import scala.jdk.CollectionConverters.*
  * @version 1.7
  */
 class NodeMap(var nodeFact: NodeFactory) {
-  // Map nodeMap = new HashMap();
-  private[geomgraph] val nodeMap = mutable.TreeMap.empty[Coordinate, Node]
+  // Upstream JTS uses a TreeMap; a LinkedHashMap keeps iteration
+  // deterministic (insertion order) while making lookups O(1), which is a
+  // significant win on the relate/overlay hot path, especially on Scala.js.
+  private[geomgraph] val nodeMap = new util.LinkedHashMap[Coordinate, Node]
 
   /**
    * This method expects that a node has a coordinate value.
    */
   def addNode(coord: Coordinate): Node = {
-    var node = nodeMap.get(coord).orNull
+    var node = nodeMap.get(coord)
     if (node == null) {
       node = nodeFact.createNode(coord)
       nodeMap.put(coord, node)
@@ -44,7 +44,7 @@ class NodeMap(var nodeFact: NodeFactory) {
   }
 
   def addNode(n: Node): Node = {
-    val node = nodeMap.get(n.getCoordinate).orNull
+    val node = nodeMap.get(n.getCoordinate)
     if (node == null) {
       nodeMap.put(n.getCoordinate, n)
       return n
@@ -66,11 +66,11 @@ class NodeMap(var nodeFact: NodeFactory) {
   /**
    * return the node if found; null otherwise
    */
-  def find(coord: Coordinate): Node = nodeMap.get(coord).orNull
+  def find(coord: Coordinate): Node = nodeMap.get(coord)
 
-  def iterator: util.Iterator[Node] = nodeMap.values.iterator.asJava
+  def iterator: util.Iterator[Node] = nodeMap.values.iterator
 
-  def values: util.Collection[Node] = nodeMap.values.toList.asJavaCollection
+  def values: util.Collection[Node] = nodeMap.values
 
   def getBoundaryNodes(geomIndex: Int): util.ArrayList[Node] = {
     val bdyNodes = new util.ArrayList[Node]

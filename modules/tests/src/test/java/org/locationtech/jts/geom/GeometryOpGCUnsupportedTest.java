@@ -34,14 +34,11 @@ public class GeometryOpGCUnsupportedTest extends GeometryTestCase {
     final Geometry a = read(WKT_GC);
     final Geometry b = read(WKT_POLY);
 
-    (new FailureChecker() { void operation() {
-      a.relate(b);
-    }  }).check(IllegalArgumentException.class);
-
-    (new FailureChecker() { void operation() {
-      b.relate(a);
-    }  }).check(IllegalArgumentException.class);
-
+    // Since the switch to RelateNG, relate supports GeometryCollection
+    // operands (upstream JTS keeps legacy relate as the default and still
+    // expects IllegalArgumentException here).
+    assertNotNull(a.relate(b));
+    assertNotNull(b.relate(a));
   }
 
   public void testUnion() {
